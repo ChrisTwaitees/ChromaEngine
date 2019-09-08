@@ -1,24 +1,45 @@
 #ifndef _MESH_H_
 #define _MESH_H_
+// stl
 #include <vector>
 #include <string>
-struct Vert {
-	int position;
-	int normal;
+#include "../shaders/Shader.h"
+// glm
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+// glad 
+#include <glad/glad.h>
+
+struct Vertex{
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec2 TexCoords;
+	glm::vec3 Tangent;
+	glm::vec3 Bitangent;
 };
-struct Material {
-	const char* texturePath;
-	int GL_Texture_ID;
-	int uniforms;
+struct Texture {
+	unsigned int id;
+	enum TYPE {DIFFUSE = 0, SPECULAR = 1};
+	int type;
+	std::string path;
 };
+
 class Mesh
 {
-protected:
-	std::vector<Vert> vertices;
-	std::vector<Material> materials;
+private:
+	/*  Render Data  */
+	unsigned int VAO, VBO, EBO;
+	/*  Functions  */
+	virtual void setupMesh();
 public:
-	virtual std::vector<Vert> get_vertices() = 0;
-	Mesh();
+	/*  Mesh Data */
+	std::vector<Vertex> vertices;
+	std::vector<unsigned int> indices;
+	std::vector<Texture> textures;
+	/*  Functions  */
+	void Draw(Shader shader);
+
+	Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
 	~Mesh();
 };
 

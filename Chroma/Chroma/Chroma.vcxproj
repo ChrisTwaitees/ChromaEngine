@@ -99,7 +99,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -130,26 +130,26 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;assimp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\models\Model.cpp" />
     <ClCompile Include="source\buffers\VertexBuffer.cpp" />
     <ClCompile Include="source\cameras\Camera.cpp" />
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\lights\Light.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\models\Mesh.cpp" />
-    <ClCompile Include="source\models\SkinnedMesh.cpp" />
     <ClCompile Include="source\shaders\Shader.cpp" />
     <ClCompile Include="source\textures\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\models\Model.h" />
     <ClInclude Include="source\buffers\VertexBuffer.h" />
     <ClInclude Include="source\cameras\Camera.h" />
     <ClInclude Include="source\lights\Light.h" />
     <ClInclude Include="source\models\Mesh.h" />
-    <ClInclude Include="source\models\SkinnedMesh.h" />
     <ClInclude Include="source\shaders\Shader.h" />
     <ClInclude Include="source\textures\stb_image.h" />
     <ClInclude Include="source\textures\Texture.h" />
@@ -159,7 +159,6 @@
     <None Include="source\shaders\fragLit.glsl" />
     <None Include="source\shaders\fragMaterial.glsl" />
     <None Include="source\shaders\fragShader.fs" />
-    <None Include="source\shaders\fragShaderLighting.glsl" />
     <None Include="source\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

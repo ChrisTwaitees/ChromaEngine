@@ -33,13 +33,13 @@
     <ClCompile Include="source\models\Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\SkinnedMesh.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\shaders\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="source\textures\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -56,9 +56,6 @@
     <ClInclude Include="source\models\Mesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\models\SkinnedMesh.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="source\shaders\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -68,13 +65,15 @@
     <ClInclude Include="source\textures\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\models\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shaders\fragConstant.glsl" />
     <None Include="source\shaders\fragLit.glsl" />
     <None Include="source\shaders\fragMaterial.glsl" />
     <None Include="source\shaders\fragShader.fs" />
-    <None Include="source\shaders\fragShaderLighting.glsl" />
     <None Include="source\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
 </Project>
