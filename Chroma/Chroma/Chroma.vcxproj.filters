@@ -68,6 +68,9 @@
     <ClInclude Include="source\models\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shaders\fragConstant.glsl" />
@@ -75,5 +78,10 @@
     <None Include="source\shaders\fragMaterial.glsl" />
     <None Include="source\shaders\fragShader.fs" />
     <None Include="source\shaders\vertexShaderLighting.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Chroma.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

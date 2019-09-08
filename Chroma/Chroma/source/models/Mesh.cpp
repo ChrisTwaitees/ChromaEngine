@@ -42,13 +42,13 @@ void Mesh::Draw(Shader shader)
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		if (textures[i].type == Texture::DIFFUSE)
+		if (textures[i].type == MeshTexture::DIFFUSE)
 		{
 			name = "diffuse";
 			texturenum = std::to_string(i);
 			diffuseNr++;
 		}
-		if (textures[i].type == Texture::SPECULAR)
+		if (textures[i].type == MeshTexture::SPECULAR)
 		{
 			name = "specular";
 			texturenum = std::to_string(i);
@@ -67,7 +67,7 @@ void Mesh::Draw(Shader shader)
 	glBindVertexArray(0);
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
+Mesh::Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<MeshTexture> textures_val)
 {
 	this->vertices = vertices_val;
 	this->indices = indices_val;

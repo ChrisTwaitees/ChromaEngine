@@ -17,7 +17,7 @@ struct Vertex{
 	glm::vec3 Tangent;
 	glm::vec3 Bitangent;
 };
-struct Texture {
+struct MeshTexture {
 	unsigned int id;
 	enum TYPE {DIFFUSE = 0, SPECULAR = 1};
 	int type;
@@ -35,11 +35,11 @@ public:
 	/*  Mesh Data */
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
+	std::vector<MeshTexture> textures;
 	/*  Functions  */
 	void Draw(Shader shader);
 
-	Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
+	Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<MeshTexture> textures_val);
 	~Mesh();
 };
 
