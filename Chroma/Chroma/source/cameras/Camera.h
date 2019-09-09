@@ -38,7 +38,7 @@ public:
 	void processMouseInput(const double& xpos, const double& ypos );
 
 	// movement
-	enum Direction {FORWARD, BACK, LEFT, RIGHT};
+	enum Direction {FORWARD, BACK, LEFT, RIGHT, UP, DOWN};
 	void move(Direction dir = Direction::FORWARD, Speed speed = Speed::WALK);
 
 	// getters

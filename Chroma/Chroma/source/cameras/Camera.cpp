@@ -34,8 +34,8 @@ void Camera::processMouseInput(const double& xpos, const double& ypos)
 	pitch += yoffset;
 
 	// clamp pitch and yaw
-	pitch = glm::clamp(pitch, -maxPitch, maxPitch);
-	yaw = glm::clamp(yaw, -maxYaw, maxYaw);
+	//pitch = glm::clamp(pitch, -maxPitch, maxPitch);
+	//yaw = glm::clamp(yaw, -maxYaw, maxYaw);
 
 	// calculating cameraDirection using trig 
 	glm::vec3 direction;
@@ -61,21 +61,25 @@ void Camera::move(Direction dir, Speed speed)
 	{
 	case FORWARD :
 		cameraPos += (cameraDirection * cameraSpeed);
-		rebuildView();
 		break;
 	case BACK : 
 		cameraPos -= (cameraDirection * cameraSpeed);
-		rebuildView();
 		break;
 	case RIGHT:
 		cameraPos -= (cameraRight * cameraSpeed);
-		rebuildView();
 		break;
 	case LEFT:
 		cameraPos += (cameraRight * cameraSpeed);
-		rebuildView();
+		break;
+	case UP:
+		cameraPos += (cameraUp * cameraSpeed);
+		break;
+	case DOWN:
+		cameraPos -= (cameraUp * cameraSpeed);
 		break;
 	}
+
+	rebuildView();
 
 }
 

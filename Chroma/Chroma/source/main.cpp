@@ -362,6 +362,14 @@ void updateCamera(GLFWwindow* window, float deltaTime)
 	{
 		MainCamera.move(MainCamera.LEFT);
 	}
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		MainCamera.move(MainCamera.UP);
+	}
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		MainCamera.move(MainCamera.DOWN);
+	}
 }
 
 void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos)
