@@ -5,6 +5,10 @@
 // glad and glfw
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+// imgui
+#include "imgui/imgui.h"
+#include "imgui/imgui_impl_glfw.h"
+#include "imgui/imgui_impl_opengl3.h"
 // assimp
 #include <assimp/Importer.hpp>
 // glm
@@ -28,13 +32,16 @@ void processInput(GLFWwindow* window, float deltaTime);
 
 // prototypes
 void updateLightingUniforms(Shader &shader, std::vector<Light> &lights);
+void updateCamera(GLFWwindow* window, float deltaTime);
 
 // SETTINGS
 // ------------
 // SCREEN
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 800;
+const unsigned int SCR_WIDTH = 1500;
+const unsigned int SCR_HEIGHT = 1500;
 
+// INPUT
+const float INPUT_WAIT = 50.0f; // milliseconds
 
 // CAMERA
 float CAM_FOV{ 45.0f };
@@ -60,7 +67,7 @@ int main()
 
 	// glfw window creation
 	// --------------------
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "CHROMA", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -77,7 +84,6 @@ int main()
 	// Capture mouse
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -86,6 +92,22 @@ int main()
 		return -1;
 	}
 
+
+	// IMGUI GUI Initialization
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	// Setup Platform/Renderer bindings
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 330");
+	// Our state
+	bool show_demo_window = false;
+	bool show_another_window = true;
+	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
 
@@ -114,7 +136,7 @@ int main()
 
 	// SHADERS
 	Shader lightingShader("source/shaders/fragLit.glsl", "source/shaders/vertexShaderLighting.glsl");
-	Shader nanoSuitShader("source/shaders/fragLit2.glsl", "source/shaders/vertexShaderLighting.glsl");
+	Shader nanoSuitShader("source/shaders/fragLit.glsl", "source/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("source/shaders/fragConstant.glsl", "source/shaders/vertexShaderLighting.glsl");
 
 	// TEXTURES
@@ -127,7 +149,7 @@ int main()
 	Mesh *Box = new BoxPrimitive();
 	// light primitive
 	Mesh *Lamp = new BoxPrimitive();
-	
+	// box textures
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
 
@@ -140,7 +162,7 @@ int main()
 		lights.push_back(pointLight);
 	}
 	// defailt spot and dir light
-	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 2.0f);
+	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.0f);
 	Light spotLight(Light::SPOT, glm::vec3(0.0f), 0.0f);
 	lights.push_back(sunLight);
 
@@ -198,10 +220,14 @@ int main()
 		nanoSuitShader.use();
 		// lightingShader uniforms
 		glm::mat4 model{ 1.0f };
+		model = glm::scale(model, glm::vec3(0.3f));
 		nanoSuitShader.setMat4("model", model);
 		nanoSuitShader.setMat4("view", MainCamera.view);
 		nanoSuitShader.setMat4("projection", projection_mat);
 		updateLightingUniforms(nanoSuitShader, lights);
+		nanoSuitShader.setFloat("material.ambientBrightness", 0.06f);
+		nanoSuitShader.setFloat("material.roughness", 64.0f);
+		nanoSuitShader.setFloat("material.specularIntensity", .65f);
 		NanosuitModel.Draw(nanoSuitShader);
 		// vertex
 		// Draw Geo
@@ -217,13 +243,6 @@ int main()
 		lightingShader.setFloat("material.ambientBrightness", 0.06f);
 		lightingShader.setFloat("material.roughness", 32.0f);
 		lightingShader.setFloat("material.specularIntensity", 1.0f);
-		// texture uniforms
-		//lightingShader.setInt("material.texture_diffuse1", 0);
-		//glActiveTexture(GL_TEXTURE1);
-		//lightingShader.setInt("material.texture_specular1", 1);
-		//glActiveTexture(GL_TEXTURE0);
-		//diffuseMap.bind();
-		//specularMap.bind();
 		// CREATING BOXES
 
 		for (unsigned int i = 0; i < 10; i++)
@@ -236,8 +255,41 @@ int main()
 			Box->Draw(lightingShader);
 
 		}
-	
 
+			// Start the Dear ImGui frame
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+		// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+		if (show_demo_window)
+			ImGui::ShowDemoWindow(&show_demo_window);
+
+		// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+		{
+			static float f = 0.0f;
+			static int counter = 0;
+
+			ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+
+			ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+			ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
+			ImGui::Checkbox("Another Window", &show_another_window);
+
+			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+			ImGui::ColorEdit3("clear color", (float*)& clear_color); // Edit 3 floats representing a color
+
+			if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
+				counter++;
+			ImGui::SameLine();
+			ImGui::Text("counter = %d", counter);
+
+			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+			ImGui::End();
+		}
+		// Rendering
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -261,8 +313,32 @@ int main()
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow* window, float deltaTime)
 {
+	// check if should close on this frame
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
 		glfwSetWindowShouldClose(window, true);
+		return;
+	}
+
+	// window capture release mouse
+	GLint cursorMode = glfwGetInputMode(window, GLFW_CURSOR);
+	if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
+	{
+		if (cursorMode == GLFW_CURSOR_DISABLED)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			MainCamera.firstMouse = true;
+		}
+		else
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+	// if mouse caputured update camera
+	if (cursorMode == GLFW_CURSOR_DISABLED)
+		updateCamera(window, deltaTime);
+}
+
+void updateCamera(GLFWwindow* window, float deltaTime)
+{
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
 		MainCamera.cameraSpeed = MainCamera.sprintSpeed * deltaTime;
@@ -285,12 +361,14 @@ void processInput(GLFWwindow* window, float deltaTime)
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		MainCamera.move(MainCamera.LEFT);
-	}	
-	if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
-	{
-		// Capture mouse
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
+}
+
+void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	GLint cursorMode = glfwGetInputMode(window, GLFW_CURSOR);
+	if (cursorMode == GLFW_CURSOR_DISABLED)
+		MainCamera.processMouseInput(xpos, ypos);
 }
 
 void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -300,11 +378,7 @@ void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	CAM_FOV = glm::clamp(CAM_FOV, 1.0f, 45.0f);
 }
 
-void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos)
-{
 
-	MainCamera.processMouseInput(xpos, ypos);
-}
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------

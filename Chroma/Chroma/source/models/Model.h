@@ -4,14 +4,12 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-unsigned int TextureFromFile(const char* path, const std::string& directory, bool gamma = false);
-
 class Model
 {
 public:
 	/*  Fuctions  */
 	Model(std::string path) { loadModel(path); };
-	void Draw(Shader shader);
+	void Draw(Shader &shader);
 	~Model();
 private:
 	/*  Model Data  */

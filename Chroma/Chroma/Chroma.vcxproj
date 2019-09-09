@@ -136,6 +136,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\models\BoxPrimitive.cpp" />
     <ClCompile Include="source\models\Model.cpp" />
     <ClCompile Include="source\buffers\VertexBuffer.cpp" />
@@ -148,6 +154,14 @@
     <ClCompile Include="source\textures\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\thirdparty\include\imgui\imconfig.h" />
+    <ClInclude Include="..\thirdparty\include\imgui\imgui.h" />
+    <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\thirdparty\include\imgui\imgui_internal.h" />
+    <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h" />
+    <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
+    <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="source\models\BoxPrimitive.h" />
     <ClInclude Include="source\models\Model.h" />
@@ -162,7 +176,6 @@
   <ItemGroup>
     <None Include="source\shaders\fragConstant.glsl" />
     <None Include="source\shaders\fragLit.glsl" />
-    <None Include="source\shaders\fragLit2.glsl" />
     <None Include="source\shaders\fragMaterial.glsl" />
     <None Include="source\shaders\fragShader.fs" />
     <None Include="source\shaders\vertexShaderLighting.glsl" />
