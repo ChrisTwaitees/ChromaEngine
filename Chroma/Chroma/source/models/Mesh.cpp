@@ -35,30 +35,31 @@ void Mesh::setupMesh()
 void Mesh::Draw(Shader shader)
 {
 	// updating shader's texture uniforms
-	unsigned int diffuseNr{0};
-	unsigned int specularNr{0};
+	unsigned int diffuseNr{1};
+	unsigned int specularNr{1};
 	for (int i = 0; i < textures.size(); i++)
 	{
+		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		if (textures[i].type == MeshTexture::DIFFUSE)
+		if (textures[i].type == Texture::DIFFUSE)
 		{
-			name = "diffuse";
-			texturenum = std::to_string(i);
-			diffuseNr++;
+			name = "texture_diffuse";
+			texturenum = std::to_string(diffuseNr++);
 		}
-		if (textures[i].type == MeshTexture::SPECULAR)
+		if (textures[i].type == Texture::SPECULAR)
 		{
-			name = "specular";
-			texturenum = std::to_string(i);
-			specularNr++;
+			name = "texture_specular";
+			texturenum = std::to_string(specularNr++);
 		}
 		// setting uniform and binding texture
-		shader.setFloat("material." + name + texturenum, i);
+		//std::cout << textures[i].id << std::endl;
+		shader.setInt(("material." + name + texturenum).c_str(), i);
+
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		// activate texture
 	}
-	// activate texture
 	glActiveTexture(GL_TEXTURE0);
 
 	// draw mesh
@@ -67,13 +68,55 @@ void Mesh::Draw(Shader shader)
 	glBindVertexArray(0);
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<MeshTexture> textures_val)
+void Mesh::bindTextures(std::vector<Texture> textures_val)
+{
+	for (unsigned int i = 0; textures_val.size(); i++)
+	{
+		bool skip = false;
+		for (unsigned int j = 0; j < textures.size(); j++)
+		{
+			if (std::strcmp(textures[j].path.data(), textures_val[j].path.data()) == 0)
+			{
+				skip = true;
+				break;
+			}
+		}
+		if (!skip)
+		{
+			textures.push_back(textures_val[i]);
+		}
+	}
+}
+
+void Mesh::bindTexture(Texture texture_val)
+{
+	bool skip;
+	for (unsigned int i = 0; i < textures.size(); i++)
+	{
+		skip = false;
+		if (std::strcmp(textures[i].path.data(), texture_val.path.data()) == 0)
+		{
+			skip = true;
+			break;
+		}
+	}
+	if (!skip)
+	{
+		textures.push_back(texture_val);
+	}
+}
+
+Mesh::Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
 {
 	this->vertices = vertices_val;
 	this->indices = indices_val;
 	this->textures = textures_val;
 
 	setupMesh();
+}
+
+Mesh::Mesh()
+{
 }
 
 Mesh::~Mesh()

@@ -14,6 +14,8 @@
 // local
 #include "shaders/Shader.h"
 #include "buffers/VertexBuffer.h"
+#include "models/Model.h"
+#include "models/BoxPrimitive.h"
 #include "textures/Texture.h"
 #include "cameras/Camera.h"
 #include "lights/Light.h"
@@ -24,12 +26,17 @@ void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos);
 void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 void processInput(GLFWwindow* window, float deltaTime);
 
+// prototypes
+void updateLightingUniforms(Shader &shader, std::vector<Light> &lights);
+
 // SETTINGS
 // ------------
-// screen
+// SCREEN
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 800;
-// camera
+
+
+// CAMERA
 float CAM_FOV{ 45.0f };
 const float CAM_ASPECT{ SCR_WIDTH / SCR_HEIGHT };
 const float CAM_NEAR{ 0.1f };
@@ -40,8 +47,6 @@ Camera MainCamera;
 // time
 float deltaTime;
 float lastFrame;
-
-
 
 int main()
 {
@@ -84,52 +89,8 @@ int main()
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
 
-	std::vector<float> box_vertices = {
-		// positions          // normals           // texture coords
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   1.0f, 1.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 1.0f,   0.0f, 0.0f,
-
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f, -1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  0.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  1.0f,  0.0f,  0.0f,  1.0f, 0.0f,
-
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f, -0.5f,  0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f, -1.0f,  0.0f,  0.0f, 1.0f,
-
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 1.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  1.0f, 0.0f,
-		-0.5f,  0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 0.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  1.0f,  0.0f,  0.0f, 1.0f
-	};
-
-	// point Lights! 
+	/*  SCENE ASSEMBLY  */
+	// point lights 
 	glm::vec3 pointLightPositions[] = {
 		glm::vec3(0.7f,  0.2f,  2.0f),
 		glm::vec3(2.3f, -3.3f, -4.0f),
@@ -137,7 +98,7 @@ int main()
 		glm::vec3(0.0f,  0.0f, -3.0f)
 	};
 
-	// more cubes!
+	// dancing cubes
 	glm::vec3 cubePositions[] = {
 		  glm::vec3(0.0f,  0.0f,  0.0f),
 		  glm::vec3(2.0f,  5.0f, -15.0f),
@@ -151,35 +112,36 @@ int main()
 		  glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
-	// Shaders
+	// SHADERS
 	Shader lightingShader("source/shaders/fragLit.glsl", "source/shaders/vertexShaderLighting.glsl");
+	Shader nanoSuitShader("source/shaders/fragLit2.glsl", "source/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("source/shaders/fragConstant.glsl", "source/shaders/vertexShaderLighting.glsl");
+
+	// TEXTURES
+	Texture diffuseMap("source/textures/source/wooden_panel.png");
+	Texture specularMap("source/textures/source/wooden_panel_specular.png");
+
+	// MODELS
+	Model NanosuitModel("resources/assets/nanosuit/nanosuit.obj");
+	//box primitive
+	Mesh *Box = new BoxPrimitive();
+	// light primitive
+	Mesh *Lamp = new BoxPrimitive();
 	
+	Box->bindTexture(diffuseMap);
+	Box->bindTexture(specularMap);
 
-	// creating textures
-	const char* diffuseMapPath = "source/textures/source/wooden_panel.png";
-	Texture diffuseMap(diffuseMapPath, GL_RGBA);
-	const char* specularMapPath = "source/textures/source/wooden_panel_specular.png";
-	Texture specularMap(specularMapPath, GL_RGBA);
-
-	//box vertex buffer object
-	VertexBuffer VBO_Box(box_vertices);
-
-	// light vertex buffer object
-	VertexBuffer VBO_Lamp(box_vertices);
-
-	// lights
-	glm::vec3 LIGHT_COLOR{ 1.0,.5, 1.0 };
+	// LIGHTS
+	// dancing point lights
 	std::vector<Light> lights;
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		Light pointLight(pos, Light::POINT);
-		pointLight.setDiffuse(LIGHT_COLOR);
 		lights.push_back(pointLight);
 	}
 	// defailt spot and dir light
 	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 2.0f);
-	Light spotLight(Light::SPOT, LIGHT_COLOR, 0.0f);
+	Light spotLight(Light::SPOT, glm::vec3(0.0f), 0.0f);
 	lights.push_back(sunLight);
 
 	// render loop
@@ -198,7 +160,7 @@ int main()
 		// sin
 		float sin_fluctuate = (std::sin(GameTime * 2.0f)) * 0.5f + 0.5f;
 
-		// render6
+		// render
 		// ------
 		glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -207,7 +169,7 @@ int main()
 		glm::mat4 projection_mat = glm::perspective(glm::radians(CAM_FOV), CAM_ASPECT, CAM_NEAR, CAM_FAR);
 
 		// LIGHTS
-		constantShader.use();	// we first have to use the shader to set uniforms
+		constantShader.use();
 		for (int i = 0; i < lights.size(); i++)
 		{
 			// spin lights
@@ -218,8 +180,6 @@ int main()
 			{
 				lights[i].diffuse =glm::mod(lights[i].position, glm::vec3(1.0));
 			}
-			// create Lamps
-			// setting constantShader uniforms
 			//vertex
 			glm::mat4 model{ 1.0f };
 			model = glm::translate(model, lights[i].position);
@@ -232,71 +192,40 @@ int main()
 			constantShader.setFloat("lightIntensity", lights[i].intensity);
 			constantShader.setVec3("viewPos", MainCamera.get_position());
 			// draw the lamp
-			VBO_Lamp.bind();
-			glDrawArrays(GL_TRIANGLES, 0, VBO_Lamp.num_verts);
+			Lamp->Draw(constantShader);
 		}
 
-
+		nanoSuitShader.use();
 		// lightingShader uniforms
+		glm::mat4 model{ 1.0f };
+		nanoSuitShader.setMat4("model", model);
+		nanoSuitShader.setMat4("view", MainCamera.view);
+		nanoSuitShader.setMat4("projection", projection_mat);
+		updateLightingUniforms(nanoSuitShader, lights);
+		NanosuitModel.Draw(nanoSuitShader);
 		// vertex
+		// Draw Geo
 		lightingShader.use(); // don't forget to activate the shader before setting uniforms!  
+		// lightingShader uniforms
 		lightingShader.setMat4("view", MainCamera.view);
 		lightingShader.setMat4("projection", projection_mat);
 		// frag
 		lightingShader.setVec3("viewPos", MainCamera.get_position());
 		//// lights
-		int pointlights{ 0 };
-		int dirlights{ 0 };
-		int spotlights{ 0 };
-		for (int i = 0; i < lights.size(); i++)
-		{
-			std::string lightIndex;
-			// set uniforms
-			switch (lights[i].type) {
-			case Light::POINT:
-				pointlights++;
-				lightIndex = "pointLights[" + std::to_string(pointlights-1) + "]";
-				break;
-			case Light::DIRECTIONAL:
-				dirlights++;
-				lightIndex = "dirLights[" + std::to_string(dirlights-1) + "]";
-				break;
-			case Light::SPOT:
-				spotlights++;
-				lightIndex = "spotLights[" + std::to_string(spotlights-1) + "]";
-				break;
-			default:
-				break;
-			}
-			lightingShader.setVec3(lightIndex + ".direction", lights[i].direction);
-			lightingShader.setVec3(lightIndex + ".position", lights[i].position);
-			lightingShader.setVec3(lightIndex + ".diffuse", lights[i].diffuse);
-			lightingShader.setFloat(lightIndex + ".intensity", lights[i].intensity);
-			//// lights spotlight
-			lightingShader.setFloat(lightIndex + ".spotSize", lights[i].spotSize);
-			lightingShader.setFloat(lightIndex + ".penumbraSize", lights[i].penumbraSize);
-			//// lights falloff
-			lightingShader.setFloat(lightIndex + ".constant", lights[i].constant);
-			lightingShader.setFloat(lightIndex + ".linear", lights[i].linear);
-			lightingShader.setFloat(lightIndex + ".quadratic", lights[i].quadratic);
-		}
+		updateLightingUniforms(lightingShader, lights);
 		// materials
-		lightingShader.setVec3("material.diffuse", glm::vec3(0.45f, 0.0f, 0.55f));
 		lightingShader.setFloat("material.ambientBrightness", 0.06f);
 		lightingShader.setFloat("material.roughness", 32.0f);
 		lightingShader.setFloat("material.specularIntensity", 1.0f);
 		// texture uniforms
-		lightingShader.setInt("material.diffuseMap", 0);
-		lightingShader.setInt("material.specularMap", 1);
-		glActiveTexture(GL_TEXTURE0);
-		diffuseMap.bind();
-		glActiveTexture(GL_TEXTURE1);
-		specularMap.bind();
-
-		// render the geo
-		VBO_Box.bind();
-	
+		//lightingShader.setInt("material.texture_diffuse1", 0);
+		//glActiveTexture(GL_TEXTURE1);
+		//lightingShader.setInt("material.texture_specular1", 1);
+		//glActiveTexture(GL_TEXTURE0);
+		//diffuseMap.bind();
+		//specularMap.bind();
 		// CREATING BOXES
+
 		for (unsigned int i = 0; i < 10; i++)
 		{
 			glm::mat4 model{ 1.0f };
@@ -304,8 +233,11 @@ int main()
 			float angle = GameTime * ( i + 1 ) * 3.f;
 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 			lightingShader.setMat4("model", model);
-			glDrawArrays(GL_TRIANGLES, 0, VBO_Box.num_verts);
+			Box->Draw(lightingShader);
+
 		}
+	
+
 
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -316,8 +248,8 @@ int main()
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	//// ------------------------------------------------------------------------
-	//glDeleteVertexArrays(1, &VAO);
-	//glDeleteBuffers(1, &VBO);
+	delete Box;
+	delete Lamp;
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
@@ -381,4 +313,43 @@ void framebuffer_size_callback(GLFWwindow * window, int width, int height)
 	// make sure the viewport matches the new window dimensions; note that width and 
 	// height will be significantly larger than specified on retina displays.
 	glViewport(0, 0, width, height);
+}
+
+void updateLightingUniforms(Shader& shader, std::vector<Light> &lights)
+{
+	int pointlights{ 0 };
+	int dirlights{ 0 };
+	int spotlights{ 0 };
+	for (int i = 0; i < lights.size(); i++)
+	{
+		std::string lightIndex;
+		// set uniforms
+		switch (lights[i].type) {
+		case Light::POINT:
+			pointlights++;
+			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
+			break;
+		case Light::DIRECTIONAL:
+			dirlights++;
+			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
+			break;
+		case Light::SPOT:
+			spotlights++;
+			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
+			break;
+		default:
+			break;
+		}
+		shader.setVec3(lightIndex + ".direction", lights[i].direction);
+		shader.setVec3(lightIndex + ".position", lights[i].position);
+		shader.setVec3(lightIndex + ".diffuse", lights[i].diffuse);
+		shader.setFloat(lightIndex + ".intensity", lights[i].intensity);
+		//// lights spotlight
+		shader.setFloat(lightIndex + ".spotSize", lights[i].spotSize);
+		shader.setFloat(lightIndex + ".penumbraSize", lights[i].penumbraSize);
+		//// lights falloff
+		shader.setFloat(lightIndex + ".constant", lights[i].constant);
+		shader.setFloat(lightIndex + ".linear", lights[i].linear);
+		shader.setFloat(lightIndex + ".quadratic", lights[i].quadratic);
+	}
 }

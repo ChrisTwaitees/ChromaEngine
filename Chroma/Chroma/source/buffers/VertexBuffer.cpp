@@ -10,8 +10,8 @@ VertexBuffer::VertexBuffer(const std::vector<float> &verts)
 	GLuint VBO;
 
 	// VAO
-	glGenVertexArrays(1, &ID);
-	glBindVertexArray(ID);
+	glGenVertexArrays(1, &id);
+	glBindVertexArray(id);
 	// VBO
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -33,7 +33,7 @@ VertexBuffer::VertexBuffer(const std::vector<float> &verts)
 
 void VertexBuffer::bind()
 {
-	glBindVertexArray(ID);
+	glBindVertexArray(id);
 }
 
 VertexBuffer::~VertexBuffer()

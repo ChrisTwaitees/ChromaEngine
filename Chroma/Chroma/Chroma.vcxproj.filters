@@ -42,6 +42,9 @@
     <ClCompile Include="source\models\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="source\models\BoxPrimitive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\buffers\VertexBuffer.h">
@@ -71,6 +74,9 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="source\models\BoxPrimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="source\shaders\fragConstant.glsl" />
@@ -78,6 +84,9 @@
     <None Include="source\shaders\fragMaterial.glsl" />
     <None Include="source\shaders\fragShader.fs" />
     <None Include="source\shaders\vertexShaderLighting.glsl" />
+    <None Include="source\shaders\fragLit2.glsl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">

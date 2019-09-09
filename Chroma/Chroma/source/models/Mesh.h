@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "../shaders/Shader.h"
+#include "../textures/Texture.h"
 // glm
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -17,16 +18,10 @@ struct Vertex{
 	glm::vec3 Tangent;
 	glm::vec3 Bitangent;
 };
-struct MeshTexture {
-	unsigned int id;
-	enum TYPE {DIFFUSE = 0, SPECULAR = 1};
-	int type;
-	std::string path;
-};
 
 class Mesh
 {
-private:
+protected:
 	/*  Render Data  */
 	unsigned int VAO, VBO, EBO;
 	/*  Functions  */
@@ -35,11 +30,15 @@ public:
 	/*  Mesh Data */
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
-	std::vector<MeshTexture> textures;
-	/*  Functions  */
-	void Draw(Shader shader);
+	std::vector<Texture> textures;
 
-	Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<MeshTexture> textures_val);
+	/*  Functions  */
+	virtual void Draw(Shader shader);
+	void bindTextures(std::vector<Texture> textures_val);
+	void bindTexture(Texture texture_val);
+
+	Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
+	Mesh();
 	~Mesh();
 };
 

@@ -3,15 +3,27 @@
 #include <glad/glad.h>
 class Texture
 {
-private:
-	int width, height, nrChannels;
+protected:
+	void generateTexture();
 public:
-	GLuint ID;
-	Texture(const char* sourcepath, int imageFormat);
-	int get_width() const { return width; };
-	int get_height() const { return height; };
-	int get_nrChannels() const { return nrChannels; };
+	/*  Texture Data  */
+	unsigned int id;
+	enum TYPE { DIFFUSE = 0, SPECULAR = 1 };
+	int type;
+	// paths
+	std::string filename;
+	std::string directory;
+	std::string path;
+
+	/*   Functions   */
+	int loadFromFile(std::string filename ="", std::string dir ="");
+	int loadFromFile(std::string sourcepath);
+
+
 	void bind();
+	/* Constructors */
+	Texture(std::string sourcePath);
+	Texture();
 	~Texture();
 };
 #endif

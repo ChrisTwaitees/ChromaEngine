@@ -63,14 +63,14 @@ Shader::Shader(const GLchar* fragmentSourcePath, const GLchar* vertexSourcePath)
 	}
 
 	//program
-	ID = glCreateProgram();
-	glAttachShader(ID, vertexShader);
-	glAttachShader(ID, fragmentShader);
-	glLinkProgram(ID);
+	id = glCreateProgram();
+	glAttachShader(id, vertexShader);
+	glAttachShader(id, fragmentShader);
+	glLinkProgram(id);
 	//debug link
-	glGetProgramiv(ID, GL_LINK_STATUS, &success);
+	glGetProgramiv(id, GL_LINK_STATUS, &success);
 	if (!success) {
-		glGetProgramInfoLog(ID, sizeof(infoLog), NULL, infoLog);
+		glGetProgramInfoLog(id, sizeof(infoLog), NULL, infoLog);
 		std::cout << "ERROR::LINKING OF SHADERS FAILED" << infoLog << std::endl;
 	}
 
@@ -81,31 +81,31 @@ Shader::Shader(const GLchar* fragmentSourcePath, const GLchar* vertexSourcePath)
 
 void Shader::use()
 {
-	glUseProgram(ID);
+	glUseProgram(id);
 }
 
 void Shader::setBool(const std::string& name, bool value) const
 {
-	glUniform1i(glGetUniformLocation(ID, name.c_str()), (int)value);
+	glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
 }
 
 void Shader::setInt(const std::string& name, int value) const
 {
-	glUniform1i(glGetUniformLocation(ID, name.c_str()), value);
+	glUniform1i(glGetUniformLocation(id, name.c_str()), value);
 }
 
 void Shader::setFloat(const std::string& name, float value) const
 {
-	glUniform1f(glGetUniformLocation(ID, name.c_str()), value);
+	glUniform1f(glGetUniformLocation(id, name.c_str()), value);
 }
 
 void Shader::setVec3(const std::string& name, glm::vec3 vec3) const
 {
-	glUniform3f(glGetUniformLocation(ID, name.c_str()), vec3.x, vec3.y, vec3.z);
+	glUniform3f(glGetUniformLocation(id, name.c_str()), vec3.x, vec3.y, vec3.z);
 }
 
 void Shader::setMat4(const std::string& name, glm::mat4 matrix)
 {
-	glUniformMatrix4fv(glGetUniformLocation(ID, name.c_str()), 1, GL_FALSE,  glm::value_ptr(matrix));
+	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE,  glm::value_ptr(matrix));
 }
 

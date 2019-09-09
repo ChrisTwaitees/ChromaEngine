@@ -7,7 +7,7 @@
 class VertexBuffer
 {
 public:
-	GLuint ID;
+	GLuint id;
 	GLuint num_verts;
 	VertexBuffer(const std::vector<float> &verts);
 	VertexBuffer();
