@@ -5,10 +5,6 @@
 // glad and glfw
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-// imgui
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
 // assimp
 #include <assimp/Importer.hpp>
 // glm
@@ -20,9 +16,11 @@
 #include "buffers/VertexBuffer.h"
 #include "models/Model.h"
 #include "models/BoxPrimitive.h"
+#include "models/PlanePrimitive.h"
 #include "textures/Texture.h"
 #include "cameras/Camera.h"
 #include "lights/Light.h"
+#include "gui/GUI.h"
 
 // callbacks
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -92,24 +90,12 @@ int main()
 		return -1;
 	}
 
-
-	// IMGUI GUI Initialization
-	// Setup Dear ImGui context
-	IMGUI_CHECKVERSION();
-	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	// Setup Dear ImGui style
-	ImGui::StyleColorsDark();
-	// Setup Platform/Renderer bindings
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
-	ImGui_ImplOpenGL3_Init("#version 330");
-	// Our state
-	bool show_demo_window = false;
-	bool show_another_window = true;
-	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+	// Initialize GUI
+	GUI ChromaGUI(window);
 	
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_ALWAYS);
 
 	/*  SCENE ASSEMBLY  */
 	// point lights 
@@ -120,7 +106,7 @@ int main()
 		glm::vec3(0.0f,  0.0f, -3.0f)
 	};
 
-	// dancing cubes
+	// Dancing cubes
 	glm::vec3 cubePositions[] = {
 		  glm::vec3(0.0f,  0.0f,  0.0f),
 		  glm::vec3(2.0f,  5.0f, -15.0f),
@@ -134,14 +120,26 @@ int main()
 		  glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
+	// Grass Positions
+	std::vector<glm::vec3> vegetationPositions;
+	vegetationPositions.push_back(glm::vec3(-1.5f, 0.0f, -0.48f));
+	vegetationPositions.push_back(glm::vec3(1.5f, 0.0f, 0.51f));
+	vegetationPositions.push_back(glm::vec3(0.0f, 0.0f, 0.7f));
+	vegetationPositions.push_back(glm::vec3(-0.3f, 0.0f, -2.3f));
+	vegetationPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
+
 	// SHADERS
-	Shader lightingShader("source/shaders/fragLit.glsl", "source/shaders/vertexShaderLighting.glsl");
-	Shader nanoSuitShader("source/shaders/fragLit.glsl", "source/shaders/vertexShaderLighting.glsl");
-	Shader constantShader("source/shaders/fragConstant.glsl", "source/shaders/vertexShaderLighting.glsl");
+	Shader lightingShader("resources/shaders/fragLit.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader nanoSuitShader("resources/shaders/fragLit.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader testShader("resources/shaders/fragTest.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
 
 	// TEXTURES
-	Texture diffuseMap("source/textures/source/wooden_panel.png");
-	Texture specularMap("source/textures/source/wooden_panel_specular.png");
+	Texture diffuseMap("resources/textures/wooden_panel.png");
+	Texture specularMap("resources/textures/wooden_panel_specular.png");
+	Texture grassMap("resources/textures/grass.png");
 
 	// MODELS
 	Model NanosuitModel("resources/assets/nanosuit/nanosuit.obj");
@@ -152,6 +150,9 @@ int main()
 	// box textures
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
+	// planes
+	Mesh* Plane = new PlanePrimitive();
+	Plane->bindTexture(grassMap);
 
 	// LIGHTS
 	// dancing point lights
@@ -217,8 +218,9 @@ int main()
 			Lamp->Draw(constantShader);
 		}
 
+		// NANO SUIT
+
 		nanoSuitShader.use();
-		// lightingShader uniforms
 		glm::mat4 model{ 1.0f };
 		model = glm::scale(model, glm::vec3(0.3f));
 		nanoSuitShader.setMat4("model", model);
@@ -229,6 +231,13 @@ int main()
 		nanoSuitShader.setFloat("material.roughness", 64.0f);
 		nanoSuitShader.setFloat("material.specularIntensity", .65f);
 		NanosuitModel.Draw(nanoSuitShader);
+
+		depthShader.use();
+		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
+		depthShader.setMat4("model", model);
+		depthShader.setMat4("view", MainCamera.view);
+		depthShader.setMat4("projection", projection_mat);
+		NanosuitModel.Draw(depthShader);
 		// vertex
 		// Draw Geo
 		lightingShader.use(); // don't forget to activate the shader before setting uniforms!  
@@ -256,41 +265,22 @@ int main()
 
 		}
 
-			// Start the Dear ImGui frame
-		ImGui_ImplOpenGL3_NewFrame();
-		ImGui_ImplGlfw_NewFrame();
-		ImGui::NewFrame();
-
-		// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-		if (show_demo_window)
-			ImGui::ShowDemoWindow(&show_demo_window);
-
-		// 2. Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
+		// CREATING GRASS
+		alphaShader.use();
+		alphaShader.setMat4("projection", projection_mat);
+		alphaShader.setMat4("view", MainCamera.view);
+		for (unsigned int i = 0; i < vegetationPositions.size(); i++)
 		{
-			static float f = 0.0f;
-			static int counter = 0;
-
-			ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-
-			ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-			ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
-			ImGui::Checkbox("Another Window", &show_another_window);
-
-			ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
-			ImGui::ColorEdit3("clear color", (float*)& clear_color); // Edit 3 floats representing a color
-
-			if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-				counter++;
-			ImGui::SameLine();
-			ImGui::Text("counter = %d", counter);
-
-			ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-			ImGui::End();
+			glm::mat4 model{ 1.0f };
+			model = translate(model, glm::vec3(vegetationPositions[i]));
+			testShader.setMat4("model", model);
+			Plane->Draw(alphaShader);
 		}
-		// Rendering
-		ImGui::Render();
-		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
+		/* 
+		DRAW GUI
+		*/
+		ChromaGUI.draw();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -302,6 +292,7 @@ int main()
 	//// ------------------------------------------------------------------------
 	delete Box;
 	delete Lamp;
+	delete Plane;
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

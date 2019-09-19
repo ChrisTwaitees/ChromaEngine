@@ -31,6 +31,15 @@
     <Filter Include="light">
       <UniqueIdentifier>{9ba10b55-f697-4539-b1d8-210a15c57bd3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{6e50e176-799a-4919-b453-eeb0f12c79c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{5903392f-1799-4bb8-a56d-cffe67eda827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources\shaders">
+      <UniqueIdentifier>{5b367f10-1ae1-4492-a5ba-ec3885f3f9df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\glad.c">
@@ -72,14 +81,17 @@
     <ClCompile Include="source\shaders\Shader.cpp">
       <Filter>shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\buffers\VertexBuffer.cpp">
-      <Filter>model</Filter>
-    </ClCompile>
     <ClCompile Include="source\models\Model.cpp">
       <Filter>model</Filter>
     </ClCompile>
     <ClCompile Include="source\textures\Texture.cpp">
       <Filter>texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gui\GUI.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\PlanePrimitive.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -113,9 +125,6 @@
     <ClInclude Include="source\models\Model.h">
       <Filter>model</Filter>
     </ClInclude>
-    <ClInclude Include="source\buffers\VertexBuffer.h">
-      <Filter>model</Filter>
-    </ClInclude>
     <ClInclude Include="source\models\BoxPrimitive.h">
       <Filter>model</Filter>
     </ClInclude>
@@ -137,27 +146,36 @@
     <ClInclude Include="source\cameras\Camera.h">
       <Filter>camera</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="source\shaders\fragConstant.glsl">
-      <Filter>shader</Filter>
-    </None>
-    <None Include="source\shaders\fragLit.glsl">
-      <Filter>shader</Filter>
-    </None>
-    <None Include="source\shaders\fragMaterial.glsl">
-      <Filter>shader</Filter>
-    </None>
-    <None Include="source\shaders\fragShader.fs">
-      <Filter>shader</Filter>
-    </None>
-    <None Include="source\shaders\vertexShaderLighting.glsl">
-      <Filter>shader</Filter>
-    </None>
+    <ClInclude Include="source\gui\GUI.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="source\models\PlanePrimitive.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="resources\shaders\fragConstant.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragDepth.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragLit.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragTest.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexShaderLighting.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragAlpha.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
