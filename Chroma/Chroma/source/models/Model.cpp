@@ -107,7 +107,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 	{
 		aiString str;
 		mat->GetTexture(type, i, &str);
-		bool skip = false;
+		bool skip{ false };
 		for (unsigned int j = 0; j < textures_loaded.size(); j++)
 		{
 			if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)

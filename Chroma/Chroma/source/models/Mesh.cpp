@@ -53,8 +53,8 @@ void Mesh::Draw(Shader shader)
 			name = "texture_specular";
 			texturenum = std::to_string(specularNr++);
 		}
+		std::cout << "diffuse texture: " << textures[i].path << " attempting to draw." << std::endl;
 		// setting uniform and binding texture
-		//std::cout << textures[i].id << std::endl;
 		shader.setInt(("material." + name + texturenum).c_str(), i);
 
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
@@ -72,7 +72,7 @@ void Mesh::bindTextures(std::vector<Texture> textures_val)
 {
 	for (unsigned int i = 0; textures_val.size(); i++)
 	{
-		bool skip = false;
+		bool skip{ false };
 		for (unsigned int j = 0; j < textures.size(); j++)
 		{
 			if (std::strcmp(textures[j].path.data(), textures_val[j].path.data()) == 0)
@@ -90,7 +90,7 @@ void Mesh::bindTextures(std::vector<Texture> textures_val)
 
 void Mesh::bindTexture(Texture texture_val)
 {
-	bool skip;
+	bool skip{false};
 	for (unsigned int i = 0; i < textures.size(); i++)
 	{
 		skip = false;

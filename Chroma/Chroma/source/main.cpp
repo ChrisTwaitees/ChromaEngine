@@ -198,6 +198,7 @@ int main()
 		nanoSuitShader.use();
 		// lightingShader uniforms
 		glm::mat4 model{ 1.0f };
+		model = glm::scale(model, glm::vec3(0.2));
 		nanoSuitShader.setMat4("model", model);
 		nanoSuitShader.setMat4("view", MainCamera.view);
 		nanoSuitShader.setMat4("projection", projection_mat);
@@ -215,17 +216,10 @@ int main()
 		updateLightingUniforms(lightingShader, lights);
 		// materials
 		lightingShader.setFloat("material.ambientBrightness", 0.06f);
-		lightingShader.setFloat("material.roughness", 32.0f);
+		lightingShader.setFloat("material.roughness", 62.0f);
 		lightingShader.setFloat("material.specularIntensity", 1.0f);
-		// texture uniforms
-		//lightingShader.setInt("material.texture_diffuse1", 0);
-		//glActiveTexture(GL_TEXTURE1);
-		//lightingShader.setInt("material.texture_specular1", 1);
-		//glActiveTexture(GL_TEXTURE0);
-		//diffuseMap.bind();
-		//specularMap.bind();
-		// CREATING BOXES
 
+		// CREATING BOXES
 		for (unsigned int i = 0; i < 10; i++)
 		{
 			glm::mat4 model{ 1.0f };
@@ -234,11 +228,7 @@ int main()
 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 			lightingShader.setMat4("model", model);
 			Box->Draw(lightingShader);
-
 		}
-	
-
-
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------

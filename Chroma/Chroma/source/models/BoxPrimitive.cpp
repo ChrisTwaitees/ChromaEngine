@@ -34,24 +34,25 @@ void BoxPrimitive::Draw(Shader shader)
 	unsigned int specularNr{ 0 };
 	for (int i = 0; i < textures.size(); i++)
 	{
+		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
 		if (textures[i].type == Texture::DIFFUSE)
 		{
-			name = "diffuse";
-			texturenum = std::to_string(i);
-			diffuseNr++;
+			name = "texture_diffuse";
+			texturenum = std::to_string(diffuseNr++);
 		}
 		if (textures[i].type == Texture::SPECULAR)
 		{
-			name = "specular";
-			texturenum = std::to_string(i);
-			specularNr++;
+			name = "texture_specular";
+			texturenum = std::to_string(specularNr++);
 		}
 		// setting uniform and binding texture
-		shader.setFloat("material." + name + texturenum, i);
+		shader.setInt(("material." + name + texturenum).c_str(), i);
+
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		// activate texture
 	}
 	// activate texture
 	glActiveTexture(GL_TEXTURE0);
