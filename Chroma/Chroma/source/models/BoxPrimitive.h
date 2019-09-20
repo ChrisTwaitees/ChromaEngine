@@ -55,7 +55,7 @@ private:
 
 public:
 	/*  Functions  */
-	virtual void Draw(Shader shader) override;
+	virtual void Draw(Shader &shader) override;
 	/*  Constructors  */
 	BoxPrimitive() { setupBox();};
 	~BoxPrimitive();

@@ -32,7 +32,7 @@ void Mesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(Shader shader)
+void Mesh::Draw(Shader &shader)
 {
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{1};

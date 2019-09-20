@@ -16,9 +16,11 @@
 #include "buffers/VertexBuffer.h"
 #include "models/Model.h"
 #include "models/BoxPrimitive.h"
+#include "models/PlanePrimitive.h"
 #include "textures/Texture.h"
 #include "cameras/Camera.h"
 #include "lights/Light.h"
+#include "gui/GUI.h"
 
 // callbacks
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -28,13 +30,16 @@ void processInput(GLFWwindow* window, float deltaTime);
 
 // prototypes
 void updateLightingUniforms(Shader &shader, std::vector<Light> &lights);
+void updateCamera(GLFWwindow* window, float deltaTime);
 
 // SETTINGS
 // ------------
 // SCREEN
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 800;
+const unsigned int SCR_WIDTH = 1500;
+const unsigned int SCR_HEIGHT = 1500;
 
+// INPUT
+const float INPUT_WAIT = 50.0f; // milliseconds
 
 // CAMERA
 float CAM_FOV{ 45.0f };
@@ -60,7 +65,7 @@ int main()
 
 	// glfw window creation
 	// --------------------
-	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "CHROMA", NULL, NULL);
 	if (window == NULL)
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -77,7 +82,6 @@ int main()
 	// Capture mouse
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
-
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -86,8 +90,12 @@ int main()
 		return -1;
 	}
 
+	// Initialize GUI
+	GUI ChromaGUI(window);
+	
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
+	//glDepthFunc(GL_ALWAYS);
 
 	/*  SCENE ASSEMBLY  */
 	// point lights 
@@ -98,7 +106,7 @@ int main()
 		glm::vec3(0.0f,  0.0f, -3.0f)
 	};
 
-	// dancing cubes
+	// Dancing cubes
 	glm::vec3 cubePositions[] = {
 		  glm::vec3(0.0f,  0.0f,  0.0f),
 		  glm::vec3(2.0f,  5.0f, -15.0f),
@@ -112,14 +120,26 @@ int main()
 		  glm::vec3(-1.3f,  1.0f, -1.5f)
 	};
 
+	// Grass Positions
+	std::vector<glm::vec3> vegetationPositions;
+	vegetationPositions.push_back(glm::vec3(-1.5f, 0.0f, -0.48f));
+	vegetationPositions.push_back(glm::vec3(1.5f, 0.0f, 0.51f));
+	vegetationPositions.push_back(glm::vec3(0.0f, 0.0f, 0.7f));
+	vegetationPositions.push_back(glm::vec3(-0.3f, 0.0f, -2.3f));
+	vegetationPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
+
 	// SHADERS
-	Shader lightingShader("source/shaders/fragLit.glsl", "source/shaders/vertexShaderLighting.glsl");
-	Shader nanoSuitShader("source/shaders/fragLit2.glsl", "source/shaders/vertexShaderLighting.glsl");
-	Shader constantShader("source/shaders/fragConstant.glsl", "source/shaders/vertexShaderLighting.glsl");
+	Shader lightingShader("resources/shaders/fragLit.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader nanoSuitShader("resources/shaders/fragLit.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader testShader("resources/shaders/fragTest.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
 
 	// TEXTURES
-	Texture diffuseMap("source/textures/source/wooden_panel.png");
-	Texture specularMap("source/textures/source/wooden_panel_specular.png");
+	Texture diffuseMap("resources/textures/wooden_panel.png");
+	Texture specularMap("resources/textures/wooden_panel_specular.png");
+	Texture grassMap("resources/textures/grass.png");
 
 	// MODELS
 	Model NanosuitModel("resources/assets/nanosuit/nanosuit.obj");
@@ -127,9 +147,12 @@ int main()
 	Mesh *Box = new BoxPrimitive();
 	// light primitive
 	Mesh *Lamp = new BoxPrimitive();
-	
+	// box textures
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
+	// planes
+	Mesh* Plane = new PlanePrimitive();
+	Plane->bindTexture(grassMap);
 
 	// LIGHTS
 	// dancing point lights
@@ -140,7 +163,7 @@ int main()
 		lights.push_back(pointLight);
 	}
 	// defailt spot and dir light
-	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 2.0f);
+	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.0f);
 	Light spotLight(Light::SPOT, glm::vec3(0.0f), 0.0f);
 	lights.push_back(sunLight);
 
@@ -195,15 +218,26 @@ int main()
 			Lamp->Draw(constantShader);
 		}
 
+		// NANO SUIT
+
 		nanoSuitShader.use();
-		// lightingShader uniforms
 		glm::mat4 model{ 1.0f };
-		model = glm::scale(model, glm::vec3(0.2));
+		model = glm::scale(model, glm::vec3(0.3f));
 		nanoSuitShader.setMat4("model", model);
 		nanoSuitShader.setMat4("view", MainCamera.view);
 		nanoSuitShader.setMat4("projection", projection_mat);
 		updateLightingUniforms(nanoSuitShader, lights);
+		nanoSuitShader.setFloat("material.ambientBrightness", 0.06f);
+		nanoSuitShader.setFloat("material.roughness", 64.0f);
+		nanoSuitShader.setFloat("material.specularIntensity", .65f);
 		NanosuitModel.Draw(nanoSuitShader);
+
+		depthShader.use();
+		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
+		depthShader.setMat4("model", model);
+		depthShader.setMat4("view", MainCamera.view);
+		depthShader.setMat4("projection", projection_mat);
+		NanosuitModel.Draw(depthShader);
 		// vertex
 		// Draw Geo
 		lightingShader.use(); // don't forget to activate the shader before setting uniforms!  
@@ -216,10 +250,10 @@ int main()
 		updateLightingUniforms(lightingShader, lights);
 		// materials
 		lightingShader.setFloat("material.ambientBrightness", 0.06f);
-		lightingShader.setFloat("material.roughness", 62.0f);
+		lightingShader.setFloat("material.roughness", 32.0f);
 		lightingShader.setFloat("material.specularIntensity", 1.0f);
-
 		// CREATING BOXES
+
 		for (unsigned int i = 0; i < 10; i++)
 		{
 			glm::mat4 model{ 1.0f };
@@ -228,7 +262,25 @@ int main()
 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 			lightingShader.setMat4("model", model);
 			Box->Draw(lightingShader);
+
 		}
+
+		// CREATING GRASS
+		alphaShader.use();
+		alphaShader.setMat4("projection", projection_mat);
+		alphaShader.setMat4("view", MainCamera.view);
+		for (unsigned int i = 0; i < vegetationPositions.size(); i++)
+		{
+			glm::mat4 model{ 1.0f };
+			model = translate(model, glm::vec3(vegetationPositions[i]));
+			testShader.setMat4("model", model);
+			Plane->Draw(alphaShader);
+		}
+
+		/* 
+		DRAW GUI
+		*/
+		ChromaGUI.draw();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
@@ -240,6 +292,7 @@ int main()
 	//// ------------------------------------------------------------------------
 	delete Box;
 	delete Lamp;
+	delete Plane;
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
@@ -251,8 +304,32 @@ int main()
 // ---------------------------------------------------------------------------------------------------------
 void processInput(GLFWwindow* window, float deltaTime)
 {
+	// check if should close on this frame
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+	{
 		glfwSetWindowShouldClose(window, true);
+		return;
+	}
+
+	// window capture release mouse
+	GLint cursorMode = glfwGetInputMode(window, GLFW_CURSOR);
+	if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
+	{
+		if (cursorMode == GLFW_CURSOR_DISABLED)
+		{
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			MainCamera.firstMouse = true;
+		}
+		else
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+	// if mouse caputured update camera
+	if (cursorMode == GLFW_CURSOR_DISABLED)
+		updateCamera(window, deltaTime);
+}
+
+void updateCamera(GLFWwindow* window, float deltaTime)
+{
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
 		MainCamera.cameraSpeed = MainCamera.sprintSpeed * deltaTime;
@@ -275,12 +352,22 @@ void processInput(GLFWwindow* window, float deltaTime)
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
 	{
 		MainCamera.move(MainCamera.LEFT);
-	}	
-	if (glfwGetKey(window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS)
-	{
-		// Capture mouse
-		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		MainCamera.move(MainCamera.UP);
+	}
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		MainCamera.move(MainCamera.DOWN);
+	}
+}
+
+void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	GLint cursorMode = glfwGetInputMode(window, GLFW_CURSOR);
+	if (cursorMode == GLFW_CURSOR_DISABLED)
+		MainCamera.processMouseInput(xpos, ypos);
 }
 
 void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
@@ -290,11 +377,7 @@ void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 	CAM_FOV = glm::clamp(CAM_FOV, 1.0f, 45.0f);
 }
 
-void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos)
-{
 
-	MainCamera.processMouseInput(xpos, ypos);
-}
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes
 // ---------------------------------------------------------------------------------------------

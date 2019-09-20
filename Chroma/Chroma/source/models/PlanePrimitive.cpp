@@ -1,17 +1,26 @@
-#include "BoxPrimitive.h"
+#include "PlanePrimitive.h"
 
+PlanePrimitive::PlanePrimitive()
+{
+	setupPlane();
+}
 
-void BoxPrimitive::setupBox()
+PlanePrimitive::~PlanePrimitive()
+{
+
+}
+
+void PlanePrimitive::setupPlane()
 {
 	int stride = 8;
-	GLsizei verts_size = boxData.size() * sizeof(boxData[0]);
+	GLsizei verts_size = planeData.size() * sizeof(planeData[0]);
 	// VAO
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	// VBO
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, verts_size, &boxData[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, verts_size, &planeData[0], GL_STATIC_DRAW);
 
 	// Vertex Shader Attribs
 	// positions
@@ -27,7 +36,7 @@ void BoxPrimitive::setupBox()
 	glBindVertexArray(0);
 }
 
-void BoxPrimitive::Draw(Shader &shader)
+void PlanePrimitive::Draw(Shader& shader)
 {
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 0 };
@@ -59,10 +68,6 @@ void BoxPrimitive::Draw(Shader &shader)
 
 	// draw mesh
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, boxData.size()/8);
+	glDrawArrays(GL_TRIANGLES, 0, planeData.size() / 8);
 	glBindVertexArray(0);
-}
-
-BoxPrimitive::~BoxPrimitive()
-{
 }

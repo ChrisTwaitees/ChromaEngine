@@ -16,7 +16,6 @@ protected:
 	// camera aim
 	float lastX, lastY, yaw, pitch;
 	float mouseSensitivity{0.05f};
-	bool firstMouse;
 	float maxPitch{ 90.0f }, maxYaw{90.0f};
 
 	// loot at attrs
@@ -27,6 +26,7 @@ protected:
 	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 
 public:
+	bool firstMouse{true};
 	// input to vx shader
 	glm::mat4 view;
 
@@ -38,7 +38,7 @@ public:
 	void processMouseInput(const double& xpos, const double& ypos );
 
 	// movement
-	enum Direction {FORWARD, BACK, LEFT, RIGHT};
+	enum Direction {FORWARD, BACK, LEFT, RIGHT, UP, DOWN};
 	void move(Direction dir = Direction::FORWARD, Speed speed = Speed::WALK);
 
 	// getters

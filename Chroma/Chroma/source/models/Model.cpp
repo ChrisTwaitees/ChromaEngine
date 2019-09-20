@@ -1,7 +1,7 @@
 #include "Model.h"
 #include "../textures/stb_image.h"
 
-void Model::Draw(Shader shader)
+void Model::Draw(Shader &shader)
 {
 	for (Mesh mesh : meshes)
 		mesh.Draw(shader);
