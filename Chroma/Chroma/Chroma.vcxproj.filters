@@ -117,6 +117,12 @@
     <ClCompile Include="source\gui\ChromaGUI.cpp">
       <Filter>gui</Filter>
     </ClCompile>
+    <ClCompile Include="source\textures\CubeMap.cpp">
+      <Filter>texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\models\SkyBox.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -188,6 +194,12 @@
     <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h">
       <Filter>screenmanager</Filter>
     </ClInclude>
+    <ClInclude Include="source\textures\CubeMap.h">
+      <Filter>texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\models\SkyBox.h">
+      <Filter>model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">
@@ -217,6 +229,12 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\frameBufferVertex.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\skyBoxFrag.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\skyBoxVertex.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>

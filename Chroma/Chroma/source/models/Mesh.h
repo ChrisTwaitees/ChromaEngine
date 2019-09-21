@@ -33,7 +33,7 @@ public:
 	std::vector<Texture> textures;
 
 	/*  Functions  */
-	virtual void Render(Shader &shader);
+	virtual void Draw(Shader &shader);
 	void bindTextures(std::vector<Texture> textures_val);
 	void bindTexture(Texture texture_val);
 

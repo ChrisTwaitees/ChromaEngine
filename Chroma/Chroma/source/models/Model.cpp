@@ -4,7 +4,7 @@
 void Model::Render(Shader &shader)
 {
 	for (Mesh mesh : meshes)
-		mesh.Render(shader);
+		mesh.Draw(shader);
 }
 
 Model::~Model()

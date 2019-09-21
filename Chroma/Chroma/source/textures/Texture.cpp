@@ -2,9 +2,7 @@
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 #include "stb_image.h"
-#include <iostream>
 #include "Texture.h"
-
 
 Texture::Texture(std::string sourcepath)
 {

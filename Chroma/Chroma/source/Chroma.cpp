@@ -19,6 +19,7 @@
 #include "models/Model.h"
 #include "models/BoxPrimitive.h"
 #include "models/PlanePrimitive.h"
+#include "models/SkyBox.h"
 #include "textures/Texture.h"
 #include "cameras/Camera.h"
 #include "lights/Light.h"
@@ -108,15 +109,16 @@ int main()
 	// -----------
 	while (!ScreenManager.shouldClose())
 	{
+		// SCREENMANAGER START
 		ScreenManager.Start();
 		float GameTime = ScreenManager.getTime();
 
 		// Debug Buttons
-		if (ImGui::Button("Use PostFX"))
+		if (ImGui::Button("Toggle PostFX"))
 			ScreenManager.TogglePostFX();
 
-		// RENDER
-		// ------
+		if (ImGui::Button("Toggle SkyBox"))
+			ScreenManager.ToggleSkybox();
 
 		// LIGHTS
 		constantShader.use();
@@ -142,7 +144,7 @@ int main()
 			constantShader.setFloat("lightIntensity", lights[i].intensity);
 			constantShader.setVec3("viewPos", ActiveCamera.get_position());
 			// draw the lamp
-			Lamp->Render(constantShader);
+			Lamp->Draw(constantShader);
 		}
 		// NANO SUIT UNIFORMS
 		nanoSuitShader.use();
@@ -186,7 +188,7 @@ int main()
 			float angle = GameTime * ( i + 1 ) * 3.f;
 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
 			lightingShader.setMat4("model", model);
-			Box->Render(lightingShader);
+			Box->Draw(lightingShader);
 		}
 
 		// CREATING GRASS
@@ -207,7 +209,7 @@ int main()
 			glm::mat4 model{ 1.0f };
 			model = translate(model, glm::vec3(it->second));
 			testShader.setMat4("model", model);
-			Plane->Render(alphaShader);
+			Plane->Draw(alphaShader);
 		}
 
 		ScreenManager.End();

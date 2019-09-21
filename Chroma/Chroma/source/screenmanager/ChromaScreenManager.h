@@ -16,6 +16,8 @@
 #include  "ChromaScreenManagerConfig.h"
 // framebuffer
 #include "../buffers/Framebuffer.h"
+// skybox
+#include "../models/SkyBox.h"
 
 class ChromaScreenManager
 {
@@ -29,9 +31,10 @@ private:
 	// gui
 	ChromaGUI gui;
 
-	// framebuffer - opengl has not yet been loaded 
-	// so we need to defer framebuffer instation through a nullptr
+	//  opengl has not yet been loaded 
+	// so we need to defer instantiation through a nullptr
 	Framebuffer* framebuffer{NULL};
+	SkyBox* skybox{ NULL };
 
 	// time
 	float deltaTime{0.0f};
@@ -44,6 +47,9 @@ private:
 
 	// post processing
 	bool usePostFX{false};
+
+	// skybox
+	bool useSkybox{true};
 
 	// renderer
 	static void updateRendererViewportDimensions(int width, int height);
@@ -70,6 +76,7 @@ public:
 	Camera& getActiveCamera() { return camera; };
 	
 	void setUsePostEffects(bool active) { usePostFX = active; };
+	void setUseSkybox(bool active) { useSkybox = active; };
 
 	// status
 	int shouldClose() { return glfwWindowShouldClose(window); };
@@ -80,6 +87,7 @@ public:
 	void Close();
 
 	void TogglePostFX();
+	void ToggleSkybox();
 
 	// construction
 	ChromaScreenManager();

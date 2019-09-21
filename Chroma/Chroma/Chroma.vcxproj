@@ -157,8 +157,10 @@
     <ClCompile Include="source\Chroma.cpp" />
     <ClCompile Include="source\models\Mesh.cpp" />
     <ClCompile Include="source\models\PlanePrimitive.cpp" />
+    <ClCompile Include="source\models\SkyBox.cpp" />
     <ClCompile Include="source\screenManager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\shaders\Shader.cpp" />
+    <ClCompile Include="source\textures\CubeMap.cpp" />
     <ClCompile Include="source\textures\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +182,11 @@
     <ClInclude Include="source\lights\Light.h" />
     <ClInclude Include="source\models\Mesh.h" />
     <ClInclude Include="source\models\PlanePrimitive.h" />
+    <ClInclude Include="source\models\SkyBox.h" />
     <ClInclude Include="source\screenManager\ChromaScreenManager.h" />
     <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\shaders\Shader.h" />
+    <ClInclude Include="source\textures\CubeMap.h" />
     <ClInclude Include="source\textures\stb_image.h" />
     <ClInclude Include="source\textures\Texture.h" />
   </ItemGroup>
@@ -197,6 +201,8 @@
     <None Include="resources\shaders\fragTest.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
+    <None Include="resources\shaders\skyBoxFrag.glsl" />
+    <None Include="resources\shaders\skyBoxVertex.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

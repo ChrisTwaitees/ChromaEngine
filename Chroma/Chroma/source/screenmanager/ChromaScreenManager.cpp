@@ -103,7 +103,11 @@ void ChromaScreenManager::Render()
 
 void ChromaScreenManager::End()
 {
-	//// PostFX
+	// SkyBox
+	if (useSkybox)
+		skybox->Draw();
+
+	//PostFX
 	if (usePostFX)
 		framebuffer->Draw();
 	//draw GUI
@@ -113,7 +117,6 @@ void ChromaScreenManager::End()
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 }
-
 
 
 void ChromaScreenManager::Close()
@@ -133,9 +136,15 @@ void ChromaScreenManager::TogglePostFX()
 		glEnable(GL_DEPTH_TEST);
 	}
 	else
-	{
 		usePostFX = true;
-	}
+}
+
+void ChromaScreenManager::ToggleSkybox()
+{
+	if (useSkybox)
+		useSkybox = false;
+	else
+		useSkybox = true;
 }
 
 
@@ -226,6 +235,7 @@ ChromaScreenManager::ChromaScreenManager()
 	initialize();
 	// opengl is now loaded we can instantiate framebuffer object
 	framebuffer = new Framebuffer();
+	skybox = new SkyBox("resources/textures/skybox/blueskywater", camera);
 }
 
 ChromaScreenManager::~ChromaScreenManager()
