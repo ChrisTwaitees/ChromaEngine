@@ -2,7 +2,7 @@
 
 PlanePrimitive::PlanePrimitive()
 {
-	setupPlane();
+	setupQuad();
 }
 
 PlanePrimitive::~PlanePrimitive()
@@ -10,17 +10,17 @@ PlanePrimitive::~PlanePrimitive()
 
 }
 
-void PlanePrimitive::setupPlane()
+void PlanePrimitive::setupQuad()
 {
 	int stride = 8;
-	GLsizei verts_size = planeData.size() * sizeof(planeData[0]);
+	GLsizei verts_size = quadData.size() * sizeof(quadData[0]);
 	// VAO
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	// VBO
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, verts_size, &planeData[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, verts_size, &quadData[0], GL_STATIC_DRAW);
 
 	// Vertex Shader Attribs
 	// positions
@@ -68,6 +68,6 @@ void PlanePrimitive::drawScene(Shader& shader)
 
 	// draw mesh
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, planeData.size() / 8);
+	glDrawArrays(GL_TRIANGLES, 0, quadData.size() / 8);
 	glBindVertexArray(0);
 }

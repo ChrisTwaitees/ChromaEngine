@@ -14,8 +14,8 @@
 #include "../cameras/Camera.h"
 //config
 #include  "ChromaScreenManagerConfig.h"
-
-
+// framebuffer
+#include "../buffers/Framebuffer.h"
 
 class ChromaScreenManager
 {
@@ -29,6 +29,10 @@ private:
 	// gui
 	ChromaGUI gui;
 
+	// framebuffer - opengl has not yet been loaded 
+	// so we need to defer framebuffer creation through a nullptr
+	Framebuffer* framebuffer{NULL};
+
 	// time
 	float deltaTime{0.0f};
 	float lastFrame{0.0f};
@@ -37,6 +41,9 @@ private:
 	int initialize();
 	int configureGui();
 	int configureRenderer();
+
+	// post processing
+	bool usePostFX{false};
 
 	// renderer
 	static void updateRendererViewportDimensions(int width, int height);
@@ -58,8 +65,11 @@ public:
 	unsigned int getScreenWidth() { return SCREEN_WIDTH; };
 	unsigned int getScreenHeight() { return SCREEN_HEIGHT; };
 	float getDeltaTime() { return deltaTime; };
+	float getTime() { return glfwGetTime(); };
 	GLFWwindow* getWindow() { return window; };
-	Camera getActiveCamera() { return camera; };
+	Camera& getActiveCamera() { return camera; };
+
+	void setUsePostEffects(bool active) { usePostFX = active; };
 
 	// status
 	int shouldClose() { return glfwWindowShouldClose(window); };

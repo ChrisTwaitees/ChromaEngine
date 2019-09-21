@@ -7,6 +7,7 @@
 #include <math.h>
 #include <iostream>
 #include <GLFW/glfw3.h>
+#include "../screenmanager/ChromaScreenManagerConfig.h"
 class Camera
 {
 protected:
@@ -29,7 +30,8 @@ protected:
 
 public:
 	// input to vx shader
-	glm::mat4 view;
+	glm::mat4 viewMat;
+	glm::mat4 projectionMat{ glm::perspective(glm::radians(CAM_FOV), CAM_ASPECT, CAM_NEAR, CAM_FAR)};
 
 	// configure
 	bool firstMouse{true};

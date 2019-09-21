@@ -5,7 +5,7 @@
 
 Shader::Shader(const GLchar* fragmentSourcePath, const GLchar* vertexSourcePath)
 {
-	// 1. retrieve the vertex/fragment source code from filepath
+	// retrieve the vertex/fragment source code from filepath
 	std::string vertexCode;
 	std::string fragmentCode;
 	std::ifstream vShaderFile;
@@ -77,6 +77,10 @@ Shader::Shader(const GLchar* fragmentSourcePath, const GLchar* vertexSourcePath)
 	//clear shaders
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
+}
+
+Shader::Shader()
+{
 }
 
 void Shader::use()

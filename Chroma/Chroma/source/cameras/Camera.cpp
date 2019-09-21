@@ -4,7 +4,7 @@ void Camera::rebuildView()
 {
 	cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	cameraUp = glm::cross(cameraDirection, cameraRight);
-	view = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
+	viewMat = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
 }
 
 void Camera::processKeyboardInput(GLFWwindow& window, float deltaTime)

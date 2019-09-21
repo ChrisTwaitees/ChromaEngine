@@ -1,7 +1,7 @@
 #pragma once
 // SCREEN
-static const unsigned int SCREEN_WIDTH{ 1000 };
-static const unsigned int SCREEN_HEIGHT{ 1000 };
+static const unsigned int SCREEN_WIDTH{ 1500 };
+static const unsigned int SCREEN_HEIGHT{ 1500 };
 
 // INPUT
 static double MOUSE_XOFFSET, MOUSE_YOFFSET;

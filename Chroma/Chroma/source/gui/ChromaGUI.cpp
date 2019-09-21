@@ -43,7 +43,7 @@ void ChromaGUI::draw()
 
 void ChromaGUI::attachWindow(GLFWwindow& window_val)
 {
-	this->window = &window_val;
+	window = &window_val;
 	initialize();
 }
 

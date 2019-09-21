@@ -44,6 +44,8 @@ int ChromaScreenManager::initialize()
 		glfwTerminate();
 		return -1;
 	}
+
+
 }
 
 int ChromaScreenManager::configureGui()
@@ -75,6 +77,7 @@ int ChromaScreenManager::configureRenderer()
 	glEnable(GL_CULL_FACE);
 }
 
+
 // CHROMA SCREEN MANAGER LOOP
 // --------------------
 
@@ -82,11 +85,20 @@ void ChromaScreenManager::Start()
 {
 	processTime();
 	processInput();
+
+	// Post FX
+	if (usePostFX)
+		framebuffer->bind();
+	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void ChromaScreenManager::End()
 {
-	// draw GUI
+	//// PostFX
+	if (usePostFX)
+		framebuffer->draw();
+	//draw GUI
 	drawGUI();
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 	// -------------------------------------------------------------------------------
@@ -106,7 +118,7 @@ void ChromaScreenManager::Close()
 // --------------------
 void ChromaScreenManager::updateRendererViewportDimensions(int width, int height)
 {
-	// make sure the viewport matches the new window dimensions; note that width and 
+	// make sure the viewport matches the new window dimensions;  
 	glViewport(0, 0, width, height);
 }
 
@@ -191,6 +203,7 @@ void ChromaScreenManager::processInput()
 ChromaScreenManager::ChromaScreenManager()
 {
 	initialize();
+	framebuffer = new Framebuffer();
 }
 
 ChromaScreenManager::~ChromaScreenManager()

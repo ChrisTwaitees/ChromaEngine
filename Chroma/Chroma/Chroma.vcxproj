@@ -195,6 +195,8 @@
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragTest.glsl" />
+    <None Include="resources\shaders\frameBufferFrag.glsl" />
+    <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

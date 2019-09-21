@@ -5,7 +5,7 @@
 class PlanePrimitive : public Mesh
 {
 private:
-	std::vector<float> planeData = {
+	std::vector<float> quadData = {
 		// positions          // normals           // texture coords
 		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
 		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
@@ -14,7 +14,7 @@ private:
 		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
 		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f
 	};
-	void setupPlane();
+	void setupQuad();
 public :
 	virtual void drawScene(Shader &shader) override;
 	PlanePrimitive();

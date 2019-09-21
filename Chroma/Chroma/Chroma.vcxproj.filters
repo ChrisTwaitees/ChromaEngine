@@ -213,5 +213,11 @@
     <None Include="resources\shaders\fragAlpha.glsl">
       <Filter>resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\frameBufferFrag.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\frameBufferVertex.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
