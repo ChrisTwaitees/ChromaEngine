@@ -1,21 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="imgui">
-      <UniqueIdentifier>{375a26e7-3cbb-441f-97b6-2ccb56ef7a59}</UniqueIdentifier>
-    </Filter>
     <Filter Include="model">
       <UniqueIdentifier>{6983ffe5-45a3-4324-ad08-a5898b0b6d39}</UniqueIdentifier>
     </Filter>
@@ -31,40 +16,64 @@
     <Filter Include="light">
       <UniqueIdentifier>{9ba10b55-f697-4539-b1d8-210a15c57bd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GUI">
-      <UniqueIdentifier>{6e50e176-799a-4919-b453-eeb0f12c79c9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="resources">
       <UniqueIdentifier>{5903392f-1799-4bb8-a56d-cffe67eda827}</UniqueIdentifier>
     </Filter>
     <Filter Include="resources\shaders">
       <UniqueIdentifier>{5b367f10-1ae1-4492-a5ba-ec3885f3f9df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="buffers">
+      <UniqueIdentifier>{d0c360b1-21e5-4bf6-a86e-5dd040395c40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thirdparty">
+      <UniqueIdentifier>{ea2418d7-5c1c-4109-91e1-50b17ccd3116}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{73a87c27-2220-40d9-93b8-dfb178af8b12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui">
+      <UniqueIdentifier>{6e50e176-799a-4919-b453-eeb0f12c79c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gui\imgui">
+      <UniqueIdentifier>{375a26e7-3cbb-441f-97b6-2ccb56ef7a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes">
+      <UniqueIdentifier>{875ff469-96e2-4101-bb52-f407a066b00c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="classes\Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="classes\Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="classes\Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="screenmanager">
+      <UniqueIdentifier>{268b4d91-4afb-4e43-a142-9e1c0bc96c1b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="source\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="source\models\BoxPrimitive.cpp">
       <Filter>model</Filter>
@@ -87,37 +96,52 @@
     <ClCompile Include="source\textures\Texture.cpp">
       <Filter>texture</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\GUI.cpp">
-      <Filter>GUI</Filter>
-    </ClCompile>
     <ClCompile Include="source\models\PlanePrimitive.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\glad.c">
+      <Filter>thirdparty</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Chroma.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="source\screenManager\ChromaScreenManager.cpp">
+      <Filter>screenmanager</Filter>
+    </ClCompile>
+    <ClCompile Include="source\buffers\Framebuffer.cpp">
+      <Filter>buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\buffers\VertexBuffer.cpp">
+      <Filter>buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\gui\ChromaGUI.cpp">
+      <Filter>gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui.h">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_glfw.h">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_opengl3.h">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_internal.h">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h">
-      <Filter>imgui</Filter>
+      <Filter>gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="source\models\Mesh.h">
       <Filter>model</Filter>
@@ -129,7 +153,7 @@
       <Filter>model</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
-      <Filter>Resource Files</Filter>
+      <Filter>classes\Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="source\textures\Texture.h">
       <Filter>texture</Filter>
@@ -146,16 +170,28 @@
     <ClInclude Include="source\cameras\Camera.h">
       <Filter>camera</Filter>
     </ClInclude>
-    <ClInclude Include="source\gui\GUI.h">
-      <Filter>GUI</Filter>
-    </ClInclude>
     <ClInclude Include="source\models\PlanePrimitive.h">
-      <Filter>Header Files</Filter>
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\screenManager\ChromaScreenManager.h">
+      <Filter>screenmanager</Filter>
+    </ClInclude>
+    <ClInclude Include="source\buffers\Framebuffer.h">
+      <Filter>buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\buffers\VertexBuffer.h">
+      <Filter>buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\gui\ChromaGUI.h">
+      <Filter>gui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h">
+      <Filter>screenmanager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">
-      <Filter>Resource Files</Filter>
+      <Filter>classes\Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>

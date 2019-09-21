@@ -7,6 +7,42 @@ void Camera::rebuildView()
 	view = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
 }
 
+void Camera::processKeyboardInput(GLFWwindow& window, float deltaTime)
+{
+	// MOVEMENT
+	if (glfwGetKey(&window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	{
+		cameraSpeed = sprintSpeed * deltaTime;
+	}
+	else {
+		cameraSpeed = walkSpeed * deltaTime;
+	}
+	if (glfwGetKey(&window, GLFW_KEY_W) == GLFW_PRESS)
+	{
+		this->move(FORWARD);
+	}
+	if (glfwGetKey(&window, GLFW_KEY_S) == GLFW_PRESS)
+	{
+		this->move(BACK);
+	}
+	if (glfwGetKey(&window, GLFW_KEY_D) == GLFW_PRESS)
+	{
+		this->move(RIGHT);
+	}
+	if (glfwGetKey(&window, GLFW_KEY_A) == GLFW_PRESS)
+	{
+		this->move(LEFT);
+	}
+	if (glfwGetKey(&window, GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		this->move(UP);
+	}
+	if (glfwGetKey(&window, GLFW_KEY_E) == GLFW_PRESS)
+	{
+		this->move(DOWN);
+	}
+}
+
 void Camera::processMouseInput(const double& xpos, const double& ypos)
 {
 	// ensuring the camera doesn't snap on initial entry
@@ -80,7 +116,6 @@ void Camera::move(Direction dir, Speed speed)
 	}
 
 	rebuildView();
-
 }
 
 Camera::Camera()
@@ -95,9 +130,6 @@ Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : cameraPos{
 	cameraUp = glm::cross(cameraDirection, cameraRight);
 	rebuildView();
 }
-
-
-
 
 Camera::~Camera()
 {

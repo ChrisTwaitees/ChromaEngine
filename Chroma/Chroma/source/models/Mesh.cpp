@@ -32,7 +32,7 @@ void Mesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::Draw(Shader &shader)
+void Mesh::drawScene(Shader &shader)
 {
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{1};
@@ -53,7 +53,6 @@ void Mesh::Draw(Shader &shader)
 			name = "texture_specular";
 			texturenum = std::to_string(specularNr++);
 		}
-		std::cout << "diffuse texture: " << textures[i].path << " attempting to draw." << std::endl;
 		// setting uniform and binding texture
 		shader.setInt(("material." + name + texturenum).c_str(), i);
 

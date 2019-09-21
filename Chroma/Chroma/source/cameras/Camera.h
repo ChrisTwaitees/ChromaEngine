@@ -6,6 +6,7 @@
 #include <string>
 #include <math.h>
 #include <iostream>
+#include <GLFW/glfw3.h>
 class Camera
 {
 protected:
@@ -18,6 +19,7 @@ protected:
 	float mouseSensitivity{0.05f};
 	float maxPitch{ 90.0f }, maxYaw{90.0f};
 
+
 	// loot at attrs
 	glm::vec3 cameraPos{ 0.0f, 0.0f, -.2f };
 	glm::vec3 cameraTarget{ 0.0f, 0.0f, 0.0f };
@@ -26,16 +28,21 @@ protected:
 	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 
 public:
-	bool firstMouse{true};
 	// input to vx shader
 	glm::mat4 view;
 
+	// configure
+	bool firstMouse{true};
+
+	// input
+	void processMouseInput(const double& xpos, const double& ypos );
+	void processKeyboardInput(GLFWwindow& window, float deltaTime);
+
 	// speed
+	enum Speed {WALK, SPRINT};
 	float walkSpeed{ 3.0f };
 	float sprintSpeed{ 6.0f };
 	float cameraSpeed{0.05f};
-	enum Speed {WALK, SPRINT};
-	void processMouseInput(const double& xpos, const double& ypos );
 
 	// movement
 	enum Direction {FORWARD, BACK, LEFT, RIGHT, UP, DOWN};

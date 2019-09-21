@@ -36,7 +36,7 @@ void PlanePrimitive::setupPlane()
 	glBindVertexArray(0);
 }
 
-void PlanePrimitive::Draw(Shader& shader)
+void PlanePrimitive::drawScene(Shader& shader)
 {
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 0 };

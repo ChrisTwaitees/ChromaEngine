@@ -1,10 +1,10 @@
 #include "Model.h"
 #include "../textures/stb_image.h"
 
-void Model::Draw(Shader &shader)
+void Model::drawScene(Shader &shader)
 {
 	for (Mesh mesh : meshes)
-		mesh.Draw(shader);
+		mesh.drawScene(shader);
 }
 
 Model::~Model()

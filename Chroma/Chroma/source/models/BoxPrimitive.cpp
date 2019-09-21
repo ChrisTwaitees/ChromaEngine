@@ -27,7 +27,7 @@ void BoxPrimitive::setupBox()
 	glBindVertexArray(0);
 }
 
-void BoxPrimitive::Draw(Shader &shader)
+void BoxPrimitive::drawScene(Shader &shader)
 {
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 0 };

@@ -87,6 +87,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -98,6 +99,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -112,6 +114,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +130,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -142,15 +146,18 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="source\gui\GUI.cpp" />
+    <ClCompile Include="source\buffers\Framebuffer.cpp" />
+    <ClCompile Include="source\buffers\VertexBuffer.cpp" />
+    <ClCompile Include="source\gui\ChromaGUI.cpp" />
     <ClCompile Include="source\models\BoxPrimitive.cpp" />
     <ClCompile Include="source\models\Model.cpp" />
     <ClCompile Include="source\cameras\Camera.cpp" />
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\lights\Light.cpp" />
-    <ClCompile Include="source\main.cpp" />
+    <ClCompile Include="source\Chroma.cpp" />
     <ClCompile Include="source\models\Mesh.cpp" />
     <ClCompile Include="source\models\PlanePrimitive.cpp" />
+    <ClCompile Include="source\screenManager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\shaders\Shader.cpp" />
     <ClCompile Include="source\textures\Texture.cpp" />
   </ItemGroup>
@@ -164,13 +171,17 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="source\gui\GUI.h" />
+    <ClInclude Include="source\buffers\Framebuffer.h" />
+    <ClInclude Include="source\buffers\VertexBuffer.h" />
+    <ClInclude Include="source\gui\ChromaGUI.h" />
     <ClInclude Include="source\models\BoxPrimitive.h" />
     <ClInclude Include="source\models\Model.h" />
     <ClInclude Include="source\cameras\Camera.h" />
     <ClInclude Include="source\lights\Light.h" />
     <ClInclude Include="source\models\Mesh.h" />
     <ClInclude Include="source\models\PlanePrimitive.h" />
+    <ClInclude Include="source\screenManager\ChromaScreenManager.h" />
+    <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\shaders\Shader.h" />
     <ClInclude Include="source\textures\stb_image.h" />
     <ClInclude Include="source\textures\Texture.h" />

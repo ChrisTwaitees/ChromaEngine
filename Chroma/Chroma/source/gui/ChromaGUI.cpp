@@ -1,6 +1,6 @@
-#include "GUI.h"
+#include "ChromaGUI.h"
 
-void GUI::initialize()
+void ChromaGUI::initialize()
 {
 	// IMGUI GUI Initialization
 	// Setup Dear ImGui context
@@ -14,7 +14,7 @@ void GUI::initialize()
 	ImGui_ImplOpenGL3_Init("#version 330");
 }
 
-void GUI::draw()
+void ChromaGUI::draw()
 {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
@@ -23,14 +23,10 @@ void GUI::draw()
 
 	// Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
 	{
-		static float f = 0.0f;
-		static int counter = 0;
 
 		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
 		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-
-		ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
 
 		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
 			counter++;
@@ -45,12 +41,23 @@ void GUI::draw()
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 
-GUI::GUI(GLFWwindow* window_val) : window{ window_val }
+void ChromaGUI::attachWindow(GLFWwindow& window_val)
+{
+	this->window = &window_val;
+	initialize();
+}
+
+ChromaGUI::ChromaGUI()
+{
+}
+
+ChromaGUI::ChromaGUI(GLFWwindow* window_val) : window{ window_val }
 {
 	initialize();
 }
 
 
-GUI::~GUI()
+ChromaGUI::~ChromaGUI()
 {
+	initialize();
 }

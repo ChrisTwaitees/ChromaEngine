@@ -16,7 +16,7 @@ private:
 	};
 	void setupPlane();
 public :
-	virtual void Draw(Shader &shader) override;
+	virtual void drawScene(Shader &shader) override;
 	PlanePrimitive();
 	~PlanePrimitive();
 };

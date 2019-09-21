@@ -4,7 +4,7 @@
 #include "imgui/imgui.h"
 #include "imgui/imgui_impl_glfw.h"
 #include "imgui/imgui_impl_opengl3.h"
-class GUI
+class ChromaGUI
 {
 protected:
 	GLFWwindow* window;
@@ -12,8 +12,12 @@ protected:
 	void initialize();
 public:
 	void draw();
-	GUI(GLFWwindow* window_val);
-	~GUI();
+	void attachWindow(GLFWwindow& window_val);
+
+
+	ChromaGUI();
+	ChromaGUI(GLFWwindow* window_val);
+	~ChromaGUI();
 };
 
 #endif
