@@ -11,10 +11,10 @@ class ChromaGUI
 {
 protected:
 	GLFWwindow* window;
-	int counter;
 	void initialize();
 public:
-	void draw();
+	void Start();
+	void End();
 	void attachWindow(GLFWwindow& window_val);
 
 

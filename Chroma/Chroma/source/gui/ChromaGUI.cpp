@@ -14,28 +14,23 @@ void ChromaGUI::initialize()
 	ImGui_ImplOpenGL3_Init("#version 330");
 }
 
-void ChromaGUI::draw()
+void ChromaGUI::Start()
 {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	// Show a simple window that we create ourselves. We use a Begin/End pair to created a named window.
-	{
+	ImGui::Begin("Chroma Debug");                          // Create a window called "Hello, world!" and append into it.
 
-		ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+	ImGui::Text("Chroma Debugging Text");
 
-		ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+}
 
-		if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
-			counter++;
-		ImGui::SameLine();
-		ImGui::Text("counter = %d", counter);
-
-		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		ImGui::End();
-	}
+void ChromaGUI::End()
+{
+	ImGui::End();
 	// Rendering
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

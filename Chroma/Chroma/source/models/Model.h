@@ -9,7 +9,7 @@ class Model
 public:
 	/*  Fuctions  */
 	Model(std::string path) { loadModel(path); };
-	void drawScene(Shader &shader);
+	void Render(Shader &shader);
 	~Model();
 private:
 	/*  Model Data  */

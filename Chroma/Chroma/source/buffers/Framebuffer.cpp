@@ -78,7 +78,7 @@ void Framebuffer::bind()
 	glEnable(GL_DEPTH_TEST);
 }
 
-void Framebuffer::draw()
+void Framebuffer::Draw()
 {
 	// draw
 	glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default

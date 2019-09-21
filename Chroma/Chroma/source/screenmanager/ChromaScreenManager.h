@@ -30,7 +30,7 @@ private:
 	ChromaGUI gui;
 
 	// framebuffer - opengl has not yet been loaded 
-	// so we need to defer framebuffer creation through a nullptr
+	// so we need to defer framebuffer instation through a nullptr
 	Framebuffer* framebuffer{NULL};
 
 	// time
@@ -57,7 +57,7 @@ private:
 	void processInput();
 	void updateCamera();
 	void processTime();
-	void drawScene();
+	void Render();
 	void drawGUI();
 
 public:
@@ -68,7 +68,7 @@ public:
 	float getTime() { return glfwGetTime(); };
 	GLFWwindow* getWindow() { return window; };
 	Camera& getActiveCamera() { return camera; };
-
+	
 	void setUsePostEffects(bool active) { usePostFX = active; };
 
 	// status
@@ -78,6 +78,8 @@ public:
 	void Start();
 	void End();
 	void Close();
+
+	void TogglePostFX();
 
 	// construction
 	ChromaScreenManager();

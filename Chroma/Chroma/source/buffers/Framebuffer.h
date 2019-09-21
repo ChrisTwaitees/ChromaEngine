@@ -53,7 +53,7 @@ public:
 	void setResolutionScale(unsigned int newScale);
 
 	void bind();
-	void draw();
+	void Draw();
 
 	Framebuffer();
 	~Framebuffer();

@@ -65,7 +65,7 @@ int ChromaScreenManager::configureRenderer()
 		return -1;
 	}
 
-	// Enabling Features
+	// Enabling Render Features
 	// ---------------------------------------
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
@@ -83,12 +83,20 @@ int ChromaScreenManager::configureRenderer()
 
 void ChromaScreenManager::Start()
 {
+	// process
 	processTime();
 	processInput();
-
+	// start gui
+	gui.Start();
+	// render start
+	Render();
 	// Post FX
 	if (usePostFX)
 		framebuffer->bind();
+}
+
+void ChromaScreenManager::Render()
+{
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
@@ -97,7 +105,7 @@ void ChromaScreenManager::End()
 {
 	//// PostFX
 	if (usePostFX)
-		framebuffer->draw();
+		framebuffer->Draw();
 	//draw GUI
 	drawGUI();
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -106,11 +114,28 @@ void ChromaScreenManager::End()
 	glfwPollEvents();
 }
 
+
+
 void ChromaScreenManager::Close()
 {
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	glfwTerminate();
+}
+
+void ChromaScreenManager::TogglePostFX()
+{
+	if (usePostFX)
+	{
+		usePostFX = false;
+		glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glEnable(GL_DEPTH_TEST);
+	}
+	else
+	{
+		usePostFX = true;
+	}
 }
 
 
@@ -135,14 +160,10 @@ void ChromaScreenManager::processTime()
 	lastFrame = GameTime;
 }
 
-void ChromaScreenManager::drawScene()
-{
-	std::cout << "Chroma Screen Manager Drawing" << std::endl;
-}
 
 void ChromaScreenManager::drawGUI()
 {
-	gui.draw();
+	gui.End();
 }
 
 
@@ -203,9 +224,11 @@ void ChromaScreenManager::processInput()
 ChromaScreenManager::ChromaScreenManager()
 {
 	initialize();
+	// opengl is now loaded we can instantiate framebuffer object
 	framebuffer = new Framebuffer();
 }
 
 ChromaScreenManager::~ChromaScreenManager()
 {
+	delete framebuffer;
 }
