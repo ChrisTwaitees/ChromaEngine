@@ -62,6 +62,9 @@ private:
 	void initialize();
 
 public:
+	// getters and setters
+	unsigned int getCubeMapid() { return cubeMap.id; };
+
 	void Draw();
 	SkyBox(std::string cubeMapImageDir, Camera& activeCamera_val);
 	~SkyBox();

@@ -8,8 +8,13 @@ class Model
 {
 public:
 	/*  Fuctions  */
-	Model(std::string path) { loadModel(path); };
 	void Render(Shader &shader);
+
+	/* Getters Setters */
+	int getNumTextures() { return textures_loaded.size(); };
+
+	/* Constructors*/
+	Model(std::string path) { loadModel(path); };
 	~Model();
 private:
 	/*  Model Data  */

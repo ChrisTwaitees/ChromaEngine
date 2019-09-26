@@ -75,6 +75,9 @@ public:
 	GLFWwindow* getWindow() { return window; };
 	Camera& getActiveCamera() { return camera; };
 	
+	// skybox
+	unsigned int getSkyboxMapid() { return skybox->getCubeMapid(); };
+
 	void setUsePostEffects(bool active) { usePostFX = active; };
 	void setUseSkybox(bool active) { useSkybox = active; };
 

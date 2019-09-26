@@ -12,7 +12,12 @@ struct Material
 	sampler2D texture_specular1;
 	sampler2D texture_specular2;
 
+	//cubemap
+	float cubemapIntensity;
 	samplerCube skybox;
+
+	// refraction
+	float refractionIntensity;
 
 	float roughness;
 	float ambientBrightness;
@@ -103,6 +108,7 @@ void main()
 
 
 	FragColor = vec4(result, 1.0);
+	//FragColor = vec4(texture(material.skybox, Normal).rgb,1.0);
 
 }
 
@@ -112,9 +118,14 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 diffuseMap, ve
 	vec3 lightDir = normalize(-light.direction);
 	// diffuse
 	vec3 diffuse = diffuseMap * light.diffuse * max(dot(lightDir, normal), 0.0) * light.intensity;
-	// specular 
+	// specular - light
 	vec3 reflectedLight = normalize(reflect(-lightDir, normal));
+	// specular  cubemap
+	vec3 cubemapDir = normalize(reflect(viewDir, normal));
+	vec4 cubemapTex = vec4(texture( material.skybox, cubemapDir ).rgb, 1.0);
+	// spec
 	vec3 specular = specMap * pow(max(dot(reflectedLight, viewDir), 0.0), material.roughness) * material.specularIntensity * light.intensity;
+	specular = cubemapTex.rgb * specular ;
 	// ambient
 	vec3 ambient = diffuseMap * material.ambientBrightness * light.intensity;
 
@@ -127,9 +138,14 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  
 	vec3 lightDir = normalize(light.position - FragPos);
 	// diffuse
 	vec3 diffuse = diffuseMap * light.diffuse * max(dot(lightDir, normal), 0.0);
-	// specular 
+	// specular  light
 	vec3 reflectedLight = reflect(-lightDir, normal);
+	// specular  cubemap
+	vec3 cubemapDir = normalize(reflect(viewDir, normal));
+	vec4 cubemapTex = vec4(texture( material.skybox, cubemapDir ).rgb, 1.0);
+	// spec
 	vec3 specular = specMap * pow(max(dot(reflectedLight, viewDir), 0.0), material.roughness) * material.specularIntensity;
+	specular = cubemapTex.rgb * specular ;
 	// ambient
 	vec3 ambient = diffuseMap * material.ambientBrightness;
 	// attenuation

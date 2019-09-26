@@ -27,7 +27,7 @@
 
 
 // prototypes
-void updateLightingUniforms(Shader &shader, std::vector<Light> &lights);
+void updateLightingUniforms(Shader &shader, std::vector<Light> &lights, Camera& camera);
 
 int main()
 {
@@ -67,7 +67,8 @@ int main()
 
 	// SHADERS
 	Shader lightingShader("resources/shaders/fragLit.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader nanoSuitShader("resources/shaders/fragLit.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader nanoSuitShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader testShader("resources/shaders/fragTest.glsl", "resources/shaders/vertexShaderLighting.glsl");
@@ -153,10 +154,13 @@ int main()
 		nanoSuitShader.setMat4("model", model);
 		nanoSuitShader.setMat4("view", ActiveCamera.viewMat);
 		nanoSuitShader.setMat4("projection", ActiveCamera.projectionMat);
-		updateLightingUniforms(nanoSuitShader, lights);
 		nanoSuitShader.setFloat("material.ambientBrightness", 0.06f);
 		nanoSuitShader.setFloat("material.roughness", 64.0f);
-		nanoSuitShader.setFloat("material.specularIntensity", .65f);
+		nanoSuitShader.setFloat("material.specularIntensity", 1.0f);
+		nanoSuitShader.setFloat("material.cubemapIntensity", 1.0f);
+		nanoSuitShader.setFloat("material.refractionIntensity", glm::abs(glm::sin(ScreenManager.getTime())));
+
+		updateLightingUniforms(nanoSuitShader, lights, ActiveCamera);
 		NanosuitModel.Render(nanoSuitShader);
 
 		depthShader.use();
@@ -166,6 +170,15 @@ int main()
 		depthShader.setMat4("projection", ActiveCamera.projectionMat);
 		NanosuitModel.Render(depthShader);
 
+		refractionShader.use();
+		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
+		refractionShader.setMat4("model", model);
+		refractionShader.setMat4("view", ActiveCamera.viewMat);
+		refractionShader.setMat4("projection", ActiveCamera.projectionMat);
+		refractionShader.setVec3("viewPos", ActiveCamera.get_position());
+
+		NanosuitModel.Render(refractionShader);
+
 		lightingShader.use(); // don't forget to activate the shader before setting uniforms!  
 		// lightingShader uniforms
 		lightingShader.setMat4("view", ActiveCamera.viewMat);
@@ -173,7 +186,7 @@ int main()
 		// frag
 		lightingShader.setVec3("viewPos", ActiveCamera.get_position());
 		//// lights
-		updateLightingUniforms(lightingShader, lights);
+		updateLightingUniforms(lightingShader, lights, ActiveCamera);
 		// materials
 		lightingShader.setFloat("material.ambientBrightness", 0.06f);
 		lightingShader.setFloat("material.roughness", 32.0f);
@@ -236,7 +249,7 @@ void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
 }
 
 
-void updateLightingUniforms(Shader& shader, std::vector<Light> &lights)
+void updateLightingUniforms(Shader& shader, std::vector<Light> &lights, Camera &camera)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
@@ -261,6 +274,7 @@ void updateLightingUniforms(Shader& shader, std::vector<Light> &lights)
 		default:
 			break;
 		}
+		// lightws direction
 		shader.setVec3(lightIndex + ".direction", lights[i].direction);
 		shader.setVec3(lightIndex + ".position", lights[i].position);
 		shader.setVec3(lightIndex + ".diffuse", lights[i].diffuse);
@@ -272,5 +286,7 @@ void updateLightingUniforms(Shader& shader, std::vector<Light> &lights)
 		shader.setFloat(lightIndex + ".constant", lights[i].constant);
 		shader.setFloat(lightIndex + ".linear", lights[i].linear);
 		shader.setFloat(lightIndex + ".quadratic", lights[i].quadratic);
+		// lights view pos
+		shader.setVec3("viewPos", camera.get_position());
 	}
 }

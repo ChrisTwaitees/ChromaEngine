@@ -237,5 +237,11 @@
     <None Include="resources\shaders\skyBoxVertex.glsl">
       <Filter>resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\fragLitReflect.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragRefraction.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>
