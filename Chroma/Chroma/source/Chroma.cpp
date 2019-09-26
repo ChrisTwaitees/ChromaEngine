@@ -14,6 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 // local
 #include "shaders/Shader.h"
+#include "shaders/GeometryShader.h"
 #include "buffers/VertexBuffer.h"
 #include "buffers/Framebuffer.h"
 #include "models/Model.h"
@@ -73,6 +74,7 @@ int main()
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader testShader("resources/shaders/fragTest.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	//GeometryShader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl");
 
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");
@@ -159,6 +161,8 @@ int main()
 		nanoSuitShader.setFloat("material.specularIntensity", 1.0f);
 		nanoSuitShader.setFloat("material.cubemapIntensity", 1.0f);
 		nanoSuitShader.setFloat("material.refractionIntensity", glm::abs(glm::sin(ScreenManager.getTime())));
+
+
 
 		updateLightingUniforms(nanoSuitShader, lights, ActiveCamera);
 		NanosuitModel.Render(nanoSuitShader);

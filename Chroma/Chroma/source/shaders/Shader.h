@@ -20,6 +20,8 @@ struct Material {
 
 class Shader
 {
+protected:
+	virtual const char* ReadShaderSource(const GLchar*& shaderSourcePath) const;
 public:
 	//program ID
 	unsigned int id;
@@ -27,8 +29,9 @@ public:
 	//constructor reads and builds the shader
 	Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
 	Shader();
+	~Shader();
 	// use/activate the shader;
-	void use();
+	virtual void use();
 	void setBool(const std::string& name, bool value) const;
 	void setInt(const std::string& name, int value) const;
 	void setFloat(const std::string& name, float value) const;

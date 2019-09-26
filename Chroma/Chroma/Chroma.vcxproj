@@ -159,6 +159,7 @@
     <ClCompile Include="source\models\PlanePrimitive.cpp" />
     <ClCompile Include="source\models\SkyBox.cpp" />
     <ClCompile Include="source\screenManager\ChromaScreenManager.cpp" />
+    <ClCompile Include="source\shaders\GeometryShader.cpp" />
     <ClCompile Include="source\shaders\Shader.cpp" />
     <ClCompile Include="source\textures\CubeMap.cpp" />
     <ClCompile Include="source\textures\Texture.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="source\models\SkyBox.h" />
     <ClInclude Include="source\screenManager\ChromaScreenManager.h" />
     <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h" />
+    <ClInclude Include="source\shaders\GeometryShader.h" />
     <ClInclude Include="source\shaders\Shader.h" />
     <ClInclude Include="source\textures\CubeMap.h" />
     <ClInclude Include="source\textures\stb_image.h" />
@@ -196,6 +198,7 @@
   <ItemGroup>
     <None Include="resources\shaders\fragAlpha.glsl" />
     <None Include="resources\shaders\fragConstant.glsl" />
+    <None Include="resources\shaders\fragDebugNormals.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
@@ -205,6 +208,7 @@
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\skyBoxFrag.glsl" />
     <None Include="resources\shaders\skyBoxVertex.glsl" />
+    <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

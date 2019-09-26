@@ -1,7 +1,31 @@
 #include "Shader.h"
 
-
-
+const char* Shader::ReadShaderSource(const GLchar*& shaderSourcePath) const
+{
+	std::ifstream ShaderFileStream;
+	std::string ShaderSource;
+	// ensure ifstream objects can throw exceptions
+	ShaderFileStream.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+	try
+	{
+		//open files using file handlers
+		ShaderFileStream.open(shaderSourcePath);
+		std::stringstream ShaderStream;
+		// read the files buffer contents into streams
+		ShaderStream << ShaderFileStream.rdbuf();
+		//close file handlers
+		ShaderFileStream.close();
+		ShaderFileStream.clear();
+		//convert stream into string
+		ShaderSource = ShaderStream.str();
+	}
+	catch (std::ifstream::failure e)
+	{
+		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
+	}
+	// shader source in c-style strings
+	return ShaderSource.c_str();
+}
 
 Shader::Shader(const GLchar* fragmentSourcePath, const GLchar* vertexSourcePath)
 {
@@ -35,6 +59,9 @@ Shader::Shader(const GLchar* fragmentSourcePath, const GLchar* vertexSourcePath)
 	}
 	// shader source in c-style strings
 	const char* vShaderSourceCode = vertexCode.c_str();
+	// TODO: Abstract reading file streams as c strings
+	//const char* vShaderSourceCode = ReadShaderSource(vertexSourcePath);
+
 	const char* fShaderSourceCode = fragmentCode.c_str();
 
 	// 2. Compile and link the shaders
@@ -80,6 +107,10 @@ Shader::Shader(const GLchar* fragmentSourcePath, const GLchar* vertexSourcePath)
 }
 
 Shader::Shader()
+{
+}
+
+Shader::~Shader()
 {
 }
 
