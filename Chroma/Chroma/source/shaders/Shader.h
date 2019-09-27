@@ -20,15 +20,19 @@ struct Material {
 
 class Shader
 {
-protected:
-	virtual const char* ReadShaderSource(const GLchar*& shaderSourcePath) const;
+private:
+	void checkCompileErrors(GLuint shader, std::string type);
+	void CompileAndLink();
+	void LoadShaderSource();
+	std::string fragSourcePath, vertexSourcePath, geometrySourcePath;
+	std::string fragCode, vertexCode, geometryCode;
 public:
 	//program ID
 	unsigned int id;
 
 	//constructor reads and builds the shader
-	Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
-	Shader();
+	Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");
+	Shader() {};
 	~Shader();
 	// use/activate the shader;
 	virtual void use();

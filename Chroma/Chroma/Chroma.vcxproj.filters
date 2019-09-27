@@ -123,9 +123,6 @@
     <ClCompile Include="source\models\SkyBox.cpp">
       <Filter>model</Filter>
     </ClCompile>
-    <ClCompile Include="source\shaders\GeometryShader.cpp">
-      <Filter>shader</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -203,9 +200,6 @@
     <ClInclude Include="source\models\SkyBox.h">
       <Filter>model</Filter>
     </ClInclude>
-    <ClInclude Include="source\shaders\GeometryShader.h">
-      <Filter>shader</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">
@@ -253,6 +247,9 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexDebugNormals.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\geometryDebugNormals.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>

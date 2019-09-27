@@ -94,22 +94,16 @@ void main()
 	// direction lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
 		result += CalcDirLight(dirLights[i], norm, viewDir,  diffuseMap, specularMap);
-
 	
 	// spot lights
-
 	for(int i = 0; i < NR_SPOT_LIGHTS ; i++)
 		//result += CalcSpotLight(spotLights[i], norm, viewDir, FragPos, diffuseMap, specularMap);
-
 
 	// point lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 		result += CalcPointLight(pointLights[i], norm, viewDir, FragPos, diffuseMap, specularMap);
 
-
 	FragColor = vec4(result, 1.0);
-	//FragColor = vec4(texture(material.skybox, Normal).rgb,1.0);
-
 }
 
 // calculates the color when using a directional light.
@@ -119,12 +113,12 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 diffuseMap, ve
 	// diffuse
 	vec3 diffuse = diffuseMap * light.diffuse * max(dot(lightDir, normal), 0.0) * light.intensity;
 	// specular - light
-	vec3 reflectedLight = normalize(reflect(-lightDir, normal));
+	vec3 halfwayDir = normalize(lightDir + viewDir);
 	// specular  cubemap
 	vec3 cubemapDir = normalize(reflect(viewDir, normal));
 	vec4 cubemapTex = vec4(texture( material.skybox, cubemapDir ).rgb, 1.0);
 	// spec
-	vec3 specular = specMap * pow(max(dot(reflectedLight, viewDir), 0.0), material.roughness) * material.specularIntensity * light.intensity;
+	vec3 specular = specMap * pow(max(dot(normal, halfwayDir), 0.0), material.roughness) * material.specularIntensity * light.intensity;
 	specular = cubemapTex.rgb * specular ;
 	// ambient
 	vec3 ambient = diffuseMap * material.ambientBrightness * light.intensity;
@@ -139,12 +133,12 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  
 	// diffuse
 	vec3 diffuse = diffuseMap * light.diffuse * max(dot(lightDir, normal), 0.0);
 	// specular  light
-	vec3 reflectedLight = reflect(-lightDir, normal);
+	vec3 halfwayDir = normalize(lightDir + viewDir);
 	// specular  cubemap
 	vec3 cubemapDir = normalize(reflect(viewDir, normal));
 	vec4 cubemapTex = vec4(texture( material.skybox, cubemapDir ).rgb, 1.0);
 	// spec
-	vec3 specular = specMap * pow(max(dot(reflectedLight, viewDir), 0.0), material.roughness) * material.specularIntensity;
+	vec3 specular = specMap * pow(max(dot(normal, halfwayDir), 0.0), material.roughness) * material.specularIntensity * light.intensity;
 	specular = cubemapTex.rgb * specular ;
 	// ambient
 	vec3 ambient = diffuseMap * material.ambientBrightness;

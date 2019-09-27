@@ -14,7 +14,6 @@
 #include <glm/gtc/type_ptr.hpp>
 // local
 #include "shaders/Shader.h"
-#include "shaders/GeometryShader.h"
 #include "buffers/VertexBuffer.h"
 #include "buffers/Framebuffer.h"
 #include "models/Model.h"
@@ -35,6 +34,27 @@ int main()
 	// SCREEN MANAGER
 	ChromaScreenManager ScreenManager;
 	Camera& ActiveCamera = ScreenManager.getActiveCamera();
+
+	// DEPTH MAP BUFFER
+	unsigned int depthMapFBO;
+	glGenFramebuffers(1, &depthMapFBO);
+	const unsigned int SHADOW_WIDTH{ 1024 }, SHADOW_HEIGHT{ 1024 };
+	unsigned int depthMap;
+	glGenTextures(1, &depthMap);
+	glBindTexture(GL_TEXTURE_2D, depthMap);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT,
+		0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	// Depth buffer for Shadow Maps
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// point lights 
 	glm::vec3 pointLightPositions[] = {
@@ -67,14 +87,15 @@ int main()
 	vegetationPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
 
 	// SHADERS
-	Shader lightingShader("resources/shaders/fragLit.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader lightingShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader nanoSuitShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader testShader("resources/shaders/fragTest.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	//GeometryShader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl");
+	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
+	bool debugNormals{false};
 
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");
@@ -83,14 +104,10 @@ int main()
 
 	// MODELS
 	Model NanosuitModel("resources/assets/nanosuit/nanosuit.obj");
-	//box primitive
 	Mesh *Box = new BoxPrimitive();
-	// light primitive
-	Mesh *Lamp = new BoxPrimitive();
-	// box textures
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
-	// planes
+	Mesh *Lamp = new BoxPrimitive();
 	Mesh* Plane = new PlanePrimitive();
 	Plane->bindTexture(grassMap);
 
@@ -102,12 +119,12 @@ int main()
 		Light pointLight(pos, Light::POINT);
 		lights.push_back(pointLight);
 	}
-	// defailt spot and dir light
-	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.0f);
+	// default spot and dir light
+	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.75f);
 	Light spotLight(Light::SPOT, glm::vec3(0.0f), 0.0f);
 	lights.push_back(sunLight);
 
-	// render loop
+	// RENDER LOOP
 	
 	// -----------
 	while (!ScreenManager.shouldClose())
@@ -122,6 +139,14 @@ int main()
 
 		if (ImGui::Button("Toggle SkyBox"))
 			ScreenManager.ToggleSkybox();
+
+		if (ImGui::Button("Toggle Normals Debug"))
+			if (debugNormals)
+				debugNormals = false;
+			else
+				debugNormals = true;
+
+
 
 		// LIGHTS
 		constantShader.use();
@@ -145,11 +170,11 @@ int main()
 			// fragment
 			constantShader.setVec3("lightColor", lights[i].diffuse);
 			constantShader.setFloat("lightIntensity", lights[i].intensity);
-			constantShader.setVec3("viewPos", ActiveCamera.get_position());
 			// draw the lamp
 			Lamp->Draw(constantShader);
 		}
-		// NANO SUIT UNIFORMS
+
+		// RENDER ENTITIES
 		nanoSuitShader.use();
 		glm::mat4 model{ 1.0f };
 		model = glm::scale(model, glm::vec3(0.3f));
@@ -160,12 +185,16 @@ int main()
 		nanoSuitShader.setFloat("material.roughness", 64.0f);
 		nanoSuitShader.setFloat("material.specularIntensity", 1.0f);
 		nanoSuitShader.setFloat("material.cubemapIntensity", 1.0f);
-		nanoSuitShader.setFloat("material.refractionIntensity", glm::abs(glm::sin(ScreenManager.getTime())));
-
-
-
 		updateLightingUniforms(nanoSuitShader, lights, ActiveCamera);
 		NanosuitModel.Render(nanoSuitShader);
+
+		debugNormalsShader.use();
+		debugNormalsShader.setMat4("model", model);
+		debugNormalsShader.setMat4("view", ActiveCamera.viewMat);
+		debugNormalsShader.setMat4("projection", ActiveCamera.projectionMat);
+		if(debugNormals)
+			NanosuitModel.Render(debugNormalsShader);
+
 
 		depthShader.use();
 		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
@@ -180,24 +209,17 @@ int main()
 		refractionShader.setMat4("view", ActiveCamera.viewMat);
 		refractionShader.setMat4("projection", ActiveCamera.projectionMat);
 		refractionShader.setVec3("viewPos", ActiveCamera.get_position());
-
 		NanosuitModel.Render(refractionShader);
 
-		lightingShader.use(); // don't forget to activate the shader before setting uniforms!  
-		// lightingShader uniforms
+		// CREATING BOXES
+		lightingShader.use(); 
 		lightingShader.setMat4("view", ActiveCamera.viewMat);
 		lightingShader.setMat4("projection", ActiveCamera.projectionMat);
-		// frag
-		lightingShader.setVec3("viewPos", ActiveCamera.get_position());
-		//// lights
-		updateLightingUniforms(lightingShader, lights, ActiveCamera);
-		// materials
 		lightingShader.setFloat("material.ambientBrightness", 0.06f);
 		lightingShader.setFloat("material.roughness", 32.0f);
 		lightingShader.setFloat("material.specularIntensity", 1.0f);
-
-
-		// CREATING BOXES
+		nanoSuitShader.setFloat("material.cubemapIntensity", 1.0f);
+		updateLightingUniforms(lightingShader, lights, ActiveCamera);
 		for (unsigned int i = 0; i < 10; i++)
 		{
 			glm::mat4 model{ 1.0f };
@@ -230,7 +252,6 @@ int main()
 		}
 
 		ScreenManager.End();
-
 	}
 
 	// optional: de-allocate all resources once they've outlived their purpose:
@@ -245,15 +266,7 @@ int main()
 	return 0;
 }
 
-void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
-{
-	if (CAM_FOV >= 1.0f && CAM_FOV <= 45.0f)
-		CAM_FOV -= yoffset;
-	CAM_FOV = glm::clamp(CAM_FOV, 1.0f, 45.0f);
-}
-
-
-void updateLightingUniforms(Shader& shader, std::vector<Light> &lights, Camera &camera)
+void updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& camera)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };

@@ -2,6 +2,7 @@
 // SCREEN
 static const unsigned int SCREEN_WIDTH{ 1500 };
 static const unsigned int SCREEN_HEIGHT{ 1500 };
+static const unsigned int MSAA_SAMPLES{ 4 };
 
 // INPUT
 static double MOUSE_XOFFSET, MOUSE_YOFFSET;
