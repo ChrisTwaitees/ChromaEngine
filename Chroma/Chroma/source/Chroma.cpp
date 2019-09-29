@@ -12,10 +12,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-// local
+// Chroma
 #include "shaders/Shader.h"
 #include "buffers/VertexBuffer.h"
 #include "buffers/Framebuffer.h"
+#include "buffers/ShadowBuffer.h"
 #include "models/Model.h"
 #include "models/BoxPrimitive.h"
 #include "models/PlanePrimitive.h"
@@ -24,10 +25,12 @@
 #include "cameras/Camera.h"
 #include "lights/Light.h"
 #include "screenManager/ChromaScreenManager.h"
+#include "terrain/Terrain.h"
 
 
 // prototypes
-void updateLightingUniforms(Shader &shader, std::vector<Light> &lights, Camera& camera);
+void updateLightingUniforms(Shader &shader, const std::vector<Light> &lights, Camera& camera);
+void renderScene(const Shader& shader);
 
 int main()
 {
@@ -35,26 +38,8 @@ int main()
 	ChromaScreenManager ScreenManager;
 	Camera& ActiveCamera = ScreenManager.getActiveCamera();
 
-	// DEPTH MAP BUFFER
-	unsigned int depthMapFBO;
-	glGenFramebuffers(1, &depthMapFBO);
-	const unsigned int SHADOW_WIDTH{ 1024 }, SHADOW_HEIGHT{ 1024 };
-	unsigned int depthMap;
-	glGenTextures(1, &depthMap);
-	glBindTexture(GL_TEXTURE_2D, depthMap);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, SHADOW_WIDTH, SHADOW_HEIGHT,
-		0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-	// Depth buffer for Shadow Maps
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depthMap, 0);
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	// 
+	ShadowBuffer Shadowbuffer;
 
 	// point lights 
 	glm::vec3 pointLightPositions[] = {
@@ -87,6 +72,7 @@ int main()
 	vegetationPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
 
 	// SHADERS
+	Shader terrainShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader lightingShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader nanoSuitShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
@@ -101,15 +87,19 @@ int main()
 	Texture diffuseMap("resources/textures/wooden_panel.png");
 	Texture specularMap("resources/textures/wooden_panel_specular.png");
 	Texture grassMap("resources/textures/grass.png");
+	Texture terrainTex("resources/textures/terrain1.jpeg");
 
 	// MODELS
 	Model NanosuitModel("resources/assets/nanosuit/nanosuit.obj");
+
+	// Terrain
 	Mesh *Box = new BoxPrimitive();
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
 	Mesh *Lamp = new BoxPrimitive();
-	Mesh* Plane = new PlanePrimitive();
+	Mesh *Plane = new PlanePrimitive();
 	Plane->bindTexture(grassMap);
+	Terrain *pTerrain = new Terrain;
 
 	// LIGHTS
 	// dancing point lights
@@ -146,7 +136,11 @@ int main()
 			else
 				debugNormals = true;
 
+		// SHADOW MAPS
+		//Shadowbuffer.calculateShadows(sunLight);
 
+		// TERRAIN
+		pTerrain->Draw();
 
 		// LIGHTS
 		constantShader.use();
@@ -175,6 +169,7 @@ int main()
 		}
 
 		// RENDER ENTITIES
+
 		nanoSuitShader.use();
 		glm::mat4 model{ 1.0f };
 		model = glm::scale(model, glm::vec3(0.3f));
@@ -194,7 +189,6 @@ int main()
 		debugNormalsShader.setMat4("projection", ActiveCamera.projectionMat);
 		if(debugNormals)
 			NanosuitModel.Render(debugNormalsShader);
-
 
 		depthShader.use();
 		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
@@ -250,7 +244,6 @@ int main()
 			testShader.setMat4("model", model);
 			Plane->Draw(alphaShader);
 		}
-
 		ScreenManager.End();
 	}
 
@@ -259,6 +252,7 @@ int main()
 	delete Box;
 	delete Lamp;
 	delete Plane;
+	delete pTerrain;
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
@@ -266,7 +260,7 @@ int main()
 	return 0;
 }
 
-void updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& camera)
+void updateLightingUniforms(Shader& shader, const std::vector<Light>& lights, Camera& camera)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
@@ -291,7 +285,7 @@ void updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& 
 		default:
 			break;
 		}
-		// lightws direction
+		//// lights directional
 		shader.setVec3(lightIndex + ".direction", lights[i].direction);
 		shader.setVec3(lightIndex + ".position", lights[i].position);
 		shader.setVec3(lightIndex + ".diffuse", lights[i].diffuse);
@@ -299,11 +293,16 @@ void updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& 
 		//// lights spotlight
 		shader.setFloat(lightIndex + ".spotSize", lights[i].spotSize);
 		shader.setFloat(lightIndex + ".penumbraSize", lights[i].penumbraSize);
-		//// lights falloff
+		//// lights point light falloff
 		shader.setFloat(lightIndex + ".constant", lights[i].constant);
 		shader.setFloat(lightIndex + ".linear", lights[i].linear);
 		shader.setFloat(lightIndex + ".quadratic", lights[i].quadratic);
-		// lights view pos
+		//// lights view pos
 		shader.setVec3("viewPos", camera.get_position());
 	}
+}
+
+void renderScene(const Shader& shader)
+{
+
 }

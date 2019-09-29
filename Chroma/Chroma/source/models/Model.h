@@ -7,7 +7,7 @@
 class Model
 {
 public:
-	/*  Fuctions  */
+	/*  Functions  */
 	void Render(Shader &shader);
 
 	/* Getters Setters */
@@ -15,6 +15,7 @@ public:
 
 	/* Constructors*/
 	Model(std::string path) { loadModel(path); };
+	Model() {};
 	~Model();
 private:
 	/*  Model Data  */

@@ -147,7 +147,9 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\buffers\Framebuffer.cpp" />
+    <ClCompile Include="source\buffers\ShadowBuffer.cpp" />
     <ClCompile Include="source\buffers\VertexBuffer.cpp" />
+    <ClCompile Include="source\entity\Entity.cpp" />
     <ClCompile Include="source\gui\ChromaGUI.cpp" />
     <ClCompile Include="source\models\BoxPrimitive.cpp" />
     <ClCompile Include="source\models\Model.cpp" />
@@ -160,6 +162,7 @@
     <ClCompile Include="source\models\SkyBox.cpp" />
     <ClCompile Include="source\screenManager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\shaders\Shader.cpp" />
+    <ClCompile Include="source\terrain\Terrain.cpp" />
     <ClCompile Include="source\textures\CubeMap.cpp" />
     <ClCompile Include="source\textures\Texture.cpp" />
   </ItemGroup>
@@ -174,7 +177,9 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="source\buffers\Framebuffer.h" />
+    <ClInclude Include="source\buffers\ShadowBuffer.h" />
     <ClInclude Include="source\buffers\VertexBuffer.h" />
+    <ClInclude Include="source\entity\Entity.h" />
     <ClInclude Include="source\gui\ChromaGUI.h" />
     <ClInclude Include="source\models\BoxPrimitive.h" />
     <ClInclude Include="source\models\Model.h" />
@@ -186,6 +191,7 @@
     <ClInclude Include="source\screenManager\ChromaScreenManager.h" />
     <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\shaders\Shader.h" />
+    <ClInclude Include="source\terrain\Terrain.h" />
     <ClInclude Include="source\textures\CubeMap.h" />
     <ClInclude Include="source\textures\stb_image.h" />
     <ClInclude Include="source\textures\Texture.h" />
@@ -198,6 +204,7 @@
     <None Include="resources\shaders\fragConstant.glsl" />
     <None Include="resources\shaders\fragDebugNormals.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />
+    <None Include="resources\shaders\fragDepthMap.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
@@ -208,6 +215,7 @@
     <None Include="resources\shaders\skyBoxFrag.glsl" />
     <None Include="resources\shaders\skyBoxVertex.glsl" />
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
+    <None Include="resources\shaders\vertexDepthMap.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

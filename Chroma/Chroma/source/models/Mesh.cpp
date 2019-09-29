@@ -32,6 +32,63 @@ void Mesh::setupMesh()
 	glBindVertexArray(0);
 }
 
+void Mesh::updateLightingUniforms(Shader& shader, const std::vector<Light>& lights, Camera& camera)
+{
+	int pointlights{ 0 };
+	int dirlights{ 0 };
+	int spotlights{ 0 };
+	for (int i = 0; i < lights.size(); i++)
+	{
+		std::string lightIndex;
+		// set uniforms
+		switch (lights[i].type) {
+		case Light::POINT:
+			pointlights++;
+			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
+			break;
+		case Light::DIRECTIONAL:
+			dirlights++;
+			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
+			break;
+		case Light::SPOT:
+			spotlights++;
+			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
+			break;
+		default:
+			break;
+		}
+		//// lights directional
+		shader.setVec3(lightIndex + ".direction", lights[i].direction);
+		shader.setVec3(lightIndex + ".position", lights[i].position);
+		shader.setVec3(lightIndex + ".diffuse", lights[i].diffuse);
+		shader.setFloat(lightIndex + ".intensity", lights[i].intensity);
+		//// lights spotlight
+		shader.setFloat(lightIndex + ".spotSize", lights[i].spotSize);
+		shader.setFloat(lightIndex + ".penumbraSize", lights[i].penumbraSize);
+		//// lights point light falloff
+		shader.setFloat(lightIndex + ".constant", lights[i].constant);
+		shader.setFloat(lightIndex + ".linear", lights[i].linear);
+		shader.setFloat(lightIndex + ".quadratic", lights[i].quadratic);
+		//// lights view pos
+		shader.setVec3("viewPos", camera.get_position());
+	}
+}
+
+void Mesh::updateTransformUniforms(Shader& shader, const Camera& camera)
+{
+	shader.setMat4("model", modelMat);
+	shader.setMat4("view", camera.viewMat);
+	shader.setMat4("projection", camera.projectionMat);
+}
+
+void Mesh::updateMaterialUniforms(Shader& shader)
+{
+	shader.setFloat("material.ambientBrightness", 0.06f);
+	shader.setFloat("material.roughness", 64.0f);
+	shader.setFloat("material.specularIntensity", 1.0f);
+	shader.setFloat("material.cubemapIntensity", 1.0f);
+}
+
 void Mesh::Draw(Shader &shader)
 {
 	// updating shader's texture uniforms
@@ -65,6 +122,11 @@ void Mesh::Draw(Shader &shader)
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0);
+}
+
+void Mesh::Draw()
+{
+	return; // to be implemented in subclasses
 }
 
 void Mesh::bindTextures(std::vector<Texture> textures_val)
