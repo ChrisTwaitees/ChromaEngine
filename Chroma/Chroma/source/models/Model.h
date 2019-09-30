@@ -1,23 +1,15 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
-#include "./Mesh.h"
+
+#include "../entity/Entity.h"
+#include "../models/Mesh.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-class Model
+
+class Model : public Entity
 {
-public:
-	/*  Functions  */
-	void Render(Shader &shader);
-
-	/* Getters Setters */
-	int getNumTextures() { return textures_loaded.size(); };
-
-	/* Constructors*/
-	Model(std::string path) { loadModel(path); };
-	Model() {};
-	~Model();
-private:
+protected:
 	/*  Model Data  */
 	std::vector<Texture> textures_loaded;
 	std::vector<Mesh> meshes;
@@ -28,6 +20,17 @@ private:
 	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		Texture::TYPE typeName);
+public:
+	/*  Functions  */
+	virtual void Draw(Shader& shader) override;
+
+	/* Getters Setters */
+	int getNumTextures() { return textures_loaded.size(); };
+
+	/* Constructors*/
+	Model(std::string path) { loadModel(path); };
+	Model() {};
+	~Model();
 };
 
 #endif

@@ -39,8 +39,10 @@ void ShadowBuffer::calculateShadows(const Light& light)
 
 	glViewport(0, 0, width, height);
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-
 	glClear(GL_DEPTH_BUFFER_BIT);
+
+	// render the scene with depthshader
+	// bind the original glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	
 }

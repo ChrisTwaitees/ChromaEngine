@@ -35,39 +35,3 @@ void PlanePrimitive::setupQuad()
 
 	glBindVertexArray(0);
 }
-
-void PlanePrimitive::Draw(Shader& shader)
-{
-	// updating shader's texture uniforms
-	unsigned int diffuseNr{ 0 };
-	unsigned int specularNr{ 0 };
-	for (int i = 0; i < textures.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
-		// building the uniform name
-		std::string name;
-		std::string texturenum;
-		if (textures[i].type == Texture::DIFFUSE)
-		{
-			name = "texture_diffuse";
-			texturenum = std::to_string(diffuseNr++);
-		}
-		if (textures[i].type == Texture::SPECULAR)
-		{
-			name = "texture_specular";
-			texturenum = std::to_string(specularNr++);
-		}
-		// setting uniform and binding texture
-		shader.setInt(("material." + name + texturenum).c_str(), i);
-
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
-		// activate texture
-	}
-	// activate texture
-	glActiveTexture(GL_TEXTURE0);
-
-	// draw mesh
-	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, quadData.size() / 8);
-	glBindVertexArray(0);
-}

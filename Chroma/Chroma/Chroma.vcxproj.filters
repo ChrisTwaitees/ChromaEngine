@@ -37,9 +37,6 @@
     <Filter Include="Renderer\light">
       <UniqueIdentifier>{9ba10b55-f697-4539-b1d8-210a15c57bd3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\light\main">
-      <UniqueIdentifier>{73a87c27-2220-40d9-93b8-dfb178af8b12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Renderer\terrain">
       <UniqueIdentifier>{b58126f7-3796-4e80-bc8f-65db97a92123}</UniqueIdentifier>
     </Filter>
@@ -66,6 +63,9 @@
     </Filter>
     <Filter Include="Renderer\camera">
       <UniqueIdentifier>{9310dee5-e75d-4499-8f4b-4510f335af6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\main">
+      <UniqueIdentifier>{73a87c27-2220-40d9-93b8-dfb178af8b12}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -115,7 +115,7 @@
       <Filter>thirdparty</Filter>
     </ClCompile>
     <ClCompile Include="source\Chroma.cpp">
-      <Filter>Renderer\light\main</Filter>
+      <Filter>Engine\main</Filter>
     </ClCompile>
     <ClCompile Include="source\screenManager\ChromaScreenManager.cpp">
       <Filter>Engine\screenmanager</Filter>

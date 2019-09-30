@@ -13,7 +13,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 // Chroma
-#include "shaders/Shader.h"
+#include "screenManager/ChromaScreenManager.h"
+#include "entity/Entity.h"
 #include "buffers/VertexBuffer.h"
 #include "buffers/Framebuffer.h"
 #include "buffers/ShadowBuffer.h"
@@ -21,10 +22,10 @@
 #include "models/BoxPrimitive.h"
 #include "models/PlanePrimitive.h"
 #include "models/SkyBox.h"
+#include "shaders/Shader.h"
 #include "textures/Texture.h"
 #include "cameras/Camera.h"
 #include "lights/Light.h"
-#include "screenManager/ChromaScreenManager.h"
 #include "terrain/Terrain.h"
 
 
@@ -36,9 +37,12 @@ int main()
 {
 	// SCREEN MANAGER
 	ChromaScreenManager ScreenManager;
-	Camera& ActiveCamera = ScreenManager.getActiveCamera();
+	Camera& MainCamera = ScreenManager.getActiveCamera();
 
-	// 
+	// SCENE MANAGER
+	std::vector<Entity> Entities;
+
+	// Shadowbuffer
 	ShadowBuffer Shadowbuffer;
 
 	// point lights 
@@ -72,10 +76,8 @@ int main()
 	vegetationPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
 
 	// SHADERS
-	Shader terrainShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader lightingShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader litReflectShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader nanoSuitShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader testShader("resources/shaders/fragTest.glsl", "resources/shaders/vertexShaderLighting.glsl");
@@ -89,30 +91,33 @@ int main()
 	Texture grassMap("resources/textures/grass.png");
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
-	// MODELS
-	Model NanosuitModel("resources/assets/nanosuit/nanosuit.obj");
+	// LIGHTS
+// dancing point lights
+	std::vector<Light> Lights;
+	for (glm::vec3 pos : pointLightPositions)
+	{
+		Light pointLight(pos, Light::POINT);
+		Lights.push_back(pointLight);
+	}
+	// default spot and dir light
+	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.75f);
+	Light spotLight(Light::SPOT, glm::vec3(0.0f), 0.0f);
+	Lights.push_back(sunLight);
 
-	// Terrain
-	Mesh *Box = new BoxPrimitive();
+
+	// ENTITIES
+	Entity* NanosuitModel = new Model("resources/assets/nanosuit/nanosuit.obj");
+	Entity* Box = new BoxPrimitive();
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
 	Mesh *Lamp = new BoxPrimitive();
 	Mesh *Plane = new PlanePrimitive();
 	Plane->bindTexture(grassMap);
-	Terrain *pTerrain = new Terrain;
+	Entity *pTerrain = new Terrain;
+	pTerrain->bindCamera(&MainCamera);
+	pTerrain->bindLights(&Lights);
 
-	// LIGHTS
-	// dancing point lights
-	std::vector<Light> lights;
-	for (glm::vec3 pos : pointLightPositions)
-	{
-		Light pointLight(pos, Light::POINT);
-		lights.push_back(pointLight);
-	}
-	// default spot and dir light
-	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.75f);
-	Light spotLight(Light::SPOT, glm::vec3(0.0f), 0.0f);
-	lights.push_back(sunLight);
+
 
 	// RENDER LOOP
 	
@@ -144,96 +149,96 @@ int main()
 
 		// LIGHTS
 		constantShader.use();
-		for (int i = 0; i < lights.size(); i++)
+		for (int i = 0; i < Lights.size(); i++)
 		{
 			// spin lights
-			lights[i].position.x = pointLightPositions[i].x + (std::cos(GameTime * 2.0f + i)) * 4.0f;
-			lights[i].position.z = pointLightPositions[i].z + sin(std::sin(GameTime * 2.0f + i)) * 4.0f;
-			lights[i].position.y = pointLightPositions[i].y + std::sin(GameTime * 2.5f + i) * 1.0f;
-			if (lights[i].type == Light::POINT)
+			Lights[i].position.x = pointLightPositions[i].x + (std::cos(GameTime * 2.0f + i)) * 4.0f;
+			Lights[i].position.z = pointLightPositions[i].z + sin(std::sin(GameTime * 2.0f + i)) * 4.0f;
+			Lights[i].position.y = pointLightPositions[i].y + std::sin(GameTime * 2.5f + i) * 1.0f;
+			if (Lights[i].type == Light::POINT)
 			{
-				lights[i].diffuse =glm::mod(lights[i].position, glm::vec3(1.0));
+				Lights[i].diffuse = glm::mod(Lights[i].position, glm::vec3(1.0));
 			}
 			//vertex
 			glm::mat4 model{ 1.0f };
-			model = glm::translate(model, lights[i].position);
+			model = glm::translate(model, Lights[i].position);
 			model = glm::scale(model, glm::vec3(0.3f));
 			constantShader.setMat4("model", model);
-			constantShader.setMat4("view", ActiveCamera.viewMat);
-			constantShader.setMat4("projection", ActiveCamera.projectionMat);
+			constantShader.setMat4("view", MainCamera.viewMat);
+			constantShader.setMat4("projection", MainCamera.projectionMat);
 			// fragment
-			constantShader.setVec3("lightColor", lights[i].diffuse);
-			constantShader.setFloat("lightIntensity", lights[i].intensity);
+			constantShader.setVec3("lightColor", Lights[i].diffuse);
+			constantShader.setFloat("lightIntensity", Lights[i].intensity);
 			// draw the lamp
 			Lamp->Draw(constantShader);
 		}
 
 		// RENDER ENTITIES
 
-		nanoSuitShader.use();
+		litReflectShader.use();
 		glm::mat4 model{ 1.0f };
 		model = glm::scale(model, glm::vec3(0.3f));
-		nanoSuitShader.setMat4("model", model);
-		nanoSuitShader.setMat4("view", ActiveCamera.viewMat);
-		nanoSuitShader.setMat4("projection", ActiveCamera.projectionMat);
-		nanoSuitShader.setFloat("material.ambientBrightness", 0.06f);
-		nanoSuitShader.setFloat("material.roughness", 64.0f);
-		nanoSuitShader.setFloat("material.specularIntensity", 1.0f);
-		nanoSuitShader.setFloat("material.cubemapIntensity", 1.0f);
-		updateLightingUniforms(nanoSuitShader, lights, ActiveCamera);
-		NanosuitModel.Render(nanoSuitShader);
+		litReflectShader.setMat4("model", model);
+		litReflectShader.setMat4("view", MainCamera.viewMat);
+		litReflectShader.setMat4("projection", MainCamera.projectionMat);
+		litReflectShader.setFloat("material.ambientBrightness", 0.06f);
+		litReflectShader.setFloat("material.roughness", 64.0f);
+		litReflectShader.setFloat("material.specularIntensity", 1.0f);
+		litReflectShader.setFloat("material.cubemapIntensity", 1.0f);
+		updateLightingUniforms(litReflectShader, Lights, MainCamera);
+		NanosuitModel->Draw(litReflectShader);
 
 		debugNormalsShader.use();
 		debugNormalsShader.setMat4("model", model);
-		debugNormalsShader.setMat4("view", ActiveCamera.viewMat);
-		debugNormalsShader.setMat4("projection", ActiveCamera.projectionMat);
+		debugNormalsShader.setMat4("view", MainCamera.viewMat);
+		debugNormalsShader.setMat4("projection", MainCamera.projectionMat);
 		if(debugNormals)
-			NanosuitModel.Render(debugNormalsShader);
+			NanosuitModel->Draw(debugNormalsShader);
 
 		depthShader.use();
 		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
 		depthShader.setMat4("model", model);
-		depthShader.setMat4("view", ActiveCamera.viewMat);
-		depthShader.setMat4("projection", ActiveCamera.projectionMat);
-		NanosuitModel.Render(depthShader);
+		depthShader.setMat4("view", MainCamera.viewMat);
+		depthShader.setMat4("projection", MainCamera.projectionMat);
+		NanosuitModel->Draw(depthShader);
 
 		refractionShader.use();
 		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
 		refractionShader.setMat4("model", model);
-		refractionShader.setMat4("view", ActiveCamera.viewMat);
-		refractionShader.setMat4("projection", ActiveCamera.projectionMat);
-		refractionShader.setVec3("viewPos", ActiveCamera.get_position());
-		NanosuitModel.Render(refractionShader);
+		refractionShader.setMat4("view", MainCamera.viewMat);
+		refractionShader.setMat4("projection", MainCamera.projectionMat);
+		refractionShader.setVec3("viewPos", MainCamera.get_position());
+		NanosuitModel->Draw(refractionShader);
 
 		// CREATING BOXES
-		lightingShader.use(); 
-		lightingShader.setMat4("view", ActiveCamera.viewMat);
-		lightingShader.setMat4("projection", ActiveCamera.projectionMat);
-		lightingShader.setFloat("material.ambientBrightness", 0.06f);
-		lightingShader.setFloat("material.roughness", 32.0f);
-		lightingShader.setFloat("material.specularIntensity", 1.0f);
-		nanoSuitShader.setFloat("material.cubemapIntensity", 1.0f);
-		updateLightingUniforms(lightingShader, lights, ActiveCamera);
+		litReflectShader.use(); 
+		litReflectShader.setMat4("view", MainCamera.viewMat);
+		litReflectShader.setMat4("projection", MainCamera.projectionMat);
+		litReflectShader.setFloat("material.ambientBrightness", 0.06f);
+		litReflectShader.setFloat("material.roughness", 32.0f);
+		litReflectShader.setFloat("material.specularIntensity", 1.0f);
+		litReflectShader.setFloat("material.cubemapIntensity", 1.0f);
+		updateLightingUniforms(litReflectShader, Lights, MainCamera);
 		for (unsigned int i = 0; i < 10; i++)
 		{
 			glm::mat4 model{ 1.0f };
 			model = glm::translate(model, cubePositions[i]);
 			float angle = GameTime * ( i + 1 ) * 3.f;
 			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			lightingShader.setMat4("model", model);
-			Box->Draw(lightingShader);
+			litReflectShader.setMat4("model", model);
+			Box->Draw(litReflectShader);
 		}
 
 		// CREATING GRASS
 		alphaShader.use();
-		alphaShader.setMat4("projection", ActiveCamera.projectionMat);
-		alphaShader.setMat4("view", ActiveCamera.viewMat);
+		alphaShader.setMat4("projection", MainCamera.projectionMat);
+		alphaShader.setMat4("view", MainCamera.viewMat);
 
 		// Sorting Grass for Transparencey Shading
 		std::map<float, glm::vec3> sorted;
 		for (unsigned int i = 0; i < vegetationPositions.size(); i++)
 		{
-			float distance = glm::length(vegetationPositions[i] - ActiveCamera.get_position());
+			float distance = glm::length(vegetationPositions[i] - MainCamera.get_position());
 			sorted[distance] = vegetationPositions[i];
 		}
 		// iterating using map
@@ -253,6 +258,7 @@ int main()
 	delete Lamp;
 	delete Plane;
 	delete pTerrain;
+	delete NanosuitModel;
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------

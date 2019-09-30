@@ -13,6 +13,7 @@
 #include "../textures/Texture.h"
 #include "../cameras/Camera.h"
 #include "../lights/Light.h"
+#include "../entity/Entity.h"
 
 struct Vertex{
 	glm::vec3 Position;
@@ -22,18 +23,17 @@ struct Vertex{
 	glm::vec3 Bitangent;
 };
 
-class Mesh
+class Mesh : public Entity
 {
 protected:
 	/*  Render Data  */
 	unsigned int VAO, VBO, EBO;
-	/* Transform Data */
-	glm::mat4 modelMat;
 	/*  Functions  */
 	virtual void setupMesh();
-	virtual void updateLightingUniforms(Shader& shader, const std::vector<Light>& lights, Camera& camera);
-	virtual void updateTransformUniforms(Shader& shader,const Camera& camera);
+	virtual void updateTransformUniforms(Shader& shader, Camera& camera, glm::mat4& modelMatrix);
 	virtual void updateMaterialUniforms(Shader& shader);
+	virtual void updateLightingUniforms(Shader& shader, const std::vector<Light>& lights, Camera& camera);
+	virtual void updateTextureUniforms(Shader& shader);
 	
 public:
 	/*  Mesh Data */
@@ -42,10 +42,11 @@ public:
 	std::vector<Texture> textures;
 
 	/*  Functions  */
-	virtual void Draw(Shader &shader);
-	virtual void Draw();
-	void bindTextures(std::vector<Texture> textures_val);
-	void bindTexture(Texture texture_val);
+	virtual void Draw(Shader &shader) override;
+	virtual void Draw() override;
+
+	virtual void bindTextures(std::vector<Texture> textures_val) override;
+	virtual void bindTexture(Texture texture_val) override;
 
 
 	Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);

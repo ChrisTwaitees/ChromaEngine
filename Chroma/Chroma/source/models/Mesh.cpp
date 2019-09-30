@@ -74,26 +74,11 @@ void Mesh::updateLightingUniforms(Shader& shader, const std::vector<Light>& ligh
 	}
 }
 
-void Mesh::updateTransformUniforms(Shader& shader, const Camera& camera)
-{
-	shader.setMat4("model", modelMat);
-	shader.setMat4("view", camera.viewMat);
-	shader.setMat4("projection", camera.projectionMat);
-}
-
-void Mesh::updateMaterialUniforms(Shader& shader)
-{
-	shader.setFloat("material.ambientBrightness", 0.06f);
-	shader.setFloat("material.roughness", 64.0f);
-	shader.setFloat("material.specularIntensity", 1.0f);
-	shader.setFloat("material.cubemapIntensity", 1.0f);
-}
-
-void Mesh::Draw(Shader &shader)
+void Mesh::updateTextureUniforms(Shader& shader)
 {
 	// updating shader's texture uniforms
-	unsigned int diffuseNr{1};
-	unsigned int specularNr{1};
+	unsigned int diffuseNr{ 1 };
+	unsigned int specularNr{ 1 };
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
@@ -117,7 +102,26 @@ void Mesh::Draw(Shader &shader)
 		// activate texture
 	}
 	glActiveTexture(GL_TEXTURE0);
+}
 
+void Mesh::updateTransformUniforms(Shader& shader, Camera& camera, glm::mat4& modelMatrix)
+{
+	shader.setMat4("model", modelMatrix);
+	shader.setMat4("view", camera.viewMat);
+	shader.setMat4("projection", camera.projectionMat);
+}
+
+void Mesh::updateMaterialUniforms(Shader& shader)
+{
+	shader.setFloat("material.ambientBrightness", 0.06f);
+	shader.setFloat("material.roughness", 64.0f);
+	shader.setFloat("material.specularIntensity", 1.0f);
+	shader.setFloat("material.cubemapIntensity", 1.0f);
+}
+
+void Mesh::Draw(Shader &shader)
+{
+	updateTextureUniforms(shader);
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

@@ -5,9 +5,6 @@
 
 class BoxPrimitive : public Mesh
 {
-
-
-
 private:
 	std::vector<float> boxData = {
 		     // Back face		    normals	             uvs
@@ -57,7 +54,7 @@ private:
 
 public:
 	/*  Functions  */
-	virtual void Draw(Shader &shader) override;
+
 	/*  Constructors  */
 	BoxPrimitive() { setupBox();};
 	~BoxPrimitive();

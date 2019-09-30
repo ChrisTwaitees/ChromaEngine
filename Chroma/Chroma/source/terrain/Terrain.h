@@ -1,6 +1,7 @@
 #ifndef _CHROMA_TERRAIN_
 #define _CHROMA_TERRAIN_
 #include "../models/Mesh.h"
+#include "../entity/Entity.h"
 
 
 class Terrain : public Mesh
@@ -10,11 +11,12 @@ private:
 	std::string fragShaderSource = "resources/shaders/fragLitReflect.glsl";
 	std::string vtxShaderSource = "resources/shaders/vertexShaderLighting.glsl";
 	Shader shader;
-	Texture texture;
-	Camera camera;
 
-	// transforms
-	glm::mat4 modelMat;
+	// default texture
+	std::string defaultTextureSource = "resources/textures/terrain1.jpeg";
+
+	/* Transform Data */
+	glm::mat4 modelMat = glm::mat4(1);
 
 	// quad data
 	std::vector<float> quadData = {
@@ -33,11 +35,10 @@ private:
 
 	virtual void updateMaterialUniforms(Shader& shader) override;
 public:
-	void Draw();
-	void attachCamera(const Camera& newCamera);
+	virtual void Draw() override;
 
 	Terrain();
-	Terrain(Camera& camera_val);
+	Terrain(Camera* camera_val);
 	~Terrain();
 };
 

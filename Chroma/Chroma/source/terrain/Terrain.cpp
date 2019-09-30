@@ -2,9 +2,13 @@
 
 void Terrain::initialize()
 {
-	texture = Texture("resources/textures/terrain1.jpeg");
-	this->bindTexture(texture);
+	// binding texture
+	bindTexture(Texture(defaultTextureSource));
+	// assigning shader
+	shader = Shader(fragShaderSource, vtxShaderSource);
 
+	// updating transform matrix;
+	modelMat = glm::mat4(1);
 	modelMat = glm::translate(modelMat, glm::vec3(0.0f, 15.0f, 0.0f));
 	modelMat = glm::scale(modelMat, glm::vec3(30.0f));
 	modelMat = glm::rotate(modelMat, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -48,46 +52,15 @@ void Terrain::Draw()
 {
 	// shader
 	shader.use();
-	updateTransformUniforms(shader, camera);
+	updateTransformUniforms(shader, *pCamera, modelMat);
 	updateMaterialUniforms(shader);
-
-	// updating shader's texture uniforms
-	unsigned int diffuseNr{ 0 };
-	unsigned int specularNr{ 0 };
-	for (int i = 0; i < textures.size(); i++)
-	{
-		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
-		// building the uniform name
-		std::string name;
-		std::string texturenum;
-		if (textures[i].type == Texture::DIFFUSE)
-		{
-			name = "texture_diffuse";
-			texturenum = std::to_string(diffuseNr++);
-		}
-		if (textures[i].type == Texture::SPECULAR)
-		{
-			name = "texture_specular";
-			texturenum = std::to_string(specularNr++);
-		}
-		// setting uniform and binding texture
-		shader.setInt(("material." + name + texturenum).c_str(), i);
-
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
-		// activate texture
-	}
-	// activate texture
-	glActiveTexture(GL_TEXTURE0);
+	updateTextureUniforms(shader);
+	updateLightingUniforms(shader, *pLights, *pCamera);
 
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, quadData.size() / 8);
 	glBindVertexArray(0);
-}
-
-void Terrain::attachCamera(const Camera& newCamera)
-{
-	camera = newCamera;
 }
 
 Terrain::Terrain()
@@ -96,9 +69,10 @@ Terrain::Terrain()
 	setupQuad();
 }
 
-Terrain::Terrain(Camera& camera_val)
+Terrain::Terrain(Camera* camera_val)
 {
-	camera = camera_val;
+	std::cout << "Terrain construction used" << std::endl;
+	pCamera = camera_val;
 	initialize();
 	setupQuad();
 }
