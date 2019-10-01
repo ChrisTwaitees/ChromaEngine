@@ -35,3 +35,14 @@ void PlanePrimitive::setupQuad()
 
 	glBindVertexArray(0);
 }
+
+void PlanePrimitive::Draw(Shader& shader)
+{
+	shader.use();
+	updateTransformUniforms(shader, *pCamera, modelMat);
+	updateTextureUniforms(shader);
+	// draw mesh
+	glBindVertexArray(VAO);
+	glDrawArrays(GL_TRIANGLES, 0, quadData.size() / 8);
+	glBindVertexArray(0); // reset to default
+}

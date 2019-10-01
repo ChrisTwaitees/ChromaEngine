@@ -32,7 +32,15 @@ void Mesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::updateLightingUniforms(Shader& shader, const std::vector<Light>& lights, Camera& camera)
+void Mesh::updateUniforms()
+{
+	updateTransformUniforms(*pShader, *pCamera, modelMat);
+	updateMaterialUniforms(*pShader);
+	updateTextureUniforms(*pShader);
+	//updateLightingUniforms(*pShader, *pLights, *pCamera);
+}
+
+void Mesh::updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& camera)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
@@ -121,16 +129,27 @@ void Mesh::updateMaterialUniforms(Shader& shader)
 
 void Mesh::Draw(Shader &shader)
 {
-	updateTextureUniforms(shader);
+	shader.use();
+	updateUniforms();
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0);
+	glBindVertexArray(0); // reset to default
 }
 
 void Mesh::Draw()
 {
+	pShader->use();
+	updateUniforms();
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0); // reset to default
 	return; // to be implemented in subclasses
+}
+
+void Mesh::bindShader(Shader* newShader)
+{
+	pShader = newShader;
 }
 
 void Mesh::bindTextures(std::vector<Texture> textures_val)

@@ -82,17 +82,8 @@ void Camera::processMouseInput(const double& xpos, const double& ypos)
 	rebuildView();
 }
 
-void Camera::move(Direction dir, Speed speed)
+void Camera::move(Direction dir)
 {
-	switch (speed)
-	{
-	case WALK:
-		cameraSpeed *= walkSpeed;
-		break;
-	case SPRINT:
-		cameraSpeed *= sprintSpeed;
-	}
-
 	switch (dir)
 	{
 	case FORWARD :

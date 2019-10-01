@@ -12,16 +12,25 @@ class Entity
 protected:
 	// transforms
 	glm::mat4 modelMat = glm::mat4(1);
+	glm::mat4 identityMat = glm::mat4(1);
 
 	// scene components
 	Camera* pCamera;
 	std::vector<Light>* pLights;
+
 
 public:
 	/*  Functions  */
 	virtual void Draw(Shader& shader);
 	virtual void Draw();
 
+	// transform
+	virtual void scale(glm::vec3 scalefactor);
+	virtual void translate(glm::vec3 translatefactor);
+	virtual void rotate(float degrees, glm::vec3 rotationaxis);
+	
+	virtual void setScale(glm::vec3 newscale);
+	virtual void setPosition(glm::vec3 newposition);
 
 	// assignments
 	virtual void bindCamera(Camera* newCamera);

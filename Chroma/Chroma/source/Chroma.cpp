@@ -30,6 +30,7 @@
 
 
 // prototypes
+void bindEntitiesRenderComponents(std::vector<Entity*> entities, Camera& camera, std::vector<Light>& lights);
 void updateLightingUniforms(Shader &shader, const std::vector<Light> &lights, Camera& camera);
 void renderScene(const Shader& shader);
 
@@ -38,9 +39,6 @@ int main()
 	// SCREEN MANAGER
 	ChromaScreenManager ScreenManager;
 	Camera& MainCamera = ScreenManager.getActiveCamera();
-
-	// SCENE MANAGER
-	std::vector<Entity> Entities;
 
 	// Shadowbuffer
 	ShadowBuffer Shadowbuffer;
@@ -106,21 +104,25 @@ int main()
 
 
 	// ENTITIES
-	Entity* NanosuitModel = new Model("resources/assets/nanosuit/nanosuit.obj");
+	std::vector<Entity*> Entities;
+
+	Entity* Nanosuit = new Model("resources/assets/nanosuit/nanosuit.obj");
+	Entities.push_back(Nanosuit);
 	Entity* Box = new BoxPrimitive();
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
-	Mesh *Lamp = new BoxPrimitive();
-	Mesh *Plane = new PlanePrimitive();
+	Entities.push_back(Box);
+	Entity *Lamp = new BoxPrimitive();
+	Entities.push_back(Lamp);
+	Entity *Plane = new PlanePrimitive();
 	Plane->bindTexture(grassMap);
+	Entities.push_back(Plane);
 	Entity *pTerrain = new Terrain;
-	pTerrain->bindCamera(&MainCamera);
-	pTerrain->bindLights(&Lights);
+	Entities.push_back(pTerrain);
 
-
+	bindEntitiesRenderComponents(Entities, MainCamera, Lights);
 
 	// RENDER LOOP
-	
 	// -----------
 	while (!ScreenManager.shouldClose())
 	{
@@ -159,13 +161,9 @@ int main()
 			{
 				Lights[i].diffuse = glm::mod(Lights[i].position, glm::vec3(1.0));
 			}
-			//vertex
-			glm::mat4 model{ 1.0f };
-			model = glm::translate(model, Lights[i].position);
-			model = glm::scale(model, glm::vec3(0.3f));
-			constantShader.setMat4("model", model);
-			constantShader.setMat4("view", MainCamera.viewMat);
-			constantShader.setMat4("projection", MainCamera.projectionMat);
+			//positions
+			Lamp->setPosition(Lights[i].position);
+			Lamp->scale(glm::vec3(0.3f));
 			// fragment
 			constantShader.setVec3("lightColor", Lights[i].diffuse);
 			constantShader.setFloat("lightIntensity", Lights[i].intensity);
@@ -176,31 +174,32 @@ int main()
 		// RENDER ENTITIES
 
 		litReflectShader.use();
+		Nanosuit->scale(glm::vec3(0.3f));
 		glm::mat4 model{ 1.0f };
-		model = glm::scale(model, glm::vec3(0.3f));
-		litReflectShader.setMat4("model", model);
-		litReflectShader.setMat4("view", MainCamera.viewMat);
-		litReflectShader.setMat4("projection", MainCamera.projectionMat);
-		litReflectShader.setFloat("material.ambientBrightness", 0.06f);
-		litReflectShader.setFloat("material.roughness", 64.0f);
-		litReflectShader.setFloat("material.specularIntensity", 1.0f);
-		litReflectShader.setFloat("material.cubemapIntensity", 1.0f);
-		updateLightingUniforms(litReflectShader, Lights, MainCamera);
-		NanosuitModel->Draw(litReflectShader);
+		//model = glm::scale(model, glm::vec3(0.3f));
+		//litReflectShader.setMat4("model", model);
+		//litReflectShader.setMat4("view", MainCamera.viewMat);
+		//litReflectShader.setMat4("projection", MainCamera.projectionMat);
+		//litReflectShader.setFloat("material.ambientBrightness", 0.06f);
+		//litReflectShader.setFloat("material.roughness", 64.0f);
+		//litReflectShader.setFloat("material.specularIntensity", 1.0f);
+		//litReflectShader.setFloat("material.cubemapIntensity", 1.0f);
+		//updateLightingUniforms(litReflectShader, Lights, MainCamera);
+		Nanosuit->Draw(litReflectShader);
 
 		debugNormalsShader.use();
 		debugNormalsShader.setMat4("model", model);
 		debugNormalsShader.setMat4("view", MainCamera.viewMat);
 		debugNormalsShader.setMat4("projection", MainCamera.projectionMat);
 		if(debugNormals)
-			NanosuitModel->Draw(debugNormalsShader);
+			Nanosuit->Draw(debugNormalsShader);
 
 		depthShader.use();
 		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
 		depthShader.setMat4("model", model);
 		depthShader.setMat4("view", MainCamera.viewMat);
 		depthShader.setMat4("projection", MainCamera.projectionMat);
-		NanosuitModel->Draw(depthShader);
+		Nanosuit->Draw(depthShader);
 
 		refractionShader.use();
 		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
@@ -208,12 +207,10 @@ int main()
 		refractionShader.setMat4("view", MainCamera.viewMat);
 		refractionShader.setMat4("projection", MainCamera.projectionMat);
 		refractionShader.setVec3("viewPos", MainCamera.get_position());
-		NanosuitModel->Draw(refractionShader);
+		Nanosuit->Draw(refractionShader);
 
 		// CREATING BOXES
 		litReflectShader.use(); 
-		litReflectShader.setMat4("view", MainCamera.viewMat);
-		litReflectShader.setMat4("projection", MainCamera.projectionMat);
 		litReflectShader.setFloat("material.ambientBrightness", 0.06f);
 		litReflectShader.setFloat("material.roughness", 32.0f);
 		litReflectShader.setFloat("material.specularIntensity", 1.0f);
@@ -221,19 +218,13 @@ int main()
 		updateLightingUniforms(litReflectShader, Lights, MainCamera);
 		for (unsigned int i = 0; i < 10; i++)
 		{
-			glm::mat4 model{ 1.0f };
-			model = glm::translate(model, cubePositions[i]);
+			Box->setPosition(cubePositions[i]);
 			float angle = GameTime * ( i + 1 ) * 3.f;
-			model = glm::rotate(model, glm::radians(angle), glm::vec3(1.0f, 0.3f, 0.5f));
-			litReflectShader.setMat4("model", model);
+			Box->rotate(angle, glm::vec3(1.0f, 0.3f, 0.5f));
 			Box->Draw(litReflectShader);
 		}
 
 		// CREATING GRASS
-		alphaShader.use();
-		alphaShader.setMat4("projection", MainCamera.projectionMat);
-		alphaShader.setMat4("view", MainCamera.viewMat);
-
 		// Sorting Grass for Transparencey Shading
 		std::map<float, glm::vec3> sorted;
 		for (unsigned int i = 0; i < vegetationPositions.size(); i++)
@@ -244,11 +235,11 @@ int main()
 		// iterating using map
 		for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
 		{
-			glm::mat4 model{ 1.0f };
-			model = translate(model, glm::vec3(it->second));
-			testShader.setMat4("model", model);
+			Plane->setPosition(glm::vec3(it->second));
 			Plane->Draw(alphaShader);
 		}
+
+		// END RENDER LOOP
 		ScreenManager.End();
 	}
 
@@ -258,12 +249,21 @@ int main()
 	delete Lamp;
 	delete Plane;
 	delete pTerrain;
-	delete NanosuitModel;
+	delete Nanosuit;
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	ScreenManager.Close();
 	return 0;
+}
+
+void bindEntitiesRenderComponents(std::vector<Entity*> entities, Camera& camera, std::vector<Light>& lights)
+{
+	for (Entity* entity : entities)
+	{
+		entity->bindCamera(&camera);
+		entity->bindLights(&lights);
+	}
 }
 
 void updateLightingUniforms(Shader& shader, const std::vector<Light>& lights, Camera& camera)

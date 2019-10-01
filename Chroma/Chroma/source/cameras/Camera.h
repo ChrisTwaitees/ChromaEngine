@@ -41,13 +41,13 @@ public:
 
 	// speed
 	enum Speed {WALK, SPRINT};
-	float walkSpeed{ 3.0f };
-	float sprintSpeed{ 6.0f };
-	float cameraSpeed{0.05f};
+	float walkSpeed{ 6.0f };
+	float sprintSpeed{ 12.0f };
+	float cameraSpeed{ 0.05f};
 
 	// movement
 	enum Direction {FORWARD, BACK, LEFT, RIGHT, UP, DOWN};
-	void move(Direction dir = Direction::FORWARD, Speed speed = Speed::WALK);
+	void move(Direction dir = Direction::FORWARD);
 
 	// getters
 	glm::vec3 get_position() { return cameraPos; };

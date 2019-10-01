@@ -7,6 +7,12 @@ void Model::Draw(Shader &shader)
 		mesh.Draw(shader);
 }
 
+void Model::Draw()
+{
+	for (Mesh mesh : meshes)
+		mesh.Draw();
+}
+
 Model::~Model()
 {
 }

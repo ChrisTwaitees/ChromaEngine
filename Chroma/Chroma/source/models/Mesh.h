@@ -30,9 +30,10 @@ protected:
 	unsigned int VAO, VBO, EBO;
 	/*  Functions  */
 	virtual void setupMesh();
+	virtual void updateUniforms();
 	virtual void updateTransformUniforms(Shader& shader, Camera& camera, glm::mat4& modelMatrix);
 	virtual void updateMaterialUniforms(Shader& shader);
-	virtual void updateLightingUniforms(Shader& shader, const std::vector<Light>& lights, Camera& camera);
+	virtual void updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& camera);
 	virtual void updateTextureUniforms(Shader& shader);
 	
 public:
@@ -40,11 +41,14 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
+	Shader* pShader;
 
 	/*  Functions  */
 	virtual void Draw(Shader &shader) override;
 	virtual void Draw() override;
 
+	// Bindings
+	virtual void bindShader(Shader* newShader);
 	virtual void bindTextures(std::vector<Texture> textures_val) override;
 	virtual void bindTexture(Texture texture_val) override;
 

@@ -23,6 +23,7 @@ protected:
 public:
 	/*  Functions  */
 	virtual void Draw(Shader& shader) override;
+	virtual void Draw() override;
 
 	/* Getters Setters */
 	int getNumTextures() { return textures_loaded.size(); };
