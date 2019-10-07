@@ -31,7 +31,6 @@
 
 // prototypes
 void bindEntitiesRenderComponents(std::vector<Entity*> entities, Camera& camera, std::vector<Light>& lights);
-void updateLightingUniforms(Shader &shader, const std::vector<Light> &lights, Camera& camera);
 void renderScene(const Shader& shader);
 
 int main()
@@ -75,6 +74,7 @@ int main()
 
 	// SHADERS
 	Shader litReflectShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader nanoSuitShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
@@ -108,13 +108,13 @@ int main()
 
 	Entity* Nanosuit = new Model("resources/assets/nanosuit/nanosuit.obj");
 	Entities.push_back(Nanosuit);
-	Entity* Box = new BoxPrimitive();
+	Entity* Box = new BoxPrimitive;
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
 	Entities.push_back(Box);
-	Entity *Lamp = new BoxPrimitive();
+	Entity *Lamp = new BoxPrimitive;
 	Entities.push_back(Lamp);
-	Entity *Plane = new PlanePrimitive();
+	Entity *Plane = new PlanePrimitive;
 	Plane->bindTexture(grassMap);
 	Entities.push_back(Plane);
 	Entity *pTerrain = new Terrain;
@@ -158,9 +158,7 @@ int main()
 			Lights[i].position.z = pointLightPositions[i].z + sin(std::sin(GameTime * 2.0f + i)) * 4.0f;
 			Lights[i].position.y = pointLightPositions[i].y + std::sin(GameTime * 2.5f + i) * 1.0f;
 			if (Lights[i].type == Light::POINT)
-			{
 				Lights[i].diffuse = glm::mod(Lights[i].position, glm::vec3(1.0));
-			}
 			//positions
 			Lamp->setPosition(Lights[i].position);
 			Lamp->scale(glm::vec3(0.3f));
@@ -172,42 +170,18 @@ int main()
 		}
 
 		// RENDER ENTITIES
+		//Nanosuit->scale(glm::vec3(0.3f));
+		nanoSuitShader.use();
+		nanoSuitShader.setMat4("view", MainCamera.viewMat);
+		nanoSuitShader.setMat4("projection", MainCamera.projectionMat);
+		Nanosuit->Draw(nanoSuitShader);
 
-		litReflectShader.use();
-		Nanosuit->scale(glm::vec3(0.3f));
-		glm::mat4 model{ 1.0f };
-		//model = glm::scale(model, glm::vec3(0.3f));
-		//litReflectShader.setMat4("model", model);
-		//litReflectShader.setMat4("view", MainCamera.viewMat);
-		//litReflectShader.setMat4("projection", MainCamera.projectionMat);
-		//litReflectShader.setFloat("material.ambientBrightness", 0.06f);
-		//litReflectShader.setFloat("material.roughness", 64.0f);
-		//litReflectShader.setFloat("material.specularIntensity", 1.0f);
-		//litReflectShader.setFloat("material.cubemapIntensity", 1.0f);
-		//updateLightingUniforms(litReflectShader, Lights, MainCamera);
-		Nanosuit->Draw(litReflectShader);
-
-		debugNormalsShader.use();
-		debugNormalsShader.setMat4("model", model);
-		debugNormalsShader.setMat4("view", MainCamera.viewMat);
-		debugNormalsShader.setMat4("projection", MainCamera.projectionMat);
 		if(debugNormals)
 			Nanosuit->Draw(debugNormalsShader);
 
-		depthShader.use();
-		model = glm::translate(model, glm::vec3(10.0f, 0.0f, 0.0f));
-		depthShader.setMat4("model", model);
-		depthShader.setMat4("view", MainCamera.viewMat);
-		depthShader.setMat4("projection", MainCamera.projectionMat);
-		Nanosuit->Draw(depthShader);
-
-		refractionShader.use();
-		model = glm::translate(model, glm::vec3(-20.0f, 0.0f, 0.0f));
-		refractionShader.setMat4("model", model);
-		refractionShader.setMat4("view", MainCamera.viewMat);
-		refractionShader.setMat4("projection", MainCamera.projectionMat);
-		refractionShader.setVec3("viewPos", MainCamera.get_position());
-		Nanosuit->Draw(refractionShader);
+		//Nanosuit->translate(glm::vec3(10.0f, 0.0f, 0.0f));
+		//Nanosuit->Draw(depthShader);
+		//Nanosuit->Draw(refractionShader);
 
 		// CREATING BOXES
 		litReflectShader.use(); 
@@ -215,7 +189,6 @@ int main()
 		litReflectShader.setFloat("material.roughness", 32.0f);
 		litReflectShader.setFloat("material.specularIntensity", 1.0f);
 		litReflectShader.setFloat("material.cubemapIntensity", 1.0f);
-		updateLightingUniforms(litReflectShader, Lights, MainCamera);
 		for (unsigned int i = 0; i < 10; i++)
 		{
 			Box->setPosition(cubePositions[i]);
@@ -263,48 +236,6 @@ void bindEntitiesRenderComponents(std::vector<Entity*> entities, Camera& camera,
 	{
 		entity->bindCamera(&camera);
 		entity->bindLights(&lights);
-	}
-}
-
-void updateLightingUniforms(Shader& shader, const std::vector<Light>& lights, Camera& camera)
-{
-	int pointlights{ 0 };
-	int dirlights{ 0 };
-	int spotlights{ 0 };
-	for (int i = 0; i < lights.size(); i++)
-	{
-		std::string lightIndex;
-		// set uniforms
-		switch (lights[i].type) {
-		case Light::POINT:
-			pointlights++;
-			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
-			break;
-		case Light::DIRECTIONAL:
-			dirlights++;
-			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
-			break;
-		case Light::SPOT:
-			spotlights++;
-			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
-			break;
-		default:
-			break;
-		}
-		//// lights directional
-		shader.setVec3(lightIndex + ".direction", lights[i].direction);
-		shader.setVec3(lightIndex + ".position", lights[i].position);
-		shader.setVec3(lightIndex + ".diffuse", lights[i].diffuse);
-		shader.setFloat(lightIndex + ".intensity", lights[i].intensity);
-		//// lights spotlight
-		shader.setFloat(lightIndex + ".spotSize", lights[i].spotSize);
-		shader.setFloat(lightIndex + ".penumbraSize", lights[i].penumbraSize);
-		//// lights point light falloff
-		shader.setFloat(lightIndex + ".constant", lights[i].constant);
-		shader.setFloat(lightIndex + ".linear", lights[i].linear);
-		shader.setFloat(lightIndex + ".quadratic", lights[i].quadratic);
-		//// lights view pos
-		shader.setVec3("viewPos", camera.get_position());
 	}
 }
 

@@ -32,12 +32,12 @@ void Mesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::updateUniforms()
+void Mesh::updateUniforms(Shader& updateShader)
 {
-	updateTransformUniforms(*pShader, *pCamera, modelMat);
-	updateMaterialUniforms(*pShader);
-	updateTextureUniforms(*pShader);
-	//updateLightingUniforms(*pShader, *pLights, *pCamera);
+	updateTextureUniforms(updateShader);
+	updateTransformUniforms(updateShader, *pCamera, modelMat);
+	updateMaterialUniforms(updateShader);
+	//updateLightingUniforms(updateShader, *pLights, *pCamera);
 }
 
 void Mesh::updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& camera)
@@ -115,8 +115,8 @@ void Mesh::updateTextureUniforms(Shader& shader)
 void Mesh::updateTransformUniforms(Shader& shader, Camera& camera, glm::mat4& modelMatrix)
 {
 	shader.setMat4("model", modelMatrix);
-	shader.setMat4("view", camera.viewMat);
-	shader.setMat4("projection", camera.projectionMat);
+	//shader.setMat4("view", camera.viewMat);
+	//shader.setMat4("projection", camera.projectionMat);
 }
 
 void Mesh::updateMaterialUniforms(Shader& shader)
@@ -130,7 +130,7 @@ void Mesh::updateMaterialUniforms(Shader& shader)
 void Mesh::Draw(Shader &shader)
 {
 	shader.use();
-	updateUniforms();
+	updateUniforms(shader);
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
@@ -140,7 +140,7 @@ void Mesh::Draw(Shader &shader)
 void Mesh::Draw()
 {
 	pShader->use();
-	updateUniforms();
+	updateUniforms(*pShader);
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0); // reset to default

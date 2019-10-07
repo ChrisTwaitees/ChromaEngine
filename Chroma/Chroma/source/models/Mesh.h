@@ -30,7 +30,7 @@ protected:
 	unsigned int VAO, VBO, EBO;
 	/*  Functions  */
 	virtual void setupMesh();
-	virtual void updateUniforms();
+	virtual void updateUniforms(Shader& updateShader);
 	virtual void updateTransformUniforms(Shader& shader, Camera& camera, glm::mat4& modelMatrix);
 	virtual void updateMaterialUniforms(Shader& shader);
 	virtual void updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& camera);

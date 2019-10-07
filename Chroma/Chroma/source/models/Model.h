@@ -10,6 +10,8 @@
 class Model : public Entity
 {
 protected:
+	/* Transforms */
+	glm::mat4 modelMat = glm::mat4(1);
 	/*  Model Data  */
 	std::vector<Texture> textures_loaded;
 	std::vector<Mesh> meshes;
