@@ -1,13 +1,13 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
-#include "../entity/Entity.h"
+#include "../entity/ChromaEntity.h"
 #include "../models/Mesh.h"
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-class Model : public Entity
+class Model : public ChromaEntity
 {
 protected:
 	/* Transforms */

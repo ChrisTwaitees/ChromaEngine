@@ -1,12 +1,12 @@
-#include "renderer.h"
+#include "Renderer.h"
 
 
 
-renderer::renderer()
+Renderer::Renderer()
 {
 }
 
 
-renderer::~renderer()
+Renderer::~Renderer()
 {
 }

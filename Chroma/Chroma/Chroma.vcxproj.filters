@@ -76,6 +76,9 @@
     <Filter Include="Engine\scene">
       <UniqueIdentifier>{a115db08-c96b-4cc4-a7ce-a6db6d537335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\memory">
+      <UniqueIdentifier>{e1388c38-c673-4d55-9ee4-767c39ff7017}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -144,23 +147,26 @@
     <ClCompile Include="source\terrain\Terrain.cpp">
       <Filter>Renderer\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="source\entity\Entity.cpp">
-      <Filter>Engine\entity</Filter>
-    </ClCompile>
-    <ClCompile Include="source\component\component.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
-    <ClCompile Include="source\scene\scene.cpp">
-      <Filter>Engine\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="source\renderer\renderer.cpp">
-      <Filter>Renderer\renderer</Filter>
-    </ClCompile>
     <ClCompile Include="source\texture\CubeMap.cpp">
       <Filter>Renderer\texture</Filter>
     </ClCompile>
     <ClCompile Include="source\texture\Texture.cpp">
       <Filter>Renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\renderer\Renderer.cpp">
+      <Filter>Renderer\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\entity\ChromaEntity.cpp">
+      <Filter>Engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="source\component\ChromaComponent.cpp">
+      <Filter>Engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\memory\ChromaMemory.cpp">
+      <Filter>Engine\memory</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scene\ChromaScene.cpp">
+      <Filter>Engine\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,18 +242,6 @@
     <ClInclude Include="source\terrain\Terrain.h">
       <Filter>Renderer\terrain</Filter>
     </ClInclude>
-    <ClInclude Include="source\entity\Entity.h">
-      <Filter>Engine\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="source\component\component.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
-    <ClInclude Include="source\scene\scene.h">
-      <Filter>Engine\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="source\renderer\renderer.h">
-      <Filter>Renderer\renderer</Filter>
-    </ClInclude>
     <ClInclude Include="source\texture\CubeMap.h">
       <Filter>Renderer\texture</Filter>
     </ClInclude>
@@ -256,6 +250,24 @@
     </ClInclude>
     <ClInclude Include="source\texture\Texture.h">
       <Filter>Renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\memory\packed_freelist.h">
+      <Filter>Engine\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="source\renderer\Renderer.h">
+      <Filter>Renderer\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\entity\ChromaEntity.h">
+      <Filter>Engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="source\component\ChromaComponent.h">
+      <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\memory\ChromaMemory.h">
+      <Filter>Engine\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scene\ChromaScene.h">
+      <Filter>Engine\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

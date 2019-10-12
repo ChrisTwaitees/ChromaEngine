@@ -1,10 +1,10 @@
 #ifndef _CHROMA_RENDERER_
 #define _CHROMA_RENDERER_
-class renderer
+class Renderer
 {
 public:
-	renderer();
-	~renderer();
+	Renderer();
+	~Renderer();
 };
 
 #endif

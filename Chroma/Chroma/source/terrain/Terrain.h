@@ -1,7 +1,7 @@
 #ifndef _CHROMA_TERRAIN_
 #define _CHROMA_TERRAIN_
 #include "../models/Mesh.h"
-#include "../entity/Entity.h"
+#include "../entity/ChromaEntity.h"
 
 
 class Terrain : public Mesh

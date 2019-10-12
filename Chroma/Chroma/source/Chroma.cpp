@@ -14,7 +14,7 @@
 #include <glm/gtc/type_ptr.hpp>
 // Chroma
 #include "screenManager/ChromaScreenManager.h"
-#include "entity/Entity.h"
+#include "entity/ChromaEntity.h"
 #include "buffers/VertexBuffer.h"
 #include "buffers/Framebuffer.h"
 #include "buffers/ShadowBuffer.h"
@@ -30,7 +30,7 @@
 
 
 // prototypes
-void bindEntitiesRenderComponents(std::vector<Entity*> entities, Camera& camera, std::vector<Light>& lights);
+void bindEntitiesRenderComponents(std::vector<ChromaEntity*> entities, Camera& camera, std::vector<Light>& lights);
 void renderScene(const Shader& shader);
 
 int main()
@@ -104,20 +104,20 @@ int main()
 
 
 	// ENTITIES
-	std::vector<Entity*> Entities;
+	std::vector<ChromaEntity*> Entities;
 
-	Entity* Nanosuit = new Model("resources/assets/nanosuit/nanosuit.obj");
+	ChromaEntity* Nanosuit = new Model("resources/assets/nanosuit/nanosuit.obj");
 	Entities.push_back(Nanosuit);
-	Entity* Box = new BoxPrimitive;
+	ChromaEntity* Box = new BoxPrimitive;
 	Box->bindTexture(diffuseMap);
 	Box->bindTexture(specularMap);
 	Entities.push_back(Box);
-	Entity *Lamp = new BoxPrimitive;
+	ChromaEntity *Lamp = new BoxPrimitive;
 	Entities.push_back(Lamp);
-	Entity *Plane = new PlanePrimitive;
+	ChromaEntity *Plane = new PlanePrimitive;
 	Plane->bindTexture(grassMap);
 	Entities.push_back(Plane);
-	Entity *pTerrain = new Terrain;
+	ChromaEntity *pTerrain = new Terrain;
 	Entities.push_back(pTerrain);
 
 	bindEntitiesRenderComponents(Entities, MainCamera, Lights);
@@ -230,9 +230,9 @@ int main()
 	return 0;
 }
 
-void bindEntitiesRenderComponents(std::vector<Entity*> entities, Camera& camera, std::vector<Light>& lights)
+void bindEntitiesRenderComponents(std::vector<ChromaEntity*> entities, Camera& camera, std::vector<Light>& lights)
 {
-	for (Entity* entity : entities)
+	for (ChromaEntity* entity : entities)
 	{
 		entity->bindCamera(&camera);
 		entity->bindLights(&lights);

@@ -1,7 +1,5 @@
 #include "SkyBox.h"
 
-
-
 void SkyBox::initialize()
 {
 	// create VBO

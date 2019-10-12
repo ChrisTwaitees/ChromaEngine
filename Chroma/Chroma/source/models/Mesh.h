@@ -13,7 +13,7 @@
 #include "../texture/Texture.h"
 #include "../cameras/Camera.h"
 #include "../lights/Light.h"
-#include "../entity/Entity.h"
+#include "../entity/ChromaEntity.h"
 
 struct Vertex{
 	glm::vec3 Position;
@@ -23,7 +23,7 @@ struct Vertex{
 	glm::vec3 Bitangent;
 };
 
-class Mesh : public Entity
+class Mesh : public ChromaEntity
 {
 protected:
 	/*  Render Data  */

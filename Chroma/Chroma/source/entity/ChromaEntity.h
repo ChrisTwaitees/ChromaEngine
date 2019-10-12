@@ -8,7 +8,7 @@
 #include <vector>
 
 
-class Entity
+class ChromaEntity
 {
 protected:
 	// transforms
@@ -39,8 +39,8 @@ public:
 	virtual void bindTexture(Texture newTexture);
 	virtual void bindTextures(std::vector<Texture> textures_val);
 
-	Entity();
-	~Entity();
+	ChromaEntity();
+	~ChromaEntity();
 };
 
 #endif

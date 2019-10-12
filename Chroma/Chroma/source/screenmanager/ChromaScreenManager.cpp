@@ -46,7 +46,6 @@ int ChromaScreenManager::initialize()
 		return -1;
 	}
 
-
 }
 
 int ChromaScreenManager::configureGui()

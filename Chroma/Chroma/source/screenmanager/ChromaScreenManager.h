@@ -18,6 +18,9 @@
 #include "../buffers/Framebuffer.h"
 // skybox
 #include "../models/SkyBox.h"
+// renderer
+#include "../renderer/Renderer.h"
+
 
 class ChromaScreenManager
 {

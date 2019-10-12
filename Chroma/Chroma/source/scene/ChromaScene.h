@@ -1,10 +1,12 @@
 #ifndef _CHROMA_SCENE_
 #define _CHROMA_SCENE_
-class scene
+
+
+class ChromaScene
 {
 public:
-	scene();
-	~scene();
+	ChromaScene();
+	~ChromaScene();
 };
 
 #endif
