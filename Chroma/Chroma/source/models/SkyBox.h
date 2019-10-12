@@ -1,7 +1,7 @@
 #ifndef _CHROMA_SKYBOX_
 #define _CHROMA_SKYBOX_
 #include "../models/Mesh.h"
-#include "../textures/CubeMap.h"
+#include "../texture/CubeMap.h"
 #include "../cameras/Camera.h"
 class SkyBox
 {

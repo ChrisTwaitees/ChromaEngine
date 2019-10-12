@@ -67,6 +67,15 @@
     <Filter Include="Engine\main">
       <UniqueIdentifier>{73a87c27-2220-40d9-93b8-dfb178af8b12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\component">
+      <UniqueIdentifier>{da340fb6-62a6-4a13-bf58-fd07ff41a6ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Renderer\renderer">
+      <UniqueIdentifier>{027c84c1-8c2d-4b7a-85f6-a469b7e7f4f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\scene">
+      <UniqueIdentifier>{a115db08-c96b-4cc4-a7ce-a6db6d537335}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -105,9 +114,6 @@
     <ClCompile Include="source\models\Model.cpp">
       <Filter>Renderer\model</Filter>
     </ClCompile>
-    <ClCompile Include="source\textures\Texture.cpp">
-      <Filter>Renderer\texture</Filter>
-    </ClCompile>
     <ClCompile Include="source\models\PlanePrimitive.cpp">
       <Filter>Renderer\model</Filter>
     </ClCompile>
@@ -129,9 +135,6 @@
     <ClCompile Include="source\gui\ChromaGUI.cpp">
       <Filter>Engine\gui</Filter>
     </ClCompile>
-    <ClCompile Include="source\textures\CubeMap.cpp">
-      <Filter>Renderer\texture</Filter>
-    </ClCompile>
     <ClCompile Include="source\models\SkyBox.cpp">
       <Filter>Renderer\model</Filter>
     </ClCompile>
@@ -143,6 +146,21 @@
     </ClCompile>
     <ClCompile Include="source\entity\Entity.cpp">
       <Filter>Engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="source\component\component.cpp">
+      <Filter>Engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\scene\scene.cpp">
+      <Filter>Engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\renderer\renderer.cpp">
+      <Filter>Renderer\renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\texture\CubeMap.cpp">
+      <Filter>Renderer\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\texture\Texture.cpp">
+      <Filter>Renderer\texture</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -182,12 +200,6 @@
     <ClInclude Include="resource.h">
       <Filter>classes\Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\textures\Texture.h">
-      <Filter>Renderer\texture</Filter>
-    </ClInclude>
-    <ClInclude Include="source\textures\stb_image.h">
-      <Filter>Renderer\texture</Filter>
-    </ClInclude>
     <ClInclude Include="source\shaders\Shader.h">
       <Filter>Renderer\shader</Filter>
     </ClInclude>
@@ -215,9 +227,6 @@
     <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h">
       <Filter>Engine\screenmanager</Filter>
     </ClInclude>
-    <ClInclude Include="source\textures\CubeMap.h">
-      <Filter>Renderer\texture</Filter>
-    </ClInclude>
     <ClInclude Include="source\models\SkyBox.h">
       <Filter>Renderer\model</Filter>
     </ClInclude>
@@ -229,6 +238,24 @@
     </ClInclude>
     <ClInclude Include="source\entity\Entity.h">
       <Filter>Engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="source\component\component.h">
+      <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\scene\scene.h">
+      <Filter>Engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\renderer\renderer.h">
+      <Filter>Renderer\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\texture\CubeMap.h">
+      <Filter>Renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\texture\stb_image.h">
+      <Filter>Renderer\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\texture\Texture.h">
+      <Filter>Renderer\texture</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

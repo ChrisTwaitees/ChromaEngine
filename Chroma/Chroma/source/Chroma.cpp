@@ -23,7 +23,7 @@
 #include "models/PlanePrimitive.h"
 #include "models/SkyBox.h"
 #include "shaders/Shader.h"
-#include "textures/Texture.h"
+#include "texture/Texture.h"
 #include "cameras/Camera.h"
 #include "lights/Light.h"
 #include "terrain/Terrain.h"

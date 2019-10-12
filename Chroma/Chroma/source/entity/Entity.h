@@ -1,11 +1,12 @@
 #ifndef _CHROMA_ENTITY_
 #define _CHROMA_ENTITY_
 
-#include "../textures/Texture.h"
+#include "../texture/Texture.h"
 #include "../shaders/Shader.h"
 #include "../cameras/Camera.h"
 #include "../lights/Light.h"
 #include <vector>
+
 
 class Entity
 {
