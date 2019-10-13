@@ -8,10 +8,10 @@ void Terrain::initialize()
 	shader = Shader(fragShaderSource, vtxShaderSource);
 
 	// updating transform matrix;
-	transformMatrix = glm::mat4(1);
-	transformMatrix = glm::translate(transformMatrix, glm::vec3(0.0f, 15.0f, 0.0f));
-	transformMatrix = glm::scale(transformMatrix, glm::vec3(30.0f));
-	transformMatrix = glm::rotate(transformMatrix, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	TerrainTransformMatrix = glm::mat4(1);
+	TerrainTransformMatrix = glm::translate(TerrainTransformMatrix, glm::vec3(0.0f, 15.0f, 0.0f));
+	TerrainTransformMatrix = glm::scale(TerrainTransformMatrix, glm::vec3(30.0f));
+	TerrainTransformMatrix = glm::rotate(TerrainTransformMatrix, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 }
 
 void Terrain::setupQuad()
@@ -56,13 +56,21 @@ void Terrain::BindDrawVAO()
 	glBindVertexArray(0);
 }
 
-Terrain::Terrain()
+void Terrain::Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
 {
-	initialize();
-	setupQuad();
+	pShader->use();
+	updateUniforms(*pShader, Lights, RenderCamera, TerrainTransformMatrix);
+	BindDrawVAO();
 }
 
-Terrain::Terrain(Camera* camera_val)
+void Terrain::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
+{
+	shader.use();
+	updateUniforms(shader, Lights, RenderCamera, TerrainTransformMatrix);
+	BindDrawVAO();
+}
+
+Terrain::Terrain()
 {
 	initialize();
 	setupQuad();

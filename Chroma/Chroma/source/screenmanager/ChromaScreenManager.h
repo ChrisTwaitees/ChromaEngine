@@ -44,9 +44,11 @@ private:
 	float lastFrame{0.0f};
 
 	// setup
-	int initialize();
-	int configureGui();
-	int configureRenderer();
+	bool initialize();
+	bool configureWindow();
+	bool configureGui();
+	bool configureRenderer();
+	bool configureScene();
 
 	// post processing
 	bool usePostFX{false};
@@ -66,7 +68,7 @@ private:
 	void processInput();
 	void updateCamera();
 	void processTime();
-	void Render();
+	void RenderScene();
 	void drawGUI();
 
 public:

@@ -11,7 +11,7 @@ protected:
 	void Init();
 public:
 
-	void Render();
+	void RenderScene();
 	Renderer(ChromaScene* Scene);
 	~Renderer();
 };

@@ -1,6 +1,40 @@
 #include "ChromaScreenManager.h"
 
-int ChromaScreenManager::initialize()
+bool ChromaScreenManager::initialize()
+{
+	// Configure Window
+	if (!configureWindow())
+	{
+		std::cout << "Failed to Initialize Chroma Window: " << std::endl;
+		return false;
+	}
+
+	// Configure Renderer
+	if (!configureRenderer())
+	{
+		std::cout << "Failed to Initialize Chroma Renderer: " << std::endl;
+		glfwTerminate();
+		return false;
+	}
+
+	// Attach GUI
+	if (!configureGui())
+	{
+		std::cout << "Failed to Initialize Chroma GUI: " << std::endl;
+		glfwTerminate();
+		return false;
+	}
+
+	// configure Scene
+	if (!configureScene())
+	{
+		std::cout << "Failed to Initialize Chroma GUI: " << std::endl;
+		glfwTerminate();
+		return false;
+	}
+}
+
+bool ChromaScreenManager::configureWindow()
 {
 	// glfw: initialize and configure
 	// ------------------------------
@@ -17,10 +51,10 @@ int ChromaScreenManager::initialize()
 	{
 		std::cout << "Failed to create GLFW window" << std::endl;
 		glfwTerminate();
-		return -1;
+		return false;
 	}
 	glfwMakeContextCurrent(window);
-	
+
 	// glfw attach callbacks
 	// --------------------
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
@@ -29,32 +63,16 @@ int ChromaScreenManager::initialize()
 
 	// capture mouse
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
-	// configure Renderer
-	if (configureRenderer() == -1)
-	{
-		std::cout << "Failed to Initialize Chroma Renderer: " << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-
-	// attach gui
-	if (configureGui() == -1)
-	{
-		std::cout << "Failed to Initialize Chroma GUI: " << std::endl;
-		glfwTerminate();
-		return -1;
-	}
-
+	return true;
 }
 
-int ChromaScreenManager::configureGui()
+bool ChromaScreenManager::configureGui()
 {
 	gui.attachWindow(*window);
-	return 1;
+	return true;
 }
 
-int ChromaScreenManager::configureRenderer()
+bool ChromaScreenManager::configureRenderer()
 {
 	// OpenGL 3
 	// glad: load all OpenGL function pointers
@@ -62,10 +80,10 @@ int ChromaScreenManager::configureRenderer()
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
 		std::cout << "Failed to initialize GLAD" << std::endl;
-		return -1;
+		return false;
 	}
 
-	// Enabling Render Features
+	// Enabling RenderScene Features
 	// ---------------------------------------
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
@@ -79,6 +97,14 @@ int ChromaScreenManager::configureRenderer()
 	glEnable(GL_MULTISAMPLE);
 	// Enabling Gamme Correction
 	glEnable(GL_FRAMEBUFFER_SRGB);
+
+	return true;
+}
+
+bool ChromaScreenManager::configureScene()
+{
+	camera = new Camera;
+	return true;
 }
 
 
@@ -93,13 +119,13 @@ void ChromaScreenManager::Start()
 	// start gui
 	gui.Start();
 	// render start
-	Render();
+	RenderScene();
 	// Post FX
 	if (usePostFX)
 		framebuffer->bind();
 }
 
-void ChromaScreenManager::Render()
+void ChromaScreenManager::RenderScene()
 {
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -114,6 +140,7 @@ void ChromaScreenManager::End()
 	//PostFX
 	if (usePostFX)
 		framebuffer->Draw();
+	
 	//draw GUI
 	drawGUI();
 	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)

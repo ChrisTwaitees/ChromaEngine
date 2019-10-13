@@ -11,6 +11,7 @@ struct Material
 	sampler2D texture_diffuse3;
 	sampler2D texture_specular1;
 	sampler2D texture_specular2;
+	sampler2D texture_specular3;
 
 	//cubemap
 	float cubemapIntensity;

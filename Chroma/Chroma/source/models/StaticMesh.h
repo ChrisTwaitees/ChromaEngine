@@ -22,7 +22,7 @@ struct Vertex{
 class StaticMesh : public ChromaMeshComponent
 {
 protected:
-	/*  Render Data  */
+	/*  RenderScene Data  */
 	unsigned int VAO, VBO, EBO;
 	/*  Functions  */
 	virtual void setupMesh();

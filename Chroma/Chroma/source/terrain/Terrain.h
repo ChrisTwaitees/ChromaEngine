@@ -16,7 +16,7 @@ private:
 	std::string defaultTextureSource = "resources/textures/terrain1.jpeg";
 
 	/* Transform Data */
-	glm::mat4 transformMatrix = glm::mat4(1);
+	glm::mat4 TerrainTransformMatrix = glm::mat4(1);
 
 	// quad data
 	std::vector<float> quadData = {
@@ -37,6 +37,8 @@ private:
 public:
 	/*  Functions  */
 	void BindDrawVAO() override;
+	void Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix) override;
+	void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix) override;
 
 
 	Terrain();

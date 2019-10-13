@@ -11,7 +11,7 @@ public:
 	/*  Texture Data  */
 	unsigned int id;
 	enum TYPE { DIFFUSE = 0, SPECULAR = 1 };
-	int type;
+	TYPE type = TYPE::DIFFUSE;
 	// paths
 	std::string filename;
 	std::string directory;

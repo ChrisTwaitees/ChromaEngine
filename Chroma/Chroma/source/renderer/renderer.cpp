@@ -6,7 +6,7 @@ void Renderer::Init()
 {
 }
 
-void Renderer::Render()
+void Renderer::RenderScene()
 {
 	for (ChromaEntity* entity : mScene->Entities)
 	{
@@ -20,7 +20,7 @@ void Renderer::Render()
 
 	// Renders Framebuffers/ Screen Effects
 
-	// Render GUI
+	// RenderScene GUI
 
 
 

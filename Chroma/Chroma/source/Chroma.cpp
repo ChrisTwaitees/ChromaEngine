@@ -117,7 +117,7 @@ int main()
 
 	ChromaEntity* BoxEntity = new ChromaEntity;
 	ChromaComponent* BoxMeshComponent = new BoxPrimitive;
-	BoxMeshComponent->bindShader(&nanoSuitShader);
+	BoxMeshComponent->bindShader(&alphaShader);
 	BoxMeshComponent->bindTexture(diffuseMap);
 	BoxMeshComponent->bindTexture(specularMap);
 	BoxEntity->addComponent(BoxMeshComponent);
@@ -134,12 +134,11 @@ int main()
 	GrassPlaneMeshComponent->bindTexture(grassMap);
 	GrassPlaneMeshComponent->bindShader(&alphaShader);
 	GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
-	Entities.push_back(GrassPlaneEntity);
 
 	ChromaEntity* TerrainEntity = new ChromaEntity;
 	ChromaComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->bindTexture(terrainTex);
-	TerrainMeshComponent->bindShader(&litReflectShader);
+	TerrainMeshComponent->bindShader(&alphaShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 	Entities.push_back(TerrainEntity);
 
@@ -220,10 +219,11 @@ int main()
 		for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
 		{
 			GrassPlaneEntity->setPosition(glm::vec3(it->second));
+			GrassPlaneEntity->Draw(*MainCamera, Scene->Lights );
 		}
 
 		// RENDER
-		Renderer.Render();
+		Renderer.RenderScene();
 
 		// END RENDER LOOP
 		ScreenManager.End();

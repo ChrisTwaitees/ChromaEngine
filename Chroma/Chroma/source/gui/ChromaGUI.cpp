@@ -32,7 +32,7 @@ void ChromaGUI::End()
 {
 	ImGui::End();
 	// Rendering
-	ImGui::Render();
+	ImGui::RenderScene();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
 

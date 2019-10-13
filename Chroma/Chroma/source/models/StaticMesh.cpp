@@ -34,10 +34,10 @@ void StaticMesh::setupMesh()
 
 void StaticMesh::updateUniforms(Shader& updateShader, std::vector<Light*>& Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
 {
+	updateTransformUniforms(updateShader, RenderCam, TransformMatrix);
 	updateTextureUniforms(updateShader);
 	updateMaterialUniforms(updateShader);
 	updateLightingUniforms(updateShader, Lights, RenderCam);
-	updateTransformUniforms(updateShader, RenderCam, TransformMatrix);
 }
 
 void StaticMesh::updateLightingUniforms(Shader& shader, std::vector<Light*>& Lights, Camera& renderCam)
@@ -102,6 +102,7 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 		{
 			name = "texture_specular";
 			texturenum = std::to_string(specularNr++);
+			
 		}
 		// setting uniform and binding texture
 		shader.setInt(("material." + name + texturenum).c_str(), i);
