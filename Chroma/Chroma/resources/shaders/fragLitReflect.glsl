@@ -2,6 +2,11 @@
 // out
 out vec4 FragColor;
 
+// max lights
+#define NR_POINT_LIGHTS 4
+#define NR_DIR_LIGHTS 1
+#define NR_SPOT_LIGHTS 1
+
 // structs
 struct Material
 {
@@ -59,10 +64,6 @@ struct SpotLight
 	vec3 diffuse;
 };
 
-#define NR_POINT_LIGHTS 4
-#define NR_DIR_LIGHTS 1
-#define NR_SPOT_LIGHTS 1
-
 // in
 in vec3 FragPos;
 in vec3 Normal;
@@ -97,7 +98,7 @@ void main()
 		result += CalcDirLight(dirLights[i], norm, viewDir,  diffuseMap, specularMap);
 	
 	// spot lights
-	for(int i = 0; i < NR_SPOT_LIGHTS ; i++)
+	//for(int i = 0; i < NR_SPOT_LIGHTS ; i++)
 		//result += CalcSpotLight(spotLights[i], norm, viewDir, FragPos, diffuseMap, specularMap);
 
 	// point lights
@@ -127,7 +128,6 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 diffuseMap, ve
 	return (max(diffuse, ambient) + specular );
 }
 
-// calculates the color when using a point light.
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  vec3 diffuseMap, vec3 specMap)
 {
 	vec3 lightDir = normalize(light.position - FragPos);
@@ -150,7 +150,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  
 	specular *= attenuation * light.intensity;
 	ambient *= attenuation * light.intensity;
 
-	// return
+	// return 
 	return (max(diffuse, ambient) + specular);
 }
 

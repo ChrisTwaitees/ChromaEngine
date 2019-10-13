@@ -7,13 +7,13 @@ void Model::Draw(Shader &shader)
 		mesh.Draw(shader);
 }
 
-void Model::Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
+void Model::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
 	for (StaticMesh mesh : meshes)
 		mesh.Draw(RenderCamera, Lights, transformMatrix);
 }
 
-void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
+void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
 	for (StaticMesh mesh : meshes)
 		mesh.Draw(shader, RenderCamera, Lights, transformMatrix);

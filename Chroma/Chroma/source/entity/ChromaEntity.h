@@ -46,8 +46,8 @@ public:
 
 	// Draw
 	virtual void Draw(Shader& shader);
-	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights);
-	virtual void Draw(Camera& RenderCamera, std::vector<Light*>& Lights);
+	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights);
+	virtual void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights);
 
 	ChromaEntity();
 	~ChromaEntity();

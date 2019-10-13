@@ -11,7 +11,7 @@ class ChromaScene
 {
 public:
 	// scene components
-	std::vector<Light*> Lights;
+	std::vector < std::shared_ptr<Light>> Lights;
 	std::vector<Camera*> Cameras;
 	std::vector<ChromaEntity*> Entities;
 
@@ -25,12 +25,12 @@ public:
 	void addEntity(ChromaEntity*& newEntity) { Entities.push_back(newEntity); };
 	void removeEntity(ChromaEntity& removeEntity);
 
-	void addLight(Light*& newLight) { Lights.push_back(newLight); };
+	void addLight(std::shared_ptr<Light>& newLight) { Lights.push_back(newLight); };
 	void removeLight(Light& removeLight);
 
 	// Getters/Setters
 	void setRenderCamera(Camera*& newRenderCamera) { RenderCamera = newRenderCamera; };
-	void setLights(std::vector<Light*>& newLights) { Lights = newLights; };
+	void setLights(std::vector<std::shared_ptr<Light>>& newLights) { Lights = newLights; };
 	void setCameras(std::vector<Camera*>& newCameras) { Cameras = newCameras; };
 	void setEntities(std::vector<ChromaEntity*>& newCameras) { Entities = newCameras; };
 

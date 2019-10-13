@@ -7,13 +7,13 @@ void ChromaEntity::Draw(Shader& shader)
 		component->Draw(shader);
 }
 
-void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights)
+void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
 	for (ChromaComponent* component : RenderableComponents)
 		component->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
-void ChromaEntity::Draw(Camera& RenderCamera, std::vector<Light*>& Lights)
+void ChromaEntity::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
 	for (ChromaComponent* component : RenderableComponents)
 		component->Draw(RenderCamera, Lights, transformMatrix);

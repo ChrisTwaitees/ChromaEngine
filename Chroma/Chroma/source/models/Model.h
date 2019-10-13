@@ -26,8 +26,8 @@ protected:
 public:
 	/*  Functions  */
 	void Draw(Shader& shader) override;
-	void Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix) override;
-	void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix) override;
+	void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
+	void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
 
 	/* Getters Setters */
 	int getNumTextures() { return textures_loaded.size(); };

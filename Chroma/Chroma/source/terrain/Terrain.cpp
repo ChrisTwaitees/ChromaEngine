@@ -5,7 +5,7 @@ void Terrain::initialize()
 	// binding texture
 	bindTexture(Texture(defaultTextureSource));
 	// assigning shader
-	shader = Shader(fragShaderSource, vtxShaderSource);
+	pShader = new Shader(fragShaderSource, vtxShaderSource);
 
 	// updating transform matrix;
 	TerrainTransformMatrix = glm::mat4(1);
@@ -40,13 +40,6 @@ void Terrain::setupQuad()
 	glBindVertexArray(0);
 }
 
-void Terrain::updateMaterialUniforms(Shader& shader)
-{
-	shader.setFloat("material.ambientBrightness", 0.06f);
-	shader.setFloat("material.roughness", 64.0f);
-	shader.setFloat("material.specularIntensity", 1.0f);
-	shader.setFloat("material.cubemapIntensity", 1.0f);
-}
 
 void Terrain::BindDrawVAO()
 {
@@ -56,14 +49,14 @@ void Terrain::BindDrawVAO()
 	glBindVertexArray(0);
 }
 
-void Terrain::Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
+void Terrain::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
 	pShader->use();
 	updateUniforms(*pShader, Lights, RenderCamera, TerrainTransformMatrix);
 	BindDrawVAO();
 }
 
-void Terrain::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
+void Terrain::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
 	shader.use();
 	updateUniforms(shader, Lights, RenderCamera, TerrainTransformMatrix);

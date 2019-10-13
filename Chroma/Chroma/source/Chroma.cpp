@@ -41,7 +41,7 @@ int main()
 	std::vector<ChromaEntity*> Entities;
 
 	// LIGHTS
-	std::vector<Light*> Lights;
+	std::vector<std::shared_ptr<Light>> Lights;
 
 	// RENDERER
 	Renderer Renderer(Scene);
@@ -61,13 +61,12 @@ int main()
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
-		Light pointLight(pos, Light::POINT);
-		Lights.push_back(&pointLight);
+		std::shared_ptr<Light> pointLight = std::make_shared < Light >(pos, Light::POINT);
+		Lights.push_back(pointLight);
 	}
 	// default spot and dir light
-	Light sunLight(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.75f);
-	Light spotLight(Light::SPOT, glm::vec3(0.0f), 0.0f);
-	Lights.push_back(&sunLight);
+	std::shared_ptr<Light> dirLight = std::make_shared<Light>(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.1f);
+	Lights.push_back(dirLight);
 
 	// CUBES
 	// Dancing cubes
@@ -117,7 +116,7 @@ int main()
 
 	ChromaEntity* BoxEntity = new ChromaEntity;
 	ChromaComponent* BoxMeshComponent = new BoxPrimitive;
-	BoxMeshComponent->bindShader(&alphaShader);
+	BoxMeshComponent->bindShader(&litReflectShader);
 	BoxMeshComponent->bindTexture(diffuseMap);
 	BoxMeshComponent->bindTexture(specularMap);
 	BoxEntity->addComponent(BoxMeshComponent);
@@ -138,7 +137,7 @@ int main()
 	ChromaEntity* TerrainEntity = new ChromaEntity;
 	ChromaComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->bindTexture(terrainTex);
-	TerrainMeshComponent->bindShader(&alphaShader);
+	TerrainMeshComponent->bindShader(&litReflectShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 	Entities.push_back(TerrainEntity);
 

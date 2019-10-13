@@ -26,10 +26,10 @@ protected:
 	unsigned int VAO, VBO, EBO;
 	/*  Functions  */
 	virtual void setupMesh();
-	virtual void updateUniforms(Shader& updateShader, std::vector<Light*>& Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
+	virtual void updateUniforms(Shader& updateShader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
 	virtual void updateTransformUniforms(Shader& shader, Camera& renderCam, glm::mat4& modelMatrix);
 	virtual void updateMaterialUniforms(Shader& shader);
-	virtual void updateLightingUniforms(Shader& shader, std::vector<Light*>& Lights, Camera& renderCam);
+	virtual void updateLightingUniforms(Shader& shader, std::vector < std::shared_ptr<Light>> Lights, Camera& renderCam);
 	virtual void updateTextureUniforms(Shader& shader);
 public:
 	// Mesh Data
@@ -40,8 +40,8 @@ public:
 
 	// Functions
 	virtual void Draw(Shader &shader) override;
-	virtual void Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix) override;
-	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix) override;
+	virtual void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
+	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
 	virtual void BindDrawVAO();
 
 	// Bindings
