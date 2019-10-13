@@ -27,12 +27,8 @@ void BoxPrimitive::setupBox()
 	glBindVertexArray(0);
 }
 
-void BoxPrimitive::Draw(Shader& shader)
+void BoxPrimitive::BindDrawVAO()
 {
-	shader.use();
-	updateTransformUniforms(shader, *pCamera, modelMat);
-	updateTextureUniforms(shader);
-	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, boxData.size() / 8);
 	glBindVertexArray(0); // reset to default

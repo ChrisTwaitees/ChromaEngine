@@ -1,7 +1,7 @@
-#include "Mesh.h"
+#include "StaticMesh.h"
 
 
-void Mesh::setupMesh()
+void StaticMesh::setupMesh()
 {
 	// Generate buffers
 	// Vertex Array Object Buffer
@@ -32,24 +32,24 @@ void Mesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void Mesh::updateUniforms(Shader& updateShader)
+void StaticMesh::updateUniforms(Shader& updateShader, std::vector<Light*>& Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
 {
 	updateTextureUniforms(updateShader);
-	updateTransformUniforms(updateShader, *pCamera, modelMat);
 	updateMaterialUniforms(updateShader);
-	//updateLightingUniforms(updateShader, *pLights, *pCamera);
+	updateLightingUniforms(updateShader, Lights, RenderCam);
+	updateTransformUniforms(updateShader, RenderCam, TransformMatrix);
 }
 
-void Mesh::updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Camera& camera)
+void StaticMesh::updateLightingUniforms(Shader& shader, std::vector<Light*>& Lights, Camera& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
 	int spotlights{ 0 };
-	for (int i = 0; i < lights.size(); i++)
+	for (int i = 0; i < Lights.size(); i++)
 	{
 		std::string lightIndex;
 		// set uniforms
-		switch (lights[i].type) {
+		switch (Lights[i]->type) {
 		case Light::POINT:
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
@@ -66,23 +66,23 @@ void Mesh::updateLightingUniforms(Shader& shader, std::vector<Light>& lights, Ca
 			break;
 		}
 		//// lights directional
-		shader.setVec3(lightIndex + ".direction", lights[i].direction);
-		shader.setVec3(lightIndex + ".position", lights[i].position);
-		shader.setVec3(lightIndex + ".diffuse", lights[i].diffuse);
-		shader.setFloat(lightIndex + ".intensity", lights[i].intensity);
+		shader.setVec3(lightIndex + ".direction", Lights[i]->direction);
+		shader.setVec3(lightIndex + ".position", Lights[i]->position);
+		shader.setVec3(lightIndex + ".diffuse", Lights[i]->diffuse);
+		shader.setFloat(lightIndex + ".intensity", Lights[i]->intensity);
 		//// lights spotlight
-		shader.setFloat(lightIndex + ".spotSize", lights[i].spotSize);
-		shader.setFloat(lightIndex + ".penumbraSize", lights[i].penumbraSize);
+		shader.setFloat(lightIndex + ".spotSize", Lights[i]->spotSize);
+		shader.setFloat(lightIndex + ".penumbraSize", Lights[i]->penumbraSize);
 		//// lights point light falloff
-		shader.setFloat(lightIndex + ".constant", lights[i].constant);
-		shader.setFloat(lightIndex + ".linear", lights[i].linear);
-		shader.setFloat(lightIndex + ".quadratic", lights[i].quadratic);
+		shader.setFloat(lightIndex + ".constant", Lights[i]->constant);
+		shader.setFloat(lightIndex + ".linear", Lights[i]->linear);
+		shader.setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
 		//// lights view pos
-		shader.setVec3("viewPos", camera.get_position());
+		shader.setVec3("viewPos", renderCam.get_position());
 	}
 }
 
-void Mesh::updateTextureUniforms(Shader& shader)
+void StaticMesh::updateTextureUniforms(Shader& shader)
 {
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
@@ -112,14 +112,14 @@ void Mesh::updateTextureUniforms(Shader& shader)
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void Mesh::updateTransformUniforms(Shader& shader, Camera& camera, glm::mat4& modelMatrix)
+void StaticMesh::updateTransformUniforms(Shader& shader, Camera& renderCam, glm::mat4& modelMatrix)
 {
 	shader.setMat4("model", modelMatrix);
-	//shader.setMat4("view", camera.viewMat);
-	//shader.setMat4("projection", camera.projectionMat);
+	shader.setMat4("view", renderCam.viewMat);
+	shader.setMat4("projection", renderCam.projectionMat);
 }
 
-void Mesh::updateMaterialUniforms(Shader& shader)
+void StaticMesh::updateMaterialUniforms(Shader& shader)
 {
 	shader.setFloat("material.ambientBrightness", 0.06f);
 	shader.setFloat("material.roughness", 64.0f);
@@ -127,32 +127,41 @@ void Mesh::updateMaterialUniforms(Shader& shader)
 	shader.setFloat("material.cubemapIntensity", 1.0f);
 }
 
-void Mesh::Draw(Shader &shader)
+void StaticMesh::Draw(Shader &shader)
 {
 	shader.use();
-	updateUniforms(shader);
 	// draw mesh
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0); // reset to default
+	BindDrawVAO();
 }
 
-void Mesh::Draw()
+void StaticMesh::Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
 {
 	pShader->use();
-	updateUniforms(*pShader);
+	updateUniforms(*pShader, Lights, RenderCamera, transformMatrix);
+	BindDrawVAO();
+}
+
+void StaticMesh::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
+{
+	shader.use();
+	updateUniforms(shader, Lights, RenderCamera, transformMatrix);
+	BindDrawVAO();
+}
+
+void StaticMesh::BindDrawVAO()
+{
 	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0); // reset to default
-	return; // to be implemented in subclasses
 }
 
-void Mesh::bindShader(Shader* newShader)
+
+void StaticMesh::bindShader(Shader* newShader)
 {
 	pShader = newShader;
 }
 
-void Mesh::bindTextures(std::vector<Texture> textures_val)
+void StaticMesh::bindTextures(std::vector<Texture> textures_val)
 {
 	for (unsigned int i = 0; textures_val.size(); i++)
 	{
@@ -172,7 +181,7 @@ void Mesh::bindTextures(std::vector<Texture> textures_val)
 	}
 }
 
-void Mesh::bindTexture(Texture texture_val)
+void StaticMesh::bindTexture(Texture texture_val)
 {
 	bool skip{false};
 	for (unsigned int i = 0; i < textures.size(); i++)
@@ -190,20 +199,22 @@ void Mesh::bindTexture(Texture texture_val)
 	}
 }
 
-Mesh::Mesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
+StaticMesh::StaticMesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
 {
-	this->vertices = vertices_val;
-	this->indices = indices_val;
-	this->textures = textures_val;
+	isRenderable = true;
+	vertices = vertices_val;
+	indices = indices_val;
+	textures = textures_val;
 
 	setupMesh();
 }
 
-Mesh::Mesh()
+StaticMesh::StaticMesh()
 {
+	isRenderable = true;
 }
 
-Mesh::~Mesh()
+StaticMesh::~StaticMesh()
 {
-
+	delete pShader;
 }

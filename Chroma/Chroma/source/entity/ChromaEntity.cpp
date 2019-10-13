@@ -1,26 +1,22 @@
 #include "ChromaEntity.h"
 
 
-void ChromaEntity::bindCamera(Camera* newCamera)
+void ChromaEntity::Draw(Shader& shader)
 {
-	pCamera = newCamera;
+	for (ChromaComponent* component : RenderableComponents)
+		component->Draw(shader);
 }
 
-void ChromaEntity::bindLights(std::vector<Light>* newLights)
+void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights)
 {
-	pLights = newLights;
+	for (ChromaComponent* component : RenderableComponents)
+		component->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
-void ChromaEntity::bindTexture(Texture newTexture)
+void ChromaEntity::Draw(Camera& RenderCamera, std::vector<Light*>& Lights)
 {
-	// to be implemented by inherited class
-	std::cout << "ChromaEntity bind Texture" << std::endl;
-}
-
-void ChromaEntity::bindTextures(std::vector<Texture> textures_val)
-{
-	// to be implemented by inherited class
-	std::cout << "ChromaEntity binding Textures" << std::endl;
+	for (ChromaComponent* component : RenderableComponents)
+		component->Draw(RenderCamera, Lights, transformMatrix);
 }
 
 ChromaEntity::ChromaEntity()
@@ -32,41 +28,68 @@ ChromaEntity::~ChromaEntity()
 {
 }
 
-void ChromaEntity::Draw(Shader& shader)
+// ADDING/REMOVING COMPONENTS
+void ChromaEntity::addComponent(ChromaComponent* newComponent)
 {
-	// to be implemented by inherited class
-	std::cout << "ChromaEntity Draw with Shader Called" << std::endl;
+	// TODO: Consider shared_ptr to prevent memory duplication
+	Components.push_back(newComponent);
+	if (newComponent->isRenderable)
+		RenderableComponents.push_back(newComponent);
 }
 
-void ChromaEntity::Draw()
+void ChromaEntity::removeComponent(ChromaComponent* removeMe)
 {
-	// to be implemented by inherited class
-	std::cout << "ChromaEntity Draw Called" << std::endl;
+	// all components 
+	int componentIndex = findIndexInVector(Components, removeMe);
+	if (componentIndex > 0)
+		Components.erase(Components.begin() + componentIndex);	
+	// renderable components
+	// TODO: Consider using shared_ptr to better manage memory
+	componentIndex = findIndexInVector(RenderableComponents, removeMe);
+	if (componentIndex)
+		RenderableComponents.erase(RenderableComponents.begin() + componentIndex);
 }
 
+
+// TRANSFORMATIONS
 void ChromaEntity::scale(glm::vec3 scalefactor)
 {
-	modelMat = glm::scale(modelMat, scalefactor);
+	transformMatrix = glm::scale(transformMatrix, scalefactor);
 }
 
 void ChromaEntity::translate(glm::vec3 translatefactor)
 {
-	modelMat = glm::translate(modelMat, translatefactor);
+	transformMatrix = glm::translate(transformMatrix, translatefactor);
 }
 
 void ChromaEntity::rotate(float degrees, glm::vec3 rotationaxis)
 {
-	modelMat = glm::rotate(modelMat, glm::radians(degrees), rotationaxis);
+	transformMatrix = glm::rotate(transformMatrix, glm::radians(degrees), rotationaxis);
 }
-
 
 void ChromaEntity::setScale(glm::vec3 newscale)
 {
-	modelMat = glm::scale(identityMat, newscale);
+	transformMatrix = glm::scale(identityMatrix, newscale);
 }
 
 void ChromaEntity::setPosition(glm::vec3 newposition)
 {
-	modelMat = glm::translate(identityMat, newposition);
+	transformMatrix = glm::translate(identityMatrix, newposition);
 }
 
+
+// VECTOR FUNCTIONS
+int findIndexInVector(const std::vector<ChromaComponent*>& componentsVector, ChromaComponent*& component)
+{
+	// Find given element in vector
+	auto it = std::find(componentsVector.begin(), componentsVector.end(), component);
+
+	if (it != componentsVector.end())
+		return distance(componentsVector.begin(), it);
+	else
+	{
+		std::cout << "ChromaComponent: " << component->getName() << " Type: <"  
+			<< component->getType() << "> " << "not found in Chroma Entity" << std::endl;
+		return -1;
+	}
+}

@@ -1,5 +1,5 @@
 #pragma once
-
+//https://github.com/nlguillemot/dof/blob/master/viewer/packed_freelist.h
 // self-packing freelist implementation based on http://bitsquid.blogspot.ca/2011/09/managing-decoupling-part-4-id-lookup.html
 // has NOT been unit tested. beware of using in production.
 

@@ -29,7 +29,7 @@ private:
 	GLFWwindow* window; 
 
 	// camera
-	Camera camera;
+	Camera* camera;
 
 	// gui
 	ChromaGUI gui;
@@ -76,7 +76,7 @@ public:
 	float getDeltaTime() { return deltaTime; };
 	float getTime() { return glfwGetTime(); };
 	GLFWwindow* getWindow() { return window; };
-	Camera& getActiveCamera() { return camera; };
+	Camera* getActiveCamera() { return camera; };
 	
 	// skybox
 	unsigned int getSkyboxMapid() { return skybox->getCubeMapid(); };

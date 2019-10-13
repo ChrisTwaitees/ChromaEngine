@@ -3,14 +3,20 @@
 
 void Model::Draw(Shader &shader)
 {
-	for (Mesh mesh : meshes)
+	for (StaticMesh mesh : meshes)
 		mesh.Draw(shader);
 }
 
-void Model::Draw()
+void Model::Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
 {
-	for (Mesh mesh : meshes)
-		mesh.Draw();
+	for (StaticMesh mesh : meshes)
+		mesh.Draw(RenderCamera, Lights, transformMatrix);
+}
+
+void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix)
+{
+	for (StaticMesh mesh : meshes)
+		mesh.Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
 Model::~Model()
@@ -46,7 +52,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
+StaticMesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -100,10 +106,9 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		std::vector<Texture> specularMaps = loadMaterialTextures(material,
 			aiTextureType_SPECULAR, Texture::SPECULAR);
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-
 	}
 
-	return Mesh(vertices, indices, textures);
+	return StaticMesh(vertices, indices, textures);
 }
 
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName)

@@ -3,8 +3,7 @@
 // stl
 #include <iostream>
 #include <vector>
-// glad
-#include <glad/glad.h>
+
 // local
 #include "../screenmanager/ChromaScreenManagerConfig.h"
 #include "../shaders/Shader.h"

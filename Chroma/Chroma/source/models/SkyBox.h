@@ -1,8 +1,9 @@
 #ifndef _CHROMA_SKYBOX_
 #define _CHROMA_SKYBOX_
-#include "../models/Mesh.h"
+#include "../models/StaticMesh.h"
 #include "../texture/CubeMap.h"
-#include "../cameras/Camera.h"
+
+
 class SkyBox
 {
 private:

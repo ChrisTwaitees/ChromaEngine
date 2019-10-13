@@ -1,8 +1,8 @@
 #ifndef _PLANEPRIMITIVE_
 #define _PLANEPRIMITIVE_
-#include "./Mesh.h"
+#include "./StaticMesh.h"
 
-class PlanePrimitive : public Mesh
+class PlanePrimitive : public StaticMesh
 {
 private:
 	std::vector<float> quadData = {
@@ -16,7 +16,8 @@ private:
 	};
 	void setupQuad();
 public :
-	virtual void Draw(Shader& shader) override;
+	// Functions
+	void BindDrawVAO() override;
 
 	PlanePrimitive();
 	~PlanePrimitive();

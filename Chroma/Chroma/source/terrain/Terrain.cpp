@@ -8,10 +8,10 @@ void Terrain::initialize()
 	shader = Shader(fragShaderSource, vtxShaderSource);
 
 	// updating transform matrix;
-	modelMat = glm::mat4(1);
-	modelMat = glm::translate(modelMat, glm::vec3(0.0f, 15.0f, 0.0f));
-	modelMat = glm::scale(modelMat, glm::vec3(30.0f));
-	modelMat = glm::rotate(modelMat, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	transformMatrix = glm::mat4(1);
+	transformMatrix = glm::translate(transformMatrix, glm::vec3(0.0f, 15.0f, 0.0f));
+	transformMatrix = glm::scale(transformMatrix, glm::vec3(30.0f));
+	transformMatrix = glm::rotate(transformMatrix, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 }
 
 void Terrain::setupQuad()
@@ -48,15 +48,8 @@ void Terrain::updateMaterialUniforms(Shader& shader)
 	shader.setFloat("material.cubemapIntensity", 1.0f);
 }
 
-void Terrain::Draw()
+void Terrain::BindDrawVAO()
 {
-	// shader
-	shader.use();
-	updateTransformUniforms(shader, *pCamera, modelMat);
-	updateMaterialUniforms(shader);
-	updateTextureUniforms(shader);
-	updateLightingUniforms(shader, *pLights, *pCamera);
-
 	// draw mesh
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLES, 0, quadData.size() / 8);
@@ -71,8 +64,6 @@ Terrain::Terrain()
 
 Terrain::Terrain(Camera* camera_val)
 {
-	std::cout << "Terrain construction used" << std::endl;
-	pCamera = camera_val;
 	initialize();
 	setupQuad();
 }

@@ -1,10 +1,10 @@
 #ifndef _CHROMA_TERRAIN_
 #define _CHROMA_TERRAIN_
-#include "../models/Mesh.h"
+#include "../models/StaticMesh.h"
 #include "../entity/ChromaEntity.h"
 
 
-class Terrain : public Mesh
+class Terrain : public StaticMesh
 {
 private:
 	// default shader
@@ -16,7 +16,7 @@ private:
 	std::string defaultTextureSource = "resources/textures/terrain1.jpeg";
 
 	/* Transform Data */
-	glm::mat4 modelMat = glm::mat4(1);
+	glm::mat4 transformMatrix = glm::mat4(1);
 
 	// quad data
 	std::vector<float> quadData = {
@@ -35,7 +35,9 @@ private:
 
 	virtual void updateMaterialUniforms(Shader& shader) override;
 public:
-	virtual void Draw() override;
+	/*  Functions  */
+	void BindDrawVAO() override;
+
 
 	Terrain();
 	Terrain(Camera* camera_val);

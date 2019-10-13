@@ -2,30 +2,32 @@
 #define _MODEL_H_
 
 #include "../entity/ChromaEntity.h"
-#include "../models/Mesh.h"
+#include "../models/StaticMesh.h"
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-class Model : public ChromaEntity
+class Model : public StaticMesh
 {
 protected:
 	/* Transforms */
-	glm::mat4 modelMat = glm::mat4(1);
+	glm::mat4 transformMatrix = glm::mat4(1);
 	/*  Model Data  */
 	std::vector<Texture> textures_loaded;
-	std::vector<Mesh> meshes;
+	std::vector<StaticMesh> meshes;
 	std::string directory;
 	/*  Functions  */
 	void loadModel(std::string path);
 	void processNode(aiNode* node, const aiScene* scene);
-	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+	StaticMesh processMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		Texture::TYPE typeName);
 public:
 	/*  Functions  */
-	virtual void Draw(Shader& shader) override;
-	virtual void Draw() override;
+	void Draw(Shader& shader) override;
+	void Draw(Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix) override;
+	void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*>& Lights, glm::mat4& transformMatrix) override;
 
 	/* Getters Setters */
 	int getNumTextures() { return textures_loaded.size(); };

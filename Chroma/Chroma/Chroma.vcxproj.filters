@@ -108,9 +108,6 @@
     <ClCompile Include="source\lights\Light.cpp">
       <Filter>Renderer\light</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\Mesh.cpp">
-      <Filter>Renderer\model</Filter>
-    </ClCompile>
     <ClCompile Include="source\shaders\Shader.cpp">
       <Filter>Renderer\shader</Filter>
     </ClCompile>
@@ -130,9 +127,6 @@
       <Filter>Engine\screenmanager</Filter>
     </ClCompile>
     <ClCompile Include="source\buffers\Framebuffer.cpp">
-      <Filter>Renderer\buffers</Filter>
-    </ClCompile>
-    <ClCompile Include="source\buffers\VertexBuffer.cpp">
       <Filter>Renderer\buffers</Filter>
     </ClCompile>
     <ClCompile Include="source\gui\ChromaGUI.cpp">
@@ -156,17 +150,23 @@
     <ClCompile Include="source\renderer\Renderer.cpp">
       <Filter>Renderer\renderer</Filter>
     </ClCompile>
+    <ClCompile Include="source\scene\ChromaScene.cpp">
+      <Filter>Engine\scene</Filter>
+    </ClCompile>
     <ClCompile Include="source\entity\ChromaEntity.cpp">
       <Filter>Engine\entity</Filter>
     </ClCompile>
     <ClCompile Include="source\component\ChromaComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
-    <ClCompile Include="source\memory\ChromaMemory.cpp">
+    <ClCompile Include="source\memory\ChromaUID.cpp">
       <Filter>Engine\memory</Filter>
     </ClCompile>
-    <ClCompile Include="source\scene\ChromaScene.cpp">
-      <Filter>Engine\scene</Filter>
+    <ClCompile Include="source\models\StaticMesh.cpp">
+      <Filter>Renderer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\component\ChromaMeshComponent.cpp">
+      <Filter>Engine\component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -194,9 +194,6 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h">
       <Filter>Engine\gui\imgui</Filter>
     </ClInclude>
-    <ClInclude Include="source\models\Mesh.h">
-      <Filter>Renderer\model</Filter>
-    </ClInclude>
     <ClInclude Include="source\models\Model.h">
       <Filter>Renderer\model</Filter>
     </ClInclude>
@@ -222,9 +219,6 @@
       <Filter>Engine\screenmanager</Filter>
     </ClInclude>
     <ClInclude Include="source\buffers\Framebuffer.h">
-      <Filter>Renderer\buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="source\buffers\VertexBuffer.h">
       <Filter>Renderer\buffers</Filter>
     </ClInclude>
     <ClInclude Include="source\gui\ChromaGUI.h">
@@ -257,17 +251,23 @@
     <ClInclude Include="source\renderer\Renderer.h">
       <Filter>Renderer\renderer</Filter>
     </ClInclude>
+    <ClInclude Include="source\scene\ChromaScene.h">
+      <Filter>Engine\scene</Filter>
+    </ClInclude>
     <ClInclude Include="source\entity\ChromaEntity.h">
       <Filter>Engine\entity</Filter>
     </ClInclude>
     <ClInclude Include="source\component\ChromaComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="source\memory\ChromaMemory.h">
+    <ClInclude Include="source\memory\ChromaUID.h">
       <Filter>Engine\memory</Filter>
     </ClInclude>
-    <ClInclude Include="source\scene\ChromaScene.h">
-      <Filter>Engine\scene</Filter>
+    <ClInclude Include="source\models\StaticMesh.h">
+      <Filter>Renderer\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\component\ChromaMeshComponent.h">
+      <Filter>Engine\component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

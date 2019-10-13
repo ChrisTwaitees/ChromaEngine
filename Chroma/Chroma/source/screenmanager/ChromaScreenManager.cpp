@@ -162,8 +162,8 @@ void ChromaScreenManager::updateRendererViewportDimensions(int width, int height
 
 void ChromaScreenManager::updateCamera()
 {
-	camera.processKeyboardInput(*window, deltaTime);
-	camera.processMouseInput(MOUSE_XOFFSET, MOUSE_YOFFSET);
+	camera->processKeyboardInput(*window, deltaTime);
+	camera->processMouseInput(MOUSE_XOFFSET, MOUSE_YOFFSET);
 }
 
 void ChromaScreenManager::processTime()
@@ -221,7 +221,7 @@ void ChromaScreenManager::processInput()
 		if (cursorMode == GLFW_CURSOR_DISABLED)
 		{
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			camera.firstMouse = true;
+			camera->firstMouse = true;
 		}
 		else
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -239,7 +239,7 @@ ChromaScreenManager::ChromaScreenManager()
 	initialize();
 	// opengl is now loaded we can instantiate framebuffer object
 	framebuffer = new Framebuffer();
-	skybox = new SkyBox("resources/textures/skybox/blueskywater", camera);
+	skybox = new SkyBox("resources/textures/skybox/blueskywater", *camera);
 }
 
 ChromaScreenManager::~ChromaScreenManager()

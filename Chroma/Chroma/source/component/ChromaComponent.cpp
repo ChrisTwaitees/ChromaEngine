@@ -4,6 +4,7 @@
 
 ChromaComponent::ChromaComponent()
 {
+	typeName = typeid(this).name();
 }
 
 

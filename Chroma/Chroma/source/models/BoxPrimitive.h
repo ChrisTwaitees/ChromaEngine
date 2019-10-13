@@ -1,9 +1,9 @@
 #ifndef _BOX_PRIMITIVE_H_
 #define _BOX_PRIMITIVE_H_
-#include "./Mesh.h"
+#include "./StaticMesh.h"
 
 
-class BoxPrimitive : public Mesh
+class BoxPrimitive : public StaticMesh
 {
 private:
 	std::vector<float> boxData = {
@@ -54,7 +54,7 @@ private:
 
 public:
 	/*  Functions  */
-	virtual void Draw(Shader& shader) override;
+	void BindDrawVAO() override;
 
 	/*  Constructors  */
 	BoxPrimitive() { setupBox();};
