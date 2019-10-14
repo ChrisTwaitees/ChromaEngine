@@ -25,6 +25,10 @@ private:
 	unsigned int VAO;
 	unsigned int VBO;
 
+	// position on screen
+	glm::vec2 offset{ glm::vec2(0) };
+	glm::vec2 scale{ glm::vec2(1) };
+
 	//const Shader& screenShader{Shader(fragSource, vtxSource)};
 	Shader screenShader;
 
@@ -41,15 +45,19 @@ private:
 	};
 
 	// texture
-	unsigned int texColorBuffer;
+	unsigned int FBOTexture;
 
 	// setup
 	void initialize();
 	void setupQuad();
 
 public:
-	unsigned int get_texColor() { return texColorBuffer; };
+	void setTexture(unsigned int newFBOTexture);
+	unsigned int getTexture() { return FBOTexture; };
 	void setResolutionScale(unsigned int newScale);
+
+	void setScale(glm::vec2 newScale) { scale = newScale; };
+	void setPosition(glm::vec2 newPosition) { offset = newPosition; };
 
 	void bind();
 	void Draw();

@@ -7,15 +7,19 @@
 class Terrain : public StaticMesh
 {
 private:
-	// default shader
+
+
+	// Default Shader
 	std::string fragShaderSource = "resources/shaders/fragLitReflect.glsl";
 	std::string vtxShaderSource = "resources/shaders/vertexShaderLighting.glsl";
 
-	// default texture
+	// Default Texture
 	std::string defaultTextureSource = "resources/textures/terrain1.jpeg";
 
-	/* Transform Data */
+	// Transform Data
+	glm::mat4 TerrainIdentityMatrix = glm::mat4(1);
 	glm::mat4 TerrainTransformMatrix = glm::mat4(1);
+	double TerrainHeight;
 
 	// quad data
 	std::vector<float> quadData = {
@@ -34,9 +38,11 @@ private:
 public:
 	/*  Functions  */
 	void BindDrawVAO() override;
-	void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
-	void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
 
+	void setTerrainHeight(double newTerrainHeight);
+	double getTerrainHeight() { return TerrainHeight; };
+	
+	glm::mat4 getTransformationMatrix() override;
 
 	Terrain();
 	Terrain(Camera* camera_val);

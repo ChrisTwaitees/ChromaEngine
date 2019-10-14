@@ -2,12 +2,29 @@
 #define _CHROMA_RENDERER_
 
 #include "../scene/ChromaScene.h"
+#include "../shaders/Shader.h"
+#include "../buffers/Framebuffer.h"
+#include "../buffers/ShadowBuffer.h"
+
 
 class Renderer
 {
-protected:
+private:
+	// LIGHTING
+	void updateShadowMappingUniforms(ChromaComponent* component);
 
+protected:
+	// SCENE
 	ChromaScene* mScene;
+
+	// SHADOW MAPPING
+	ShadowBuffer* Shadowbuffer;
+
+	// FRAME BUFFER
+	Framebuffer FrameBuffer;
+
+
+	// INITIALIZE
 	void Init();
 public:
 

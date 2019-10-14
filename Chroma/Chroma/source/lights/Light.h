@@ -9,7 +9,7 @@ class Light
 {
 public:
 	//members
-	enum TYPE { POINT = 0, DIRECTIONAL = 1, SPOT= 2 };
+	enum TYPE { POINT = 0, DIRECTIONAL = 1, SPOT= 2, SUNLIGHT=3 };
 	TYPE type{ TYPE::POINT };
 	float intensity{ 1.0f };
 	// transforms

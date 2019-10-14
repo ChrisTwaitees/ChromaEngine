@@ -29,19 +29,18 @@ void Framebuffer::initialize()
 	// SHADER
 	screenShader = Shader(fragSource, vtxSource);
 
-	// generate framebuffer and bind to operate on
+	// generate framebuffer and bindShadowMapToBuffer to operate on
 	glGenFramebuffers(1, &FBO);
-	std::cout << FBO << std::endl;
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	// generate texture to write to
-	glGenTextures(1, &texColorBuffer);
-	glBindTexture(GL_TEXTURE_2D, texColorBuffer);
+	glGenTextures(1, &FBOTexture);
+	glBindTexture(GL_TEXTURE_2D, FBOTexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_HEIGHT / resolutionFactor, SCREEN_WIDTH / resolutionFactor, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glBindTexture(GL_TEXTURE_2D, 0);
 	// attach it to currently bound framebuffer object
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texColorBuffer, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBOTexture, 0);
 	// attaching the stencil and depth buffers to RenderBufferObject (remember we don't need to sample)
 	// (so a RenderBufferObject is perfect for this purpose)
 	glGenRenderbuffers(1, &RBO);
@@ -56,10 +55,15 @@ void Framebuffer::initialize()
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << std::endl;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	// to then render to the newly created framebuffer we simply bind it
+	// to then render to the newly created framebuffer we simply bindShadowMapToBuffer it
 	// all subsequent rendering commands with then influence the currently 
 	// bound framebuffer
 
+}
+
+void Framebuffer::setTexture(unsigned int newFBOTexture)
+{
+	FBOTexture = newFBOTexture;
 }
 
 void Framebuffer::setResolutionScale(unsigned int newScale)
@@ -74,7 +78,7 @@ void Framebuffer::bind()
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glEnable(GL_DEPTH_TEST);
 }
 
@@ -82,15 +86,19 @@ void Framebuffer::Draw()
 {
 	// draw
 	glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
-	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT);
+	//glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+	//glClear(GL_COLOR_BUFFER_BIT);
 
 	// using color attachment
 	screenShader.use();
+	// setting transform uniforms
+	screenShader.setVec2("scale", scale);
+	screenShader.setVec2("offset", offset);
 	glBindVertexArray(VAO);
-	glDisable(GL_DEPTH_TEST);
-	glBindTexture(GL_TEXTURE_2D, texColorBuffer);
+	//glDisable(GL_DEPTH_TEST);
+	glBindTexture(GL_TEXTURE_2D, FBOTexture);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
+	//glEnable(GL_DEPTH_TEST);
 }
 
 Framebuffer::Framebuffer()

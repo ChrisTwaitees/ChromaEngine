@@ -37,50 +37,48 @@ int main()
 	// SCENE 
 	ChromaScene* Scene = new ChromaScene;
 
-	// ENTITIES
-	std::vector<ChromaEntity*> Entities;
-
 	// LIGHTS
 	std::vector<std::shared_ptr<Light>> Lights;
 
 	// RENDERER
 	Renderer Renderer(Scene);
 
-	// Shadowbuffer
-	//ShadowBuffer Shadowbuffer;
-	
 	// SCENE CONTENTS
 	// ---------------
 	// point light positions
 	glm::vec3 pointLightPositions[] = {
-		glm::vec3(0.7f,  0.2f,  2.0f),
-		glm::vec3(2.3f, -3.3f, -4.0f),
-		glm::vec3(-4.0f,  2.0f, -12.0f),
-		glm::vec3(0.0f,  0.0f, -3.0f)
+		glm::vec3(0.7f,  2.2f,  2.0f),
+		glm::vec3(2.3f, -1.3f, -4.0f),
+		glm::vec3(-4.0f,  4.0f, -12.0f),
+		glm::vec3(0.0f,  2.0f, -3.0f)
 	};
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		std::shared_ptr<Light> pointLight = std::make_shared < Light >(pos, Light::POINT);
+		pointLight->intensity *= 5.0f;
+		pointLight->quadratic *= 4.0f;
+		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
 	}
-	// default spot and dir light
-	std::shared_ptr<Light> dirLight = std::make_shared<Light>(Light::DIRECTIONAL, glm::vec3(0.2, -0.8, 0.0), 1.1f);
-	Lights.push_back(dirLight);
+	// SUNLIGHT
+	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.1f);
+
+	Lights.push_back(Sun);
 
 	// CUBES
 	// Dancing cubes
 	glm::vec3 cubePositions[] = {
-		  glm::vec3(0.0f,  0.0f,  0.0f),
-		  glm::vec3(2.0f,  5.0f, -15.0f),
-		  glm::vec3(-1.5f, -2.2f, -2.5f),
-		  glm::vec3(-3.8f, -2.0f, -12.3f),
-		  glm::vec3(2.4f, -0.4f, -3.5f),
-		  glm::vec3(-1.7f,  3.0f, -7.5f),
-		  glm::vec3(1.3f, -2.0f, -2.5f),
-		  glm::vec3(1.5f,  2.0f, -2.5f),
-		  glm::vec3(1.5f,  0.2f, -1.5f),
-		  glm::vec3(-1.3f,  1.0f, -1.5f)
+		  glm::vec3(0.0f,  3.0f,  0.0f),
+		  glm::vec3(2.0f,  8.0f, -15.0f),
+		  glm::vec3(-1.5f, 1.2f, -2.5f),
+		  glm::vec3(-3.8f, 1.0f, -12.3f),
+		  glm::vec3(2.4f, 3.4f, -3.5f),
+		  glm::vec3(-1.7f,  6.0f, -7.5f),
+		  glm::vec3(1.3f, 1.0f, -2.5f),
+		  glm::vec3(1.5f,  5.0f, -2.5f),
+		  glm::vec3(1.5f,  3.2f, -1.5f),
+		  glm::vec3(-1.3f,  4.0f, -1.5f)
 	};
 
 	// Grass Positions
@@ -92,8 +90,8 @@ int main()
 	vegetationPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
 
 	// SHADERS
-	Shader litReflectShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader nanoSuitShader("resources/shaders/fragLitReflect.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader litReflectShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
+	Shader nanoSuitShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
@@ -108,26 +106,41 @@ int main()
 	Texture grassMap("resources/textures/grass.png");
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
-	//// ENTITIES POPULATION
-	//ChromaEntity* NanosuitEntity = new ChromaEntity;
-	//ChromaComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
-	//NanosuitEntity->addComponent(NanoSuitModelComponent);
-	//Entities.push_back(NanosuitEntity);
+	// ENTITIES
+	std::vector<ChromaEntity*> Entities;
 
-	ChromaEntity* BoxEntity = new ChromaEntity;
-	ChromaComponent* BoxMeshComponent = new BoxPrimitive;
-	BoxMeshComponent->bindShader(&litReflectShader);
-	BoxMeshComponent->bindTexture(diffuseMap);
-	BoxMeshComponent->bindTexture(specularMap);
-	BoxEntity->addComponent(BoxMeshComponent);
-	Entities.push_back(BoxEntity);
+	ChromaEntity* NanosuitEntity = new ChromaEntity;
+	ChromaComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
+	NanoSuitModelComponent->bindShader(&nanoSuitShader);
+	NanosuitEntity->addComponent(NanoSuitModelComponent);
+	Entities.push_back(NanosuitEntity);
 
-	ChromaEntity* LampEntity = new ChromaEntity;
-	ChromaComponent* LampMeshComponent = new BoxPrimitive;
-	LampMeshComponent->bindShader(&constantShader);
-	LampEntity->addComponent(LampMeshComponent);
-	Entities.push_back(LampEntity);
-	
+	std::vector<ChromaEntity*> boxes;
+	for (glm::vec3 position : cubePositions)
+	{
+		ChromaEntity* BoxEntity = new ChromaEntity;
+		ChromaComponent* BoxMeshComponent = new BoxPrimitive;
+		BoxMeshComponent->bindShader(&litReflectShader);
+		BoxMeshComponent->bindTexture(diffuseMap);
+		BoxMeshComponent->bindTexture(specularMap);
+		BoxEntity->addComponent(BoxMeshComponent);
+		BoxEntity->setPosition(position);
+		boxes.push_back(BoxEntity);
+		Entities.push_back(BoxEntity);
+	}
+
+	std::vector<ChromaEntity*> lamps;
+	for (glm::vec3 position : pointLightPositions)
+	{
+		ChromaEntity* LampEntity = new ChromaEntity;
+		ChromaComponent* LampMeshComponent = new BoxPrimitive;
+		LampMeshComponent->bindShader(&constantShader);
+		LampEntity->addComponent(LampMeshComponent);
+		LampEntity->setPosition(position);
+		lamps.push_back(LampEntity);
+		Entities.push_back(LampEntity);
+	}
+
 	ChromaEntity* GrassPlaneEntity = new ChromaEntity;
 	ChromaComponent* GrassPlaneMeshComponent =  new PlanePrimitive;
 	GrassPlaneMeshComponent->bindTexture(grassMap);
@@ -153,6 +166,7 @@ int main()
 		// SCREENMANAGER START
 		ScreenManager.Start();
 		float GameTime = ScreenManager.getTime();
+		float DeltaTime = ScreenManager.getDeltaTime();
 
 		// Debug Buttons
 		if (ImGui::Button("Toggle PostFX"))
@@ -168,42 +182,50 @@ int main()
 				debugNormals = true;
 
 		// SHADOW MAPS
+		Sun->position = Sun->direction * -10.0f;
 		//Shadowbuffer.calculateShadows(sunLight);
 
 		// LIGHTS
 		constantShader.use();
-		for (int i = 0; i < Lights.size(); i++)
+		for (int i = 0; i < Lights.size()-1; i++)
 		{
+			if (Lights[i]->type == Light::SUNLIGHT)
+			{
+				//positions
+			//	lamps[i]->setPosition(Lights[i]->position);
+				lamps[i]->scale(glm::vec3(0.3f));
+			}
 			// spin lights
-			Lights[i]->position.x = pointLightPositions[i].x + (std::cos(GameTime * 2.0f + i)) * 4.0f;
-			Lights[i]->position.z = pointLightPositions[i].z + sin(std::sin(GameTime * 2.0f + i)) * 4.0f;
-			Lights[i]->position.y = pointLightPositions[i].y + std::sin(GameTime * 2.5f + i) * 1.0f;
 			if (Lights[i]->type == Light::POINT)
+			{
+				Lights[i]->position.x = pointLightPositions[i].x + (std::cos(GameTime * 2.0f + i)) * 4.0f;
+				Lights[i]->position.z = pointLightPositions[i].z + sin(std::sin(GameTime * 2.0f + i)) * 4.0f;
+				Lights[i]->position.y = pointLightPositions[i].y + std::sin(GameTime * 2.5f + i) * 4.0f;
 				Lights[i]->diffuse = glm::mod(Lights[i]->position, glm::vec3(1.0));
-			//positions
-			LampEntity->setPosition(Lights[i]->position);
-			LampEntity->scale(glm::vec3(0.3f));
+				//positions
+				lamps[i]->setPosition(Lights[i]->position);
+				lamps[i]->scale(glm::vec3(0.3f));
+			}
 			// fragments
-			LampMeshComponent->getShader()->setVec3("lightColor", Lights[i]->diffuse);
-			LampMeshComponent->getShader()->setFloat("lightIntensity", Lights[i]->intensity);
+			for (ChromaComponent* component : lamps[i]->RenderableComponents)
+			{
+				component->getShader()->setVec3("lightColor", Lights[i]->diffuse);
+				component->getShader()->setFloat("lightIntensity", Lights[i]->intensity);
+			}
 		}
 
 		// RENDER ENTITIES
-		//NanosuitEntity->scale(glm::vec3(0.3f));
+		NanosuitEntity->setScale(glm::vec3( 0.5f));
 
-		//if(debugNormals)
-		//	NanosuitEntity->Draw(debugNormalsShader);
+		if(debugNormals)
+			NanosuitEntity->Draw(debugNormalsShader);
+		//NanosuitEntity->Draw(refractionShader, *MainCamera, Scene->Lights);
 
-		//Nanosuit->translate(glm::vec3(10.0f, 0.0f, 0.0f));
-		//Nanosuit->Draw(depthShader);
-		//Nanosuit->Draw(refractionShader);
-
-		// CREATING BOXES
-		for (unsigned int i = 0; i < 10; i++)
+		// SPINNING BOXES
+		for (unsigned int i = 0; i < boxes.size(); i++)
 		{
-			BoxEntity->setPosition(cubePositions[i]);
-			float angle = GameTime * ( i + 1 ) * 3.f;
-			BoxEntity->rotate(angle, glm::vec3(1.0f, 0.3f, 0.5f));
+			float angle = DeltaTime * ( i + 1 ) * 6.0f;
+			boxes[i]->rotate(angle, glm::vec3(1.0f, 0.3f, 0.5f));
 		}
 
 		// CREATING GRASS
@@ -218,7 +240,7 @@ int main()
 		for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
 		{
 			GrassPlaneEntity->setPosition(glm::vec3(it->second));
-			GrassPlaneEntity->Draw(*MainCamera, Scene->Lights );
+			//GrassPlaneEntity->Draw(*MainCamera, Scene->Lights );
 		}
 
 		// RENDER
@@ -230,11 +252,9 @@ int main()
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	//// ------------------------------------------------------------------------
-	delete BoxEntity;
-	delete LampEntity;
 	delete GrassPlaneEntity;
 	delete TerrainEntity;
-//	delete NanosuitEntity;
+	delete NanosuitEntity;
 	delete MainCamera;
 	delete Scene;
 

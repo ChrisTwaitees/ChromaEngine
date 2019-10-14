@@ -54,7 +54,8 @@ void StaticMesh::updateLightingUniforms(Shader& shader, std::vector < std::share
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
 			break;
-		case Light::DIRECTIONAL:
+		case Light::SUNLIGHT :
+		case Light::DIRECTIONAL :
 			dirlights++;
 			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
 			break;
@@ -87,6 +88,7 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
 	unsigned int specularNr{ 1 };
+	unsigned int shadowmapNr{ 1 };
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
@@ -95,17 +97,21 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 		std::string texturenum;
 		if (textures[i].type == Texture::DIFFUSE)
 		{
-			name = "texture_diffuse";
+			name = "material.texture_diffuse";
 			texturenum = std::to_string(diffuseNr++);
 		}
 		if (textures[i].type == Texture::SPECULAR)
 		{
-			name = "texture_specular";
+			name = "material.texture_specular";
 			texturenum = std::to_string(specularNr++);
-			
+		}
+		if (textures[i].type == Texture::SHADOWMAP)
+		{
+			name = "shadowmaps.shadowmap";
+			texturenum = std::to_string(shadowmapNr++);
 		}
 		// setting uniform and binding texture
-		shader.setInt(("material." + name + texturenum).c_str(), i);
+		shader.setInt(( name + texturenum).c_str(), i);
 
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		// activate texture
@@ -115,14 +121,16 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 
 void StaticMesh::updateTransformUniforms(Shader& shader, Camera& renderCam, glm::mat4& modelMatrix)
 {
-	shader.setMat4("model", modelMatrix);
+
+	glm::mat4 finalTransform = getTransformationMatrix() * modelMatrix;
+	shader.setMat4("model", finalTransform);
 	shader.setMat4("view", renderCam.viewMat);
 	shader.setMat4("projection", renderCam.projectionMat);
 }
 
 void StaticMesh::updateMaterialUniforms(Shader& shader)
 {
-	shader.setFloat("material.ambientBrightness", 0.06f);
+	shader.setFloat("material.ambientBrightness", 0.16f);
 	shader.setFloat("material.roughness", 64.0f);
 	shader.setFloat("material.specularIntensity", 1.0f);
 	shader.setFloat("material.cubemapIntensity", 1.0f);
@@ -176,9 +184,7 @@ void StaticMesh::bindTextures(std::vector<Texture> textures_val)
 			}
 		}
 		if (!skip)
-		{
 			textures.push_back(textures_val[i]);
-		}
 	}
 }
 
@@ -200,12 +206,23 @@ void StaticMesh::bindTexture(Texture texture_val)
 	}
 }
 
+void StaticMesh::setMat4(std::string name, glm::mat4 value)
+{
+	pShader->setMat4(name, value);
+}
+
+void StaticMesh::setInt(std::string name, int value)
+{
+	pShader->setInt(name, value);
+}
+
 StaticMesh::StaticMesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
 {
 	isRenderable = true;
 	vertices = vertices_val;
 	indices = indices_val;
 	textures = textures_val;
+	
 
 	setupMesh();
 }

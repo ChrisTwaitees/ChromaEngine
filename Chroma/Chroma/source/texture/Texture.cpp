@@ -4,6 +4,12 @@
 #include "stb_image.h"
 #include "Texture.h"
 
+Texture::Texture(unsigned int newID)
+{
+	id = newID;
+	path = ChromaUID().UID;
+}
+
 Texture::Texture(std::string sourcepath)
 {
 	path = sourcepath;

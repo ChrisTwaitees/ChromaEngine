@@ -199,6 +199,7 @@
     <ClInclude Include="source\models\StaticMesh.h" />
     <ClInclude Include="source\models\PlanePrimitive.h" />
     <ClInclude Include="source\models\SkyBox.h" />
+    <ClInclude Include="source\renderer\ChromaRendererConfig.h" />
     <ClInclude Include="source\renderer\Renderer.h" />
     <ClInclude Include="source\scene\ChromaScene.h" />
     <ClInclude Include="source\screenManager\ChromaScreenManager.h" />
@@ -220,6 +221,7 @@
     <None Include="resources\shaders\fragDepthMap.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
+    <None Include="resources\shaders\fragLitShadows.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
     <None Include="resources\shaders\fragTest.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
@@ -229,6 +231,7 @@
     <None Include="resources\shaders\skyBoxVertex.glsl" />
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />
+    <None Include="resources\shaders\vertexLitShadows.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

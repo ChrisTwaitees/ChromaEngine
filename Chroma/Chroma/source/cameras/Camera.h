@@ -22,8 +22,8 @@ protected:
 	float maxPitch{ 90.0f }, maxYaw{90.0f};
 
 	// loot at attrs
-	glm::vec3 cameraPos{ 0.0f, 0.0f, -.2f };
-	glm::vec3 cameraTarget{ 0.0f, 0.0f, 0.0f };
+	glm::vec3 cameraPos{ 0.0f, 5.0f, 5.0f };
+	glm::vec3 cameraTarget{ 0.0f, 5.0f, 0.0f };
 	glm::vec3 cameraDirection = glm::normalize(cameraPos - cameraTarget);
 	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);

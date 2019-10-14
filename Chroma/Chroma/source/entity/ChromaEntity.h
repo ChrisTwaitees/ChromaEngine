@@ -41,6 +41,7 @@ public:
 	// Getters and Setters
 	std::string getUID() { return uid.UID; };
 	std::string getName() { return name; };
+	glm::mat4 getTransformationMatrix() { return transformMatrix; };
 	
 	void setName(std::string newName) { name = newName; };
 

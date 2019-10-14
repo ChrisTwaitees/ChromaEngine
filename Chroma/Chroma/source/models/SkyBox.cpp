@@ -8,7 +8,7 @@ void SkyBox::initialize()
 	// set VBO buffer data
 	glBufferData(GL_ARRAY_BUFFER, skyBoxVerts.size() * sizeof(float), &skyBoxVerts[0], GL_STATIC_DRAW);
 
-	// create and bind VAO
+	// create and bindShadowMapToBuffer VAO
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 

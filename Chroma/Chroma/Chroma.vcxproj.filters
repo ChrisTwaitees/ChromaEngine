@@ -269,6 +269,9 @@
     <ClInclude Include="source\component\ChromaMeshComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
+    <ClInclude Include="source\renderer\ChromaRendererConfig.h">
+      <Filter>Renderer\renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">
@@ -325,6 +328,12 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexDepthMap.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragLitShadows.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexLitShadows.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>

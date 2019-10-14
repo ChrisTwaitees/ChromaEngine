@@ -3,7 +3,7 @@
 
 void CubeMap::generateCubeMap()
 {
-	// gen id and bind
+	// gen id and bindShadowMapToBuffer
 	glGenTextures(1, &id);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
 	// for the six faces gen 2D textures

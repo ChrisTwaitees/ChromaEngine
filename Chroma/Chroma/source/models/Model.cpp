@@ -3,20 +3,41 @@
 
 void Model::Draw(Shader &shader)
 {
-	for (StaticMesh mesh : meshes)
-		mesh.Draw(shader);
+	for (StaticMesh* mesh : meshes)
+		mesh->Draw(shader);
 }
 
 void Model::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
-	for (StaticMesh mesh : meshes)
-		mesh.Draw(RenderCamera, Lights, transformMatrix);
+	if (pShader)
+		Draw(*pShader, RenderCamera, Lights, transformMatrix);
+	else
+		for (StaticMesh* mesh : meshes)
+				mesh->Draw(RenderCamera, Lights, transformMatrix);
 }
 
 void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
-	for (StaticMesh mesh : meshes)
-		mesh.Draw(shader, RenderCamera, Lights, transformMatrix);
+	for (StaticMesh* mesh : meshes)
+		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
+}
+
+void Model::bindTexture(Texture texture_val)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->bindTexture(texture_val);
+}
+
+void Model::setMat4(std::string name, glm::mat4 value)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->setMat4(name, value);
+}
+
+void Model::setInt(std::string name, int value)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->setInt(name, value);
 }
 
 Model::~Model()
@@ -52,7 +73,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-StaticMesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
+StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -108,7 +129,7 @@ StaticMesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 	}
 
-	return StaticMesh(vertices, indices, textures);
+	return new StaticMesh(vertices, indices, textures);
 }
 
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName)

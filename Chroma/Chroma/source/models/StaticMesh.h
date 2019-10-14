@@ -22,6 +22,10 @@ struct Vertex{
 class StaticMesh : public ChromaMeshComponent
 {
 protected:
+	// Default Shader
+	std::string fragShaderSource = "resources/shaders/fragLitReflect.glsl";
+	std::string vtxShaderSource = "resources/shaders/vertexShaderLighting.glsl";
+
 	/*  RenderScene Data  */
 	unsigned int VAO, VBO, EBO;
 	/*  Functions  */
@@ -36,7 +40,7 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
-	Shader* pShader;
+	Shader* pShader = new Shader(fragShaderSource, vtxShaderSource);
 
 	// Functions
 	virtual void Draw(Shader &shader) override;
@@ -51,6 +55,12 @@ public:
 
 	// Getters/Setters
 	virtual Shader* getShader() { return pShader; };
+	int getNumTextures() override { return textures.size(); };
+	virtual glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
+
+	// Shader Uniforms
+	virtual void setMat4(std::string name, glm::mat4 value);
+	virtual void setInt(std::string name, int value);
 
 	StaticMesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
 	StaticMesh();

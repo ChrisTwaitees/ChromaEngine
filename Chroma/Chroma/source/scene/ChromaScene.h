@@ -16,6 +16,7 @@ public:
 	std::vector<ChromaEntity*> Entities;
 
 	Camera* RenderCamera;
+	Light* SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
 
 
 	// Add/Remove from Scene
@@ -30,7 +31,7 @@ public:
 
 	// Getters/Setters
 	void setRenderCamera(Camera*& newRenderCamera) { RenderCamera = newRenderCamera; };
-	void setLights(std::vector<std::shared_ptr<Light>>& newLights) { Lights = newLights; };
+	void setLights(std::vector<std::shared_ptr<Light>>& newLights);
 	void setCameras(std::vector<Camera*>& newCameras) { Cameras = newCameras; };
 	void setEntities(std::vector<ChromaEntity*>& newCameras) { Entities = newCameras; };
 
