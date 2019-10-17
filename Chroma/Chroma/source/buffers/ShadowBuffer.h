@@ -16,10 +16,10 @@ class ShadowBuffer
 {
 private:
 	// Chroma Scene
-	ChromaScene* mScene;
+	const ChromaScene* mScene;
 	// DepthBuffers
 	unsigned int depthMapFBO;
-	unsigned int resolutionFactor{ 2 };
+	unsigned int resolutionFactor{ 1 };
 	// resolution
 	unsigned int width{ SHADOW_WIDTH / resolutionFactor };
 	unsigned int height{ SHADOW_HEIGHT / resolutionFactor };
@@ -44,7 +44,7 @@ public:
 	// calculate shadows
 	void calculateShadows();
 	// constructors
-	ShadowBuffer(ChromaScene* Scene);
+	ShadowBuffer(const ChromaScene* Scene);
 	~ShadowBuffer();
 };
 

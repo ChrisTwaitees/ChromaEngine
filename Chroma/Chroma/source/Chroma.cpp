@@ -40,8 +40,6 @@ int main()
 	// LIGHTS
 	std::vector<std::shared_ptr<Light>> Lights;
 
-	// RENDERER
-	Renderer Renderer(Scene);
 
 	// SCENE CONTENTS
 	// ---------------
@@ -158,6 +156,10 @@ int main()
 	Scene->setEntities(Entities);
 	Scene->setLights(Lights);
 	Scene->setRenderCamera(MainCamera);
+
+	// RENDERER
+	Renderer Renderer(Scene);
+
 
 	// RENDER LOOP
 	// -----------

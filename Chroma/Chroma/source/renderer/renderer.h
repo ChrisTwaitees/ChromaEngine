@@ -15,7 +15,7 @@ private:
 
 protected:
 	// SCENE
-	ChromaScene* mScene;
+	const ChromaScene* mScene;
 
 	// SHADOW MAPPING
 	ShadowBuffer* Shadowbuffer;
@@ -29,7 +29,7 @@ protected:
 public:
 
 	void RenderScene();
-	Renderer(ChromaScene* Scene);
+	Renderer(const ChromaScene* Scene);
 	~Renderer();
 };
 

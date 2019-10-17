@@ -30,11 +30,11 @@ protected:
 	unsigned int VAO, VBO, EBO;
 	/*  Functions  */
 	virtual void setupMesh();
-	virtual void updateUniforms(Shader& updateShader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
-	virtual void updateTransformUniforms(Shader& shader, Camera& renderCam, glm::mat4& modelMatrix);
-	virtual void updateMaterialUniforms(Shader& shader);
-	virtual void updateLightingUniforms(Shader& shader, std::vector < std::shared_ptr<Light>> Lights, Camera& renderCam);
-	virtual void updateTextureUniforms(Shader& shader);
+	virtual void updateUniforms(const Shader* shader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
+	virtual void updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix);
+	virtual void updateMaterialUniforms(const Shader* shader);
+	virtual void updateLightingUniforms(const Shader* shader, std::vector < std::shared_ptr<Light>> Lights, Camera& renderCam);
+	virtual void updateTextureUniforms(const Shader* shader);
 public:
 	// Mesh Data
 	std::vector<Vertex> vertices;

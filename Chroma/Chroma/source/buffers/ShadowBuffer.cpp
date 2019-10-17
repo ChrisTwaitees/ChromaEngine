@@ -15,8 +15,7 @@ void ShadowBuffer::calcLightSpaceMatrix()
 
 void ShadowBuffer::initialize()
 {
-	// shadow map texture type
-	ShadowMapTexture.type = Texture::SHADOWMAP;
+
 
 	// depth shader
 	depthShader = Shader(depthFragSource, depthVtxSource);
@@ -38,6 +37,14 @@ void ShadowBuffer::initialize()
 
 	// bindShadowMapToBuffer the texture to the framebuffer
 	bindShadowMapToBuffer();
+
+	// shadow map texture type
+	ShadowMapTexture.type = Texture::SHADOWMAP;
+	for (ChromaEntity* entity : mScene->Entities)
+		for (ChromaComponent* component : entity->RenderableComponents)
+		{
+			component->bindTexture(ShadowMapTexture);
+		}
 }
 
 void ShadowBuffer::bindShadowMapToBuffer()
@@ -90,7 +97,7 @@ void ShadowBuffer::calculateShadows()
 
 
 
-ShadowBuffer::ShadowBuffer(ChromaScene* Scene)
+ShadowBuffer::ShadowBuffer(const ChromaScene* Scene)
 {
 	mScene = Scene;
 	initialize();

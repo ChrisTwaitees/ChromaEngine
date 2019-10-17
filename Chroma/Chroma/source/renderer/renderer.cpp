@@ -8,7 +8,6 @@ void Renderer::updateShadowMappingUniforms(ChromaComponent* component)
 	unsigned int textureIndex = component->getNumTextures() - 1;
 	component->getShader()->use();
 	component->getShader()->setMat4("lightSpaceMatrix", Shadowbuffer->getLightSpaceMatrix());
-
 	//glActiveTexture(GL_TEXTURE0 + textureIndex);
 	//component->getShader()->setInt("shadowmaps.shadowmap1", ShadowMapTextureID);
 	//glBindTexture(GL_TEXTURE_2D, ShadowMapTextureID);
@@ -40,7 +39,7 @@ void Renderer::RenderScene()
 	}
 }
 
-Renderer::Renderer(ChromaScene* Scene)
+Renderer::Renderer(const ChromaScene* Scene)
 {
 	mScene = Scene;
 	Init();

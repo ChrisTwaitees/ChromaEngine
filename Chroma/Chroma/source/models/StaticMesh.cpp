@@ -32,7 +32,7 @@ void StaticMesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void StaticMesh::updateUniforms(Shader& updateShader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
+void StaticMesh::updateUniforms(const Shader* updateShader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
 {
 	updateTransformUniforms(updateShader, RenderCam, TransformMatrix);
 	updateTextureUniforms(updateShader);
@@ -40,7 +40,7 @@ void StaticMesh::updateUniforms(Shader& updateShader, std::vector < std::shared_
 	updateLightingUniforms(updateShader, Lights, RenderCam);
 }
 
-void StaticMesh::updateLightingUniforms(Shader& shader, std::vector < std::shared_ptr<Light>> Lights, Camera& renderCam)
+void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector < std::shared_ptr<Light>> Lights, Camera& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
@@ -67,23 +67,23 @@ void StaticMesh::updateLightingUniforms(Shader& shader, std::vector < std::share
 			break;
 		}
 		//// lights directional
-		shader.setVec3(lightIndex + ".direction", Lights[i]->direction);
-		shader.setVec3(lightIndex + ".position", Lights[i]->position);
-		shader.setVec3(lightIndex + ".diffuse", Lights[i]->diffuse);
-		shader.setFloat(lightIndex + ".intensity", Lights[i]->intensity);
+		shader->setVec3(lightIndex + ".direction", Lights[i]->direction);
+		shader->setVec3(lightIndex + ".position", Lights[i]->position);
+		shader->setVec3(lightIndex + ".diffuse", Lights[i]->diffuse);
+		shader->setFloat(lightIndex + ".intensity", Lights[i]->intensity);
 		//// lights spotlight
-		shader.setFloat(lightIndex + ".spotSize", Lights[i]->spotSize);
-		shader.setFloat(lightIndex + ".penumbraSize", Lights[i]->penumbraSize);
+		shader->setFloat(lightIndex + ".spotSize", Lights[i]->spotSize);
+		shader->setFloat(lightIndex + ".penumbraSize", Lights[i]->penumbraSize);
 		//// lights point light falloff
-		shader.setFloat(lightIndex + ".constant", Lights[i]->constant);
-		shader.setFloat(lightIndex + ".linear", Lights[i]->linear);
-		shader.setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
+		shader->setFloat(lightIndex + ".constant", Lights[i]->constant);
+		shader->setFloat(lightIndex + ".linear", Lights[i]->linear);
+		shader->setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
 		//// lights view pos
-		shader.setVec3("viewPos", renderCam.get_position());
+		shader->setVec3("viewPos", renderCam.get_position());
 	}
 }
 
-void StaticMesh::updateTextureUniforms(Shader& shader)
+void StaticMesh::updateTextureUniforms(const Shader* shader)
 {
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
@@ -111,7 +111,7 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 			texturenum = std::to_string(shadowmapNr++);
 		}
 		// setting uniform and binding texture
-		shader.setInt(( name + texturenum).c_str(), i);
+		shader->setInt(( name + texturenum).c_str(), i);
 
 		glBindTexture(GL_TEXTURE_2D, textures[i].id);
 		// activate texture
@@ -119,21 +119,21 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void StaticMesh::updateTransformUniforms(Shader& shader, Camera& renderCam, glm::mat4& modelMatrix)
+void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix)
 {
 
 	glm::mat4 finalTransform = getTransformationMatrix() * modelMatrix;
-	shader.setMat4("model", finalTransform);
-	shader.setMat4("view", renderCam.viewMat);
-	shader.setMat4("projection", renderCam.projectionMat);
+	shader->setMat4("model", finalTransform);
+	shader->setMat4("view", renderCam.viewMat);
+	shader->setMat4("projection", renderCam.projectionMat);
 }
 
-void StaticMesh::updateMaterialUniforms(Shader& shader)
+void StaticMesh::updateMaterialUniforms(const Shader* shader)
 {
-	shader.setFloat("material.ambientBrightness", 0.16f);
-	shader.setFloat("material.roughness", 64.0f);
-	shader.setFloat("material.specularIntensity", 1.0f);
-	shader.setFloat("material.cubemapIntensity", 1.0f);
+	shader->setFloat("material.ambientBrightness", 0.16f);
+	shader->setFloat("material.roughness", 64.0f);
+	shader->setFloat("material.specularIntensity", 1.0f);
+	shader->setFloat("material.cubemapIntensity", 1.0f);
 }
 
 void StaticMesh::Draw(Shader &shader)
@@ -146,14 +146,14 @@ void StaticMesh::Draw(Shader &shader)
 void StaticMesh::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
 	pShader->use();
-	updateUniforms(*pShader, Lights, RenderCamera, transformMatrix);
+	updateUniforms(pShader, Lights, RenderCamera, transformMatrix);
 	BindDrawVAO();
 }
 
 void StaticMesh::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
 	shader.use();
-	updateUniforms(shader, Lights, RenderCamera, transformMatrix);
+	updateUniforms(&shader, Lights, RenderCamera, transformMatrix);
 	BindDrawVAO();
 }
 
