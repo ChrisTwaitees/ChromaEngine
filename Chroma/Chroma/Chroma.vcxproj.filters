@@ -336,5 +336,11 @@
     <None Include="resources\shaders\vertexLitShadows.glsl">
       <Filter>resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\fragLitShadowsNormals.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexLitShadowsNormals.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

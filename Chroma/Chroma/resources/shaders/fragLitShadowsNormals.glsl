@@ -6,6 +6,7 @@ in VS_OUT {
     vec3 Normal;
     vec2 TexCoords;
     vec4 FragPosLightSpace;
+	mat3 TBN;
 } fs_in;
 
 // MAX_LIGHTS
@@ -103,10 +104,13 @@ void main()
 	// maps
 	vec3 diffuseMap = vec3(texture(material.texture_diffuse1, fs_in.TexCoords));
 	vec3 specularMap = vec3(texture(material.texture_specular1, fs_in.TexCoords));
-	vec3 normalMap = vec3(texture(material.texture_specular1, fs_in.TexCoords));
+	vec3 normalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords));
 
 	// attrs
-	vec3 norm = normalize(fs_in.Normal);
+	//vec3 norm = normalize(fs_in.Normal);
+	// if normal map used, transform from tangent to world space
+	vec3 norm = normalize(normalMap * 2.0 - 1.0);
+	norm = normalize(fs_in.TBN * norm);
 	vec3 viewDir = normalize(viewPos - fs_in.FragPos);
 
 	// direction lights

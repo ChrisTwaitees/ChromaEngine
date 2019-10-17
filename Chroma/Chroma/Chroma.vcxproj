@@ -222,6 +222,7 @@
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
     <None Include="resources\shaders\fragLitShadows.glsl" />
+    <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
     <None Include="resources\shaders\fragTest.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
@@ -232,6 +233,7 @@
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />
     <None Include="resources\shaders\vertexLitShadows.glsl" />
+    <None Include="resources\shaders\vertexLitShadowsNormals.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

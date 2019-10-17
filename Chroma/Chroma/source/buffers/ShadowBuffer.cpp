@@ -5,8 +5,8 @@ void ShadowBuffer::calcLightSpaceMatrix()
 	// Fetch sunlight from scene
 	Light* SceneSunLight = mScene->SunLight;
 	// calculate LightSpaceMatrix
-	float near_plane = 1.0f, far_plane = 15.0f;
-	glm::mat4 lightProjection = glm::ortho(-10.0f, 10.0f, -10.0f, 10.0f, near_plane, far_plane);
+	float near_plane = 0.1f, far_plane = 35.0f;
+	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
 	glm::mat4 lightView = glm::lookAt(SceneSunLight->direction * -10.0f,
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));

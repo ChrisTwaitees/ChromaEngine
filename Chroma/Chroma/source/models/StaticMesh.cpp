@@ -25,9 +25,15 @@ void StaticMesh::setupMesh()
 	// vertex normals
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Normal));
-	// vertex TexCoords
+	// vertex uvs
 	glEnableVertexAttribArray(2);
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));
+	// vertex tangents
+	glEnableVertexAttribArray(3);
+	glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Tangent));
+	// vertex bitangents
+	glEnableVertexAttribArray(4);
+	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Bitangent));
 
 	glBindVertexArray(0);
 }
@@ -89,6 +95,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 	unsigned int diffuseNr{ 1 };
 	unsigned int specularNr{ 1 };
 	unsigned int shadowmapNr{ 1 };
+	unsigned int normalNr{ 1 };
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
@@ -109,6 +116,11 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		{
 			name = "shadowmaps.shadowmap";
 			texturenum = std::to_string(shadowmapNr++);
+		}
+		if (textures[i].type == Texture::NORMAL)
+		{
+			name = "material.texture_normal";
+			texturenum = std::to_string(normalNr++);
 		}
 		// setting uniform and binding texture
 		shader->setInt(( name + texturenum).c_str(), i);

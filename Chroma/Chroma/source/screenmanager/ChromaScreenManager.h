@@ -54,7 +54,7 @@ private:
 	bool usePostFX{false};
 
 	// skybox
-	bool useSkybox{true};
+	bool useSkybox{false};
 
 	// renderer
 	static void updateRendererViewportDimensions(int width, int height);

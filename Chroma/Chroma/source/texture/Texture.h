@@ -12,7 +12,7 @@ protected:
 public:
 	/*  Texture Data  */
 	unsigned int id;
-	enum TYPE { DIFFUSE = 0, SPECULAR = 1, SHADOWMAP = 2 };
+	enum TYPE { DIFFUSE = 0, SPECULAR = 1, SHADOWMAP = 2, NORMAL=3 };
 	TYPE type = TYPE::DIFFUSE;
 	// paths
 	std::string filename;

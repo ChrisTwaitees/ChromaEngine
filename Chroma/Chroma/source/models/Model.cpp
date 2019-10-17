@@ -47,7 +47,7 @@ Model::~Model()
 void Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
@@ -97,6 +97,20 @@ StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		normal.z = mesh->mNormals[i].z;
 		vertex.Normal = normal;
 
+		// tangents
+		glm::vec3 tangent;
+		tangent.x = mesh->mTangents[i].x;
+		tangent.y = mesh->mTangents[i].y;
+		tangent.z = mesh->mTangents[i].z;
+		vertex.Tangent = normal;
+
+		// bitangents 
+		glm::vec3 bitangent;
+		bitangent.x = mesh->mBitangents[i].x;
+		bitangent.y = mesh->mBitangents[i].y;
+		bitangent.z = mesh->mBitangents[i].z;
+		vertex.Bitangent = bitangent;
+
 		// texture coords
 		if (mesh->mTextureCoords[0])
 		{
@@ -121,12 +135,18 @@ StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+		// diffuse textures
 		std::vector<Texture> diffuseMaps = loadMaterialTextures(material,
 			aiTextureType_DIFFUSE, Texture::DIFFUSE);
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		// specular textures
 		std::vector<Texture> specularMaps = loadMaterialTextures(material,
 			aiTextureType_SPECULAR, Texture::SPECULAR);
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		// normal textures
+		std::vector<Texture> normalMaps = loadMaterialTextures(material,
+			aiTextureType_HEIGHT, Texture::NORMAL);
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 	}
 
 	return new StaticMesh(vertices, indices, textures);

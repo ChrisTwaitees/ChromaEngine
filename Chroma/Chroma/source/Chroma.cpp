@@ -88,12 +88,11 @@ int main()
 	vegetationPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
 
 	// SHADERS
-	Shader litReflectShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
-	Shader nanoSuitShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
+	Shader litNormalsShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+	Shader litShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader testShader("resources/shaders/fragTest.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
 	bool debugNormals{false};
@@ -109,7 +108,7 @@ int main()
 
 	ChromaEntity* NanosuitEntity = new ChromaEntity;
 	ChromaComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
-	NanoSuitModelComponent->bindShader(&nanoSuitShader);
+	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	Entities.push_back(NanosuitEntity);
 
@@ -118,7 +117,7 @@ int main()
 	{
 		ChromaEntity* BoxEntity = new ChromaEntity;
 		ChromaComponent* BoxMeshComponent = new BoxPrimitive;
-		BoxMeshComponent->bindShader(&litReflectShader);
+		BoxMeshComponent->bindShader(&litShader);
 		BoxMeshComponent->bindTexture(diffuseMap);
 		BoxMeshComponent->bindTexture(specularMap);
 		BoxEntity->addComponent(BoxMeshComponent);
@@ -147,8 +146,7 @@ int main()
 
 	ChromaEntity* TerrainEntity = new ChromaEntity;
 	ChromaComponent* TerrainMeshComponent = new Terrain;
-	TerrainMeshComponent->bindTexture(terrainTex);
-	TerrainMeshComponent->bindShader(&litReflectShader);
+	TerrainMeshComponent->bindShader(&litNormalsShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 	Entities.push_back(TerrainEntity);
 
@@ -184,8 +182,7 @@ int main()
 				debugNormals = true;
 
 		// SHADOW MAPS
-		Sun->position = Sun->direction * -10.0f;
-		//Shadowbuffer.calculateShadows(sunLight);
+		Sun->position = Sun->direction * -20.0f;
 
 		// LIGHTS
 		constantShader.use();
@@ -218,6 +215,10 @@ int main()
 
 		// RENDER ENTITIES
 		NanosuitEntity->setScale(glm::vec3( 0.5f));
+		NanosuitEntity->rotate(glm::mod(GameTime,360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));
+
+		//Sunlight Rotation
+		Sun->direction = glm::normalize((glm::vec3(std::sin(GameTime*1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f))));
 
 		if(debugNormals)
 			NanosuitEntity->Draw(debugNormalsShader);
