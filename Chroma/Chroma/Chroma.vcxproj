@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\thirdparty\include\glad\glad.c" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
@@ -144,13 +145,14 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\gui\GUI.cpp" />
     <ClCompile Include="source\models\BoxPrimitive.cpp" />
+    <ClCompile Include="source\models\LinePrimitive.cpp" />
     <ClCompile Include="source\models\Model.cpp" />
     <ClCompile Include="source\cameras\Camera.cpp" />
-    <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\lights\Light.cpp" />
     <ClCompile Include="source\main.cpp" />
     <ClCompile Include="source\models\Mesh.cpp" />
     <ClCompile Include="source\models\PlanePrimitive.cpp" />
+    <ClCompile Include="source\shaders\GeometryShader.cpp" />
     <ClCompile Include="source\shaders\Shader.cpp" />
     <ClCompile Include="source\textures\Texture.cpp" />
   </ItemGroup>
@@ -166,11 +168,13 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="source\gui\GUI.h" />
     <ClInclude Include="source\models\BoxPrimitive.h" />
+    <ClInclude Include="source\models\LinePrimitive.h" />
     <ClInclude Include="source\models\Model.h" />
     <ClInclude Include="source\cameras\Camera.h" />
     <ClInclude Include="source\lights\Light.h" />
     <ClInclude Include="source\models\Mesh.h" />
     <ClInclude Include="source\models\PlanePrimitive.h" />
+    <ClInclude Include="source\shaders\GeometryShader.h" />
     <ClInclude Include="source\shaders\Shader.h" />
     <ClInclude Include="source\textures\stb_image.h" />
     <ClInclude Include="source\textures\Texture.h" />
@@ -182,8 +186,10 @@
     <None Include="resources\shaders\fragAlpha.glsl" />
     <None Include="resources\shaders\fragConstant.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />
+    <None Include="resources\shaders\fragLine.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragTest.glsl" />
+    <None Include="resources\shaders\vertexLineShader.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -53,7 +53,6 @@ void Mesh::Draw(Shader &shader)
 			name = "texture_specular";
 			texturenum = std::to_string(specularNr++);
 		}
-		std::cout << "diffuse texture: " << textures[i].path << " attempting to draw." << std::endl;
 		// setting uniform and binding texture
 		shader.setInt(("material." + name + texturenum).c_str(), i);
 

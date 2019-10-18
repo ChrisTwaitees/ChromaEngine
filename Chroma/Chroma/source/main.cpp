@@ -13,6 +13,7 @@
 #include <glm/gtc/type_ptr.hpp>
 // local
 #include "shaders/Shader.h"
+//#include "shaders/GeometryShader.h"
 #include "buffers/VertexBuffer.h"
 #include "models/Model.h"
 #include "models/BoxPrimitive.h"
@@ -135,6 +136,7 @@ int main()
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader testShader("resources/shaders/fragTest.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	//GeometryShader lineShader("resources/shaders/fragLine.glsl", "resources/shaders/vertexLineShader.glsl");
 
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");

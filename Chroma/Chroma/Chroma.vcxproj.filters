@@ -42,9 +42,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\glad.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -90,7 +87,16 @@
     <ClCompile Include="source\gui\GUI.cpp">
       <Filter>GUI</Filter>
     </ClCompile>
+    <ClCompile Include="source\models\LinePrimitive.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
     <ClCompile Include="source\models\PlanePrimitive.cpp">
+      <Filter>model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\shaders\GeometryShader.cpp">
+      <Filter>shader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\glad\glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -150,7 +156,13 @@
       <Filter>GUI</Filter>
     </ClInclude>
     <ClInclude Include="source\models\PlanePrimitive.h">
-      <Filter>Header Files</Filter>
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\models\LinePrimitive.h">
+      <Filter>model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\shaders\GeometryShader.h">
+      <Filter>shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +187,12 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragAlpha.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexLineShader.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragLine.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>
