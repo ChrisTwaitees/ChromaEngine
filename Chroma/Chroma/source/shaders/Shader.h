@@ -20,19 +20,28 @@ struct Material {
 
 class Shader
 {
+private:
+	void checkCompileErrors(GLuint shader, std::string type);
+	void CompileAndLink();
+	void LoadShaderSource();
+	std::string fragSourcePath, vertexSourcePath, geometrySourcePath;
+	std::string fragCode, vertexCode, geometryCode;
 public:
 	//program ID
 	unsigned int id;
 
 	//constructor reads and builds the shader
-	Shader(const GLchar* vertexPath, const GLchar* fragmentPath);
+	Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");
+	Shader() {};
+	~Shader();
 	// use/activate the shader;
-	void use();
+	virtual void use();
 	void setBool(const std::string& name, bool value) const;
 	void setInt(const std::string& name, int value) const;
 	void setFloat(const std::string& name, float value) const;
-	void setVec3(const std::string& name, glm::vec3 vec3) const;
-	void setMat4(const std::string& name, glm::mat4 matrix);
+	void setVec2(const std::string& name, glm::vec2 value) const;
+	void setVec3(const std::string& name, glm::vec3 value) const;
+	void setMat4(const std::string& name, glm::mat4 matrix) const;
 };
 
 

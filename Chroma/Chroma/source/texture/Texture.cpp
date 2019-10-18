@@ -2,9 +2,13 @@
 #define STB_IMAGE_IMPLEMENTATION
 #endif
 #include "stb_image.h"
-#include <iostream>
 #include "Texture.h"
 
+Texture::Texture(unsigned int newID)
+{
+	id = newID;
+	path = ChromaUID().UID;
+}
 
 Texture::Texture(std::string sourcepath)
 {

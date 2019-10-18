@@ -1,10 +1,43 @@
 #include "Model.h"
-#include "../textures/stb_image.h"
+#include "../texture/stb_image.h"
 
 void Model::Draw(Shader &shader)
 {
-	for (Mesh mesh : meshes)
-		mesh.Draw(shader);
+	for (StaticMesh* mesh : meshes)
+		mesh->Draw(shader);
+}
+
+void Model::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
+{
+	if (pShader)
+		Draw(*pShader, RenderCamera, Lights, transformMatrix);
+	else
+		for (StaticMesh* mesh : meshes)
+				mesh->Draw(RenderCamera, Lights, transformMatrix);
+}
+
+void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
+}
+
+void Model::bindTexture(Texture texture_val)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->bindTexture(texture_val);
+}
+
+void Model::setMat4(std::string name, glm::mat4 value)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->setMat4(name, value);
+}
+
+void Model::setInt(std::string name, int value)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->setInt(name, value);
 }
 
 Model::~Model()
@@ -14,7 +47,7 @@ Model::~Model()
 void Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
@@ -40,7 +73,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
+StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
@@ -63,6 +96,20 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		normal.y = mesh->mNormals[i].y;
 		normal.z = mesh->mNormals[i].z;
 		vertex.Normal = normal;
+
+		// tangents
+		glm::vec3 tangent;
+		tangent.x = mesh->mTangents[i].x;
+		tangent.y = mesh->mTangents[i].y;
+		tangent.z = mesh->mTangents[i].z;
+		vertex.Tangent = normal;
+
+		// bitangents 
+		glm::vec3 bitangent;
+		bitangent.x = mesh->mBitangents[i].x;
+		bitangent.y = mesh->mBitangents[i].y;
+		bitangent.z = mesh->mBitangents[i].z;
+		vertex.Bitangent = bitangent;
 
 		// texture coords
 		if (mesh->mTextureCoords[0])
@@ -88,16 +135,21 @@ Mesh Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+		// diffuse textures
 		std::vector<Texture> diffuseMaps = loadMaterialTextures(material,
 			aiTextureType_DIFFUSE, Texture::DIFFUSE);
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		// specular textures
 		std::vector<Texture> specularMaps = loadMaterialTextures(material,
 			aiTextureType_SPECULAR, Texture::SPECULAR);
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
-
+		// normal textures
+		std::vector<Texture> normalMaps = loadMaterialTextures(material,
+			aiTextureType_HEIGHT, Texture::NORMAL);
+		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
 	}
 
-	return Mesh(vertices, indices, textures);
+	return new StaticMesh(vertices, indices, textures);
 }
 
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName)

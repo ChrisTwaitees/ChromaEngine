@@ -1,27 +1,54 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
-#include "./Mesh.h"
+
+#include "../entity/ChromaEntity.h"
+#include "../models/StaticMesh.h"
+
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-class Model
+
+class Model : public ChromaMeshComponent
 {
-public:
-	/*  Fuctions  */
-	Model(std::string path) { loadModel(path); };
-	void Draw(Shader &shader);
-	~Model();
-private:
-	/*  Model Data  */
+protected:
+	// Transformations
+
+
+	// Model Data
 	std::vector<Texture> textures_loaded;
-	std::vector<Mesh> meshes;
+	std::vector<StaticMesh*> meshes;
 	std::string directory;
-	/*  Functions  */
+	Shader* pShader = nullptr;
+
+	// Functions
 	void loadModel(std::string path);
 	void processNode(aiNode* node, const aiScene* scene);
-	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
+	StaticMesh* processMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		Texture::TYPE typeName);
+public:
+	// Draw
+	void Draw(Shader& shader) override;
+	void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
+	void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
+
+	// Getters/Settters
+	int getNumTextures() override { return textures_loaded.size(); };
+	void bindShader(Shader* newShader) override { pShader = newShader; };
+	Shader* getShader() override { return pShader; };
+	glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
+
+	// Component requirement 
+	void bindTextures(std::vector<Texture> textures_val) override {};
+	void bindTexture(Texture texture_val) override;
+
+	// Shader Uniforms
+	void setMat4(std::string name, glm::mat4 value) override;
+	void setInt(std::string name, int value) override;
+
+	Model(std::string path) { loadModel(path); };
+	Model() {};
+	~Model();
 };
 
 #endif

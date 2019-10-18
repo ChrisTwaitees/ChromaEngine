@@ -1,22 +1,16 @@
 #ifndef _PLANEPRIMITIVE_
 #define _PLANEPRIMITIVE_
-#include "./Mesh.h"
+#include "./StaticMesh.h"
 
-class PlanePrimitive : public Mesh
+class PlanePrimitive : public StaticMesh
 {
-private:
-	std::vector<float> planeData = {
-		// positions          // normals           // texture coords
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f,
-		 0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 0.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		 0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  1.0f, 1.0f,
-		-0.5f,  0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 1.0f,
-		-0.5f, -0.5f, -0.5f,  0.0f,  0.0f, -1.0f,  0.0f, 0.0f
-	};
-	void setupPlane();
+protected:
+	std::vector<float> quadVertices;
+	void setupQuad();
 public :
-	virtual void Draw(Shader &shader) override;
+	// Functions
+	void BindDrawVAO() override;
+
 	PlanePrimitive();
 	~PlanePrimitive();
 };
