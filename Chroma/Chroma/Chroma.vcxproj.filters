@@ -171,6 +171,9 @@
     <ClCompile Include="source\shaders\Uniform.cpp">
       <Filter>Renderer\shader</Filter>
     </ClCompile>
+    <ClCompile Include="source\buffers\HDRFrameBuffer.cpp">
+      <Filter>Renderer\buffers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -278,6 +281,9 @@
     <ClInclude Include="source\shaders\Uniform.h">
       <Filter>Renderer\shader</Filter>
     </ClInclude>
+    <ClInclude Include="source\buffers\HDRFrameBuffer.h">
+      <Filter>Renderer\buffers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">
@@ -346,6 +352,9 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexLitShadowsNormals.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragHDRframebuffer.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>

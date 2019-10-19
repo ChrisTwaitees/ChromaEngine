@@ -265,7 +265,7 @@ ChromaScreenManager::ChromaScreenManager()
 {
 	initialize();
 	// opengl is now loaded we can instantiate framebuffer object
-	framebuffer = new Framebuffer();
+	framebuffer = new Framebuffer;
 	skybox = new SkyBox("resources/textures/skybox/blueskywater", *camera);
 }
 

@@ -91,7 +91,6 @@ void ShadowBuffer::calculateShadows()
 }
 
 
-
 ShadowBuffer::ShadowBuffer(const ChromaScene* Scene)
 {
 	mScene = Scene;

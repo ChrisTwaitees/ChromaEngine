@@ -36,7 +36,7 @@ private:
 
 	//  opengl has not yet been loaded 
 	// so we need to defer instantiation through a nullptr
-	Framebuffer* framebuffer{NULL};
+	Framebuffer* framebuffer{ NULL };
 	SkyBox* skybox{ NULL };
 
 	// time

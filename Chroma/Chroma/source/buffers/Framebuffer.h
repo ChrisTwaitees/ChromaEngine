@@ -10,7 +10,7 @@
 
 class Framebuffer
 {
-private:
+protected:
 	// consts
 	const char* vtxSource{ "resources/shaders/frameBufferVertex.glsl" };
 	const char* fragSource{ "resources/shaders/frameBufferFrag.glsl" };
@@ -30,7 +30,6 @@ private:
 	glm::vec2 scale{ glm::vec2(1) };
 
 	Shader screenShader{fragSource, vtxSource};
-	//Shader screenShader;
 
 	// quad data
 	std::vector<float> quadData = {
@@ -48,10 +47,18 @@ private:
 	unsigned int FBOTexture;
 
 	// setup
-	void initialize();
+	virtual void initialize();
 	void setupQuad();
 
+	// Initializing
+	virtual void GenTexture();
+	virtual void SetTextureParameters();
+
+	// draw
+	void renderQuad();
+
 public:
+	// Getters/Setters
 	void setTexture(unsigned int newFBOTexture);
 	unsigned int getTexture() { return FBOTexture; };
 	void setResolutionScale(unsigned int newScale);
@@ -59,8 +66,10 @@ public:
 	void setScale(glm::vec2 newScale) { scale = newScale; };
 	void setPosition(glm::vec2 newPosition) { offset = newPosition; };
 
-	void bind();
-	void Draw();
+
+
+	virtual void bind();
+	virtual void Draw();
 
 	Framebuffer();
 	~Framebuffer();
