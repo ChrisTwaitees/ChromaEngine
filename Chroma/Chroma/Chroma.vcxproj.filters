@@ -168,6 +168,9 @@
     <ClCompile Include="source\component\ChromaMeshComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
+    <ClCompile Include="source\shaders\Uniform.cpp">
+      <Filter>Renderer\shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="source\renderer\ChromaRendererConfig.h">
       <Filter>Renderer\renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\shaders\Uniform.h">
+      <Filter>Renderer\shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

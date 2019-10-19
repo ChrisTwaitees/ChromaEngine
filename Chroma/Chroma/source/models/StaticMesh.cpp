@@ -125,7 +125,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		// setting uniform and binding texture
 		shader->setInt(( name + texturenum).c_str(), i);
 
-		glBindTexture(GL_TEXTURE_2D, textures[i].id);
+		glBindTexture(GL_TEXTURE_2D, textures[i].ShaderID);
 		// activate texture
 	}
 	glActiveTexture(GL_TEXTURE0);

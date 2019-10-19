@@ -11,7 +11,7 @@ protected:
 	void generateTexture();
 public:
 	/*  Texture Data  */
-	unsigned int id;
+	unsigned int ShaderID;
 	enum TYPE { DIFFUSE = 0, SPECULAR = 1, SHADOWMAP = 2, NORMAL=3 };
 	TYPE type = TYPE::DIFFUSE;
 	// paths

@@ -26,9 +26,6 @@ void Framebuffer::setupQuad()
 
 void Framebuffer::initialize()
 {
-	// SHADER
-	screenShader = Shader(fragSource, vtxSource);
-
 	// generate framebuffer and bindShadowMapToBuffer to operate on
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);

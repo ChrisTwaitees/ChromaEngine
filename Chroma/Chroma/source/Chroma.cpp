@@ -243,7 +243,6 @@ int main()
 		for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
 		{
 			GrassPlaneEntity->setPosition(glm::vec3(it->second));
-			//GrassPlaneEntity->Draw(*MainCamera, Scene->Lights );
 		}
 
 		// RENDER

@@ -4,8 +4,8 @@
 void CubeMap::generateCubeMap()
 {
 	// gen id and bindShadowMapToBuffer
-	glGenTextures(1, &id);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+	glGenTextures(1, &ShaderID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, ShaderID);
 	// for the six faces gen 2D textures
 	int width, height, nrChannels;
 	unsigned char* imageData;
@@ -51,7 +51,7 @@ void CubeMap::generateCubeMap()
 
 void CubeMap::bind()
 {
-	glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, ShaderID);
 }
 
 CubeMap::CubeMap(std::string cubeMapsDirectory)

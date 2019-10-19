@@ -170,6 +170,7 @@
     <ClCompile Include="source\scene\ChromaScene.cpp" />
     <ClCompile Include="source\screenManager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\shaders\Shader.cpp" />
+    <ClCompile Include="source\shaders\Uniform.cpp" />
     <ClCompile Include="source\terrain\Terrain.cpp" />
     <ClCompile Include="source\texture\CubeMap.cpp" />
     <ClCompile Include="source\texture\Texture.cpp" />
@@ -205,6 +206,7 @@
     <ClInclude Include="source\screenManager\ChromaScreenManager.h" />
     <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\shaders\Shader.h" />
+    <ClInclude Include="source\shaders\Uniform.h" />
     <ClInclude Include="source\terrain\Terrain.h" />
     <ClInclude Include="source\texture\CubeMap.h" />
     <ClInclude Include="source\texture\stb_image.h" />

@@ -29,8 +29,8 @@ private:
 	glm::vec2 offset{ glm::vec2(0) };
 	glm::vec2 scale{ glm::vec2(1) };
 
-	//const Shader& screenShader{Shader(fragSource, vtxSource)};
-	Shader screenShader;
+	Shader screenShader{fragSource, vtxSource};
+	//Shader screenShader;
 
 	// quad data
 	std::vector<float> quadData = {

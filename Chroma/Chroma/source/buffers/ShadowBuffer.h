@@ -26,7 +26,7 @@ private:
 	// shaders
 	std::string depthVtxSource = "resources/shaders/vertexDepthMap.glsl";
 	std::string depthFragSource = "resources/shaders/fragDepthMap.glsl";
-	Shader depthShader;
+	Shader depthShader{ depthFragSource , depthVtxSource };
 	// render
 	void calcLightSpaceMatrix();
 	// setup 

@@ -29,7 +29,7 @@ void SkyBox::Draw()
 	skyboxShader.setMat4("projection", activeCamera->projectionMat);
 
 	glBindVertexArray(VAO);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.id);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.ShaderID);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
 	glDepthFunc(GL_LESS); // set depth function back to default
@@ -38,7 +38,6 @@ void SkyBox::Draw()
 SkyBox::SkyBox(std::string cubeMapImageDir, Camera& activeCamera_val)
 {
 	cubeMap = CubeMap(cubeMapImageDir);
-	skyboxShader = Shader(fragShaderSource, vtxShaderSource);
 	activeCamera = &activeCamera_val;
 	initialize();
 }
