@@ -85,15 +85,15 @@ void Framebuffer::bind()
 
 void Framebuffer::Draw()
 {
-	screenShader.use();
+	screenShader->use();
 	// draw
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// using color attachment
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, FBOTexture);
 	// setting transform uniforms
-	screenShader.setVec2("scale", scale);
-	screenShader.setVec2("offset", offset);
+	screenShader->setVec2("scale", scale);
+	screenShader->setVec2("offset", offset);
 	renderQuad();
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -108,6 +108,7 @@ Framebuffer::Framebuffer()
 
 Framebuffer::~Framebuffer()
 {
+	delete screenShader;
 	glDeleteVertexArrays(1, &VAO);
 	glDeleteBuffers(1, &VBO);
 }

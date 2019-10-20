@@ -29,7 +29,7 @@ protected:
 	glm::vec2 offset{ glm::vec2(0) };
 	glm::vec2 scale{ glm::vec2(1) };
 
-	Shader screenShader{fragSource, vtxSource};
+	Shader* screenShader{new Shader(fragSource, vtxSource)};
 
 	// quad data
 	std::vector<float> quadData = {
@@ -67,6 +67,10 @@ public:
 	void setPosition(glm::vec2 newPosition) { offset = newPosition; };
 
 
+	template<typename UniformType>
+	void setUniform(std::string uniformName, UniformType uniformValue) {
+		screenShader->setUniform(uniformName, uniformValue);
+	};
 
 	virtual void bind();
 	virtual void Draw();

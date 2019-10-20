@@ -14,6 +14,7 @@ private:
 	CubeMap cubeMap;
 	Shader skyboxShader{ fragShaderSource , vtxShaderSource };
 	Camera* activeCamera;
+	std::string defaultImageDir{ "resources/textures/skybox/blueskywater" };
 
 	std::vector<float> skyBoxVerts = {
 		// positions          
@@ -67,7 +68,7 @@ public:
 	unsigned int getCubeMapid() { return cubeMap.ShaderID; };
 
 	void Draw();
-	SkyBox(std::string cubeMapImageDir, Camera& activeCamera_val);
+	SkyBox( Camera& activeCamera_val);
 	~SkyBox();
 };
 

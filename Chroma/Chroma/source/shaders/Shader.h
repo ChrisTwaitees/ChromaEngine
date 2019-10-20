@@ -47,6 +47,11 @@ public:
 		Uniforms.addUniform(uniformName, uniformValue);
 	};
 
+	template<typename UniformType>
+	void setUniform(std::string uniformName, UniformType uniformValue) {
+		Uniforms.setUniform(uniformName, uniformValue);
+	};
+
 	// Uniforms
 	void setBool(const std::string& name, bool value) const;
 	void setInt(const std::string& name, int value) const;
@@ -54,6 +59,9 @@ public:
 	void setVec2(const std::string& name, glm::vec2 value) const;
 	void setVec3(const std::string& name, glm::vec3 value) const;
 	void setMat4(const std::string& name, glm::mat4 matrix) const;
+
+	// Set Uniforms
+	void setUniforms();
 
 	//constructor reads and builds the shader
 	Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");

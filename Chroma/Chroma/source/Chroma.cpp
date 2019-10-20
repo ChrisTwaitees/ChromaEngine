@@ -26,6 +26,7 @@
 #include "cameras/Camera.h"
 #include "lights/Light.h"
 #include "terrain/Terrain.h"
+#include "renderer/Renderer.h"
 
 
 int main()
@@ -60,7 +61,7 @@ int main()
 		Lights.push_back(pointLight);
 	}
 	// SUNLIGHT
-	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.1f);
+	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.0f);
 
 	Lights.push_back(Sun);
 
@@ -156,7 +157,7 @@ int main()
 	Scene->setRenderCamera(MainCamera);
 
 	// RENDERER
-	Renderer Renderer(Scene);
+	Renderer Renderer(Scene, &ScreenManager);
 
 
 	// RENDER LOOP
@@ -168,10 +169,6 @@ int main()
 		float GameTime = ScreenManager.getTime();
 		float DeltaTime = ScreenManager.getDeltaTime();
 
-		// Debug Buttons
-		if (ImGui::Button("Toggle PostFX"))
-			ScreenManager.TogglePostFX();
-
 		if (ImGui::Button("Toggle SkyBox"))
 			ScreenManager.ToggleSkybox();
 
@@ -180,6 +177,8 @@ int main()
 				debugNormals = false;
 			else
 				debugNormals = true;
+
+		ImGui::SliderFloat("Exposure", &ScreenManager.exposure, 0.0f, 2.0f);
 
 		// SHADOW MAPS
 		Sun->position = Sun->direction * -20.0f;

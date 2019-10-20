@@ -19,6 +19,7 @@ public:
 		uniforms.insert(std::make_pair(uniformName, uniformValue));
 	};
 
+
 	int size() { return uniforms.size(); };
 
 	UniformArray() {};
@@ -46,36 +47,72 @@ public:
 	};
 
 	template<>
-	void addUniform<int>(std::string uniformName, int uniformType) {
-		intUniforms.addUniform(uniformName, uniformType);
+	void addUniform<int>(std::string uniformName, int uniformValue) {
+		intUniforms.addUniform(uniformName, uniformValue);
 	};
 
 	template<>
-	void addUniform<float>(std::string uniformName, float uniformVlaue)
+	void addUniform<float>(std::string uniformName, float uniformValue)
 	{
-		floatUniforms.addUniform(uniformName, uniformVlaue);
+		floatUniforms.addUniform(uniformName, uniformValue);
 	};
 
 	template<>
-	void addUniform<glm::vec2>(std::string uniformName, glm::vec2 uniformVlaue)
+	void addUniform<glm::vec2>(std::string uniformName, glm::vec2 uniformValue)
 	{
-		vec2Uniforms.addUniform(uniformName, uniformVlaue);
+		vec2Uniforms.addUniform(uniformName, uniformValue);
 	};
 
 	template<>
-	void addUniform<glm::vec3>(std::string uniformName, glm::vec3 uniformVlaue)
+	void addUniform<glm::vec3>(std::string uniformName, glm::vec3 uniformValue)
 	{
-		vec3Uniforms.addUniform(uniformName, uniformVlaue);
+		vec3Uniforms.addUniform(uniformName, uniformValue);
 	};
 
 	template<>
-	void addUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformVlaue)
+	void addUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
 	{
-		mat4Uniforms.addUniform(uniformName, uniformVlaue);
+		mat4Uniforms.addUniform(uniformName, uniformValue);
+	};
+
+	// Setting existing Uniforms
+
+	template<typename T>
+	void setUniform(std::string name, T uniformValue) {
+		std::cout << "not a supported uniform type!" << std::endl;
+	};
+
+	template<>
+	void setUniform<int>(std::string uniformName, int uniformValue) {
+		setInt(uniformName, uniformValue);
+	};
+
+	template<>
+	void setUniform<float>(std::string uniformName, float uniformValue)
+	{
+		setFloat(uniformName, uniformValue);
+	};
+
+	template<>
+	void setUniform<glm::vec2>(std::string uniformName, glm::vec2 uniformValue)
+	{
+		setVec2(uniformName, uniformValue);
+	};
+
+	template<>
+	void setUniform<glm::vec3>(std::string uniformName, glm::vec3 uniformValue)
+	{
+		setVec3(uniformName, uniformValue);
+	};
+
+	template<>
+	void setUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
+	{
+		setMat4(uniformName, uniformValue);
 	};
 
 	// Renders
-	void updateUniforms();
+	void setUniforms();
 
 	// Uniform Updating
 	void setBool(const std::string& name, bool value) const;

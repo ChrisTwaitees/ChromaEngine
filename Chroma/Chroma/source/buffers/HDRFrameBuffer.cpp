@@ -11,6 +11,8 @@ void HDRFramebuffer::GenTexture()
 
 void HDRFramebuffer::initialize()
 {
+	screenShader = new Shader(fragSource, vtxSource);
+
 	glGenFramebuffers(1, &FBO);
 	// create floating point color buffer
 	GenTexture();
@@ -31,15 +33,15 @@ void HDRFramebuffer::initialize()
 void HDRFramebuffer::Draw()
 {
 	// using color attachment
-	screenShader.use();
+	screenShader->use();
 	// draw
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, FBOTexture);
 	// setting transform uniforms
-	screenShader.setVec2("scale", scale);
-	screenShader.setVec2("offset", offset);
-	screenShader.setFloat("exposure", exposure);
+	screenShader->setVec2("scale", scale);
+	screenShader->setVec2("offset", offset);
+	//screenShader.setFloat("exposure", exposure);
 	renderQuad();
 }
 
@@ -52,7 +54,6 @@ void HDRFramebuffer::bind()
 HDRFramebuffer::HDRFramebuffer()
 {
 	initialize();
-
 }
 
 

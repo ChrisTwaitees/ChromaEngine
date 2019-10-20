@@ -35,9 +35,10 @@ void SkyBox::Draw()
 	glDepthFunc(GL_LESS); // set depth function back to default
 }
 
-SkyBox::SkyBox(std::string cubeMapImageDir, Camera& activeCamera_val)
+SkyBox::SkyBox(Camera& activeCamera_val)
 {
-	cubeMap = CubeMap(cubeMapImageDir);
+
+	cubeMap = CubeMap(defaultImageDir);
 	activeCamera = &activeCamera_val;
 	initialize();
 }

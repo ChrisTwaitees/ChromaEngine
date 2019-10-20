@@ -120,9 +120,6 @@ void ChromaScreenManager::Start()
 	gui.Start();
 	// render start
 	RenderScene();
-	// Post FX
-	if (usePostFX)
-		framebuffer->bind();
 }
 
 void ChromaScreenManager::RenderScene()
@@ -133,13 +130,6 @@ void ChromaScreenManager::RenderScene()
 
 void ChromaScreenManager::End()
 {
-	// SkyBox
-	if (useSkybox)
-		skybox->Draw();
-
-	//PostFX
-	if (usePostFX)
-		framebuffer->Draw();
 	
 	//draw GUI
 	drawGUI();
@@ -157,25 +147,9 @@ void ChromaScreenManager::Close()
 	glfwTerminate();
 }
 
-void ChromaScreenManager::TogglePostFX()
-{
-	if (usePostFX)
-	{
-		usePostFX = false;
-		glBindFramebuffer(GL_FRAMEBUFFER, 0); // back to default
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glEnable(GL_DEPTH_TEST);
-	}
-	else
-		usePostFX = true;
-}
-
 void ChromaScreenManager::ToggleSkybox()
 {
-	if (useSkybox)
-		useSkybox = false;
-	else
-		useSkybox = true;
+	useSkybox = useSkybox ? false : true;
 }
 
 
@@ -264,12 +238,8 @@ void ChromaScreenManager::processInput()
 ChromaScreenManager::ChromaScreenManager()
 {
 	initialize();
-	// opengl is now loaded we can instantiate framebuffer object
-	framebuffer = new Framebuffer;
-	skybox = new SkyBox("resources/textures/skybox/blueskywater", *camera);
 }
 
 ChromaScreenManager::~ChromaScreenManager()
 {
-	delete framebuffer;
 }

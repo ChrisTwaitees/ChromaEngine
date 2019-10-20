@@ -10,6 +10,7 @@ void Renderer::updateShadowMappingUniforms(ChromaComponent* component)
 void Renderer::Init()
 {
 	Shadowbuffer = new ShadowBuffer(mScene);
+	Skybox = new SkyBox(*mScene->RenderCamera);
 }
 
 void Renderer::RenderScene()
@@ -25,8 +26,9 @@ void Renderer::RenderScene()
 
 
 	// HDR Tone Mapping
-
 	HDRFrameBuffer->bind();
+
+
 	// Render Scene
 	for (ChromaEntity* entity : mScene->Entities)
 	{
@@ -37,13 +39,19 @@ void Renderer::RenderScene()
 		entity->Draw(*mScene->RenderCamera, mScene->Lights);
 	}
 
+	//SkyBox
+	if (mScreenManager->useSkybox)
+		Skybox->Draw();
+
 	// Draw HRD Tone Mapping
 	HDRFrameBuffer->Draw();
+	HDRFrameBuffer->setUniform("exposure", mScreenManager->exposure);
 }
 
-Renderer::Renderer(const ChromaScene* Scene)
+Renderer::Renderer(const ChromaScene* Scene, const ChromaScreenManager* ScreenManager)
 {
 	mScene = Scene;
+	mScreenManager = ScreenManager;
 	Init();
 }
 

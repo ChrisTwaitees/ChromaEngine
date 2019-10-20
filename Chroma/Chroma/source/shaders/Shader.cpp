@@ -166,3 +166,8 @@ void Shader::setMat4(const std::string& name, glm::mat4 value) const
 	Uniforms.setMat4(name, value);
 }
 
+void Shader::setUniforms()
+{
+	Uniforms.setUniforms();
+}
+
