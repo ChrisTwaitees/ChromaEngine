@@ -219,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragAlpha.glsl" />
+    <None Include="resources\shaders\fragBloomFrameBuffer.glsl" />
     <None Include="resources\shaders\fragConstant.glsl" />
     <None Include="resources\shaders\fragDebugNormals.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />

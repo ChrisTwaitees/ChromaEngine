@@ -357,5 +357,8 @@
     <None Include="resources\shaders\fragHDRframebuffer.glsl">
       <Filter>resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\fragBloomFrameBuffer.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

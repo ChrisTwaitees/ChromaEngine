@@ -8,6 +8,7 @@ protected:
 	const char* vtxSource{ "resources/shaders/frameBufferVertex.glsl" };
 	const char* fragSource{ "resources/shaders/fragHDRframebuffer.glsl" };
 
+	unsigned int colorBuffers[2];
 
 	float exposure{ 1.0f };
 

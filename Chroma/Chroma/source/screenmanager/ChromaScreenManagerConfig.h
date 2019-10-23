@@ -9,7 +9,7 @@ static const unsigned int SCREEN_HEIGHT{ 1500 };
 static const unsigned int MSAA_SAMPLES{ 4 };
 
 // BG COLOR
-static const glm::vec3 SCREEN_DEFAULT_COLOR(0.3f, 0.3f, 0.3f);
+static const glm::vec3 SCREEN_DEFAULT_COLOR(0.1f, 0.1f, 0.1f);
 
 // INPUT
 static double MOUSE_XOFFSET, MOUSE_YOFFSET;

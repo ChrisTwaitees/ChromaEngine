@@ -19,10 +19,10 @@ void Renderer::RenderScene()
 	Shadowbuffer->calculateShadows();
 
 	// ShadowBuffer Debug Framebuffer
-	FrameBuffer.setTexture(Shadowbuffer->ShadowMapTexture.ShaderID);
-	FrameBuffer.setScale(glm::vec2(0.25f));
-	FrameBuffer.setPosition(glm::vec2(-0.5f));
-	FrameBuffer.Draw();
+	//FrameBuffer.setTexture(Shadowbuffer->ShadowMapTexture.ShaderID);
+	//FrameBuffer.setScale(glm::vec2(0.25f));
+	//FrameBuffer.setPosition(glm::vec2(-0.5f));
+	//FrameBuffer.Draw();
 
 
 	// HDR Tone Mapping
