@@ -32,6 +32,7 @@ protected:
 
 	// Functions
 	void initialize() override;
+	void updateTransformUniforms() override;
 	void configure_shaders();
 
 public:

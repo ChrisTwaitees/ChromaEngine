@@ -50,6 +50,7 @@ protected:
 	// Initializing
 	virtual void GenTexture();
 	virtual void SetTextureParameters();
+	virtual void updateTransformUniforms();
 
 	// draw
 	void renderQuad();

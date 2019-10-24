@@ -29,6 +29,12 @@ void Framebuffer::SetTextureParameters()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 }
 
+void Framebuffer::updateTransformUniforms()
+{
+	screenShader->setVec2("scale", scale);
+	screenShader->setVec2("offset", offset);
+}
+
 void Framebuffer::renderQuad()
 {
 	glBindVertexArray(VAO);
@@ -92,10 +98,8 @@ void Framebuffer::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, FBOTexture);
 	// setting transform uniforms
-	screenShader->setVec2("scale", scale);
-	screenShader->setVec2("offset", offset);
+	updateTransformUniforms();
 	renderQuad();
-	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 }
 

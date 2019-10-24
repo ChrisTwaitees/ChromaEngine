@@ -43,6 +43,16 @@ void HDRFramebuffer::initialize()
 	configure_shaders();
 }
 
+void HDRFramebuffer::updateTransformUniforms()
+{
+	blurShader->use();
+	blurShader->setVec2("scale", scale);
+	blurShader->setVec2("offset", offset);
+	screenShader->use();
+	screenShader->setVec2("scale", scale);
+	screenShader->setVec2("offset", offset);
+}
+
 void HDRFramebuffer::configure_shaders()
 {
 	blurShader->use();
@@ -110,36 +120,34 @@ void HDRFramebuffer::Draw()
 	screenShader->setInt("bloom", 0);
 	//screenShader->setFloat("exposure", exposure);
 	// setting transform uniforms
-	screenShader->setVec2("scale", scale);
-	screenShader->setVec2("offset", offset);
+	updateTransformUniforms();
 	renderQuad();
 }
 
 void HDRFramebuffer::Draw(bool useBloom)
 {
+	updateTransformUniforms();
+
 	if (useBloom)
 	{
 		// blur BrightFragments
 		unBind();
-		horizontal = true, first_iteration = true;
+		bool horizontal = true, first_iteration = true;
 		blurShader->use();
 		for (unsigned int i = 0; i < blurIterations; i++)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
 			blurShader->setInt("horizontal", horizontal);
-			//glActiveTexture(GL_TEXTURE0);
+			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(
 				GL_TEXTURE_2D, first_iteration ? colorBuffersTextures[1] : blurColorBuffers[!horizontal]
 			);
-
 			renderQuad();
 			horizontal = !horizontal;
 			if (first_iteration)
 				first_iteration = false;
-
 		}
 		unBind();
-		//unBind();
 		// Composite blur and HDR and tone
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		screenShader->use();
@@ -150,8 +158,6 @@ void HDRFramebuffer::Draw(bool useBloom)
 		screenShader->setInt("bloom", useBloom);
 		//screenShader->setFloat("exposure", exposure);
 		// setting transform uniforms
-		screenShader->setVec2("scale", scale);
-		screenShader->setVec2("offset", offset);
 		renderQuad();
 	}
 	else

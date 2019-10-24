@@ -96,7 +96,7 @@ int main()
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
-	bool debugNormals{false};
+	bool debugNormals{ false };
 
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");
@@ -107,8 +107,8 @@ int main()
 	// ENTITIES
 	std::vector<ChromaEntity*> Entities;
 
-	ChromaEntity* NanosuitEntity = new ChromaEntity;
-	ChromaComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
+	ChromaEntity * NanosuitEntity = new ChromaEntity;
+	ChromaComponent * NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	Entities.push_back(NanosuitEntity);
@@ -140,7 +140,7 @@ int main()
 	}
 
 	ChromaEntity* GrassPlaneEntity = new ChromaEntity;
-	ChromaComponent* GrassPlaneMeshComponent =  new PlanePrimitive;
+	ChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
 	GrassPlaneMeshComponent->bindTexture(grassMap);
 	GrassPlaneMeshComponent->bindShader(&alphaShader);
 	GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
@@ -171,7 +171,7 @@ int main()
 
 		if (ImGui::Button("Toggle SkyBox"))
 			ScreenManager.ToggleSkybox();
-	
+
 
 		ImGui::SliderFloat("Exposure", &ScreenManager.exposure, 0.0f, 2.0f);
 
@@ -183,7 +183,7 @@ int main()
 
 		// LIGHTS
 		constantShader.use();
-		for (int i = 0; i < Lights.size()-1; i++)
+		for (int i = 0; i < Lights.size() - 1; i++)
 		{
 			if (Lights[i]->type == Light::SUNLIGHT)
 			{
@@ -211,20 +211,20 @@ int main()
 		}
 
 		// RENDER ENTITIES
-		NanosuitEntity->setScale(glm::vec3( 0.5f));
-		NanosuitEntity->rotate(glm::mod(GameTime,360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));
+		NanosuitEntity->setScale(glm::vec3(0.5f));
+		NanosuitEntity->rotate(glm::mod(GameTime, 360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		//Sunlight Rotation
-		Sun->direction = glm::normalize((glm::vec3(std::sin(GameTime*1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f))));
+		Sun->direction = glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f))));
 
-		if(debugNormals)
+		if (debugNormals)
 			NanosuitEntity->Draw(debugNormalsShader);
 		//NanosuitEntity->Draw(refractionShader, *MainCamera, Scene->Lights);
 
 		// SPINNING BOXES
 		for (unsigned int i = 0; i < boxes.size(); i++)
 		{
-			float angle = DeltaTime * ( i + 1 ) * 6.0f;
+			float angle = DeltaTime * (i + 1) * 6.0f;
 			boxes[i]->rotate(angle, glm::vec3(1.0f, 0.3f, 0.5f));
 		}
 
