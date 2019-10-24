@@ -4,23 +4,16 @@
 
 void Framebuffer::setupQuad()
 {
-	int stride = 4;
-	GLsizei verts_size = quadData.size() * sizeof(quadData[0]);
-	// VAO
+	// setup plane VAO
 	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
-	// VBO
 	glGenBuffers(1, &VBO);
+	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, verts_size, &quadData[0], GL_STATIC_DRAW);
-
-	// Vertex Shader Attribs
-	// positions
+	glBufferData(GL_ARRAY_BUFFER, sizeof(quadData), &quadData, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * stride, (void*)0);
-	// uvs
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(float) * stride, (void*)(sizeof(float) * 2));
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 }
 
 void Framebuffer::GenTexture()
@@ -39,8 +32,8 @@ void Framebuffer::SetTextureParameters()
 void Framebuffer::renderQuad()
 {
 	glBindVertexArray(VAO);
-	glDrawArrays(GL_TRIANGLES, 0, 6);
-	glEnable(GL_DEPTH_TEST);
+	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glBindVertexArray(0);
 }
 
 
@@ -64,6 +57,7 @@ void Framebuffer::initialize()
 
 }
 
+
 void Framebuffer::setTexture(unsigned int newFBOTexture)
 {
 	FBOTexture = newFBOTexture;
@@ -83,6 +77,12 @@ void Framebuffer::bind()
 
 }
 
+
+void Framebuffer::unBind()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+}
+
 void Framebuffer::Draw()
 {
 	screenShader->use();
@@ -97,6 +97,11 @@ void Framebuffer::Draw()
 	renderQuad();
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+}
+
+void Framebuffer::Draw(bool useBloom)
+{
+	Draw();
 }
 
 Framebuffer::Framebuffer()

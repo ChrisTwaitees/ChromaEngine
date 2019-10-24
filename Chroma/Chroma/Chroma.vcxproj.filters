@@ -360,5 +360,8 @@
     <None Include="resources\shaders\fragBloomFrameBuffer.glsl">
       <Filter>resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\fragBlur.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

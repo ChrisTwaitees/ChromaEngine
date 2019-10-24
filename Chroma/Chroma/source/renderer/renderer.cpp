@@ -24,10 +24,8 @@ void Renderer::RenderScene()
 	//FrameBuffer.setPosition(glm::vec2(-0.5f));
 	//FrameBuffer.Draw();
 
-
 	// HDR Tone Mapping
 	HDRFrameBuffer->bind();
-
 
 	// Render Scene
 	for (ChromaEntity* entity : mScene->Entities)
@@ -43,8 +41,9 @@ void Renderer::RenderScene()
 	if (mScreenManager->useSkybox)
 		Skybox->Draw();
 
+
 	// Draw HRD Tone Mapping
-	HDRFrameBuffer->Draw();
+	HDRFrameBuffer->Draw(mScreenManager->useBloom);
 	HDRFrameBuffer->setUniform("exposure", mScreenManager->exposure);
 }
 

@@ -5,22 +5,43 @@
 class HDRFramebuffer : public Framebuffer
 {
 protected:
+	// default HDR shader
+	unsigned int hdrFBO, hdrRBO;
 	const char* vtxSource{ "resources/shaders/frameBufferVertex.glsl" };
-	const char* fragSource{ "resources/shaders/fragHDRframebuffer.glsl" };
+	const char* fragSource{ "resources/shaders/fragBloomFrameBuffer.glsl" };
+	// blur shader
+	const char* blurfragSource{ "resources/shaders/fragBlur.glsl" };
 
-	unsigned int colorBuffers[2];
+	// Textures
+	unsigned int colorBuffersTextures[2];
 
+	// Bloom FBO and Textures
+	void genBlurBuffer();
+	unsigned int blurFBOs[2];
+	unsigned int blurColorBuffers[2];
+
+	// Blur
+	Shader* blurShader;
+	bool horizontal = true, first_iteration = true;
+	int blurIterations{ 10 };
+	void blurFragments();
+
+
+	// HDR Attrs
 	float exposure{ 1.0f };
 
-	void GenTexture() override;
+	// Functions
 	void initialize() override;
+	void configure_shaders();
 
 public:
 
 	//Shader* getShader() override { return &screenShader; };
 
 	void Draw() override;
+	void Draw(bool useBloom) override;
 	void bind() override;
+
 
 	HDRFramebuffer();
 	~HDRFramebuffer();

@@ -171,14 +171,12 @@ int main()
 
 		if (ImGui::Button("Toggle SkyBox"))
 			ScreenManager.ToggleSkybox();
-
-		if (ImGui::Button("Toggle Normals Debug"))
-			if (debugNormals)
-				debugNormals = false;
-			else
-				debugNormals = true;
+	
 
 		ImGui::SliderFloat("Exposure", &ScreenManager.exposure, 0.0f, 2.0f);
+
+		if (ImGui::Button("Use Bloom"))
+			ScreenManager.ToggleBloom();
 
 		// SHADOW MAPS
 		Sun->position = Sun->direction * -20.0f;

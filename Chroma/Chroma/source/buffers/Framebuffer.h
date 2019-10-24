@@ -32,15 +32,12 @@ protected:
 	Shader* screenShader{new Shader(fragSource, vtxSource)};
 
 	// quad data
-	std::vector<float> quadData = {
-		// positions   // texCoords
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		-1.0f, -1.0f,  0.0f, 0.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-		 1.0f,  1.0f,  1.0f, 1.0f
+	float quadData[20] = {
+		// positions        // texture Coords
+		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+		 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
 	};
 
 	// texture
@@ -73,7 +70,9 @@ public:
 	};
 
 	virtual void bind();
+	virtual void unBind();
 	virtual void Draw();
+	virtual void Draw(bool useBloom);
 
 	Framebuffer();
 	~Framebuffer();

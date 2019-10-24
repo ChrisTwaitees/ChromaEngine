@@ -70,8 +70,9 @@ public:
 	Camera* getActiveCamera() { return camera; };
 	
 	// GUI Attrs
-	bool useSkybox{false};
+	bool useSkybox{true};
 	float exposure{ 1.0f };
+	bool useBloom{ true };
 
 
 	// status
@@ -83,6 +84,7 @@ public:
 	void Close();
 
 	void ToggleSkybox();
+	void ToggleBloom();
 
 	// construction
 	ChromaScreenManager();

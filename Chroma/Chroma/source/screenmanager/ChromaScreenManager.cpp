@@ -152,6 +152,11 @@ void ChromaScreenManager::ToggleSkybox()
 	useSkybox = useSkybox ? false : true;
 }
 
+void ChromaScreenManager::ToggleBloom()
+{
+	useBloom = useBloom ? false : true;
+}
+
 
 // Convenience Methods
 // --------------------
