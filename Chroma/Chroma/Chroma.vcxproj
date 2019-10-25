@@ -226,12 +226,12 @@
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragDepthMap.glsl" />
     <None Include="resources\shaders\fragHDRframebuffer.glsl" />
+    <None Include="resources\shaders\fragLightingCalculations.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
     <None Include="resources\shaders\fragLitShadows.glsl" />
     <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
-    <None Include="resources\shaders\fragTest.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\geometryDebugNormals.glsl" />

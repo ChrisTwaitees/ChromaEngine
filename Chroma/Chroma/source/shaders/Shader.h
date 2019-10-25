@@ -9,6 +9,7 @@
 #include <iostream>
 #include <string>
 #include "Uniform.h"
+#include "../renderer/ChromaRendererConfig.h"
 
 
 struct Material {
@@ -27,8 +28,10 @@ private:
 	void CheckCompileErrors(GLuint shader, std::string type);
 	void CompileAndLink();
 	void LoadShaderSource();
+	std::string ExpandShaderSource(std::string shaderSourcePath);
 
 	//Attrs
+	std::string shaderDir{"resources/shaders/"};
 	std::string fragSourcePath, vertexSourcePath, geometrySourcePath;
 	std::string fragCode, vertexCode, geometryCode;
 

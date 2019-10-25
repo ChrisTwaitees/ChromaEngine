@@ -42,44 +42,59 @@ void Shader::CompileAndLink()
 
 }
 
+std::string Shader::ExpandShaderSource(std::string shaderSourcePath)
+{
+	//  retrieve the vertex/fragment source code from filePath
+	std::ifstream shaderFileStream;
+	// create empty string stream to collect expanded shader strings
+	std::stringstream shaderstringstream;
+	// open file_
+	shaderFileStream.open(shaderSourcePath);
+
+	while (shaderFileStream)
+	{
+		std::string line;
+		std::getline(shaderFileStream, line);
+
+		// replace versions
+		if (line.find("#version") != std::string::npos)
+			if (line.find("_OPENGL_VERSION_") != std::string::npos) // checking for opengl version override
+				line = "#version " + OPENGL_VERSION;
+
+		// expand includes with included files
+		if (line.find("#include") != std::string::npos)
+			{
+				// fetching path of include
+				int start = line.find('"') + 1;
+				int end = line.rfind('"');
+				std::string includeSourcePath = shaderDir + line.substr(start, end - start);
+				// creating include source file
+				std::fstream includeFile;
+				includeFile.open(includeSourcePath);
+				std::stringstream includeSource;
+				includeSource << includeFile.rdbuf();
+				includeFile.close();
+				// replacing line with exanded include
+				line = includeSource.str();
+			}
+		shaderstringstream << line << std::endl;
+	}
+	shaderFileStream.close();
+
+	return shaderstringstream.str();
+}
+
+
 void Shader::LoadShaderSource()
 {
-	// 1. retrieve the vertex/fragment source code from filePath
-	std::ifstream vShaderFile;
-	std::ifstream fShaderFile;
-	std::ifstream gShaderFile;
-	// ensure ifstream objects can throw exceptions:
-	vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	gShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
-	try
+	// Load and Expand Shader Source
+	vertexCode = ExpandShaderSource(vertexSourcePath);
+	fragCode = ExpandShaderSource(fragSourcePath);
+
+	// if geometry shader path is present, also load a geometry shader
+	if (geometrySourcePath != "")
 	{
-		// open files
-		vShaderFile.open(vertexSourcePath);
-		fShaderFile.open(fragSourcePath);
-		std::stringstream vShaderStream, fShaderStream;
-		// read file's buffer contents into streams
-		vShaderStream << vShaderFile.rdbuf();
-		fShaderStream << fShaderFile.rdbuf();
-		// close file handlers
-		vShaderFile.close();
-		fShaderFile.close();
-		// convert stream into string
-		vertexCode = vShaderStream.str();
-		fragCode = fShaderStream.str();
-		// if geometry shader path is present, also load a geometry shader
-		if (geometrySourcePath != "")
-		{
-			gShaderFile.open(geometrySourcePath);
-			std::stringstream gShaderStream;
-			gShaderStream << gShaderFile.rdbuf();
-			gShaderFile.close();
-			geometryCode = gShaderStream.str();
-		}
-	}
-	catch (std::ifstream::failure e)
-	{
-		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		geometryCode = ExpandShaderSource(geometrySourcePath);
 	}
 }
 

@@ -92,11 +92,10 @@ int main()
 	Shader litNormalsShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader litShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader depthShader("resources/shaders/fragDepth.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
-	bool debugNormals{ false };
+
 
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");
@@ -139,11 +138,11 @@ int main()
 		Entities.push_back(LampEntity);
 	}
 
-	ChromaEntity* GrassPlaneEntity = new ChromaEntity;
-	ChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
-	GrassPlaneMeshComponent->bindTexture(grassMap);
-	GrassPlaneMeshComponent->bindShader(&alphaShader);
-	GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
+	//ChromaEntity* GrassPlaneEntity = new ChromaEntity;
+	//ChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
+	//GrassPlaneMeshComponent->bindTexture(grassMap);
+	//GrassPlaneMeshComponent->bindShader(&alphaShader);
+	//GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
 
 	ChromaEntity* TerrainEntity = new ChromaEntity;
 	ChromaComponent* TerrainMeshComponent = new Terrain;
@@ -188,7 +187,6 @@ int main()
 			if (Lights[i]->type == Light::SUNLIGHT)
 			{
 				//positions
-			//	lamps[i]->setPosition(Lights[i]->position);
 				lamps[i]->scale(glm::vec3(0.3f));
 			}
 			// spin lights
@@ -217,9 +215,6 @@ int main()
 		//Sunlight Rotation
 		Sun->direction = glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f))));
 
-		if (debugNormals)
-			NanosuitEntity->Draw(debugNormalsShader);
-		//NanosuitEntity->Draw(refractionShader, *MainCamera, Scene->Lights);
 
 		// SPINNING BOXES
 		for (unsigned int i = 0; i < boxes.size(); i++)
@@ -230,17 +225,17 @@ int main()
 
 		// CREATING GRASS
 		// Sorting Grass for Transparencey Shading
-		std::map<float, glm::vec3> sorted;
-		for (unsigned int i = 0; i < vegetationPositions.size(); i++)
-		{
-			float distance = glm::length(vegetationPositions[i] - MainCamera->get_position());
-			sorted[distance] = vegetationPositions[i];
-		}
-		// iterating using map
-		for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
-		{
-			GrassPlaneEntity->setPosition(glm::vec3(it->second));
-		}
+		//std::map<float, glm::vec3> sorted;
+		//for (unsigned int i = 0; i < vegetationPositions.size(); i++)
+		//{
+		//	float distance = glm::length(vegetationPositions[i] - MainCamera->get_position());
+		//	sorted[distance] = vegetationPositions[i];
+		//}
+		//// iterating using map
+		//for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
+		//{
+		//	GrassPlaneEntity->setPosition(glm::vec3(it->second));
+		//}
 
 		// RENDER
 		Renderer.RenderScene();
@@ -251,7 +246,7 @@ int main()
 
 	// optional: de-allocate all resources once they've outlived their purpose:
 	//// ------------------------------------------------------------------------
-	delete GrassPlaneEntity;
+//	delete GrassPlaneEntity;
 	delete TerrainEntity;
 	delete NanosuitEntity;
 	delete MainCamera;

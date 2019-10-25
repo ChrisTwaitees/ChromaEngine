@@ -300,9 +300,6 @@
     <None Include="resources\shaders\fragLit.glsl">
       <Filter>resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\fragTest.glsl">
-      <Filter>resources\shaders</Filter>
-    </None>
     <None Include="resources\shaders\vertexShaderLighting.glsl">
       <Filter>resources\shaders</Filter>
     </None>
@@ -361,6 +358,9 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragBlur.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragLightingCalculations.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>
