@@ -151,6 +151,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\buffers\Framebuffer.cpp" />
+    <ClCompile Include="source\buffers\HDRFrameBuffer.cpp" />
     <ClCompile Include="source\buffers\ShadowBuffer.cpp" />
     <ClCompile Include="source\component\ChromaComponent.cpp" />
     <ClCompile Include="source\component\ChromaMeshComponent.cpp" />
@@ -170,6 +171,7 @@
     <ClCompile Include="source\scene\ChromaScene.cpp" />
     <ClCompile Include="source\screenManager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\shaders\Shader.cpp" />
+    <ClCompile Include="source\shaders\Uniform.cpp" />
     <ClCompile Include="source\terrain\Terrain.cpp" />
     <ClCompile Include="source\texture\CubeMap.cpp" />
     <ClCompile Include="source\texture\Texture.cpp" />
@@ -185,6 +187,7 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="source\buffers\Framebuffer.h" />
+    <ClInclude Include="source\buffers\HDRFrameBuffer.h" />
     <ClInclude Include="source\buffers\ShadowBuffer.h" />
     <ClInclude Include="source\component\ChromaComponent.h" />
     <ClInclude Include="source\component\ChromaMeshComponent.h" />
@@ -205,6 +208,7 @@
     <ClInclude Include="source\screenManager\ChromaScreenManager.h" />
     <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\shaders\Shader.h" />
+    <ClInclude Include="source\shaders\Uniform.h" />
     <ClInclude Include="source\terrain\Terrain.h" />
     <ClInclude Include="source\texture\CubeMap.h" />
     <ClInclude Include="source\texture\stb_image.h" />
@@ -215,10 +219,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragAlpha.glsl" />
+    <None Include="resources\shaders\fragBloomFrameBuffer.glsl" />
+    <None Include="resources\shaders\fragBlur.glsl" />
     <None Include="resources\shaders\fragConstant.glsl" />
     <None Include="resources\shaders\fragDebugNormals.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragDepthMap.glsl" />
+    <None Include="resources\shaders\fragHDRframebuffer.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
     <None Include="resources\shaders\fragLitShadows.glsl" />

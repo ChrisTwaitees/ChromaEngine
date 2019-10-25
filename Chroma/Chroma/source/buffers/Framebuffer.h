@@ -10,7 +10,7 @@
 
 class Framebuffer
 {
-private:
+protected:
 	// consts
 	const char* vtxSource{ "resources/shaders/frameBufferVertex.glsl" };
 	const char* fragSource{ "resources/shaders/frameBufferFrag.glsl" };
@@ -29,29 +29,34 @@ private:
 	glm::vec2 offset{ glm::vec2(0) };
 	glm::vec2 scale{ glm::vec2(1) };
 
-	//const Shader& screenShader{Shader(fragSource, vtxSource)};
-	Shader screenShader;
+	Shader* screenShader{new Shader(fragSource, vtxSource)};
 
 	// quad data
-	std::vector<float> quadData = {
-		// positions   // texCoords
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		-1.0f, -1.0f,  0.0f, 0.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-
-		-1.0f,  1.0f,  0.0f, 1.0f,
-		 1.0f, -1.0f,  1.0f, 0.0f,
-		 1.0f,  1.0f,  1.0f, 1.0f
+	float quadData[20] = {
+		// positions        // texture Coords
+		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+		 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
 	};
 
 	// texture
 	unsigned int FBOTexture;
 
 	// setup
-	void initialize();
+	virtual void initialize();
 	void setupQuad();
 
+	// Initializing
+	virtual void GenTexture();
+	virtual void SetTextureParameters();
+	virtual void updateTransformUniforms();
+
+	// draw
+	void renderQuad();
+
 public:
+	// Getters/Setters
 	void setTexture(unsigned int newFBOTexture);
 	unsigned int getTexture() { return FBOTexture; };
 	void setResolutionScale(unsigned int newScale);
@@ -59,8 +64,16 @@ public:
 	void setScale(glm::vec2 newScale) { scale = newScale; };
 	void setPosition(glm::vec2 newPosition) { offset = newPosition; };
 
-	void bind();
-	void Draw();
+
+	template<typename UniformType>
+	void setUniform(std::string uniformName, UniformType uniformValue) {
+		screenShader->setUniform(uniformName, uniformValue);
+	};
+
+	virtual void bind();
+	virtual void unBind();
+	virtual void Draw();
+	virtual void Draw(bool useBloom);
 
 	Framebuffer();
 	~Framebuffer();

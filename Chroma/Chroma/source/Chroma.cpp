@@ -26,6 +26,7 @@
 #include "cameras/Camera.h"
 #include "lights/Light.h"
 #include "terrain/Terrain.h"
+#include "renderer/Renderer.h"
 
 
 int main()
@@ -60,7 +61,7 @@ int main()
 		Lights.push_back(pointLight);
 	}
 	// SUNLIGHT
-	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.1f);
+	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.0f);
 
 	Lights.push_back(Sun);
 
@@ -95,7 +96,7 @@ int main()
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
-	bool debugNormals{false};
+	bool debugNormals{ false };
 
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");
@@ -106,8 +107,8 @@ int main()
 	// ENTITIES
 	std::vector<ChromaEntity*> Entities;
 
-	ChromaEntity* NanosuitEntity = new ChromaEntity;
-	ChromaComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
+	ChromaEntity * NanosuitEntity = new ChromaEntity;
+	ChromaComponent * NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	Entities.push_back(NanosuitEntity);
@@ -139,7 +140,7 @@ int main()
 	}
 
 	ChromaEntity* GrassPlaneEntity = new ChromaEntity;
-	ChromaComponent* GrassPlaneMeshComponent =  new PlanePrimitive;
+	ChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
 	GrassPlaneMeshComponent->bindTexture(grassMap);
 	GrassPlaneMeshComponent->bindShader(&alphaShader);
 	GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
@@ -156,7 +157,7 @@ int main()
 	Scene->setRenderCamera(MainCamera);
 
 	// RENDERER
-	Renderer Renderer(Scene);
+	Renderer Renderer(Scene, &ScreenManager);
 
 
 	// RENDER LOOP
@@ -168,25 +169,21 @@ int main()
 		float GameTime = ScreenManager.getTime();
 		float DeltaTime = ScreenManager.getDeltaTime();
 
-		// Debug Buttons
-		if (ImGui::Button("Toggle PostFX"))
-			ScreenManager.TogglePostFX();
-
 		if (ImGui::Button("Toggle SkyBox"))
 			ScreenManager.ToggleSkybox();
 
-		if (ImGui::Button("Toggle Normals Debug"))
-			if (debugNormals)
-				debugNormals = false;
-			else
-				debugNormals = true;
+
+		ImGui::SliderFloat("Exposure", &ScreenManager.exposure, 0.0f, 2.0f);
+
+		if (ImGui::Button("Use Bloom"))
+			ScreenManager.ToggleBloom();
 
 		// SHADOW MAPS
 		Sun->position = Sun->direction * -20.0f;
 
 		// LIGHTS
 		constantShader.use();
-		for (int i = 0; i < Lights.size()-1; i++)
+		for (int i = 0; i < Lights.size() - 1; i++)
 		{
 			if (Lights[i]->type == Light::SUNLIGHT)
 			{
@@ -214,20 +211,20 @@ int main()
 		}
 
 		// RENDER ENTITIES
-		NanosuitEntity->setScale(glm::vec3( 0.5f));
-		NanosuitEntity->rotate(glm::mod(GameTime,360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));
+		NanosuitEntity->setScale(glm::vec3(0.5f));
+		NanosuitEntity->rotate(glm::mod(GameTime, 360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));
 
 		//Sunlight Rotation
-		Sun->direction = glm::normalize((glm::vec3(std::sin(GameTime*1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f))));
+		Sun->direction = glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f))));
 
-		if(debugNormals)
+		if (debugNormals)
 			NanosuitEntity->Draw(debugNormalsShader);
 		//NanosuitEntity->Draw(refractionShader, *MainCamera, Scene->Lights);
 
 		// SPINNING BOXES
 		for (unsigned int i = 0; i < boxes.size(); i++)
 		{
-			float angle = DeltaTime * ( i + 1 ) * 6.0f;
+			float angle = DeltaTime * (i + 1) * 6.0f;
 			boxes[i]->rotate(angle, glm::vec3(1.0f, 0.3f, 0.5f));
 		}
 
@@ -243,7 +240,6 @@ int main()
 		for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
 		{
 			GrassPlaneEntity->setPosition(glm::vec3(it->second));
-			//GrassPlaneEntity->Draw(*MainCamera, Scene->Lights );
 		}
 
 		// RENDER

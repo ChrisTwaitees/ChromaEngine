@@ -11,12 +11,12 @@ void Shader::CompileAndLink()
 	vertex = glCreateShader(GL_VERTEX_SHADER);
 	glShaderSource(vertex, 1, &vShaderCode, NULL);
 	glCompileShader(vertex);
-	checkCompileErrors(vertex, "VERTEX");
+	CheckCompileErrors(vertex, "VERTEX");
 	// fragment Shader
 	fragment = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(fragment, 1, &fShaderCode, NULL);
 	glCompileShader(fragment);
-	checkCompileErrors(fragment, "FRAGMENT");
+	CheckCompileErrors(fragment, "FRAGMENT");
 	// if geometry shader is given, compile geometry shader
 	unsigned int geometry;
 	if (geometrySourcePath != "")
@@ -25,16 +25,15 @@ void Shader::CompileAndLink()
 		geometry = glCreateShader(GL_GEOMETRY_SHADER);
 		glShaderSource(geometry, 1, &gShaderCode, NULL);
 		glCompileShader(geometry);
-		checkCompileErrors(geometry, "GEOMETRY");
+		CheckCompileErrors(geometry, "GEOMETRY");
 	}
 	// shader Program
-	id = glCreateProgram();
-	glAttachShader(id, vertex);
-	glAttachShader(id, fragment);
+	glAttachShader(ShaderID, vertex);
+	glAttachShader(ShaderID, fragment);
 	if (geometrySourcePath != "")
-		glAttachShader(id, geometry);
-	glLinkProgram(id);
-	checkCompileErrors(id, "PROGRAM");
+		glAttachShader(ShaderID, geometry);
+	glLinkProgram(ShaderID);
+	CheckCompileErrors(ShaderID, "PROGRAM");
 	// delete the shaders as they're linked into our program now and no longer necessery
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
@@ -87,6 +86,7 @@ void Shader::LoadShaderSource()
 Shader::Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath)
 {
 	// init
+	ShaderID = glCreateProgram();
 	fragSourcePath = fragmentPath;
 	vertexSourcePath = vertexPath;
 	geometrySourcePath = geometryPath;
@@ -101,44 +101,16 @@ Shader::Shader(std::string fragmentPath, std::string vertexPath, std::string geo
 
 Shader::~Shader()
 {
+	ShaderID = glCreateProgram();
 }
 
 void Shader::use()
 {
-	glUseProgram(id);
+	glUseProgram(ShaderID);
 }
 
-void Shader::setBool(const std::string& name, bool value) const
-{
-	glUniform1i(glGetUniformLocation(id, name.c_str()), (int)value);
-}
 
-void Shader::setInt(const std::string& name, int value) const
-{
-	glUniform1i(glGetUniformLocation(id, name.c_str()), value);
-}
-
-void Shader::setFloat(const std::string& name, float value) const
-{
-	glUniform1f(glGetUniformLocation(id, name.c_str()), value);
-}
-
-void Shader::setVec2(const std::string& name, glm::vec2 value) const
-{
-	glUniform2f(glGetUniformLocation(id, name.c_str()), value.x, value.y);
-}
-
-void Shader::setVec3(const std::string& name, glm::vec3 vec3) const
-{
-	glUniform3f(glGetUniformLocation(id, name.c_str()), vec3.x, vec3.y, vec3.z);
-}
-
-void Shader::setMat4(const std::string& name, glm::mat4 matrix) const
-{
-	glUniformMatrix4fv(glGetUniformLocation(id, name.c_str()), 1, GL_FALSE,  glm::value_ptr(matrix));
-}
-
-void Shader::checkCompileErrors(GLuint shader, std::string type)
+void Shader::CheckCompileErrors(GLuint shader, std::string type)
 {
 	GLint success;
 	GLchar infoLog[1024];
@@ -161,3 +133,41 @@ void Shader::checkCompileErrors(GLuint shader, std::string type)
 		}
 	}
 }
+
+
+
+void Shader::setBool(const std::string& name, bool value) const
+{
+	Uniforms.setBool(name, value);
+}
+
+void Shader::setInt(const std::string& name, int value) const
+{
+	Uniforms.setInt(name, value);
+}
+
+void Shader::setFloat(const std::string& name, float value) const
+{
+	Uniforms.setFloat(name, value);
+}
+
+void Shader::setVec2(const std::string& name, glm::vec2 value) const
+{
+	Uniforms.setVec2(name, value);
+}
+
+void Shader::setVec3(const std::string& name, glm::vec3 value) const
+{
+	Uniforms.setVec3(name, value);
+}
+
+void Shader::setMat4(const std::string& name, glm::mat4 value) const
+{
+	Uniforms.setMat4(name, value);
+}
+
+void Shader::setUniforms()
+{
+	Uniforms.setUniforms();
+}
+
