@@ -9,18 +9,15 @@
 // glm
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
+
 // chroma
 #include "screenManager/ChromaScreenManager.h"
 #include "component/ChromaComponent.h"
 #include "entity/ChromaEntity.h"
 #include "scene/ChromaScene.h"
-#include "buffers/Framebuffer.h"
-#include "buffers/ShadowBuffer.h"
 #include "models/Model.h"
 #include "models/BoxPrimitive.h"
 #include "models/PlanePrimitive.h"
-#include "models/SkyBox.h"
 #include "shaders/Shader.h"
 #include "texture/Texture.h"
 #include "cameras/Camera.h"
@@ -62,7 +59,6 @@ int main()
 	}
 	// SUNLIGHT
 	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.0f);
-
 	Lights.push_back(Sun);
 
 	// CUBES
@@ -111,6 +107,14 @@ int main()
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	Entities.push_back(NanosuitEntity);
+
+
+	//ChromaEntity* CerberusEntity = new ChromaEntity;
+	//ChromaComponent* CerberusModelComponent = new Model("resources/assets/cerberus/Cerberus_LP.FBX");
+	//CerberusModelComponent->bindShader(&litNormalsShader);
+	//CerberusEntity->addComponent(CerberusModelComponent);
+	//Entities.push_back(CerberusEntity);
+
 
 	std::vector<ChromaEntity*> boxes;
 	for (glm::vec3 position : cubePositions)
@@ -208,9 +212,10 @@ int main()
 			}
 		}
 
-		// RENDER ENTITIES
+		// NANO SUIT
 		NanosuitEntity->setScale(glm::vec3(0.5f));
 		NanosuitEntity->rotate(glm::mod(GameTime, 360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));
+
 
 		//Sunlight Rotation
 		Sun->direction = glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f))));
