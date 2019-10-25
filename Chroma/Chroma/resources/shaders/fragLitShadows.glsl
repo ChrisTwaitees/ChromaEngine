@@ -59,6 +59,7 @@ struct PointLight
 	float intensity;
 };
 
+
 struct SpotLight
 {
 	// attenuation
@@ -74,7 +75,7 @@ struct SpotLight
 	vec3 diffuse;
 };
 
-// SHADOWMAPS
+// SHADOWMAPS //
 struct ShadowMap
 {
 	sampler2D shadowmap1;
