@@ -114,7 +114,7 @@ int main()
 	//CerberusModelComponent->bindShader(&litNormalsShader);
 	//CerberusEntity->addComponent(CerberusModelComponent);
 	//Entities.push_back(CerberusEntity);
-
+	//
 
 	std::vector<ChromaEntity*> boxes;
 	for (glm::vec3 position : cubePositions)
