@@ -8,7 +8,7 @@
 #include "../lights/Light.h"
 #include "../texture/Texture.h"
 
-class ChromaComponent
+class IChromaComponent
 {
 	ChromaUID uid;
 	std::string name;
@@ -40,8 +40,8 @@ public:
 	virtual void setMat4(std::string name, glm::mat4 value) = 0;
 	virtual void setInt(std::string name, int value) = 0;
 
-	ChromaComponent();
-	~ChromaComponent();
+	IChromaComponent();
+	~IChromaComponent();
 };
 
 #endif

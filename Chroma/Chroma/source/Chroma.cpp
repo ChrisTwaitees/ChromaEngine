@@ -12,7 +12,7 @@
 
 // chroma
 #include "screenManager/ChromaScreenManager.h"
-#include "component/ChromaComponent.h"
+#include "component/IChromaComponent.h"
 #include "entity/ChromaEntity.h"
 #include "scene/ChromaScene.h"
 #include "models/Model.h"
@@ -103,7 +103,7 @@ int main()
 	std::vector<ChromaEntity*> Entities;
 
 	ChromaEntity * NanosuitEntity = new ChromaEntity;
-	ChromaComponent * NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
+	IChromaComponent * NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	Entities.push_back(NanosuitEntity);
@@ -114,13 +114,13 @@ int main()
 	//CerberusModelComponent->bindShader(&litNormalsShader);
 	//CerberusEntity->addComponent(CerberusModelComponent);
 	//Entities.push_back(CerberusEntity);
-	//
+
 
 	std::vector<ChromaEntity*> boxes;
 	for (glm::vec3 position : cubePositions)
 	{
 		ChromaEntity* BoxEntity = new ChromaEntity;
-		ChromaComponent* BoxMeshComponent = new BoxPrimitive;
+		IChromaComponent* BoxMeshComponent = new BoxPrimitive;
 		BoxMeshComponent->bindShader(&litShader);
 		BoxMeshComponent->bindTexture(diffuseMap);
 		BoxMeshComponent->bindTexture(specularMap);
@@ -134,7 +134,7 @@ int main()
 	for (glm::vec3 position : pointLightPositions)
 	{
 		ChromaEntity* LampEntity = new ChromaEntity;
-		ChromaComponent* LampMeshComponent = new BoxPrimitive;
+		IChromaComponent* LampMeshComponent = new BoxPrimitive;
 		LampMeshComponent->bindShader(&constantShader);
 		LampEntity->addComponent(LampMeshComponent);
 		LampEntity->setPosition(position);
@@ -149,7 +149,7 @@ int main()
 	//GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
 
 	ChromaEntity* TerrainEntity = new ChromaEntity;
-	ChromaComponent* TerrainMeshComponent = new Terrain;
+	IChromaComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->bindShader(&litNormalsShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 	Entities.push_back(TerrainEntity);
@@ -205,7 +205,7 @@ int main()
 				lamps[i]->scale(glm::vec3(0.3f));
 			}
 			// fragments
-			for (ChromaComponent* component : lamps[i]->RenderableComponents)
+			for (IChromaComponent* component : lamps[i]->RenderableComponents)
 			{
 				component->getShader()->setVec3("lightColor", Lights[i]->diffuse);
 				component->getShader()->setFloat("lightIntensity", Lights[i]->intensity);

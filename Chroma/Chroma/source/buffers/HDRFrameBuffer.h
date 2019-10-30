@@ -40,8 +40,8 @@ public:
 	//Shader* getShader() override { return &screenShader; };
 
 	void Draw() override;
-	void Draw(bool useBloom) override;
-	void bind() override;
+	void Draw(const bool& useBloom) override;
+	void Bind() override;
 
 
 	HDRFramebuffer();

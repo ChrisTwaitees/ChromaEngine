@@ -79,8 +79,6 @@ struct SpotLight
 struct ShadowMap
 {
 	sampler2D shadowmap1;
-	// ShadowCubeMaps for pointlights
-	//samplerCube skybox;
 };
 
 // UNIFORMS
@@ -91,12 +89,11 @@ uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
-// functions prototypes
+
 // Lighting
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 diffuseMap, vec3 specMap);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 diffuseMap, vec3 specMap);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  vec3 diffuseMap, vec3 specMap);
-// Shadows
 float ShadowCalculation(vec4 FragPosLightSpace, vec3 normal, vec3 lightDir);
 
 void main()

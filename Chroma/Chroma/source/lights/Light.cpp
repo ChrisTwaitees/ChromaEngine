@@ -2,12 +2,6 @@
 
 
 
-void Light::updateUniforms(Shader& shader)
-{
-	// transforms
-
-}
-
 Light::Light()
 {
 }

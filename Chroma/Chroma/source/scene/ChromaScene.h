@@ -35,6 +35,9 @@ public:
 	void setCameras(std::vector<Camera*>& newCameras) { Cameras = newCameras; };
 	void setEntities(std::vector<ChromaEntity*>& newCameras) { Entities = newCameras; };
 
+	Camera* getRenderCamera() { return RenderCamera; };
+	std::vector<std::shared_ptr<Light>>& getLights() { return Lights; };
+
 	ChromaScene();
 	~ChromaScene();
 };

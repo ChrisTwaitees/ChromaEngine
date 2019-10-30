@@ -1,50 +1,56 @@
 #include "Renderer.h"
 
 
-void Renderer::updateShadowMappingUniforms(ChromaComponent* component)
+void Renderer::updateShadowMappingUniforms(IChromaComponent* component)
 {
 	component->getShader()->use();
-	component->getShader()->setMat4("lightSpaceMatrix", Shadowbuffer->getLightSpaceMatrix());
+	component->getShader()->setMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 }
 
 void Renderer::Init()
 {
-	Shadowbuffer = new ShadowBuffer(mScene);
-	Skybox = new SkyBox(*mScene->RenderCamera);
+	mShadowbuffer = new ShadowBuffer(mScene);
+	mGBuffer = new GBuffer(mScene, mShadowbuffer);
+	mSkybox = new SkyBox(*mScene->RenderCamera);
 }
 
 void Renderer::RenderScene()
 {
 	// Shadowbuffer
-	Shadowbuffer->calculateShadows();
+	mShadowbuffer->calculateShadows();
 
 	// ShadowBuffer Debug Framebuffer
-	//FrameBuffer.setTexture(Shadowbuffer->ShadowMapTexture.ShaderID);
-	//FrameBuffer.setScale(glm::vec2(0.25f));
-	//FrameBuffer.setPosition(glm::vec2(-0.5f));
-	//FrameBuffer.Draw();
 
 	// HDR Tone Mapping
-	HDRFrameBuffer->bind();
+	mHDRFrameBuffer->Bind();
 
-	// Render Scene
-	for (ChromaEntity* entity : mScene->Entities)
-	{
-		for (ChromaComponent* component : entity->RenderableComponents)
-		{
-			updateShadowMappingUniforms(component);
-		}
-		entity->Draw(*mScene->RenderCamera, mScene->Lights);
-	}
+	// GBUFFER
+	mGBuffer->Draw();
 
-	//SkyBox
-	if (mScreenManager->useSkybox)
-		Skybox->Draw();
+	debugFramebuffer.setTexture(mShadowbuffer->ShadowMapTexture.ID);
+	debugFramebuffer.setScale(glm::vec2(0.25f));
+	debugFramebuffer.setPosition(glm::vec2(-0.5f));
+	debugFramebuffer.Draw();
+
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	 //Render Scene
+	//for (ChromaEntity* entity : mScene->Entities)
+	//{
+	//	for (IChromaComponent* component : entity->RenderableComponents)
+	//	{
+	//		updateShadowMappingUniforms(component);
+	//	}
+	//	entity->Draw(*mScene->RenderCamera, mScene->Lights);
+	//}
+
+	////SkyBox
+	//if (mScreenManager->useSkybox)
+	//	mSkybox->Draw();
 
 
 	// Draw HRD Tone Mapping
-	HDRFrameBuffer->Draw(mScreenManager->useBloom);
-	HDRFrameBuffer->setUniform("exposure", mScreenManager->exposure);
+	//mHDRFrameBuffer->Draw(mScreenManager->useBloom);
+	mHDRFrameBuffer->setUniform("exposure", mScreenManager->exposure);
 }
 
 Renderer::Renderer(const ChromaScene* Scene, const ChromaScreenManager* ScreenManager)
@@ -57,4 +63,7 @@ Renderer::Renderer(const ChromaScene* Scene, const ChromaScreenManager* ScreenMa
 
 Renderer::~Renderer()
 {
+	delete mShadowbuffer;
+	delete mGBuffer;
+	delete mHDRFrameBuffer;
 }

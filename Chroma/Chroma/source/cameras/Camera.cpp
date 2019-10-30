@@ -111,7 +111,7 @@ void Camera::move(Direction dir)
 
 Camera::Camera()
 {
-	rebuildView();
+	viewMat = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
 }
 
 Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : cameraPos{ cameraPos_val }, cameraTarget{ cameraTarget_val }

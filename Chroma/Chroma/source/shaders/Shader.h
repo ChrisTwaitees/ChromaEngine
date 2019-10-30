@@ -1,15 +1,21 @@
 #ifndef _SHADER_H_
 #define _SHADER_H_
 
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include <vector>
+#include <memory>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <string>
+
+#include <glad/glad.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
 #include "Uniform.h"
 #include "../renderer/ChromaRendererConfig.h"
+#include "../cameras/Camera.h"
+#include "../lights/Light.h"
 
 
 struct Material {
@@ -42,9 +48,12 @@ public:
 	//program ID
 	unsigned int ShaderID;
 
-
-	// Rednering
+	// Rendering
 	virtual void use();
+
+	// Uniforms
+	void setLightingUniforms(std::vector<std::shared_ptr<Light>> Lights, Camera& renderCam);
+
 	template<typename UniformType>
 	void addUniform(std::string uniformName, UniformType uniformValue){
 		Uniforms.addUniform(uniformName, uniformValue);
@@ -55,7 +64,6 @@ public:
 		Uniforms.setUniform(uniformName, uniformValue);
 	};
 
-	// Uniforms
 	void setBool(const std::string& name, bool value) const;
 	void setInt(const std::string& name, int value) const;
 	void setFloat(const std::string& name, float value) const;

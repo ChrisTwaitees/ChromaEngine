@@ -125,6 +125,49 @@ void Shader::use()
 }
 
 
+void Shader::setLightingUniforms( std::vector<std::shared_ptr<Light>> Lights, Camera& renderCam)
+{
+	int pointlights{ 0 };
+	int dirlights{ 0 };
+	int spotlights{ 0 };
+	for (int i = 0; i < Lights.size(); i++)
+	{
+		std::string lightIndex;
+		// set uniforms
+		switch (Lights[i]->type) {
+		case Light::POINT:
+			pointlights++;
+			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
+			break;
+		case Light::SUNLIGHT:
+		case Light::DIRECTIONAL:
+			dirlights++;
+			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
+			break;
+		case Light::SPOT:
+			spotlights++;
+			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
+			break;
+		default:
+			break;
+		}
+		//// lights directional
+		this->setVec3(lightIndex + ".direction", Lights[i]->direction);
+		this->setVec3(lightIndex + ".position", Lights[i]->position);
+		this->setVec3(lightIndex + ".diffuse", Lights[i]->diffuse);
+		this->setFloat(lightIndex + ".intensity", Lights[i]->intensity);
+		//// lights spotlight
+		this->setFloat(lightIndex + ".spotSize", Lights[i]->spotSize);
+		this->setFloat(lightIndex + ".penumbraSize", Lights[i]->penumbraSize);
+		//// lights point light falloff
+		this->setFloat(lightIndex + ".constant", Lights[i]->constant);
+		this->setFloat(lightIndex + ".linear", Lights[i]->linear);
+		this->setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
+		//// lights view pos
+		this->setVec3("viewPos", renderCam.get_position());
+	}
+}
+
 void Shader::CheckCompileErrors(GLuint shader, std::string type)
 {
 	GLint success;

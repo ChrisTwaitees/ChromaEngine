@@ -89,8 +89,6 @@ bool ChromaScreenManager::configureRenderer()
 	glEnable(GL_DEPTH_TEST);
 	// Enable Blending
 	glEnable(GL_BLEND);
-	// Blending Func
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Enable Face Culling
 	glEnable(GL_CULL_FACE);
 	// Enabling MSAA

@@ -56,6 +56,7 @@ protected:
 	void renderQuad();
 
 public:
+
 	// Getters/Setters
 	void setTexture(unsigned int newFBOTexture);
 	unsigned int getTexture() { return FBOTexture; };
@@ -70,10 +71,10 @@ public:
 		screenShader->setUniform(uniformName, uniformValue);
 	};
 
-	virtual void bind();
+	virtual void Bind();
 	virtual void unBind();
 	virtual void Draw();
-	virtual void Draw(bool useBloom);
+	virtual void Draw(const bool& useBloom);
 
 	Framebuffer();
 	~Framebuffer();

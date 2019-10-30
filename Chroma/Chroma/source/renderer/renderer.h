@@ -7,6 +7,7 @@
 #include "../buffers/Framebuffer.h"
 #include "../buffers/ShadowBuffer.h"
 #include "../buffers/HDRFrameBuffer.h"
+#include "../buffers/GBuffer.h"
 #include "../models/SkyBox.h"
 #include "../screenmanager/ChromaScreenManager.h"
 
@@ -14,7 +15,7 @@ class Renderer
 {
 private:
 	// LIGHTING
-	void updateShadowMappingUniforms(ChromaComponent* component);
+	void updateShadowMappingUniforms(IChromaComponent* component);
 
 protected:
 	// SCENE
@@ -23,18 +24,20 @@ protected:
 	// SCREENMANAGER
 	const ChromaScreenManager* mScreenManager;
 
-	// SHADOW MAPPING
-	ShadowBuffer* Shadowbuffer;
+	// Skybox
+	SkyBox* mSkybox;
+	
+	// Shadow Buffer
+	ShadowBuffer* mShadowbuffer;
 
-	// HDR FrameBuffer
-	Framebuffer* HDRFrameBuffer{ new HDRFramebuffer };
+	// GBuffer
+	Framebuffer* mGBuffer;
 
-	// FRAME BUFFER
-	Framebuffer FrameBuffer;
+	// HDR FrameBuffer // Post FX
+	Framebuffer* mHDRFrameBuffer{ new HDRFramebuffer };
 
-	// SKYBOX
-	SkyBox* Skybox;
-	bool useSkybox{ true };
+	// Debug Framebuffer
+	Framebuffer debugFramebuffer;
 
 
 	// INITIALIZE

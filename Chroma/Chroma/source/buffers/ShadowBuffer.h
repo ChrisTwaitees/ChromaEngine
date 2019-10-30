@@ -44,7 +44,7 @@ public:
 	// calculate shadows
 	void calculateShadows();
 	// constructors
-	ShadowBuffer(const ChromaScene* Scene);
+	ShadowBuffer(const ChromaScene*& Scene);
 	~ShadowBuffer();
 };
 

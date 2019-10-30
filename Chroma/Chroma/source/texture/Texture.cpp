@@ -6,7 +6,7 @@
 
 Texture::Texture(unsigned int newID)
 {
-	ShaderID = newID;
+	ID = newID;
 	path = ChromaUID().UID;
 }
 
@@ -25,19 +25,19 @@ int Texture::loadFromFile(std::string filename, std::string dir)
 {
 	path = dir + '/' + filename;
 	generateTexture();
-	return ShaderID;
+	return ID;
 }
 
 int Texture::loadFromFile(std::string sourcepath)
 {
 	path = sourcepath;
 	generateTexture();
-	return ShaderID;
+	return ID;
 }
 
 void Texture::generateTexture()
 {
-	glGenTextures(1, &ShaderID);
+	glGenTextures(1, &ID);
 
 	int width, height, nrComponents;
 	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
@@ -58,7 +58,7 @@ void Texture::generateTexture()
 		else if (nrComponents == 4)
 			wrapping = GL_CLAMP_TO_EDGE;
 
-		glBindTexture(GL_TEXTURE_2D, ShaderID);
+		glBindTexture(GL_TEXTURE_2D, ID);
 		glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
 		glGenerateMipmap(GL_TEXTURE_2D);
 
@@ -78,7 +78,7 @@ void Texture::generateTexture()
 
 void Texture::bind()
 {
-	glBindTexture(GL_TEXTURE_2D, ShaderID);
+	glBindTexture(GL_TEXTURE_2D, ID);
 }
 
 Texture::~Texture()

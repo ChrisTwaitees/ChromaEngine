@@ -49,9 +49,9 @@ public:
 	virtual void BindDrawVAO();
 
 	// Bindings
-	virtual void bindShader(Shader* newShader);
-	virtual void bindTextures(std::vector<Texture> textures_val);
-	virtual void bindTexture(Texture texture_val);
+	virtual void bindShader(Shader* newShader) override;
+	virtual void bindTextures(std::vector<Texture> textures_val) override;
+	virtual void bindTexture(Texture texture_val) override;
 
 	// Getters/Setters
 	virtual Shader* getShader() { return pShader; };
@@ -59,8 +59,8 @@ public:
 	virtual glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
 
 	// Shader Uniforms
-	virtual void setMat4(std::string name, glm::mat4 value);
-	virtual void setInt(std::string name, int value);
+	virtual void setMat4(std::string name, glm::mat4 value) override;
+	virtual void setInt(std::string name, int value) override;
 
 	StaticMesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
 	StaticMesh();

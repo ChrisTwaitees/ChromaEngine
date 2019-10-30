@@ -76,7 +76,7 @@ void Framebuffer::setResolutionScale(unsigned int newScale)
 	int newHeight = SCREEN_HEIGHT / resolutionFactor;
 }
 
-void Framebuffer::bind()
+void Framebuffer::Bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -103,10 +103,12 @@ void Framebuffer::Draw()
 
 }
 
-void Framebuffer::Draw(bool useBloom)
+void Framebuffer::Draw(const bool& useBloom)
 {
 	Draw();
 }
+
+
 
 Framebuffer::Framebuffer()
 {

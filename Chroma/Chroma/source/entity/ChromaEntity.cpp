@@ -3,19 +3,19 @@
 
 void ChromaEntity::Draw(Shader& shader)
 {
-	for (ChromaComponent* component : RenderableComponents)
+	for (IChromaComponent* component : RenderableComponents)
 		component->Draw(shader);
 }
 
 void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
-	for (ChromaComponent* component : RenderableComponents)
+	for (IChromaComponent* component : RenderableComponents)
 		component->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
 void ChromaEntity::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
-	for (ChromaComponent* component : RenderableComponents)
+	for (IChromaComponent* component : RenderableComponents)
 		component->Draw(RenderCamera, Lights, transformMatrix);
 }
 
@@ -29,7 +29,7 @@ ChromaEntity::~ChromaEntity()
 }
 
 // ADDING/REMOVING COMPONENTS
-void ChromaEntity::addComponent(ChromaComponent* newComponent)
+void ChromaEntity::addComponent(IChromaComponent*& newComponent)
 {
 	// TODO: Consider shared_ptr to prevent memory duplication
 	Components.push_back(newComponent);
@@ -37,7 +37,7 @@ void ChromaEntity::addComponent(ChromaComponent* newComponent)
 		RenderableComponents.push_back(newComponent);
 }
 
-void ChromaEntity::removeComponent(ChromaComponent* removeMe)
+void ChromaEntity::removeComponent(IChromaComponent*& removeMe)
 {
 	// all components 
 	int componentIndex = findIndexInVector(Components, removeMe);
@@ -79,7 +79,7 @@ void ChromaEntity::setPosition(glm::vec3 newposition)
 
 
 // VECTOR FUNCTIONS
-int findIndexInVector(const std::vector<ChromaComponent*>& componentsVector, ChromaComponent*& component)
+int findIndexInVector(const std::vector<IChromaComponent*>& componentsVector, IChromaComponent*& component)
 {
 	// Find given element in vector
 	auto it = std::find(componentsVector.begin(), componentsVector.end(), component);

@@ -156,9 +156,6 @@
     <ClCompile Include="source\entity\ChromaEntity.cpp">
       <Filter>Engine\entity</Filter>
     </ClCompile>
-    <ClCompile Include="source\component\ChromaComponent.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
     <ClCompile Include="source\memory\ChromaUID.cpp">
       <Filter>Engine\memory</Filter>
     </ClCompile>
@@ -173,6 +170,12 @@
     </ClCompile>
     <ClCompile Include="source\buffers\HDRFrameBuffer.cpp">
       <Filter>Renderer\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\buffers\GBuffer.cpp">
+      <Filter>Renderer\buffers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\component\IChromaComponent.cpp">
+      <Filter>Engine\component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -263,9 +266,6 @@
     <ClInclude Include="source\entity\ChromaEntity.h">
       <Filter>Engine\entity</Filter>
     </ClInclude>
-    <ClInclude Include="source\component\ChromaComponent.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
     <ClInclude Include="source\memory\ChromaUID.h">
       <Filter>Engine\memory</Filter>
     </ClInclude>
@@ -283,6 +283,12 @@
     </ClInclude>
     <ClInclude Include="source\buffers\HDRFrameBuffer.h">
       <Filter>Renderer\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\buffers\GBuffer.h">
+      <Filter>Renderer\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\component\IChromaComponent.h">
+      <Filter>Engine\component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -361,6 +367,12 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragLightingCalculations.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragGBuffer.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragGBufferLit.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>

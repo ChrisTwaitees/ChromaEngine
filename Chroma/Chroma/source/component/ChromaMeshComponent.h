@@ -1,13 +1,13 @@
 #ifndef _CHROMA_MESHCOMPONENT_
 #define _CHROMA_MESHCOMPONENT_
-#include "../component/ChromaComponent.h"
+#include "../component/IChromaComponent.h"
 
 // Chroma
 #include "../texture/Texture.h"
 #include "../cameras/Camera.h"
 #include "../lights/Light.h"
 
-class ChromaMeshComponent : public ChromaComponent
+class ChromaMeshComponent : public IChromaComponent
 {
 protected:
 	glm::mat4 TransformationMatrix{ glm::mat4(1) };

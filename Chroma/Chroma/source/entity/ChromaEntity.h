@@ -1,7 +1,7 @@
 #ifndef _CHROMA_ENTITY_
 #define _CHROMA_ENTITY_
 
-#include "../component/ChromaComponent.h"
+#include "../component/IChromaComponent.h"
 #include "../memory/ChromaUID.h"
 #include "../texture/Texture.h"
 #include "../shaders/Shader.h"
@@ -10,7 +10,7 @@
 #include <vector>
 #include <memory>
 
-int findIndexInVector(const std::vector<ChromaComponent*>& vector, ChromaComponent*& element);
+int findIndexInVector(const std::vector<IChromaComponent*>& vector, IChromaComponent*& element);
 
 class ChromaEntity
 {
@@ -23,12 +23,12 @@ class ChromaEntity
 	std::string name;
 public:
 	// Component Vectors
-	std::vector<ChromaComponent*> Components;
-	std::vector<ChromaComponent*> RenderableComponents;
+	std::vector<IChromaComponent*> Components;
+	std::vector<IChromaComponent*> RenderableComponents;
 
 	// Add/Remove Components
-	void addComponent(ChromaComponent* newComponent);
-	void removeComponent(ChromaComponent* removeMe);
+	void addComponent(IChromaComponent*& newComponent);
+	void removeComponent(IChromaComponent*& removeMe);
 
 	// Transformations
 	virtual void scale(glm::vec3 scalefactor);

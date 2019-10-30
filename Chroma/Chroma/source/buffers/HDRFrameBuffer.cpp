@@ -5,14 +5,14 @@ void HDRFramebuffer::initialize()
 {
 	screenShader = new Shader(fragSource, vtxSource);
 	blurShader = new Shader(blurfragSource, vtxSource);
-	// generate and bind frame buffers
+	// generate and Bind frame buffers
 	glGenFramebuffers(1, &hdrFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 	// generate color buffers
 	glGenTextures(2, colorBuffersTextures);
 	for (unsigned int i = 0 ; i < 2; i++)
 	{
-		// bind textures
+		// Bind textures
 		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[i]);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGB, GL_FLOAT, NULL);
 		// set texture parameters
@@ -124,7 +124,7 @@ void HDRFramebuffer::Draw()
 	renderQuad();
 }
 
-void HDRFramebuffer::Draw(bool useBloom)
+void HDRFramebuffer::Draw(const bool& useBloom)
 {
 	updateTransformUniforms();
 
@@ -164,10 +164,10 @@ void HDRFramebuffer::Draw(bool useBloom)
 	{
 		Draw();
 	}
-		
 }
 
-void HDRFramebuffer::bind()
+
+void HDRFramebuffer::Bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

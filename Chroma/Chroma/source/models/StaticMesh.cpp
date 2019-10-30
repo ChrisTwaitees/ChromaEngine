@@ -96,6 +96,8 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 	unsigned int specularNr{ 1 };
 	unsigned int shadowmapNr{ 1 };
 	unsigned int normalNr{ 1 };
+	unsigned int roughnessNr{ 1 };
+	unsigned int metalnessNr{ 1 };
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
@@ -122,10 +124,20 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 			name = "material.texture_normal";
 			texturenum = std::to_string(normalNr++);
 		}
+		if (textures[i].type == Texture::ROUGHNESS)
+		{
+			name = "material.texture_roughness";
+			texturenum = std::to_string(roughnessNr++);
+		}
+		if (textures[i].type == Texture::METALNESS)
+		{
+			name = "material.texture_metalness";
+			texturenum = std::to_string(metalnessNr++);
+		}
 		// setting uniform and binding texture
 		shader->setInt(( name + texturenum).c_str(), i);
 
-		glBindTexture(GL_TEXTURE_2D, textures[i].ShaderID);
+		glBindTexture(GL_TEXTURE_2D, textures[i].ID);
 		// activate texture
 	}
 	glActiveTexture(GL_TEXTURE0);

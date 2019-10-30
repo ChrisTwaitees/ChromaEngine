@@ -18,8 +18,8 @@ void ShadowBuffer::initialize()
 	// create frame buffer to store depth to
 	glGenFramebuffers(1, &depthMapFBO);
 	// create texture to write shadow map to
-	glGenTextures(1, &ShadowMapTexture.ShaderID);
-	glBindTexture(GL_TEXTURE_2D, ShadowMapTexture.ShaderID);
+	glGenTextures(1, &ShadowMapTexture.ID);
+	glBindTexture(GL_TEXTURE_2D, ShadowMapTexture.ID);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 
 		width, height, 0,
 		GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
@@ -36,7 +36,7 @@ void ShadowBuffer::initialize()
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
 	for (ChromaEntity* entity : mScene->Entities)
-		for (ChromaComponent* component : entity->RenderableComponents)
+		for (IChromaComponent* component : entity->RenderableComponents)
 		{
 			component->bindTexture(ShadowMapTexture);
 		}
@@ -45,7 +45,7 @@ void ShadowBuffer::initialize()
 void ShadowBuffer::bindShadowMapToBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ShadowMapTexture.ShaderID, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ShadowMapTexture.ID, 0);
 	// RBO are not complete without a color buffer
 	// setting the following to NONE mitigates this
 	glDrawBuffer(GL_NONE);
@@ -75,7 +75,7 @@ void ShadowBuffer::calculateShadows()
 	for (ChromaEntity* entity : mScene->Entities)
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();	
-		for (ChromaComponent* component : entity->RenderableComponents)
+		for (IChromaComponent* component : entity->RenderableComponents)
 		{
 			finalTransformMatrix *= component->getTransformationMatrix();
 			depthShader.setMat4("model", finalTransformMatrix);
@@ -91,7 +91,7 @@ void ShadowBuffer::calculateShadows()
 }
 
 
-ShadowBuffer::ShadowBuffer(const ChromaScene* Scene)
+ShadowBuffer::ShadowBuffer(const ChromaScene*& Scene)
 {
 	mScene = Scene;
 	initialize();
