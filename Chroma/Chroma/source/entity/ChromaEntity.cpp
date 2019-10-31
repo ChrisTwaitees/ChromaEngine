@@ -35,6 +35,10 @@ void ChromaEntity::addComponent(IChromaComponent*& newComponent)
 	Components.push_back(newComponent);
 	if (newComponent->isRenderable)
 		RenderableComponents.push_back(newComponent);
+	if (newComponent->isForwardRender)
+		ForwardComponents.push_back(newComponent);
+	else
+		DefferedComponents.push_back(newComponent);
 }
 
 void ChromaEntity::removeComponent(IChromaComponent*& removeMe)

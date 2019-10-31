@@ -7,6 +7,24 @@ void Renderer::updateShadowMappingUniforms(IChromaComponent* component)
 	component->getShader()->setMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 }
 
+void Renderer::renderTransparencey(std::vector<IChromaComponent*> transparentComponents)
+{
+	// Sorting for Transparency Shading
+	 //Sorting Grass for Transparencey Shading
+	std::map<float, IChromaComponent*> sorted;
+	for (unsigned int i = 0; i < transparentComponents.size(); i++)
+	{
+		float distance = glm::length(transparentComponents[i]->getPosition() - mScene->RenderCamera->get_position());
+		sorted[distance] = transparentComponents[i];
+	}
+	// iterating from furthest to closest
+	for (std::map<float, IChromaComponent*>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
+	{
+		glm::mat4 finalTransformMatrix = it->second->getTransformationMatrix();
+		it->second->Draw(*mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
+	}
+}
+
 void Renderer::Init()
 {
 	mShadowbuffer = new ShadowBuffer(mScene);
@@ -22,30 +40,28 @@ void Renderer::RenderScene()
 	// ShadowBuffer Debug Framebuffer
 
 	// HDR Tone Mapping
-	mHDRFrameBuffer->Bind();
-
-	// GBUFFER
-	mGBuffer->Draw();
-
-	debugFramebuffer.setTexture(mShadowbuffer->ShadowMapTexture.ID);
-	debugFramebuffer.setScale(glm::vec2(0.25f));
-	debugFramebuffer.setPosition(glm::vec2(-0.5f));
-	debugFramebuffer.Draw();
-
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	 //Render Scene
-	//for (ChromaEntity* entity : mScene->Entities)
-	//{
-	//	for (IChromaComponent* component : entity->RenderableComponents)
-	//	{
-	//		updateShadowMappingUniforms(component);
-	//	}
-	//	entity->Draw(*mScene->RenderCamera, mScene->Lights);
-	//}
+	//mHDRFrameBuffer->Bind();
 
 	////SkyBox
 	//if (mScreenManager->useSkybox)
 	//	mSkybox->Draw();
+
+	// GBUFFER
+	mGBuffer->Draw();
+
+
+
+	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	 // FORWARD RENDER
+	for (ChromaEntity* entity : mScene->Entities)
+	{
+		for (IChromaComponent* component : entity->ForwardComponents)
+		{
+		//	updateShadowMappingUniforms(component);
+		}
+		entity->Draw(*mScene->RenderCamera, mScene->Lights);
+	}
+
 
 
 	// Draw HRD Tone Mapping

@@ -73,17 +73,18 @@ void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector < std:
 			break;
 		}
 		//// lights directional
-		shader->setVec3(lightIndex + ".direction", Lights[i]->direction);
-		shader->setVec3(lightIndex + ".position", Lights[i]->position);
-		shader->setVec3(lightIndex + ".diffuse", Lights[i]->diffuse);
-		shader->setFloat(lightIndex + ".intensity", Lights[i]->intensity);
+		shader->setVec3(lightIndex + ".direction", Lights[i]->getDirection());
+		shader->setVec3(lightIndex + ".position", Lights[i]->getPosition());
+		shader->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
+		shader->setFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
 		//// lights spotlight
-		shader->setFloat(lightIndex + ".spotSize", Lights[i]->spotSize);
-		shader->setFloat(lightIndex + ".penumbraSize", Lights[i]->penumbraSize);
+		shader->setFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
+		shader->setFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
 		//// lights point light falloff
 		shader->setFloat(lightIndex + ".constant", Lights[i]->constant);
 		shader->setFloat(lightIndex + ".linear", Lights[i]->linear);
 		shader->setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
+		shader->setFloat(lightIndex + ".radius", Lights[i]->getRadius());
 		//// lights view pos
 		shader->setVec3("viewPos", renderCam.get_position());
 	}

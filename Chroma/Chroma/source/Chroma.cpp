@@ -46,13 +46,16 @@ int main()
 		glm::vec3(0.7f,  2.2f,  2.0f),
 		glm::vec3(2.3f, -1.3f, -4.0f),
 		glm::vec3(-4.0f,  4.0f, -12.0f),
-		glm::vec3(0.0f,  2.0f, -3.0f)
+		glm::vec3(1.0f,  1.0f, -3.0f),
+		glm::vec3(2.0f,  -3.0f, -1.0f),
+		glm::vec3(4.0f,  -2.0f, 3.0f),
+		glm::vec3(-1.0f,  2.0f, -3.0f)
 	};
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		std::shared_ptr<Light> pointLight = std::make_shared < Light >(pos, Light::POINT);
-		pointLight->intensity *= 5.0f;
+		pointLight->setIntensity(5.0f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
@@ -136,6 +139,7 @@ int main()
 		ChromaEntity* LampEntity = new ChromaEntity;
 		IChromaComponent* LampMeshComponent = new BoxPrimitive;
 		LampMeshComponent->bindShader(&constantShader);
+		LampMeshComponent->isForwardRender = true;
 		LampEntity->addComponent(LampMeshComponent);
 		LampEntity->setPosition(position);
 		lamps.push_back(LampEntity);
@@ -182,7 +186,8 @@ int main()
 			ScreenManager.ToggleBloom();
 
 		// SHADOW MAPS
-		Sun->position = Sun->direction * -20.0f;
+		Sun->setPosition(Sun->getDirection() * -20.0f);
+
 
 		// LIGHTS
 		constantShader.use();
@@ -196,19 +201,23 @@ int main()
 			// spin lights
 			if (Lights[i]->type == Light::POINT)
 			{
-				Lights[i]->position.x = pointLightPositions[i].x + (std::cos(GameTime * 2.0f + i)) * 4.0f;
-				Lights[i]->position.z = pointLightPositions[i].z + sin(std::sin(GameTime * 2.0f + i)) * 4.0f;
-				Lights[i]->position.y = pointLightPositions[i].y + std::sin(GameTime * 2.5f + i) * 4.0f;
-				Lights[i]->diffuse = glm::mod(Lights[i]->position, glm::vec3(1.0));
+				glm::vec3 newLightPos;
+
+				newLightPos.x = pointLightPositions[i].x + (std::cos(GameTime * 2.0f + i)) * 4.0f;
+				newLightPos.z = pointLightPositions[i].z + sin(std::sin(GameTime * 2.0f + i)) * 4.0f;
+				newLightPos.y = pointLightPositions[i].y + std::sin(GameTime * 2.5f + i) * 4.0f;
+				Lights[i]->setPosition(newLightPos);
+
+				Lights[i]->setDiffuse(glm::mod(newLightPos, glm::vec3(1.0)));
 				//positions
-				lamps[i]->setPosition(Lights[i]->position);
+				lamps[i]->setPosition(newLightPos);
 				lamps[i]->scale(glm::vec3(0.3f));
 			}
 			// fragments
 			for (IChromaComponent* component : lamps[i]->RenderableComponents)
 			{
-				component->getShader()->setVec3("lightColor", Lights[i]->diffuse);
-				component->getShader()->setFloat("lightIntensity", Lights[i]->intensity);
+				component->getShader()->setVec3("lightColor", Lights[i]->getDiffuse());
+				component->getShader()->setFloat("lightIntensity", Lights[i]->getIntensity());
 			}
 		}
 
@@ -218,7 +227,7 @@ int main()
 
 
 		//Sunlight Rotation
-		Sun->direction = glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f))));
+		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
 
 
 		// SPINNING BOXES

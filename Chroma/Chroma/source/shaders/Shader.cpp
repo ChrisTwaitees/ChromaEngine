@@ -152,13 +152,14 @@ void Shader::setLightingUniforms( std::vector<std::shared_ptr<Light>> Lights, Ca
 			break;
 		}
 		//// lights directional
-		this->setVec3(lightIndex + ".direction", Lights[i]->direction);
-		this->setVec3(lightIndex + ".position", Lights[i]->position);
-		this->setVec3(lightIndex + ".diffuse", Lights[i]->diffuse);
-		this->setFloat(lightIndex + ".intensity", Lights[i]->intensity);
+		this->setVec3(lightIndex + ".direction", Lights[i]->getDirection());
+		this->setVec3(lightIndex + ".position", Lights[i]->getPosition());
+		this->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
+		this->setFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
+		this->setFloat(lightIndex + ".radius", Lights[i]->getRadius());
 		//// lights spotlight
-		this->setFloat(lightIndex + ".spotSize", Lights[i]->spotSize);
-		this->setFloat(lightIndex + ".penumbraSize", Lights[i]->penumbraSize);
+		this->setFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
+		this->setFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
 		//// lights point light falloff
 		this->setFloat(lightIndex + ".constant", Lights[i]->constant);
 		this->setFloat(lightIndex + ".linear", Lights[i]->linear);

@@ -23,7 +23,7 @@ void main()
     vs_out.FragPos = vec3(model * vec4(aPos, 1.0));
     vs_out.Normal = transpose(inverse(mat3(model))) * aNormal;
     vs_out.TexCoords = aTexCoords;
-    vs_out.FragPosLightSpace = lightSpaceMatrix * vec4(vs_out.FragPos, 1.0);
+    vs_out.FragPosLightSpace = lightSpaceMatrix * vec4( vs_out.FragPos , 1.0);
 	vec3 T = normalize(vec3(model * vec4(aTangent,   0.0)));
     vec3 B = normalize(vec3(model * vec4(aBitangent, 0.0)));
     vec3 N = normalize(vec3(model * vec4(aNormal,    0.0)));

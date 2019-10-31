@@ -2,6 +2,7 @@
 #define _CHROMA_RENDERER_
 
 #include <memory>
+#include <vector>
 #include "../scene/ChromaScene.h"
 #include "../shaders/Shader.h"
 #include "../buffers/Framebuffer.h"
@@ -38,6 +39,9 @@ protected:
 
 	// Debug Framebuffer
 	Framebuffer debugFramebuffer;
+
+	// Forward Render Alpha
+	void renderTransparencey(std::vector<IChromaComponent*> ForwardComponents);
 
 
 	// INITIALIZE

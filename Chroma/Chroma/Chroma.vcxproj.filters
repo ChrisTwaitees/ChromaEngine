@@ -375,5 +375,8 @@
     <None Include="resources\shaders\fragGBufferLit.glsl">
       <Filter>resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\fragLightingStructs.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

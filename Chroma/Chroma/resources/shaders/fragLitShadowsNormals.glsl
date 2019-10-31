@@ -40,40 +40,7 @@ struct Material
 	float specularIntensity;
 };
 
-// LIGHTS
-struct DirLight 
-{
-	vec3 direction;
-	vec3 diffuse;
-	float intensity;
-};
-
-struct PointLight
-{
-	// attenuation
-	float constant;
-	float linear;
-	float quadratic;
-	// members
-	vec3 position;
-	vec3 diffuse;
-	float intensity;
-};
-
-struct SpotLight
-{
-	// attenuation
-	float constant;
-	float linear;
-	float quadratic;
-	// members
-	vec3 position;
-	vec3 direction;
-	float intensity;
-	float spotSize;
-	float penumbraSize;
-	vec3 diffuse;
-};
+#include "fragLightingStructs.glsl"
 
 // SHADOWMAPS
 struct ShadowMap

@@ -3,10 +3,13 @@
 layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
-// max lights
-#define NR_POINT_LIGHTS 4
-#define NR_DIR_LIGHTS 1
-#define NR_SPOT_LIGHTS 1
+// in
+in vec3 FragPos;
+in vec3 Normal;
+in vec2 TexCoords;
+
+
+
 
 // structs
 struct Material
@@ -31,44 +34,12 @@ struct Material
 	float specularIntensity;
 };
 
-struct DirLight 
-{
-	vec3 direction;
-	vec3 diffuse;
-	float intensity;
-};
+#include "fragLightingStructs.glsl"
 
-struct PointLight
-{
-	// attenuation
-	float constant;
-	float linear;
-	float quadratic;
-	// members
-	vec3 position;
-	vec3 diffuse;
-	float intensity;
-};
-
-struct SpotLight
-{
-	// attenuation
-	float constant;
-	float linear;
-	float quadratic;
-	// members
-	vec3 position;
-	vec3 direction;
-	float intensity;
-	float spotSize;
-	float penumbraSize;
-	vec3 diffuse;
-};
-
-// in
-in vec3 FragPos;
-in vec3 Normal;
-in vec2 TexCoords;
+// max lights
+#define NR_POINT_LIGHTS 4
+#define NR_DIR_LIGHTS 1
+#define NR_SPOT_LIGHTS 1
 
 // uniforms
 uniform vec3 viewPos;

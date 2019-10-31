@@ -42,7 +42,7 @@ void GBuffer::initialize()
 	// - fragposLightSpace color buffer for shadowmapping
 	glGenTextures(1, &gFragPosLightSpace);
 	glBindTexture(GL_TEXTURE_2D, gFragPosLightSpace);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gFragPosLightSpace, 0);
@@ -95,6 +95,7 @@ void GBuffer::bindAllGBufferTextures()
 	glBindTexture(GL_TEXTURE_2D, gMetalnessSpecular);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, gFragPosLightSpace);
+	lightingPassShader.setInt("shadowmap", 5);
 	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, mShadowbuffer->ShadowMapTexture.ID);
 }
@@ -103,9 +104,7 @@ void GBuffer::setLightingUniforms()
 {
 	lightingPassShader.setLightingUniforms(mScene->Lights, *mScene->RenderCamera);
 	lightingPassShader.setFloat("ambient", 0.3f);
-	lightingPassShader.setInt("shadowmap", mShadowbuffer->ShadowMapTexture.ID);
 }
-
 
 
 void GBuffer::Bind()
@@ -130,12 +129,11 @@ void GBuffer::Draw()
 	for (ChromaEntity* entity : mScene->Entities)
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
-		for (IChromaComponent* component : entity->RenderableComponents)
+		for (IChromaComponent* component : entity->DefferedComponents)
 		{
 			geometryPassShader.setMat4("model", finalTransformMatrix);
 			component->Draw(geometryPassShader, *mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
 		}
-
 	}
 	unBind();
 	// 2. lighting pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.

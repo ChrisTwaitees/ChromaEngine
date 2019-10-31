@@ -231,6 +231,7 @@
     <None Include="resources\shaders\fragGBufferLit.glsl" />
     <None Include="resources\shaders\fragHDRframebuffer.glsl" />
     <None Include="resources\shaders\fragLightingCalculations.glsl" />
+    <None Include="resources\shaders\fragLightingStructs.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
     <None Include="resources\shaders\fragLitShadows.glsl" />

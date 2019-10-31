@@ -25,6 +25,8 @@ public:
 	// Component Vectors
 	std::vector<IChromaComponent*> Components;
 	std::vector<IChromaComponent*> RenderableComponents;
+	std::vector<IChromaComponent*> DefferedComponents;
+	std::vector<IChromaComponent*> ForwardComponents;
 
 	// Add/Remove Components
 	void addComponent(IChromaComponent*& newComponent);
@@ -37,6 +39,8 @@ public:
 	
 	virtual void setScale(glm::vec3 newscale);
 	virtual void setPosition(glm::vec3 newposition);
+
+	virtual glm::vec3 getPosition() { return glm::vec3(transformMatrix[3]); };
 
 	// Getters and Setters
 	std::string getUID() { return uid.UID; };
