@@ -9,8 +9,9 @@ void Renderer::updateShadowMappingUniforms(IChromaComponent* component)
 
 void Renderer::renderTransparencey(std::vector<IChromaComponent*> transparentComponents)
 {
+	////glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
-	 //Sorting Grass for Transparencey Shading
+	//Sorting Grass for Transparencey Shading
 	std::map<float, IChromaComponent*> sorted;
 	for (unsigned int i = 0; i < transparentComponents.size(); i++)
 	{
@@ -37,8 +38,6 @@ void Renderer::RenderScene()
 	// Shadowbuffer
 	mShadowbuffer->calculateShadows();
 
-	// ShadowBuffer Debug Framebuffer
-
 	// HDR Tone Mapping
 	//mHDRFrameBuffer->Bind();
 
@@ -51,22 +50,20 @@ void Renderer::RenderScene()
 
 
 
-	//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	 // FORWARD RENDER
-	for (ChromaEntity* entity : mScene->Entities)
-	{
-		for (IChromaComponent* component : entity->ForwardComponents)
-		{
-		//	updateShadowMappingUniforms(component);
-		}
-		entity->Draw(*mScene->RenderCamera, mScene->Lights);
-	}
-
-
+	////glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// // FORWARD RENDER
+	//for (ChromaEntity* entity : mScene->Entities)
+	//{
+	//	glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
+	//	for (IChromaComponent* component : entity->ForwardComponents)
+	//	{
+	//		component->Draw(*mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
+	//	}
+	//}
 
 	// Draw HRD Tone Mapping
 	//mHDRFrameBuffer->Draw(mScreenManager->useBloom);
-	mHDRFrameBuffer->setUniform("exposure", mScreenManager->exposure);
+	//mHDRFrameBuffer->setUniform("exposure", mScreenManager->exposure);
 }
 
 Renderer::Renderer(const ChromaScene* Scene, const ChromaScreenManager* ScreenManager)

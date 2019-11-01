@@ -1,7 +1,6 @@
 #include "GBuffer.h"
 
 
-
 void GBuffer::initialize()
 {
 	// create the buffer
@@ -47,7 +46,7 @@ void GBuffer::initialize()
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gFragPosLightSpace, 0);
 
-	// - tell OpenGL which color attachments we'll use (of this framebuffer) for rendering 
+	// - tell OpenGL which color attachments we'll use for rendering 
 	unsigned int attachments[5] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4 };
 	glDrawBuffers(5, attachments); 
 	// create and attach depth buffer (renderbuffer)
@@ -81,6 +80,8 @@ void GBuffer::configureShaders()
 	lightingPassShader.setInt("gAlbedoRoughness", 2);
 	lightingPassShader.setInt("gMetalnessSpecular", 3);
 	lightingPassShader.setInt("gFragPosLightSpace", 4);
+	lightingPassShader.setInt("gShadowmap", 5);
+	lightingPassShader.setInt("SSAO", 6);
 }
 
 void GBuffer::bindAllGBufferTextures()
@@ -95,17 +96,17 @@ void GBuffer::bindAllGBufferTextures()
 	glBindTexture(GL_TEXTURE_2D, gMetalnessSpecular);
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, gFragPosLightSpace);
-	lightingPassShader.setInt("shadowmap", 5);
 	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, mShadowbuffer->ShadowMapTexture.ID);
+	glActiveTexture(GL_TEXTURE6);
+	glBindTexture(GL_TEXTURE_2D, ssaoBuffer->getTexture());
 }
 
 void GBuffer::setLightingUniforms()
 {
 	lightingPassShader.setLightingUniforms(mScene->Lights, *mScene->RenderCamera);
-	lightingPassShader.setFloat("ambient", 0.3f);
+	lightingPassShader.setFloat("ambient", 0.5f);
 }
-
 
 void GBuffer::Bind()
 {
@@ -113,14 +114,11 @@ void GBuffer::Bind()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void GBuffer::Draw()
+void GBuffer::drawGeometryPass()
 {
-
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	//// -----------------------------------------------------------------
-	glBindFramebuffer(GL_FRAMEBUFFER, gBuffer);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+	Bind();
 	geometryPassShader.use();
 	geometryPassShader.setMat4("view", mScene->RenderCamera->viewMat);
 	geometryPassShader.setMat4("projection", mScene->RenderCamera->projectionMat);
@@ -136,8 +134,10 @@ void GBuffer::Draw()
 		}
 	}
 	unBind();
-	// 2. lighting pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
-	// -----------------------------------------------------------------------------------------------------------------------
+}
+
+void GBuffer::drawLightingPass()
+{
 	glClear(GL_COLOR_BUFFER_BIT);
 	// use the lighting pass shader
 	lightingPassShader.use();
@@ -147,11 +147,26 @@ void GBuffer::Draw()
 	bindAllGBufferTextures();
 	// set lighting uniforms
 	setLightingUniforms();
-	// renderquad
+}
+
+
+void GBuffer::Draw()
+{
+	// 1. geometry pass: render scene's geometry/color data into gbuffer
+	// -----------------------------------------------------------------
+	drawGeometryPass();
+
+	// 1.5 SSAO Pass : draw SSAO to be used during lighting pass
+	// -----
+	ssaoBuffer->Draw(gPosition, gNormal, mScene->RenderCamera->projectionMat);
+
+	// 2. lighting pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
+	// -----------------------------------------------------------------------------------------------------------------------
+	drawLightingPass();
 	renderQuad();
 
 
-	// 2.5. copy content of geometry's depth buffer to default framebuffer's depth buffer
+	// 3. copy content of geometry's depth buffer to default framebuffer's depth buffer
 	// ----------------------------------------------------------------------------------
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // write to default framebuffer
@@ -160,8 +175,6 @@ void GBuffer::Draw()
 	);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	// 3. render unlit/forward rendered objects
-	// --------------------------------
 }
 
 

@@ -59,7 +59,7 @@ public:
 
 	// Getters/Setters
 	void setTexture(unsigned int newFBOTexture);
-	unsigned int getTexture() { return FBOTexture; };
+	virtual unsigned int getTexture() { return FBOTexture; };
 	void setResolutionScale(unsigned int newScale);
 
 	void setScale(glm::vec2 newScale) { scale = newScale; };
@@ -75,6 +75,7 @@ public:
 	virtual void unBind();
 	virtual void Draw();
 	virtual void Draw(const bool& useBloom);
+	virtual void Draw(unsigned int& gPosition, unsigned int& gNormal, glm::mat4& projection) {};
 
 	Framebuffer();
 	~Framebuffer();

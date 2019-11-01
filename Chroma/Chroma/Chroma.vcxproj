@@ -154,6 +154,7 @@
     <ClCompile Include="source\buffers\GBuffer.cpp" />
     <ClCompile Include="source\buffers\HDRFrameBuffer.cpp" />
     <ClCompile Include="source\buffers\ShadowBuffer.cpp" />
+    <ClCompile Include="source\buffers\SSAOBuffer.cpp" />
     <ClCompile Include="source\component\IChromaComponent.cpp" />
     <ClCompile Include="source\component\ChromaMeshComponent.cpp" />
     <ClCompile Include="source\entity\ChromaEntity.cpp" />
@@ -191,6 +192,7 @@
     <ClInclude Include="source\buffers\GBuffer.h" />
     <ClInclude Include="source\buffers\HDRFrameBuffer.h" />
     <ClInclude Include="source\buffers\ShadowBuffer.h" />
+    <ClInclude Include="source\buffers\SSAOBuffer.h" />
     <ClInclude Include="source\component\IChromaComponent.h" />
     <ClInclude Include="source\component\ChromaMeshComponent.h" />
     <ClInclude Include="source\entity\ChromaEntity.h" />
@@ -237,6 +239,8 @@
     <None Include="resources\shaders\fragLitShadows.glsl" />
     <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
+    <None Include="resources\shaders\fragSSAO.glsl" />
+    <None Include="resources\shaders\fragSSAOBlur.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\geometryDebugNormals.glsl" />

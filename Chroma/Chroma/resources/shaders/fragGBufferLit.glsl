@@ -9,13 +9,15 @@ uniform sampler2D gNormal;
 uniform sampler2D gAlbedoRoughness;
 uniform sampler2D gMetalnessSpecular;
 uniform sampler2D gFragPosLightSpace;
+uniform sampler2D gShadowmap;
+uniform sampler2D SSAO;
 
 
 #include "fragLightingStructs.glsl"
 
 
 // MAX_LIGHTS
-#define NR_POINT_LIGHTS 8
+#define NR_POINT_LIGHTS 9
 #define NR_DIR_LIGHTS 1
 #define NR_SPOT_LIGHTS 1
 
@@ -25,20 +27,17 @@ uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
 
 // UNIFORMS
-
 uniform samplerCube skybox;
 uniform float skyboxIntensity;
 
 // Lighting Uniforms
 uniform vec3 viewPos;
-uniform sampler2D shadowmap;
 uniform float ambient;
 
 
-
 // Lighting Functions
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace);
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO);
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  vec3 diffuseMap, vec3 specMap);
 float ShadowCalculation(vec4 FragPosLightSpace, vec3 normal, vec3 lightDir);
 
@@ -52,6 +51,7 @@ void main()
 	float Metalness = texture(gMetalnessSpecular, TexCoords).r;
 	float Specular = texture(gMetalnessSpecular, TexCoords).a;
 	vec4 FragPosLightSpace = texture(gFragPosLightSpace, TexCoords).rgba;
+	float ssao = texture(SSAO, TexCoords).r;
 
 	// lighting
 	vec3 lighting;
@@ -59,7 +59,7 @@ void main()
 	
 	 //directional lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-		lighting += CalcDirLight(dirLights[i], Normal, viewDir,  Albedo, Roughness, Specular, Metalness, ambient, FragPosLightSpace );
+		lighting += CalcDirLight(dirLights[i], Normal, viewDir,  Albedo, Roughness, Specular, Metalness, ambient, FragPosLightSpace, ssao);
 
 	// point lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
@@ -68,20 +68,12 @@ void main()
         if(dist < pointLights[i].radius)
         {
             // do expensive lighting
-            lighting += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Specular, Metalness, ambient, FragPosLightSpace);
+            lighting += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Specular, Metalness, ambient, FragPosLightSpace, ssao);
         }
-	}
-
-	if (Normal == vec3(0.0,0.0,0.0))
-	{
-		discard;
 	}
 
 	// out
 	FragColor = vec4(lighting, 1.0);
-
-
-
 
 	// out bloom
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
@@ -92,7 +84,7 @@ void main()
 }  
 
 // DIRECTIONAL LIGHT
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace)
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO)
 {
 	// diffuse
 	vec3 lightDir = normalize(-light.direction);
@@ -103,7 +95,8 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float 
 	// spec
 	vec3 spec = specular * vec3(pow(max(dot(normal, halfwayDir), 0.0), roughness) * light.intensity);
 	// ambient
-	vec3 amb = albedo * ambient;
+	
+	vec3 amb = albedo * ambient * SSAO;
 	// shadows
 	float shadow = ShadowCalculation(FragPosLightSpace, normal, lightDir);
 
@@ -111,7 +104,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float 
 }
 
 // POINT LIGHT
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace)
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO)
 {
 	vec3 lightDir = normalize(light.position - FragPos);
 	// diffuse
@@ -121,7 +114,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 	// spec
 	vec3 spec = specular * pow(max(dot(normal, halfwayDir), 0.0), roughness) * vec3(light.intensity);
 	// ambient
-	vec3 amb = albedo * ambient;
+	vec3 amb = albedo * ambient * SSAO;
 	// attenuation
 	float distance = length(light.position - FragPos);
 	float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
@@ -143,7 +136,7 @@ float ShadowCalculation(vec4 FragPosLightSpace, vec3 normal, vec3 lightDir)
     // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
     // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-    float closestDepth = texture(shadowmap, projCoords.xy).r; 
+    float closestDepth = texture(gShadowmap, projCoords.xy).r; 
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // calculate bias (based on depth map resolution and slope)
@@ -151,12 +144,12 @@ float ShadowCalculation(vec4 FragPosLightSpace, vec3 normal, vec3 lightDir)
     // check whether current frag pos is in shadow
     // PCF
     float shadow = 0.0;
-    vec2 texelSize = 1.0 / textureSize(shadowmap, 0);
+    vec2 texelSize = 1.0 / textureSize(gShadowmap, 0);
     for(int x = -1; x <= 1; ++x)
     {
         for(int y = -1; y <= 1; ++y)
         {
-            float pcfDepth = texture(shadowmap, projCoords.xy + vec2(x, y) * texelSize).r; 
+            float pcfDepth = texture(gShadowmap, projCoords.xy + vec2(x, y) * texelSize).r; 
             shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;        
         }    
     }

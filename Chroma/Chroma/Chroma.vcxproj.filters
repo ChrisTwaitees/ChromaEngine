@@ -177,6 +177,9 @@
     <ClCompile Include="source\component\IChromaComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
+    <ClCompile Include="source\buffers\SSAOBuffer.cpp">
+      <Filter>Renderer\buffers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -290,6 +293,9 @@
     <ClInclude Include="source\component\IChromaComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
+    <ClInclude Include="source\buffers\SSAOBuffer.h">
+      <Filter>Renderer\buffers</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">
@@ -376,6 +382,12 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragLightingStructs.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragSSAO.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragSSAOBlur.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>
