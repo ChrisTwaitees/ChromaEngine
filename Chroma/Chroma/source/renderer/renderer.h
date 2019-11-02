@@ -15,8 +15,13 @@
 class Renderer
 {
 private:
-	// LIGHTING
+	// DEFERRED LIGHTING RENDER
+	void renderDefferedComponents();
 	void updateShadowMappingUniforms(IChromaComponent* component);
+
+	// FORWARD RENDER
+	void renderForwardComponents();
+	void renderTransparencey(std::vector<IChromaComponent*> ForwardComponents);
 
 protected:
 	// SCENE
@@ -39,10 +44,6 @@ protected:
 
 	// Debug Framebuffer
 	Framebuffer debugFramebuffer;
-
-	// Forward Render Alpha
-	void renderTransparencey(std::vector<IChromaComponent*> ForwardComponents);
-
 
 	// INITIALIZE
 	void Init();

@@ -143,10 +143,11 @@ void GBuffer::drawGeometryPass()
 	for (ChromaEntity* entity : mScene->Entities)
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
-		for (IChromaComponent* component : entity->DefferedComponents)
+		for (IChromaComponent* component : entity->LitComponents)
 		{
+			finalTransformMatrix = finalTransformMatrix * component->getTransformationMatrix();
 			geometryPassShader.setMat4("model", finalTransformMatrix);
-			component->Draw(geometryPassShader, *mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
+			component->DrawUpdateMaterials(geometryPassShader);
 		}
 	}
 	unBind();
@@ -172,15 +173,23 @@ void GBuffer::Draw()
 	// -----------------------------------------------------------------
 	drawGeometryPass();
 
-	// 1.5 SSAO Pass : draw SSAO to be used during lighting pass
+	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
 	// -----
 	ssaoBuffer->Draw(gViewPosition, gViewNormal, mScene);
 
 	// 2. lighting pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
 	// -----------------------------------------------------------------------------------------------------------------------
 	drawLightingPass();
+	// 2.5 HDR pass : remapping color back to normalized range
+	// -----------------------------------------------------------------------------------------------------------------------
+//	mHDRbuffer->Bind();
+
+
 	renderQuad();
 
+	// 2.5 Render HDR pass : remapping color back to normalized range
+	// -----------------------------------------------------------------------------------------------------------------------
+//	mHDRbuffer->Draw();
 
 	// 3. copy content of geometry's depth buffer to default framebuffer's depth buffer
 	// ----------------------------------------------------------------------------------
@@ -195,12 +204,13 @@ void GBuffer::Draw()
 
 
 
-GBuffer::GBuffer(const ChromaScene*& Scene, ShadowBuffer*& shadowbuffer)
+GBuffer::GBuffer(const ChromaScene*& Scene, ShadowBuffer*& shadowbuffer, Framebuffer*& HDRBuffer)
 {
 	setupQuad();
 	initialize();
 	mScene = Scene;
 	mShadowbuffer = shadowbuffer;
+	mHDRbuffer = HDRBuffer;
 }
 
 GBuffer::~GBuffer()

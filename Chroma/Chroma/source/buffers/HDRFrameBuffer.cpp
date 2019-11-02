@@ -118,7 +118,7 @@ void HDRFramebuffer::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
 	screenShader->setInt("bloom", 0);
-	//screenShader->setFloat("exposure", exposure);
+	screenShader->setFloat("exposure", exposure);
 	// setting transform uniforms
 	updateTransformUniforms();
 	renderQuad();

@@ -22,6 +22,18 @@ void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared
 		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
+void Model::DrawUpdateMaterials(Shader& shader)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->DrawUpdateMaterials(shader);
+}
+
+void Model::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->DrawUpdateTransforms(renderCam, modelMatrix);
+}
+
 void Model::bindTexture(Texture texture_val)
 {
 	for (StaticMesh* mesh : meshes)

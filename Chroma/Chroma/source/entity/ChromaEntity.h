@@ -25,8 +25,12 @@ public:
 	// Component Vectors
 	std::vector<IChromaComponent*> Components;
 	std::vector<IChromaComponent*> RenderableComponents;
-	std::vector<IChromaComponent*> DefferedComponents;
-	std::vector<IChromaComponent*> ForwardComponents;
+	std::vector<IChromaComponent*> LitComponents;
+	std::vector<IChromaComponent*> ShadowCastingComponents;
+	std::vector<IChromaComponent*> ForwardRenderComponents;
+	std::vector<IChromaComponent*> TransparentComponents;
+	std::vector<IChromaComponent*> UnLitComponents;
+
 
 	// Add/Remove Components
 	void addComponent(IChromaComponent*& newComponent);

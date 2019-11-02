@@ -75,7 +75,7 @@ void ShadowBuffer::calculateShadows()
 	for (ChromaEntity* entity : mScene->Entities)
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();	
-		for (IChromaComponent* component : entity->RenderableComponents)
+		for (IChromaComponent* component : entity->ShadowCastingComponents)
 		{
 			finalTransformMatrix *= component->getTransformationMatrix();
 			depthShader.setMat4("model", finalTransformMatrix);

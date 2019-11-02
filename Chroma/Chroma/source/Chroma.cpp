@@ -99,6 +99,7 @@ int main()
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");
 	Texture specularMap("resources/textures/wooden_panel_specular.png");
+	specularMap.type = Texture::SPECULAR;
 	Texture grassMap("resources/textures/grass.png");
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
@@ -139,7 +140,8 @@ int main()
 		ChromaEntity* LampEntity = new ChromaEntity;
 		IChromaComponent* LampMeshComponent = new BoxPrimitive;
 		LampMeshComponent->bindShader(&constantShader);
-		LampMeshComponent->isForwardRender = true;
+		LampMeshComponent->castShadows = false;
+		LampMeshComponent->isLit = false;
 		LampEntity->addComponent(LampMeshComponent);
 		LampEntity->setPosition(position);
 		lamps.push_back(LampEntity);

@@ -26,7 +26,6 @@ protected:
 	int blurIterations{ 10 };
 	void blurFragments();
 
-
 	// HDR Attrs
 	float exposure{ 1.0f };
 

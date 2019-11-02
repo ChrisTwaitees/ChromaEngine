@@ -98,7 +98,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float 
 	
 	vec3 amb = albedo * ambient * SSAO;
 	// shadows
-	float shadow = ShadowCalculation(FragPosLightSpace, normal, lightDir) + ( 1 - SSAO);
+	float shadow = ShadowCalculation(FragPosLightSpace, normal, lightDir) + ( 1.0 - SSAO);
 
 	return (amb + (1.0 - shadow) * (diffuse + spec)) * albedo; 
 }
@@ -122,7 +122,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 	spec *= attenuation * light.intensity;
 	amb *= attenuation * light.intensity;
 	// shadows
-	float shadow = ShadowCalculation(FragPosLightSpace, normal, lightDir) + ( 1 - SSAO);
+	float shadow = ShadowCalculation(FragPosLightSpace, normal, lightDir) + ( 1.0 - SSAO);
 
 	// return 
 	return amb + ((1.0 - shadow) * (diffuse + spec)) * albedo;

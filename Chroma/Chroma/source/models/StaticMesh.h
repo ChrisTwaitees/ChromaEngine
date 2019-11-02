@@ -46,6 +46,8 @@ public:
 	virtual void Draw(Shader &shader) override;
 	virtual void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
 	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
+	virtual void DrawUpdateMaterials(Shader& shader) override;
+	virtual void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 	virtual void BindDrawVAO();
 
 	// Bindings

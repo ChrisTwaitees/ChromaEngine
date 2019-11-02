@@ -182,6 +182,21 @@ void StaticMesh::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::s
 	BindDrawVAO();
 }
 
+void StaticMesh::DrawUpdateMaterials(Shader& shader)
+{
+	shader.use();
+	updateMaterialUniforms(&shader);
+	updateTextureUniforms(&shader);
+	BindDrawVAO();
+}
+
+void StaticMesh::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
+{
+	pShader->use();
+	updateTransformUniforms(pShader, renderCam, modelMatrix);
+	BindDrawVAO();
+}
+
 void StaticMesh::BindDrawVAO()
 {
 	glBindVertexArray(VAO);

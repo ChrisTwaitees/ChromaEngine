@@ -7,6 +7,7 @@
 #include "../scene/ChromaScene.h"
 
 
+
 class GBuffer : public Framebuffer
 {
 protected: 
@@ -26,6 +27,7 @@ protected:
 	// scene
 	const ChromaScene* mScene;
 	ShadowBuffer* mShadowbuffer;
+	Framebuffer* mHDRbuffer;
 
 	// functions
 	void initialize() override;
@@ -48,7 +50,7 @@ public:
 	void Bind() override;
 	void Draw() override;
 
-	GBuffer(const ChromaScene*& Scene, ShadowBuffer*& shadowbuffer);
+	GBuffer(const ChromaScene*& Scene, ShadowBuffer*& shadowbuffer, Framebuffer*& HDRBuffer);
 	~GBuffer();
 };
 

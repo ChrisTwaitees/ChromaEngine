@@ -27,6 +27,8 @@ public:
 	virtual void Draw(Shader& shader) = 0;
 	virtual void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) = 0;
 	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) = 0;
+	virtual void DrawUpdateMaterials(Shader& shader) = 0;
+	virtual void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) = 0;
 
 	// Shader Uniforms
 	virtual void setMat4(std::string name, glm::mat4 value) = 0;

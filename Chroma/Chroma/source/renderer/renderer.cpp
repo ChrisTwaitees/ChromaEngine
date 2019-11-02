@@ -1,6 +1,32 @@
 #include "Renderer.h"
 
 
+void Renderer::renderDefferedComponents()
+{
+	// GBUFFER
+	mGBuffer->Draw();
+}
+
+
+
+void Renderer::renderForwardComponents()
+{
+	// Render Forward Components
+	for (ChromaEntity* entity : mScene->Entities)
+	{
+		// render unlit components
+		if (entity->UnLitComponents.size() > 0)
+		{
+			glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
+			for (IChromaComponent* component : entity->UnLitComponents)
+				component->DrawUpdateTransforms(*mScene->RenderCamera, finalTransformMatrix);
+		}
+		// render transparent components
+		if (entity->TransparentComponents.size() > 0)
+			renderTransparencey(entity->TransparentComponents);
+	}
+}
+
 void Renderer::updateShadowMappingUniforms(IChromaComponent* component)
 {
 	component->getShader()->use();
@@ -29,7 +55,7 @@ void Renderer::renderTransparencey(std::vector<IChromaComponent*> transparentCom
 void Renderer::Init()
 {
 	mShadowbuffer = new ShadowBuffer(mScene);
-	mGBuffer = new GBuffer(mScene, mShadowbuffer);
+	mGBuffer = new GBuffer(mScene, mShadowbuffer, mHDRFrameBuffer);
 	mSkybox = new SkyBox(*mScene->RenderCamera);
 }
 
@@ -43,23 +69,14 @@ void Renderer::RenderScene()
 
 	////SkyBox
 	//if (mScreenManager->useSkybox)
-	//	mSkybox->Draw();
-
-	// GBUFFER
-	mGBuffer->Draw();
+	//mSkybox->Draw();
 
 
+	renderDefferedComponents();
 
-	////glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// // FORWARD RENDER
-	//for (ChromaEntity* entity : mScene->Entities)
-	//{
-	//	glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
-	//	for (IChromaComponent* component : entity->ForwardComponents)
-	//	{
-	//		component->Draw(*mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
-	//	}
-	//}
+	renderForwardComponents();
+
+
 
 	// Draw HRD Tone Mapping
 	//mHDRFrameBuffer->Draw(mScreenManager->useBloom);

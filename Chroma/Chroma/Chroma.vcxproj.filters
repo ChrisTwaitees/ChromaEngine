@@ -180,6 +180,9 @@
     <ClCompile Include="source\buffers\SSAOBuffer.cpp">
       <Filter>Renderer\buffers</Filter>
     </ClCompile>
+    <ClCompile Include="source\models\Instance.cpp">
+      <Filter>Renderer\model</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="source\buffers\SSAOBuffer.h">
       <Filter>Renderer\buffers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\models\Instance.h">
+      <Filter>Renderer\model</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
