@@ -49,7 +49,7 @@ class SSAOBuffer : public Framebuffer
 
 
 public:
-	void Draw(unsigned int& gPosition, unsigned int& gNormal, glm::mat4& projection) override;
+	void Draw(unsigned int& gViewPosition, unsigned int& gNormal, const ChromaScene*& scene) override;
 	virtual unsigned int getTexture() override { return ssaoColorBufferBlur; };
 
 	SSAOBuffer();

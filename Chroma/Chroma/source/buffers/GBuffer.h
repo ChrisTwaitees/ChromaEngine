@@ -13,8 +13,8 @@ protected:
 	// shaders
 	const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
 	const char* vtxLightingSoure{ "resources/shaders/frameBufferVertex.glsl" };
-	const char* fragGeometryPass{ "resources/shaders/fragGBuffer.glsl" };
-	const char* vtxGeometrySource{ "resources/shaders/vertexLitShadowsNormals.glsl" };
+	const char* fragGeometryPass{ "resources/shaders/fragGBufferGeometry.glsl" };
+	const char* vtxGeometrySource{ "resources/shaders/vertexGBufferLit.glsl" };
 	Shader geometryPassShader{ fragGeometryPass, vtxGeometrySource };
 	Shader lightingPassShader{ fragLightingPass, vtxLightingSoure };
 
@@ -32,7 +32,7 @@ protected:
 	void bindAllGBufferTextures();
 
 	// GBUFFER TEXTURES
-	unsigned int gNormal, gPosition, gAlbedoRoughness, gMetalnessSpecular, gFragPosLightSpace;
+	unsigned int gNormal, gPosition, gAlbedoRoughness, gMetalnessSpecular, gFragPosLightSpace, gViewPosition, gViewNormal;
 
 	// Passes
 	void drawGeometryPass();

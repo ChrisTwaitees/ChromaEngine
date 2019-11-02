@@ -229,7 +229,7 @@
     <None Include="resources\shaders\fragDebugNormals.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragDepthMap.glsl" />
-    <None Include="resources\shaders\fragGBuffer.glsl" />
+    <None Include="resources\shaders\fragGBufferGeometry.glsl" />
     <None Include="resources\shaders\fragGBufferLit.glsl" />
     <None Include="resources\shaders\fragHDRframebuffer.glsl" />
     <None Include="resources\shaders\fragLightingCalculations.glsl" />
@@ -248,6 +248,7 @@
     <None Include="resources\shaders\skyBoxVertex.glsl" />
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />
+    <None Include="resources\shaders\vertexGBufferLit.glsl" />
     <None Include="resources\shaders\vertexLitShadows.glsl" />
     <None Include="resources\shaders\vertexLitShadowsNormals.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />

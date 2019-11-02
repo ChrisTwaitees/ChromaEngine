@@ -7,6 +7,7 @@
 // local
 #include "../screenmanager/ChromaScreenManagerConfig.h"
 #include "../shaders/Shader.h"
+#include "../scene/ChromaScene.h"
 
 class Framebuffer
 {
@@ -75,7 +76,7 @@ public:
 	virtual void unBind();
 	virtual void Draw();
 	virtual void Draw(const bool& useBloom);
-	virtual void Draw(unsigned int& gPosition, unsigned int& gNormal, glm::mat4& projection) {};
+	virtual void Draw(unsigned int& gViewPosition, unsigned int& gNormal, const ChromaScene*& scene) {};
 
 	Framebuffer();
 	~Framebuffer();

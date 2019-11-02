@@ -375,9 +375,6 @@
     <None Include="resources\shaders\fragLightingCalculations.glsl">
       <Filter>resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\fragGBuffer.glsl">
-      <Filter>resources\shaders</Filter>
-    </None>
     <None Include="resources\shaders\fragGBufferLit.glsl">
       <Filter>resources\shaders</Filter>
     </None>
@@ -388,6 +385,12 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragSSAOBlur.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexGBufferLit.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragGBufferGeometry.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>
