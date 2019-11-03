@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="resources">
-      <UniqueIdentifier>{5903392f-1799-4bb8-a56d-cffe67eda827}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="resources\shaders">
-      <UniqueIdentifier>{5b367f10-1ae1-4492-a5ba-ec3885f3f9df}</UniqueIdentifier>
-    </Filter>
     <Filter Include="thirdparty">
       <UniqueIdentifier>{ea2418d7-5c1c-4109-91e1-50b17ccd3116}</UniqueIdentifier>
     </Filter>
@@ -25,53 +19,17 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Renderer">
-      <UniqueIdentifier>{d938b6ec-918b-4e68-978f-7efa93cefd78}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\buffers">
-      <UniqueIdentifier>{d0c360b1-21e5-4bf6-a86e-5dd040395c40}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{cbd6a861-4d6e-4c63-b617-9f926a8df22c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\light">
-      <UniqueIdentifier>{9ba10b55-f697-4539-b1d8-210a15c57bd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\terrain">
-      <UniqueIdentifier>{b58126f7-3796-4e80-bc8f-65db97a92123}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\entity">
       <UniqueIdentifier>{96040ee4-650d-417f-bdb5-b594bf0281d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\gui">
-      <UniqueIdentifier>{6e50e176-799a-4919-b453-eeb0f12c79c9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\gui\imgui">
-      <UniqueIdentifier>{375a26e7-3cbb-441f-97b6-2ccb56ef7a59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\model">
-      <UniqueIdentifier>{6983ffe5-45a3-4324-ad08-a5898b0b6d39}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\screenmanager">
       <UniqueIdentifier>{268b4d91-4afb-4e43-a142-9e1c0bc96c1b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Renderer\shader">
-      <UniqueIdentifier>{231d889c-a9ef-4a81-9753-29ca763aefdd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\texture">
-      <UniqueIdentifier>{b5006b46-a3e7-4eec-be3b-23463f44ae7f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\camera">
-      <UniqueIdentifier>{9310dee5-e75d-4499-8f4b-4510f335af6f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\main">
       <UniqueIdentifier>{73a87c27-2220-40d9-93b8-dfb178af8b12}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\component">
-      <UniqueIdentifier>{da340fb6-62a6-4a13-bf58-fd07ff41a6ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Renderer\renderer">
-      <UniqueIdentifier>{027c84c1-8c2d-4b7a-85f6-a469b7e7f4f7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\scene">
       <UniqueIdentifier>{a115db08-c96b-4cc4-a7ce-a6db6d537335}</UniqueIdentifier>
@@ -79,43 +37,73 @@
     <Filter Include="Engine\memory">
       <UniqueIdentifier>{e1388c38-c673-4d55-9ee4-767c39ff7017}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\game">
+      <UniqueIdentifier>{0518dd9a-2268-4715-878c-365d837abbfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\input">
+      <UniqueIdentifier>{f81cc3de-29b7-4eb4-91ab-6b089c9dc619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{d938b6ec-918b-4e68-978f-7efa93cefd78}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\light">
+      <UniqueIdentifier>{9ba10b55-f697-4539-b1d8-210a15c57bd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\terrain">
+      <UniqueIdentifier>{b58126f7-3796-4e80-bc8f-65db97a92123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\model">
+      <UniqueIdentifier>{6983ffe5-45a3-4324-ad08-a5898b0b6d39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\shader">
+      <UniqueIdentifier>{231d889c-a9ef-4a81-9753-29ca763aefdd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\texture">
+      <UniqueIdentifier>{b5006b46-a3e7-4eec-be3b-23463f44ae7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\camera">
+      <UniqueIdentifier>{9310dee5-e75d-4499-8f4b-4510f335af6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\renderer">
+      <UniqueIdentifier>{027c84c1-8c2d-4b7a-85f6-a469b7e7f4f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\gui">
+      <UniqueIdentifier>{6e50e176-799a-4919-b453-eeb0f12c79c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\gui\imgui">
+      <UniqueIdentifier>{375a26e7-3cbb-441f-97b6-2ccb56ef7a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\component">
+      <UniqueIdentifier>{da340fb6-62a6-4a13-bf58-fd07ff41a6ea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\buffer">
+      <UniqueIdentifier>{d0c360b1-21e5-4bf6-a86e-5dd040395c40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{5903392f-1799-4bb8-a56d-cffe67eda827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\shaders">
+      <UniqueIdentifier>{5b367f10-1ae1-4492-a5ba-ec3885f3f9df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
-      <Filter>Engine\gui\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="source\models\BoxPrimitive.cpp">
-      <Filter>Renderer\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\cameras\Camera.cpp">
-      <Filter>Renderer\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="source\lights\Light.cpp">
-      <Filter>Renderer\light</Filter>
-    </ClCompile>
-    <ClCompile Include="source\shaders\Shader.cpp">
-      <Filter>Renderer\shader</Filter>
-    </ClCompile>
-    <ClCompile Include="source\models\Model.cpp">
-      <Filter>Renderer\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\models\PlanePrimitive.cpp">
-      <Filter>Renderer\model</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClCompile>
     <ClCompile Include="source\glad.c">
       <Filter>thirdparty</Filter>
@@ -123,184 +111,232 @@
     <ClCompile Include="source\Chroma.cpp">
       <Filter>Engine\main</Filter>
     </ClCompile>
-    <ClCompile Include="source\screenManager\ChromaScreenManager.cpp">
-      <Filter>Engine\screenmanager</Filter>
+    <ClCompile Include="source\Render\renderer\Renderer.cpp">
+      <Filter>Render\renderer</Filter>
     </ClCompile>
-    <ClCompile Include="source\buffers\Framebuffer.cpp">
-      <Filter>Renderer\buffers</Filter>
+    <ClCompile Include="source\Render\terrain\Terrain.cpp">
+      <Filter>Render\terrain</Filter>
     </ClCompile>
-    <ClCompile Include="source\gui\ChromaGUI.cpp">
-      <Filter>Engine\gui</Filter>
+    <ClCompile Include="source\Render\texture\CubeMap.cpp">
+      <Filter>Render\texture</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\SkyBox.cpp">
-      <Filter>Renderer\model</Filter>
+    <ClCompile Include="source\Render\texture\Texture.cpp">
+      <Filter>Render\texture</Filter>
     </ClCompile>
-    <ClCompile Include="source\buffers\ShadowBuffer.cpp">
-      <Filter>Renderer\buffers</Filter>
+    <ClCompile Include="source\Engine\component\ChromaMeshComponent.cpp">
+      <Filter>Engine\component</Filter>
     </ClCompile>
-    <ClCompile Include="source\terrain\Terrain.cpp">
-      <Filter>Renderer\terrain</Filter>
+    <ClCompile Include="source\Engine\component\IChromaComponent.cpp">
+      <Filter>Engine\component</Filter>
     </ClCompile>
-    <ClCompile Include="source\texture\CubeMap.cpp">
-      <Filter>Renderer\texture</Filter>
-    </ClCompile>
-    <ClCompile Include="source\texture\Texture.cpp">
-      <Filter>Renderer\texture</Filter>
-    </ClCompile>
-    <ClCompile Include="source\renderer\Renderer.cpp">
-      <Filter>Renderer\renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\scene\ChromaScene.cpp">
-      <Filter>Engine\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="source\entity\ChromaEntity.cpp">
+    <ClCompile Include="source\Engine\entity\ChromaEntity.cpp">
       <Filter>Engine\entity</Filter>
     </ClCompile>
-    <ClCompile Include="source\memory\ChromaUID.cpp">
+    <ClCompile Include="source\Engine\game\ChromaGame.cpp">
+      <Filter>Engine\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\game\ChromaGameObject.cpp">
+      <Filter>Engine\game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\gui\ChromaGUI.cpp">
+      <Filter>Render\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\memory\ChromaUID.cpp">
       <Filter>Engine\memory</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\StaticMesh.cpp">
-      <Filter>Renderer\model</Filter>
+    <ClCompile Include="source\Engine\input\ChromaInputHandler.cpp">
+      <Filter>Engine\input</Filter>
     </ClCompile>
-    <ClCompile Include="source\component\ChromaMeshComponent.cpp">
-      <Filter>Engine\component</Filter>
+    <ClCompile Include="source\Engine\scene\ChromaScene.cpp">
+      <Filter>Engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="source\shaders\Uniform.cpp">
-      <Filter>Renderer\shader</Filter>
+    <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp">
+      <Filter>Engine\screenmanager</Filter>
     </ClCompile>
-    <ClCompile Include="source\buffers\GBuffer.cpp">
-      <Filter>Renderer\buffers</Filter>
+    <ClCompile Include="source\Render\shader\GeometryShader.cpp">
+      <Filter>Render\shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\component\IChromaComponent.cpp">
-      <Filter>Engine\component</Filter>
+    <ClCompile Include="source\Render\shader\Shader.cpp">
+      <Filter>Render\shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\buffers\SSAOBuffer.cpp">
-      <Filter>Renderer\buffers</Filter>
+    <ClCompile Include="source\Render\shader\Uniform.cpp">
+      <Filter>Render\shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\models\Instance.cpp">
-      <Filter>Renderer\model</Filter>
+    <ClCompile Include="source\Render\model\BoxPrimitive.cpp">
+      <Filter>Render\model</Filter>
     </ClCompile>
-    <ClCompile Include="source\buffers\PostFXBuffer.cpp">
-      <Filter>Renderer\buffers</Filter>
+    <ClCompile Include="source\Render\model\Instance.cpp">
+      <Filter>Render\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\LinePrimitive.cpp">
+      <Filter>Render\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\Model.cpp">
+      <Filter>Render\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\PlanePrimitive.cpp">
+      <Filter>Render\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\SkyBox.cpp">
+      <Filter>Render\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\StaticMesh.cpp">
+      <Filter>Render\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\Framebuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\GBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\ShadowBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\camera\Camera.cpp">
+      <Filter>Render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\light\Light.cpp">
+      <Filter>Render\light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui.h">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_glfw.h">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_opengl3.h">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_internal.h">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h">
-      <Filter>Engine\gui\imgui</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h">
-      <Filter>Engine\gui\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="source\models\Model.h">
-      <Filter>Renderer\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\models\BoxPrimitive.h">
-      <Filter>Renderer\model</Filter>
+      <Filter>Render\gui\imgui</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>classes\Resource Files</Filter>
     </ClInclude>
-    <ClInclude Include="source\shaders\Shader.h">
-      <Filter>Renderer\shader</Filter>
+    <ClInclude Include="source\Render\renderer\ChromaRendererConfig.h">
+      <Filter>Render\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\lights\Light.h">
-      <Filter>Renderer\light</Filter>
+    <ClInclude Include="source\Render\renderer\Renderer.h">
+      <Filter>Render\renderer</Filter>
     </ClInclude>
-    <ClInclude Include="source\cameras\Camera.h">
-      <Filter>Renderer\camera</Filter>
+    <ClInclude Include="source\Render\terrain\Terrain.h">
+      <Filter>Render\terrain</Filter>
     </ClInclude>
-    <ClInclude Include="source\models\PlanePrimitive.h">
-      <Filter>Renderer\model</Filter>
+    <ClInclude Include="source\Render\texture\CubeMap.h">
+      <Filter>Render\texture</Filter>
     </ClInclude>
-    <ClInclude Include="source\screenManager\ChromaScreenManager.h">
-      <Filter>Engine\screenmanager</Filter>
+    <ClInclude Include="source\Render\texture\stb_image.h">
+      <Filter>Render\texture</Filter>
     </ClInclude>
-    <ClInclude Include="source\buffers\Framebuffer.h">
-      <Filter>Renderer\buffers</Filter>
+    <ClInclude Include="source\Render\texture\Texture.h">
+      <Filter>Render\texture</Filter>
     </ClInclude>
-    <ClInclude Include="source\gui\ChromaGUI.h">
-      <Filter>Engine\gui</Filter>
+    <ClInclude Include="source\Engine\component\ChromaMeshComponent.h">
+      <Filter>Engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h">
-      <Filter>Engine\screenmanager</Filter>
+    <ClInclude Include="source\Engine\component\IChromaComponent.h">
+      <Filter>Engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="source\models\SkyBox.h">
-      <Filter>Renderer\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\buffers\ShadowBuffer.h">
-      <Filter>Renderer\buffers</Filter>
-    </ClInclude>
-    <ClInclude Include="source\terrain\Terrain.h">
-      <Filter>Renderer\terrain</Filter>
-    </ClInclude>
-    <ClInclude Include="source\texture\CubeMap.h">
-      <Filter>Renderer\texture</Filter>
-    </ClInclude>
-    <ClInclude Include="source\texture\stb_image.h">
-      <Filter>Renderer\texture</Filter>
-    </ClInclude>
-    <ClInclude Include="source\texture\Texture.h">
-      <Filter>Renderer\texture</Filter>
-    </ClInclude>
-    <ClInclude Include="source\memory\packed_freelist.h">
-      <Filter>Engine\memory</Filter>
-    </ClInclude>
-    <ClInclude Include="source\renderer\Renderer.h">
-      <Filter>Renderer\renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\scene\ChromaScene.h">
-      <Filter>Engine\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="source\entity\ChromaEntity.h">
+    <ClInclude Include="source\Engine\entity\ChromaEntity.h">
       <Filter>Engine\entity</Filter>
     </ClInclude>
-    <ClInclude Include="source\memory\ChromaUID.h">
+    <ClInclude Include="source\Engine\game\ChromaGame.h">
+      <Filter>Engine\game</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\game\ChromaGameObject.h">
+      <Filter>Engine\game</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\gui\ChromaGUI.h">
+      <Filter>Render\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\memory\ChromaUID.h">
       <Filter>Engine\memory</Filter>
     </ClInclude>
-    <ClInclude Include="source\models\StaticMesh.h">
-      <Filter>Renderer\model</Filter>
+    <ClInclude Include="source\Engine\memory\packed_freelist.h">
+      <Filter>Engine\memory</Filter>
     </ClInclude>
-    <ClInclude Include="source\component\ChromaMeshComponent.h">
-      <Filter>Engine\component</Filter>
+    <ClInclude Include="source\Engine\input\ChromaInputHandler.h">
+      <Filter>Engine\input</Filter>
     </ClInclude>
-    <ClInclude Include="source\renderer\ChromaRendererConfig.h">
-      <Filter>Renderer\renderer</Filter>
+    <ClInclude Include="source\Engine\scene\ChromaScene.h">
+      <Filter>Engine\scene</Filter>
     </ClInclude>
-    <ClInclude Include="source\shaders\Uniform.h">
-      <Filter>Renderer\shader</Filter>
+    <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h">
+      <Filter>Engine\screenmanager</Filter>
     </ClInclude>
-    <ClInclude Include="source\buffers\GBuffer.h">
-      <Filter>Renderer\buffers</Filter>
+    <ClInclude Include="source\Engine\screenmanager\ChromaScreenManagerConfig.h">
+      <Filter>Engine\screenmanager</Filter>
     </ClInclude>
-    <ClInclude Include="source\component\IChromaComponent.h">
-      <Filter>Engine\component</Filter>
+    <ClInclude Include="source\Render\shader\GeometryShader.h">
+      <Filter>Render\shader</Filter>
     </ClInclude>
-    <ClInclude Include="source\buffers\SSAOBuffer.h">
-      <Filter>Renderer\buffers</Filter>
+    <ClInclude Include="source\Render\shader\Shader.h">
+      <Filter>Render\shader</Filter>
     </ClInclude>
-    <ClInclude Include="source\models\Instance.h">
-      <Filter>Renderer\model</Filter>
+    <ClInclude Include="source\Render\shader\Uniform.h">
+      <Filter>Render\shader</Filter>
     </ClInclude>
-    <ClInclude Include="source\buffers\PostFXBuffer.h">
-      <Filter>Renderer\buffers</Filter>
+    <ClInclude Include="source\Render\model\BoxPrimitive.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\Instance.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\LinePrimitive.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\Model.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\PlanePrimitive.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\SkyBox.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\StaticMesh.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\Framebuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\GBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\PostFXBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\ShadowBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\SSAOBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\camera\Camera.h">
+      <Filter>Render\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\light\Light.h">
+      <Filter>Render\light</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -310,97 +346,97 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragConstant.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragDepth.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragLit.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexShaderLighting.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragAlpha.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\frameBufferFrag.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\frameBufferVertex.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\skyBoxFrag.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\skyBoxVertex.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragLitReflect.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragRefraction.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragDebugNormals.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexDebugNormals.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\geometryDebugNormals.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragDepthMap.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexDepthMap.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragLitShadows.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexLitShadows.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragLitShadowsNormals.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexLitShadowsNormals.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragHDRframebuffer.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragBloomFrameBuffer.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragBlur.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragLightingCalculations.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragGBufferLit.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragLightingStructs.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragSSAO.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragSSAOBlur.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexGBufferLit.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragGBufferGeometry.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragGBufferLightingCalculations.glsl">
-      <Filter>resources\shaders</Filter>
+      <Filter>Resources\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

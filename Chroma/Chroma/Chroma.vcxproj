@@ -87,7 +87,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -100,7 +100,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -116,7 +116,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -150,34 +150,39 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="source\buffers\Framebuffer.cpp" />
-    <ClCompile Include="source\buffers\GBuffer.cpp" />
-    <ClCompile Include="source\buffers\PostFXBuffer.cpp" />
-    <ClCompile Include="source\buffers\ShadowBuffer.cpp" />
-    <ClCompile Include="source\buffers\SSAOBuffer.cpp" />
-    <ClCompile Include="source\component\IChromaComponent.cpp" />
-    <ClCompile Include="source\component\ChromaMeshComponent.cpp" />
-    <ClCompile Include="source\entity\ChromaEntity.cpp" />
-    <ClCompile Include="source\gui\ChromaGUI.cpp" />
-    <ClCompile Include="source\memory\ChromaUID.cpp" />
-    <ClCompile Include="source\models\BoxPrimitive.cpp" />
-    <ClCompile Include="source\models\Instance.cpp" />
-    <ClCompile Include="source\models\Model.cpp" />
-    <ClCompile Include="source\cameras\Camera.cpp" />
+    <ClCompile Include="source\Engine\component\ChromaMeshComponent.cpp" />
+    <ClCompile Include="source\Engine\component\IChromaComponent.cpp" />
+    <ClCompile Include="source\Engine\entity\ChromaEntity.cpp" />
+    <ClCompile Include="source\Engine\game\ChromaGame.cpp" />
+    <ClCompile Include="source\Engine\game\ChromaGameObject.cpp" />
+    <ClCompile Include="source\Engine\input\ChromaInputHandler.cpp" />
+    <ClCompile Include="source\Engine\memory\ChromaUID.cpp" />
+    <ClCompile Include="source\Engine\scene\ChromaScene.cpp" />
+    <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\glad.c" />
-    <ClCompile Include="source\lights\Light.cpp" />
     <ClCompile Include="source\Chroma.cpp" />
-    <ClCompile Include="source\models\StaticMesh.cpp" />
-    <ClCompile Include="source\models\PlanePrimitive.cpp" />
-    <ClCompile Include="source\models\SkyBox.cpp" />
-    <ClCompile Include="source\renderer\Renderer.cpp" />
-    <ClCompile Include="source\scene\ChromaScene.cpp" />
-    <ClCompile Include="source\screenManager\ChromaScreenManager.cpp" />
-    <ClCompile Include="source\shaders\Shader.cpp" />
-    <ClCompile Include="source\shaders\Uniform.cpp" />
-    <ClCompile Include="source\terrain\Terrain.cpp" />
-    <ClCompile Include="source\texture\CubeMap.cpp" />
-    <ClCompile Include="source\texture\Texture.cpp" />
+    <ClCompile Include="source\Render\buffer\Framebuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\GBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\ShadowBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp" />
+    <ClCompile Include="source\Render\camera\Camera.cpp" />
+    <ClCompile Include="source\Render\gui\ChromaGUI.cpp" />
+    <ClCompile Include="source\Render\light\Light.cpp" />
+    <ClCompile Include="source\Render\model\BoxPrimitive.cpp" />
+    <ClCompile Include="source\Render\model\Instance.cpp" />
+    <ClCompile Include="source\Render\model\LinePrimitive.cpp" />
+    <ClCompile Include="source\Render\model\Model.cpp" />
+    <ClCompile Include="source\Render\model\PlanePrimitive.cpp" />
+    <ClCompile Include="source\Render\model\SkyBox.cpp" />
+    <ClCompile Include="source\Render\model\StaticMesh.cpp" />
+    <ClCompile Include="source\Render\renderer\Renderer.cpp" />
+    <ClCompile Include="source\Render\shader\GeometryShader.cpp" />
+    <ClCompile Include="source\Render\shader\Shader.cpp" />
+    <ClCompile Include="source\Render\shader\Uniform.cpp" />
+    <ClCompile Include="source\Render\terrain\Terrain.cpp" />
+    <ClCompile Include="source\Render\texture\CubeMap.cpp" />
+    <ClCompile Include="source\Render\texture\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h" />
@@ -189,36 +194,41 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="source\buffers\Framebuffer.h" />
-    <ClInclude Include="source\buffers\GBuffer.h" />
-    <ClInclude Include="source\buffers\PostFXBuffer.h" />
-    <ClInclude Include="source\buffers\ShadowBuffer.h" />
-    <ClInclude Include="source\buffers\SSAOBuffer.h" />
-    <ClInclude Include="source\component\IChromaComponent.h" />
-    <ClInclude Include="source\component\ChromaMeshComponent.h" />
-    <ClInclude Include="source\entity\ChromaEntity.h" />
-    <ClInclude Include="source\gui\ChromaGUI.h" />
-    <ClInclude Include="source\memory\ChromaUID.h" />
-    <ClInclude Include="source\memory\packed_freelist.h" />
-    <ClInclude Include="source\models\BoxPrimitive.h" />
-    <ClInclude Include="source\models\Instance.h" />
-    <ClInclude Include="source\models\Model.h" />
-    <ClInclude Include="source\cameras\Camera.h" />
-    <ClInclude Include="source\lights\Light.h" />
-    <ClInclude Include="source\models\StaticMesh.h" />
-    <ClInclude Include="source\models\PlanePrimitive.h" />
-    <ClInclude Include="source\models\SkyBox.h" />
-    <ClInclude Include="source\renderer\ChromaRendererConfig.h" />
-    <ClInclude Include="source\renderer\Renderer.h" />
-    <ClInclude Include="source\scene\ChromaScene.h" />
-    <ClInclude Include="source\screenManager\ChromaScreenManager.h" />
-    <ClInclude Include="source\screenmanager\ChromaScreenManagerConfig.h" />
-    <ClInclude Include="source\shaders\Shader.h" />
-    <ClInclude Include="source\shaders\Uniform.h" />
-    <ClInclude Include="source\terrain\Terrain.h" />
-    <ClInclude Include="source\texture\CubeMap.h" />
-    <ClInclude Include="source\texture\stb_image.h" />
-    <ClInclude Include="source\texture\Texture.h" />
+    <ClInclude Include="source\Engine\component\ChromaMeshComponent.h" />
+    <ClInclude Include="source\Engine\component\IChromaComponent.h" />
+    <ClInclude Include="source\Engine\entity\ChromaEntity.h" />
+    <ClInclude Include="source\Engine\game\ChromaGame.h" />
+    <ClInclude Include="source\Engine\game\ChromaGameObject.h" />
+    <ClInclude Include="source\Engine\input\ChromaInputHandler.h" />
+    <ClInclude Include="source\Engine\memory\ChromaUID.h" />
+    <ClInclude Include="source\Engine\memory\packed_freelist.h" />
+    <ClInclude Include="source\Engine\scene\ChromaScene.h" />
+    <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h" />
+    <ClInclude Include="source\Engine\screenmanager\ChromaScreenManagerConfig.h" />
+    <ClInclude Include="source\Render\buffer\Framebuffer.h" />
+    <ClInclude Include="source\Render\buffer\GBuffer.h" />
+    <ClInclude Include="source\Render\buffer\PostFXBuffer.h" />
+    <ClInclude Include="source\Render\buffer\ShadowBuffer.h" />
+    <ClInclude Include="source\Render\buffer\SSAOBuffer.h" />
+    <ClInclude Include="source\Render\camera\Camera.h" />
+    <ClInclude Include="source\Render\gui\ChromaGUI.h" />
+    <ClInclude Include="source\Render\light\Light.h" />
+    <ClInclude Include="source\Render\model\BoxPrimitive.h" />
+    <ClInclude Include="source\Render\model\Instance.h" />
+    <ClInclude Include="source\Render\model\LinePrimitive.h" />
+    <ClInclude Include="source\Render\model\Model.h" />
+    <ClInclude Include="source\Render\model\PlanePrimitive.h" />
+    <ClInclude Include="source\Render\model\SkyBox.h" />
+    <ClInclude Include="source\Render\model\StaticMesh.h" />
+    <ClInclude Include="source\Render\renderer\ChromaRendererConfig.h" />
+    <ClInclude Include="source\Render\renderer\Renderer.h" />
+    <ClInclude Include="source\Render\shader\GeometryShader.h" />
+    <ClInclude Include="source\Render\shader\Shader.h" />
+    <ClInclude Include="source\Render\shader\Uniform.h" />
+    <ClInclude Include="source\Render\terrain\Terrain.h" />
+    <ClInclude Include="source\Render\texture\CubeMap.h" />
+    <ClInclude Include="source\Render\texture\stb_image.h" />
+    <ClInclude Include="source\Render\texture\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc" />
