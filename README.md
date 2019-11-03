@@ -1,3 +1,3 @@
 # ChromaEngine
-Open Source Render Engine
-Personal Education goal of improving of understanding of Game Engine Design and Animation Systems.
+Open Source Game Engine
+Personal Education exercise in understanding the tech begind Game Engine Architecture, Rendering and Animation Systems.
