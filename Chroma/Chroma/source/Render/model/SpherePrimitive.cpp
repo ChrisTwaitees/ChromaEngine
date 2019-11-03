@@ -125,21 +125,6 @@ void SpherePrimitive::draw() const
 
 
 
-///////////////////////////////////////////////////////////////////////////////
-// draw a sphere surfaces and lines on top of it
-// the caller must set the line width before call this
-///////////////////////////////////////////////////////////////////////////////
-void SpherePrimitive::drawWithLines(const float lineColor[4]) const
-{
-	glEnable(GL_POLYGON_OFFSET_FILL);
-	glPolygonOffset(1.0, 1.0f); // move polygon backward
-	this->draw();
-	glDisable(GL_POLYGON_OFFSET_FILL);
-
-	// draw lines with VA
-	drawLines(lineColor);
-}
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

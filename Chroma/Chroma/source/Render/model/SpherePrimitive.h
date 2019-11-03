@@ -59,8 +59,6 @@ public:
 
 	// draw in VertexArray mode
 	void draw() const;                                  // draw surface
-	void drawLines(const float lineColor[4]) const;     // draw lines only
-	void drawWithLines(const float lineColor[4]) const; // draw surface and lines
 
 	// debug
 	void printSelf() const;
