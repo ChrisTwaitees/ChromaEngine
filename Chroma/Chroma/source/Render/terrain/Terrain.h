@@ -5,8 +5,6 @@
 class Terrain : public PlanePrimitive
 {
 private:
-
-
 	// Default Shader
 	std::string fragShaderSource = "resources/shaders/fragLitReflect.glsl";
 	std::string vtxShaderSource = "resources/shaders/vertexShaderLighting.glsl";

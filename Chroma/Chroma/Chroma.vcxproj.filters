@@ -147,9 +147,6 @@
     <ClCompile Include="source\Engine\input\ChromaInputHandler.cpp">
       <Filter>Engine\input</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\scene\ChromaScene.cpp">
-      <Filter>Engine\scene</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp">
       <Filter>Engine\screenmanager</Filter>
     </ClCompile>
@@ -203,6 +200,9 @@
     </ClCompile>
     <ClCompile Include="source\Render\light\Light.cpp">
       <Filter>Render\light</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\scene\ChromaSceneManager.cpp">
+      <Filter>Engine\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -278,9 +278,6 @@
     <ClInclude Include="source\Engine\input\ChromaInputHandler.h">
       <Filter>Engine\input</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\scene\ChromaScene.h">
-      <Filter>Engine\scene</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h">
       <Filter>Engine\screenmanager</Filter>
     </ClInclude>
@@ -337,6 +334,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\light\Light.h">
       <Filter>Render\light</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\scene\ChromaSceneManager.h">
+      <Filter>Engine\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

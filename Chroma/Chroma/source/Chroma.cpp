@@ -14,7 +14,7 @@
 #include "screenManager/ChromaScreenManager.h"
 #include "component/IChromaComponent.h"
 #include "entity/ChromaEntity.h"
-#include "scene/ChromaScene.h"
+#include "scene/ChromaSceneManager.h"
 #include "model/Model.h"
 #include "model/BoxPrimitive.h"
 #include "model/PlanePrimitive.h"
@@ -33,7 +33,7 @@ int main()
 	Camera* MainCamera = ScreenManager.getActiveCamera();
 
 	// SCENE 
-	ChromaScene* Scene = new ChromaScene;
+	ChromaSceneManager* Scene = new ChromaSceneManager;
 
 	// LIGHTS
 	std::vector<std::shared_ptr<Light>> Lights;
@@ -80,12 +80,12 @@ int main()
 	};
 
 	// Grass Positions
-	std::vector<glm::vec3> vegetationPositions;
-	vegetationPositions.push_back(glm::vec3(-1.5f, 0.0f, -0.48f));
-	vegetationPositions.push_back(glm::vec3(1.5f, 0.0f, 0.51f));
-	vegetationPositions.push_back(glm::vec3(0.0f, 0.0f, 0.7f));
-	vegetationPositions.push_back(glm::vec3(-0.3f, 0.0f, -2.3f));
-	vegetationPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
+	std::vector<glm::vec3> grassPositions;
+	grassPositions.push_back(glm::vec3(-1.5f, 0.0f, -0.48f));
+	grassPositions.push_back(glm::vec3(1.5f, 0.0f, 0.51f));
+	grassPositions.push_back(glm::vec3(0.0f, 0.0f, 0.7f));
+	grassPositions.push_back(glm::vec3(-0.3f, 0.0f, -2.3f));
+	grassPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
 
 	// SHADERS
 	Shader litNormalsShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
@@ -148,11 +148,17 @@ int main()
 		Entities.push_back(LampEntity);
 	}
 
-	//ChromaEntity* GrassPlaneEntity = new ChromaEntity;
-	//ChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
-	//GrassPlaneMeshComponent->bindTexture(grassMap);
-	//GrassPlaneMeshComponent->bindShader(&alphaShader);
-	//GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
+	for (glm::vec3 position : grassPositions)
+	{
+		ChromaEntity* GrassPlaneEntity = new ChromaEntity;
+		IChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
+		GrassPlaneMeshComponent->bindTexture(grassMap);
+		GrassPlaneMeshComponent->bindShader(&alphaShader);
+		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
+		Entities.push_back(GrassPlaneEntity);
+
+	}
+
 
 	ChromaEntity* TerrainEntity = new ChromaEntity;
 	IChromaComponent* TerrainMeshComponent = new Terrain;

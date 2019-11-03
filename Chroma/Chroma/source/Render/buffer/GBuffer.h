@@ -5,7 +5,6 @@
 #include "buffer/PostFXBuffer.h"
 #include "buffer/ShadowBuffer.h"
 #include "buffer/SSAOBuffer.h"
-#include "scene/ChromaScene.h"
 
 
 
@@ -26,7 +25,7 @@ protected:
 	Framebuffer* mSSAOBuffer{ new SSAOBuffer };
 
 	// scene
-	const ChromaScene* mScene;
+	const ChromaSceneManager* mScene;
 	ShadowBuffer* mShadowbuffer;
 	Framebuffer* mPostFXBuffer;
 
@@ -53,7 +52,7 @@ public:
 	void Bind() override;
 	void Draw() override;
 
-	GBuffer(const ChromaScene* mScene, Framebuffer*& mPostFXBuffer);
+	GBuffer(const ChromaSceneManager* mScene, Framebuffer*& mPostFXBuffer);
 	~GBuffer();
 };
 

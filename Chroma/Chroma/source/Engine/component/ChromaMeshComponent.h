@@ -1,6 +1,6 @@
 #ifndef _CHROMA_MESHCOMPONENT_
 #define _CHROMA_MESHCOMPONENT_
-#include "../component/IChromaComponent.h"
+#include "component/IChromaComponent.h"
 
 // Chroma
 #include "texture/Texture.h"

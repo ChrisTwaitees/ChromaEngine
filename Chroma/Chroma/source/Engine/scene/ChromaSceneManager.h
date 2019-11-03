@@ -7,7 +7,7 @@
 #include <vector>
 
 
-class ChromaScene
+class ChromaSceneManager
 {
 public:
 	// scene components
@@ -39,8 +39,8 @@ public:
 	Camera* getRenderCamera() { return RenderCamera; };
 	std::vector<std::shared_ptr<Light>>& getLights() { return Lights; };
 
-	ChromaScene();
-	~ChromaScene();
+	ChromaSceneManager();
+	~ChromaSceneManager();
 };
 
 #endif

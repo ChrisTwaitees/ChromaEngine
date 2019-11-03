@@ -1,8 +1,8 @@
 #ifndef _CHROMA_ENTITY_
 #define _CHROMA_ENTITY_
 
-#include "../component/IChromaComponent.h"
-#include "../memory/ChromaUID.h"
+#include "component/IChromaComponent.h"
+#include "memory/ChromaUID.h"
 #include "texture/Texture.h"
 #include "shader/Shader.h"
 #include "light/Light.h"
