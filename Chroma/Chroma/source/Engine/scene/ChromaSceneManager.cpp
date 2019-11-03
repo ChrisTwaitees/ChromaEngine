@@ -1,10 +1,6 @@
 #include "ChromaSceneManager.h"
 
 
-void ChromaSceneManager::removeCamera(Camera& removeCamera)
-{
-}
-
 void ChromaSceneManager::removeEntity(ChromaEntity& removeEntity)
 {
 }

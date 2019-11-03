@@ -7,44 +7,23 @@ void Camera::rebuildView()
 	viewMat = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
 }
 
-void Camera::processKeyboardInput(GLFWwindow& window, float deltaTime)
+void Camera::processInput(ChromaInput*& input)
 {
-	// MOVEMENT
-	if (glfwGetKey(&window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	if (input->getCursorEnabled())
 	{
-		cameraSpeed = sprintSpeed * deltaTime;
+		processMouseInput(input);
+		processKeyboardInput(input);
 	}
-	else {
-		cameraSpeed = walkSpeed * deltaTime;
-	}
-	if (glfwGetKey(&window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		this->move(FORWARD);
-	}
-	if (glfwGetKey(&window, GLFW_KEY_S) == GLFW_PRESS)
-	{
-		this->move(BACK);
-	}
-	if (glfwGetKey(&window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		this->move(RIGHT);
-	}
-	if (glfwGetKey(&window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		this->move(LEFT);
-	}
-	if (glfwGetKey(&window, GLFW_KEY_Q) == GLFW_PRESS)
-	{
-		this->move(UP);
-	}
-	if (glfwGetKey(&window, GLFW_KEY_E) == GLFW_PRESS)
-	{
-		this->move(DOWN);
-	}
+	else
+		firstMouse = true;
+	
 }
 
-void Camera::processMouseInput(const double& xpos, const double& ypos)
+void Camera::processMouseInput(ChromaInput*& input)
 {
+	double xpos = input->getMouseX();
+	double ypos = input->getMouseY();
+
 	// ensuring the camera doesn't snap on initial entry
 	if (firstMouse)
 	{
@@ -69,10 +48,6 @@ void Camera::processMouseInput(const double& xpos, const double& ypos)
 	yaw += xoffset;
 	pitch += yoffset;
 
-	// clamp pitch and yaw
-	//pitch = glm::clamp(pitch, -maxPitch, maxPitch);
-	//yaw = glm::clamp(yaw, -maxYaw, maxYaw);
-
 	// calculating cameraDirection using trig 
 	glm::vec3 direction;
 	direction.x = std::cos(glm::radians(pitch)) * std::cos(glm::radians(yaw));
@@ -80,6 +55,33 @@ void Camera::processMouseInput(const double& xpos, const double& ypos)
 	direction.z = std::cos(glm::radians(pitch)) * std::sin(glm::radians(yaw));
 	cameraDirection = glm::normalize(direction);
 	rebuildView();
+}
+
+void Camera::processKeyboardInput(ChromaInput*& input)
+{
+	// MOVEMENT
+	if (input->isPressed(ChromaInput::LEFT_SHIFT))
+		cameraSpeed = sprintSpeed * input->getDeltaTime();
+	else
+		cameraSpeed = walkSpeed * input->getDeltaTime();
+
+	if (input->isPressed(ChromaInput::W))
+		move(FORWARD);
+
+	if (input->isPressed(ChromaInput::S))
+		move(BACK);
+
+	if (input->isPressed(ChromaInput::D))
+		move(RIGHT);
+
+	if (input->isPressed(ChromaInput::A))
+		move(LEFT);
+
+	if (input->isPressed(ChromaInput::Q))
+		move(UP);
+
+	if (input->isPressed(ChromaInput::E))
+		move(DOWN);
 }
 
 void Camera::move(Direction dir)

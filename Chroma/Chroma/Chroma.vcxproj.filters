@@ -85,6 +85,9 @@
     <Filter Include="Resources\shaders">
       <UniqueIdentifier>{5b367f10-1ae1-4492-a5ba-ec3885f3f9df}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\time">
+      <UniqueIdentifier>{bb533b8d-1f6c-4743-9d0e-b22342c640af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -144,9 +147,6 @@
     <ClCompile Include="source\Engine\memory\ChromaUID.cpp">
       <Filter>Engine\memory</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\input\ChromaInputHandler.cpp">
-      <Filter>Engine\input</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp">
       <Filter>Engine\screenmanager</Filter>
     </ClCompile>
@@ -203,6 +203,12 @@
     </ClCompile>
     <ClCompile Include="source\Engine\scene\ChromaSceneManager.cpp">
       <Filter>Engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\time\ChromaTime.cpp">
+      <Filter>Engine\time</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\input\ChromaInput.cpp">
+      <Filter>Engine\input</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -275,9 +281,6 @@
     <ClInclude Include="source\Engine\memory\packed_freelist.h">
       <Filter>Engine\memory</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\input\ChromaInputHandler.h">
-      <Filter>Engine\input</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h">
       <Filter>Engine\screenmanager</Filter>
     </ClInclude>
@@ -337,6 +340,12 @@
     </ClInclude>
     <ClInclude Include="source\Engine\scene\ChromaSceneManager.h">
       <Filter>Engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\time\ChromaTime.h">
+      <Filter>Engine\time</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\input\ChromaInput.h">
+      <Filter>Engine\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

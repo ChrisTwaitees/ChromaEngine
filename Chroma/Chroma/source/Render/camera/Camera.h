@@ -2,12 +2,12 @@
 #define _CAMERA_H_
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <math.h>
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include "screenmanager/ChromaScreenManagerConfig.h"
+#include "input/ChromaInput.h"
 
 class Camera
 {
@@ -37,8 +37,9 @@ public:
 	bool firstMouse{true};
 
 	// input
-	void processMouseInput(const double& xpos, const double& ypos );
-	void processKeyboardInput(GLFWwindow& window, float deltaTime);
+	void processInput(ChromaInput*& input);
+	void processMouseInput(ChromaInput*& input);
+	void processKeyboardInput(ChromaInput*& input);
 
 	// speed
 	enum Speed {WALK, SPRINT};

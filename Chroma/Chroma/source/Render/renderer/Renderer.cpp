@@ -75,6 +75,7 @@ void Renderer::RenderScene()
 	renderPostFX();
 }
 
+
 Renderer::Renderer(const ChromaSceneManager* Scene, const ChromaScreenManager* ScreenManager)
 {
 	mScene = Scene;

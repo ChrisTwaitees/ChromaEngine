@@ -12,17 +12,11 @@ class ChromaSceneManager
 public:
 	// scene components
 	std::vector < std::shared_ptr<Light>> Lights;
-	std::vector<Camera*> Cameras;
 	std::vector<ChromaEntity*> Entities;
 	std::vector<ChromaEntity*> TransparentEntities;
 
-	Camera* RenderCamera;
+	Camera* RenderCamera{ new Camera };
 	Light* SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
-
-
-	// Add/Remove from Scene
-	void addCamera(Camera*& newCamera) { Cameras.push_back(newCamera); };
-	void removeCamera(Camera& removeCamera);
 
 	void addEntity(ChromaEntity*& newEntity) { Entities.push_back(newEntity); };
 	void removeEntity(ChromaEntity& removeEntity);
@@ -33,7 +27,6 @@ public:
 	// Getters/Setters
 	void setRenderCamera(Camera*& newRenderCamera) { RenderCamera = newRenderCamera; };
 	void setLights(std::vector<std::shared_ptr<Light>>& newLights);
-	void setCameras(std::vector<Camera*>& newCameras) { Cameras = newCameras; };
 	void setEntities(std::vector<ChromaEntity*>& newCameras) { Entities = newCameras; };
 
 	Camera* getRenderCamera() { return RenderCamera; };

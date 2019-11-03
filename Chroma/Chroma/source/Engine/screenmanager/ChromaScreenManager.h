@@ -16,23 +16,18 @@
 #include  "ChromaScreenManagerConfig.h"
 // framebuffer
 #include "buffer/Framebuffer.h"
-// skybox
-#include "model/SkyBox.h"
 
 class ChromaScreenManager
 {
-private:
+
 	// window
 	GLFWwindow* window; 
-
-	// camera
-	Camera* camera;
 
 	// gui
 	ChromaGUI gui;
 
 	// time
-	float deltaTime{0.0f};
+	float delta{0.0f};
 	float lastFrame{0.0f};
 
 	// setup
@@ -50,11 +45,8 @@ private:
 
 	// callbacks
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-	static void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos);
-	static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 	// draw screen
-	void processInput();
 	void updateCamera();
 	void processTime();
 	void drawGUI();
@@ -63,17 +55,16 @@ public:
 	// getters and setters
 	unsigned int getScreenWidth() { return SCREEN_WIDTH; };
 	unsigned int getScreenHeight() { return SCREEN_HEIGHT; };
-	float getDeltaTime() { return deltaTime; };
+	float getDeltaTime() { return delta; };
 	float getTime() { return glfwGetTime(); };
+
 	GLFWwindow* getWindow() { return window; };
-	Camera* getActiveCamera() { return camera; };
 	
 	// GUI Attrs
 	bool useSkybox{true};
 	float exposure{ 1.0f };
 	float gamma{ 2.2f };
 	bool useBloom{ true };
-
 
 	// status
 	int shouldClose() { return glfwWindowShouldClose(window); };

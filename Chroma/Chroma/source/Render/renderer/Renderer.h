@@ -51,6 +51,7 @@ public:
 
 	void RenderScene();
 
+	Renderer();
 	Renderer(const ChromaSceneManager* Scene, const ChromaScreenManager* mScreenManager);
 	~Renderer();
 };

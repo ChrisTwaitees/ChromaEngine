@@ -24,20 +24,24 @@
 #include "light/Light.h"
 #include "terrain/Terrain.h"
 #include "renderer/Renderer.h"
+#include "game/ChromaGame.h"
 
 
 int main()
 {
+	
+
 	// SCREEN MANAGER
-	ChromaScreenManager ScreenManager;
-	Camera* MainCamera = ScreenManager.getActiveCamera();
+	ChromaScreenManager* ScreenManager{ new ChromaScreenManager };
 
 	// SCENE 
-	ChromaSceneManager* Scene = new ChromaSceneManager;
+	ChromaSceneManager* Scene{ new ChromaSceneManager };
+
+	// GAME
+	ChromaGame Game(Scene, ScreenManager);
 
 	// LIGHTS
 	std::vector<std::shared_ptr<Light>> Lights;
-
 
 	// SCENE CONTENTS
 	// ---------------
@@ -113,13 +117,6 @@ int main()
 	Entities.push_back(NanosuitEntity);
 
 
-	//ChromaEntity* CerberusEntity = new ChromaEntity;
-	//ChromaComponent* CerberusModelComponent = new Model("resources/assets/cerberus/Cerberus_LP.FBX");
-	//CerberusModelComponent->bindShader(&litNormalsShader);
-	//CerberusEntity->addComponent(CerberusModelComponent);
-	//Entities.push_back(CerberusEntity);
-
-
 	std::vector<ChromaEntity*> boxes;
 	for (glm::vec3 position : cubePositions)
 	{
@@ -148,17 +145,15 @@ int main()
 		Entities.push_back(LampEntity);
 	}
 
-	for (glm::vec3 position : grassPositions)
-	{
-		ChromaEntity* GrassPlaneEntity = new ChromaEntity;
-		IChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
-		GrassPlaneMeshComponent->bindTexture(grassMap);
-		GrassPlaneMeshComponent->bindShader(&alphaShader);
-		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
-		Entities.push_back(GrassPlaneEntity);
-
-	}
-
+	//for (glm::vec3 position : grassPositions)
+	//{
+	//	ChromaEntity* GrassPlaneEntity = new ChromaEntity;
+	//	IChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
+	//	GrassPlaneMeshComponent->bindTexture(grassMap);
+	//	GrassPlaneMeshComponent->bindShader(&alphaShader);
+	//	GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
+	//	Entities.push_back(GrassPlaneEntity);
+	//}
 
 	ChromaEntity* TerrainEntity = new ChromaEntity;
 	IChromaComponent* TerrainMeshComponent = new Terrain;
@@ -169,20 +164,16 @@ int main()
 	// POPULATING SCENE
 	Scene->setEntities(Entities);
 	Scene->setLights(Lights);
-	Scene->setRenderCamera(MainCamera);
-
-	// RENDERER
-	Renderer Renderer(Scene, &ScreenManager);
 
 
 	// RENDER LOOP
 	// -----------
-	while (!ScreenManager.shouldClose())
+	while (!ScreenManager->shouldClose())
 	{
 		// SCREENMANAGER START
-		ScreenManager.Start();
-		float GameTime = ScreenManager.getTime();
-		float DeltaTime = ScreenManager.getDeltaTime();
+		ScreenManager->Start();
+		float GameTime = ScreenManager->getTime();
+		float DeltaTime = ScreenManager->getDeltaTime();
 
 		// Updating sun
 		Sun->setPosition(Sun->getDirection() * -20.0f);
@@ -234,24 +225,16 @@ int main()
 		}
 
 
-		// RENDER
-		Renderer.RenderScene();
+		// GAME TICK
+		Game.Tick();
 
-		// END RENDER LOOP
-		ScreenManager.End();
+		// END SCREEN
+		ScreenManager->End();
 	}
-
-	// optional: de-allocate all resources once they've outlived their purpose:
-	//// ------------------------------------------------------------------------
-//	delete GrassPlaneEntity;
-	delete TerrainEntity;
-	delete NanosuitEntity;
-	delete MainCamera;
-	delete Scene;
 
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
-	ScreenManager.Close();
+	ScreenManager->Close();
 	return 0;
 }
