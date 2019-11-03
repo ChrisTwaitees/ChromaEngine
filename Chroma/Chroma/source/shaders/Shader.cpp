@@ -138,33 +138,34 @@ void Shader::setLightingUniforms( std::vector<std::shared_ptr<Light>> Lights, Ca
 		case Light::POINT:
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
+			//// lights point light falloff
+			this->setFloat(lightIndex + ".constant", Lights[i]->constant);
+			this->setFloat(lightIndex + ".linear", Lights[i]->linear);
+			this->setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
+			this->setFloat(lightIndex + ".radius", Lights[i]->getRadius());
 			break;
 		case Light::SUNLIGHT:
 		case Light::DIRECTIONAL:
 			dirlights++;
 			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
+			//// lights directional
+			this->setVec3(lightIndex + ".direction", Lights[i]->getDirection());
 			break;
 		case Light::SPOT:
 			spotlights++;
 			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
+			//// lights spotlight
+			this->setFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
+			this->setFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
 			break;
 		default:
 			break;
 		}
-		//// lights directional
-		this->setVec3(lightIndex + ".direction", Lights[i]->getDirection());
-		this->setVec3(lightIndex + ".position", Lights[i]->getPosition());
-		this->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
+		// lights all
 		this->setFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
-		this->setFloat(lightIndex + ".radius", Lights[i]->getRadius());
-		//// lights spotlight
-		this->setFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
-		this->setFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
-		//// lights point light falloff
-		this->setFloat(lightIndex + ".constant", Lights[i]->constant);
-		this->setFloat(lightIndex + ".linear", Lights[i]->linear);
-		this->setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
-		//// lights view pos
+		this->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
+		this->setVec3(lightIndex + ".position", Lights[i]->getPosition());
+		// lights view pos
 		this->setVec3("viewPos", renderCam.get_position());
 	}
 }

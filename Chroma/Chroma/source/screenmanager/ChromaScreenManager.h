@@ -57,7 +57,6 @@ private:
 	void processInput();
 	void updateCamera();
 	void processTime();
-	void RenderScene();
 	void drawGUI();
 
 public:
@@ -72,6 +71,7 @@ public:
 	// GUI Attrs
 	bool useSkybox{true};
 	float exposure{ 1.0f };
+	float gamma{ 2.2f };
 	bool useBloom{ true };
 
 

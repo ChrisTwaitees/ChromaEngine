@@ -21,11 +21,9 @@ void ChromaGUI::Start()
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
 
-	ImGui::Begin("Chroma Debug");                          // Create a window called "Hello, world!" and append into it.
+	// start
+	ImGui::Begin("Chroma Debug");          
 
-	ImGui::Text("Chroma Debugging Text");
-
-	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 }
 
 void ChromaGUI::End()

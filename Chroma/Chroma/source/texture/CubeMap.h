@@ -18,7 +18,7 @@ private:
 	};
 
 public:
-	unsigned int ShaderID;
+	unsigned int ShaderID{ 0 };
 	void generateCubeMap();
 	void bind();
 

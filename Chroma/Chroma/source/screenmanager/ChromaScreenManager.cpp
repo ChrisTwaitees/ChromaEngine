@@ -83,7 +83,7 @@ bool ChromaScreenManager::configureRenderer()
 		return false;
 	}
 
-	// Enabling RenderScene Features
+	// Enabling Render Features
 	// ---------------------------------------
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
@@ -93,9 +93,8 @@ bool ChromaScreenManager::configureRenderer()
 	glEnable(GL_CULL_FACE);
 	// Enabling MSAA
 	glEnable(GL_MULTISAMPLE);
-	// Enabling Gamme Correction
-	glEnable(GL_FRAMEBUFFER_SRGB);
-
+	// Setting Clear Color
+	glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, 1.0f);
 	return true;
 }
 
@@ -116,15 +115,8 @@ void ChromaScreenManager::Start()
 	processInput();
 	// start gui
 	gui.Start();
-	// render start
-	RenderScene();
 }
 
-void ChromaScreenManager::RenderScene()
-{
-	glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
 
 void ChromaScreenManager::End()
 {
@@ -180,6 +172,21 @@ void ChromaScreenManager::processTime()
 
 void ChromaScreenManager::drawGUI()
 {
+	// heading
+	ImGui::Text("Chroma Debugging Text");
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+
+	// toggle skybox
+	if (ImGui::Button("Toggle SkyBox"))
+		ToggleSkybox();
+
+	// exposure
+	ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);
+	ImGui::SliderFloat("Gamma", &gamma, 0.0f, 5.0f);
+
+	if (ImGui::Button("Toggle Bloom"))
+		ToggleBloom();
+
 	gui.End();
 }
 

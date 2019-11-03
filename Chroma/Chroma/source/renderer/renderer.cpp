@@ -7,11 +7,10 @@ void Renderer::renderDefferedComponents()
 	mGBuffer->Draw();
 }
 
-
-
 void Renderer::renderForwardComponents()
 {
 	// Render Forward Components
+	// Enitities
 	for (ChromaEntity* entity : mScene->Entities)
 	{
 		// render unlit components
@@ -22,65 +21,58 @@ void Renderer::renderForwardComponents()
 				component->DrawUpdateTransforms(*mScene->RenderCamera, finalTransformMatrix);
 		}
 		// render transparent components
-		if (entity->TransparentComponents.size() > 0)
-			renderTransparencey(entity->TransparentComponents);
+		if (mScene->TransparentEntities.size() > 0)
+			renderTransparency();
 	}
+	// SkyBox
+	if (mScreenManager->useSkybox)
+		mSkybox->Draw();
 }
 
-void Renderer::updateShadowMappingUniforms(IChromaComponent* component)
-{
-	component->getShader()->use();
-	component->getShader()->setMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
-}
-
-void Renderer::renderTransparencey(std::vector<IChromaComponent*> transparentComponents)
+void Renderer::renderTransparency()
 {
 	////glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
-	//Sorting Grass for Transparencey Shading
-	std::map<float, IChromaComponent*> sorted;
-	for (unsigned int i = 0; i < transparentComponents.size(); i++)
+	std::map<float, ChromaEntity*> alpha_sorted;
+	for (ChromaEntity* TransparentEntity : mScene->TransparentEntities)
 	{
-		float distance = glm::length(transparentComponents[i]->getPosition() - mScene->RenderCamera->get_position());
-		sorted[distance] = transparentComponents[i];
+		float distance = glm::length(TransparentEntity->getPosition() - mScene->RenderCamera->get_position());
+		alpha_sorted[distance] =  TransparentEntity;
 	}
 	// iterating from furthest to closest
-	for (std::map<float, IChromaComponent*>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
+	for (std::map<float, ChromaEntity*>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
 	{
 		glm::mat4 finalTransformMatrix = it->second->getTransformationMatrix();
-		it->second->Draw(*mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
+		for (IChromaComponent* component : it->second->TransparentComponents)
+			component->Draw(*mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
 	}
+}
+
+void Renderer::renderPostFX()
+{
+	mScreenManager->useBloom ? mPostFXBuffer->Draw(true) : mPostFXBuffer->Draw();
+	mPostFXBuffer->setUniform("exposure", mScreenManager->exposure);
+	mPostFXBuffer->setUniform("gamma", mScreenManager->gamma);
 }
 
 void Renderer::Init()
 {
-	mShadowbuffer = new ShadowBuffer(mScene);
-	mGBuffer = new GBuffer(mScene, mShadowbuffer, mHDRFrameBuffer);
+	mGBuffer = new GBuffer(mScene, mPostFXBuffer);
 	mSkybox = new SkyBox(*mScene->RenderCamera);
 }
 
 void Renderer::RenderScene()
 {
-	// Shadowbuffer
-	mShadowbuffer->calculateShadows();
+	// 
 
-	// HDR Tone Mapping
-	//mHDRFrameBuffer->Bind();
-
-	////SkyBox
-	//if (mScreenManager->useSkybox)
-	//mSkybox->Draw();
-
-
+	// Deferred
 	renderDefferedComponents();
 
+	// Forward
 	renderForwardComponents();
 
-
-
-	// Draw HRD Tone Mapping
-	//mHDRFrameBuffer->Draw(mScreenManager->useBloom);
-	//mHDRFrameBuffer->setUniform("exposure", mScreenManager->exposure);
+	// Post FX
+	renderPostFX();
 }
 
 Renderer::Renderer(const ChromaScene* Scene, const ChromaScreenManager* ScreenManager)
@@ -90,10 +82,6 @@ Renderer::Renderer(const ChromaScene* Scene, const ChromaScreenManager* ScreenMa
 	Init();
 }
 
-
 Renderer::~Renderer()
 {
-	delete mShadowbuffer;
-	delete mGBuffer;
-	delete mHDRFrameBuffer;
 }

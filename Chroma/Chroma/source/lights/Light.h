@@ -8,7 +8,7 @@ class Light
 {
 protected:
 
-	void updatePointLightAttrs();
+	void updatePointRadius();
 
 	float intensity{ 1.0f };
 	// transforms
@@ -36,15 +36,15 @@ public:
 
 	// methods
 	// setters
-	void setType(Light::TYPE light_type) { type = light_type; updatePointLightAttrs(); };
-	void setDiffuse(glm::vec3 color) { diffuse = color;  updatePointLightAttrs();};
-	void setIntensity(float intensity_val) { intensity = intensity_val;  updatePointLightAttrs();};
+	void setType(Light::TYPE light_type) { type = light_type; };
+	void setDiffuse(glm::vec3 color) { diffuse = color; };
+	void setIntensity(float intensity_val) { intensity = intensity_val; };
 	void setPosition(glm::vec3 newPosition) { position = newPosition; };
 	void setDirection(glm::vec3 direction_val) { direction = glm::normalize(direction_val); };
 	// setters- attenuation
-	void setConstant(float constant_val) { constant = constant_val;  updatePointLightAttrs(); };
-	void setLinear(float linear_val) { linear = linear_val;  updatePointLightAttrs(); };
-	void setQuadratic(float quadratic_val) { quadratic = quadratic_val; updatePointLightAttrs(); };
+	void setConstant(float constant_val) { constant = constant_val;  };
+	void setLinear(float linear_val) { linear = linear_val; };
+	void setQuadratic(float quadratic_val) { quadratic = quadratic_val; };
 	// setters - spotlight
 	void setPenumbraSize(float penumbra_val) { penumbraSize = penumbra_val; };
 	void setSpotSize(float spotSize_val) {spotSize = spotSize_val;};
@@ -57,7 +57,7 @@ public:
 	glm::vec3 getPosition() { return position; };
 	float getIntensity() { return intensity; };
 	glm::vec3 getDiffuse() { return diffuse; };
-	float getRadius() { return radius; };
+	float getRadius() { updatePointRadius(); return radius; };
 	// getters - spotlights
 	float getSpotSize() { return spotSize; };
 	float getPenumbraSize() { return penumbraSize; };

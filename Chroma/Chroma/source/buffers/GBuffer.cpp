@@ -66,10 +66,10 @@ void GBuffer::initialize()
 	unsigned int attachments[7] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6 };
 	glDrawBuffers(7, attachments); 
 	// create and attach depth buffer (renderbuffer)
-	glGenRenderbuffers(1, &RBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glGenRenderbuffers(1, &gRBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, gRBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, RBO);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, gRBO);
 	// finally check if framebuffer is complete
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Framebuffer not complete!" << std::endl;
@@ -81,11 +81,9 @@ void GBuffer::initialize()
 
 void GBuffer::updateTransformUniforms()
 {
-
 	lightingPassShader.use();
 	lightingPassShader.setVec2("scale", scale);
 	lightingPassShader.setVec2("offset", offset);
-
 }
 
 void GBuffer::configureShaders()
@@ -113,15 +111,15 @@ void GBuffer::bindAllGBufferTextures()
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, gFragPosLightSpace);
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, mShadowbuffer->ShadowMapTexture.ID);
+	glBindTexture(GL_TEXTURE_2D, mShadowbuffer->getTexture());
 	glActiveTexture(GL_TEXTURE6);
-	glBindTexture(GL_TEXTURE_2D, ssaoBuffer->getTexture());
+	glBindTexture(GL_TEXTURE_2D, mSSAOBuffer->getTexture());
 }
 
 void GBuffer::setLightingUniforms()
 {
 	lightingPassShader.setLightingUniforms(mScene->Lights, *mScene->RenderCamera);
-	lightingPassShader.setFloat("ambient", 0.5f);
+	lightingPassShader.setFloat("ambient", 0.2f);
 }
 
 void GBuffer::Bind()
@@ -130,10 +128,15 @@ void GBuffer::Bind()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
+void GBuffer::calculateShadows()
+{
+	// 1. calculate shadows
+	mShadowbuffer->calculateShadows();
+}
+
 void GBuffer::drawGeometryPass()
 {
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
-	//// -----------------------------------------------------------------
 	Bind();
 	geometryPassShader.use();
 	geometryPassShader.setMat4("view", mScene->RenderCamera->viewMat);
@@ -155,6 +158,8 @@ void GBuffer::drawGeometryPass()
 
 void GBuffer::drawLightingPass()
 {
+	
+	// clear color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
 	// use the lighting pass shader
 	lightingPassShader.use();
@@ -166,51 +171,44 @@ void GBuffer::drawLightingPass()
 	setLightingUniforms();
 }
 
-
-void GBuffer::Draw()
+void GBuffer::blitDepthBuffer()
 {
-	// 1. geometry pass: render scene's geometry/color data into gbuffer
-	// -----------------------------------------------------------------
-	drawGeometryPass();
-
-	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
-	// -----
-	ssaoBuffer->Draw(gViewPosition, gViewNormal, mScene);
-
-	// 2. lighting pass: calculate lighting by iterating over a screen filled quad pixel-by-pixel using the gbuffer's content.
-	// -----------------------------------------------------------------------------------------------------------------------
-	drawLightingPass();
-	// 2.5 HDR pass : remapping color back to normalized range
-	// -----------------------------------------------------------------------------------------------------------------------
-//	mHDRbuffer->Bind();
-
-
-	renderQuad();
-
-	// 2.5 Render HDR pass : remapping color back to normalized range
-	// -----------------------------------------------------------------------------------------------------------------------
-//	mHDRbuffer->Draw();
-
-	// 3. copy content of geometry's depth buffer to default framebuffer's depth buffer
-	// ----------------------------------------------------------------------------------
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, 0); // write to default framebuffer
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mPostFXBuffer->getFBO());// write to default HDR Framebuffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 }
 
+void GBuffer::Draw()
+{
+	// 0. calculate shadow textures
+	calculateShadows();
 
+	// 1. geometry pass: render scene's geometry/color data into gbuffer
+	drawGeometryPass();
 
-GBuffer::GBuffer(const ChromaScene*& Scene, ShadowBuffer*& shadowbuffer, Framebuffer*& HDRBuffer)
+	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
+	mSSAOBuffer->Draw(gViewPosition, gViewNormal, mScene);
+
+	// 2. HDR pass : remapping color back to normalized range
+	mPostFXBuffer->Bind();
+
+	// 2.5 lighting pass: calculate lighting using gbuffer textures
+	drawLightingPass();
+	renderQuad();
+
+	// 4. copy content of geometry's depth buffer to HDR buffer
+	blitDepthBuffer();
+}
+
+GBuffer::GBuffer(const ChromaScene* Scene, Framebuffer*& PostFXBuffer)
 {
 	setupQuad();
 	initialize();
 	mScene = Scene;
-	mShadowbuffer = shadowbuffer;
-	mHDRbuffer = HDRBuffer;
+	mShadowbuffer = new ShadowBuffer(mScene);
+	mPostFXBuffer = PostFXBuffer;
 }
 
 GBuffer::~GBuffer()

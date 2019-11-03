@@ -2,6 +2,7 @@
 #define _CHROMA_GBUFFER_
 
 #include "../buffers/Framebuffer.h"
+#include "../buffers/PostFXBuffer.h"
 #include "../buffers/ShadowBuffer.h"
 #include "../buffers/SSAOBuffer.h"
 #include "../scene/ChromaScene.h"
@@ -22,12 +23,12 @@ protected:
 	// buffers
 	unsigned int gBuffer;
 	unsigned int gRBO;
-	Framebuffer* ssaoBuffer{ new SSAOBuffer };
+	Framebuffer* mSSAOBuffer{ new SSAOBuffer };
 
 	// scene
 	const ChromaScene* mScene;
 	ShadowBuffer* mShadowbuffer;
-	Framebuffer* mHDRbuffer;
+	Framebuffer* mPostFXBuffer;
 
 	// functions
 	void initialize() override;
@@ -37,8 +38,10 @@ protected:
 	unsigned int gNormal, gPosition, gAlbedoRoughness, gMetalnessSpecular, gFragPosLightSpace, gViewPosition, gViewNormal;
 
 	// Passes
+	void calculateShadows();
 	void drawGeometryPass();
 	void drawLightingPass();
+	void blitDepthBuffer();
 
 	// uniforms
 	void configureShaders();
@@ -50,7 +53,7 @@ public:
 	void Bind() override;
 	void Draw() override;
 
-	GBuffer(const ChromaScene*& Scene, ShadowBuffer*& shadowbuffer, Framebuffer*& HDRBuffer);
+	GBuffer(const ChromaScene* mScene, Framebuffer*& mPostFXBuffer);
 	~GBuffer();
 };
 

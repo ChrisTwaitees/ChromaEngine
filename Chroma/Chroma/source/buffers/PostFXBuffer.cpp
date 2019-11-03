@@ -1,7 +1,7 @@
-#include "HDRFrameBuffer.h"
+#include "PostFXBuffer.h"
 
 
-void HDRFramebuffer::initialize()
+void PostFXBuffer::initialize()
 {
 	screenShader = new Shader(fragSource, vtxSource);
 	blurShader = new Shader(blurfragSource, vtxSource);
@@ -43,7 +43,7 @@ void HDRFramebuffer::initialize()
 	configure_shaders();
 }
 
-void HDRFramebuffer::updateTransformUniforms()
+void PostFXBuffer::updateTransformUniforms()
 {
 	blurShader->use();
 	blurShader->setVec2("scale", scale);
@@ -53,7 +53,7 @@ void HDRFramebuffer::updateTransformUniforms()
 	screenShader->setVec2("offset", offset);
 }
 
-void HDRFramebuffer::configure_shaders()
+void PostFXBuffer::configure_shaders()
 {
 	blurShader->use();
 	blurShader->setInt("image", 0);
@@ -62,7 +62,7 @@ void HDRFramebuffer::configure_shaders()
 	screenShader->setInt("bloomBlur", 1);
 }
 
-void HDRFramebuffer::genBlurBuffer()
+void PostFXBuffer::genBlurBuffer()
 {
 	// ping-pong-framebuffer for blurring
 	glGenFramebuffers(2, blurFBOs);
@@ -87,7 +87,7 @@ void HDRFramebuffer::genBlurBuffer()
 	}
 }
 
-void HDRFramebuffer::blurFragments()
+void PostFXBuffer::blurFragments()
 {
 	unBind();
 	horizontal = true, first_iteration = true;
@@ -109,8 +109,7 @@ void HDRFramebuffer::blurFragments()
 	unBind();
 }
 
-
-void HDRFramebuffer::Draw()
+void PostFXBuffer::Draw()
 {
 	unBind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -124,7 +123,7 @@ void HDRFramebuffer::Draw()
 	renderQuad();
 }
 
-void HDRFramebuffer::Draw(const bool& useBloom)
+void PostFXBuffer::Draw(const bool& useBloom)
 {
 	updateTransformUniforms();
 
@@ -166,21 +165,18 @@ void HDRFramebuffer::Draw(const bool& useBloom)
 	}
 }
 
-
-void HDRFramebuffer::Bind()
+void PostFXBuffer::Bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-
-HDRFramebuffer::HDRFramebuffer()
+PostFXBuffer::PostFXBuffer()
 {
 	initialize();
 }
 
-
-HDRFramebuffer::~HDRFramebuffer()
+PostFXBuffer::~PostFXBuffer()
 {
 	delete blurShader;
 	delete screenShader;

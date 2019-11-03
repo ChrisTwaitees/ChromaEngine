@@ -152,7 +152,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\buffers\Framebuffer.cpp" />
     <ClCompile Include="source\buffers\GBuffer.cpp" />
-    <ClCompile Include="source\buffers\HDRFrameBuffer.cpp" />
+    <ClCompile Include="source\buffers\PostFXBuffer.cpp" />
     <ClCompile Include="source\buffers\ShadowBuffer.cpp" />
     <ClCompile Include="source\buffers\SSAOBuffer.cpp" />
     <ClCompile Include="source\component\IChromaComponent.cpp" />
@@ -191,7 +191,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="source\buffers\Framebuffer.h" />
     <ClInclude Include="source\buffers\GBuffer.h" />
-    <ClInclude Include="source\buffers\HDRFrameBuffer.h" />
+    <ClInclude Include="source\buffers\PostFXBuffer.h" />
     <ClInclude Include="source\buffers\ShadowBuffer.h" />
     <ClInclude Include="source\buffers\SSAOBuffer.h" />
     <ClInclude Include="source\component\IChromaComponent.h" />
@@ -232,6 +232,7 @@
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragDepthMap.glsl" />
     <None Include="resources\shaders\fragGBufferGeometry.glsl" />
+    <None Include="resources\shaders\fragGBufferLightingCalculations.glsl" />
     <None Include="resources\shaders\fragGBufferLit.glsl" />
     <None Include="resources\shaders\fragHDRframebuffer.glsl" />
     <None Include="resources\shaders\fragLightingCalculations.glsl" />

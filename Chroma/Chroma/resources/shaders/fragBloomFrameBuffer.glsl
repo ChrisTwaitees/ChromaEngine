@@ -7,10 +7,10 @@ uniform sampler2D scene;
 uniform sampler2D bloomBlur;
 uniform bool bloom;
 uniform float exposure;
+uniform float gamma;
 
 void main()
 {             
-    const float gamma = 2.2;
     vec3 hdrColor = texture(scene, TexCoords).rgb;      
     vec3 bloomColor = texture(bloomBlur, TexCoords).rgb;
     if(bloom)

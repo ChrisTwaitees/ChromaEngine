@@ -2,7 +2,7 @@
 #define _CHROMA_HDR_BUFFER_
 #include "Framebuffer.h"
 
-class HDRFramebuffer : public Framebuffer
+class PostFXBuffer : public Framebuffer
 {
 protected:
 	// default HDR shader
@@ -36,15 +36,15 @@ protected:
 
 public:
 
-	//Shader* getShader() override { return &screenShader; };
+	unsigned int getFBO() override { return hdrFBO; };
 
 	void Draw() override;
 	void Draw(const bool& useBloom) override;
 	void Bind() override;
 
 
-	HDRFramebuffer();
-	~HDRFramebuffer();
+	PostFXBuffer();
+	~PostFXBuffer();
 };
 
 

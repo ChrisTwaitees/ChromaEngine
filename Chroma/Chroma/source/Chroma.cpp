@@ -55,13 +55,13 @@ int main()
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		std::shared_ptr<Light> pointLight = std::make_shared < Light >(pos, Light::POINT);
-		pointLight->setIntensity(5.0f);
+		pointLight->setIntensity(3.0f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
 	}
 	// SUNLIGHT
-	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.0f);
+	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 0.8f);
 	Lights.push_back(Sun);
 
 	// CUBES
@@ -178,17 +178,10 @@ int main()
 		float GameTime = ScreenManager.getTime();
 		float DeltaTime = ScreenManager.getDeltaTime();
 
-		if (ImGui::Button("Toggle SkyBox"))
-			ScreenManager.ToggleSkybox();
-
-
-		ImGui::SliderFloat("Exposure", &ScreenManager.exposure, 0.0f, 2.0f);
-
-		if (ImGui::Button("Use Bloom"))
-			ScreenManager.ToggleBloom();
-
-		// SHADOW MAPS
+		// Updating sun
 		Sun->setPosition(Sun->getDirection() * -20.0f);
+		//Sunlight Rotation
+		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
 
 
 		// LIGHTS
@@ -225,12 +218,7 @@ int main()
 
 		// NANO SUIT
 		NanosuitEntity->setScale(glm::vec3(0.5f));
-		NanosuitEntity->rotate(glm::mod(GameTime, 360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));
-
-
-		//Sunlight Rotation
-		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
-
+		NanosuitEntity->rotate(glm::mod(GameTime, 360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));		
 
 		// SPINNING BOXES
 		for (unsigned int i = 0; i < boxes.size(); i++)
@@ -239,19 +227,6 @@ int main()
 			boxes[i]->rotate(angle, glm::vec3(1.0f, 0.3f, 0.5f));
 		}
 
-		// CREATING GRASS
-		// Sorting Grass for Transparencey Shading
-		//std::map<float, glm::vec3> sorted;
-		//for (unsigned int i = 0; i < vegetationPositions.size(); i++)
-		//{
-		//	float distance = glm::length(vegetationPositions[i] - MainCamera->get_position());
-		//	sorted[distance] = vegetationPositions[i];
-		//}
-		//// iterating using map
-		//for (std::map<float, glm::vec3>::reverse_iterator it = sorted.rbegin(); it != sorted.rend(); ++it)
-		//{
-		//	GrassPlaneEntity->setPosition(glm::vec3(it->second));
-		//}
 
 		// RENDER
 		Renderer.RenderScene();

@@ -3,12 +3,13 @@
 
 #include <memory>
 #include <vector>
+
 #include "../scene/ChromaScene.h"
 #include "../shaders/Shader.h"
+#include "../buffers/GBuffer.h"
 #include "../buffers/Framebuffer.h"
 #include "../buffers/ShadowBuffer.h"
-#include "../buffers/HDRFrameBuffer.h"
-#include "../buffers/GBuffer.h"
+#include "../buffers/PostFXBuffer.h"
 #include "../models/SkyBox.h"
 #include "../screenmanager/ChromaScreenManager.h"
 
@@ -17,11 +18,13 @@ class Renderer
 private:
 	// DEFERRED LIGHTING RENDER
 	void renderDefferedComponents();
-	void updateShadowMappingUniforms(IChromaComponent* component);
 
 	// FORWARD RENDER
 	void renderForwardComponents();
-	void renderTransparencey(std::vector<IChromaComponent*> ForwardComponents);
+	void renderTransparency();
+
+	// POST FX
+	void renderPostFX();
 
 protected:
 	// SCENE
@@ -32,15 +35,12 @@ protected:
 
 	// Skybox
 	SkyBox* mSkybox;
-	
-	// Shadow Buffer
-	ShadowBuffer* mShadowbuffer;
+
+	// Post FX
+	Framebuffer* mPostFXBuffer{ new PostFXBuffer };
 
 	// GBuffer
 	Framebuffer* mGBuffer;
-
-	// HDR FrameBuffer // Post FX
-	Framebuffer* mHDRFrameBuffer{ new HDRFramebuffer };
 
 	// Debug Framebuffer
 	Framebuffer debugFramebuffer;

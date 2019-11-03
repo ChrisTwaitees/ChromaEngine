@@ -168,9 +168,6 @@
     <ClCompile Include="source\shaders\Uniform.cpp">
       <Filter>Renderer\shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\buffers\HDRFrameBuffer.cpp">
-      <Filter>Renderer\buffers</Filter>
-    </ClCompile>
     <ClCompile Include="source\buffers\GBuffer.cpp">
       <Filter>Renderer\buffers</Filter>
     </ClCompile>
@@ -182,6 +179,9 @@
     </ClCompile>
     <ClCompile Include="source\models\Instance.cpp">
       <Filter>Renderer\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\buffers\PostFXBuffer.cpp">
+      <Filter>Renderer\buffers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +287,6 @@
     <ClInclude Include="source\shaders\Uniform.h">
       <Filter>Renderer\shader</Filter>
     </ClInclude>
-    <ClInclude Include="source\buffers\HDRFrameBuffer.h">
-      <Filter>Renderer\buffers</Filter>
-    </ClInclude>
     <ClInclude Include="source\buffers\GBuffer.h">
       <Filter>Renderer\buffers</Filter>
     </ClInclude>
@@ -301,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="source\models\Instance.h">
       <Filter>Renderer\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\buffers\PostFXBuffer.h">
+      <Filter>Renderer\buffers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -397,6 +397,9 @@
       <Filter>resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragGBufferGeometry.glsl">
+      <Filter>resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragGBufferLightingCalculations.glsl">
       <Filter>resources\shaders</Filter>
     </None>
   </ItemGroup>

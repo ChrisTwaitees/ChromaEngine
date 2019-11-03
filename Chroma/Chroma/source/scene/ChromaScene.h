@@ -14,6 +14,7 @@ public:
 	std::vector < std::shared_ptr<Light>> Lights;
 	std::vector<Camera*> Cameras;
 	std::vector<ChromaEntity*> Entities;
+	std::vector<ChromaEntity*> TransparentEntities;
 
 	Camera* RenderCamera;
 	Light* SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);

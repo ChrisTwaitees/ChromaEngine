@@ -11,22 +11,24 @@
 // Chroma
 #include "../renderer/ChromaRendererConfig.h"
 #include "../scene/ChromaScene.h"
+#include "../buffers/Framebuffer.h"
 
-class ShadowBuffer
+class ShadowBuffer : Framebuffer
 {
 private:
 	// Chroma Scene
 	const ChromaScene* mScene;
 	// DepthBuffers
 	unsigned int depthMapFBO;
-	unsigned int resolutionFactor{ 1 };
 	// resolution
-	unsigned int width{ SHADOW_WIDTH / resolutionFactor };
-	unsigned int height{ SHADOW_HEIGHT / resolutionFactor };
+	unsigned int width{ SHADOW_WIDTH};
+	unsigned int height{ SHADOW_HEIGHT};
 	// shaders
 	std::string depthVtxSource = "resources/shaders/vertexDepthMap.glsl";
 	std::string depthFragSource = "resources/shaders/fragDepthMap.glsl";
 	Shader depthShader{ depthFragSource , depthVtxSource };
+	// textures
+	Texture ShadowMapTexture;
 	// render
 	void calcLightSpaceMatrix();
 	// setup 
@@ -36,13 +38,12 @@ private:
 
 public:
 	// getters and setters
-	unsigned int GetShadowMapWidth() { return width; };
-	unsigned int GetShadowMapHeight() { return height; };
 	glm::mat4 getLightSpaceMatrix() { return lightSpaceMatrix; };
-	// shadow depth buffer
-	Texture ShadowMapTexture;
+	unsigned int getTexture() override { return ShadowMapTexture.ID; }
+
 	// calculate shadows
 	void calculateShadows();
+
 	// constructors
 	ShadowBuffer(const ChromaScene*& Scene);
 	~ShadowBuffer();
