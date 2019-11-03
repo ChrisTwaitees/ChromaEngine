@@ -9,8 +9,8 @@ void Model::Draw(Shader &shader)
 
 void Model::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
-	if (pShader)
-		Draw(*pShader, RenderCamera, Lights, transformMatrix);
+	if (mShader)
+		Draw(*mShader, RenderCamera, Lights, transformMatrix);
 	else
 		for (StaticMesh* mesh : meshes)
 				mesh->Draw(RenderCamera, Lights, transformMatrix);

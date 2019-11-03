@@ -170,8 +170,8 @@ void StaticMesh::Draw(Shader &shader)
 
 void StaticMesh::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
-	pShader->use();
-	updateUniforms(pShader, Lights, RenderCamera, transformMatrix);
+	mShader->use();
+	updateUniforms(mShader, Lights, RenderCamera, transformMatrix);
 	BindDrawVAO();
 }
 
@@ -192,8 +192,8 @@ void StaticMesh::DrawUpdateMaterials(Shader& shader)
 
 void StaticMesh::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 {
-	pShader->use();
-	updateTransformUniforms(pShader, renderCam, modelMatrix);
+	mShader->use();
+	updateTransformUniforms(mShader, renderCam, modelMatrix);
 	BindDrawVAO();
 }
 
@@ -207,7 +207,7 @@ void StaticMesh::BindDrawVAO()
 
 void StaticMesh::bindShader(Shader* newShader)
 {
-	pShader = newShader;
+	mShader = newShader;
 }
 
 void StaticMesh::bindTextures(std::vector<Texture> textures_val)
@@ -248,12 +248,12 @@ void StaticMesh::bindTexture(Texture texture_val)
 
 void StaticMesh::setMat4(std::string name, glm::mat4 value)
 {
-	pShader->setMat4(name, value);
+	mShader->setMat4(name, value);
 }
 
 void StaticMesh::setInt(std::string name, int value)
 {
-	pShader->setInt(name, value);
+	mShader->setInt(name, value);
 }
 
 StaticMesh::StaticMesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
@@ -274,5 +274,5 @@ StaticMesh::StaticMesh()
 
 StaticMesh::~StaticMesh()
 {
-	delete pShader;
+	delete mShader;
 }

@@ -171,11 +171,13 @@
     <ClCompile Include="source\Render\gui\ChromaGUI.cpp" />
     <ClCompile Include="source\Render\light\Light.cpp" />
     <ClCompile Include="source\Render\model\BoxPrimitive.cpp" />
+    <ClCompile Include="source\Render\model\CapsulePrimitive.cpp" />
     <ClCompile Include="source\Render\model\Instance.cpp" />
     <ClCompile Include="source\Render\model\LinePrimitive.cpp" />
     <ClCompile Include="source\Render\model\Model.cpp" />
     <ClCompile Include="source\Render\model\PlanePrimitive.cpp" />
     <ClCompile Include="source\Render\model\SkyBox.cpp" />
+    <ClCompile Include="source\Render\model\SpherePrimitive.cpp" />
     <ClCompile Include="source\Render\model\StaticMesh.cpp" />
     <ClCompile Include="source\Render\renderer\Renderer.cpp" />
     <ClCompile Include="source\Render\shader\GeometryShader.cpp" />
@@ -216,11 +218,13 @@
     <ClInclude Include="source\Render\gui\ChromaGUI.h" />
     <ClInclude Include="source\Render\light\Light.h" />
     <ClInclude Include="source\Render\model\BoxPrimitive.h" />
+    <ClInclude Include="source\Render\model\CapsulePrimitive.h" />
     <ClInclude Include="source\Render\model\Instance.h" />
     <ClInclude Include="source\Render\model\LinePrimitive.h" />
     <ClInclude Include="source\Render\model\Model.h" />
     <ClInclude Include="source\Render\model\PlanePrimitive.h" />
     <ClInclude Include="source\Render\model\SkyBox.h" />
+    <ClInclude Include="source\Render\model\SpherePrimitive.h" />
     <ClInclude Include="source\Render\model\StaticMesh.h" />
     <ClInclude Include="source\Render\renderer\ChromaRendererConfig.h" />
     <ClInclude Include="source\Render\renderer\Renderer.h" />

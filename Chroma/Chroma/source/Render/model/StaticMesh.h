@@ -40,7 +40,7 @@ public:
 	std::vector<Vertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
-	Shader* pShader = new Shader(fragShaderSource, vtxShaderSource);
+	Shader* mShader = new Shader(fragShaderSource, vtxShaderSource);
 
 	// Functions
 	virtual void Draw(Shader &shader) override;
@@ -56,7 +56,7 @@ public:
 	virtual void bindTexture(Texture texture_val) override;
 
 	// Getters/Setters
-	virtual Shader* getShader() { return pShader; };
+	virtual Shader* getShader() { return mShader; };
 	int getNumTextures() override { return textures.size(); };
 	virtual glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
 

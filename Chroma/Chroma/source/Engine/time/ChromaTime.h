@@ -9,16 +9,15 @@
 
 class ChromaTime
 {
-	const int MAX_FRAME_RATE = 30;
-	const int MAX_FRAMESKIP = 5;
-	const int MS_PER_FRAME = 1000 / MAX_FRAME_RATE;
+	const int MAX_FRAME_RATE = 60;
+	double MS_PER_FRAME = 1.0 / MAX_FRAME_RATE;
 
 	void sleep(int milliseconds);
 
-	double delta;
-	double current;
-	double previous;
-	double lag;
+	double delta{ 0.0f };
+	double current{ 0.0f };
+	double previous{ 0.0f };
+	double lag{ 0.0f };
 
 public:
 	double getLag() { return lag; };

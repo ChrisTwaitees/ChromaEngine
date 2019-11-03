@@ -9,7 +9,7 @@ void Terrain::initialize()
 	bindTexture(defaultNormal);
 
 	// assigning shader
-	pShader = new Shader(fragShaderSource, vtxShaderSource);
+	mShader = new Shader(fragShaderSource, vtxShaderSource);
 
 	// Setting Default Transform
 	TerrainIdentityMatrix = glm::scale(TerrainIdentityMatrix, glm::vec3(10.0f));

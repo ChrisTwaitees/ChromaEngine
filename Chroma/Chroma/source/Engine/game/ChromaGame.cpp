@@ -17,6 +17,7 @@ void ChromaGame::Tick()
 	mTime.process();
 	// process input
 	ProcessInput();
+
 	// update while lag is less than framerate cap
 	while (mTime.getLag() >= mTime.getMSPerFrame())
 	{

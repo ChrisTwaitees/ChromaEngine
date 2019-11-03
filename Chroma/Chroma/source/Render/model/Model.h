@@ -18,7 +18,7 @@ protected:
 	std::vector<Texture> textures_loaded;
 	std::vector<StaticMesh*> meshes;
 	std::string directory;
-	Shader* pShader = nullptr;
+	Shader* mShader = nullptr;
 
 	// Functions
 	void loadModel(std::string path);
@@ -36,8 +36,8 @@ public:
 
 	// Getters/Settters
 	int getNumTextures() override { return textures_loaded.size(); };
-	void bindShader(Shader* newShader) override { pShader = newShader; };
-	Shader* getShader() override { return pShader; };
+	void bindShader(Shader* newShader) override { mShader = newShader; };
+	Shader* getShader() override { return mShader; };
 	glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
 
 	// Component requirement 
