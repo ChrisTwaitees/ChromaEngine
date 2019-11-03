@@ -81,7 +81,6 @@ Texture::Texture()
 {
 }
 
-
 Texture::~Texture()
 {
 }
