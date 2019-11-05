@@ -18,6 +18,7 @@
 #include "model/Model.h"
 #include "model/BoxPrimitive.h"
 #include "model/PlanePrimitive.h"
+#include "model/SpherePrimitive.h"
 #include "shader/Shader.h"
 #include "texture/Texture.h"
 #include "camera/Camera.h"
@@ -104,6 +105,9 @@ int main()
 	Texture diffuseMap("resources/textures/wooden_panel.png");
 	Texture specularMap("resources/textures/wooden_panel_specular.png");
 	specularMap.type = Texture::SPECULAR;
+	Texture concreteMap("resources/textures/brickwall.jpg");
+	Texture normalMap("resources/textures/brickwall_normal.jpg");
+	normalMap.type = Texture::NORMAL;
 	Texture grassMap("resources/textures/grass.png");
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
@@ -155,11 +159,21 @@ int main()
 	//	Entities.push_back(GrassPlaneEntity);
 	//}
 
+	// TERRAIN
 	ChromaEntity* TerrainEntity = new ChromaEntity;
 	IChromaComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->bindShader(&litNormalsShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 	Entities.push_back(TerrainEntity);
+
+	// SPHERE
+	ChromaEntity* SphereEntity = new ChromaEntity;
+	IChromaComponent* SphereMeshComponent = new SpherePrimitive;
+	SphereMeshComponent->bindTexture(normalMap);
+	SphereMeshComponent->bindTexture(concreteMap);
+	SphereMeshComponent->bindShader(&litNormalsShader);
+	SphereEntity->addComponent(SphereMeshComponent);
+	Entities.push_back(SphereEntity);
 
 	// POPULATING SCENE
 	Scene->setEntities(Entities);
@@ -204,6 +218,7 @@ int main()
 				//positions
 				lamps[i]->setPosition(newLightPos);
 				lamps[i]->scale(glm::vec3(0.3f));
+				SphereEntity->setPosition(newLightPos);
 			}
 			// fragments
 			for (IChromaComponent* component : lamps[i]->RenderableComponents)
@@ -211,6 +226,7 @@ int main()
 				component->getShader()->setVec3("lightColor", Lights[i]->getDiffuse());
 				component->getShader()->setFloat("lightIntensity", Lights[i]->getIntensity());
 			}
+				
 		}
 
 		// NANO SUIT
@@ -222,6 +238,7 @@ int main()
 		{
 			float angle = DeltaTime * (i + 1) * 6.0f;
 			boxes[i]->rotate(angle, glm::vec3(1.0f, 0.3f, 0.5f));
+
 		}
 
 

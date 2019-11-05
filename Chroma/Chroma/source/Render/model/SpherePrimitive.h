@@ -1,20 +1,11 @@
 #ifndef _CHROMA_SPHERE_
 #define _CHROMA_SPHERE_
 
-#include "StaticMesh.h"
 #include <vector>
 
-///////////////////////////////////////////////////////////////////////////////
-// Sphere.h
-// ========
-// Sphere for OpenGL with (radius, sectors, stacks)
-// The min number of sectors is 3 and The min number of stacks are 2.
-//
-//  AUTHOR: Song Ho Ahn (song.ahn@gmail.com)
-// CREATED: 2017-11-01
-// UPDATED: 2018-12-13
-///////////////////////////////////////////////////////////////////////////////
+#include <glm/glm.hpp>
 
+#include "StaticMesh.h"
 
 class SpherePrimitive : public StaticMesh
 {
@@ -57,11 +48,10 @@ public:
 	int getInterleavedStride() const { return interleavedStride; }   // should be 32 bytes
 	const float* getInterleavedVertices() const { return interleavedVertices.data(); }
 
-	// draw in VertexArray mode
-	void draw() const;                                  // draw surface
+	// overrides
+	void setupMesh() override;
+	void BindDrawVAO() override;
 
-	// debug
-	void printSelf() const;
 
 protected:
 
@@ -94,7 +84,7 @@ private:
 	// interleaved
 	std::vector<float> interleavedVertices;
 	int interleavedStride;                  // # of bytes to hop to the next vertex (should be 32 bytes)
-
 };
+
 
 #endif

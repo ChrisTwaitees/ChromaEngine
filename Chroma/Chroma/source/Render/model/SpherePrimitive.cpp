@@ -1,20 +1,5 @@
 #include "SpherePrimitive.h"
 
-
-///////////////////////////////////////////////////////////////////////////////
-// Sphere.cpp
-// ==========
-// Sphere for OpenGL with (radius, sectors, stacks)
-// The min number of sectors is 3 and the min number of stacks are 2.
-//
-//  AUTHOR: Song Ho Ahn (song.ahn@gmail.com)
-// CREATED: 2017-11-01
-// UPDATED: 2018-12-13
-///////////////////////////////////////////////////////////////////////////////
-
-
-
-
 // constants //////////////////////////////////////////////////////////////////
 const int MIN_SECTOR_COUNT = 3;
 const int MIN_STACK_COUNT = 2;
@@ -27,6 +12,7 @@ const int MIN_STACK_COUNT = 2;
 SpherePrimitive::SpherePrimitive(float radius, int sectors, int stacks, bool smooth) : interleavedStride(32)
 {
 	set(radius, sectors, stacks, smooth);
+	setupMesh();
 }
 
 
@@ -81,50 +67,53 @@ void SpherePrimitive::setSmooth(bool smooth)
 
 
 
-///////////////////////////////////////////////////////////////////////////////
-// print itself
-///////////////////////////////////////////////////////////////////////////////
-void SpherePrimitive::printSelf() const
+void SpherePrimitive::setupMesh()
 {
-	std::cout << "===== Sphere =====\n"
-		<< "        Radius: " << radius << "\n"
-		<< "  Sector Count: " << sectorCount << "\n"
-		<< "   Stack Count: " << stackCount << "\n"
-		<< "Smooth Shading: " << (smooth ? "true" : "false") << "\n"
-		<< "Triangle Count: " << getTriangleCount() << "\n"
-		<< "   Index Count: " << getIndexCount() << "\n"
-		<< "  Vertex Count: " << getVertexCount() << "\n"
-		<< "  Normal Count: " << getNormalCount() << "\n"
-		<< "TexCoord Count: " << getTexCoordCount() << std::endl;
+
+	// Vertex Array Object Buffer
+	glGenVertexArrays(1, &VAO);
+	// copy interleaved vertex data (V/N/T) to VBO
+	glGenBuffers(1, &VBO);
+	// copy index data to VBO
+	glGenBuffers(1, &EBO);
+
+	// Bind buffers
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);           // for vertex data
+	glBufferData(GL_ARRAY_BUFFER,                   // target
+		getInterleavedVertexSize(), // data size, # of bytes
+		getInterleavedVertices(),   // ptr to vertex data
+		GL_STATIC_DRAW);                   // usage
+
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);   // for index data
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER,           // target
+		getIndexSize(),             // data size, # of bytes
+		getIndices(),               // ptr to index data
+		GL_STATIC_DRAW);                   // usage
+
+
+	// set attrib arrays with stride and offset
+	int stride = getInterleavedStride();     // should be 32 bytes
+	// vertex positions
+	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, false, stride, (void*)0);
+	// vertex normals
+	glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 3, GL_FLOAT, false, stride, (void*)(sizeof(float) * 3));
+	// vertex uvs
+	glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, false, stride, (void*)(sizeof(float) * 6));
+
+
+	glBindVertexArray(0);
 }
 
-
-
-///////////////////////////////////////////////////////////////////////////////
-// draw a sphere in VertexArray mode
-// OpenGL RC must be set before calling it
-///////////////////////////////////////////////////////////////////////////////
-void SpherePrimitive::draw() const
+void SpherePrimitive::BindDrawVAO()
 {
-	//// interleaved array
-	//glEnableClientState(GL_VERTEX_ARRAY);
-	//glEnableClientState(GL_NORMAL_ARRAY);
-	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	//glVertexPointer(3, GL_FLOAT, interleavedStride, &interleavedVertices[0]);
-	//glNormalPointer(GL_FLOAT, interleavedStride, &interleavedVertices[3]);
-	//glTexCoordPointer(2, GL_FLOAT, interleavedStride, &interleavedVertices[6]);
-
-	//glDrawElements(GL_TRIANGLES, (unsigned int)indices.size(), GL_UNSIGNED_INT, indices.data());
-
-	//glDisableClientState(GL_VERTEX_ARRAY);
-	//glDisableClientState(GL_NORMAL_ARRAY);
-	//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glBindVertexArray(VAO);
+	glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, (void*)0);
+	glBindVertexArray(0); // reset to default
 }
-
-
-
-
-
 
 
 ///////////////////////////////////////////////////////////////////////////////

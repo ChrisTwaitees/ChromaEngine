@@ -34,15 +34,19 @@ void main()
     // store the fragment position vector in the first gbuffer texture
     gPosition = fs_in.FragWorldPos;
 	gViewPosition = fs_in.FragViewPos;
-    // also store the per-fragment world normals into the gbuffer
+
+    // also store the per-fragment normals
 	vec3 rawNormalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords));
 	vec3 normalMap = normalize(rawNormalMap * 2.0 - 1.0);
-	vec3 worldnormMap = normalize(fs_in.WorldTBN * normalMap);
-	gNormal = rawNormalMap.g == 0.0 ?  normalize(fs_in.WorldNormal) : worldnormMap;
-
-	// also store the per-fragment view normals into the gbuffer
-	vec3 viewnormMap = normalize(fs_in.ViewTBN * normalMap);
-	gViewNormal = rawNormalMap.g == 0.0 ?  normalize(fs_in.ViewNormal) : viewnormMap;
+	// check if TBN and NormalMap valid
+	if (rawNormalMap.g != 0 && length(fs_in.ViewTBN[1]) >= 0.5)	{
+		gNormal = normalize(fs_in.WorldTBN * normalMap);
+		gViewNormal = normalize(fs_in.ViewTBN * normalMap);
+	}
+	else{
+		gNormal = fs_in.WorldNormal;
+		gViewNormal = fs_in.ViewNormal;
+	}
 
     // and the diffuse per-fragment color
     gAlbedoRoughness.rgb = texture(material.texture_diffuse1, fs_in.TexCoords).rgb;
