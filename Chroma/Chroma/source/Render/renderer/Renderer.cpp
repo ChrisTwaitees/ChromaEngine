@@ -36,7 +36,7 @@ void Renderer::renderTransparency()
 	std::map<float, ChromaEntity*> alpha_sorted;
 	for (ChromaEntity* TransparentEntity : mScene->TransparentEntities)
 	{
-		float distance = glm::length(TransparentEntity->getPosition() - mScene->RenderCamera->get_position());
+		float distance = glm::length(TransparentEntity->getPosition() - mScene->RenderCamera->getPosition());
 		alpha_sorted[distance] =  TransparentEntity;
 	}
 	// iterating from furthest to closest

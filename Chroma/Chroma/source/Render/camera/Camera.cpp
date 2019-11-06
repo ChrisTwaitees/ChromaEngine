@@ -123,7 +123,3 @@ Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : cameraPos{
 	cameraUp = glm::cross(cameraDirection, cameraRight);
 	rebuildView();
 }
-
-Camera::~Camera()
-{
-}

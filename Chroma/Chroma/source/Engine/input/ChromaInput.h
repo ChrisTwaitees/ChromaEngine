@@ -10,13 +10,23 @@
 #include <glm/glm.hpp>
 
 #include "screenmanager/ChromaScreenManagerConfig.h"
+#include "camera/Camera.h"
+#include "input/MousePicker.h"
 
+class Camera;
+class MousePicker;
 
 class ChromaInput
 {
-	GLFWwindow* window;
+	// components
+	GLFWwindow* mWindow;
+	Camera* mCamera;
+	MousePicker mMousePicker;
+
+	// attrs
 	static double CaptureMouseX, CaptureMouseY;
-	double MouseX, MouseY;
+	double MouseX{ 0.0f }, MouseY{ 0.0f };
+	float PickedMouseX{ 0.0f }, PickedMouseY{ 0.0f };
 	bool cursorEnabled{ true };
 	double deltaTime;
 
@@ -26,10 +36,13 @@ class ChromaInput
 	// callbacks
 	static void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos);
 	static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+	static void mouse_click_callback(GLFWwindow* window, int button, int action, int mods);
 	void updateMouseCoordinates();
+	void updateMousePicker();
 
 public:
-	enum Key {LEFT_SHIFT, RIGHT_SHIFT, SPACEBAR, A, C, D, E, Q, S, W};
+	enum Key {LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, RIGHT_ALT, SPACEBAR, ESCAPE, A, C, D, E, Q, S, W,
+	LEFT_MOUSE, RIGHT_MOUSE, MIDDLE_MOUSE, LEFT_MOUSE_RELEASE, RIGHT_MOUSE_RELEASE, MIDDLE_MOUSE_RELEASE};
 	bool isPressed(Key KeySelection);
 
 	//  functions
@@ -43,12 +56,13 @@ public:
 
 	// bind
 	void bindWindow(GLFWwindow* windowVal);
+	void bindCamera(Camera* cam) { mCamera = cam; };
 
 	// deltaTime
 	void setDeltaTime(double deltaTimeVal) { deltaTime = deltaTimeVal; };
 	double getDeltaTime() {	return deltaTime; };
 	// constructors
-	ChromaInput();
+	ChromaInput() {};
 	ChromaInput(GLFWwindow* windowVal);
 	~ChromaInput();
 };

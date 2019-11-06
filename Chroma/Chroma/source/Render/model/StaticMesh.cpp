@@ -86,7 +86,7 @@ void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector < std:
 		shader->setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
 		shader->setFloat(lightIndex + ".radius", Lights[i]->getRadius());
 		//// lights view pos
-		shader->setVec3("viewPos", renderCam.get_position());
+		shader->setVec3("viewPos", renderCam.getPosition());
 	}
 }
 

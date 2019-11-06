@@ -19,14 +19,14 @@ class ChromaGame
 	enum State {GAME_ACTIVE, GAME_MENU, GAME_WIN};
 	State GameState { GAME_MENU };
 
-	// input
-	ChromaTime mTime;
-	ChromaInput* mInputHandler{ new ChromaInput};
-
 	// components
 	ChromaSceneManager* mScene;
 	ChromaScreenManager* mScreen;
 	Renderer* mRenderer;
+
+	// input
+	ChromaTime mTime;
+	ChromaInput* mInputHandler{ new ChromaInput };
 
 	// game loop functions
 	void ProcessInput();

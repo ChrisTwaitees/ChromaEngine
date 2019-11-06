@@ -3,7 +3,7 @@
 
 void ChromaGame::Update()
 {
-	std::cout << "Updating Game" << std::endl;
+	//std::cout << "Updating Game" << std::endl;
 }
 
 void ChromaGame::Render()
@@ -41,6 +41,7 @@ ChromaGame::ChromaGame(ChromaSceneManager*& Scene, ChromaScreenManager*& ScreenM
 	mScreen = ScreenManager;
 	mRenderer = new Renderer(Scene, ScreenManager);
 	mInputHandler->bindWindow(ScreenManager->getWindow());
+	mInputHandler->bindCamera(Scene->getRenderCamera());
 }
 
 void ChromaGame::initialize()

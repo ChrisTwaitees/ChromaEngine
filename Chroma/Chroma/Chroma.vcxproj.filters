@@ -88,6 +88,9 @@
     <Filter Include="Engine\time">
       <UniqueIdentifier>{bb533b8d-1f6c-4743-9d0e-b22342c640af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\physics">
+      <UniqueIdentifier>{03cef783-7818-452b-9f2e-8ff25c159321}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -136,9 +139,6 @@
       <Filter>Engine\entity</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\game\ChromaGame.cpp">
-      <Filter>Engine\game</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\game\ChromaGameObject.cpp">
       <Filter>Engine\game</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\gui\ChromaGUI.cpp">
@@ -216,6 +216,12 @@
     <ClCompile Include="source\Render\model\SpherePrimitive.cpp">
       <Filter>Render\model</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\physics\Physics.cpp">
+      <Filter>Engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\input\MousePicker.cpp">
+      <Filter>Engine\input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -273,9 +279,6 @@
       <Filter>Engine\entity</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\game\ChromaGame.h">
-      <Filter>Engine\game</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\game\ChromaGameObject.h">
       <Filter>Engine\game</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\gui\ChromaGUI.h">
@@ -358,6 +361,12 @@
     </ClInclude>
     <ClInclude Include="source\Render\model\SpherePrimitive.h">
       <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\physics\Physics.h">
+      <Filter>Engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\input\MousePicker.h">
+      <Filter>Engine\input</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

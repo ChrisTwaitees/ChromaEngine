@@ -166,7 +166,7 @@ void Shader::setLightingUniforms( std::vector<std::shared_ptr<Light>> Lights, Ca
 		this->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
 		this->setVec3(lightIndex + ".position", Lights[i]->getPosition());
 		// lights view pos
-		this->setVec3("viewPos", renderCam.get_position());
+		this->setVec3("viewPos", renderCam.getPosition());
 	}
 }
 
