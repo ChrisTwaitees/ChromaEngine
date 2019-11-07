@@ -47,6 +47,7 @@ public:
 	// Shader Uniforms
 	void setMat4(std::string name, glm::mat4 value) override;
 	void setInt(std::string name, int value) override;
+	void setFloat(std::string name, float value) override;
 
 	Model(std::string path) { loadModel(path); };
 	Model() {};

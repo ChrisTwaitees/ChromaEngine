@@ -154,9 +154,10 @@
     <ClCompile Include="source\Engine\component\IChromaComponent.cpp" />
     <ClCompile Include="source\Engine\entity\ChromaEntity.cpp" />
     <ClCompile Include="source\Engine\game\ChromaGame.cpp" />
-    <ClCompile Include="source\Engine\game\ChromaGameObject.cpp" />
     <ClCompile Include="source\Engine\input\ChromaInput.cpp" />
+    <ClCompile Include="source\Engine\input\MousePicker.cpp" />
     <ClCompile Include="source\Engine\memory\ChromaUID.cpp" />
+    <ClCompile Include="source\Engine\physics\Physics.cpp" />
     <ClCompile Include="source\Engine\scene\ChromaSceneManager.cpp" />
     <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\Engine\time\ChromaTime.cpp" />
@@ -201,10 +202,11 @@
     <ClInclude Include="source\Engine\component\IChromaComponent.h" />
     <ClInclude Include="source\Engine\entity\ChromaEntity.h" />
     <ClInclude Include="source\Engine\game\ChromaGame.h" />
-    <ClInclude Include="source\Engine\game\ChromaGameObject.h" />
     <ClInclude Include="source\Engine\input\ChromaInput.h" />
+    <ClInclude Include="source\Engine\input\MousePicker.h" />
     <ClInclude Include="source\Engine\memory\ChromaUID.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
+    <ClInclude Include="source\Engine\physics\Physics.h" />
     <ClInclude Include="source\Engine\scene\ChromaSceneManager.h" />
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h" />
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManagerConfig.h" />
@@ -253,6 +255,7 @@
     <None Include="resources\shaders\fragHDRframebuffer.glsl" />
     <None Include="resources\shaders\fragLightingCalculations.glsl" />
     <None Include="resources\shaders\fragLightingStructs.glsl" />
+    <None Include="resources\shaders\fragLineBillboard.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
     <None Include="resources\shaders\fragLitShadows.glsl" />
@@ -268,6 +271,7 @@
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />
     <None Include="resources\shaders\vertexGBufferLit.glsl" />
+    <None Include="resources\shaders\vertexLineBillboard.glsl" />
     <None Include="resources\shaders\vertexLitShadows.glsl" />
     <None Include="resources\shaders\vertexLitShadowsNormals.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />

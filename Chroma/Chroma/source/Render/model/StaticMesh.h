@@ -63,6 +63,7 @@ public:
 	// Shader Uniforms
 	virtual void setMat4(std::string name, glm::mat4 value) override;
 	virtual void setInt(std::string name, int value) override;
+	virtual void setFloat(std::string name, float value) override;
 
 	StaticMesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
 	StaticMesh();

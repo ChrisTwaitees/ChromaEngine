@@ -33,6 +33,7 @@ public:
 	// Shader Uniforms
 	virtual void setMat4(std::string name, glm::mat4 value) = 0;
 	virtual void setInt(std::string name, int value) = 0;
+	virtual void setFloat(std::string name, float value) = 0;
 
 	ChromaMeshComponent();
 	~ChromaMeshComponent();

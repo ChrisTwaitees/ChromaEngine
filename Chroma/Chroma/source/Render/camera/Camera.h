@@ -1,5 +1,6 @@
-#ifndef _CAMERA_H_
-#define _CAMERA_H_
+#ifndef _CHROMA_CAMERA_H_
+#define _CHROMA_CAMERA_H_
+
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <string>
@@ -8,6 +9,8 @@
 #include <GLFW/glfw3.h>
 #include "screenmanager/ChromaScreenManagerConfig.h"
 #include "input/ChromaInput.h"
+
+class ChromaInput;
 
 class Camera
 {
@@ -52,13 +55,15 @@ public:
 	void move(Direction dir = Direction::FORWARD);
 
 	// getters
-	glm::vec3 get_position() { return cameraPos; };
-	glm::vec3 get_direction() { return cameraDirection; };
+	glm::vec3 getPosition() { return cameraPos; };
+	glm::vec3 getDirection() { return cameraDirection; };
+	glm::mat4 getProjectionMat() { return projectionMat; };
+	glm::mat4 getViewMat() { return viewMat; };
 
 	// constructors
-	Camera();
+	Camera() ;
 	Camera(glm::vec3 camerPos, glm::vec3 cameraTarget);
-	~Camera();
+	~Camera() {};
 };
 
 #endif
