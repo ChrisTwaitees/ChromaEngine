@@ -11,6 +11,23 @@ void ChromaGame::Render()
 	mRenderer->RenderScene();
 }
 
+void ChromaGame::bindMousePickerCallback()
+{
+	std::cout << "Creating ray" << std::endl;
+
+	glm::vec3 start = mScene->getRenderCamera()->getPosition();
+	glm::vec3 end = start + (  mInputHandler->getLastRayPos() * glm::vec3(10.0));
+
+
+
+	// create new line object
+	ChromaEntity* newLineEntity = new ChromaEntity;
+	IChromaComponent* newLineMeshComponent = new LinePrimitive(start, end);
+	newLineMeshComponent->isLit = false;
+	newLineEntity->addComponent(newLineMeshComponent);
+	mScene->addEntity(newLineEntity);
+}
+
 void ChromaGame::Tick()
 {
 	// update time
@@ -42,6 +59,7 @@ ChromaGame::ChromaGame(ChromaSceneManager*& Scene, ChromaScreenManager*& ScreenM
 	mRenderer = new Renderer(Scene, ScreenManager);
 	mInputHandler->bindWindow(ScreenManager->getWindow());
 	mInputHandler->bindCamera(Scene->getRenderCamera());
+	mInputHandler->bindMousePickerCallback(std::bind(&ChromaGame::bindMousePickerCallback, this));
 }
 
 void ChromaGame::initialize()

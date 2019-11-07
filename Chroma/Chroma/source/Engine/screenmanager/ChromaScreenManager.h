@@ -64,7 +64,7 @@ public:
 	bool useSkybox{true};
 	float exposure{ 1.0f };
 	float gamma{ 2.2f };
-	bool useBloom{ true };
+	bool useBloom{ false };
 
 	// status
 	int shouldClose() { return glfwWindowShouldClose(window); };

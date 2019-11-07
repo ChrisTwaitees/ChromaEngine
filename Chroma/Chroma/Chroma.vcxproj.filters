@@ -275,9 +275,6 @@
     <ClInclude Include="source\Engine\component\IChromaComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\entity\ChromaEntity.h">
-      <Filter>Engine\entity</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\game\ChromaGame.h">
       <Filter>Engine\game</Filter>
     </ClInclude>
@@ -367,6 +364,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\input\MousePicker.h">
       <Filter>Engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\entity\ChromaEntity.h">
+      <Filter>Engine\entity</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -466,6 +466,12 @@
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragGBufferLightingCalculations.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexLineBillboard.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragLineBillboard.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
   </ItemGroup>

@@ -15,6 +15,12 @@ void ChromaInput::initialize()
 	glfwSetMouseButtonCallback(mWindow, mouse_click_callback);
 }
 
+void ChromaInput::bindMousePickerCallback(std::function<void()> callback)
+{
+	std::cout << "Mouse Picker Callback Bound" << std::endl;
+	mMousePickerCallback = callback;
+}
+
 bool ChromaInput::isPressed(Key KeySelection)
 {
 	switch (KeySelection) {
@@ -47,6 +53,9 @@ bool ChromaInput::isPressed(Key KeySelection)
 		break;
 	case E:
 		return glfwGetKey(mWindow, GLFW_KEY_E) == GLFW_PRESS;
+		break;
+	case P:
+		return glfwGetKey(mWindow, GLFW_KEY_P) == GLFW_PRESS;
 		break;
 	case Q:
 		return glfwGetKey(mWindow, GLFW_KEY_Q) == GLFW_PRESS;
@@ -88,6 +97,23 @@ void ChromaInput::process()
 		return;
 	}
 
+	// toggle wireframe
+	if (isPressed(P))
+	{
+		int polyMode;
+		glGetIntegerv(GL_POLYGON_MODE, &polyMode);
+
+		if (polyMode == GL_LINE){
+			std::cout << "setting to fill" << std::endl;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+		else {
+			std::cout << "setting to line" << std::endl;
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+		}
+	}
+
+
 	// window capture release mouse
 	int cursorMode = glfwGetInputMode(mWindow, GLFW_CURSOR);
 	if (isPressed(LEFT_ALT))
@@ -103,8 +129,8 @@ void ChromaInput::process()
 	if (cursorEnabled)
 	{
 		updateMouseCoordinates();
-		updateMousePicker();
 	}
+	updateMousePicker();
 
 	// mouse picker
 
@@ -146,8 +172,8 @@ void ChromaInput::updateMousePicker()
 	{
 		PickedMouseX = MouseX;
 		PickedMouseY = MouseY;
-		std::cout << "Mouse Picker Updating" << std::endl;
-		mMousePicker.onClick(mCamera, PickedMouseX, PickedMouseY);
+		lastMouseRay = MousePicker::getMouseToWorld(mCamera, PickedMouseX, PickedMouseY);
+		mMousePickerCallback();
 	}
 }
 

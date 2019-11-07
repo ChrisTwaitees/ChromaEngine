@@ -248,12 +248,20 @@ void StaticMesh::bindTexture(Texture texture_val)
 
 void StaticMesh::setMat4(std::string name, glm::mat4 value)
 {
+	mShader->use();
 	mShader->setMat4(name, value);
 }
 
 void StaticMesh::setInt(std::string name, int value)
 {
+	mShader->use();
 	mShader->setInt(name, value);
+}
+
+void StaticMesh::setFloat(std::string name, float value)
+{
+	mShader->use();
+	mShader->setFloat(name, value);
 }
 
 StaticMesh::StaticMesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)

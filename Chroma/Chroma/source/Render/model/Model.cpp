@@ -52,6 +52,12 @@ void Model::setInt(std::string name, int value)
 		mesh->setInt(name, value);
 }
 
+void Model::setFloat(std::string name, float value)
+{
+	for (StaticMesh* mesh : meshes)
+		mesh->setFloat(name, value);
+}
+
 Model::~Model()
 {
 }

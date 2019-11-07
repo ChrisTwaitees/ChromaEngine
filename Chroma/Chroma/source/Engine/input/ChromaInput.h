@@ -3,35 +3,40 @@
 
 
 #include <iostream>
+#include <functional>
 
 // glfw
 #include <GLFW/glfw3.h>
 // glm
 #include <glm/glm.hpp>
+// glad
+#include <glad/glad.h>
 
 #include "screenmanager/ChromaScreenManagerConfig.h"
 #include "camera/Camera.h"
 #include "input/MousePicker.h"
 
 class Camera;
-class MousePicker;
+
 
 class ChromaInput
 {
+	bool wireframe;
 	// components
 	GLFWwindow* mWindow;
 	Camera* mCamera;
-	MousePicker mMousePicker;
 
 	// attrs
 	static double CaptureMouseX, CaptureMouseY;
 	double MouseX{ 0.0f }, MouseY{ 0.0f };
 	float PickedMouseX{ 0.0f }, PickedMouseY{ 0.0f };
+	glm::vec3 lastMouseRay{ glm::vec3(0) };
 	bool cursorEnabled{ true };
 	double deltaTime;
 
 	// functions 
 	void initialize();
+
 
 	// callbacks
 	static void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos);
@@ -41,18 +46,21 @@ class ChromaInput
 	void updateMousePicker();
 
 public:
-	enum Key {LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, RIGHT_ALT, SPACEBAR, ESCAPE, A, C, D, E, Q, S, W,
+	enum Key {LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, RIGHT_ALT, SPACEBAR, ESCAPE, A, C, D, E, Q, S, W, P,
 	LEFT_MOUSE, RIGHT_MOUSE, MIDDLE_MOUSE, LEFT_MOUSE_RELEASE, RIGHT_MOUSE_RELEASE, MIDDLE_MOUSE_RELEASE};
 	bool isPressed(Key KeySelection);
 
 	//  functions
 	void process();
+	void bindMousePickerCallback(std::function<void()> callback);
+	std::function<void()> mMousePickerCallback;
 
 	// getters and setters
 	double getMouseX() { return MouseX; };
 	double getMouseY() { return MouseY; };
 	glm::vec2 getMouseXY() { return glm::vec2(MouseX, MouseY); };
 	bool getCursorEnabled() { return cursorEnabled; };
+	glm::vec3 getLastRayPos() { return lastMouseRay; };
 
 	// bind
 	void bindWindow(GLFWwindow* windowVal);

@@ -19,6 +19,7 @@
 #include "model/BoxPrimitive.h"
 #include "model/PlanePrimitive.h"
 #include "model/SpherePrimitive.h"
+#include "model/LinePrimitive.h"
 #include "shader/Shader.h"
 #include "texture/Texture.h"
 #include "camera/Camera.h"
@@ -118,7 +119,7 @@ int main()
 	IChromaComponent * NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
-	Entities.push_back(NanosuitEntity);
+	//Entities.push_back(NanosuitEntity);
 
 
 	std::vector<ChromaEntity*> boxes;
@@ -175,6 +176,13 @@ int main()
 	SphereEntity->addComponent(SphereMeshComponent);
 	Entities.push_back(SphereEntity);
 
+	// LINE
+	ChromaEntity* LineEntity = new ChromaEntity;
+	IChromaComponent* LineMeshComponent = new LinePrimitive{glm::vec3(0), glm::vec3(1)};
+	LineMeshComponent->isLit = false;
+	LineEntity->addComponent(LineMeshComponent);
+	Entities.push_back(LineEntity);
+
 	// POPULATING SCENE
 	Scene->setEntities(Entities);
 	Scene->setLights(Lights);
@@ -194,6 +202,7 @@ int main()
 		//Sunlight Rotation
 		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
 
+		LineMeshComponent->setFloat("time", GameTime);
 
 		// LIGHTS
 		constantShader.use();
@@ -219,6 +228,7 @@ int main()
 				lamps[i]->setPosition(newLightPos);
 				lamps[i]->scale(glm::vec3(0.3f));
 				SphereEntity->setPosition(newLightPos);
+				LineMeshComponent->setEndPos(newLightPos);
 			}
 			// fragments
 			for (IChromaComponent* component : lamps[i]->RenderableComponents)

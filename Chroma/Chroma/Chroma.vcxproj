@@ -255,6 +255,7 @@
     <None Include="resources\shaders\fragHDRframebuffer.glsl" />
     <None Include="resources\shaders\fragLightingCalculations.glsl" />
     <None Include="resources\shaders\fragLightingStructs.glsl" />
+    <None Include="resources\shaders\fragLineBillboard.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
     <None Include="resources\shaders\fragLitShadows.glsl" />
@@ -270,6 +271,7 @@
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />
     <None Include="resources\shaders\vertexGBufferLit.glsl" />
+    <None Include="resources\shaders\vertexLineBillboard.glsl" />
     <None Include="resources\shaders\vertexLitShadows.glsl" />
     <None Include="resources\shaders\vertexLitShadowsNormals.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
