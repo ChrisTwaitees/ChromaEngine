@@ -36,6 +36,5 @@ void main()
 
 	Pos += newNormal * width;
 
-
     gl_Position = projection * view * vec4(Pos, 1.0);
 }
