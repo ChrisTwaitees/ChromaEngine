@@ -27,12 +27,12 @@ void main()
 	vec3 up = normalize(Pos - cameraPos);
 
 	vec3 newNormal;
-	float width = max(thickness *  length(Pos - cameraPos) * 0.01, 0.01);
+	float width = max(thickness *  length(Pos - cameraPos) * 0.01, 0.05);
 	// thickness
 	if(aPos.y > 0.0)
-		newNormal = cross(up, tangent);
-	if(aPos.y < 0.0)
 		newNormal = cross(tangent, up);
+	if(aPos.y < 0.0)
+		newNormal = cross(up, tangent);
 
 	Pos += newNormal * width;
 
