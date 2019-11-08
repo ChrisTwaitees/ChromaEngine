@@ -10,6 +10,7 @@
 #include "scene/ChromaSceneManager.h"
 #include "screenmanager/ChromaScreenManager.h"
 #include "time/ChromaTime.h"
+#include "physics/Physics.h"
 
 // testing ray creation
 #include "model/LinePrimitive.h"
@@ -25,13 +26,14 @@ class ChromaGame
 	State GameState { GAME_MENU };
 
 	// components
-	ChromaSceneManager* mScene;
-	ChromaScreenManager* mScreen;
-	Renderer* mRenderer;
+	ChromaScreenManager* m_screen;
+	ChromaSceneManager* m_scene;
+	ChromaPhysics* m_physics;
+	Renderer* m_renderer;
 
 	// input
-	ChromaTime mTime;
-	ChromaInput* mInputHandler{ new ChromaInput };
+	ChromaTime m_time;
+	ChromaInput* m_input{ new ChromaInput };
 
 	// game loop functions
 	void ProcessInput();
@@ -42,7 +44,7 @@ class ChromaGame
 	void MousePickerCallback();
 
 public:
-	double getDeltaTime() { return mTime.getDeltaTime(); };
+	double getDeltaTime() { return m_time.getDeltaTime(); };
 	State getGameState() { return GameState; };
 
 
