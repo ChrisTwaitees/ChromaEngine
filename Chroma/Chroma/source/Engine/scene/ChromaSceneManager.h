@@ -24,13 +24,17 @@ public:
 	void addLight(std::shared_ptr<Light>& newLight) { Lights.push_back(newLight); };
 	void removeLight(Light& removeLight);
 
-	// Getters/Setters
+	// setters
 	void setRenderCamera(Camera*& newRenderCamera) { RenderCamera = newRenderCamera; };
 	void setLights(std::vector<std::shared_ptr<Light>>& newLights);
 	void setEntities(std::vector<ChromaEntity*>& newCameras) { Entities = newCameras; };
 
+	// getters
 	Camera* getRenderCamera() { return RenderCamera; };
 	std::vector<std::shared_ptr<Light>>& getLights() { return Lights; };
+
+	// functions
+	ChromaEntity* addNewEntity(IChromaComponent* component);
 
 	ChromaSceneManager();
 	~ChromaSceneManager();

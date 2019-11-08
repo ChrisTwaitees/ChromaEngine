@@ -39,7 +39,7 @@ class ChromaGame
 	void Render();
 
 	// mouse picker callback
-	void bindMousePickerCallback();
+	void MousePickerCallback();
 
 public:
 	double getDeltaTime() { return mTime.getDeltaTime(); };

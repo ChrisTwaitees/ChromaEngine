@@ -17,7 +17,6 @@ void ChromaInput::initialize()
 
 void ChromaInput::bindMousePickerCallback(std::function<void()> callback)
 {
-	std::cout << "Mouse Picker Callback Bound" << std::endl;
 	mMousePickerCallback = callback;
 }
 
@@ -104,11 +103,9 @@ void ChromaInput::process()
 		glGetIntegerv(GL_POLYGON_MODE, &polyMode);
 
 		if (polyMode == GL_LINE){
-			std::cout << "setting to fill" << std::endl;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 		}
 		else {
-			std::cout << "setting to line" << std::endl;
 			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		}
 	}
@@ -128,8 +125,8 @@ void ChromaInput::process()
 	// update mouse coordinates;
 	if (cursorEnabled)
 	{
-		updateMouseCoordinates();
 	}
+	updateMouseCoordinates();
 	updateMousePicker();
 
 	// mouse picker

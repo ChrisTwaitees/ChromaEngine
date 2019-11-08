@@ -19,6 +19,16 @@ void ChromaSceneManager::setLights(std::vector<std::shared_ptr<Light>>& newLight
 	}
 }
 
+ChromaEntity* ChromaSceneManager::addNewEntity(IChromaComponent* component)
+{
+	// create new entity
+	ChromaEntity* newEntity = new ChromaEntity;
+	newEntity->addComponent(component);
+	addEntity(newEntity);
+	
+	return newEntity;
+}
+
 ChromaSceneManager::ChromaSceneManager()
 {
 }

@@ -25,6 +25,9 @@ glm::vec3 MousePicker::mouseToWorld(Camera* cam, float mouseX, float mouseY)
 	glm::vec3 ray_world = glm::vec3(glm::inverse(cam->viewMat) * ray_eye);
 	ray_world = glm::normalize(ray_world);
 
+	// debug
+	//std::cout << "world ray : " << ray_world.x << " : " << ray_world.y << " : " << ray_world.z << std::endl;
+
 	return ray_world;
 }
 

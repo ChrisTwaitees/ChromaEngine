@@ -17,11 +17,11 @@ uniform mat4 view;
 void main()
 {
 	TexCoords = aTexCoords;
-	mat4 viewMat = inverse(view);
+	mat4 viewMat = view;
 	vec3 cameraPos = vec3(viewMat[3][0], viewMat[3][1], viewMat[3][2]);
 	vec3 Pos;
 	                 // start      // end
-	(aPos.x < 0.0) ? Pos = start : Pos = end;
+	Pos = (aPos.x < 0.0) ?  start :  end;
 	// building new normal
 	vec3 tangent = normalize(start - end);
 	vec3 up = normalize(Pos - cameraPos);
@@ -34,7 +34,7 @@ void main()
 	if(aPos.y < 0.0)
 		newNormal = cross(up, tangent);
 
-	Pos += newNormal * width;
+	Pos += aNormal * width;
 
     gl_Position = projection * view * vec4(Pos, 1.0);
 }
