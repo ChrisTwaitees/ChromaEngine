@@ -51,10 +51,13 @@ class ChromaScreenManager
 	void processTime();
 	void drawGUI();
 
+	// dimensions
+	int width, height;
+
 public:
 	// getters and setters
-	unsigned int getScreenWidth() { return SCREEN_WIDTH; };
-	unsigned int getScreenHeight() { return SCREEN_HEIGHT; };
+	unsigned int getScreenWidth() ;
+	unsigned int getScreenHeight();
 	float getDeltaTime() { return delta; };
 	float getTime() { return glfwGetTime(); };
 

@@ -1,11 +1,11 @@
 #include "Physics.h"
-#include <entity/ChromaEntity.h>
+#include <entity/IChromaEntity.h>
 
 void ChromaPhysics::init()
 {
 	// create world
 	initPhysics();
-
+	// ground 
 	createGround();
 }
 
@@ -93,6 +93,35 @@ void ChromaPhysics::update(ChromaTime& time)
 void ChromaPhysics::setGravity(glm::vec3 newGravity)
 {
 	m_world->setGravity(btVector3(newGravity.x, newGravity.y, newGravity.z));
+}
+
+IChromaEntity* ChromaPhysics::rayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end)
+{
+	btVector3 start(worldRay_origin.x, worldRay_origin.y, worldRay_origin.z);
+	btVector3 end(worldRay_end.x, worldRay_end.y, worldRay_end.z);
+
+	btCollisionWorld::ClosestRayResultCallback RayCallback(start, end);
+	
+	m_world->rayTest(start, end, RayCallback);
+
+	if (RayCallback.hasHit())
+	{
+		void* rayObjectPointer = RayCallback.m_collisionObject->getUserPointer();
+		if (rayObjectPointer != NULL)
+		{
+			std::cout << "Entity Hit : " << std::endl;
+			std::cout << static_cast<IChromaComponent*>(rayObjectPointer)->getParentEntity()->getName() << std::endl;
+			return static_cast<IChromaComponent*>(rayObjectPointer)->getParentEntity();
+		}
+		else
+		{
+			std::cout << "Hit RigidBody, no Entity Associated" << std::endl;
+			return NULL;
+		}
+	}
+	else
+		return NULL;
+	
 }
 
 

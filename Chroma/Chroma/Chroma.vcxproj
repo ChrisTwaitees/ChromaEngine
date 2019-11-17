@@ -183,7 +183,6 @@
     <ClCompile Include="source\Engine\entity\ChromaEntity.cpp" />
     <ClCompile Include="source\Engine\game\ChromaGame.cpp" />
     <ClCompile Include="source\Engine\input\ChromaInput.cpp" />
-    <ClCompile Include="source\Engine\input\MousePicker.cpp" />
     <ClCompile Include="source\Engine\memory\ChromaUID.cpp" />
     <ClCompile Include="source\Engine\physics\Physics.cpp" />
     <ClCompile Include="source\Engine\scene\ChromaScene.cpp" />
@@ -233,7 +232,6 @@
     <ClInclude Include="source\Engine\entity\IChromaEntity.h" />
     <ClInclude Include="source\Engine\game\ChromaGame.h" />
     <ClInclude Include="source\Engine\input\ChromaInput.h" />
-    <ClInclude Include="source\Engine\input\MousePicker.h" />
     <ClInclude Include="source\Engine\math\ChromaMath.h" />
     <ClInclude Include="source\Engine\memory\ChromaUID.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />

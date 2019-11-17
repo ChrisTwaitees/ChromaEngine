@@ -11,13 +11,9 @@
 #include <glm/glm.hpp>
 // glad
 #include <glad/glad.h>
-
-#include "screenmanager/ChromaScreenManagerConfig.h"
-#include "camera/Camera.h"
-#include "input/MousePicker.h"
+#include <camera/Camera.h>
 
 class Camera;
-
 
 class ChromaInput
 {
@@ -37,13 +33,16 @@ class ChromaInput
 	// functions 
 	void initialize();
 
-
 	// callbacks
 	static void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos);
 	static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 	static void mouse_click_callback(GLFWwindow* window, int button, int action, int mods);
 	void updateMouseCoordinates();
 	void updateMousePicker();
+	glm::vec3 screenToWorldRay(float const& mouseX, float const& mouseY);
+
+	// attrs
+	int screenWidth, screenHeight;
 
 public:
 	enum Key {LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, RIGHT_ALT, SPACEBAR, ESCAPE, A, C, D, E, Q, S, W, P,
@@ -60,7 +59,7 @@ public:
 	double getMouseY() { return MouseY; };
 	glm::vec2 getMouseXY() { return glm::vec2(MouseX, MouseY); };
 	bool getCursorEnabled() { return cursorEnabled; };
-	glm::vec3 getLastRayPos() { return lastMouseRay; };
+	glm::vec3 getLastRay() { return lastMouseRay; };
 
 	// bind
 	void bindWindow(GLFWwindow* windowVal);

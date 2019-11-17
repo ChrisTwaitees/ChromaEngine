@@ -184,6 +184,18 @@ void ChromaScreenManager::drawGUI()
 	gui.End();
 }
 
+unsigned int ChromaScreenManager::getScreenWidth()
+{
+	glfwGetWindowSize(window, &width, &height);
+	return width;
+}
+
+unsigned int ChromaScreenManager::getScreenHeight()
+{
+	glfwGetWindowSize(window, &width, &height);
+	return height;
+}
+
 
 
 // glfw callbacks

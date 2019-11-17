@@ -13,6 +13,8 @@
 #include <component/ChromaPhysicsComponent.h>
 #include "time/ChromaTime.h"
 
+class IChromaEntity;
+
 class ChromaPhysics
 {
 private:
@@ -34,8 +36,10 @@ public:
 	void addBodyToWorld(ChromaPhysicsComponent*& physicsComponent);
 	
 	void update(ChromaTime& time);
-	
+
 	void setGravity(glm::vec3 newGravity);
+
+	IChromaEntity* rayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 
 	ChromaPhysics();
 	~ChromaPhysics();
