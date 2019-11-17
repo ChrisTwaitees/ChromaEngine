@@ -19,9 +19,6 @@ int findIndexInVector(const std::vector<IChromaComponent*>& vector, IChromaCompo
 
 class ChromaEntity : public IChromaEntity
 {
-	// Parent Scene
-	ChromaScene* m_parentScene;
-
 
 	// Components
 	std::vector<IChromaComponent*> m_components;
@@ -30,7 +27,6 @@ class ChromaEntity : public IChromaEntity
 	std::vector<IChromaComponent*> m_shadowCastingComponents;
 	std::vector<IChromaComponent*> m_transparentComponents;
 	std::vector<IChromaComponent*> m_unLitComponents;
-
 
 	std::vector<IChromaComponent*> m_meshComponents;
 	std::vector<IChromaComponent*> m_physicsComponents;
@@ -74,12 +70,14 @@ public:
 
 	// Transformations
 	// additive
-	virtual void scale(glm::vec3 scalefactor) override;
-	virtual void translate(glm::vec3 translatefactor) override;
-	virtual void rotate(float degrees, glm::vec3 rotationaxis) override;
+	void scale(glm::vec3 scalefactor) override;
+	void translate(glm::vec3 translatefactor) override;
+	void rotate(float degrees, glm::vec3 rotationaxis) override;
 	// set
-	virtual void setScale(glm::vec3 newscale) override;
-	virtual void setPosition(glm::vec3 newposition) override;
+	void setTransformMatrix(glm::mat4 newTransformMat) override { m_transformMatrix = newTransformMat; };
+	void setScale(glm::vec3 newscale) override;
+	void setPosition(glm::vec3 newposition) override;
+	void setRotation(float degrees, glm::vec3 rotationaxis) override;
 
 	// get
 	glm::mat4 getTransformationMatrix() override { return m_transformMatrix; };

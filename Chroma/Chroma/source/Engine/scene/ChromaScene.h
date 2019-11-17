@@ -6,9 +6,10 @@
 //chroma
 #include <camera/Camera.h>
 #include <light/Light.h>
+#include <physics/Physics.h>
 // entity component
 #include <entity/IChromaEntity.h>
-class ChromaMeshComponent;
+
 
 class ChromaScene
 {
@@ -17,6 +18,7 @@ private:
 	std::vector < std::shared_ptr<Light>> m_lights;
 	std::vector<IChromaEntity*> m_entities;
 	std::vector<IChromaEntity*> m_transparentEntities;
+	ChromaPhysics* m_physics;
 
 	Camera* m_renderCamera{ new Camera };
 	Light* m_sunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
@@ -31,7 +33,8 @@ public:
 	// setters
 	void setRenderCamera(Camera*& newRenderCamera) { m_renderCamera = newRenderCamera; };
 	void setLights(std::vector<std::shared_ptr<Light>>& newLights);
-	void setEntities(std::vector<IChromaEntity*>& newCameras) { m_entities = newCameras; };
+	void setEntities(std::vector<IChromaEntity*>& newEntities);
+	void setPhysics(ChromaPhysics*& newPhysics) { m_physics = newPhysics; };
 
 	// getters
 	std::vector<IChromaEntity*> getEntities() { return m_entities; };
@@ -39,6 +42,7 @@ public:
 	Camera* getRenderCamera() { return m_renderCamera; };
 	std::vector<std::shared_ptr<Light>>& getLights() { return m_lights; };
 	Light* getSunLight() { return m_sunLight; };
+	ChromaPhysics* getPhysics() { return  m_physics; };
 
 
 	ChromaScene();

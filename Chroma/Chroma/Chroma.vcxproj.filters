@@ -91,6 +91,9 @@
     <Filter Include="Engine\physics">
       <UniqueIdentifier>{03cef783-7818-452b-9f2e-8ff25c159321}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\math">
+      <UniqueIdentifier>{82234c11-f705-4386-a911-2342a3036d92}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -376,6 +379,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\scene\ChromaScene.h">
       <Filter>Engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\math\ChromaMath.h">
+      <Filter>Engine\math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

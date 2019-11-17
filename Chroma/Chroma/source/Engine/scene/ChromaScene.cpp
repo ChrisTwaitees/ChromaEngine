@@ -22,6 +22,12 @@ void ChromaScene::setLights(std::vector<std::shared_ptr<Light>>& newLights)
 			m_sunLight = light.get();
 }
 
+void ChromaScene::setEntities(std::vector<IChromaEntity*>& newEntities)
+{
+	for (IChromaEntity* entity : newEntities)
+		addEntity(entity);
+}
+
 
 ChromaScene::ChromaScene()
 {

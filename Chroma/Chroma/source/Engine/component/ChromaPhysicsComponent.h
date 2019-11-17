@@ -12,9 +12,8 @@
 class ChromaPhysicsComponent :	public IChromaComponent
 {
 	// attrs
-	float m_mass;
-	bool m_convex;
-	int m_tag;
+	float m_mass{ 1.0f };
+	bool m_convex{ true };
 
 	// transforms
 	btQuaternion m_rotationQuat;
@@ -44,11 +43,12 @@ public:
 	float getFriction() { return m_friction; };
 	void setFriction(float newFriction) { m_friction = newFriction; }
 
-	int getTag() { return m_tag; };
 	btRigidBody* getRigidBody() { return m_body; };
 
 	// functions
 	void buildRigidBody();
+	void setLinearVelocity(glm::vec3 velocity);
+	void transformEntity(btTransform& transform);
 
 	ChromaPhysicsComponent();
 	~ChromaPhysicsComponent();

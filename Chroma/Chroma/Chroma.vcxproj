@@ -234,6 +234,7 @@
     <ClInclude Include="source\Engine\game\ChromaGame.h" />
     <ClInclude Include="source\Engine\input\ChromaInput.h" />
     <ClInclude Include="source\Engine\input\MousePicker.h" />
+    <ClInclude Include="source\Engine\math\ChromaMath.h" />
     <ClInclude Include="source\Engine\memory\ChromaUID.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
     <ClInclude Include="source\Engine\physics\Physics.h" />

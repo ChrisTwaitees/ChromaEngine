@@ -117,18 +117,21 @@ int main()
 	std::vector<IChromaEntity*> Entities;
 
 	IChromaEntity* NanosuitEntity = new ChromaEntity;
+	Scene->addEntity(NanosuitEntity);
+	NanosuitEntity->setName("ChromaSuit");
+	
 	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	NanosuitEntity->addComponent(NanoSuitRigidComponent);
-	Entities.push_back(NanosuitEntity);
 
 
 	std::vector<IChromaEntity*> boxes;
 	for (glm::vec3 position : cubePositions)
 	{
 		IChromaEntity* BoxEntity = new ChromaEntity;
+		Scene->addEntity(BoxEntity);
 		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive;
 		BoxMeshComponent->bindShader(&litShader);
 		BoxMeshComponent->bindTexture(diffuseMap);
@@ -136,13 +139,13 @@ int main()
 		BoxEntity->addComponent(BoxMeshComponent);
 		BoxEntity->setPosition(position);
 		boxes.push_back(BoxEntity);
-		Entities.push_back(BoxEntity);
 	}
 
 	std::vector<IChromaEntity*> lamps;
 	for (glm::vec3 position : pointLightPositions)
 	{
 		IChromaEntity* LampEntity = new ChromaEntity;
+		Scene->addEntity(LampEntity);
 		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive;
 		LampMeshComponent->bindShader(&constantShader);
 		LampMeshComponent->castShadows = false;
@@ -150,7 +153,6 @@ int main()
 		LampEntity->addComponent(LampMeshComponent);
 		LampEntity->setPosition(position);
 		lamps.push_back(LampEntity);
-		Entities.push_back(LampEntity);
 	}
 
 	//for (glm::vec3 position : grassPositions)
@@ -165,29 +167,30 @@ int main()
 
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
+	Scene->addEntity(TerrainEntity);
 	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->bindShader(&litNormalsShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
-	Entities.push_back(TerrainEntity);
 
 	// SPHERE
 	IChromaEntity* SphereEntity = new ChromaEntity;
+	Scene->addEntity(SphereEntity);
 	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
 	SphereMeshComponent->bindTexture(normalMap);
 	SphereMeshComponent->bindTexture(concreteMap);
 	SphereMeshComponent->bindShader(&litNormalsShader);
 	SphereEntity->addComponent(SphereMeshComponent);
-	Entities.push_back(SphereEntity);
 
 	// LINE
 	IChromaEntity* LineEntity = new ChromaEntity;
+	Scene->addEntity(LineEntity);
 	ChromaMeshComponent* LineMeshComponent = new LinePrimitive{glm::vec3(0), glm::vec3(1)};
 	LineMeshComponent->isLit = false;
 	LineEntity->addComponent(LineMeshComponent);
-	Entities.push_back(LineEntity);
+
 
 	// POPULATING SCENE
-	Scene->setEntities(Entities);
+	//Scene->setEntities(Entities);
 	Scene->setLights(Lights);
 
 
@@ -243,8 +246,8 @@ int main()
 		}
 
 		// NANO SUIT
-		NanosuitEntity->setScale(glm::vec3(0.5f));
-		NanosuitEntity->rotate(glm::mod(GameTime, 360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));		
+
+		//NanosuitEntity->rotate(glm::mod(GameTime, 360.0f) * 10.f, glm::vec3(0.0f, 1.0f, 0.0f));		
 
 		// SPINNING BOXES
 		for (unsigned int i = 0; i < boxes.size(); i++)

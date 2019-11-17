@@ -79,9 +79,7 @@ void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsCompon
 	newPhysicsComponent->buildRigidBody();
 
 	// add rigid body to physics world
-
-
-	std::cout << "added new physics component" << std::endl;
+	m_parentScene->getPhysics()->addBodyToWorld(newPhysicsComponent);
 }
 
 void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)
@@ -131,6 +129,13 @@ void ChromaEntity::setScale(glm::vec3 newscale)
 void ChromaEntity::setPosition(glm::vec3 newposition)
 {
 	m_transformMatrix = glm::translate(m_identityMatrix, newposition);
+}
+
+void ChromaEntity::setRotation(float degrees, glm::vec3 rotationaxis)
+{
+	glm::vec3 existingTranslation = getPosition();
+	m_transformMatrix = glm::translate(m_identityMatrix, existingTranslation);
+	rotate(degrees, rotationaxis);
 }
 
 

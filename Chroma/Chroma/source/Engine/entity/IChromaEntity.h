@@ -53,8 +53,11 @@ public:
 	virtual void rotate(float degrees, glm::vec3 rotationaxis) = 0;
 
 	// set
+	virtual void setTransformMatrix(glm::mat4 newTransformMat) = 0;
 	virtual void setScale(glm::vec3 newscale) = 0;
 	virtual void setPosition(glm::vec3 newposition) = 0;
+	virtual void setRotation(float degrees, glm::vec3 rotationaxis) = 0;
+	
 	// get
 	virtual glm::mat4 getTransformationMatrix() = 0;
 	virtual glm::vec3 getPosition() = 0 ;

@@ -1,11 +1,23 @@
 #include "ChromaPhysicsComponent.h"
 #include <entity/IChromaEntity.h>
+#include <math/ChromaMath.h>
 
 
 void ChromaPhysicsComponent::buildRigidBody()
 {
 	createBody();
 	createBodyWithMass();
+}
+
+void ChromaPhysicsComponent::setLinearVelocity(glm::vec3 velocity)
+{
+	m_body->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
+}
+
+void ChromaPhysicsComponent::transformEntity(btTransform& transform)
+{
+	glm::mat4 transformMat = convertBulletToGLM(transform);
+	getParentEntity()->setTransformMatrix(transformMat);
 }
 
 

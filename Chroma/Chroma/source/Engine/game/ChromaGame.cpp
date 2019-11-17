@@ -12,6 +12,7 @@ void ChromaGame::Render()
 	m_renderer->RenderScene();
 }
 
+
 void ChromaGame::MousePickerCallback()
 {
 	glm::vec3 start = m_scene->getRenderCamera()->getPosition();
@@ -69,7 +70,10 @@ void ChromaGame::initialize()
 	m_renderer = new Renderer(m_scene, m_screen);
 
 	// physics
-	m_physics = new ChromaPhysics(m_scene);
+	m_physics = new ChromaPhysics();
+
+	// addPhysics to scene
+	m_scene->setPhysics(m_physics);
 }
 
 void ChromaGame::ProcessInput()
