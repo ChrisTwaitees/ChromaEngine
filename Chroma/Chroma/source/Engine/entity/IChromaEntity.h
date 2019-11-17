@@ -12,7 +12,7 @@
 #include <component/IChromaComponent.h>
 
 // forward declarations
-class ChromaSceneManager;
+class ChromaScene;
 class ChromaMeshComponent;
 class ChromaPhysicsComponent;
 
@@ -28,7 +28,7 @@ protected:
 	// name
 	std::string m_name;
 	// parent scene
-	ChromaSceneManager* m_parentScene;
+	ChromaScene* m_parentScene;
 	// Components
 	virtual void addEmptyComponent(IChromaComponent*& newComponent) = 0;
 	virtual void addMeshComponent(ChromaMeshComponent*& newMeshComponent) = 0;
@@ -44,8 +44,8 @@ public:
 	virtual void setName(std::string newName) = 0;
 
 	// scene
-	virtual ChromaSceneManager* getParentScene() = 0;
-	virtual void bindParentScene(ChromaSceneManager* const& scene) = 0;
+	virtual ChromaScene* getParentScene() = 0;
+	virtual void bindParentScene(ChromaScene* const& scene) = 0;
 
 	// Transformations
 	virtual void scale(glm::vec3 scalefactor) = 0;

@@ -111,7 +111,7 @@ void SSAOBuffer::configureShaders()
 	SSAOBlurShader.setVec2("offset", offset);
 }
 
-void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal, ChromaSceneManager*& scene)
+void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal, ChromaScene*& scene)
 {
 	// binding frame buffer and clearing color buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);

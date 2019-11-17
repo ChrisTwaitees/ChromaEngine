@@ -186,7 +186,7 @@
     <ClCompile Include="source\Engine\input\MousePicker.cpp" />
     <ClCompile Include="source\Engine\memory\ChromaUID.cpp" />
     <ClCompile Include="source\Engine\physics\Physics.cpp" />
-    <ClCompile Include="source\Engine\scene\ChromaSceneManager.cpp" />
+    <ClCompile Include="source\Engine\scene\ChromaScene.cpp" />
     <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\Engine\time\ChromaTime.cpp" />
     <ClCompile Include="source\glad.c" />
@@ -237,7 +237,7 @@
     <ClInclude Include="source\Engine\memory\ChromaUID.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
     <ClInclude Include="source\Engine\physics\Physics.h" />
-    <ClInclude Include="source\Engine\scene\ChromaSceneManager.h" />
+    <ClInclude Include="source\Engine\scene\ChromaScene.h" />
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h" />
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\Engine\time\ChromaTime.h" />

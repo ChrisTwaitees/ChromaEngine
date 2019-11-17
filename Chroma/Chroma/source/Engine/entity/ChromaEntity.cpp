@@ -46,7 +46,6 @@ ChromaEntity::~ChromaEntity()
 // ADDING/REMOVING COMPONENTS
 void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 {
-	std::cout << "adding mesh component" << std::endl;
 	// bind parent entity
 	bindParentEntity(newMeshComponent);
 

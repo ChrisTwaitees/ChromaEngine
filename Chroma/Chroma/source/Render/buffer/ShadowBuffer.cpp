@@ -92,7 +92,7 @@ void ShadowBuffer::calculateShadows()
 }
 
 
-ShadowBuffer::ShadowBuffer(ChromaSceneManager*& Scene)
+ShadowBuffer::ShadowBuffer(ChromaScene*& Scene)
 {
 	mScene = Scene;
 	initialize();

@@ -12,14 +12,14 @@
 #include "screenmanager/ChromaScreenManagerConfig.h" 
 #include <component/ChromaPhysicsComponent.h>
 #include <entity/ChromaEntity.h>
-#include "scene/ChromaSceneManager.h"
+#include <scene/ChromaScene.h>
 #include "time/ChromaTime.h"
 
 class ChromaPhysics
 {
 private:
 
-	ChromaSceneManager* m_scene;
+	ChromaScene* m_scene;
 	glm::vec3 m_gravity{ 0.0, -9.8, 0.9 };
 
 	// new variables
@@ -41,7 +41,7 @@ public:
 	
 	void setGravity(glm::vec3 newGravity);
 
-	ChromaPhysics(ChromaSceneManager* Scene);
+	ChromaPhysics(ChromaScene* Scene);
 	~ChromaPhysics();
 };
 

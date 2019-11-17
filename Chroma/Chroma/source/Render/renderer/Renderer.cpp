@@ -74,7 +74,7 @@ void Renderer::RenderScene()
 }
 
 
-Renderer::Renderer(ChromaSceneManager*& Scene, const ChromaScreenManager* ScreenManager)
+Renderer::Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager)
 {
 	mScene = Scene;
 	mScreenManager = ScreenManager;

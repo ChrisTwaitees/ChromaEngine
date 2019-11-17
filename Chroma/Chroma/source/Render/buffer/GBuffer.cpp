@@ -202,7 +202,7 @@ void GBuffer::Draw()
 	blitDepthBuffer();
 }
 
-GBuffer::GBuffer(ChromaSceneManager*& Scene, Framebuffer*& PostFXBuffer)
+GBuffer::GBuffer(ChromaScene*& Scene, Framebuffer*& PostFXBuffer)
 {
 	setupQuad();
 	initialize();

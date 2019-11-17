@@ -198,9 +198,6 @@
     <ClCompile Include="source\Render\light\Light.cpp">
       <Filter>Render\light</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\scene\ChromaSceneManager.cpp">
-      <Filter>Engine\scene</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\time\ChromaTime.cpp">
       <Filter>Engine\time</Filter>
     </ClCompile>
@@ -221,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp">
       <Filter>Engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\scene\ChromaScene.cpp">
+      <Filter>Engine\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -344,9 +344,6 @@
     <ClInclude Include="source\Render\light\Light.h">
       <Filter>Render\light</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\scene\ChromaSceneManager.h">
-      <Filter>Engine\scene</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\time\ChromaTime.h">
       <Filter>Engine\time</Filter>
     </ClInclude>
@@ -376,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\entity\IChromaEntity.h">
       <Filter>Engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\scene\ChromaScene.h">
+      <Filter>Engine\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

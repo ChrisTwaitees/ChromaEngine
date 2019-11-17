@@ -12,7 +12,7 @@
 #include <shader/Shader.h>
 #include <light/Light.h>
 #include <camera/Camera.h>
-#include <scene/ChromaSceneManager.h>
+#include <scene/ChromaScene.h>
 
 
 int findIndexInVector(const std::vector<IChromaComponent*>& vector, IChromaComponent*& element);
@@ -20,7 +20,7 @@ int findIndexInVector(const std::vector<IChromaComponent*>& vector, IChromaCompo
 class ChromaEntity : public IChromaEntity
 {
 	// Parent Scene
-	ChromaSceneManager* m_parentScene;
+	ChromaScene* m_parentScene;
 
 
 	// Components
@@ -51,8 +51,8 @@ class ChromaEntity : public IChromaEntity
 
 public:
 	// Scene 
-	ChromaSceneManager* getParentScene() override { return m_parentScene; };
-	void bindParentScene(ChromaSceneManager* const& scene) override { m_parentScene = scene; };
+	ChromaScene* getParentScene() override { return m_parentScene; };
+	void bindParentScene(ChromaScene* const& scene) override { m_parentScene = scene; };
 
 	// components
 	std::vector<IChromaComponent*> getComponents() { return m_components; };

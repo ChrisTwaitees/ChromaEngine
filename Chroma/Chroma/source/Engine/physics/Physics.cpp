@@ -53,7 +53,7 @@ void ChromaPhysics::update(ChromaTime& time)
 }
 
 
-ChromaPhysics::ChromaPhysics(ChromaSceneManager* Scene)
+ChromaPhysics::ChromaPhysics(ChromaScene* Scene)
 {
 	m_scene = Scene;
 	init();

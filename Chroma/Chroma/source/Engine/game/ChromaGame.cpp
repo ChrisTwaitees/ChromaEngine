@@ -18,9 +18,11 @@ void ChromaGame::MousePickerCallback()
 	glm::vec3 end = start + (  m_input->getLastRayPos() * glm::vec3(10.0));
 
 	// create new line object
+	IChromaEntity* newLineEntity = new ChromaEntity;
 	ChromaMeshComponent* newLineMeshComponent = new LinePrimitive(start, end);
 	newLineMeshComponent->isLit = false;
-	m_scene->addNewEntity(newLineMeshComponent);
+	newLineEntity->addComponent(newLineMeshComponent);
+	m_scene->addEntity(newLineEntity);
 }
 
 void ChromaGame::Tick()
@@ -47,7 +49,7 @@ ChromaGame::~ChromaGame()
 {
 }
 
-ChromaGame::ChromaGame(ChromaSceneManager*& Scene, ChromaScreenManager*& ScreenManager)
+ChromaGame::ChromaGame(ChromaScene*& Scene, ChromaScreenManager*& ScreenManager)
 {
 	m_scene = Scene;
 	m_screen = ScreenManager;

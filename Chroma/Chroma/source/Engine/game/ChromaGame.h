@@ -7,7 +7,7 @@
 #include <iostream>
 #include "input/ChromaInput.h"
 #include "renderer/Renderer.h"
-#include "scene/ChromaSceneManager.h"
+#include <scene/ChromaScene.h>
 #include "screenmanager/ChromaScreenManager.h"
 #include "time/ChromaTime.h"
 #include "physics/Physics.h"
@@ -27,7 +27,7 @@ class ChromaGame
 
 	// components
 	ChromaScreenManager* m_screen;
-	ChromaSceneManager* m_scene;
+	ChromaScene* m_scene;
 	ChromaPhysics* m_physics;
 	Renderer* m_renderer;
 
@@ -51,7 +51,7 @@ public:
 	// Game Loop
 	void Tick();
 
-	ChromaGame(ChromaSceneManager*& Scene, ChromaScreenManager*& ScreenManager);
+	ChromaGame(ChromaScene*& Scene, ChromaScreenManager*& ScreenManager);
 	~ChromaGame();
 
 };

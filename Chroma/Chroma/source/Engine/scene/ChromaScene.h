@@ -8,8 +8,9 @@
 #include <light/Light.h>
 // entity component
 #include <entity/IChromaEntity.h>
+class ChromaMeshComponent;
 
-class ChromaSceneManager
+class ChromaScene
 {
 private:
 	// scene components
@@ -39,11 +40,9 @@ public:
 	std::vector<std::shared_ptr<Light>>& getLights() { return m_lights; };
 	Light* getSunLight() { return m_sunLight; };
 
-	// functions
-	IChromaEntity* addNewEntity(IChromaComponent* component);
 
-	ChromaSceneManager();
-	~ChromaSceneManager();
+	ChromaScene();
+	~ChromaScene();
 };
 
 #endif

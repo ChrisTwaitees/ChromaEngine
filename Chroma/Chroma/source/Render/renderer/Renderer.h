@@ -4,7 +4,7 @@
 #include <memory>
 #include <vector>
 
-#include <scene/ChromaSceneManager.h>
+#include <scene/ChromaScene.h>
 #include <entity/ChromaEntity.h>
 #include <shader/Shader.h>
 #include <buffer/GBuffer.h>
@@ -29,7 +29,7 @@ private:
 
 protected:
 	// SCENE
-	ChromaSceneManager* mScene;
+	ChromaScene* mScene;
 
 	// SCREENMANAGER
 	const ChromaScreenManager* mScreenManager;
@@ -53,7 +53,7 @@ public:
 	void RenderScene();
 
 	Renderer() {};
-	Renderer(ChromaSceneManager*& Scene,const ChromaScreenManager* ScreenManager);
+	Renderer(ChromaScene*& Scene,const ChromaScreenManager* ScreenManager);
 	~Renderer();
 };
 

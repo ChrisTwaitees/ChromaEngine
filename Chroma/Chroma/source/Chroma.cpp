@@ -15,7 +15,7 @@
 #include <component/IChromaComponent.h>
 #include <component/ChromaMeshComponent.h>
 #include <entity/ChromaEntity.h>
-#include <scene/ChromaSceneManager.h>
+#include <scene/ChromaScene.h>
 #include <model/Model.h>
 #include <model/BoxPrimitive.h>
 #include <model/PlanePrimitive.h>
@@ -38,7 +38,7 @@ int main()
 	ChromaScreenManager* ScreenManager{ new ChromaScreenManager };
 
 	// SCENE 
-	ChromaSceneManager* Scene{ new ChromaSceneManager };
+	ChromaScene* Scene{ new ChromaScene };
 
 	// GAME
 	ChromaGame Game(Scene, ScreenManager);
