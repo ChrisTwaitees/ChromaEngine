@@ -1,6 +1,12 @@
 #include "ChromaSceneManager.h"
 #include <entity/ChromaEntity.h>
 
+void ChromaSceneManager::addEntity(IChromaEntity*& newEntity)
+{
+	newEntity->bindParentScene(this);
+	m_entities.push_back(newEntity);
+}
+
 void ChromaSceneManager::removeEntity(IChromaEntity& removeEntity)
 {
 }
@@ -11,10 +17,10 @@ void ChromaSceneManager::removeLight(Light& removeLight)
 
 void ChromaSceneManager::setLights(std::vector<std::shared_ptr<Light>>& newLights)
 {
-	Lights = newLights;
+	m_lights = newLights;
 	for (std::shared_ptr<Light> light : newLights)
 		if (light->type == Light::SUNLIGHT)
-			SunLight = light.get();
+			m_sunLight = light.get();
 }
 
 IChromaEntity* ChromaSceneManager::addNewEntity(IChromaComponent* component)

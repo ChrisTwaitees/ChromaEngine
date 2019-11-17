@@ -11,17 +11,17 @@ void Renderer::renderForwardComponents()
 {
 	// Render Forward Components
 	// Enitities
-	for (IChromaEntity* entity : mScene->Entities)
+	for (IChromaEntity* entity : mScene->getEntities())
 	{
 		// render unlit components
 		if (entity->getUnlitComponents().size() > 0)
 		{
 			glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
 			for (IChromaComponent* component : entity->getUnlitComponents())
-				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*mScene->RenderCamera, finalTransformMatrix);
+				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*mScene->getRenderCamera(), finalTransformMatrix);
 		}
 		// render transparent components
-		if (mScene->TransparentEntities.size() > 0)
+		if (mScene->getTransparentEntities().size() > 0)
 			renderTransparency();
 	}
 	// SkyBox
@@ -34,9 +34,9 @@ void Renderer::renderTransparency()
 	////glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
 	std::map<float, IChromaEntity*> alpha_sorted;
-	for (IChromaEntity* TransparentEntity : mScene->TransparentEntities)
+	for (IChromaEntity* TransparentEntity : mScene->getTransparentEntities())
 	{
-		float distance = glm::length(TransparentEntity->getPosition() - mScene->RenderCamera->getPosition());
+		float distance = glm::length(TransparentEntity->getPosition() - mScene->getRenderCamera()->getPosition());
 		alpha_sorted[distance] =  TransparentEntity;
 	}
 	// iterating from furthest to closest
@@ -44,7 +44,7 @@ void Renderer::renderTransparency()
 	{
 		glm::mat4 finalTransformMatrix = it->second->getTransformationMatrix();
 		for (IChromaComponent* component : it->second->getTransparentComponents())
-			((ChromaMeshComponent*)component)->Draw(*mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
+			((ChromaMeshComponent*)component)->Draw(*mScene->getRenderCamera(), mScene->getLights(), finalTransformMatrix);
 	}
 }
 
@@ -58,7 +58,7 @@ void Renderer::renderPostFX()
 void Renderer::Init()
 {
 	mGBuffer = new GBuffer(mScene, mPostFXBuffer);
-	mSkybox = new SkyBox(*mScene->RenderCamera);
+	mSkybox = new SkyBox(*mScene->getRenderCamera());
 }
 
 void Renderer::RenderScene()
@@ -74,7 +74,7 @@ void Renderer::RenderScene()
 }
 
 
-Renderer::Renderer(const ChromaSceneManager* Scene, const ChromaScreenManager* ScreenManager)
+Renderer::Renderer(ChromaSceneManager*& Scene, const ChromaScreenManager* ScreenManager)
 {
 	mScene = Scene;
 	mScreenManager = ScreenManager;

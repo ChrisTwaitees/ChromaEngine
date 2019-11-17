@@ -74,5 +74,5 @@ void ChromaGame::ProcessInput()
 {
 	m_input->setDeltaTime(getDeltaTime());
 	m_input->process();
-	m_scene->RenderCamera->processInput(m_input);
+	m_scene->getRenderCamera()->processInput(m_input);
 }

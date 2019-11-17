@@ -25,7 +25,7 @@ protected:
 	Framebuffer* mSSAOBuffer{ new SSAOBuffer };
 
 	// scene
-	const ChromaSceneManager* mScene;
+	ChromaSceneManager* mScene;
 	ShadowBuffer* mShadowbuffer;
 	Framebuffer* mPostFXBuffer;
 
@@ -52,7 +52,7 @@ public:
 	void Bind() override;
 	void Draw() override;
 
-	GBuffer(const ChromaSceneManager* mScene, Framebuffer*& mPostFXBuffer);
+	GBuffer(ChromaSceneManager*& mScene, Framebuffer*& mPostFXBuffer);
 	~GBuffer();
 };
 

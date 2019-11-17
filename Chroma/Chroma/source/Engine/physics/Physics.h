@@ -19,7 +19,7 @@ class ChromaPhysics
 {
 private:
 
-	const ChromaSceneManager* m_scene;
+	ChromaSceneManager* m_scene;
 	glm::vec3 m_gravity{ 0.0, -9.8, 0.9 };
 
 	// new variables
@@ -41,7 +41,7 @@ public:
 	
 	void setGravity(glm::vec3 newGravity);
 
-	ChromaPhysics(const ChromaSceneManager* Scene);
+	ChromaPhysics(ChromaSceneManager* Scene);
 	~ChromaPhysics();
 };
 

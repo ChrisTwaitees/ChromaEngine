@@ -78,7 +78,7 @@ public:
 	virtual void unBind();
 	virtual void Draw();
 	virtual void Draw(const bool& useBloom);
-	virtual void Draw(unsigned int& gViewPosition, unsigned int& gNormal, const ChromaSceneManager*& scene) {};
+	virtual void Draw(unsigned int& gViewPosition, unsigned int& gNormal, ChromaSceneManager*& scene) {};
 
 	Framebuffer();
 	~Framebuffer();

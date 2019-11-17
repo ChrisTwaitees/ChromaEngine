@@ -118,7 +118,7 @@ void GBuffer::bindAllGBufferTextures()
 
 void GBuffer::setLightingUniforms()
 {
-	lightingPassShader.setLightingUniforms(mScene->Lights, *mScene->RenderCamera);
+	lightingPassShader.setLightingUniforms(mScene->getLights(), *mScene->getRenderCamera());
 	lightingPassShader.setFloat("ambient", 0.2f);
 }
 
@@ -139,11 +139,11 @@ void GBuffer::drawGeometryPass()
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
 	geometryPassShader.use();
-	geometryPassShader.setMat4("view", mScene->RenderCamera->viewMat);
-	geometryPassShader.setMat4("projection", mScene->RenderCamera->projectionMat);
+	geometryPassShader.setMat4("view", mScene->getRenderCamera()->viewMat);
+	geometryPassShader.setMat4("projection", mScene->getRenderCamera()->projectionMat);
 	geometryPassShader.setMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 	// Render Scene
-	for (IChromaEntity* entity : mScene->Entities)
+	for (IChromaEntity* entity : mScene->getEntities())
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
 		for (IChromaComponent* component : entity->getLitComponents())
@@ -202,7 +202,7 @@ void GBuffer::Draw()
 	blitDepthBuffer();
 }
 
-GBuffer::GBuffer(const ChromaSceneManager* Scene, Framebuffer*& PostFXBuffer)
+GBuffer::GBuffer(ChromaSceneManager*& Scene, Framebuffer*& PostFXBuffer)
 {
 	setupQuad();
 	initialize();

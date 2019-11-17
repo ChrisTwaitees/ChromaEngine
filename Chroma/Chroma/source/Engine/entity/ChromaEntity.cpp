@@ -18,19 +18,19 @@ std::vector<ChromaVertex> ChromaEntity::getVertices()
 
 void ChromaEntity::Draw(Shader& shader)
 {
-	for (IChromaComponent* component : RenderableComponents)
+	for (IChromaComponent* component : m_renderableComponents)
 		((ChromaMeshComponent*)component)->Draw(shader);
 }
 
 void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
-	for (IChromaComponent* component : RenderableComponents)
+	for (IChromaComponent* component : m_renderableComponents)
 		((ChromaMeshComponent*)component)->Draw(shader, RenderCamera, Lights, m_transformMatrix);
 }
 
 void ChromaEntity::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
-	for (IChromaComponent* component : RenderableComponents)
+	for (IChromaComponent* component : m_renderableComponents)
 		((ChromaMeshComponent*)component)->Draw(RenderCamera, Lights, m_transformMatrix);
 }
 
@@ -46,6 +46,7 @@ ChromaEntity::~ChromaEntity()
 // ADDING/REMOVING COMPONENTS
 void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 {
+	std::cout << "adding mesh component" << std::endl;
 	// bind parent entity
 	bindParentEntity(newMeshComponent);
 
@@ -54,17 +55,17 @@ void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 
 	// TODO: Consider shared_ptr to prevent memory duplication
 	if (newMeshComponent->isRenderable)
-		RenderableComponents.push_back(newMeshComponent);
+		m_renderableComponents.push_back(newMeshComponent);
 	if (newMeshComponent->isLit)
-		LitComponents.push_back(newMeshComponent);
+		m_litComponents.push_back(newMeshComponent);
 	if (newMeshComponent->castShadows)
-		ShadowCastingComponents.push_back(newMeshComponent);
+		m_shadowCastingComponents.push_back(newMeshComponent);
 	if (newMeshComponent->isTransparent)
-		TransparentComponents.push_back(newMeshComponent);
+		m_transparentComponents.push_back(newMeshComponent);
 	if (newMeshComponent->isLit == false)
-		UnLitComponents.push_back(newMeshComponent);
+		m_unLitComponents.push_back(newMeshComponent);
 	if (newMeshComponent->isTransparent || newMeshComponent->isLit == false)
-		TransparentComponents.push_back(newMeshComponent);
+		m_transparentComponents.push_back(newMeshComponent);
 }
 
 void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent)
@@ -90,20 +91,20 @@ void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)
 	bindParentEntity(newComponent);
 
 	// TODO: Consider shared_ptr to prevent memory duplication
-	Components.push_back(newComponent);
+	m_components.push_back(newComponent);
 }
 
-void ChromaEntity::removeComponent(IChromaComponent*& removeMe)
+void ChromaEntity::removeEmptyComponent(IChromaComponent*& removeMe)
 {
 	// all components 
-	int componentIndex = findIndexInVector(Components, removeMe);
+	int componentIndex = findIndexInVector(m_components, removeMe);
 	if (componentIndex > 0)
-		Components.erase(Components.begin() + componentIndex);	
+		m_components.erase(m_components.begin() + componentIndex);	
 	// renderable components
 	// TODO: Consider using shared_ptr to better manage memory
-	componentIndex = findIndexInVector(RenderableComponents, removeMe);
+	componentIndex = findIndexInVector(m_renderableComponents, removeMe);
 	if (componentIndex)
-		RenderableComponents.erase(RenderableComponents.begin() + componentIndex);
+		m_renderableComponents.erase(m_renderableComponents.begin() + componentIndex);
 }
 
 

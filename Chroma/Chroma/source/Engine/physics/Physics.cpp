@@ -30,7 +30,7 @@ void ChromaPhysics::initPhysics()
 
 void ChromaPhysics::addRigidComponentsToWorld()
 {
-	for (IChromaEntity* entity : m_scene->Entities)
+	for (IChromaEntity* entity : m_scene->getEntities())
 		for (IChromaComponent* physicsComponent : ((ChromaEntity*)entity)->getPhysicsComponents())
 			addBodyToWorld(((ChromaPhysicsComponent*)physicsComponent));
 }
@@ -53,7 +53,7 @@ void ChromaPhysics::update(ChromaTime& time)
 }
 
 
-ChromaPhysics::ChromaPhysics(const ChromaSceneManager* Scene)
+ChromaPhysics::ChromaPhysics(ChromaSceneManager* Scene)
 {
 	m_scene = Scene;
 	init();

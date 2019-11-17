@@ -29,10 +29,17 @@ protected:
 	std::string m_name;
 	// parent scene
 	ChromaSceneManager* m_parentScene;
+	// Components
+	virtual void addEmptyComponent(IChromaComponent*& newComponent) = 0;
+	virtual void addMeshComponent(ChromaMeshComponent*& newMeshComponent) = 0;
+	virtual void addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) = 0;
+	virtual void removeEmptyComponent(IChromaComponent*& newComponent) = 0;
+	virtual void removeMeshComponent(ChromaMeshComponent*& newMeshComponent) = 0;
+	virtual void removePhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) = 0;
 
 public:
 	// Name
-	virtual std::string getUID() = 0;
+	virtual ChromaUID getUID() = 0;
 	virtual std::string getName() = 0;
 	virtual void setName(std::string newName) = 0;
 
@@ -51,11 +58,11 @@ public:
 	// get
 	virtual glm::mat4 getTransformationMatrix() = 0;
 	virtual glm::vec3 getPosition() = 0 ;
-
-	// Component
 	virtual std::vector<ChromaVertex> getVertices() = 0;
 
-	virtual void addComponent(IChromaComponent* newComponent) = 0;
+
+	// Components
+
 	virtual std::vector<IChromaComponent*> getComponents() = 0;
 	virtual std::vector<IChromaComponent*> getRenderableComponents() = 0;
 	virtual std::vector<IChromaComponent*> getLitComponents() = 0;
@@ -65,6 +72,50 @@ public:
 
 	virtual std::vector<IChromaComponent*> getMeshComponents() = 0;
 	virtual std::vector<IChromaComponent*> getPhysicsComponents() = 0;
+
+
+	// add
+	template<typename component>
+	void addComponent(component newComponent) {
+		std::cout << "ComponentType not supported" << std::endl;
+	};
+
+	template<>
+	void addComponent<IChromaComponent*>(IChromaComponent* newComponent) {
+		addEmptyComponent(newComponent);
+	};
+
+	template<>
+	void addComponent<ChromaMeshComponent*>(ChromaMeshComponent* newComponent) {
+		addMeshComponent(newComponent);
+	};
+
+	template<>
+	void addComponent<ChromaPhysicsComponent*>(ChromaPhysicsComponent* newComponent) {
+		addPhysicsComponent(newComponent);
+	};
+
+	// remove
+	template<typename component>
+	void removeComponent(component newComponent) {
+		std::cout << "ComponentType not supported" << std::endl;
+	};
+
+	template<>
+	void removeComponent<IChromaComponent*>(IChromaComponent* newComponent) {
+		removeEmptyComponent(newComponent);
+	};
+
+	template<>
+	void removeComponent<ChromaMeshComponent*>(ChromaMeshComponent* newComponent) {
+		removeMeshComponent(newComponent);
+	};
+
+	template<>
+	void removeComponent<ChromaPhysicsComponent*>(ChromaPhysicsComponent* newComponent) {
+		removePhysicsComponent(newComponent);
+	};
+
 
 	virtual ~IChromaEntity() {};
 };

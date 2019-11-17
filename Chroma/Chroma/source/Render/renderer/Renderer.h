@@ -29,7 +29,7 @@ private:
 
 protected:
 	// SCENE
-	const ChromaSceneManager* mScene;
+	ChromaSceneManager* mScene;
 
 	// SCREENMANAGER
 	const ChromaScreenManager* mScreenManager;
@@ -52,8 +52,8 @@ public:
 
 	void RenderScene();
 
-	Renderer();
-	Renderer(const ChromaSceneManager* Scene, const ChromaScreenManager* mScreenManager);
+	Renderer() {};
+	Renderer(ChromaSceneManager*& Scene,const ChromaScreenManager* ScreenManager);
 	~Renderer();
 };
 

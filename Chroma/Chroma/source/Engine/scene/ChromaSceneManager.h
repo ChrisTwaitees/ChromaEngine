@@ -11,29 +11,33 @@
 
 class ChromaSceneManager
 {
-public:
+private:
 	// scene components
-	std::vector < std::shared_ptr<Light>> Lights;
-	std::vector<IChromaEntity*> Entities;
-	std::vector<IChromaEntity*> TransparentEntities;
+	std::vector < std::shared_ptr<Light>> m_lights;
+	std::vector<IChromaEntity*> m_entities;
+	std::vector<IChromaEntity*> m_transparentEntities;
 
-	Camera* RenderCamera{ new Camera };
-	Light* SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
+	Camera* m_renderCamera{ new Camera };
+	Light* m_sunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
 
-	void addEntity(IChromaEntity*& newEntity) { Entities.push_back(newEntity); };
+public:
+	void addEntity(IChromaEntity*& newEntity);
 	void removeEntity(IChromaEntity& removeEntity);
 
-	void addLight(std::shared_ptr<Light>& newLight) { Lights.push_back(newLight); };
+	void addLight(std::shared_ptr<Light>& newLight) { m_lights.push_back(newLight); };
 	void removeLight(Light& removeLight);
 
 	// setters
-	void setRenderCamera(Camera*& newRenderCamera) { RenderCamera = newRenderCamera; };
+	void setRenderCamera(Camera*& newRenderCamera) { m_renderCamera = newRenderCamera; };
 	void setLights(std::vector<std::shared_ptr<Light>>& newLights);
-	void setEntities(std::vector<IChromaEntity*>& newCameras) { Entities = newCameras; };
+	void setEntities(std::vector<IChromaEntity*>& newCameras) { m_entities = newCameras; };
 
 	// getters
-	Camera* getRenderCamera() { return RenderCamera; };
-	std::vector<std::shared_ptr<Light>>& getLights() { return Lights; };
+	std::vector<IChromaEntity*> getEntities() { return m_entities; };
+	std::vector<IChromaEntity*> getTransparentEntities() { return m_transparentEntities; };
+	Camera* getRenderCamera() { return m_renderCamera; };
+	std::vector<std::shared_ptr<Light>>& getLights() { return m_lights; };
+	Light* getSunLight() { return m_sunLight; };
 
 	// functions
 	IChromaEntity* addNewEntity(IChromaComponent* component);

@@ -24,22 +24,25 @@ class ChromaEntity : public IChromaEntity
 
 
 	// Components
-	std::vector<IChromaComponent*> Components;
-	std::vector<IChromaComponent*> RenderableComponents;
-	std::vector<IChromaComponent*> LitComponents;
-	std::vector<IChromaComponent*> ShadowCastingComponents;
-	std::vector<IChromaComponent*> TransparentComponents;
-	std::vector<IChromaComponent*> UnLitComponents;
+	std::vector<IChromaComponent*> m_components;
+	std::vector<IChromaComponent*> m_renderableComponents;
+	std::vector<IChromaComponent*> m_litComponents;
+	std::vector<IChromaComponent*> m_shadowCastingComponents;
+	std::vector<IChromaComponent*> m_transparentComponents;
+	std::vector<IChromaComponent*> m_unLitComponents;
+
 
 	std::vector<IChromaComponent*> m_meshComponents;
 	std::vector<IChromaComponent*> m_physicsComponents;
 
-	void addEmptyComponent(IChromaComponent*& newComponent);
-	void addMeshComponent(ChromaMeshComponent*& newMeshComponent);
-	void addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent);
-	void removeEmptyComponent(IChromaComponent*& newComponent) {};
-	void removeMeshComponent(ChromaMeshComponent*& newMeshComponent) {};
-	void removePhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) {};
+	// Components
+	void addEmptyComponent(IChromaComponent*& newComponent) override;
+	void addMeshComponent(ChromaMeshComponent*& newMeshComponent) override;
+	void addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) override;
+	void removeEmptyComponent(IChromaComponent*& newComponent) override;
+	void removeMeshComponent(ChromaMeshComponent*& newMeshComponent) override {};
+	void removePhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) override {};
+
 
 	template<class ComponentClass>
 	void bindParentEntity(ComponentClass component) {
@@ -52,79 +55,32 @@ public:
 	void bindParentScene(ChromaSceneManager* const& scene) override { m_parentScene = scene; };
 
 	// components
-	std::vector<IChromaComponent*> getComponents() { return Components; };
-	std::vector<IChromaComponent*> getRenderableComponents() { return RenderableComponents; };
-	std::vector<IChromaComponent*> getLitComponents() { return LitComponents; };
-	std::vector<IChromaComponent*> getShadowCastingComponents() { return ShadowCastingComponents; };
-	std::vector<IChromaComponent*> getTransparentComponents() { return TransparentComponents; };
-	std::vector<IChromaComponent*> getUnlitComponents() { return UnLitComponents; };
+	std::vector<IChromaComponent*> getComponents() { return m_components; };
+	std::vector<IChromaComponent*> getRenderableComponents() { return m_renderableComponents; };
+	std::vector<IChromaComponent*> getLitComponents() { return m_litComponents; };
+	std::vector<IChromaComponent*> getShadowCastingComponents() { return m_shadowCastingComponents; };
+	std::vector<IChromaComponent*> getTransparentComponents() { return m_transparentComponents; };
+	std::vector<IChromaComponent*> getUnlitComponents() { return m_unLitComponents; };
 
 	std::vector<IChromaComponent*> getMeshComponents() { return m_meshComponents; };
 	std::vector<IChromaComponent*> getPhysicsComponents() { return m_physicsComponents; };
 
 
 	// name
-	std::string getUID() { return m_uid.UID; };
+	ChromaUID getUID() { return m_uid; };
 	std::string getName() { return m_name; };
 	void setName(std::string newName) { m_name = newName; };
 
-	// Components
-	// add
-
-	void addComponent(IChromaComponent* newComponent) override {};
-
-	template<typename component>
-	void addComponent(component newComponent)  {
-		std::cout << "ComponentType not supported" << std::endl;
-	};
-
-	template<>
-	void addComponent<IChromaComponent*>(IChromaComponent* newComponent )  {
-		addEmptyComponent(newComponent);
-	};
-
-	template<>
-	void addComponent<ChromaMeshComponent*>(ChromaMeshComponent* newComponent)  {
-		addMeshComponent(newComponent);
-	};
-
-	template<>
-	void addComponent<ChromaPhysicsComponent*>(ChromaPhysicsComponent* newComponent) {
-		addPhysicsComponent(newComponent);
-	};
-
-	// remove
-	void removeComponent(IChromaComponent*& removeMe);
-
-	template<typename component>
-	void removeComponent(component newComponent) {
-		std::cout << "ComponentType not supported" << std::endl;
-	};
-
-	template<>
-	void removeComponent<IChromaComponent*>(IChromaComponent* newComponent) {
-		removeEmptyComponent(newComponent);
-	};
-
-	template<>
-	void removeComponent<ChromaMeshComponent*>(ChromaMeshComponent* newComponent) {
-		removeMeshComponent(newComponent);
-	};
-
-	template<>
-	void removeComponent<ChromaPhysicsComponent*>(ChromaPhysicsComponent* newComponent) {
-		removePhysicsComponent(newComponent);
-	};
-
 
 	// Transformations
-	// set
+	// additive
 	virtual void scale(glm::vec3 scalefactor) override;
 	virtual void translate(glm::vec3 translatefactor) override;
 	virtual void rotate(float degrees, glm::vec3 rotationaxis) override;
-
+	// set
 	virtual void setScale(glm::vec3 newscale) override;
 	virtual void setPosition(glm::vec3 newposition) override;
+
 	// get
 	glm::mat4 getTransformationMatrix() override { return m_transformMatrix; };
 	virtual glm::vec3 getPosition() override { return glm::vec3(m_transformMatrix[3]); } ;

@@ -111,7 +111,7 @@ void SSAOBuffer::configureShaders()
 	SSAOBlurShader.setVec2("offset", offset);
 }
 
-void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gViewNormal, const ChromaSceneManager*& scene)
+void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal, ChromaSceneManager*& scene)
 {
 	// binding frame buffer and clearing color buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
@@ -119,12 +119,12 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gViewNormal, co
 	// updating shader uniforms
 	SSAOShader.use();
 	sendKernelSamplesToShader();
-	SSAOShader.setMat4("projection", scene->RenderCamera->projectionMat);
+	SSAOShader.setMat4("projection", scene->getRenderCamera()->getProjectionMat());
 	//sending textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gViewPosition);
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, gViewNormal);
+	glBindTexture(GL_TEXTURE_2D, gNormal);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, noiseTexture);
 	renderQuad();
