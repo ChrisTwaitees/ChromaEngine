@@ -5,7 +5,6 @@ void ChromaGame::Update()
 {
 	// physics
 	m_physics->update(m_time);
-	//std::cout << "Updating Game" << std::endl;
 }
 
 void ChromaGame::Render()
@@ -19,7 +18,7 @@ void ChromaGame::MousePickerCallback()
 	glm::vec3 end = start + (  m_input->getLastRayPos() * glm::vec3(10.0));
 
 	// create new line object
-	IChromaComponent* newLineMeshComponent = new LinePrimitive(start, end);
+	ChromaMeshComponent* newLineMeshComponent = new LinePrimitive(start, end);
 	newLineMeshComponent->isLit = false;
 	m_scene->addNewEntity(newLineMeshComponent);
 }
@@ -64,9 +63,11 @@ void ChromaGame::initialize()
 	m_input->bindCamera(m_scene->getRenderCamera());
 	m_input->bindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
 
-
 	// renderer
 	m_renderer = new Renderer(m_scene, m_screen);
+
+	// physics
+	m_physics = new ChromaPhysics(m_scene);
 }
 
 void ChromaGame::ProcessInput()

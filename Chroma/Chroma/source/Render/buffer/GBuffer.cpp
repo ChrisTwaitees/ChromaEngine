@@ -143,14 +143,14 @@ void GBuffer::drawGeometryPass()
 	geometryPassShader.setMat4("projection", mScene->RenderCamera->projectionMat);
 	geometryPassShader.setMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 	// Render Scene
-	for (ChromaEntity* entity : mScene->Entities)
+	for (IChromaEntity* entity : mScene->Entities)
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
-		for (IChromaComponent* component : entity->LitComponents)
+		for (IChromaComponent* component : entity->getLitComponents())
 		{
-			finalTransformMatrix = finalTransformMatrix * component->getTransformationMatrix();
+			finalTransformMatrix = finalTransformMatrix * ((ChromaMeshComponent*)component)->getTransformationMatrix();
 			geometryPassShader.setMat4("model", finalTransformMatrix);
-			component->DrawUpdateMaterials(geometryPassShader);
+			((ChromaMeshComponent*)component)->DrawUpdateMaterials(geometryPassShader);
 		}
 	}
 	unBind();

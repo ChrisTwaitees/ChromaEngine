@@ -222,6 +222,9 @@
     <ClCompile Include="source\Engine\input\MousePicker.cpp">
       <Filter>Engine\input</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp">
+      <Filter>Engine\component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -366,6 +369,15 @@
       <Filter>Engine\input</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\entity\ChromaEntity.h">
+      <Filter>Engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\ChromaPhysicsComponent.h">
+      <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\Vertex.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\entity\IChromaEntity.h">
       <Filter>Engine\entity</Filter>
     </ClInclude>
   </ItemGroup>

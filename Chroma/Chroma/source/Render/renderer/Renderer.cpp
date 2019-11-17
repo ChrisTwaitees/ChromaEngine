@@ -11,14 +11,14 @@ void Renderer::renderForwardComponents()
 {
 	// Render Forward Components
 	// Enitities
-	for (ChromaEntity* entity : mScene->Entities)
+	for (IChromaEntity* entity : mScene->Entities)
 	{
 		// render unlit components
-		if (entity->UnLitComponents.size() > 0)
+		if (entity->getUnlitComponents().size() > 0)
 		{
 			glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
-			for (IChromaComponent* component : entity->UnLitComponents)
-				component->DrawUpdateTransforms(*mScene->RenderCamera, finalTransformMatrix);
+			for (IChromaComponent* component : entity->getUnlitComponents())
+				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*mScene->RenderCamera, finalTransformMatrix);
 		}
 		// render transparent components
 		if (mScene->TransparentEntities.size() > 0)
@@ -33,18 +33,18 @@ void Renderer::renderTransparency()
 {
 	////glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
-	std::map<float, ChromaEntity*> alpha_sorted;
-	for (ChromaEntity* TransparentEntity : mScene->TransparentEntities)
+	std::map<float, IChromaEntity*> alpha_sorted;
+	for (IChromaEntity* TransparentEntity : mScene->TransparentEntities)
 	{
 		float distance = glm::length(TransparentEntity->getPosition() - mScene->RenderCamera->getPosition());
 		alpha_sorted[distance] =  TransparentEntity;
 	}
 	// iterating from furthest to closest
-	for (std::map<float, ChromaEntity*>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
+	for (std::map<float, IChromaEntity*>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
 	{
 		glm::mat4 finalTransformMatrix = it->second->getTransformationMatrix();
-		for (IChromaComponent* component : it->second->TransparentComponents)
-			component->Draw(*mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
+		for (IChromaComponent* component : it->second->getTransparentComponents())
+			((ChromaMeshComponent*)component)->Draw(*mScene->RenderCamera, mScene->Lights, finalTransformMatrix);
 	}
 }
 
@@ -63,8 +63,6 @@ void Renderer::Init()
 
 void Renderer::RenderScene()
 {
-	// 
-
 	// Deferred
 	renderDefferedComponents();
 

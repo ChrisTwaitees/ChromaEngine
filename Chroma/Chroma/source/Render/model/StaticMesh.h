@@ -10,24 +10,19 @@
 #include "camera/Camera.h"
 #include "light/Light.h"
 #include "component/ChromaMeshComponent.h"
+#include "model/Vertex.h"
 
-struct Vertex{
-	glm::vec3 Position;
-	glm::vec3 Normal;
-	glm::vec2 TexCoords;
-	glm::vec3 Tangent;
-	glm::vec3 Bitangent;
-};
 
 class StaticMesh : public ChromaMeshComponent
 {
 protected:
-	// Default Shader
+	// default shader
 	std::string fragShaderSource = "resources/shaders/fragLitReflect.glsl";
 	std::string vtxShaderSource = "resources/shaders/vertexShaderLighting.glsl";
 
-	/*  RenderScene Data  */
+	// render scene data
 	unsigned int VAO, VBO, EBO;
+
 	/*  Functions  */
 	virtual void setupMesh();
 	virtual void updateUniforms(const Shader* shader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
@@ -37,7 +32,7 @@ protected:
 	virtual void updateTextureUniforms(const Shader* shader);
 public:
 	// Mesh Data
-	std::vector<Vertex> vertices;
+	std::vector<ChromaVertex> vertices;
 	std::vector<unsigned int> indices;
 	std::vector<Texture> textures;
 	Shader* mShader = new Shader(fragShaderSource, vtxShaderSource);
@@ -59,13 +54,14 @@ public:
 	virtual Shader* getShader() { return mShader; };
 	int getNumTextures() override { return textures.size(); };
 	virtual glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
+	virtual std::vector<ChromaVertex> getVertices() { return vertices; };
 
 	// Shader Uniforms
 	virtual void setMat4(std::string name, glm::mat4 value) override;
 	virtual void setInt(std::string name, int value) override;
 	virtual void setFloat(std::string name, float value) override;
 
-	StaticMesh(std::vector<Vertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
+	StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
 	StaticMesh();
 	virtual ~StaticMesh();
 };

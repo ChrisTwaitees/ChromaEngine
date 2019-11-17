@@ -10,14 +10,17 @@
 
 // chroma
 #include "screenmanager/ChromaScreenManagerConfig.h" 
+#include <component/ChromaPhysicsComponent.h>
+#include <entity/ChromaEntity.h>
 #include "scene/ChromaSceneManager.h"
 #include "time/ChromaTime.h"
 
 class ChromaPhysics
 {
 private:
-	void init();
+
 	const ChromaSceneManager* m_scene;
+	glm::vec3 m_gravity{ 0.0, -9.8, 0.9 };
 
 	// new variables
 	btBroadphaseInterface*			      m_broadphase;
@@ -26,12 +29,20 @@ private:
 	btSequentialImpulseConstraintSolver*  m_solver;
 	btDiscreteDynamicsWorld*			  m_world;
 
+	void init();
+	void initPhysics();
+	void addRigidComponentsToWorld();
+	void updateGravity();
+	void addBodyToWorld(ChromaPhysicsComponent* const& physicsComponent);
+
 public:
 	
 	void update(ChromaTime& time);
 	
+	void setGravity(glm::vec3 newGravity);
+
 	ChromaPhysics(const ChromaSceneManager* Scene);
-	~ChromaPhysics() {};
+	~ChromaPhysics();
 };
 
 #endif

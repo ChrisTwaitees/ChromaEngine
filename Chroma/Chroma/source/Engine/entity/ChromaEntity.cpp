@@ -1,22 +1,33 @@
 #include "ChromaEntity.h"
 
 
+std::vector<ChromaVertex> ChromaEntity::getVertices()
+{
+	// collecting all vertices within mesh components of entity
+	std::vector<ChromaVertex> verts;
+	for (ChromaMeshComponent* meshComponent : m_meshComponents)
+		for (ChromaVertex vert : meshComponent->getVertices())
+			verts.push_back(vert);
+
+	return verts;
+}
+
 void ChromaEntity::Draw(Shader& shader)
 {
 	for (IChromaComponent* component : RenderableComponents)
-		component->Draw(shader);
+		((ChromaMeshComponent*)component)->Draw(shader);
 }
 
 void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
 	for (IChromaComponent* component : RenderableComponents)
-		component->Draw(shader, RenderCamera, Lights, transformMatrix);
+		((ChromaMeshComponent*)component)->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
 void ChromaEntity::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
 	for (IChromaComponent* component : RenderableComponents)
-		component->Draw(RenderCamera, Lights, transformMatrix);
+		((ChromaMeshComponent*)component)->Draw(RenderCamera, Lights, transformMatrix);
 }
 
 ChromaEntity::ChromaEntity()
@@ -29,22 +40,53 @@ ChromaEntity::~ChromaEntity()
 }
 
 // ADDING/REMOVING COMPONENTS
-void ChromaEntity::addComponent(IChromaComponent*& newComponent)
+void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 {
+	// bind parent entity
+	bindParentEntity(newMeshComponent);
+
+	// add mesh component
+	m_meshComponents.push_back(newMeshComponent);
+
+	// TODO: Consider shared_ptr to prevent memory duplication
+	if (newMeshComponent->isRenderable)
+		RenderableComponents.push_back(newMeshComponent);
+	if (newMeshComponent->isLit)
+		LitComponents.push_back(newMeshComponent);
+	if (newMeshComponent->castShadows)
+		ShadowCastingComponents.push_back(newMeshComponent);
+	if (newMeshComponent->isTransparent)
+		TransparentComponents.push_back(newMeshComponent);
+	if (newMeshComponent->isLit == false)
+		UnLitComponents.push_back(newMeshComponent);
+	if (newMeshComponent->isTransparent || newMeshComponent->isLit == false)
+		TransparentComponents.push_back(newMeshComponent);
+}
+
+void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent)
+{
+	// bind parent entity
+	bindParentEntity(newPhysicsComponent);
+
+	// add physics component
+	m_physicsComponents.push_back(newPhysicsComponent);
+
+	// build rigidBody
+	newPhysicsComponent->buildRigidBody();
+
+	// add rigid body to physics world
+
+
+	std::cout << "added new physics component" << std::endl;
+}
+
+void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)
+{
+	// bind parent entity
+	bindParentEntity(newComponent);
+
 	// TODO: Consider shared_ptr to prevent memory duplication
 	Components.push_back(newComponent);
-	if (newComponent->isRenderable)
-		RenderableComponents.push_back(newComponent);
-	if (newComponent->isLit)
-		LitComponents.push_back(newComponent);
-	if (newComponent->castShadows)
-		ShadowCastingComponents.push_back(newComponent);
-	if (newComponent->isTransparent)
-		TransparentComponents.push_back(newComponent);
-	if (newComponent->isLit == false)
-		UnLitComponents.push_back(newComponent);
-	if (newComponent->isTransparent || newComponent->isLit == false)
-		ForwardRenderComponents.push_back(newComponent);
 }
 
 void ChromaEntity::removeComponent(IChromaComponent*& removeMe)

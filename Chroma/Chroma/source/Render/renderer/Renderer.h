@@ -4,14 +4,15 @@
 #include <memory>
 #include <vector>
 
-#include "scene/ChromaSceneManager.h"
-#include "shader/Shader.h"
-#include "buffer/GBuffer.h"
-#include "buffer/Framebuffer.h"
-#include "buffer/ShadowBuffer.h"
-#include "buffer/PostFXBuffer.h"
-#include "model/SkyBox.h"
-#include "screenmanager/ChromaScreenManager.h"
+#include <scene/ChromaSceneManager.h>
+#include <entity/ChromaEntity.h>
+#include <shader/Shader.h>
+#include <buffer/GBuffer.h>
+#include <buffer/Framebuffer.h>
+#include <buffer/ShadowBuffer.h>
+#include <buffer/PostFXBuffer.h>
+#include <model/SkyBox.h>
+#include <screenmanager/ChromaScreenManager.h>
 
 class Renderer
 {

@@ -11,22 +11,23 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 // chroma
-#include "screenManager/ChromaScreenManager.h"
-#include "component/IChromaComponent.h"
-#include "entity/ChromaEntity.h"
-#include "scene/ChromaSceneManager.h"
-#include "model/Model.h"
-#include "model/BoxPrimitive.h"
-#include "model/PlanePrimitive.h"
-#include "model/SpherePrimitive.h"
-#include "model/LinePrimitive.h"
-#include "shader/Shader.h"
-#include "texture/Texture.h"
-#include "camera/Camera.h"
-#include "light/Light.h"
-#include "terrain/Terrain.h"
-#include "renderer/Renderer.h"
-#include "game/ChromaGame.h"
+#include <screenManager/ChromaScreenManager.h>
+#include <component/IChromaComponent.h>
+#include <component/ChromaMeshComponent.h>
+#include <entity/ChromaEntity.h>
+#include <scene/ChromaSceneManager.h>
+#include <model/Model.h>
+#include <model/BoxPrimitive.h>
+#include <model/PlanePrimitive.h>
+#include <model/SpherePrimitive.h>
+#include <model/LinePrimitive.h>
+#include <shader/Shader.h>
+#include <texture/Texture.h>
+#include <camera/Camera.h>
+#include <light/Light.h>
+#include <terrain/Terrain.h>
+#include <renderer/Renderer.h>
+#include <game/ChromaGame.h>
 
 
 int main()
@@ -113,20 +114,22 @@ int main()
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
 	// ENTITIES
-	std::vector<ChromaEntity*> Entities;
+	std::vector<IChromaEntity*> Entities;
 
-	ChromaEntity * NanosuitEntity = new ChromaEntity;
-	IChromaComponent * NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
+	IChromaEntity* NanosuitEntity = new ChromaEntity;
+	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
+	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
-	//Entities.push_back(NanosuitEntity);
+	NanosuitEntity->addComponent(NanoSuitRigidComponent);
+	Entities.push_back(NanosuitEntity);
 
 
-	std::vector<ChromaEntity*> boxes;
+	std::vector<IChromaEntity*> boxes;
 	for (glm::vec3 position : cubePositions)
 	{
-		ChromaEntity* BoxEntity = new ChromaEntity;
-		IChromaComponent* BoxMeshComponent = new BoxPrimitive;
+		IChromaEntity* BoxEntity = new ChromaEntity;
+		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive;
 		BoxMeshComponent->bindShader(&litShader);
 		BoxMeshComponent->bindTexture(diffuseMap);
 		BoxMeshComponent->bindTexture(specularMap);
@@ -136,11 +139,11 @@ int main()
 		Entities.push_back(BoxEntity);
 	}
 
-	std::vector<ChromaEntity*> lamps;
+	std::vector<IChromaEntity*> lamps;
 	for (glm::vec3 position : pointLightPositions)
 	{
-		ChromaEntity* LampEntity = new ChromaEntity;
-		IChromaComponent* LampMeshComponent = new BoxPrimitive;
+		IChromaEntity* LampEntity = new ChromaEntity;
+		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive;
 		LampMeshComponent->bindShader(&constantShader);
 		LampMeshComponent->castShadows = false;
 		LampMeshComponent->isLit = false;
@@ -161,15 +164,15 @@ int main()
 	//}
 
 	// TERRAIN
-	ChromaEntity* TerrainEntity = new ChromaEntity;
-	IChromaComponent* TerrainMeshComponent = new Terrain;
+	IChromaEntity* TerrainEntity = new ChromaEntity;
+	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->bindShader(&litNormalsShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 	Entities.push_back(TerrainEntity);
 
 	// SPHERE
-	ChromaEntity* SphereEntity = new ChromaEntity;
-	IChromaComponent* SphereMeshComponent = new SpherePrimitive;
+	IChromaEntity* SphereEntity = new ChromaEntity;
+	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
 	SphereMeshComponent->bindTexture(normalMap);
 	SphereMeshComponent->bindTexture(concreteMap);
 	SphereMeshComponent->bindShader(&litNormalsShader);
@@ -177,8 +180,8 @@ int main()
 	Entities.push_back(SphereEntity);
 
 	// LINE
-	ChromaEntity* LineEntity = new ChromaEntity;
-	IChromaComponent* LineMeshComponent = new LinePrimitive{glm::vec3(0), glm::vec3(1)};
+	IChromaEntity* LineEntity = new ChromaEntity;
+	ChromaMeshComponent* LineMeshComponent = new LinePrimitive{glm::vec3(0), glm::vec3(1)};
 	LineMeshComponent->isLit = false;
 	LineEntity->addComponent(LineMeshComponent);
 	Entities.push_back(LineEntity);
@@ -231,10 +234,10 @@ int main()
 				LineMeshComponent->setEndPos(newLightPos);
 			}
 			// fragments
-			for (IChromaComponent* component : lamps[i]->RenderableComponents)
+			for (IChromaComponent* component : lamps[i]->getRenderableComponents())
 			{
-				component->getShader()->setVec3("lightColor", Lights[i]->getDiffuse());
-				component->getShader()->setFloat("lightIntensity", Lights[i]->getIntensity());
+				((ChromaMeshComponent*)component)->getShader()->setVec3("lightColor", Lights[i]->getDiffuse());
+				((ChromaMeshComponent*)component)->getShader()->setFloat("lightIntensity", Lights[i]->getIntensity());
 			}
 				
 		}

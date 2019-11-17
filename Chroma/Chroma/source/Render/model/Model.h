@@ -15,6 +15,7 @@ protected:
 
 
 	// Model Data
+	std::vector<ChromaVertex> m_vertices;
 	std::vector<Texture> textures_loaded;
 	std::vector<StaticMesh*> meshes;
 	std::string directory;
@@ -39,6 +40,7 @@ public:
 	void bindShader(Shader* newShader) override { mShader = newShader; };
 	Shader* getShader() override { return mShader; };
 	glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
+	virtual std::vector<ChromaVertex> getVertices() { return m_vertices; };
 
 	// Component requirement 
 	void bindTextures(std::vector<Texture> textures_val) override {};

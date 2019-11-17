@@ -1,11 +1,12 @@
 #ifndef _CHROMA_MESHCOMPONENT_
 #define _CHROMA_MESHCOMPONENT_
-#include "component/IChromaComponent.h"
+#include <component/IChromaComponent.h>
 
 // Chroma
-#include "texture/Texture.h"
-#include "camera/Camera.h"
-#include "light/Light.h"
+#include <model/Vertex.h>
+#include <texture/Texture.h>
+#include <camera/Camera.h>
+#include <light/Light.h>
 
 class ChromaMeshComponent : public IChromaComponent
 {
@@ -13,10 +14,15 @@ protected:
 	glm::mat4 TransformationMatrix{ glm::mat4(1) };
 
 public:
+	bool isRenderable{ false };
+	bool isTransparent{ false };
+	bool isLit{ true };
+	bool castShadows{ true };
 	// Getters/Setters
 	virtual Shader* getShader() = 0;
 	virtual int getNumTextures() = 0;
 	virtual glm::mat4 getTransformationMatrix() = 0;
+	virtual std::vector<ChromaVertex> getVertices() = 0;
 
 	// Bindings
 	virtual void bindShader(Shader* newShader) = 0;
@@ -35,8 +41,12 @@ public:
 	virtual void setInt(std::string name, int value) = 0;
 	virtual void setFloat(std::string name, float value) = 0;
 
+	// LinePrimitive 
+	virtual void setStartPos(glm::vec3 startPos) {};
+	virtual void setEndPos(glm::vec3 endPos) {};
+
 	ChromaMeshComponent();
-	~ChromaMeshComponent();
+	virtual ~ChromaMeshComponent();
 };
 
 #endif

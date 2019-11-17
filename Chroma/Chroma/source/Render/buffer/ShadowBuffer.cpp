@@ -35,8 +35,8 @@ void ShadowBuffer::initialize()
 
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
-	for (ChromaEntity* entity : mScene->Entities)
-		for (IChromaComponent* component : entity->RenderableComponents)
+	for (IChromaEntity* entity : mScene->Entities)
+		for (ChromaMeshComponent* component : entity->getMeshComponents())
 		{
 			component->bindTexture(ShadowMapTexture);
 		}
@@ -72,14 +72,14 @@ void ShadowBuffer::calculateShadows()
 	glClear(GL_DEPTH_BUFFER_BIT);
 
 	// render scene
-	for (ChromaEntity* entity : mScene->Entities)
+	for (IChromaEntity* entity : mScene->Entities)
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();	
-		for (IChromaComponent* component : entity->ShadowCastingComponents)
+		for (IChromaComponent* component : entity->getShadowCastingComponents())
 		{
-			finalTransformMatrix *= component->getTransformationMatrix();
+			finalTransformMatrix *= ((ChromaMeshComponent*)component)->getTransformationMatrix();
 			depthShader.setMat4("model", finalTransformMatrix);
-			component->Draw(depthShader);
+			((ChromaMeshComponent*)component)->Draw(depthShader);
 		}
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
