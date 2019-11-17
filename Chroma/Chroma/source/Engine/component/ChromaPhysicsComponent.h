@@ -26,11 +26,10 @@ class ChromaPhysicsComponent :	public IChromaComponent
 	float m_friction{ 0.5f };
 
 	// members
-
 	btRigidBody* m_body;
 	btCollisionShape* m_shape;
 
-	void updateGravity();
+	// functions
 	void createBody();
 	void createBodyWithMass();
 

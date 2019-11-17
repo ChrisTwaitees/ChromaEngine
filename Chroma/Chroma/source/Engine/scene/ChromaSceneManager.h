@@ -6,9 +6,8 @@
 //chroma
 #include <camera/Camera.h>
 #include <light/Light.h>
-// chroma - entity component
+// entity component
 #include <entity/IChromaEntity.h>
-#include <component/IChromaComponent.h>
 
 class ChromaSceneManager
 {

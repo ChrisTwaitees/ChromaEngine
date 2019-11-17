@@ -1,5 +1,5 @@
 #include "ChromaSceneManager.h"
-
+#include <entity/ChromaEntity.h>
 
 void ChromaSceneManager::removeEntity(IChromaEntity& removeEntity)
 {
@@ -20,7 +20,7 @@ void ChromaSceneManager::setLights(std::vector<std::shared_ptr<Light>>& newLight
 IChromaEntity* ChromaSceneManager::addNewEntity(IChromaComponent* component)
 {
 	// create new entity
-	IChromaEntity* newEntity;
+	IChromaEntity* newEntity = new ChromaEntity();
 	newEntity->addComponent(component);
 	addEntity(newEntity);
 	

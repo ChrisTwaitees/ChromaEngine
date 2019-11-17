@@ -6,9 +6,12 @@ std::vector<ChromaVertex> ChromaEntity::getVertices()
 {
 	// collecting all vertices within mesh components of entity
 	std::vector<ChromaVertex> verts;
-	for (ChromaMeshComponent* meshComponent : m_meshComponents)
-		for (ChromaVertex vert : meshComponent->getVertices())
+	for (IChromaComponent* meshComponent : m_meshComponents)
+	{
+		std::vector<ChromaVertex> vertices = ((ChromaMeshComponent*)meshComponent)->getVertices();
+		for (ChromaVertex vert : vertices)
 			verts.push_back(vert);
+	}
 
 	return verts;
 }
@@ -141,8 +144,7 @@ int findIndexInVector(const std::vector<IChromaComponent*>& componentsVector, IC
 		return distance(componentsVector.begin(), it);
 	else
 	{
-		std::cout << "ChromaComponent: " << component->getName() << " Type: <"  
-			<< component->getType() << "> " << "not found in Chroma Entity" << std::endl;
+		std::cout << "ChromaComponent: " << component->getName() << "not found in Chroma Entity" << std::endl;
 		return -1;
 	}
 }

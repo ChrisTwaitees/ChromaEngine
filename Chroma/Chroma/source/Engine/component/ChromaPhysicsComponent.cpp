@@ -1,5 +1,5 @@
 #include "ChromaPhysicsComponent.h"
-
+#include <entity/IChromaEntity.h>
 
 
 void ChromaPhysicsComponent::buildRigidBody()
@@ -31,8 +31,8 @@ void ChromaPhysicsComponent::createBody()
 		for (int i = 0; i < vertices.size(); i += 3)
 		{
 			ChromaVertex v1 = vertices[i];
-			ChromaVertex v2 = vertices[i+1];
-			ChromaVertex v3 = vertices[i+2];
+			ChromaVertex v2 = vertices[i + 1];
+			ChromaVertex v3 = vertices[i + 2];
 
 			btVector3 btv1 = btVector3(v1.getPosition().x,
 				v1.getPosition().y,

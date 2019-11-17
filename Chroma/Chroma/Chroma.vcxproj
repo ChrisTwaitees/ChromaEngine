@@ -180,7 +180,6 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\Engine\component\ChromaMeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp" />
-    <ClCompile Include="source\Engine\component\IChromaComponent.cpp" />
     <ClCompile Include="source\Engine\entity\ChromaEntity.cpp" />
     <ClCompile Include="source\Engine\game\ChromaGame.cpp" />
     <ClCompile Include="source\Engine\input\ChromaInput.cpp" />

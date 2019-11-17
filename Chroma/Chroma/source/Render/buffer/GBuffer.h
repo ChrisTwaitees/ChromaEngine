@@ -1,10 +1,10 @@
 #ifndef _CHROMA_GBUFFER_
 #define _CHROMA_GBUFFER_
 
-#include "buffer/Framebuffer.h"
-#include "buffer/PostFXBuffer.h"
-#include "buffer/ShadowBuffer.h"
-#include "buffer/SSAOBuffer.h"
+#include <buffer/Framebuffer.h>
+#include <buffer/PostFXBuffer.h>
+#include <buffer/ShadowBuffer.h>
+#include <buffer/SSAOBuffer.h>
 
 
 

@@ -132,9 +132,6 @@
     <ClCompile Include="source\Engine\component\ChromaMeshComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\component\IChromaComponent.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\entity\ChromaEntity.cpp">
       <Filter>Engine\entity</Filter>
     </ClCompile>

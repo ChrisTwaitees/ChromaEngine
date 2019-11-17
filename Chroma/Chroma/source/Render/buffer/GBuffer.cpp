@@ -1,5 +1,5 @@
 #include "GBuffer.h"
-
+#include <component/ChromaMeshComponent.h>
 
 void GBuffer::initialize()
 {

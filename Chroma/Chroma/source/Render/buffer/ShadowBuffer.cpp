@@ -1,4 +1,5 @@
 #include "ShadowBuffer.h"
+#include <component/ChromaMeshComponent.h>
 
 void ShadowBuffer::calcLightSpaceMatrix()
 {
@@ -36,9 +37,9 @@ void ShadowBuffer::initialize()
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
 	for (IChromaEntity* entity : mScene->Entities)
-		for (ChromaMeshComponent* component : entity->getMeshComponents())
+		for (IChromaComponent* component : entity->getMeshComponents())
 		{
-			component->bindTexture(ShadowMapTexture);
+			((ChromaMeshComponent*)component)->bindTexture(ShadowMapTexture);
 		}
 }
 

@@ -31,8 +31,8 @@ void ChromaPhysics::initPhysics()
 void ChromaPhysics::addRigidComponentsToWorld()
 {
 	for (IChromaEntity* entity : m_scene->Entities)
-		for (ChromaPhysicsComponent* physicsComponent : ((ChromaEntity*)entity)->getPhysicsComponents())
-			addBodyToWorld(physicsComponent);
+		for (IChromaComponent* physicsComponent : ((ChromaEntity*)entity)->getPhysicsComponents())
+			addBodyToWorld(((ChromaPhysicsComponent*)physicsComponent));
 }
 
 void ChromaPhysics::updateGravity()

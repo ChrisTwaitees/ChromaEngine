@@ -9,10 +9,13 @@
 // chroma
 #include <model/Vertex.h>
 #include <memory/ChromaUID.h>
+#include <component/IChromaComponent.h>
+
 // forward declarations
-class IChromaComponent;
+class ChromaSceneManager;
 class ChromaMeshComponent;
 class ChromaPhysicsComponent;
+
 
 class IChromaEntity
 {
@@ -24,13 +27,18 @@ protected:
 	ChromaUID m_uid;
 	// name
 	std::string m_name;
+	// parent scene
+	ChromaSceneManager* m_parentScene;
 
-	// Components
 public:
 	// Name
 	virtual std::string getUID() = 0;
 	virtual std::string getName() = 0;
 	virtual void setName(std::string newName) = 0;
+
+	// scene
+	virtual ChromaSceneManager* getParentScene() = 0;
+	virtual void bindParentScene(ChromaSceneManager* const& scene) = 0;
 
 	// Transformations
 	virtual void scale(glm::vec3 scalefactor) = 0;
@@ -55,8 +63,8 @@ public:
 	virtual std::vector<IChromaComponent*> getTransparentComponents() = 0;
 	virtual std::vector<IChromaComponent*> getUnlitComponents() = 0;
 
-	virtual std::vector<ChromaMeshComponent*> getMeshComponents() = 0;
-	virtual std::vector<ChromaPhysicsComponent*> getPhysicsComponents() = 0;
+	virtual std::vector<IChromaComponent*> getMeshComponents() = 0;
+	virtual std::vector<IChromaComponent*> getPhysicsComponents() = 0;
 
 	virtual ~IChromaEntity() {};
 };

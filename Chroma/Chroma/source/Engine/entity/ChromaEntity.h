@@ -6,7 +6,6 @@
 
 #include <entity/IChromaEntity.h>
 
-
 #include <model/Vertex.h>
 #include <memory/ChromaUID.h>
 #include <texture/Texture.h>
@@ -32,8 +31,8 @@ class ChromaEntity : public IChromaEntity
 	std::vector<IChromaComponent*> TransparentComponents;
 	std::vector<IChromaComponent*> UnLitComponents;
 
-	std::vector<ChromaMeshComponent*> m_meshComponents;
-	std::vector<ChromaPhysicsComponent*> m_physicsComponents;
+	std::vector<IChromaComponent*> m_meshComponents;
+	std::vector<IChromaComponent*> m_physicsComponents;
 
 	void addEmptyComponent(IChromaComponent*& newComponent);
 	void addMeshComponent(ChromaMeshComponent*& newMeshComponent);
@@ -48,8 +47,9 @@ class ChromaEntity : public IChromaEntity
 	}
 
 public:
-	// ccene 
-	ChromaSceneManager* getParentScene() { return m_parentScene; };
+	// Scene 
+	ChromaSceneManager* getParentScene() override { return m_parentScene; };
+	void bindParentScene(ChromaSceneManager* const& scene) override { m_parentScene = scene; };
 
 	// components
 	std::vector<IChromaComponent*> getComponents() { return Components; };
@@ -59,8 +59,8 @@ public:
 	std::vector<IChromaComponent*> getTransparentComponents() { return TransparentComponents; };
 	std::vector<IChromaComponent*> getUnlitComponents() { return UnLitComponents; };
 
-	std::vector<ChromaMeshComponent*> getMeshComponents() { return m_meshComponents; };
-	std::vector<ChromaPhysicsComponent*> getPhysicsComponents() { return m_physicsComponents; };
+	std::vector<IChromaComponent*> getMeshComponents() { return m_meshComponents; };
+	std::vector<IChromaComponent*> getPhysicsComponents() { return m_physicsComponents; };
 
 
 	// name
@@ -74,22 +74,22 @@ public:
 	void addComponent(IChromaComponent* newComponent) override {};
 
 	template<typename component>
-	void addComponent(component newComponent) override {
+	void addComponent(component newComponent)  {
 		std::cout << "ComponentType not supported" << std::endl;
 	};
 
 	template<>
-	void addComponent<IChromaComponent*>(IChromaComponent* newComponent ) override {
+	void addComponent<IChromaComponent*>(IChromaComponent* newComponent )  {
 		addEmptyComponent(newComponent);
 	};
 
 	template<>
-	void addComponent<ChromaMeshComponent*>(ChromaMeshComponent* newComponent) override {
+	void addComponent<ChromaMeshComponent*>(ChromaMeshComponent* newComponent)  {
 		addMeshComponent(newComponent);
 	};
 
 	template<>
-	void addComponent<ChromaPhysicsComponent*>(ChromaPhysicsComponent* newComponent)override {
+	void addComponent<ChromaPhysicsComponent*>(ChromaPhysicsComponent* newComponent) {
 		addPhysicsComponent(newComponent);
 	};
 
@@ -116,9 +116,6 @@ public:
 		removePhysicsComponent(newComponent);
 	};
 
-	// get components
-	std::vector<ChromaPhysicsComponent*> getPhysicsComponents() { return m_physicsComponents; };
-	std::vector<ChromaMeshComponent*> getMeshComponents() { return m_meshComponents; };
 
 	// Transformations
 	// set
