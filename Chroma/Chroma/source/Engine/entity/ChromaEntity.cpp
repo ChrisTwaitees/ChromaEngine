@@ -1,5 +1,6 @@
 #include "ChromaEntity.h"
-
+#include <component/ChromaMeshComponent.h>
+#include <component/ChromaPhysicsComponent.h>
 
 std::vector<ChromaVertex> ChromaEntity::getVertices()
 {
@@ -21,13 +22,13 @@ void ChromaEntity::Draw(Shader& shader)
 void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
 	for (IChromaComponent* component : RenderableComponents)
-		((ChromaMeshComponent*)component)->Draw(shader, RenderCamera, Lights, transformMatrix);
+		((ChromaMeshComponent*)component)->Draw(shader, RenderCamera, Lights, m_transformMatrix);
 }
 
 void ChromaEntity::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights)
 {
 	for (IChromaComponent* component : RenderableComponents)
-		((ChromaMeshComponent*)component)->Draw(RenderCamera, Lights, transformMatrix);
+		((ChromaMeshComponent*)component)->Draw(RenderCamera, Lights, m_transformMatrix);
 }
 
 ChromaEntity::ChromaEntity()
@@ -106,27 +107,27 @@ void ChromaEntity::removeComponent(IChromaComponent*& removeMe)
 // TRANSFORMATIONS
 void ChromaEntity::scale(glm::vec3 scalefactor)
 {
-	transformMatrix = glm::scale(transformMatrix, scalefactor);
+	m_transformMatrix = glm::scale(m_transformMatrix, scalefactor);
 }
 
 void ChromaEntity::translate(glm::vec3 translatefactor)
 {
-	transformMatrix = glm::translate(transformMatrix, translatefactor);
+	m_transformMatrix = glm::translate(m_transformMatrix, translatefactor);
 }
 
 void ChromaEntity::rotate(float degrees, glm::vec3 rotationaxis)
 {
-	transformMatrix = glm::rotate(transformMatrix, glm::radians(degrees), rotationaxis);
+	m_transformMatrix = glm::rotate(m_transformMatrix, glm::radians(degrees), rotationaxis);
 }
 
 void ChromaEntity::setScale(glm::vec3 newscale)
 {
-	transformMatrix = glm::scale(identityMatrix, newscale);
+	m_transformMatrix = glm::scale(m_identityMatrix, newscale);
 }
 
 void ChromaEntity::setPosition(glm::vec3 newposition)
 {
-	transformMatrix = glm::translate(identityMatrix, newposition);
+	m_transformMatrix = glm::translate(m_identityMatrix, newposition);
 }
 
 

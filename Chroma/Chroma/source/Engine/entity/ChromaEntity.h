@@ -64,9 +64,9 @@ public:
 
 
 	// name
-	std::string getUID() { return uid.UID; };
-	std::string getName() { return name; };
-	void setName(std::string newName) { name = newName; };
+	std::string getUID() { return m_uid.UID; };
+	std::string getName() { return m_name; };
+	void setName(std::string newName) { m_name = newName; };
 
 	// Components
 	// add
@@ -129,8 +129,8 @@ public:
 	virtual void setScale(glm::vec3 newscale) override;
 	virtual void setPosition(glm::vec3 newposition) override;
 	// get
-	glm::mat4 getTransformationMatrix() override { return transformMatrix; };
-	virtual glm::vec3 getPosition() override { return glm::vec3(transformMatrix[3]); } ;
+	glm::mat4 getTransformationMatrix() override { return m_transformMatrix; };
+	virtual glm::vec3 getPosition() override { return glm::vec3(m_transformMatrix[3]); } ;
 
 	// Attrs
 	std::vector<ChromaVertex> getVertices() override;

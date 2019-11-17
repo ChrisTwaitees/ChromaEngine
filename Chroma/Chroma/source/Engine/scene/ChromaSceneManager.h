@@ -1,12 +1,14 @@
-#ifndef _CHROMA_SCENE_
-#define _CHROMA_SCENE_
+#ifndef _CHROMA_SCENE_MANAGER_
+#define _CHROMA_SCENE_MANAGER_
 
+//stl
+#include <vector>
+//chroma
 #include <camera/Camera.h>
 #include <light/Light.h>
+// chroma - entity component
 #include <entity/IChromaEntity.h>
 #include <component/IChromaComponent.h>
-#include <vector>
-
 
 class ChromaSceneManager
 {

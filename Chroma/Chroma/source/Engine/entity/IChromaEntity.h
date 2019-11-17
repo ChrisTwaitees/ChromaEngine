@@ -1,27 +1,29 @@
 #ifndef _CHROMA_ENTITY_INTERFACE_
 #define _CHROMA_ENTITY_INTERFACE_
 
+// stl
 #include <string>
 #include <vector>
-
+// thirdparty
 #include <glm/glm.hpp>
-
+// chroma
 #include <model/Vertex.h>
 #include <memory/ChromaUID.h>
-#include <component/IChromaComponent.h>
-#include <component/ChromaMeshComponent.h>
-#include <component/ChromaPhysicsComponent.h>
+// forward declarations
+class IChromaComponent;
+class ChromaMeshComponent;
+class ChromaPhysicsComponent;
 
 class IChromaEntity
 {
 protected:
 	// Transforms
-	glm::mat4 transformMatrix = glm::mat4(1);
-	glm::mat4 identityMatrix = glm::mat4(1);
+	glm::mat4 m_transformMatrix = glm::mat4(1);
+	glm::mat4 m_identityMatrix = glm::mat4(1);
 	// UID
-	ChromaUID uid;
+	ChromaUID m_uid;
 	// name
-	std::string name;
+	std::string m_name;
 
 	// Components
 public:
