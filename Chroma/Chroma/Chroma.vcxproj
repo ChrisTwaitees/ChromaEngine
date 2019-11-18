@@ -290,6 +290,7 @@
     <None Include="resources\shaders\fragLightingCalculations.glsl" />
     <None Include="resources\shaders\fragLightingStructs.glsl" />
     <None Include="resources\shaders\fragLineBillboard.glsl" />
+    <None Include="resources\shaders\FragLineDebug.glsl" />
     <None Include="resources\shaders\fragLit.glsl" />
     <None Include="resources\shaders\fragLitReflect.glsl" />
     <None Include="resources\shaders\fragLitShadows.glsl" />
@@ -300,12 +301,14 @@
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\geometryDebugNormals.glsl" />
+    <None Include="resources\shaders\geometryLineDebug.glsl" />
     <None Include="resources\shaders\skyBoxFrag.glsl" />
     <None Include="resources\shaders\skyBoxVertex.glsl" />
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />
     <None Include="resources\shaders\vertexGBufferLit.glsl" />
     <None Include="resources\shaders\vertexLineBillboard.glsl" />
+    <None Include="resources\shaders\vertexLineDebug.glsl" />
     <None Include="resources\shaders\vertexLitShadows.glsl" />
     <None Include="resources\shaders\vertexLitShadowsNormals.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />

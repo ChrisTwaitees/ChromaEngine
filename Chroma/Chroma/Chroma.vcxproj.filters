@@ -495,5 +495,14 @@
     <None Include="resources\shaders\fragLineBillboard.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\FragLineDebug.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\geometryLineDebug.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexLineDebug.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

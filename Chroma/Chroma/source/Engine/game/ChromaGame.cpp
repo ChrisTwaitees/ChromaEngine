@@ -84,6 +84,6 @@ void ChromaGame::ProcessInput()
 	// update camera
 	m_scene->getRenderCamera()->processInput(m_input);
 	// render physics debug if triggered
-	//if (m_screen->drawPhysicsDebug)
-	m_physics->drawDebug();
+	if (m_screen->drawPhysicsDebug)
+		m_physics->drawDebug();
 }

@@ -20,7 +20,7 @@ void Framebuffer::GenTexture()
 {
 	glGenTextures(1, &FBOTexture);
 	glBindTexture(GL_TEXTURE_2D, FBOTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_HEIGHT / resolutionFactor, SCREEN_WIDTH / resolutionFactor, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 }
 
 void Framebuffer::SetTextureParameters()
@@ -46,16 +46,16 @@ void Framebuffer::renderQuad()
 void Framebuffer::initialize()
 {
 	glGenFramebuffers(1, &FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	// create floating point color buffer
 	GenTexture();
 	SetTextureParameters();
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBOTexture, 0);
 	// create depth buffer (renderbuffer)
 	glGenRenderbuffers(1, &RBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
 	// attach buffers
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBOTexture, 0);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, RBO);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		std::cout << "Framebuffer not complete!" << std::endl;
@@ -69,12 +69,6 @@ void Framebuffer::setTexture(unsigned int newFBOTexture)
 	FBOTexture = newFBOTexture;
 }
 
-void Framebuffer::setResolutionScale(unsigned int newScale)
-{
-	resolutionFactor = newScale;
-	int newWidth = SCREEN_WIDTH / resolutionFactor;
-	int newHeight = SCREEN_HEIGHT / resolutionFactor;
-}
 
 void Framebuffer::Bind()
 {

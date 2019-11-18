@@ -3,7 +3,6 @@ layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
 
-uniform float opacity = 0.5f;
 uniform vec3 lightColor = vec3(1.0, 1.0, 1.0);
 uniform float lightIntensity = 1.0;
 

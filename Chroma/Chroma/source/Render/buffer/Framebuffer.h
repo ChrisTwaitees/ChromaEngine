@@ -63,7 +63,6 @@ public:
 	virtual unsigned int getTexture() { return FBOTexture; };
 
 	virtual unsigned int getFBO() { return FBO; };
-	void setResolutionScale(unsigned int newScale);
 
 	void setScale(glm::vec2 newScale) { scale = newScale; };
 	void setPosition(glm::vec2 newPosition) { offset = newPosition; };
