@@ -1,6 +1,11 @@
 #include "Renderer.h"
 
 
+void Renderer::clearBuffers()
+{
+	m_debugBuffer->ClearBuffer();
+}
+
 void Renderer::renderDefferedComponents()
 {
 	// GBUFFER
@@ -65,11 +70,14 @@ void Renderer::Init()
 {
 	m_GBuffer = new GBuffer(m_scene, m_postFXBuffer);
 	m_skybox = new SkyBox(m_scene->getRenderCamera());
-	m_debugBuffer = new DebugBuffer(m_scene->getRenderCamera());
+	m_debugBuffer = new DebugBuffer(m_scene->getRenderCamera(), m_postFXBuffer);
 }
 
 void Renderer::RenderScene()
 {
+	// Clear
+	clearBuffers();
+
 	// Deferred
 	renderDefferedComponents();
 

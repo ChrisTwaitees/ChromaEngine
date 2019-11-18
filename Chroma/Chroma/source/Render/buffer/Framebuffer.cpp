@@ -83,6 +83,12 @@ void Framebuffer::unBind()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
+void Framebuffer::ClearBuffer()
+{
+	Bind();
+	unBind();
+}
+
 void Framebuffer::Draw()
 {
 	screenShader->use();
@@ -94,7 +100,6 @@ void Framebuffer::Draw()
 	// setting transform uniforms
 	updateTransformUniforms();
 	renderQuad();
-
 }
 
 

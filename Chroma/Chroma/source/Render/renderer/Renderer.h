@@ -20,6 +20,9 @@
 class Renderer
 {
 private:
+	// Start of Frame
+	void clearBuffers();
+
 	// DEFERRED LIGHTING RENDER
 	void renderDefferedComponents();
 

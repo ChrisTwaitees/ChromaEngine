@@ -15,8 +15,10 @@
 
 class DebugBuffer : public Framebuffer
 {
-	unsigned int debugVAO, debugVBO;
-	std::vector<ChromaVertex> vertices;
+	void initialize();
+	void blitDepthBuffer();
+
+	unsigned int lineVAO, lineVBO;
 
 	Camera* m_renderCamera;
 
@@ -29,13 +31,18 @@ class DebugBuffer : public Framebuffer
 	BoxPrimitive* m_boxPrimitive{new BoxPrimitive};
 	void generateLineVAO();
 
+	Framebuffer* m_postFXBuffer;
+
+	void GenTexture() override;
+
 public:
 	void drawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
 	void drawCircle(const glm::vec3& center, const float& radius, const glm::vec3& color);
 
 	void Draw() override;
+	void attachBuffer();
 
-	DebugBuffer(Camera* const& camera) : m_renderCamera(camera) {};
+	DebugBuffer(Camera* const& camera, Framebuffer* const& postFXFramebuffer) : m_renderCamera(camera), m_postFXBuffer(postFXFramebuffer) { initialize(); };
 };
 
 #endif

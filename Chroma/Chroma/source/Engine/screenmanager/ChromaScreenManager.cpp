@@ -89,7 +89,7 @@ bool ChromaScreenManager::configureRenderer()
 	// Enabling MSAA
 	glEnable(GL_MULTISAMPLE);
 	// Setting Clear Color
-	glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, 1.0f);
+	glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, SCREEN_DEFAULT_COLOR.w);
 	return true;
 }
 

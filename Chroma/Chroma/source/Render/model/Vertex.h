@@ -6,11 +6,11 @@
 struct ChromaVertex
 {
 
-	glm::vec3 m_position;
-	glm::vec3 m_normal;
-	glm::vec3 m_tangent;
-	glm::vec3 m_bitangent;
-	glm::vec2 m_texCoords;
+	glm::vec3 m_position{ 0.0 };
+	glm::vec3 m_normal{ 0.0 };
+	glm::vec3 m_tangent{ 0.0 };
+	glm::vec3 m_bitangent{ 0.0 };
+	glm::vec2 m_texCoords{ 0.0 };
 
 	glm::vec3 getPosition() { return m_position; };
 	glm::vec3 getNormal() { return m_normal; };

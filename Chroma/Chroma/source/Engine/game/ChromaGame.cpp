@@ -5,6 +5,7 @@ void ChromaGame::Update()
 {
 	// physics
 	m_physics->update(m_time);
+	//m_renderer->getDebugBuffer()->drawLine(glm::vec3(0.0), glm::vec3(10.0), glm::vec3(1.0));
 }
 
 void ChromaGame::Draw()

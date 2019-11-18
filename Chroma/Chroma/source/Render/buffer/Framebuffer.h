@@ -75,6 +75,7 @@ public:
 
 	virtual void Bind();
 	virtual void unBind();
+	virtual void ClearBuffer();
 	virtual void Draw();
 
 	Framebuffer();
