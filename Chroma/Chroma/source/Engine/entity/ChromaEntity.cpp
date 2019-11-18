@@ -16,6 +16,19 @@ std::vector<ChromaVertex> ChromaEntity::getVertices()
 	return verts;
 }
 
+std::pair<glm::vec3, glm::vec3> ChromaEntity::getBBox()
+{
+
+	calcBBox();
+	return std::make_pair(m_bbox_min, m_bbox_max);
+}
+
+glm::vec3 ChromaEntity::getCentroid()
+{
+	calcCentroid();
+	return m_centroid;
+}
+
 void ChromaEntity::Draw(Shader& shader)
 {
 	for (IChromaComponent* component : m_renderableComponents)
@@ -80,6 +93,30 @@ void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsCompon
 
 	// add rigid body to physics world
 	m_parentScene->getPhysics()->addBodyToWorld(newPhysicsComponent);
+}
+
+void ChromaEntity::calcBBox()
+{
+	// collecting all bboxes within mesh components of entity and returning overall
+	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
+	for (IChromaComponent* meshComponent : m_meshComponents)
+		bboxes.push_back(((ChromaMeshComponent*)meshComponent)->getBBox());
+	// once collected, calculate new min and max bbox
+	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
+	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
+	for (std::pair<glm::vec3, glm::vec3> MinMaxBBoxes : bboxes)
+	{
+		newMinBBox = glm::min(newMinBBox, MinMaxBBoxes.first);
+		newMaxBBox = glm::max(newMaxBBox, MinMaxBBoxes.second);
+	}
+	// re-establishing min and max bboxes
+	m_bbox_min = newMinBBox;
+	m_bbox_max = newMaxBBox;
+}
+
+void ChromaEntity::calcCentroid()
+{
+	m_centroid = (m_bbox_min - m_bbox_max) * glm::vec3(0.5);
 }
 
 void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)

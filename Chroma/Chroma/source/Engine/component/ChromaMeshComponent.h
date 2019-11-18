@@ -23,6 +23,7 @@ public:
 	virtual int getNumTextures() = 0;
 	virtual glm::mat4 getTransformationMatrix() = 0;
 	virtual std::vector<ChromaVertex> getVertices() = 0;
+	virtual std::pair<glm::vec3, glm::vec3> getBBox() = 0;
 
 	// Bindings
 	virtual void bindShader(Shader* newShader) = 0;

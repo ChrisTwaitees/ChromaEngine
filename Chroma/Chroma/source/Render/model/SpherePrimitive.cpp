@@ -9,9 +9,9 @@ const int MIN_STACK_COUNT = 2;
 ///////////////////////////////////////////////////////////////////////////////
 // ctor
 ///////////////////////////////////////////////////////////////////////////////
-SpherePrimitive::SpherePrimitive(float radius, int sectors, int stacks, bool smooth) : interleavedStride(32)
+SpherePrimitive::SpherePrimitive(float radius, int sectors, int stacks) : interleavedStride(32)
 {
-	set(radius, sectors, stacks, smooth);
+	set(radius, sectors, stacks);
 	setupMesh();
 }
 
@@ -20,7 +20,7 @@ SpherePrimitive::SpherePrimitive(float radius, int sectors, int stacks, bool smo
 ///////////////////////////////////////////////////////////////////////////////
 // setters
 ///////////////////////////////////////////////////////////////////////////////
-void SpherePrimitive::set(float radius, int sectors, int stacks, bool smooth)
+void SpherePrimitive::set(float radius, int sectors, int stacks)
 {
 	this->radius = radius;
 	this->sectorCount = sectors;
@@ -29,12 +29,9 @@ void SpherePrimitive::set(float radius, int sectors, int stacks, bool smooth)
 	this->stackCount = stacks;
 	if (sectors < MIN_STACK_COUNT)
 		this->sectorCount = MIN_STACK_COUNT;
-	this->smooth = smooth;
 
-	if (smooth)
-		buildVerticesSmooth();
-	else
-		buildVerticesFlat();
+	buildVerticesSmooth();
+
 }
 
 void SpherePrimitive::setRadius(float radius)
@@ -45,27 +42,42 @@ void SpherePrimitive::setRadius(float radius)
 
 void SpherePrimitive::setSectorCount(int sectors)
 {
-	set(radius, sectors, stackCount, smooth);
+	set(radius, sectors, stackCount);
 }
 
 void SpherePrimitive::setStackCount(int stacks)
 {
-	set(radius, sectorCount, stacks, smooth);
+	set(radius, sectorCount, stacks);
 }
 
-void SpherePrimitive::setSmooth(bool smooth)
+
+
+
+std::vector<ChromaVertex> SpherePrimitive::getVertices()
 {
-	if (this->smooth == smooth)
-		return;
+	std::vector<ChromaVertex> collectVerts;
+	for (int i = 0; i < getVertexCount(); i++)
+	{
+		glm::vec3 position;
+		glm::vec3 normal;
+		int currentVertIndex = (i * 3);
+		for (int j = 0; j < 2; j++)
+		{
+			int vertVectorIndex = currentVertIndex + j;
+			position[j] = vertices[vertVectorIndex];
+			normal[j] = normals[vertVectorIndex];
+		}
 
-	this->smooth = smooth;
-	if (smooth)
-		buildVerticesSmooth();
-	else
-		buildVerticesFlat();
+		ChromaVertex newVert;
+		newVert.setPosition(position);
+		newVert.setNormal(normal);
+		collectVerts.push_back(newVert);
+	}
+
+	std::cout << "Intrinsic Verts" <<  getVertexCount() << "Collected Verts : " << collectVerts.size() << std::endl;
+
+	return collectVerts;
 }
-
-
 
 void SpherePrimitive::setupMesh()
 {

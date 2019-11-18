@@ -12,8 +12,10 @@
 class ChromaPhysicsComponent :	public IChromaComponent
 {
 	// attrs
-	float m_mass{ 1.0f };
-	bool m_convex{ true };
+	float m_mass{ 0.0f };
+	// shapes
+	enum ColliderShape {Convex, Mesh, Capsule, Sphere, AABB};
+	ColliderShape m_collisionShape = ColliderShape::AABB;
 
 	// transforms
 	btQuaternion m_rotationQuat;
@@ -43,11 +45,16 @@ public:
 	float getFriction() { return m_friction; };
 	void setFriction(float newFriction) { m_friction = newFriction; }
 
+	void setLinearVelocity(glm::vec3 velocity);
+	const glm::vec3 getLinearVelocity();
+
+	void setCollisionShape(ColliderShape shape);
+	ColliderShape getColliderShape() { return m_collisionShape; };
+	
 	btRigidBody* getRigidBody() { return m_body; };
 
 	// functions
 	void buildRigidBody();
-	void setLinearVelocity(glm::vec3 velocity);
 	void transformEntity(btTransform& transform);
 
 	ChromaPhysicsComponent();

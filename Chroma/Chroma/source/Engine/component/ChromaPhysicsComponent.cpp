@@ -14,9 +14,18 @@ void ChromaPhysicsComponent::setLinearVelocity(glm::vec3 velocity)
 	m_body->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 }
 
+const glm::vec3 ChromaPhysicsComponent::getLinearVelocity()
+{
+	return  BulletToGLM(m_body->getLinearVelocity());
+}
+
+void ChromaPhysicsComponent::setCollisionShape(ColliderShape shape)
+{
+}
+
 void ChromaPhysicsComponent::transformEntity(btTransform& transform)
 {
-	glm::mat4 transformMat = convertBulletToGLM(transform);
+	glm::mat4 transformMat = BulletToGLM(transform);
 	getParentEntity()->setTransformMatrix(transformMat);
 }
 
@@ -25,7 +34,17 @@ void ChromaPhysicsComponent::createBody()
 {
 	std::vector<ChromaVertex> vertices = m_parentEntity->getVertices();
 
-	if (m_convex)
+	switch (m_collisionShape)
+	{
+	case(AABB):
+	{
+		break;
+	}
+	case(Sphere) :
+	{
+		break;
+	}
+	case(Convex):
 	{
 		m_shape = new btConvexHullShape();
 		for (ChromaVertex vert : vertices)
@@ -35,8 +54,9 @@ void ChromaPhysicsComponent::createBody()
 				vert.getPosition().z);
 			((btConvexHullShape*)m_shape)->addPoint(btv);
 		}
+		break;
 	}
-	else
+	case(Mesh):
 	{
 		btTriangleMesh* mesh = new btTriangleMesh();
 
@@ -59,6 +79,12 @@ void ChromaPhysicsComponent::createBody()
 			mesh->addTriangle(btv1, btv2, btv3);
 		}
 		m_shape = new btBvhTriangleMeshShape(mesh, true);
+		break;
+	}
+	case(Capsule):
+	{
+		break;
+	}
 	}
 
 }

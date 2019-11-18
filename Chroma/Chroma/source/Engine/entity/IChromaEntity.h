@@ -23,6 +23,8 @@ protected:
 	// Transforms
 	glm::mat4 m_transformMatrix = glm::mat4(1);
 	glm::mat4 m_identityMatrix = glm::mat4(1);
+	glm::vec3 m_bbox_min, m_bbox_max;
+	glm::vec3 m_centroid;
 	// UID
 	ChromaUID m_uid;
 	// name
@@ -62,6 +64,8 @@ public:
 	virtual glm::mat4 getTransformationMatrix() = 0;
 	virtual glm::vec3 getPosition() = 0 ;
 	virtual std::vector<ChromaVertex> getVertices() = 0;
+	virtual std::pair<glm::vec3, glm::vec3> getBBox() = 0;
+	virtual glm::vec3 getCentroid() = 0;
 
 
 	// Components

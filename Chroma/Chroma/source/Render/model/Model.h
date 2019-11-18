@@ -41,6 +41,7 @@ public:
 	Shader* getShader() override { return mShader; };
 	glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
 	virtual std::vector<ChromaVertex> getVertices() { return m_vertices; };
+	virtual std::pair<glm::vec3, glm::vec3> getBBox() {};
 
 	// Component requirement 
 	void bindTextures(std::vector<Texture> textures_val) override {};

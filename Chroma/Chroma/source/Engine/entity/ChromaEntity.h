@@ -19,6 +19,9 @@ int findIndexInVector(const std::vector<IChromaComponent*>& vector, IChromaCompo
 
 class ChromaEntity : public IChromaEntity
 {
+	// calculate attrs
+	void calcBBox();
+	void calcCentroid();
 
 	// Components
 	std::vector<IChromaComponent*> m_components;
@@ -78,13 +81,14 @@ public:
 	void setScale(glm::vec3 newscale) override;
 	void setPosition(glm::vec3 newposition) override;
 	void setRotation(float degrees, glm::vec3 rotationaxis) override;
-
 	// get
 	glm::mat4 getTransformationMatrix() override { return m_transformMatrix; };
 	virtual glm::vec3 getPosition() override { return glm::vec3(m_transformMatrix[3]); } ;
 
-	// Attrs
+	// attrs
 	std::vector<ChromaVertex> getVertices() override;
+	std::pair<glm::vec3, glm::vec3> getBBox() override;
+	glm::vec3 getCentroid() override;
 
 	// Draw
 	virtual void Draw(Shader& shader);

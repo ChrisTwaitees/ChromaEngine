@@ -55,6 +55,7 @@ public:
 	int getNumTextures() override { return textures.size(); };
 	virtual glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
 	virtual std::vector<ChromaVertex> getVertices() { return vertices; };
+	virtual std::pair<glm::vec3, glm::vec3> getBBox() {};
 
 	// Shader Uniforms
 	virtual void setMat4(std::string name, glm::mat4 value) override;

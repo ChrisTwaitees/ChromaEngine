@@ -5,24 +5,27 @@
 
 #include <glm/glm.hpp>
 
-#include "StaticMesh.h"
+#include <model/StaticMesh.h>
+
 
 class SpherePrimitive : public StaticMesh
 {
+
+	std::vector<ChromaVertex> verts;
+
 public:
 	// ctor/dtor
-	SpherePrimitive(float radius = 1.0f, int sectorCount = 36, int stackCount = 18, bool smooth = true);
+	SpherePrimitive(float radius = 1.0f, int sectorCount = 36, int stackCount = 18);
 	~SpherePrimitive() {}
 
 	// getters/setters
 	float getRadius() const { return radius; }
 	int getSectorCount() const { return sectorCount; }
 	int getStackCount() const { return stackCount; }
-	void set(float radius, int sectorCount, int stackCount, bool smooth = true);
+	void set(float radius, int sectorCount, int stackCount);
 	void setRadius(float radius);
 	void setSectorCount(int sectorCount);
 	void setStackCount(int stackCount);
-	void setSmooth(bool smooth);
 
 	// for vertex data
 	unsigned int getVertexCount() const { return (unsigned int)vertices.size() / 3; }
@@ -36,7 +39,8 @@ public:
 	unsigned int getTexCoordSize() const { return (unsigned int)texCoords.size() * sizeof(float); }
 	unsigned int getIndexSize() const { return (unsigned int)indices.size() * sizeof(unsigned int); }
 	unsigned int getLineIndexSize() const { return (unsigned int)lineIndices.size() * sizeof(unsigned int); }
-	const float* getVertices() const { return vertices.data(); }
+
+	std::vector<ChromaVertex> getVertices() override ;
 	const float* getNormals() const { return normals.data(); }
 	const float* getTexCoords() const { return texCoords.data(); }
 	const unsigned int* getIndices() const { return indices.data(); }
