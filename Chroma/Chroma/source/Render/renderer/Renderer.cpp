@@ -4,29 +4,29 @@
 void Renderer::renderDefferedComponents()
 {
 	// GBUFFER
-	mGBuffer->Draw();
+	m_GBuffer->Draw();
 }
 
 void Renderer::renderForwardComponents()
 {
 	// Render Forward Components
 	// Enitities
-	for (IChromaEntity* entity : mScene->getEntities())
+	for (IChromaEntity*& entity : m_scene->getEntities())
 	{
 		// render unlit components
 		if (entity->getUnlitComponents().size() > 0)
 		{
 			glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
-			for (IChromaComponent* component : entity->getUnlitComponents())
-				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*mScene->getRenderCamera(), finalTransformMatrix);
+			for (IChromaComponent*& component : entity->getUnlitComponents())
+				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_scene->getRenderCamera(), finalTransformMatrix);
 		}
 		// render transparent components
-		if (mScene->getTransparentEntities().size() > 0)
+		if (m_scene->getTransparentEntities().size() > 0)
 			renderTransparency();
 	}
 	// SkyBox
-	if (mScreenManager->useSkybox)
-		mSkybox->Draw();
+	if (m_screenManager->useSkybox)
+		m_skybox->Draw();
 }
 
 void Renderer::renderTransparency()
@@ -34,9 +34,9 @@ void Renderer::renderTransparency()
 	////glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
 	std::map<float, IChromaEntity*> alpha_sorted;
-	for (IChromaEntity* TransparentEntity : mScene->getTransparentEntities())
+	for (IChromaEntity* TransparentEntity : m_scene->getTransparentEntities())
 	{
-		float distance = glm::length(TransparentEntity->getPosition() - mScene->getRenderCamera()->getPosition());
+		float distance = glm::length(TransparentEntity->getPosition() - m_scene->getRenderCamera()->getPosition());
 		alpha_sorted[distance] =  TransparentEntity;
 	}
 	// iterating from furthest to closest
@@ -44,21 +44,27 @@ void Renderer::renderTransparency()
 	{
 		glm::mat4 finalTransformMatrix = it->second->getTransformationMatrix();
 		for (IChromaComponent* component : it->second->getTransparentComponents())
-			((ChromaMeshComponent*)component)->Draw(*mScene->getRenderCamera(), mScene->getLights(), finalTransformMatrix);
+			((ChromaMeshComponent*)component)->Draw(*m_scene->getRenderCamera(), m_scene->getLights(), finalTransformMatrix);
 	}
+}
+
+void Renderer::renderDebug()
+{
+	if (m_screenManager->drawDebug)
+		m_debugRenderer->Render();
 }
 
 void Renderer::renderPostFX()
 {
-	mScreenManager->useBloom ? mPostFXBuffer->Draw(true) : mPostFXBuffer->Draw();
-	mPostFXBuffer->setUniform("exposure", mScreenManager->exposure);
-	mPostFXBuffer->setUniform("gamma", mScreenManager->gamma);
+	m_screenManager->useBloom ? m_postFXBuffer->Draw(true) : m_postFXBuffer->Draw();
+	m_postFXBuffer->setUniform("exposure", m_screenManager->exposure);
+	m_postFXBuffer->setUniform("gamma", m_screenManager->gamma);
 }
 
 void Renderer::Init()
 {
-	mGBuffer = new GBuffer(mScene, mPostFXBuffer);
-	mSkybox = new SkyBox(*mScene->getRenderCamera());
+	m_GBuffer = new GBuffer(m_scene, m_postFXBuffer);
+	m_skybox = new SkyBox(*m_scene->getRenderCamera());
 }
 
 void Renderer::RenderScene()
@@ -71,13 +77,17 @@ void Renderer::RenderScene()
 
 	// Post FX
 	renderPostFX();
+
+	// Debug
+	renderDebug();
 }
 
 
-Renderer::Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager)
+Renderer::Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager, ChromaDebugRenderer*& DebugRenderer)
 {
-	mScene = Scene;
-	mScreenManager = ScreenManager;
+	m_scene = Scene;
+	m_screenManager = ScreenManager;
+	m_debugRenderer = DebugRenderer;
 	Init();
 }
 

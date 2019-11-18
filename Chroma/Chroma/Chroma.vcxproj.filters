@@ -222,6 +222,12 @@
     <ClCompile Include="source\Engine\scene\ChromaScene.cpp">
       <Filter>Engine\scene</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp">
+      <Filter>Engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\renderer\DebugRenderer.cpp">
+      <Filter>Render\renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -376,6 +382,12 @@
     </ClInclude>
     <ClInclude Include="source\Engine\math\ChromaMath.h">
       <Filter>Engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\physics\PhysicsDebug.h">
+      <Filter>Engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\renderer\DebugRenderer.h">
+      <Filter>Render\renderer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

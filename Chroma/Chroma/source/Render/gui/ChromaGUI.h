@@ -13,7 +13,7 @@ protected:
 	GLFWwindow* window;
 	void initialize();
 public:
-	void Start();
+	void StartLoop();
 	void End();
 	void attachWindow(GLFWwindow& window_val);
 

@@ -9,26 +9,33 @@
 #include <bullet/btBulletDynamicsCommon.h>
 
 // chroma
-#include "screenmanager/ChromaScreenManagerConfig.h" 
+#include <screenmanager/ChromaScreenManagerConfig.h> 
 #include <component/ChromaPhysicsComponent.h>
-#include "time/ChromaTime.h"
+#include <physics/PhysicsDebug.h>
+#include <time/ChromaTime.h>
 
 class IChromaEntity;
 
 class ChromaPhysics
 {
 private:
+	// attrs
 	glm::vec3 m_gravity{ 0.0, -9.8, 0.0 };
 
-	// new variables
+	// bullet objects
 	btBroadphaseInterface*			      m_broadphase;
 	btDefaultCollisionConfiguration*      m_collisionConfiguration;
 	btCollisionDispatcher*				  m_dispatcher;
 	btSequentialImpulseConstraintSolver*  m_solver;
 	btDiscreteDynamicsWorld*			  m_world;
 
+	// debug
+	ChromaPhysicsDebug* m_debug;
+
+	// functions
 	void init();
 	void initPhysics();
+	void initDebugger();
 	void createGround();
 	void updateGravity();
 
@@ -38,6 +45,9 @@ public:
 	void update(ChromaTime& time);
 
 	void setGravity(glm::vec3 newGravity);
+
+	void bindDebugRenderer(ChromaDebugRenderer*& DebugRenderer) { m_debug->bindDebugRenderer(DebugRenderer); };
+	void drawDebug();
 
 	IChromaEntity* rayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 

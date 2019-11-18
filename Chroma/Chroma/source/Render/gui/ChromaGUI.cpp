@@ -14,7 +14,7 @@ void ChromaGUI::initialize()
 	ImGui_ImplOpenGL3_Init("#version 330");
 }
 
-void ChromaGUI::Start()
+void ChromaGUI::StartLoop()
 {
 	// Start the Dear ImGui frame
 	ImGui_ImplOpenGL3_NewFrame();

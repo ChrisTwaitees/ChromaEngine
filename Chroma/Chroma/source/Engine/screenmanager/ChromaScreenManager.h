@@ -19,7 +19,6 @@
 
 class ChromaScreenManager
 {
-
 	// window
 	GLFWwindow* window; 
 
@@ -47,7 +46,6 @@ class ChromaScreenManager
 	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 	// draw screen
-	void updateCamera();
 	void processTime();
 	void drawGUI();
 
@@ -64,21 +62,26 @@ public:
 	GLFWwindow* getWindow() { return window; };
 	
 	// GUI Attrs
-	bool useSkybox{true};
+	bool useSkybox{ true };
 	float exposure{ 1.0f };
 	float gamma{ 2.2f };
 	bool useBloom{ false };
+	bool drawDebug{ false };
+	bool drawPhysicsDebug{ false };
+
 
 	// status
 	int shouldClose() { return glfwWindowShouldClose(window); };
 
 	// functions
-	void Start();
-	void End();
+	void StartLoop();
+	void EndLoop();
 	void Close();
 
 	void ToggleSkybox();
 	void ToggleBloom();
+	void ToggleDebug();
+	void TogglePhysicsDebug();
 
 	// construction
 	ChromaScreenManager();

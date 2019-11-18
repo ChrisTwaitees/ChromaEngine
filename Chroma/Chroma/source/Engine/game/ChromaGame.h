@@ -3,14 +3,15 @@
 
 #include <GLFW/glfw3.h>
 #include <functional>
-
+		 
 #include <iostream>
-#include "input/ChromaInput.h"
-#include "renderer/Renderer.h"
+#include <input/ChromaInput.h>
+#include <renderer/Renderer.h>
+#include <renderer/DebugRenderer.h>
 #include <scene/ChromaScene.h>
-#include "screenmanager/ChromaScreenManager.h"
-#include "time/ChromaTime.h"
-#include "physics/Physics.h"
+#include <screenmanager/ChromaScreenManager.h>
+#include <time/ChromaTime.h>
+#include <physics/Physics.h>
 
 // testing ray creation
 #include "model/LinePrimitive.h"
@@ -26,10 +27,11 @@ class ChromaGame
 	State GameState { GAME_MENU };
 
 	// components
-	ChromaScreenManager* m_screen;
 	ChromaScene* m_scene;
-	ChromaPhysics* m_physics;
+	ChromaScreenManager* m_screen;
 	Renderer* m_renderer;
+	ChromaPhysics* m_physics;
+	ChromaDebugRenderer* m_debugRenderer;
 
 	// input
 	ChromaTime m_time;

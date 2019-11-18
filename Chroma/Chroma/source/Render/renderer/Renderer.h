@@ -13,6 +13,7 @@
 #include <buffer/PostFXBuffer.h>
 #include <model/SkyBox.h>
 #include <screenmanager/ChromaScreenManager.h>
+#include <renderer/DebugRenderer.h>
 
 class Renderer
 {
@@ -24,27 +25,30 @@ private:
 	void renderForwardComponents();
 	void renderTransparency();
 
+	// DEBUG RENDER
+	void renderDebug();
+
 	// POST FX
 	void renderPostFX();
 
 protected:
 	// SCENE
-	ChromaScene* mScene;
+	ChromaScene* m_scene;
 
 	// SCREENMANAGER
-	const ChromaScreenManager* mScreenManager;
+	const ChromaScreenManager* m_screenManager;
+
+	// Debug Renderer
+	ChromaDebugRenderer* m_debugRenderer;
 
 	// Skybox
-	SkyBox* mSkybox;
+	SkyBox* m_skybox;
 
 	// Post FX
-	Framebuffer* mPostFXBuffer{ new PostFXBuffer };
+	Framebuffer* m_postFXBuffer{ new PostFXBuffer };
 
 	// GBuffer
-	Framebuffer* mGBuffer;
-
-	// Debug Framebuffer
-	Framebuffer debugFramebuffer;
+	Framebuffer* m_GBuffer;
 
 	// INITIALIZE
 	void Init();
@@ -53,7 +57,7 @@ public:
 	void RenderScene();
 
 	Renderer() {};
-	Renderer(ChromaScene*& Scene,const ChromaScreenManager* ScreenManager);
+	Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager, ChromaDebugRenderer*& DebugRenderer);
 	~Renderer();
 };
 

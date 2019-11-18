@@ -26,13 +26,14 @@
 #include <camera/Camera.h>
 #include <light/Light.h>
 #include <terrain/Terrain.h>
-#include <renderer/Renderer.h>
 #include <game/ChromaGame.h>
 
 
 int main()
 {
 	
+	// INIT CHROMA
+	// ------------------------------------------------------------------------------------------
 
 	// SCREEN MANAGER
 	ChromaScreenManager* ScreenManager{ new ChromaScreenManager };
@@ -43,11 +44,12 @@ int main()
 	// GAME
 	ChromaGame Game(Scene, ScreenManager);
 
+	// SCENE CONTENTS
+	// ------------------------------------------------------------------------------------------
+
 	// LIGHTS
 	std::vector<std::shared_ptr<Light>> Lights;
 
-	// SCENE CONTENTS
-	// ---------------
 	// point light positions
 	glm::vec3 pointLightPositions[] = {
 		glm::vec3(0.7f,  2.2f,  2.0f),
@@ -200,7 +202,7 @@ int main()
 	while (!ScreenManager->shouldClose())
 	{
 		// SCREENMANAGER START
-		ScreenManager->Start();
+		ScreenManager->StartLoop();
 		float GameTime = ScreenManager->getTime();
 		float DeltaTime = ScreenManager->getDeltaTime();
 
@@ -263,7 +265,7 @@ int main()
 		Game.Tick();
 
 		// END SCREEN
-		ScreenManager->End();
+		ScreenManager->EndLoop();
 	}
 
 

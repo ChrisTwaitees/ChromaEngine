@@ -5,6 +5,8 @@ void ChromaPhysics::init()
 {
 	// create world
 	initPhysics();
+	// attach debugging
+	initDebugger();
 	// ground 
 	createGround();
 }
@@ -28,13 +30,20 @@ void ChromaPhysics::initPhysics()
 	updateGravity();
 }
 
+void ChromaPhysics::initDebugger()
+{
+	// attach debugger
+	m_debug = new ChromaPhysicsDebug();
+	m_world->setDebugDrawer(m_debug);
+}
+
 void ChromaPhysics::createGround()
 {
-	btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(50.), btScalar(50.)));
+	btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(10.), btScalar(50.)));
 
 	btTransform groundTransform;
 	groundTransform.setIdentity();
-	groundTransform.setOrigin(btVector3(0, -150, 0));
+	groundTransform.setOrigin(btVector3(0, -10, 0));
 
 	btScalar mass(0.);
 	btVector3 localInertia(0, 0, 0);
@@ -93,6 +102,13 @@ void ChromaPhysics::update(ChromaTime& time)
 void ChromaPhysics::setGravity(glm::vec3 newGravity)
 {
 	m_world->setGravity(btVector3(newGravity.x, newGravity.y, newGravity.z));
+}
+
+void ChromaPhysics::drawDebug()
+{
+	std::cout << "Drawing Phys World Debug from Physics" << std::endl;
+	m_world->debugDrawWorld();
+	m_debug->Render();
 }
 
 IChromaEntity* ChromaPhysics::rayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end)

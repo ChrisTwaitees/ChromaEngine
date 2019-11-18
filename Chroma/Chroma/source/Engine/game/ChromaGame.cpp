@@ -69,18 +69,23 @@ void ChromaGame::initialize()
 	m_input->bindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
 
 	// renderer
-	m_renderer = new Renderer(m_scene, m_screen);
+	m_debugRenderer = new ChromaDebugRenderer();
+	m_renderer = new Renderer(m_scene, m_screen, m_debugRenderer);
 
-	// physics
+	// add Physics to scene
 	m_physics = new ChromaPhysics();
-
-	// addPhysics to scene
+	m_physics->bindDebugRenderer(m_debugRenderer);
 	m_scene->setPhysics(m_physics);
 }
 
 void ChromaGame::ProcessInput()
 {
+	// process input
 	m_input->setDeltaTime(getDeltaTime());
 	m_input->process();
+	// update camera
 	m_scene->getRenderCamera()->processInput(m_input);
+	// render physics debug if triggered
+	if (m_screen->drawPhysicsDebug)
+		m_physics->drawDebug();
 }

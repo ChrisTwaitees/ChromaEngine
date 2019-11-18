@@ -4,7 +4,7 @@
 void ShadowBuffer::calcLightSpaceMatrix()
 {
 	// Fetch sunlight from scene
-	Light* SceneSunLight = mScene->getSunLight();
+	Light* SceneSunLight = m_scene->getSunLight();
 	// calculate LightSpaceMatrix
 	float near_plane = 0.1f, far_plane = 35.0f;
 	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
@@ -36,7 +36,7 @@ void ShadowBuffer::initialize()
 
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
-	for (IChromaEntity* entity : mScene->getEntities())
+	for (IChromaEntity* entity : m_scene->getEntities())
 		for (IChromaComponent* component : entity->getMeshComponents())
 		{
 			((ChromaMeshComponent*)component)->bindTexture(ShadowMapTexture);
@@ -73,7 +73,7 @@ void ShadowBuffer::calculateShadows()
 	glClear(GL_DEPTH_BUFFER_BIT);
 
 	// render scene
-	for (IChromaEntity* entity : mScene->getEntities())
+	for (IChromaEntity* entity : m_scene->getEntities())
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();	
 		for (IChromaComponent* component : entity->getShadowCastingComponents())
@@ -94,7 +94,7 @@ void ShadowBuffer::calculateShadows()
 
 ShadowBuffer::ShadowBuffer(ChromaScene*& Scene)
 {
-	mScene = Scene;
+	m_scene = Scene;
 	initialize();
 }
 

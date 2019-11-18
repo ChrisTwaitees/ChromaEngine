@@ -118,7 +118,7 @@ void GBuffer::bindAllGBufferTextures()
 
 void GBuffer::setLightingUniforms()
 {
-	lightingPassShader.setLightingUniforms(mScene->getLights(), *mScene->getRenderCamera());
+	lightingPassShader.setLightingUniforms(m_scene->getLights(), *m_scene->getRenderCamera());
 	lightingPassShader.setFloat("ambient", 0.2f);
 }
 
@@ -139,11 +139,11 @@ void GBuffer::drawGeometryPass()
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
 	geometryPassShader.use();
-	geometryPassShader.setMat4("view", mScene->getRenderCamera()->viewMat);
-	geometryPassShader.setMat4("projection", mScene->getRenderCamera()->projectionMat);
+	geometryPassShader.setMat4("view", m_scene->getRenderCamera()->viewMat);
+	geometryPassShader.setMat4("projection", m_scene->getRenderCamera()->projectionMat);
 	geometryPassShader.setMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 	// Render Scene
-	for (IChromaEntity* entity : mScene->getEntities())
+	for (IChromaEntity* entity : m_scene->getEntities())
 	{
 		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
 		for (IChromaComponent* component : entity->getLitComponents())
@@ -174,7 +174,7 @@ void GBuffer::drawLightingPass()
 void GBuffer::blitDepthBuffer()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, gBuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, mPostFXBuffer->getFBO());// write to default HDR Framebuffer
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_postFXBuffer->getFBO());// write to default HDR Framebuffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
@@ -189,10 +189,10 @@ void GBuffer::Draw()
 	drawGeometryPass();
 
 	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
-	mSSAOBuffer->Draw(gViewPosition, gViewNormal, mScene);
+	mSSAOBuffer->Draw(gViewPosition, gViewNormal, m_scene);
 
 	// 2. HDR pass : remapping color back to normalized range
-	mPostFXBuffer->Bind();
+	m_postFXBuffer->Bind();
 
 	// 2.5 lighting pass: calculate lighting using gbuffer textures
 	drawLightingPass();
@@ -206,9 +206,9 @@ GBuffer::GBuffer(ChromaScene*& Scene, Framebuffer*& PostFXBuffer)
 {
 	setupQuad();
 	initialize();
-	mScene = Scene;
-	mShadowbuffer = new ShadowBuffer(mScene);
-	mPostFXBuffer = PostFXBuffer;
+	m_scene = Scene;
+	mShadowbuffer = new ShadowBuffer(m_scene);
+	m_postFXBuffer = PostFXBuffer;
 }
 
 GBuffer::~GBuffer()

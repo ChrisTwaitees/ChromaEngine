@@ -103,15 +103,15 @@ bool ChromaScreenManager::configureScene()
 // CHROMA SCREEN MANAGER LOOP
 // --------------------
 
-void ChromaScreenManager::Start()
+void ChromaScreenManager::StartLoop()
 {
 	// process
 	processTime();
 	// start gui
-	gui.Start();
+	gui.StartLoop();
 }
 
-void ChromaScreenManager::End()
+void ChromaScreenManager::EndLoop()
 {
 	
 	//draw GUI
@@ -143,6 +143,16 @@ void ChromaScreenManager::ToggleBloom()
 	useBloom = useBloom ? false : true;
 }
 
+void ChromaScreenManager::ToggleDebug()
+{
+	drawDebug = drawDebug ? false : true;
+}
+
+void ChromaScreenManager::TogglePhysicsDebug()
+{
+	drawPhysicsDebug = drawPhysicsDebug ? false : true;
+}
+
 
 void ChromaScreenManager::updateRendererViewportDimensions(int width, int height)
 {
@@ -150,11 +160,6 @@ void ChromaScreenManager::updateRendererViewportDimensions(int width, int height
 	glViewport(0, 0, width, height);
 }
 
-void ChromaScreenManager::updateCamera()
-{
-	//camera->processKeyboardInput(*window, delta);
-	//camera->processMouseInput(MOUSE_XOFFSET, MOUSE_YOFFSET);
-}
 
 void ChromaScreenManager::processTime()
 {
@@ -171,15 +176,24 @@ void ChromaScreenManager::drawGUI()
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 	// toggle skybox
-	if (ImGui::Button("Toggle SkyBox"))
-		ToggleSkybox();
+	//if (ImGui::Button("Toggle SkyBox"))
+	//	ToggleSkybox();
 
 	// exposure
-	ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);
-	ImGui::SliderFloat("Gamma", &gamma, 0.0f, 5.0f);
+	//ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);
+	//ImGui::SliderFloat("Gamma", &gamma, 0.0f, 5.0f);
 
-	if (ImGui::Button("Toggle Bloom"))
-		ToggleBloom();
+	// bloom
+	//if (ImGui::Button("Toggle Bloom"))
+	//	ToggleBloom();
+
+	// debug draw
+	if (ImGui::Button("Toggle Debug"))
+		ToggleDebug();
+
+	// debug draw
+	if (ImGui::Button("Toggle Physics Debug"))
+		TogglePhysicsDebug();
 
 	gui.End();
 }
