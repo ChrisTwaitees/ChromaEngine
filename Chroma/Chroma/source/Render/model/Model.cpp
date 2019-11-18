@@ -12,19 +12,19 @@ void Model::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lig
 	if (mShader)
 		Draw(*mShader, RenderCamera, Lights, transformMatrix);
 	else
-		for (StaticMesh* mesh : meshes)
+		for (StaticMesh*& mesh : meshes)
 				mesh->Draw(RenderCamera, Lights, transformMatrix);
 }
 
 void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
 {
-	for (StaticMesh* mesh : meshes)
+	for (StaticMesh*& mesh : meshes)
 		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
 void Model::DrawUpdateMaterials(Shader& shader)
 {
-	for (StaticMesh* mesh : meshes)
+	for (StaticMesh*& mesh : meshes)
 		mesh->DrawUpdateMaterials(shader);
 }
 
@@ -34,6 +34,18 @@ void Model::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 		mesh->DrawUpdateTransforms(renderCam, modelMatrix);
 }
 
+
+std::pair<glm::vec3, glm::vec3> Model::getBBox()
+{
+	calcBBox();
+	return std::make_pair(m_bbox_min, m_bbox_max);
+}
+
+glm::vec3 Model::getCentroid()
+{
+	calcCentroid();
+	return m_centroid;
+}
 
 void Model::bindTexture(Texture texture_val)
 {
@@ -61,6 +73,31 @@ void Model::setFloat(std::string name, float value)
 
 Model::~Model()
 {
+}
+
+void Model::calcBBox()
+{
+	// collecting all bboxes within mesh components of entity and returning overall
+	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
+	for (StaticMesh*& mesh : meshes)
+		bboxes.push_back(mesh->getBBox());
+
+	// once collected, calculate new min and max bbox
+	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
+	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
+	for (std::pair<glm::vec3, glm::vec3> MinMaxBBoxes : bboxes)
+	{
+		newMinBBox = glm::min(newMinBBox, MinMaxBBoxes.first);
+		newMaxBBox = glm::max(newMaxBBox, MinMaxBBoxes.second);
+	}
+	// re-establishing min and max bboxes
+	m_bbox_min = newMinBBox;
+	m_bbox_max = newMaxBBox;
+}
+
+void Model::calcCentroid()
+{
+	m_centroid = (m_bbox_min - m_bbox_max) * glm::vec3(0.5);
 }
 
 void Model::loadModel(std::string path)

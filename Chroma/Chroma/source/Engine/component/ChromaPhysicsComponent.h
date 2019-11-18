@@ -3,24 +3,25 @@
 
 // bullet
 #include <bullet/btBulletDynamicsCommon.h>
+#include <bullet/btBulletCollisionCommon.h>
 
 // chroma
 #include <component/IChromaComponent.h>
 #include <time/ChromaTime.h>
 #include <model/Vertex.h>
 
+
+enum ColliderShape { Box, Convex, Mesh, Capsule, Sphere, AABB };
+
 class ChromaPhysicsComponent :	public IChromaComponent
 {
 	// attrs
 	float m_mass{ 0.0f };
-	// shapes
-	enum ColliderShape {Convex, Mesh, Capsule, Sphere, AABB};
+	// collision shape
 	ColliderShape m_collisionShape = ColliderShape::AABB;
 
 	// transforms
-	btQuaternion m_rotationQuat;
-	glm::vec3 m_rotation;
-	glm::vec3 m_position;
+	btTransform m_transform;
 
 	// physical settings
 	float m_restitution{ 1.0f };
@@ -48,7 +49,7 @@ public:
 	void setLinearVelocity(glm::vec3 velocity);
 	const glm::vec3 getLinearVelocity();
 
-	void setCollisionShape(ColliderShape shape);
+	void setCollisionShape(ColliderShape shape) { m_collisionShape = shape; };
 	ColliderShape getColliderShape() { return m_collisionShape; };
 	
 	btRigidBody* getRigidBody() { return m_body; };

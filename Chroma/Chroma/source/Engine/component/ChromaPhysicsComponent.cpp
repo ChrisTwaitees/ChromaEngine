@@ -5,6 +5,7 @@
 
 void ChromaPhysicsComponent::buildRigidBody()
 {
+	// ran when component added to entity
 	createBody();
 	createBodyWithMass();
 }
@@ -19,9 +20,6 @@ const glm::vec3 ChromaPhysicsComponent::getLinearVelocity()
 	return  BulletToGLM(m_body->getLinearVelocity());
 }
 
-void ChromaPhysicsComponent::setCollisionShape(ColliderShape shape)
-{
-}
 
 void ChromaPhysicsComponent::transformEntity(btTransform& transform)
 {
@@ -38,14 +36,19 @@ void ChromaPhysicsComponent::createBody()
 	{
 	case(AABB):
 	{
+		
+		//m_shape = new btAA;
 		break;
 	}
 	case(Sphere) :
 	{
+		// constructor : (radius)
+		m_shape = new btSphereShape(btScalar(1.0f));
 		break;
 	}
 	case(Convex):
 	{
+		std::cout << "adding convex shape to rigid body" << std::endl;
 		m_shape = new btConvexHullShape();
 		for (ChromaVertex vert : vertices)
 		{
@@ -83,6 +86,13 @@ void ChromaPhysicsComponent::createBody()
 	}
 	case(Capsule):
 	{
+		// constructor : (radius, height)
+		m_shape = new btCapsuleShape(btScalar(1.0f), btScalar(1.0f));
+		break;
+	}
+	case(Box):
+	{
+		m_shape = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
 		break;
 	}
 	}
@@ -91,14 +101,11 @@ void ChromaPhysicsComponent::createBody()
 
 void ChromaPhysicsComponent::createBodyWithMass()
 {
-	// set rotation
-	m_rotationQuat.setEulerZYX(m_rotation.z, m_rotation.y, m_rotation.x);
-
-	// set position
-	btVector3 btposition = btVector3(m_position.x, m_position.y, m_position.z);
+	// fetch entity position
+	m_transform = GLMToBullet(getParentEntity()->getTransformationMatrix());
 
 	// default motion state
-	btDefaultMotionState* motionState = new btDefaultMotionState(btTransform(m_rotationQuat, btposition));
+	btDefaultMotionState* motionState = new btDefaultMotionState(m_transform);
 
 	// mass
 	btScalar bodyMass = m_mass;

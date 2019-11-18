@@ -16,6 +16,10 @@
 class StaticMesh : public ChromaMeshComponent
 {
 protected:
+	// calculate attrs
+	virtual void calcBBox();
+	virtual void calcCentroid();
+
 	// default shader
 	std::string fragShaderSource = "resources/shaders/fragLitReflect.glsl";
 	std::string vtxShaderSource = "resources/shaders/vertexShaderLighting.glsl";
@@ -53,9 +57,10 @@ public:
 	// Getters/Setters
 	virtual Shader* getShader() { return mShader; };
 	int getNumTextures() override { return textures.size(); };
-	virtual glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
+	virtual glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
 	virtual std::vector<ChromaVertex> getVertices() { return vertices; };
-	virtual std::pair<glm::vec3, glm::vec3> getBBox() {};
+	virtual std::pair<glm::vec3, glm::vec3> getBBox();
+	virtual glm::vec3 getCentroid();
 
 	// Shader Uniforms
 	virtual void setMat4(std::string name, glm::mat4 value) override;

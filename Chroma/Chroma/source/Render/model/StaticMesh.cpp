@@ -1,6 +1,28 @@
 #include "StaticMesh.h"
 
 
+void StaticMesh::calcBBox()
+{
+	// collecting all bboxes within mesh components of entity and returning overall
+	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
+	// once collected, calculate new min and max bbox
+	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
+	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
+	for (ChromaVertex& vert : vertices)
+	{
+		newMinBBox = glm::min(newMinBBox, vert.getPosition());
+		newMaxBBox = glm::max(newMaxBBox, vert.getPosition());
+	}
+	// re-establishing min and max bboxes
+	m_bbox_min = newMinBBox;
+	m_bbox_max = newMaxBBox;
+}
+
+void StaticMesh::calcCentroid()
+{
+	m_centroid = (m_bbox_min - m_bbox_max) * glm::vec3(0.5);
+}
+
 void StaticMesh::setupMesh()
 {
 	// Generate buffers
@@ -246,6 +268,18 @@ void StaticMesh::bindTexture(Texture texture_val)
 	}
 }
 
+
+std::pair<glm::vec3, glm::vec3> StaticMesh::getBBox()
+{
+	calcBBox();
+	return std::make_pair(m_bbox_min, m_bbox_max);
+}
+
+glm::vec3 StaticMesh::getCentroid()
+{
+	calcCentroid();
+	return m_centroid;
+}
 
 void StaticMesh::setMat4(std::string name, glm::mat4 value)
 {

@@ -114,14 +114,16 @@ int main()
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
 	// ENTITIES
-	std::vector<IChromaEntity*> Entities;
 
+	// 
 	IChromaEntity* NanosuitEntity = new ChromaEntity;
 	Scene->addEntity(NanosuitEntity);
 	NanosuitEntity->setName("ChromaSuit");
 	
 	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
+	NanoSuitRigidComponent->setCollisionShape(ColliderShape::Convex);
+	NanoSuitRigidComponent->setMass(1.0f);
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	NanosuitEntity->addComponent(NanoSuitRigidComponent);
@@ -190,7 +192,6 @@ int main()
 
 
 	// POPULATING SCENE
-	//Scene->setEntities(Entities);
 	Scene->setLights(Lights);
 
 

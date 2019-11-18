@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 #include <iostream>
 
+
 class Texture
 {
 protected:
@@ -11,8 +12,10 @@ protected:
 public:
 	/*  Texture Data  */
 	unsigned int ID;
+
 	enum TYPE { DIFFUSE = 0, SPECULAR = 1, SHADOWMAP = 2, NORMAL=3, METALNESS=4, ROUGHNESS=5 };
 	TYPE type = TYPE::DIFFUSE;
+
 	// paths
 	std::string filename;
 	std::string directory;

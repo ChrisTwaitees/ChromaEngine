@@ -11,9 +11,9 @@
 class Model : public ChromaMeshComponent
 {
 protected:
-	// Transformations
-
-
+	// calculate attrs
+	virtual void calcBBox();
+	virtual void calcCentroid();
 	// Model Data
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<Texture> textures_loaded;
@@ -39,9 +39,10 @@ public:
 	int getNumTextures() override { return textures_loaded.size(); };
 	void bindShader(Shader* newShader) override { mShader = newShader; };
 	Shader* getShader() override { return mShader; };
-	glm::mat4 getTransformationMatrix() override { return TransformationMatrix; };
+	glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
 	virtual std::vector<ChromaVertex> getVertices() { return m_vertices; };
-	virtual std::pair<glm::vec3, glm::vec3> getBBox() {};
+	virtual std::pair<glm::vec3, glm::vec3> getBBox();
+	virtual glm::vec3 getCentroid();
 
 	// Component requirement 
 	void bindTextures(std::vector<Texture> textures_val) override {};
