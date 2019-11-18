@@ -7,7 +7,7 @@ void ChromaGame::Update()
 	m_physics->update(m_time);
 }
 
-void ChromaGame::Render()
+void ChromaGame::Draw()
 {
 	m_renderer->RenderScene();
 }
@@ -44,7 +44,7 @@ void ChromaGame::Tick()
 	// consider sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
 
 	// Render Scene
-	Render();
+	Draw();
 }
 
 
@@ -69,12 +69,10 @@ void ChromaGame::initialize()
 	m_input->bindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
 
 	// renderer
-	m_debugRenderer = new ChromaDebugRenderer();
-	m_renderer = new Renderer(m_scene, m_screen, m_debugRenderer);
+	m_renderer = new Renderer(m_scene, m_screen);
 
 	// add Physics to scene
-	m_physics = new ChromaPhysics();
-	m_physics->bindDebugRenderer(m_debugRenderer);
+	m_physics->bindDebugBuffer(m_renderer->getDebugBuffer());
 	m_scene->setPhysics(m_physics);
 }
 
@@ -86,6 +84,6 @@ void ChromaGame::ProcessInput()
 	// update camera
 	m_scene->getRenderCamera()->processInput(m_input);
 	// render physics debug if triggered
-	if (m_screen->drawPhysicsDebug)
-		m_physics->drawDebug();
+	//if (m_screen->drawPhysicsDebug)
+	m_physics->drawDebug();
 }

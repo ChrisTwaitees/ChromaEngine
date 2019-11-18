@@ -1,19 +1,21 @@
 #ifndef _CHROMA_RENDERER_
 #define _CHROMA_RENDERER_
 
+// stl
 #include <memory>
 #include <vector>
 
+// chroma
+#include <screenmanager/ChromaScreenManager.h>
 #include <scene/ChromaScene.h>
 #include <entity/ChromaEntity.h>
-#include <shader/Shader.h>
 #include <buffer/GBuffer.h>
 #include <buffer/Framebuffer.h>
 #include <buffer/ShadowBuffer.h>
 #include <buffer/PostFXBuffer.h>
+#include <buffer/DebugBuffer.h>
 #include <model/SkyBox.h>
-#include <screenmanager/ChromaScreenManager.h>
-#include <renderer/DebugRenderer.h>
+#include <shader/Shader.h>
 
 class Renderer
 {
@@ -38,17 +40,18 @@ protected:
 	// SCREENMANAGER
 	const ChromaScreenManager* m_screenManager;
 
-	// Debug Renderer
-	ChromaDebugRenderer* m_debugRenderer;
+	// GBuffer
+	Framebuffer* m_GBuffer;
 
 	// Skybox
 	SkyBox* m_skybox;
 
-	// Post FX
-	Framebuffer* m_postFXBuffer{ new PostFXBuffer };
+	// Debug Renderer
+	DebugBuffer* m_debugBuffer;
 
-	// GBuffer
-	Framebuffer* m_GBuffer;
+	// Post FX
+	Framebuffer* m_postFXBuffer{ new PostFXBuffer() };
+
 
 	// INITIALIZE
 	void Init();
@@ -57,7 +60,9 @@ public:
 	void RenderScene();
 
 	Renderer() {};
-	Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager, ChromaDebugRenderer*& DebugRenderer);
+	Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager);
+
+	DebugBuffer* getDebugBuffer() { return m_debugBuffer; };
 	~Renderer();
 };
 

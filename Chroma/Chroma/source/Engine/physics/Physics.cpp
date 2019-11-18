@@ -5,8 +5,7 @@ void ChromaPhysics::init()
 {
 	// create world
 	initPhysics();
-	// attach debugging
-	initDebugger();
+
 	// ground 
 	createGround();
 }
@@ -30,12 +29,6 @@ void ChromaPhysics::initPhysics()
 	updateGravity();
 }
 
-void ChromaPhysics::initDebugger()
-{
-	// attach debugger
-	m_debug = new ChromaPhysicsDebug();
-	m_world->setDebugDrawer(m_debug);
-}
 
 void ChromaPhysics::createGround()
 {
@@ -47,7 +40,6 @@ void ChromaPhysics::createGround()
 
 	btScalar mass(0.);
 	btVector3 localInertia(0, 0, 0);
-
 
 	//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
 	btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
@@ -99,16 +91,21 @@ void ChromaPhysics::update(ChromaTime& time)
 
 }
 
-void ChromaPhysics::setGravity(glm::vec3 newGravity)
+void ChromaPhysics::setGravity(glm::vec3& newGravity)
 {
 	m_world->setGravity(btVector3(newGravity.x, newGravity.y, newGravity.z));
 }
 
+void ChromaPhysics::bindDebugBuffer(DebugBuffer* const& DebugRenderer)
+{
+	m_debug->bindDebugBuffer(DebugRenderer);
+	m_debug->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
+	m_world->setDebugDrawer(m_debug);
+}
+
 void ChromaPhysics::drawDebug()
 {
-	std::cout << "Drawing Phys World Debug from Physics" << std::endl;
 	m_world->debugDrawWorld();
-	m_debug->Render();
 }
 
 IChromaEntity* ChromaPhysics::rayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end)
@@ -153,4 +150,5 @@ ChromaPhysics::~ChromaPhysics()
 	delete m_collisionConfiguration;
 	delete m_dispatcher;
 	delete m_broadphase;
+
 }

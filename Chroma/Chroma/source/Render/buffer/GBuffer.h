@@ -5,7 +5,7 @@
 #include <buffer/PostFXBuffer.h>
 #include <buffer/ShadowBuffer.h>
 #include <buffer/SSAOBuffer.h>
-
+#include <scene/ChromaScene.h>
 
 
 class GBuffer : public Framebuffer

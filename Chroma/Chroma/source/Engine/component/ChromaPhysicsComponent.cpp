@@ -48,7 +48,6 @@ void ChromaPhysicsComponent::createBody()
 	}
 	case(Convex):
 	{
-		std::cout << "adding convex shape to rigid body" << std::endl;
 		m_shape = new btConvexHullShape();
 		for (ChromaVertex vert : vertices)
 		{

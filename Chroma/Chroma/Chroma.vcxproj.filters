@@ -225,8 +225,8 @@
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp">
       <Filter>Engine\physics</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\renderer\DebugRenderer.cpp">
-      <Filter>Render\renderer</Filter>
+    <ClCompile Include="source\Render\buffer\DebugBuffer.cpp">
+      <Filter>Render\buffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -386,8 +386,8 @@
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h">
       <Filter>Engine\physics</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\renderer\DebugRenderer.h">
-      <Filter>Render\renderer</Filter>
+    <ClInclude Include="source\Render\buffer\DebugBuffer.h">
+      <Filter>Render\buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

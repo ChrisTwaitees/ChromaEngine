@@ -39,7 +39,7 @@ public:
 	unsigned int getFBO() override { return hdrFBO; };
 
 	void Draw() override;
-	void Draw(const bool& useBloom) override;
+	void Draw(const bool& useBloom);
 	void Bind() override;
 
 

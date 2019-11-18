@@ -68,7 +68,7 @@ public:
 	unsigned int getCubeMapid() { return cubeMap.ShaderID; };
 
 	void Draw();
-	SkyBox( Camera& activeCamera_val);
+	SkyBox(Camera* const& renderCamera);
 	~SkyBox();
 };
 

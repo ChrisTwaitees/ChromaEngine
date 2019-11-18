@@ -103,12 +103,6 @@ void Framebuffer::Draw()
 
 }
 
-void Framebuffer::Draw(const bool& useBloom)
-{
-	Draw();
-}
-
-
 
 Framebuffer::Framebuffer()
 {

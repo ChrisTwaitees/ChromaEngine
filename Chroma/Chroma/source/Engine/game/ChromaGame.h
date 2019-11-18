@@ -7,7 +7,7 @@
 #include <iostream>
 #include <input/ChromaInput.h>
 #include <renderer/Renderer.h>
-#include <renderer/DebugRenderer.h>
+#include <buffer/DebugBuffer.h>
 #include <scene/ChromaScene.h>
 #include <screenmanager/ChromaScreenManager.h>
 #include <time/ChromaTime.h>
@@ -30,8 +30,7 @@ class ChromaGame
 	ChromaScene* m_scene;
 	ChromaScreenManager* m_screen;
 	Renderer* m_renderer;
-	ChromaPhysics* m_physics;
-	ChromaDebugRenderer* m_debugRenderer;
+	ChromaPhysics* m_physics{ new ChromaPhysics()};
 
 	// input
 	ChromaTime m_time;
@@ -40,7 +39,7 @@ class ChromaGame
 	// game loop functions
 	void ProcessInput();
 	void Update();
-	void Render();
+	void Draw();
 
 	// mouse picker callback
 	void MousePickerCallback();

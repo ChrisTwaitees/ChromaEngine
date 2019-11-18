@@ -189,7 +189,7 @@ void GBuffer::Draw()
 	drawGeometryPass();
 
 	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
-	mSSAOBuffer->Draw(gViewPosition, gViewNormal, m_scene);
+	((SSAOBuffer*)mSSAOBuffer)->Draw(gViewPosition, gViewNormal, m_scene);
 
 	// 2. HDR pass : remapping color back to normalized range
 	m_postFXBuffer->Bind();

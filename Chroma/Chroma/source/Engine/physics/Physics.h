@@ -12,6 +12,7 @@
 #include <screenmanager/ChromaScreenManagerConfig.h> 
 #include <component/ChromaPhysicsComponent.h>
 #include <physics/PhysicsDebug.h>
+#include <buffer/DebugBuffer.h>
 #include <time/ChromaTime.h>
 
 class IChromaEntity;
@@ -30,12 +31,11 @@ private:
 	btDiscreteDynamicsWorld*			  m_world;
 
 	// debug
-	ChromaPhysicsDebug* m_debug;
+	ChromaPhysicsDebug* m_debug{ new ChromaPhysicsDebug()};
 
 	// functions
 	void init();
 	void initPhysics();
-	void initDebugger();
 	void createGround();
 	void updateGravity();
 
@@ -44,9 +44,9 @@ public:
 	
 	void update(ChromaTime& time);
 
-	void setGravity(glm::vec3 newGravity);
+	void setGravity(glm::vec3& newGravity) ;
 
-	void bindDebugRenderer(ChromaDebugRenderer*& DebugRenderer) { m_debug->bindDebugRenderer(DebugRenderer); };
+	void bindDebugBuffer(DebugBuffer* const& DebugRenderer);
 	void drawDebug();
 
 	IChromaEntity* rayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);

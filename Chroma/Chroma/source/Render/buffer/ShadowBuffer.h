@@ -9,7 +9,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 // Chroma
-#include "buffer/Framebuffer.h"
+#include <buffer/Framebuffer.h>
+#include <scene/ChromaScene.h>
 
 class ShadowBuffer : Framebuffer
 {

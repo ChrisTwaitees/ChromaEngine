@@ -191,6 +191,7 @@
     <ClCompile Include="source\Engine\time\ChromaTime.cpp" />
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\Chroma.cpp" />
+    <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\Framebuffer.cpp" />
     <ClCompile Include="source\Render\buffer\GBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp" />
@@ -208,7 +209,6 @@
     <ClCompile Include="source\Render\model\SkyBox.cpp" />
     <ClCompile Include="source\Render\model\SpherePrimitive.cpp" />
     <ClCompile Include="source\Render\model\StaticMesh.cpp" />
-    <ClCompile Include="source\Render\renderer\DebugRenderer.cpp" />
     <ClCompile Include="source\Render\renderer\Renderer.cpp" />
     <ClCompile Include="source\Render\shader\GeometryShader.cpp" />
     <ClCompile Include="source\Render\shader\Shader.cpp" />
@@ -243,6 +243,7 @@
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h" />
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\Engine\time\ChromaTime.h" />
+    <ClInclude Include="source\Render\buffer\DebugBuffer.h" />
     <ClInclude Include="source\Render\buffer\Framebuffer.h" />
     <ClInclude Include="source\Render\buffer\GBuffer.h" />
     <ClInclude Include="source\Render\buffer\PostFXBuffer.h" />
@@ -262,7 +263,6 @@
     <ClInclude Include="source\Render\model\StaticMesh.h" />
     <ClInclude Include="source\Render\model\Vertex.h" />
     <ClInclude Include="source\Render\renderer\ChromaRendererConfig.h" />
-    <ClInclude Include="source\Render\renderer\DebugRenderer.h" />
     <ClInclude Include="source\Render\renderer\Renderer.h" />
     <ClInclude Include="source\Render\shader\GeometryShader.h" />
     <ClInclude Include="source\Render\shader\Shader.h" />

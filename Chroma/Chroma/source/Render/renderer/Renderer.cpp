@@ -51,12 +51,12 @@ void Renderer::renderTransparency()
 void Renderer::renderDebug()
 {
 	if (m_screenManager->drawDebug)
-		m_debugRenderer->Render();
+		m_debugBuffer->Draw();
 }
 
 void Renderer::renderPostFX()
 {
-	m_screenManager->useBloom ? m_postFXBuffer->Draw(true) : m_postFXBuffer->Draw();
+	m_screenManager->useBloom ? ((PostFXBuffer*)m_postFXBuffer)->Draw(true) : m_postFXBuffer->Draw();
 	m_postFXBuffer->setUniform("exposure", m_screenManager->exposure);
 	m_postFXBuffer->setUniform("gamma", m_screenManager->gamma);
 }
@@ -64,7 +64,8 @@ void Renderer::renderPostFX()
 void Renderer::Init()
 {
 	m_GBuffer = new GBuffer(m_scene, m_postFXBuffer);
-	m_skybox = new SkyBox(*m_scene->getRenderCamera());
+	m_skybox = new SkyBox(m_scene->getRenderCamera());
+	m_debugBuffer = new DebugBuffer(m_scene->getRenderCamera());
 }
 
 void Renderer::RenderScene()
@@ -83,11 +84,10 @@ void Renderer::RenderScene()
 }
 
 
-Renderer::Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager, ChromaDebugRenderer*& DebugRenderer)
+Renderer::Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager)
 {
 	m_scene = Scene;
 	m_screenManager = ScreenManager;
-	m_debugRenderer = DebugRenderer;
 	Init();
 }
 
