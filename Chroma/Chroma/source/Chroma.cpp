@@ -185,13 +185,6 @@ int main()
 	SphereMeshComponent->bindShader(&litNormalsShader);
 	SphereEntity->addComponent(SphereMeshComponent);
 
-	// LINE
-	IChromaEntity* LineEntity = new ChromaEntity;
-	Scene->addEntity(LineEntity);
-	ChromaMeshComponent* LineMeshComponent = new LinePrimitive{glm::vec3(0), glm::vec3(1)};
-	LineMeshComponent->isLit = false;
-	LineEntity->addComponent(LineMeshComponent);
-
 
 	// POPULATING SCENE
 	Scene->setLights(Lights);
@@ -210,8 +203,6 @@ int main()
 		Sun->setPosition(Sun->getDirection() * -20.0f);
 		//Sunlight Rotation
 		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
-
-		LineMeshComponent->setFloat("time", GameTime);
 
 		// LIGHTS
 		constantShader.use();
@@ -237,7 +228,6 @@ int main()
 				lamps[i]->setPosition(newLightPos);
 				lamps[i]->scale(glm::vec3(0.3f));
 				SphereEntity->setPosition(newLightPos);
-				LineMeshComponent->setEndPos(newLightPos);
 			}
 			// fragments
 			for (IChromaComponent* component : lamps[i]->getRenderableComponents())

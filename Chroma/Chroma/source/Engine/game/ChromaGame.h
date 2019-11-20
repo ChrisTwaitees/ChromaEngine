@@ -47,6 +47,7 @@ class ChromaGame
 public:
 	double getDeltaTime() { return m_time.getDeltaTime(); };
 	State getGameState() { return GameState; };
+	Renderer* getRenderer() { return m_renderer; };
 
 
 	// Game Loop
