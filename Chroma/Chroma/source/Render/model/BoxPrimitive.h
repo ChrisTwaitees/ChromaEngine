@@ -6,6 +6,8 @@
 class BoxPrimitive : public StaticMesh
 {
 private:
+	std::vector<ChromaVertex> vertices;
+
 	std::vector<float> boxData = {
 		     // Back face		    normals	             uvs
 		-0.5f, -0.5f, -0.5f,    0.0f,  0.0f, -1.0f,   0.0f, 0.0f, // Bottom-left
@@ -55,6 +57,7 @@ private:
 public:
 	/*  Functions  */
 	void BindDrawVAO() override;
+	std::vector<ChromaVertex> getVertices() override;
 
 	/*  Constructors  */
 	BoxPrimitive() { setupBox();};

@@ -55,7 +55,7 @@ void SpherePrimitive::setStackCount(int stacks)
 
 std::vector<ChromaVertex> SpherePrimitive::getVertices()
 {
-	std::vector<ChromaVertex> collectVerts;
+	vertices.clear();
 	for (int i = 0; i < getVertexCount(); i++)
 	{
 		glm::vec3 position;
@@ -64,24 +64,20 @@ std::vector<ChromaVertex> SpherePrimitive::getVertices()
 		for (int j = 0; j < 2; j++)
 		{
 			int vertVectorIndex = currentVertIndex + j;
-			position[j] = vertices[vertVectorIndex];
+			position[j] = m_verts[vertVectorIndex];
 			normal[j] = normals[vertVectorIndex];
 		}
 
 		ChromaVertex newVert;
 		newVert.setPosition(position);
 		newVert.setNormal(normal);
-		collectVerts.push_back(newVert);
+		vertices.push_back(newVert);
 	}
-
-	std::cout << "Intrinsic Verts" <<  getVertexCount() << "Collected Verts : " << collectVerts.size() << std::endl;
-
-	return collectVerts;
+	return vertices;
 }
 
 void SpherePrimitive::setupMesh()
 {
-
 	// Vertex Array Object Buffer
 	glGenVertexArrays(1, &VAO);
 	// copy interleaved vertex data (V/N/T) to VBO
@@ -133,15 +129,15 @@ void SpherePrimitive::BindDrawVAO()
 ///////////////////////////////////////////////////////////////////////////////
 void SpherePrimitive::updateRadius()
 {
-	float scale = sqrtf(radius * radius / (vertices[0] * vertices[0] + vertices[1] * vertices[1] + vertices[2] * vertices[2]));
+	float scale = sqrtf(radius * radius / (m_verts[0] * m_verts[0] + m_verts[1] * m_verts[1] + m_verts[2] * m_verts[2]));
 
 	std::size_t i, j;
-	std::size_t count = vertices.size();
+	std::size_t count = m_verts.size();
 	for (i = 0, j = 0; i < count; i += 3, j += 8)
 	{
-		vertices[i] *= scale;
-		vertices[i + 1] *= scale;
-		vertices[i + 2] *= scale;
+		m_verts[i] *= scale;
+		m_verts[i + 1] *= scale;
+		m_verts[i + 2] *= scale;
 
 		// for interleaved array
 		interleavedVertices[j] *= scale;
@@ -157,7 +153,7 @@ void SpherePrimitive::updateRadius()
 ///////////////////////////////////////////////////////////////////////////////
 void SpherePrimitive::clearArrays()
 {
-	std::vector<float>().swap(vertices);
+	std::vector<float>().swap(m_verts);
 	std::vector<float>().swap(normals);
 	std::vector<float>().swap(texCoords);
 	std::vector<unsigned int>().swap(indices);
@@ -437,12 +433,12 @@ void SpherePrimitive::buildInterleavedVertices()
 	std::vector<float>().swap(interleavedVertices);
 
 	std::size_t i, j;
-	std::size_t count = vertices.size();
+	std::size_t count = m_verts.size();
 	for (i = 0, j = 0; i < count; i += 3, j += 2)
 	{
-		interleavedVertices.push_back(vertices[i]);
-		interleavedVertices.push_back(vertices[i + 1]);
-		interleavedVertices.push_back(vertices[i + 2]);
+		interleavedVertices.push_back(m_verts[i]);
+		interleavedVertices.push_back(m_verts[i + 1]);
+		interleavedVertices.push_back(m_verts[i + 2]);
 
 		interleavedVertices.push_back(normals[i]);
 		interleavedVertices.push_back(normals[i + 1]);
@@ -460,9 +456,9 @@ void SpherePrimitive::buildInterleavedVertices()
 ///////////////////////////////////////////////////////////////////////////////
 void SpherePrimitive::addVertex(float x, float y, float z)
 {
-	vertices.push_back(x);
-	vertices.push_back(y);
-	vertices.push_back(z);
+	m_verts.push_back(x);
+	m_verts.push_back(y);
+	m_verts.push_back(z);
 }
 
 

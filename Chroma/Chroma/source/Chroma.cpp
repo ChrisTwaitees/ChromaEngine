@@ -116,15 +116,15 @@ int main()
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
 	// ENTITIES
-
-	// 
 	IChromaEntity* NanosuitEntity = new ChromaEntity;
 	Scene->addEntity(NanosuitEntity);
 	NanosuitEntity->setName("ChromaSuit");
+	NanosuitEntity->setPosition(glm::vec3(30.,0.,0));
 	
 	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
 	NanoSuitRigidComponent->setCollisionShape(ColliderShape::Convex);
+	NanoSuitRigidComponent->setCollisionState(ColliderState::Dynamic);
 	NanoSuitRigidComponent->setMass(1.0f);
 	NanoSuitModelComponent->bindShader(&litNormalsShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
@@ -136,12 +136,18 @@ int main()
 	{
 		IChromaEntity* BoxEntity = new ChromaEntity;
 		Scene->addEntity(BoxEntity);
+		BoxEntity->setName("Box");
 		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive;
 		BoxMeshComponent->bindShader(&litShader);
 		BoxMeshComponent->bindTexture(diffuseMap);
 		BoxMeshComponent->bindTexture(specularMap);
-		BoxEntity->addComponent(BoxMeshComponent);
+		ChromaPhysicsComponent* BoxRigidComponent = new ChromaPhysicsComponent();
+		BoxRigidComponent->setCollisionShape(ColliderShape::Convex);
+		BoxRigidComponent->setCollisionState(ColliderState::Kinematic);
+
 		BoxEntity->setPosition(position);
+		BoxEntity->addComponent(BoxMeshComponent);
+		BoxEntity->addComponent(BoxRigidComponent);
 		boxes.push_back(BoxEntity);
 	}
 
@@ -150,12 +156,18 @@ int main()
 	{
 		IChromaEntity* LampEntity = new ChromaEntity;
 		Scene->addEntity(LampEntity);
+		LampEntity->setName("Lamp");
 		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive;
 		LampMeshComponent->bindShader(&constantShader);
 		LampMeshComponent->castShadows = false;
 		LampMeshComponent->isLit = false;
-		LampEntity->addComponent(LampMeshComponent);
+		ChromaPhysicsComponent* LampRigidComponent = new ChromaPhysicsComponent();
+		LampRigidComponent->setCollisionShape(ColliderShape::Convex);
+		LampRigidComponent->setCollisionState(ColliderState::Kinematic);
+
 		LampEntity->setPosition(position);
+		LampEntity->addComponent(LampMeshComponent);
+		LampEntity->addComponent(LampRigidComponent);
 		lamps.push_back(LampEntity);
 	}
 
@@ -179,11 +191,16 @@ int main()
 	// SPHERE
 	IChromaEntity* SphereEntity = new ChromaEntity;
 	Scene->addEntity(SphereEntity);
+	SphereEntity->setName("Sphere");
 	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
+	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
+	SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
+	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 	SphereMeshComponent->bindTexture(normalMap);
 	SphereMeshComponent->bindTexture(concreteMap);
 	SphereMeshComponent->bindShader(&litNormalsShader);
 	SphereEntity->addComponent(SphereMeshComponent);
+	SphereEntity->addComponent(SphereRigidComponent);
 
 
 	// POPULATING SCENE

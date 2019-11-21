@@ -7,7 +7,6 @@ void ChromaPhysicsDebug::drawLine(const btVector3& from, const btVector3& to, co
 
 void ChromaPhysicsDebug::drawBox(const btVector3& bbMin, const btVector3& bbMax, const btVector3& color)
 {
-
 	m_debugBuffer->drawBox(BulletToGLM(bbMin), BulletToGLM(bbMax), BulletToGLM(color));
 }
 
