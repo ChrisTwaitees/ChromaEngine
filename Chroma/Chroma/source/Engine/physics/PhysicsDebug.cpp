@@ -18,7 +18,7 @@ void ChromaPhysicsDebug::drawBox(const btVector3& bbMin, const btVector3& bbMax,
 
 void ChromaPhysicsDebug::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)
 {
-	//std::cout << "drawing contact point from physics debug" << std::endl;
+
 }
 
 void ChromaPhysicsDebug::reportErrorWarning(const char* warningString)
@@ -28,7 +28,7 @@ void ChromaPhysicsDebug::reportErrorWarning(const char* warningString)
 
 void ChromaPhysicsDebug::draw3dText(const btVector3& location, const char* textString)
 {
-	//std::cout << "Bullet Draw 3dText : " << textString << std::endl;
+	std::cout << "Bullet Draw 3dText : " << textString << std::endl;
 }
 
 void ChromaPhysicsDebug::setDebugMode(int debugMode)
