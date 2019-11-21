@@ -25,7 +25,14 @@ void ChromaGame::MousePickerCallback()
 	newLineMeshComponent->isLit = false;
 	newLineEntity->addComponent(newLineMeshComponent);
 
-	m_physics->rayTest(start, end);
+	IChromaEntity* clickedEntity  = m_physics->rayTest(start, end);
+	if (clickedEntity != NULL)
+	{
+		std::cout << "Found entity adding velocity" << std::endl;
+		for (IChromaComponent* component : clickedEntity->getPhysicsComponents())
+			((ChromaPhysicsComponent*)component)->setLinearVelocity(glm::normalize(start - end) * 2.0f);
+	}
+
 }
 
 void ChromaGame::Tick()

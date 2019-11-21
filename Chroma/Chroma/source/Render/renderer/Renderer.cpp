@@ -3,6 +3,7 @@
 
 void Renderer::clearBuffers()
 {
+	// debug buffer
 	m_debugBuffer->ClearBuffer();
 }
 
@@ -75,9 +76,6 @@ void Renderer::Init()
 
 void Renderer::RenderScene()
 {
-	// Clear
-	clearBuffers();
-
 	// Deferred
 	renderDefferedComponents();
 
@@ -89,6 +87,9 @@ void Renderer::RenderScene()
 
 	// Debug
 	renderDebug();
+
+	// Clear
+	clearBuffers();
 }
 
 

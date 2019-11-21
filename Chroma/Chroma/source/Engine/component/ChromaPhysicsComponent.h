@@ -16,7 +16,7 @@ enum ColliderShape { Box, Convex, Mesh, Capsule, Sphere, AABB };
 class ChromaPhysicsComponent :	public IChromaComponent
 {
 	// attrs
-	float m_mass{ 0.0f };
+	float m_mass{ 1.0f };
 	// collision shape
 	ColliderShape m_collisionShape = ColliderShape::AABB;
 

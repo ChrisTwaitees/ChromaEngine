@@ -300,10 +300,13 @@
     <None Include="resources\shaders\fragSSAOBlur.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
+    <None Include="resources\shaders\geometryBoxDebug.glsl" />
     <None Include="resources\shaders\geometryDebugNormals.glsl" />
     <None Include="resources\shaders\geometryLineDebug.glsl" />
+    <None Include="resources\shaders\geometrySphereDebug.glsl" />
     <None Include="resources\shaders\skyBoxFrag.glsl" />
     <None Include="resources\shaders\skyBoxVertex.glsl" />
+    <None Include="resources\shaders\vertexBoxDebug.glsl" />
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />
     <None Include="resources\shaders\vertexGBufferLit.glsl" />
@@ -312,6 +315,7 @@
     <None Include="resources\shaders\vertexLitShadows.glsl" />
     <None Include="resources\shaders\vertexLitShadowsNormals.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
+    <None Include="resources\shaders\vertexSphereDebug.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
