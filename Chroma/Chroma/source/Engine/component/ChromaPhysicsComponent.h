@@ -12,51 +12,61 @@
 
 
 enum ColliderShape { Box, Convex, Mesh, Capsule, Sphere, AABB };
+enum ColliderState {Static, Kinematic, Dynamic};
 
 class ChromaPhysicsComponent :	public IChromaComponent
 {
 	// attrs
-	float m_mass{ 1.0f };
+	float m_mass{ 0.0f };
 	// collision shape
 	ColliderShape m_collisionShape = ColliderShape::AABB;
-
-	// transforms
-	btTransform m_transform;
+	ColliderState m_collisionState = ColliderState::Kinematic;
 
 	// physical settings
 	float m_restitution{ 1.0f };
 	float m_friction{ 0.5f };
 
 	// members
-	btRigidBody* m_body;
+	btRigidBody* m_rigidBody;
 	btCollisionShape* m_shape;
+	btMotionState* m_motionState;
+	btTransform m_transform;
 
 	// functions
-	void createBody();
-	void createBodyWithMass();
+	void createCollisionShape();
+	void createRigidBody();
+	void setCollisionFlags();
 
 public:
 	// get/set
 	float getMass() { return m_mass; };
-	void setMass(float newMass) { m_mass = newMass; };
+	void setMass(float const& newMass) { m_mass = newMass; };
 
 	float getRestitution() { return m_restitution; };
-	void setRestitution(float newRestitution) { m_restitution = newRestitution; };
+	void setRestitution(float const& newRestitution) { m_restitution = newRestitution; };
 
 	float getFriction() { return m_friction; };
-	void setFriction(float newFriction) { m_friction = newFriction; }
+	void setFriction(float const& newFriction) { m_friction = newFriction; };
+	// collisions
+	void setCollisionShape(ColliderShape const& shape) { m_collisionShape = shape; };
+	ColliderShape getColliderShape() { return m_collisionShape; };
 
-	void setLinearVelocity(glm::vec3 velocity);
+	void setCollisionState(ColliderState const& state) { m_collisionState = state; };
+	ColliderState getColliderState() { return m_collisionState; };
+	
+	btRigidBody* getRigidBody() { return m_rigidBody; };
+
+	btMotionState* getMotionState() { return m_motionState; };
+	// transforms
+	void setLinearVelocity(glm::vec3 const& velocity);
 	const glm::vec3 getLinearVelocity();
 
-	void setCollisionShape(ColliderShape shape) { m_collisionShape = shape; };
-	ColliderShape getColliderShape() { return m_collisionShape; };
-	
-	btRigidBody* getRigidBody() { return m_body; };
+	void setWorldTransform(glm::mat4 const& transform);
+	glm::mat4 getWorldTransform() ;
 
 	// functions
 	void buildRigidBody();
-	void transformEntity(btTransform& transform);
+	void transformParentEntity(btTransform& transform);
 
 	ChromaPhysicsComponent();
 	~ChromaPhysicsComponent();

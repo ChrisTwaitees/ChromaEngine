@@ -141,31 +141,45 @@ void ChromaEntity::removeEmptyComponent(IChromaComponent*& removeMe)
 		m_renderableComponents.erase(m_renderableComponents.begin() + componentIndex);
 }
 
+void ChromaEntity::updatePhysicsComponentsTransforms()
+{
+	for (IChromaComponent* physicsComponent : m_physicsComponents)
+	{
+		if (((ChromaPhysicsComponent*)physicsComponent)->getColliderState() == Kinematic) // check if physics object is kinematic
+			((ChromaPhysicsComponent*)physicsComponent)->setWorldTransform(m_transformMatrix);
+	}
+}
+
 
 // TRANSFORMATIONS
 void ChromaEntity::scale(glm::vec3 scalefactor)
 {
 	m_transformMatrix = glm::scale(m_transformMatrix, scalefactor);
+	updatePhysicsComponentsTransforms();
 }
 
 void ChromaEntity::translate(glm::vec3 translatefactor)
 {
 	m_transformMatrix = glm::translate(m_transformMatrix, translatefactor);
+	updatePhysicsComponentsTransforms();
 }
 
 void ChromaEntity::rotate(float degrees, glm::vec3 rotationaxis)
 {
 	m_transformMatrix = glm::rotate(m_transformMatrix, glm::radians(degrees), rotationaxis);
+	updatePhysicsComponentsTransforms();
 }
 
 void ChromaEntity::setScale(glm::vec3 newscale)
 {
 	m_transformMatrix = glm::scale(m_identityMatrix, newscale);
+	updatePhysicsComponentsTransforms();
 }
 
 void ChromaEntity::setPosition(glm::vec3 newposition)
 {
 	m_transformMatrix = glm::translate(m_identityMatrix, newposition);
+	updatePhysicsComponentsTransforms();
 }
 
 void ChromaEntity::setRotation(float degrees, glm::vec3 rotationaxis)
@@ -173,6 +187,7 @@ void ChromaEntity::setRotation(float degrees, glm::vec3 rotationaxis)
 	glm::vec3 existingTranslation = getPosition();
 	m_transformMatrix = glm::translate(m_identityMatrix, existingTranslation);
 	rotate(degrees, rotationaxis);
+	updatePhysicsComponentsTransforms();
 }
 
 

@@ -85,7 +85,8 @@ void ChromaPhysics::update(ChromaTime& time)
 			else
 				trans = obj->getWorldTransform();
 			// apply transform
-			physicsComponent->transformEntity(trans);
+			if (physicsComponent->getColliderState() == Dynamic)
+				physicsComponent->transformParentEntity(trans);
 		}
 	}
 

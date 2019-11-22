@@ -42,6 +42,8 @@ class ChromaEntity : public IChromaEntity
 	void removeMeshComponent(ChromaMeshComponent*& newMeshComponent) override {};
 	void removePhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) override {};
 
+	// Components transforms
+	void updatePhysicsComponentsTransforms();
 
 	template<class ComponentClass>
 	void bindParentEntity(ComponentClass component) {

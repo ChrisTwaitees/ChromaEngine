@@ -34,6 +34,46 @@ void BoxPrimitive::BindDrawVAO()
 	glBindVertexArray(0); // reset to default
 }
 
+std::vector<ChromaVertex> BoxPrimitive::getVertices()
+{
+	vertices.clear();
+	for (int i = 0; i < boxData.size(); i+=8)
+	{
+		ChromaVertex newVert;
+		glm::vec3 position;
+		glm::vec3 normal;
+		glm::vec2 texcoords;
+		int vertDataIndex = i;
+
+		// positions
+		for (int j = 0; j < 3; j++)
+		{
+			vertDataIndex += j;
+			position[j] = boxData[vertDataIndex];
+		}
+		newVert.setPosition(position);
+		vertDataIndex++;
+		// normals
+		for (int j = 0; j < 3; j++)
+		{
+			vertDataIndex += j;
+			normal[j] = boxData[vertDataIndex];
+		}
+		newVert.setNormal(normal);
+		vertDataIndex++;
+		// texcoords
+		for (int j = 0; j < 2; j++)
+		{
+			vertDataIndex += j;
+			texcoords[j] = boxData[vertDataIndex];
+		}
+		newVert.setTexCoords(texcoords);
+
+		vertices.push_back(newVert);
+	}
+	return vertices;
+}
+
 
 BoxPrimitive::~BoxPrimitive()
 {

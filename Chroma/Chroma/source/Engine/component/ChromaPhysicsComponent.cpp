@@ -6,29 +6,45 @@
 void ChromaPhysicsComponent::buildRigidBody()
 {
 	// ran when component added to entity
-	createBody();
-	createBodyWithMass();
+	createCollisionShape();
+	// create m_rigidbody object
+	createRigidBody();
+	// set whether object is dynamic, static or kinematic
+	setCollisionFlags();
 }
 
-void ChromaPhysicsComponent::setLinearVelocity(glm::vec3 velocity)
+void ChromaPhysicsComponent::setLinearVelocity(glm::vec3 const& velocity)
 {
-	m_body->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
+	m_rigidBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 }
 
 const glm::vec3 ChromaPhysicsComponent::getLinearVelocity()
 {
-	return  BulletToGLM(m_body->getLinearVelocity());
+	return  BulletToGLM(m_rigidBody->getLinearVelocity());
+}
+
+void ChromaPhysicsComponent::setWorldTransform(glm::mat4 const& transform)
+{
+	m_motionState->setWorldTransform(GLMToBullet(transform));
+}
+
+glm::mat4 ChromaPhysicsComponent::getWorldTransform()
+{
+	btTransform transform;
+	m_motionState->getWorldTransform(transform);
+	return BulletToGLM(transform);
+
 }
 
 
-void ChromaPhysicsComponent::transformEntity(btTransform& transform)
+void ChromaPhysicsComponent::transformParentEntity(btTransform& transform)
 {
 	glm::mat4 transformMat = BulletToGLM(transform);
 	getParentEntity()->setTransformMatrix(transformMat);
 }
 
 
-void ChromaPhysicsComponent::createBody()
+void ChromaPhysicsComponent::createCollisionShape()
 {
 	std::vector<ChromaVertex> vertices = m_parentEntity->getVertices();
 
@@ -36,14 +52,16 @@ void ChromaPhysicsComponent::createBody()
 	{
 	case(AABB):
 	{
-		
-		//m_shape = new btAA;
+		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
+		glm::vec3 boxSize = glm::abs(bbox.second);
+		m_shape = new btBoxShape(GLMToBullet(boxSize));
 		break;
 	}
 	case(Sphere) :
 	{
-		// constructor : (radius)
-		m_shape = new btSphereShape(btScalar(1.0f));
+		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
+		float boxSize = glm::length(bbox.first - bbox.second);
+		m_shape = new btSphereShape(btScalar(boxSize));
 		break;
 	}
 	case(Convex):
@@ -85,26 +103,33 @@ void ChromaPhysicsComponent::createBody()
 	}
 	case(Capsule):
 	{
+		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
+		float boxheight = glm::length(bbox.first.y - bbox.second.y);
+		bbox.first.y = 0;
+		bbox.second.y = 0;
+		float boxwidth = glm::length(bbox.first - bbox.second);
 		// constructor : (radius, height)
-		m_shape = new btCapsuleShape(btScalar(1.0f), btScalar(1.0f));
+		m_shape = new btCapsuleShape(boxwidth, boxheight);
 		break;
 	}
 	case(Box):
 	{
-		m_shape = new btBoxShape(btVector3(1.0f, 1.0f, 1.0f));
+		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
+		glm::vec3 boxSize = glm::abs(bbox.second);
+		m_shape = new btBoxShape(GLMToBullet(boxSize));
 		break;
 	}
 	}
 
 }
 
-void ChromaPhysicsComponent::createBodyWithMass()
+void ChromaPhysicsComponent::createRigidBody()
 {
 	// fetch entity position
 	m_transform = GLMToBullet(getParentEntity()->getTransformationMatrix());
 
 	// default motion state
-	btDefaultMotionState* motionState = new btDefaultMotionState(m_transform);
+	m_motionState = new btDefaultMotionState(m_transform);
 
 	// mass
 	btScalar bodyMass = m_mass;
@@ -112,17 +137,33 @@ void ChromaPhysicsComponent::createBodyWithMass()
 	m_shape->calculateLocalInertia(bodyMass, bodyIntertia);
 
 	// rigid body cconstruction info
-	btRigidBody::btRigidBodyConstructionInfo bodyCI = btRigidBody::btRigidBodyConstructionInfo(bodyMass, motionState, m_shape, bodyIntertia);
+	btRigidBody::btRigidBodyConstructionInfo bodyCI = btRigidBody::btRigidBodyConstructionInfo(bodyMass, m_motionState, m_shape, bodyIntertia);
 
 	// setting friction and restitutino
 	bodyCI.m_restitution = m_restitution;
 	bodyCI.m_friction = m_friction;
 
 	// build rigid
-	m_body = new btRigidBody(bodyCI);
+	m_rigidBody = new btRigidBody(bodyCI);
 
 	// passing reference pointer to parent object
-	m_body->setUserPointer(this);
+	m_rigidBody->setUserPointer(this);
+}
+
+void ChromaPhysicsComponent::setCollisionFlags()
+{
+	// static objects have a mass of 0
+	// kinematic objects have a mass 0 but can be moved by code
+	// dynamic objects have a mass non-zero transforms are controlled by bullet
+	if (m_mass == 0 && m_collisionState == Static)
+		m_rigidBody->setCollisionFlags(m_rigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
+	else if (m_mass == 0 && m_collisionState == Kinematic)
+	{
+		m_rigidBody->setCollisionFlags(m_rigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+		m_rigidBody->setActivationState(DISABLE_DEACTIVATION);
+	}
+	else if (m_mass > 0)
+		setCollisionState(Dynamic);
 }
 
 
@@ -133,8 +174,8 @@ ChromaPhysicsComponent::ChromaPhysicsComponent()
 
 ChromaPhysicsComponent::~ChromaPhysicsComponent()
 {
-	delete m_body->getMotionState();
-	delete m_body;
+	delete m_rigidBody->getMotionState();
+	delete m_rigidBody;
 	delete m_shape;
 
 }
