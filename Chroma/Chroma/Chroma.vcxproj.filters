@@ -231,6 +231,9 @@
     <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
+    <ClCompile Include="source\ChromaRenderScene.cpp">
+      <Filter>Engine\main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">

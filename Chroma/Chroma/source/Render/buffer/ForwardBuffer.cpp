@@ -47,6 +47,7 @@ void ForwardBuffer::renderForwardComponents()
 {
 	// attach current buffer and copy contents of postfx buffer
 	attachBuffer();
+	fetchColorAndDepth();
 
 	// Render Skybox first for Transparent Entities
 	m_scene->getSkyBox()->Draw();
@@ -98,7 +99,6 @@ void ForwardBuffer::renderTransparency()
 void ForwardBuffer::attachBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	fetchColorAndDepth();
 }
 
 void ForwardBuffer::drawQuad()

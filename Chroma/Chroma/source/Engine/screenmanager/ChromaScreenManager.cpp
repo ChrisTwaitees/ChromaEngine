@@ -174,24 +174,24 @@ void ChromaScreenManager::drawGUI()
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 	// toggle skybox
-	//if (ImGui::Button("Toggle SkyBox"))
-	//	ToggleSkybox();
+	if (ImGui::Button("Toggle SkyBox"))
+		ToggleSkybox();
 
 	// exposure
-	//ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);
-	//ImGui::SliderFloat("Gamma", &gamma, 0.0f, 5.0f);
+	ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);
+	ImGui::SliderFloat("Gamma", &gamma, 0.0f, 5.0f);
 
 	// bloom
-	//if (ImGui::Button("Toggle Bloom"))
-	//	ToggleBloom();
+	if (ImGui::Button("Toggle Bloom"))
+		ToggleBloom();
 
 	// debug draw
-	if (ImGui::Button("Toggle Debug"))
-		ToggleDebug();
+	//if (ImGui::Button("Toggle Debug"))
+	//	ToggleDebug();
 
-	// debug draw
-	if (ImGui::Button("Toggle Physics Debug"))
-		TogglePhysicsDebug();
+	//// debug draw
+	//if (ImGui::Button("Toggle Physics Debug"))
+	//	TogglePhysicsDebug();
 
 	gui.End();
 }

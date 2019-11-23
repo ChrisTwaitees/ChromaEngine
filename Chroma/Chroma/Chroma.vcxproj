@@ -178,6 +178,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="source\ChromaRenderScene.cpp" />
     <ClCompile Include="source\Engine\component\ChromaMeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp" />
     <ClCompile Include="source\Engine\entity\ChromaEntity.cpp" />
