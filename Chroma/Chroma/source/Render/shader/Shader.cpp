@@ -125,7 +125,7 @@ void Shader::use()
 }
 
 
-void Shader::setLightingUniforms( std::vector<std::shared_ptr<Light>> Lights, Camera& renderCam)
+void Shader::setLightingUniforms(std::vector<Light*> Lights, Camera& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };

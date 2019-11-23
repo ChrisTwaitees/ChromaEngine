@@ -52,7 +52,7 @@ public:
 	virtual void use();
 
 	// Uniforms
-	void setLightingUniforms(std::vector<std::shared_ptr<Light>> Lights, Camera& renderCam);
+	void setLightingUniforms(std::vector<Light*> Lights, Camera& renderCam);
 
 	template<typename UniformType>
 	void addUniform(std::string uniformName, UniformType uniformValue){

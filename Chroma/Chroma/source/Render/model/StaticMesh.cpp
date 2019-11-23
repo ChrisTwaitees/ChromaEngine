@@ -60,7 +60,7 @@ void StaticMesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void StaticMesh::updateUniforms(const Shader* updateShader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
+void StaticMesh::updateUniforms(const Shader* updateShader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
 {
 	updateTransformUniforms(updateShader, RenderCam, TransformMatrix);
 	updateTextureUniforms(updateShader);
@@ -68,7 +68,7 @@ void StaticMesh::updateUniforms(const Shader* updateShader, std::vector < std::s
 	updateLightingUniforms(updateShader, Lights, RenderCam);
 }
 
-void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector < std::shared_ptr<Light>> Lights, Camera& renderCam)
+void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
@@ -190,14 +190,14 @@ void StaticMesh::Draw(Shader &shader)
 	BindDrawVAO();
 }
 
-void StaticMesh::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
+void StaticMesh::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
 	mShader->use();
 	updateUniforms(mShader, Lights, RenderCamera, transformMatrix);
 	BindDrawVAO();
 }
 
-void StaticMesh::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
+void StaticMesh::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
 	shader.use();
 	updateUniforms(&shader, Lights, RenderCamera, transformMatrix);

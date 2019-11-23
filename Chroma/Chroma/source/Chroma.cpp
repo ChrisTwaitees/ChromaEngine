@@ -48,7 +48,7 @@ int main()
 	// ------------------------------------------------------------------------------------------
 
 	// LIGHTS
-	std::vector<std::shared_ptr<Light>> Lights;
+	std::vector<Light*> Lights;
 
 	// point light positions
 	glm::vec3 pointLightPositions[] = {
@@ -63,14 +63,14 @@ int main()
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
-		std::shared_ptr<Light> pointLight = std::make_shared < Light >(pos, Light::POINT);
+		Light* pointLight =  new Light(pos, Light::POINT);
 		pointLight->setIntensity(3.0f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
 	}
 	// SUNLIGHT
-	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 0.8f);
+	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 0.8f);
 	Lights.push_back(Sun);
 
 	// CUBES

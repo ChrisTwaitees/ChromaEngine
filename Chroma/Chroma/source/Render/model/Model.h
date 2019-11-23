@@ -30,8 +30,8 @@ protected:
 public:
 	// Draw
 	void Draw(Shader& shader) override;
-	void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
-	void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
+	void Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
+	void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
 	void DrawUpdateMaterials(Shader& shader) override;
 	void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 
