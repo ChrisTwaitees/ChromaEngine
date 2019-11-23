@@ -29,9 +29,9 @@
 #include <game/ChromaGame.h>
 
 
-int main()
+int Main()
 {
-	
+
 	// INIT CHROMA
 	// ------------------------------------------------------------------------------------------
 
@@ -63,7 +63,7 @@ int main()
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
-		Light* pointLight =  new Light(pos, Light::POINT);
+		Light* pointLight = new Light(pos, Light::POINT);
 		pointLight->setIntensity(3.0f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
@@ -120,8 +120,8 @@ int main()
 	IChromaEntity* NanosuitEntity = new ChromaEntity;
 	Scene->addEntity(NanosuitEntity);
 	NanosuitEntity->setName("ChromaSuit");
-	NanosuitEntity->setPosition(glm::vec3(30.,0.,0));
-	
+	NanosuitEntity->setPosition(glm::vec3(30., 0., 0));
+
 	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
 	NanoSuitRigidComponent->setCollisionShape(ColliderShape::Convex);
@@ -259,7 +259,7 @@ int main()
 				((ChromaMeshComponent*)component)->getShader()->setVec3("lightColor", Lights[i]->getDiffuse());
 				((ChromaMeshComponent*)component)->getShader()->setFloat("lightIntensity", Lights[i]->getIntensity());
 			}
-				
+
 		}
 
 		// NANO SUIT

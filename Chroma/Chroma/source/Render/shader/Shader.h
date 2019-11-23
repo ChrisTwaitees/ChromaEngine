@@ -2,7 +2,6 @@
 #define _SHADER_H_
 
 #include <vector>
-#include <memory>
 #include <fstream>
 #include <sstream>
 #include <iostream>

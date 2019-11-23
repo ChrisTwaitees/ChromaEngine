@@ -23,7 +23,7 @@ void Renderer::renderForwardComponents()
 void Renderer::renderDebug()
 {
 	// DEBUG BUFFER
-	//if (m_screenManager->drawDebug)
+//	if (m_screenManager->drawDebug)
 	m_debugBuffer->Draw();	
 }
 
