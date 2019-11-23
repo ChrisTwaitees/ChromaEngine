@@ -72,12 +72,12 @@ int main()
 
 
 	// TEXTURES
-	Texture blackAlbedo("resources/textures/black.jpg");
-	Texture greyAlbedo("resources/textures/grey.jpg");
-	Texture whiteAlbedo("resources/textures/white.jpg");
-	Texture alphaTestAlbedo("resources/textures/alphatest.png");
+	Texture blackAlbedo("resources/textures/colors/black.jpg");
+	Texture greyAlbedo("resources/textures/colors/grey.jpg");
+	Texture whiteAlbedo("resources/textures/colors/white.jpg");
+	Texture alphaTestAlbedo("resources/textures/test/alphatest.png");
 
-	Texture sandyNormal("resources/textures/sandy_normal.jpg");
+	Texture sandyNormal("resources/textures/test/sandy_normal.jpg");
 	sandyNormal.type = Texture::NORMAL;
 
 
