@@ -192,6 +192,7 @@
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\Chroma.cpp" />
     <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\Framebuffer.cpp" />
     <ClCompile Include="source\Render\buffer\GBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp" />
@@ -244,6 +245,7 @@
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\Engine\time\ChromaTime.h" />
     <ClInclude Include="source\Render\buffer\DebugBuffer.h" />
+    <ClInclude Include="source\Render\buffer\ForwardBuffer.h" />
     <ClInclude Include="source\Render\buffer\Framebuffer.h" />
     <ClInclude Include="source\Render\buffer\GBuffer.h" />
     <ClInclude Include="source\Render\buffer\PostFXBuffer.h" />

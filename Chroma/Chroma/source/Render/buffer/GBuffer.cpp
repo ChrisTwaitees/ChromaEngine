@@ -191,7 +191,7 @@ void GBuffer::Draw()
 	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
 	((SSAOBuffer*)mSSAOBuffer)->Draw(gViewPosition, gViewNormal, m_scene);
 
-	// 2. HDR pass : remapping color back to normalized range
+	// 2. Render pass to PostFX buffer
 	m_postFXBuffer->Bind();
 
 	// 2.5 lighting pass: calculate lighting using gbuffer textures
@@ -200,6 +200,9 @@ void GBuffer::Draw()
 
 	// 4. copy content of geometry's depth buffer to HDR buffer
 	blitDepthBuffer();
+
+	// 5. Unbind postFX buffer
+	m_postFXBuffer->unBind();
 }
 
 GBuffer::GBuffer(ChromaScene*& Scene, Framebuffer*& PostFXBuffer)

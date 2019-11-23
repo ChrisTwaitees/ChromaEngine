@@ -6,12 +6,15 @@ void DebugBuffer::initialize()
 	generatePointVAO();
 }
 
-void DebugBuffer::blitDepthBuffer()
+void DebugBuffer::blitPostFXBuffer()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_prevFrameBuffer->getFBO()); // fetch depth from postFXBuffer
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO); // copy depth to debug buffer
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_postFXBuffer->getFBO()); // fetch  postFXBuffer
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO); // copy depth and color to current buffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
+	);
+	glBlitFramebuffer(
+		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
 	);
 }
 
@@ -36,12 +39,6 @@ void DebugBuffer::generatePointVAO()
 
 }
 
-void DebugBuffer::GenTexture()
-{
-	glGenTextures(1, &FBOTexture);
-	glBindTexture(GL_TEXTURE_2D, FBOTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGBA, GL_UNSIGNED_BYTE, nullptr);
-}
 
 void DebugBuffer::drawShapes()
 {
@@ -148,28 +145,29 @@ void DebugBuffer::ClearBuffer()
 
 void DebugBuffer::Draw()
 {
+	// 1. Draw shapes to debugbuffer after fetching postFX color and depth
 	drawShapes();
-	// return to default buffer
-	unBind();
-	// clear default buffer
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// 2. Bind postFX buffer to draw to
+	m_postFXBuffer->Bind();
+
 	// use screen shader
 	screenShader->use();
 	// draw
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// using color attachment
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, FBOTexture);
 	// setting transform uniforms
 	updateTransformUniforms();
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	renderQuad();
+	// return to default frambuffer
+	m_postFXBuffer->unBind();
 }
 
 void DebugBuffer::attachBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
-	blitDepthBuffer();
+	blitPostFXBuffer();
 }
 
 

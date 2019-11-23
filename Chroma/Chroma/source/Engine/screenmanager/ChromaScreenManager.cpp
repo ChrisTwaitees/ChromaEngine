@@ -82,8 +82,6 @@ bool ChromaScreenManager::configureRenderer()
 	// ---------------------------------------
 	// Enable depth buffer
 	glEnable(GL_DEPTH_TEST);
-	// Enable Blending
-	glEnable(GL_BLEND);
 	// Enable Face Culling
 	glEnable(GL_CULL_FACE);
 	// Enabling MSAA

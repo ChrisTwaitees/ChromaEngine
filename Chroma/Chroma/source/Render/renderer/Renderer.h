@@ -10,10 +10,9 @@
 #include <scene/ChromaScene.h>
 #include <entity/ChromaEntity.h>
 #include <buffer/GBuffer.h>
-#include <buffer/Framebuffer.h>
-#include <buffer/ShadowBuffer.h>
 #include <buffer/PostFXBuffer.h>
 #include <buffer/DebugBuffer.h>
+#include <buffer/ForwardBuffer.h>
 #include <model/SkyBox.h>
 #include <shader/Shader.h>
 
@@ -26,9 +25,8 @@ private:
 	// DEFERRED LIGHTING RENDER
 	void renderDefferedComponents();
 
-	// FORWARD RENDER
+	// FORWARD LIGHTING RENDER
 	void renderForwardComponents();
-	void renderTransparency();
 
 	// DEBUG RENDER
 	void renderDebug();
@@ -43,21 +41,20 @@ protected:
 	// SCREENMANAGER
 	const ChromaScreenManager* m_screenManager;
 
-	// GBuffer
+	// Deffered Buffer
 	Framebuffer* m_GBuffer;
 
-	// Skybox
-	SkyBox* m_skybox;
+	// Forward Buffer
+	Framebuffer* m_forwardBuffer;
 
-	// Debug Renderer
+	// Debug Buffer
 	DebugBuffer* m_debugBuffer;
 
 	// Post FX
 	Framebuffer* m_postFXBuffer{ new PostFXBuffer() };
 
-
 	// INITIALIZE
-	void Init();
+	void initialize();
 public:
 
 	void RenderScene();

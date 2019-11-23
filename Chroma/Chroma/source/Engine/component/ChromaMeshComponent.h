@@ -21,6 +21,7 @@ public:
 	bool isRenderable{ false };
 	bool isTransparent{ false };
 	bool isLit{ true };
+	bool isForwardLit{ false };
 	bool castShadows{ true };
 	// Getters/Setters
 	virtual Shader* getShader() = 0;

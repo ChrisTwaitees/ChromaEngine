@@ -40,6 +40,7 @@ void Framebuffer::renderQuad()
 	glBindVertexArray(VAO);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE0, 0);
 }
 
 

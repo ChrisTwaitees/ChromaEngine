@@ -101,7 +101,7 @@ int main()
 	Shader litShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
 
 
@@ -113,6 +113,7 @@ int main()
 	Texture normalMap("resources/textures/brickwall_normal.jpg");
 	normalMap.type = Texture::NORMAL;
 	Texture grassMap("resources/textures/grass.png");
+	grassMap.type = Texture::DIFFUSE;
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
 	// ENTITIES
@@ -137,7 +138,7 @@ int main()
 		IChromaEntity* BoxEntity = new ChromaEntity;
 		Scene->addEntity(BoxEntity);
 		BoxEntity->setName("Box");
-		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive;
+		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive();
 		BoxMeshComponent->bindShader(&litShader);
 		BoxMeshComponent->bindTexture(diffuseMap);
 		BoxMeshComponent->bindTexture(specularMap);
@@ -154,10 +155,10 @@ int main()
 	std::vector<IChromaEntity*> lamps;
 	for (glm::vec3 position : pointLightPositions)
 	{
-		IChromaEntity* LampEntity = new ChromaEntity;
+		IChromaEntity* LampEntity = new ChromaEntity();
 		Scene->addEntity(LampEntity);
 		LampEntity->setName("Lamp");
-		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive;
+		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive();
 		LampMeshComponent->bindShader(&constantShader);
 		LampMeshComponent->castShadows = false;
 		LampMeshComponent->isLit = false;
@@ -171,15 +172,20 @@ int main()
 		lamps.push_back(LampEntity);
 	}
 
-	//for (glm::vec3 position : grassPositions)
-	//{
-	//	ChromaEntity* GrassPlaneEntity = new ChromaEntity;
-	//	IChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
-	//	GrassPlaneMeshComponent->bindTexture(grassMap);
-	//	GrassPlaneMeshComponent->bindShader(&alphaShader);
-	//	GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
-	//	Entities.push_back(GrassPlaneEntity);
-	//}
+	for (glm::vec3 position : grassPositions)
+	{
+		IChromaEntity* GrassPlaneEntity = new ChromaEntity;
+		GrassPlaneEntity->setName("Grass");
+		ChromaMeshComponent* GrassPlaneMeshComponent = new PlanePrimitive();
+		GrassPlaneMeshComponent->bindTexture(grassMap);
+		GrassPlaneMeshComponent->bindShader(&alphaShader);
+		GrassPlaneMeshComponent->isLit = false;
+		GrassPlaneMeshComponent->isForwardLit = true;
+		GrassPlaneMeshComponent->isTransparent = true;
+		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
+		GrassPlaneEntity->setPosition(position);
+		Scene->addEntity(GrassPlaneEntity);
+	}
 
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;

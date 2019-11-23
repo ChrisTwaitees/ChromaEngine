@@ -47,6 +47,7 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  ve
 void main()
 {
 	vec3 result;
+
 	// maps
 	vec3 diffuseMap = vec3(texture(material.texture_diffuse1, TexCoords));
 	vec3 specularMap = vec3(texture(material.texture_specular1, TexCoords));
