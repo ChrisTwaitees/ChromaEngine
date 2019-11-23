@@ -65,17 +65,17 @@ int main()
 
 	// SHADERS
 	Shader litNormalsShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-	Shader litShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
-	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
+	Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+	UnlitShader.use();
+	UnlitShader.setVec3("color", glm::vec3(1, 1, 0));
+	Shader SemiTransparentShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
 
 	// TEXTURES
 	Texture blackAlbedo("resources/textures/black.jpg");
 	Texture greyAlbedo("resources/textures/grey.jpg");
 	Texture whiteAlbedo("resources/textures/white.jpg");
+	Texture alphaTestAlbedo("resources/textures/alphatest.png");
 
 	Texture sandyNormal("resources/textures/sandy_normal.jpg");
 	sandyNormal.type = Texture::NORMAL;
@@ -117,6 +117,36 @@ int main()
 		SphereEntity->setPosition(position);
 	}
 
+	// SEMI TRANSPARENT
+	IChromaEntity* SphereEntityTransparent = new ChromaEntity;
+	Scene->addEntity(SphereEntityTransparent);
+	SphereEntityTransparent->setName("Sphere");
+	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
+	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
+	SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
+	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
+	SphereMeshComponent->bindTexture(alphaTestAlbedo);
+	SphereMeshComponent->bindShader(&SemiTransparentShader);
+	SphereMeshComponent->isLit = false;
+	SphereMeshComponent->isForwardLit = true;
+	SphereEntityTransparent->addComponent(SphereMeshComponent);
+	SphereEntityTransparent->addComponent(SphereRigidComponent);
+	SphereEntityTransparent->setPosition(glm::vec3(7.5, 1.0, 0.0));
+
+	// UNLIT
+	IChromaEntity* SphereEntityUnlit = new ChromaEntity;
+	Scene->addEntity(SphereEntityUnlit);
+	SphereEntityUnlit->setName("Sphere");
+	ChromaMeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
+	ChromaPhysicsComponent* SphereRigidComponentUnlit = new ChromaPhysicsComponent();
+	SphereRigidComponentUnlit->setCollisionShape(ColliderShape::Convex);
+	SphereRigidComponentUnlit->setCollisionState(ColliderState::Kinematic);
+	SphereMeshComponentUnlit->bindShader(&UnlitShader);
+	SphereMeshComponentUnlit->isLit = false;
+	SphereMeshComponentUnlit->castShadows = false;
+	SphereEntityUnlit->addComponent(SphereMeshComponentUnlit);
+	SphereEntityUnlit->addComponent(SphereRigidComponentUnlit);
+	SphereEntityUnlit->setPosition(glm::vec3(-7.5, 1.0, 0.0));
 
 
 
@@ -138,8 +168,16 @@ int main()
 		//Sunlight Rotation
 		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
 
+
+	
+
 		for (Light* light : Lights)
 			light->setDiffuse(glm::vec3(1.0));
+
+
+		Game.getRenderer()->getDebugBuffer()->drawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
+
+		Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 
 
 		// GAME TICK

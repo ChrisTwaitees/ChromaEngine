@@ -10,37 +10,14 @@ in VS_OUT {
 	mat3 TBN;
 } fs_in;
 
-// MAX_LIGHTS
+// LIGHTS
 #define NR_POINT_LIGHTS 4
 #define NR_DIR_LIGHTS 1
 #define NR_SPOT_LIGHTS 1
+#include "util/lightingStructs.glsl"
 
 // MATERIALS
-struct Material
-{
-	//textures
-	sampler2D texture_diffuse1;
-	sampler2D texture_diffuse2;
-
-	sampler2D texture_specular1;
-	sampler2D texture_specular2;
-
-	sampler2D texture_normal1;
-	sampler2D texture_normal2;
-
-	//cubemap
-	float cubemapIntensity;
-	samplerCube skybox;
-
-	// refraction
-	float refractionIntensity;
-
-	float roughness;
-	float ambientBrightness;
-	float specularIntensity;
-};
-
-#include "fragLightingStructs.glsl"
+#include "util/materialStruct.glsl"
 
 // SHADOWMAPS
 struct ShadowMap
@@ -58,18 +35,24 @@ uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
 
 // Lighting
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 diffuseMap, vec3 specMap);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 diffuseMap, vec3 specMap);
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO, sampler2D shadowmap);
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO, sampler2D shadowmap);
 vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  vec3 diffuseMap, vec3 specMap);
-float ShadowCalculation(vec4 FragPosLightSpace, vec3 normal, vec3 lightDir);
+float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal, vec3 lightDir);
 
 void main()
 {
 	vec3 result;
 	// maps
-	vec3 diffuseMap = vec3(texture(material.texture_diffuse1, fs_in.TexCoords));
-	vec3 specularMap = vec3(texture(material.texture_specular1, fs_in.TexCoords));
+	vec3 albedoMap = vec3(texture(material.texture_albedo1, fs_in.TexCoords));
 	vec3 normalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords));
+	float metalnessMap = texture(material.texture_metalness1, fs_in.TexCoords).r;
+	float roughnessMap = texture(material.texture_roughness1, fs_in.TexCoords).r;
+	float aoMap = texture(material.texture_ao1, fs_in.TexCoords).r;
+
+	// TODO : swap out hard coded values
+	float ambient = 0.3;
+	float SSAO = 0.0;
 
 	// attrs
 	//vec3 norm = normalize(fs_in.Normal);
@@ -80,7 +63,7 @@ void main()
 
 	// direction lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-		result += CalcDirLight(dirLights[i], norm, viewDir,  diffuseMap, specularMap);
+		result += CalcDirLight(dirLights[i], normalMap, viewDir, albedoMap, roughnessMap, metalnessMap, metalnessMap, ambient, fs_in.FragPosLightSpace, aoMap, shadowmaps.shadowmap1);
 	
 	// spot lights
 	//for(int i = 0; i < NR_SPOT_LIGHTS ; i++)
@@ -88,7 +71,7 @@ void main()
 
 	// point lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
-		result += CalcPointLight(pointLights[i], norm, viewDir, fs_in.FragPos, diffuseMap, specularMap);
+		result += CalcPointLight(pointLights[i], normalMap, viewDir, fs_in.FragPos, albedoMap, roughnessMap, metalnessMap, metalnessMap, ambient, fs_in.FragPosLightSpace, aoMap, shadowmaps.shadowmap1);
 
 	FragColor = vec4(result, 1.0);
 	// bloom
@@ -99,4 +82,4 @@ void main()
 		BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
-#include "fragLightingCalculations.glsl"
+#include "util/lightingCalculations.glsl"

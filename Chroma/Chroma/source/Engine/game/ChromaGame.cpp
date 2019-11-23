@@ -15,24 +15,10 @@ void ChromaGame::Draw()
 
 void ChromaGame::MousePickerCallback()
 {
+	// Ray Interest Test
 	glm::vec3 start = m_scene->getRenderCamera()->getPosition();
 	glm::vec3 end = start + (  m_input->getLastRay() * glm::vec3(1000.0));
-
-	// create new line object
-	IChromaEntity* newLineEntity = new ChromaEntity;
-	m_scene->addEntity(newLineEntity);
-	ChromaMeshComponent* newLineMeshComponent = new LinePrimitive(start, end);
-	newLineMeshComponent->isLit = false;
-	newLineEntity->addComponent(newLineMeshComponent);
-
 	IChromaEntity* clickedEntity  = m_physics->rayTest(start, end);
-	if (clickedEntity != NULL)
-	{
-		std::cout << "Found entity adding velocity" << std::endl;
-		for (IChromaComponent* component : clickedEntity->getPhysicsComponents())
-			((ChromaPhysicsComponent*)component)->setLinearVelocity(glm::normalize(start - end) * 2.0f);
-	}
-
 }
 
 void ChromaGame::Tick()

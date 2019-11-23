@@ -1,5 +1,5 @@
 // DIRECTIONAL LIGHT
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO)
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO, sampler2D shadowmap)
 {
 	// diffuse
 	vec3 lightDir = normalize(-light.direction);
@@ -13,13 +13,13 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float 
 	
 	vec3 amb = albedo * ambient * SSAO;
 	// shadows
-	float shadow = ShadowCalculation(FragPosLightSpace, normal, lightDir);
+	float shadow = ShadowCalculation(FragPosLightSpace, shadowmap, normal, lightDir);
 
 	return (amb + (1.0 - shadow) * (diffuse + spec)) * albedo; 
 }
 
 // POINT LIGHT
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO)
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO, sampler2D shadowmap)
 {
 	vec3 lightDir = normalize(light.position - FragPos);
 	// diffuse
@@ -37,21 +37,21 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 	spec *= attenuation * light.intensity;
 	amb *= attenuation * light.intensity;
 	// shadows
-	float shadow = ShadowCalculation(FragPosLightSpace, normal, lightDir) ;
+	float shadow = ShadowCalculation(FragPosLightSpace, shadowmap, normal, lightDir) ;
 
 	// return 
 	return amb + ((1.0 - shadow) * (diffuse + spec)) * albedo;
 }
 
 
-float ShadowCalculation(vec4 FragPosLightSpace, vec3 normal, vec3 lightDir)
+float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal, vec3 lightDir)
 {
     // perform perspective divnride
     vec3 projCoords = FragPosLightSpace.xyz / FragPosLightSpace.w;
     // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
     // get closest depth value from light's perspective (using [0,1] range fragPosLight as coords)
-    float closestDepth = texture(gShadowmap, projCoords.xy).r; 
+    float closestDepth = texture(shadowmap, projCoords.xy).r; 
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // calculate bias (based on depth map resolution and slope)
@@ -59,12 +59,12 @@ float ShadowCalculation(vec4 FragPosLightSpace, vec3 normal, vec3 lightDir)
     // check whether current frag pos is in shadow
     // PCF
     float shadow = 0.0;
-    vec2 texelSize = 1.0 / textureSize(gShadowmap, 0);
+    vec2 texelSize = 1.0 / textureSize(shadowmap, 0);
     for(int x = -1; x <= 1; ++x)
     {
         for(int y = -1; y <= 1; ++y)
         {
-            float pcfDepth = texture(gShadowmap, projCoords.xy + vec2(x, y) * texelSize).r; 
+            float pcfDepth = texture(shadowmap, projCoords.xy + vec2(x, y) * texelSize).r; 
             shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;        
         }    
     }

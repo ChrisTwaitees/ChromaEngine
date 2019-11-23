@@ -194,11 +194,11 @@ StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		// diffuse textures
 		std::vector<Texture> diffuseMaps = loadMaterialTextures(material,
-			aiTextureType_DIFFUSE, Texture::DIFFUSE);
+			aiTextureType_DIFFUSE, Texture::ALBEDO);
 		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 		// specular textures
 		std::vector<Texture> specularMaps = loadMaterialTextures(material,
-			aiTextureType_SPECULAR, Texture::SPECULAR);
+			aiTextureType_SPECULAR, Texture::METALNESS);
 		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
 		// normal textures
 		std::vector<Texture> normalMaps = loadMaterialTextures(material,

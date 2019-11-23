@@ -97,10 +97,9 @@ int Main()
 	grassPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
 
 	// SHADERS
-	Shader litNormalsShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-	Shader litShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
+	Shader litShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader constantShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexShaderLighting.glsl");
 	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
 
@@ -108,12 +107,12 @@ int Main()
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");
 	Texture specularMap("resources/textures/wooden_panel_specular.png");
-	specularMap.type = Texture::SPECULAR;
+	specularMap.type = Texture::METALNESS;
 	Texture concreteMap("resources/textures/brickwall.jpg");
 	Texture normalMap("resources/textures/brickwall_normal.jpg");
 	normalMap.type = Texture::NORMAL;
 	Texture grassMap("resources/textures/grass.png");
-	grassMap.type = Texture::DIFFUSE;
+	grassMap.type = Texture::ALBEDO;
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
 	// ENTITIES
@@ -127,7 +126,7 @@ int Main()
 	NanoSuitRigidComponent->setCollisionShape(ColliderShape::Convex);
 	NanoSuitRigidComponent->setCollisionState(ColliderState::Dynamic);
 	NanoSuitRigidComponent->setMass(1.0f);
-	NanoSuitModelComponent->bindShader(&litNormalsShader);
+	NanoSuitModelComponent->bindShader(&litShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	NanosuitEntity->addComponent(NanoSuitRigidComponent);
 
@@ -191,7 +190,7 @@ int Main()
 	IChromaEntity* TerrainEntity = new ChromaEntity;
 	Scene->addEntity(TerrainEntity);
 	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
-	TerrainMeshComponent->bindShader(&litNormalsShader);
+	TerrainMeshComponent->bindShader(&litShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 
 	// SPHERE
@@ -204,7 +203,7 @@ int Main()
 	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 	SphereMeshComponent->bindTexture(normalMap);
 	SphereMeshComponent->bindTexture(concreteMap);
-	SphereMeshComponent->bindShader(&litNormalsShader);
+	SphereMeshComponent->bindShader(&litShader);
 	SphereEntity->addComponent(SphereMeshComponent);
 	SphereEntity->addComponent(SphereRigidComponent);
 
@@ -256,8 +255,9 @@ int Main()
 			// fragments
 			for (IChromaComponent* component : lamps[i]->getRenderableComponents())
 			{
-				((ChromaMeshComponent*)component)->getShader()->setVec3("lightColor", Lights[i]->getDiffuse());
-				((ChromaMeshComponent*)component)->getShader()->setFloat("lightIntensity", Lights[i]->getIntensity());
+				glm::vec3 color(Lights[i]->getDiffuse()* Lights[i]->getIntensity());
+				((ChromaMeshComponent*)component)->getShader()->setVec3("color", glm::vec4(color, 1.0));
+
 			}
 
 		}

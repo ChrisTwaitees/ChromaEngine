@@ -55,9 +55,6 @@ bool ChromaScreenManager::configureWindow()
 	}
 	glfwMakeContextCurrent(window);
 
-
-	// capture mouse
-	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	return true;
 }
 

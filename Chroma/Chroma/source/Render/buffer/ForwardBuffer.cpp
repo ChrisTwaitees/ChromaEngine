@@ -52,10 +52,6 @@ void ForwardBuffer::renderForwardComponents()
 	// Render Skybox first for Transparent Entities
 	m_scene->getSkyBox()->Draw();
 
-	// Render Transparent Entities
-	if (m_scene->getTransparentEntities().size() > 0)
-		renderTransparency();
-
 	// Render Unlit Components
 	for (IChromaEntity* const& entity : m_scene->getEntities())
 	{
@@ -67,6 +63,10 @@ void ForwardBuffer::renderForwardComponents()
 				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_scene->getRenderCamera(), worldTransform);
 		}
 	}
+
+	// Render Transparent Entities
+	if (m_scene->getTransparentEntities().size() > 0)
+		renderTransparency();
 }
 
 void ForwardBuffer::renderTransparency()

@@ -21,8 +21,8 @@ protected:
 	virtual void calcCentroid();
 
 	// default shader
-	std::string fragShaderSource = "resources/shaders/fragLitReflect.glsl";
-	std::string vtxShaderSource = "resources/shaders/vertexShaderLighting.glsl";
+	std::string fragShaderSource = "resources/shaders/fragLitShadowsNormals.glsl";
+	std::string vtxShaderSource = "resources/shaders/vertexLitShadowsNormals.glsl";
 
 	// render scene data
 	unsigned int VAO, VBO, EBO;

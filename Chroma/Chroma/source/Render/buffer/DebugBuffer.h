@@ -46,7 +46,7 @@ class DebugBuffer : public Framebuffer
 	Camera* m_renderCamera;
 
 	// shaders
-	const char* FragSource{ "resources/shaders/fragLineDebug.glsl" };
+	const char* FragSource{ "resources/shaders/fragBasic.glsl" };
 	// line geometry shader
 	const char* lineVtxSource{ "resources/shaders/vertexLineDebug.glsl" };
 	const char* lineGeomSource{ "resources/shaders/geometryLineDebug.glsl" };

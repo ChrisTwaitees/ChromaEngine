@@ -127,36 +127,37 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		if (textures[i].type == Texture::DIFFUSE)
+		if (textures[i].type == Texture::ALBEDO)
 		{
-			name = "material.texture_diffuse";
+			name = "material.texture_albedo";
 			texturenum = std::to_string(diffuseNr++);
-		}
-		if (textures[i].type == Texture::SPECULAR)
-		{
-			name = "material.texture_specular";
-			texturenum = std::to_string(specularNr++);
-		}
-		if (textures[i].type == Texture::SHADOWMAP)
-		{
-			name = "shadowmaps.shadowmap";
-			texturenum = std::to_string(shadowmapNr++);
 		}
 		if (textures[i].type == Texture::NORMAL)
 		{
 			name = "material.texture_normal";
 			texturenum = std::to_string(normalNr++);
 		}
+		if (textures[i].type == Texture::METALNESS)
+		{
+			name = "material.texture_metalness";
+			texturenum = std::to_string(specularNr++);
+		}
 		if (textures[i].type == Texture::ROUGHNESS)
 		{
 			name = "material.texture_roughness";
 			texturenum = std::to_string(roughnessNr++);
 		}
-		if (textures[i].type == Texture::METALNESS)
+		if (textures[i].type == Texture::AO)
 		{
-			name = "material.texture_metalness";
-			texturenum = std::to_string(metalnessNr++);
+			name = "material.texture_ao";
+			texturenum = std::to_string(shadowmapNr++);
 		}
+		if (textures[i].type == Texture::SHADOWMAP)
+		{
+			name = "shadowmaps.shadowmap";
+			texturenum = std::to_string(shadowmapNr++);
+		}
+
 		// setting uniform and binding texture
 		shader->setInt(( name + texturenum).c_str(), i);
 

@@ -24,7 +24,7 @@ private:
 	unsigned int height{ SHADOW_HEIGHT};
 	// shaders
 	std::string depthVtxSource = "resources/shaders/vertexDepthMap.glsl";
-	std::string depthFragSource = "resources/shaders/fragDepthMap.glsl";
+	std::string depthFragSource = "resources/shaders/fragEmpty.glsl";
 	Shader depthShader{ depthFragSource , depthVtxSource };
 	// textures
 	Texture ShadowMapTexture;

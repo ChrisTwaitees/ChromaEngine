@@ -68,6 +68,7 @@ public:
 	// deltaTime
 	void setDeltaTime(double deltaTimeVal) { deltaTime = deltaTimeVal; };
 	double getDeltaTime() {	return deltaTime; };
+
 	// constructors
 	ChromaInput() {};
 	ChromaInput(GLFWwindow* windowVal);

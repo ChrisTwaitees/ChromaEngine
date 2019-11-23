@@ -19,14 +19,7 @@ in VS_OUT {
 	mat3 ViewTBN;
 } fs_in;
 
-struct Material {
-	sampler2D texture_diffuse1;
-	sampler2D texture_roughness1;
-	sampler2D texture_metalness1;
-	sampler2D texture_normal1;
-	sampler2D texture_specular1;
-};
-
+#include "util/materialStruct.glsl"
 uniform Material material;
 
 void main()
@@ -49,12 +42,12 @@ void main()
 	}
 
     // and the diffuse per-fragment color
-    gAlbedoRoughness.rgb = texture(material.texture_diffuse1, fs_in.TexCoords).rgb;
+    gAlbedoRoughness.rgb = texture(material.texture_albedo1, fs_in.TexCoords).rgb;
     // store specular roughness in gAlbedoRoughness's alpha component
     gAlbedoRoughness.a = texture(material.texture_roughness1, fs_in.TexCoords).r;
 	// store specular metalness in gMetalness color
 	gMetalnessSpecular.rgb = texture(material.texture_metalness1, fs_in.TexCoords).rgb;
-	gMetalnessSpecular.a = texture(material.texture_specular1, fs_in.TexCoords).g;
+	gMetalnessSpecular.a = texture(material.texture_metalness1, fs_in.TexCoords).g;
 	// Shadowmap
 	gFragPosLightSpace = fs_in.FragPosLightSpace;
 	

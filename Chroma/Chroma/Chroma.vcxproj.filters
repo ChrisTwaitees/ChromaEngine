@@ -94,6 +94,12 @@
     <Filter Include="Engine\math">
       <UniqueIdentifier>{82234c11-f705-4386-a911-2342a3036d92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\shaders\util">
+      <UniqueIdentifier>{1f622e47-80d9-4b80-a049-00b60c900aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\shaders\buffer">
+      <UniqueIdentifier>{bdecfcfb-65ec-432e-aaa2-ea364be3da55}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -405,25 +411,31 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\fragConstant.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragDepth.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragLit.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexShaderLighting.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
     <None Include="resources\shaders\fragAlpha.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\frameBufferFrag.glsl">
+    <None Include="resources\shaders\fragBasic.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\frameBufferVertex.glsl">
+    <None Include="resources\shaders\fragEmpty.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragLitShadowsNormals.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragRefraction.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\geometryBoxDebug.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\geometryDebugNormals.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\geometryLineDebug.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\geometrySphereDebug.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\skyBoxFrag.glsl">
@@ -432,98 +444,77 @@
     <None Include="resources\shaders\skyBoxVertex.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\fragLitReflect.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragRefraction.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragDebugNormals.glsl">
+    <None Include="resources\shaders\vertexBoxDebug.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexDebugNormals.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\geometryDebugNormals.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragDepthMap.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexDepthMap.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragLitShadows.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexLitShadows.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragLitShadowsNormals.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexLitShadowsNormals.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragHDRframebuffer.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragBloomFrameBuffer.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragBlur.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragLightingCalculations.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragGBufferLit.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragLightingStructs.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragSSAO.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragSSAOBlur.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexGBufferLit.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragGBufferGeometry.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragGBufferLightingCalculations.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
     <None Include="resources\shaders\vertexLineBillboard.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\fragLineBillboard.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\FragLineDebug.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\geometryLineDebug.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexLineDebug.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\geometryBoxDebug.glsl">
+    <None Include="resources\shaders\vertexLineShader.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\geometrySphereDebug.glsl">
+    <None Include="resources\shaders\vertexLitShadows.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\vertexBoxDebug.glsl">
+    <None Include="resources\shaders\vertexLitShadowsNormals.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexShaderLighting.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexSphereDebug.glsl">
       <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragBloomFrameBuffer.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\fragBlur.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\fragDepth.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\fragGBufferGeometry.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\fragGBufferLit.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\fragHDRframebuffer.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\fragSSAO.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\fragSSAOBlur.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\frameBufferFrag.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\frameBufferVertex.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\vertexGBufferLit.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\vertexDepthMap.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\util\materialStruct.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\lightingCalculations.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\lightingStructs.glsl">
+      <Filter>Resources\shaders\util</Filter>
     </None>
   </ItemGroup>
 </Project>

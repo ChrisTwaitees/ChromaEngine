@@ -13,8 +13,8 @@ public:
 	/*  Texture Data  */
 	unsigned int ID;
 
-	enum TYPE { DIFFUSE = 0, SPECULAR = 1, SHADOWMAP = 2, NORMAL=3, METALNESS=4, ROUGHNESS=5 };
-	TYPE type = TYPE::DIFFUSE;
+	enum TYPE { ALBEDO, NORMAL, METALNESS, ROUGHNESS, AO, SHADOWMAP };
+	TYPE type = TYPE::ALBEDO;
 
 	// paths
 	std::string filename;
