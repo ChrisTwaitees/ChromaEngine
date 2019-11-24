@@ -48,7 +48,7 @@ public:
 	unsigned int ShaderID;
 
 	// Rendering
-	virtual void use();
+	void use() const;
 
 	// Uniforms
 	void setLightingUniforms(std::vector<Light*> Lights, Camera& renderCam);

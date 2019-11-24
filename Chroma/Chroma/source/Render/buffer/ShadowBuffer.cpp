@@ -73,7 +73,7 @@ void ShadowBuffer::calculateShadows()
 	// Cull the front faces to prevent a dettached self 
 	// shadowing effect, ** this is designed for opaque objects!
 	// Attempt to alleviate Peter Panning
-	//glCullFace(GL_FRONT);
+	glCullFace(GL_FRONT);
 
 	// render scene
 	for (IChromaEntity* entity : m_scene->getEntities())
@@ -89,7 +89,7 @@ void ShadowBuffer::calculateShadows()
 
 	unBind();
 
-	//glCullFace(GL_BACK); // reset to original culling mode
+	glCullFace(GL_BACK); // reset to original culling mode
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

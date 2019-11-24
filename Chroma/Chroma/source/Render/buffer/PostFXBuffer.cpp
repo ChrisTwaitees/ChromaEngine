@@ -155,14 +155,12 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, blurColorBuffers[!horizontal]);
 		screenShader->setInt("bloom", useBloom);
-		//screenShader->setFloat("exposure", exposure);
 		// setting transform uniforms
 		renderQuad();
 	}
 	else
-	{
 		Draw();
-	}
+
 }
 
 void PostFXBuffer::Bind()

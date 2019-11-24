@@ -20,7 +20,7 @@ void Framebuffer::GenTexture()
 {
 	glGenTextures(1, &FBOTexture);
 	glBindTexture(GL_TEXTURE_2D, FBOTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 }
 
 void Framebuffer::SetTextureParameters()

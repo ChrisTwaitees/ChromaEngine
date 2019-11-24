@@ -1,5 +1,10 @@
 #include "ChromaScene.h"
 
+glm::vec3 ChromaScene::calcAmbientLightColor()
+{
+	return m_sunLight->getDiffuse() * glm::vec3(.2);
+}
+
 void ChromaScene::addEntity(IChromaEntity* const& newEntity)
 {
 	// bind parent scene

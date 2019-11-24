@@ -279,7 +279,6 @@
     <ResourceCompile Include="Chroma.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\fragAlpha.glsl" />
     <None Include="resources\shaders\fragBasic.glsl" />
     <None Include="resources\shaders\fragBloomFrameBuffer.glsl" />
     <None Include="resources\shaders\fragBlur.glsl" />
@@ -287,9 +286,9 @@
     <None Include="resources\shaders\fragEmpty.glsl" />
     <None Include="resources\shaders\fragGBufferGeometry.glsl" />
     <None Include="resources\shaders\fragGBufferLit.glsl" />
-    <None Include="resources\shaders\fragHDRframebuffer.glsl" />
     <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
-    <None Include="resources\shaders\fragPBRLit.glsl" />
+    <None Include="resources\shaders\fragPBR.glsl" />
+    <None Include="resources\shaders\fragPBRAlpha.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
     <None Include="resources\shaders\fragSSAO.glsl" />
     <None Include="resources\shaders\fragSSAOBlur.glsl" />

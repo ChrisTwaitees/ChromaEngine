@@ -23,16 +23,16 @@ uniform sampler2D SSAO;
 uniform samplerCube skybox;
 // Lighting Uniforms
 uniform vec3 viewPos;
-uniform float ambient;
+uniform vec3 ambient;
+
+//uniform float ambient;
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
-
 // Lighting Functions
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO, sampler2D shadowmap);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO, sampler2D shadowmap);
-vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 FragPos,  vec3 diffuseMap, vec3 specMap);
+vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
+vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
 float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal, vec3 lightDir);
 
 void main()
@@ -48,26 +48,26 @@ void main()
 	vec4 FragPosLightSpace = texture(gFragPosLightSpace, TexCoords).rgba;
 	float SSAO = texture(SSAO, TexCoords).r;
 
-	// lighting
-	vec3 lighting;
+	// LIGHTING
+	//------------------------------------------------------------------------
+	// PBR calculates irradiance, denoted by Lo
+	vec3 Lo;
 	vec3 viewDir = normalize(viewPos - FragPos);
-	
-	 //directional lights
+	// Directional Lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-		lighting += CalcDirLight(dirLights[i], Normal, viewDir,  Albedo, Roughness, AO, Metalness, ambient, FragPosLightSpace, SSAO, gShadowmap);
-
-	// point lights
+		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
+	// Point Lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
-	{
-	    float dist = length(pointLights[i].position - FragPos);
-        if(dist < pointLights[i].radius)  // do expensive lighting
-            lighting += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, AO, Metalness, ambient, FragPosLightSpace, SSAO, gShadowmap);
-	}
+		Lo += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
+	// Adding ambient and SSAO
+	vec3 Ambient = ambient * Albedo * AO * SSAO;
+	// Creating color 
+	vec3 color = Ambient + Lo;
+	//------------------------------------------------------------------------
+	// OUT
+	FragColor = vec4(vec3(color), 1.0);
 
-	// out
-	FragColor = vec4(lighting * vec3(SSAO), 1.0);
-
-	// out bloom
+	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
     if(brightness > 1.0)
         BrightColor = vec4(FragColor.rgb, 1.0);

@@ -122,7 +122,7 @@ void GBuffer::bindAllGBufferTextures()
 void GBuffer::setLightingUniforms()
 {
 	lightingPassShader.setLightingUniforms(m_scene->getLights(), *m_scene->getRenderCamera());
-	lightingPassShader.setFloat("ambient", 0.2f);
+	lightingPassShader.setVec3("ambient", m_scene->getAmbientColor());
 }
 
 void GBuffer::Bind()

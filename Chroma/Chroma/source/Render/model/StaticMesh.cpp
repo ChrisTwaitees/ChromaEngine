@@ -114,14 +114,15 @@ void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector<Light*
 
 void StaticMesh::updateTextureUniforms(const Shader* shader)
 {
+	shader->use();
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
-	unsigned int specularNr{ 1 };
 	unsigned int shadowmapNr{ 1 };
 	unsigned int normalNr{ 1 };
 	unsigned int roughnessNr{ 1 };
 	unsigned int metalnessNr{ 1 };
 	unsigned int metroughaoNr{ 1 };
+	unsigned int aoNr{ 1 };
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
@@ -132,6 +133,8 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		{
 			name = "material.texture_albedo";
 			texturenum = std::to_string(diffuseNr++);
+			// set use texture albedo
+			shader->setBool("UseAlbedoMap", true);
 		}
 		if (textures[i].type == Texture::NORMAL)
 		{
@@ -144,11 +147,13 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		{
 			name = "material.texture_MetRoughAO";
 			texturenum = std::to_string(metroughaoNr++);
+			// set use texture metroughao
+			shader->setBool("UseMetRoughAOMap", true);
 		}
 		if (textures[i].type == Texture::METALNESS)
 		{
 			name = "material.texture_metalness";
-			texturenum = std::to_string(specularNr++);
+			texturenum = std::to_string(metalnessNr++);
 		}
 		if (textures[i].type == Texture::ROUGHNESS)
 		{
@@ -158,7 +163,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		if (textures[i].type == Texture::AO)
 		{
 			name = "material.texture_ao";
-			texturenum = std::to_string(shadowmapNr++);
+			texturenum = std::to_string(aoNr++);
 		}
 		if (textures[i].type == Texture::SHADOWMAP)
 		{
@@ -186,10 +191,10 @@ void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam
 
 void StaticMesh::updateMaterialUniforms(const Shader* shader)
 {
-	shader->setFloat("material.ambientBrightness", 0.16f);
-	shader->setFloat("material.roughness", 64.0f);
-	shader->setFloat("material.specularIntensity", 1.0f);
-	shader->setFloat("material.cubemapIntensity", 1.0f);
+	shader->setFloat("roughness", 0.4f);
+	shader->setVec3("color", glm::vec3(1, 0, 0));
+	shader->setFloat("metalness", 0.0f);
+	//shader->setVec3("ambient", ambient);
 }
 
 void StaticMesh::Draw(Shader &shader)

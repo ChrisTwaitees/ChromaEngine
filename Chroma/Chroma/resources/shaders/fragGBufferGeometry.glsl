@@ -19,9 +19,17 @@ in VS_OUT {
 	mat3 ViewTBN;
 } fs_in;
 
+// MATERIALS
 #include "util/materialStruct.glsl"
 uniform Material material;
+// Texture Checks
+uniform bool UseAlbedoMap;
 uniform bool UseNormalMap;
+uniform bool UseMetRoughAOMap;
+// Material overrides if no maps provided
+uniform vec3 color;
+uniform float roughness;
+uniform float metalness;
 
 void main()
 {             
@@ -29,7 +37,7 @@ void main()
     gPosition = fs_in.FragWorldPos;
 	gViewPosition = fs_in.FragViewPos;
     // albedo
-    gAlbedo = texture(material.texture_albedo1, fs_in.TexCoords).rgb;
+    gAlbedo = UseAlbedoMap? vec3(texture(material.texture_albedo1, fs_in.TexCoords)) : color;
 	// normals
 	if (UseNormalMap  && length(fs_in.ViewTBN[1]) >= 0.5)
 	{
@@ -43,7 +51,12 @@ void main()
 		gViewNormal = fs_in.ViewNormal;
 	}
 	// metalness roughness ao
-    gMetRoughAO = texture(material.texture_MetRoughAO1, fs_in.TexCoords).rgb;
+	if(UseMetRoughAOMap){
+		gMetRoughAO = texture(material.texture_MetRoughAO1, fs_in.TexCoords).rgb;
+	}
+	else{
+		gMetRoughAO = vec3(metalness, roughness, 1.0);
+	}
 	// shadowmap
 	gFragPosLightSpace = fs_in.FragPosLightSpace;
 }

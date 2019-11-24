@@ -25,6 +25,9 @@ private:
 	Light* m_sunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
 	SkyBox* m_skybox{ new SkyBox(m_renderCamera) };
 
+	// Lighting
+	glm::vec3 calcAmbientLightColor();
+
 public:
 	void addEntity(IChromaEntity* const& newEntity);
 	void removeEntity(IChromaEntity& removeEntity);
@@ -46,6 +49,7 @@ public:
 	Light* getSunLight() { return m_sunLight; };
 	ChromaPhysics* getPhysics() { return  m_physics; };
 	SkyBox* getSkyBox() { return m_skybox; };
+	glm::vec3 getAmbientColor() { return calcAmbientLightColor(); };
 
 	ChromaScene();
 	~ChromaScene();

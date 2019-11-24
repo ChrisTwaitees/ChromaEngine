@@ -61,17 +61,16 @@ int main()
 		Lights.push_back(pointLight);
 	}
 	// SUNLIGHT
-	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 0.8f);
+	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.0f);
 	Lights.push_back(Sun);
 
 
 	// SHADERS
-	Shader litNormalsShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	UnlitShader.use();
 	UnlitShader.setVec3("color", glm::vec3(1, 1, 0));
-	Shader SemiTransparentShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-	Shader PBRShader("resources/shaders/fragPBRLit.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+	Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+	Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
 	// TEXTURES
 	Texture blackAlbedo("resources/textures/colors/black.jpg");
@@ -103,7 +102,7 @@ int main()
 	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->bindTexture(greyAlbedo);
 	TerrainMeshComponent->bindTexture(sandyNormal);
-	TerrainMeshComponent->bindShader(&litNormalsShader);
+	TerrainMeshComponent->bindShader(&PBRShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 
 	// SPHERES
@@ -126,6 +125,7 @@ int main()
 		SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 		SphereMeshComponent->bindTexture(sandyNormal);
 		SphereMeshComponent->bindTexture(greyAlbedo);
+		SphereMeshComponent->bindShader(&PBRShader);
 		SphereEntity->addComponent(SphereMeshComponent);
 		SphereEntity->addComponent(SphereRigidComponent);
 		SphereEntity->setPosition(position);
