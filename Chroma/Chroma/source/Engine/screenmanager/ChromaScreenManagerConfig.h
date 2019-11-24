@@ -4,8 +4,8 @@
 #include "glm/glm.hpp"
 
 // SCREEN
-static const unsigned int SCREEN_WIDTH{ 1000 };
-static const unsigned int SCREEN_HEIGHT{ 1000 };
+static const unsigned int SCREEN_WIDTH{ 1500 };
+static const unsigned int SCREEN_HEIGHT{ 1500 };
 static const unsigned int MSAA_SAMPLES{ 4 };
 
 // BG COLOR

@@ -2,7 +2,7 @@
 
 glm::vec3 ChromaScene::calcAmbientLightColor()
 {
-	return m_sunLight->getDiffuse() * glm::vec3(.2);
+	return m_sunLight->getDiffuse() * m_sunLight->getIntensity()* glm::vec3(.1);
 }
 
 void ChromaScene::addEntity(IChromaEntity* const& newEntity)

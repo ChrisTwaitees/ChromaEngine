@@ -23,7 +23,7 @@ float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // calculate bias (based on depth map resolution and slope)
-    float bias = max(0.008 * (1.0 - dot(normal, lightDir)), 0.0008);
+    float bias = max(0.01 * (1.0 - dot(normal, lightDir)), 0.001);
     // check whether current frag pos is in shadow
     // PCF
     float shadow = 0.0;
@@ -121,7 +121,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float 
 	// normalize viewDir and light direction
 	vec3 H = normalize(viewDir + L);
 	// calculate radiance 
-	vec3 radiance = light.diffuse;
+	vec3 radiance = light.diffuse * light.intensity;
 	// calculate PBR diffuse and specular components
 	vec3 lighting = PBRLighting(radiance, normal, H, viewDir, L, albedo, metalness, roughness);
 	// shadows
@@ -140,7 +140,7 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 	// calculate attenuation
 	float attenuation = CalculateAttenuation(light, FragPos);
 	// calculate radiance 
-	vec3 radiance = light.diffuse * attenuation;
+	vec3 radiance = light.diffuse * light.intensity * attenuation;
 	// calculate PBR diffuse and specular components
 	vec3 lighting = PBRLighting(radiance, normal, H, viewDir, L, albedo, metalness, roughness);
 	// shadows

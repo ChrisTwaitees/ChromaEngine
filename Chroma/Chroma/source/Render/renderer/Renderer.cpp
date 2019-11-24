@@ -19,7 +19,6 @@ void Renderer::renderForwardComponents()
 	m_forwardBuffer->Draw();
 }
 
-
 void Renderer::renderDebug()
 {
 	// DEBUG BUFFER
@@ -28,6 +27,7 @@ void Renderer::renderDebug()
 
 void Renderer::renderPostFX()
 {
+	// POSTFX BUFFER
 	m_screenManager->useBloom ? ((PostFXBuffer*)m_postFXBuffer)->Draw(true) : m_postFXBuffer->Draw();
 	m_postFXBuffer->setUniform("exposure", m_screenManager->exposure);
 	m_postFXBuffer->setUniform("gamma", m_screenManager->gamma);

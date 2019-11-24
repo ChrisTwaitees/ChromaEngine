@@ -63,8 +63,8 @@ void StaticMesh::setupMesh()
 void StaticMesh::updateUniforms(const Shader* updateShader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
 {
 	updateTransformUniforms(updateShader, RenderCam, TransformMatrix);
-	updateTextureUniforms(updateShader);
 	updateMaterialUniforms(updateShader);
+	updateTextureUniforms(updateShader);
 	updateLightingUniforms(updateShader, Lights, RenderCam);
 }
 
@@ -114,7 +114,6 @@ void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector<Light*
 
 void StaticMesh::updateTextureUniforms(const Shader* shader)
 {
-	shader->use();
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
 	unsigned int shadowmapNr{ 1 };
@@ -194,6 +193,9 @@ void StaticMesh::updateMaterialUniforms(const Shader* shader)
 	shader->setFloat("roughness", 0.4f);
 	shader->setVec3("color", glm::vec3(1, 0, 0));
 	shader->setFloat("metalness", 0.0f);
+	shader->setBool("UseAlbedoMap", false);
+	shader->setBool("UseNormalMap", false);
+	shader->setBool("UseMetRoughAOMap", false);
 	//shader->setVec3("ambient", ambient);
 }
 

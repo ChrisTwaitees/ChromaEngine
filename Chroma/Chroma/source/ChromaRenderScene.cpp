@@ -55,13 +55,15 @@ int main()
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		Light* pointLight = new Light(pos, Light::POINT);
-		pointLight->setIntensity(5.0f);
+		pointLight->setIntensity(1.0f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
 	}
 	// SUNLIGHT
-	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.0f);
+	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 2.0f);
+	Sun->setDiffuse(glm::vec3(1.0));
+	Sun->setIntensity(3.0);
 	Lights.push_back(Sun);
 
 
@@ -123,30 +125,13 @@ int main()
 		ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
 		SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
 		SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
-		SphereMeshComponent->bindTexture(sandyNormal);
+		//SphereMeshComponent->bindTexture(sandyNormal);
 		SphereMeshComponent->bindTexture(greyAlbedo);
 		SphereMeshComponent->bindShader(&PBRShader);
 		SphereEntity->addComponent(SphereMeshComponent);
 		SphereEntity->addComponent(SphereRigidComponent);
 		SphereEntity->setPosition(position);
 	}
-
-	// WOOD PLANKS
-	IChromaEntity* SphereEntityWoodplanks = new ChromaEntity;
-	Scene->addEntity(SphereEntityWoodplanks);
-	SphereEntityWoodplanks->setName("Wood Planks");
-	ChromaMeshComponent* SphereWoodplanksMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
-	ChromaPhysicsComponent* SpherewoodRigidComponent = new ChromaPhysicsComponent();
-	SpherewoodRigidComponent->setCollisionShape(ColliderShape::Sphere);
-	SpherewoodRigidComponent->setCollisionState(ColliderState::Kinematic);
-	SphereWoodplanksMeshComponent->bindTexture(agedPlanksAlbedo);
-	SphereWoodplanksMeshComponent->bindTexture(agedPlanksNormal);
-	//SphereWoodplanksMeshComponent->bindTexture(agedPlanksMetRoughAO);
-	SphereWoodplanksMeshComponent->bindShader(&PBRShader);
-	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
-	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
-	SphereEntityWoodplanks->setPosition(glm::vec3(-5.f, 1.0f, 0.0f));
-	SphereEntityWoodplanks->setScale(glm::vec3(0.15));
 
 	// RUSTED IRON
 	IChromaEntity* SphereEntityRustedIron = new ChromaEntity;
@@ -158,12 +143,30 @@ int main()
 	SphereRustedIronRigidComponent->setCollisionState(ColliderState::Kinematic);
 	SphereRustedIronMeshComponent->bindTexture(rustedIronAlbedo);
 	SphereRustedIronMeshComponent->bindTexture(rustedIronNormal);
-	//SphereWoodplanksMeshComponent->bindTexture(rustedIronMetRoughAO);
+	SphereRustedIronMeshComponent->bindTexture(rustedIronMetRoughAO);
 	SphereRustedIronMeshComponent->bindShader(&PBRShader);
 	SphereEntityRustedIron->addComponent(SphereRustedIronMeshComponent);
 	SphereEntityRustedIron->addComponent(SphereRustedIronRigidComponent);
 	SphereEntityRustedIron->setPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
 	SphereEntityRustedIron->setScale(glm::vec3(0.15));
+
+	// WOOD PLANKS
+	IChromaEntity* SphereEntityWoodplanks = new ChromaEntity;
+	Scene->addEntity(SphereEntityWoodplanks);
+	SphereEntityWoodplanks->setName("Wood Planks");
+	ChromaMeshComponent* SphereWoodplanksMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	ChromaPhysicsComponent* SpherewoodRigidComponent = new ChromaPhysicsComponent();
+	SpherewoodRigidComponent->setCollisionShape(ColliderShape::Sphere);
+	SpherewoodRigidComponent->setCollisionState(ColliderState::Kinematic);
+	SphereWoodplanksMeshComponent->bindTexture(agedPlanksAlbedo);
+	SphereWoodplanksMeshComponent->bindTexture(agedPlanksNormal);
+	SphereWoodplanksMeshComponent->bindTexture(agedPlanksMetRoughAO);
+	SphereWoodplanksMeshComponent->bindShader(&PBRShader);
+	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
+	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
+	SphereEntityWoodplanks->setPosition(glm::vec3(-5.f, 1.0f, 0.0f));
+	SphereEntityWoodplanks->setScale(glm::vec3(0.15));
+
 
 	// SEMI TRANSPARENT
 	IChromaEntity* SphereEntityTransparent = new ChromaEntity;
@@ -212,10 +215,6 @@ int main()
 		//Sunlight Rotation		
 		Sun->setPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->getPosition()));
-
-
-		for (Light* light : Lights)
-			light->setDiffuse(glm::vec3(1.0));
 
 
 		Game.getRenderer()->getDebugBuffer()->drawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));

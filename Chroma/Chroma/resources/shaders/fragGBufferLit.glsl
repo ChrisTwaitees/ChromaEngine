@@ -62,7 +62,7 @@ void main()
 	// Adding ambient and SSAO
 	vec3 Ambient = ambient * Albedo * AO * SSAO;
 	// Creating color 
-	vec3 color = Ambient + Lo;
+	vec3 color = (Ambient + Lo) * SSAO;
 	//------------------------------------------------------------------------
 	// OUT
 	FragColor = vec4(vec3(color), 1.0);
