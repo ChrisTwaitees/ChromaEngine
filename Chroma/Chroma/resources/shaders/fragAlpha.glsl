@@ -82,4 +82,4 @@ void main()
 		BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
-#include "util/lightingCalculations.glsl"
+#include "util/BlinnPhongLightingCalculations.glsl"
