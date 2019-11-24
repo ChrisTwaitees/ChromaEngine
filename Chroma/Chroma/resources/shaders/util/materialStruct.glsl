@@ -3,6 +3,8 @@ struct Material {
 	sampler2D texture_albedo1;
 	// normal
 	sampler2D texture_normal1;
+	// MetalnessRoughnessAO
+	sampler2D texture_MetRoughAO1;
 	// metalness
 	sampler2D texture_metalness1;
 	// roughness

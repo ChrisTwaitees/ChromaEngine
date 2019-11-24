@@ -52,6 +52,11 @@ public:
 	virtual void setStartPos(glm::vec3 startPos) {};
 	virtual void setEndPos(glm::vec3 endPos) {};
 
+	// Constructors
+	ChromaMeshComponent(const ChromaMeshComponent&)
+	{
+		std::cout << "Chroma Mesh Component Copy Constructor Invoked" << std::endl;
+	}
 	ChromaMeshComponent();
 	virtual ~ChromaMeshComponent();
 };

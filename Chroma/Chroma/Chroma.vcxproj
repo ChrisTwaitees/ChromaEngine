@@ -279,7 +279,6 @@
     <ResourceCompile Include="Chroma.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\fragAlpha.glsl" />
     <None Include="resources\shaders\fragBasic.glsl" />
     <None Include="resources\shaders\fragBloomFrameBuffer.glsl" />
     <None Include="resources\shaders\fragBlur.glsl" />
@@ -287,8 +286,9 @@
     <None Include="resources\shaders\fragEmpty.glsl" />
     <None Include="resources\shaders\fragGBufferGeometry.glsl" />
     <None Include="resources\shaders\fragGBufferLit.glsl" />
-    <None Include="resources\shaders\fragHDRframebuffer.glsl" />
     <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
+    <None Include="resources\shaders\fragPBR.glsl" />
+    <None Include="resources\shaders\fragPBRAlpha.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
     <None Include="resources\shaders\fragSSAO.glsl" />
     <None Include="resources\shaders\fragSSAOBlur.glsl" />
@@ -300,9 +300,10 @@
     <None Include="resources\shaders\geometrySphereDebug.glsl" />
     <None Include="resources\shaders\skyBoxFrag.glsl" />
     <None Include="resources\shaders\skyBoxVertex.glsl" />
-    <None Include="resources\shaders\util\lightingCalculations.glsl" />
+    <None Include="resources\shaders\util\BlinnPhongLightingCalculations.glsl" />
     <None Include="resources\shaders\util\lightingStructs.glsl" />
     <None Include="resources\shaders\util\materialStruct.glsl" />
+    <None Include="resources\shaders\util\PBRLightingCalculations.glsl" />
     <None Include="resources\shaders\vertexBoxDebug.glsl" />
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />

@@ -13,7 +13,7 @@ public:
 	/*  Texture Data  */
 	unsigned int ID;
 
-	enum TYPE { ALBEDO, NORMAL, METALNESS, ROUGHNESS, AO, SHADOWMAP };
+	enum TYPE { ALBEDO, NORMAL, METROUGHAO, METALNESS, ROUGHNESS, AO, SHADOWMAP };
 	TYPE type = TYPE::ALBEDO;
 
 	// paths

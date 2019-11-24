@@ -172,20 +172,20 @@ void ChromaEntity::rotate(float degrees, glm::vec3 rotationaxis)
 
 void ChromaEntity::setScale(glm::vec3 newscale)
 {
-	m_transformMatrix = glm::scale(m_identityMatrix, newscale);
+	m_transformMatrix = glm::scale(m_transformMatrix, newscale);
 	updatePhysicsComponentsTransforms();
 }
 
 void ChromaEntity::setPosition(glm::vec3 newposition)
 {
-	m_transformMatrix = glm::translate(m_identityMatrix, newposition);
+	m_transformMatrix = glm::translate(m_transformMatrix, newposition);
 	updatePhysicsComponentsTransforms();
 }
 
 void ChromaEntity::setRotation(float degrees, glm::vec3 rotationaxis)
 {
 	glm::vec3 existingTranslation = getPosition();
-	m_transformMatrix = glm::translate(m_identityMatrix, existingTranslation);
+	m_transformMatrix = glm::translate(m_transformMatrix, existingTranslation);
 	rotate(degrees, rotationaxis);
 	updatePhysicsComponentsTransforms();
 }

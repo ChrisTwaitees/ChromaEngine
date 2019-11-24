@@ -411,9 +411,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="resources\shaders\fragAlpha.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
     <None Include="resources\shaders\fragBasic.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
@@ -486,9 +483,6 @@
     <None Include="resources\shaders\fragGBufferLit.glsl">
       <Filter>Resources\shaders\buffer</Filter>
     </None>
-    <None Include="resources\shaders\fragHDRframebuffer.glsl">
-      <Filter>Resources\shaders\buffer</Filter>
-    </None>
     <None Include="resources\shaders\fragSSAO.glsl">
       <Filter>Resources\shaders\buffer</Filter>
     </None>
@@ -510,11 +504,20 @@
     <None Include="resources\shaders\util\materialStruct.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
-    <None Include="resources\shaders\util\lightingCalculations.glsl">
-      <Filter>Resources\shaders\util</Filter>
-    </None>
     <None Include="resources\shaders\util\lightingStructs.glsl">
       <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\BlinnPhongLightingCalculations.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\PBRLightingCalculations.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\fragPBR.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragPBRAlpha.glsl">
+      <Filter>Resources\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

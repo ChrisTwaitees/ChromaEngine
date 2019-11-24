@@ -71,6 +71,7 @@ void Model::setFloat(std::string name, float value)
 		mesh->setFloat(name, value);
 }
 
+
 Model::~Model()
 {
 }

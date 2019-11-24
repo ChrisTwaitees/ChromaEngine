@@ -42,44 +42,59 @@ int main()
 	// ------------------------------------------------------------------------------------------
 
 	// LIGHTS
+	const float SUNLIGHT_SPIN_SPEED = .8f;
+	const float SUNLIGHT_DISTANCE = 15.0f;
+
 	std::vector<Light*> Lights;
 
 	// point light positions
 	glm::vec3 pointLightPositions[] = {
-		glm::vec3(0.7f,  2.2f,  2.0f),
-		glm::vec3(2.3f, -1.3f, -4.0f),
+		glm::vec3(2.5f,  1.2f,  2.0f),
 	};
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		Light* pointLight = new Light(pos, Light::POINT);
-		pointLight->setIntensity(3.0f);
+		pointLight->setIntensity(5.0f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
 	}
 	// SUNLIGHT
-	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 0.8f);
+	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 1.0f);
 	Lights.push_back(Sun);
 
 
 	// SHADERS
-	Shader litNormalsShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	UnlitShader.use();
 	UnlitShader.setVec3("color", glm::vec3(1, 1, 0));
-	Shader SemiTransparentShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-
+	Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+	Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
 	// TEXTURES
 	Texture blackAlbedo("resources/textures/colors/black.jpg");
 	Texture greyAlbedo("resources/textures/colors/grey.jpg");
 	Texture whiteAlbedo("resources/textures/colors/white.jpg");
 	Texture alphaTestAlbedo("resources/textures/test/alphatest.png");
-
 	Texture sandyNormal("resources/textures/test/sandy_normal.jpg");
 	sandyNormal.type = Texture::NORMAL;
 
+	// AgedWoodplanks
+	Texture agedPlanksAlbedo("resources/textures/agedplanks_pbr/albedo.jpg");
+	agedPlanksAlbedo.type = Texture::ALBEDO;
+	Texture agedPlanksNormal("resources/textures/agedplanks_pbr/normal.jpg");
+	agedPlanksNormal.type = Texture::NORMAL;
+	Texture agedPlanksMetRoughAO("resources/textures/agedplanks_pbr/MetRoughAO.jpg");
+	agedPlanksMetRoughAO.type = Texture::METROUGHAO;
+
+	// Rusted Metal
+	Texture rustedIronAlbedo("resources/textures/rustediron_pbr/albedo.jpg");
+	rustedIronAlbedo.type = Texture::ALBEDO;
+	Texture rustedIronNormal("resources/textures/rustediron_pbr/normal.jpg");
+	rustedIronNormal.type = Texture::NORMAL;
+	Texture rustedIronMetRoughAO("resources/textures/rustediron_pbr/MetRoughAO.jpg");
+	rustedIronMetRoughAO.type = Texture::METROUGHAO;
 
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
@@ -87,35 +102,68 @@ int main()
 	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->bindTexture(greyAlbedo);
 	TerrainMeshComponent->bindTexture(sandyNormal);
-	TerrainMeshComponent->bindShader(&litNormalsShader);
+	TerrainMeshComponent->bindShader(&PBRShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 
 	// SPHERES
 	// Sphere Positions
 	glm::vec3 spherePositions[] = {
-		glm::vec3(-5.f,  1.0f,  0.0f),
-		glm::vec3(-2.5f,  1.0f,  0.0f),
 		glm::vec3(0.f,  1.0f,  0.0f),
 		glm::vec3(2.5f,  1.0f,  0.0f),
 		glm::vec3(5.0f,  1.0f,  0.0f)
 	};
+
 	
 	for (glm::vec3 position : spherePositions)
 	{
 		IChromaEntity* SphereEntity = new ChromaEntity;
 		Scene->addEntity(SphereEntity);
 		SphereEntity->setName("Sphere");
-		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
+		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
 		ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
 		SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
 		SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 		SphereMeshComponent->bindTexture(sandyNormal);
 		SphereMeshComponent->bindTexture(greyAlbedo);
-		SphereMeshComponent->bindShader(&litNormalsShader);
+		SphereMeshComponent->bindShader(&PBRShader);
 		SphereEntity->addComponent(SphereMeshComponent);
 		SphereEntity->addComponent(SphereRigidComponent);
 		SphereEntity->setPosition(position);
 	}
+
+	// WOOD PLANKS
+	IChromaEntity* SphereEntityWoodplanks = new ChromaEntity;
+	Scene->addEntity(SphereEntityWoodplanks);
+	SphereEntityWoodplanks->setName("Wood Planks");
+	ChromaMeshComponent* SphereWoodplanksMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	ChromaPhysicsComponent* SpherewoodRigidComponent = new ChromaPhysicsComponent();
+	SpherewoodRigidComponent->setCollisionShape(ColliderShape::Sphere);
+	SpherewoodRigidComponent->setCollisionState(ColliderState::Kinematic);
+	SphereWoodplanksMeshComponent->bindTexture(agedPlanksAlbedo);
+	SphereWoodplanksMeshComponent->bindTexture(agedPlanksNormal);
+	//SphereWoodplanksMeshComponent->bindTexture(agedPlanksMetRoughAO);
+	SphereWoodplanksMeshComponent->bindShader(&PBRShader);
+	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
+	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
+	SphereEntityWoodplanks->setPosition(glm::vec3(-5.f, 1.0f, 0.0f));
+	SphereEntityWoodplanks->setScale(glm::vec3(0.15));
+
+	// RUSTED IRON
+	IChromaEntity* SphereEntityRustedIron = new ChromaEntity;
+	Scene->addEntity(SphereEntityRustedIron);
+	SphereEntityRustedIron->setName("Rusted Iron");
+	ChromaMeshComponent* SphereRustedIronMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	ChromaPhysicsComponent* SphereRustedIronRigidComponent = new ChromaPhysicsComponent();
+	SphereRustedIronRigidComponent->setCollisionShape(ColliderShape::Sphere);
+	SphereRustedIronRigidComponent->setCollisionState(ColliderState::Kinematic);
+	SphereRustedIronMeshComponent->bindTexture(rustedIronAlbedo);
+	SphereRustedIronMeshComponent->bindTexture(rustedIronNormal);
+	//SphereWoodplanksMeshComponent->bindTexture(rustedIronMetRoughAO);
+	SphereRustedIronMeshComponent->bindShader(&PBRShader);
+	SphereEntityRustedIron->addComponent(SphereRustedIronMeshComponent);
+	SphereEntityRustedIron->addComponent(SphereRustedIronRigidComponent);
+	SphereEntityRustedIron->setPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
+	SphereEntityRustedIron->setScale(glm::vec3(0.15));
 
 	// SEMI TRANSPARENT
 	IChromaEntity* SphereEntityTransparent = new ChromaEntity;
@@ -148,8 +196,6 @@ int main()
 	SphereEntityUnlit->addComponent(SphereRigidComponentUnlit);
 	SphereEntityUnlit->setPosition(glm::vec3(-7.5, 1.0, 0.0));
 
-
-
 	// POPULATING SCENE
 	Scene->setLights(Lights);
 
@@ -163,13 +209,10 @@ int main()
 		float GameTime = ScreenManager->getTime();
 		float DeltaTime = ScreenManager->getDeltaTime();
 
-		// Updating sun
-		Sun->setPosition(Sun->getDirection() * -20.0f);
-		//Sunlight Rotation
-		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
+		//Sunlight Rotation		
+		Sun->setPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
+		Sun->setDirection(-normalize(Sun->getPosition()));
 
-
-	
 
 		for (Light* light : Lights)
 			light->setDiffuse(glm::vec3(1.0));

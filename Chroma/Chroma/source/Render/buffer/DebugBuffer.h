@@ -72,7 +72,7 @@ class DebugBuffer : public Framebuffer
 	void renderSphere(SphereShape sphere);
 	void renderBox(BoxShape box);
 	// blitting depth buffer before rendering
-	void initialize();
+	void initialize() override;
 	void attachBuffer();
 	void blitPostFXBuffer();
 
