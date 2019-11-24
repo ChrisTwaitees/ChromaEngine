@@ -32,7 +32,7 @@ uniform ShadowMap shadowmaps;
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
-
+uniform bool UseNormalMap;
 
 // Lighting
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float specular, float metalness, float ambient, vec4 FragPosLightSpace, float SSAO, sampler2D shadowmap);
@@ -45,25 +45,31 @@ void main()
 	vec3 result;
 	// maps
 	vec3 albedoMap = vec3(texture(material.texture_albedo1, fs_in.TexCoords));
-	vec3 normalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords));
 	float metalnessMap = texture(material.texture_metalness1, fs_in.TexCoords).r;
 	float roughnessMap = texture(material.texture_roughness1, fs_in.TexCoords).r;
 	float aoMap = texture(material.texture_ao1, fs_in.TexCoords).r;
+
+	// normals
+	vec3 normals;
+	if (UseNormalMap && length(fs_in.TBN[1]) >= 0.5 ){
+		normals = vec3(texture(material.texture_normal1, fs_in.TexCoords));
+		normals = normalize(normals * 2.0 - 1.0);
+		normals = normalize(fs_in.TBN * normals);
+	}
+	else{
+		normals = fs_in.Normal;
+	}
 
 	// TODO : swap out hard coded values
 	float ambient = 0.3;
 	float SSAO = 0.0;
 
 	// attrs
-	//vec3 norm = normalize(fs_in.Normal);
-	// if normal map used, transform from tangent to world space
-	vec3 norm = normalize(normalMap * 2.0 - 1.0);
-	norm = normalize(fs_in.TBN * norm);
 	vec3 viewDir = normalize(viewPos - fs_in.FragPos);
 
 	// direction lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-		result += CalcDirLight(dirLights[i], normalMap, viewDir, albedoMap, roughnessMap, metalnessMap, metalnessMap, ambient, fs_in.FragPosLightSpace, aoMap, shadowmaps.shadowmap1);
+		result += CalcDirLight(dirLights[i], normals, viewDir, albedoMap, roughnessMap, metalnessMap, metalnessMap, ambient, fs_in.FragPosLightSpace, aoMap, shadowmaps.shadowmap1);
 	
 	// spot lights
 	//for(int i = 0; i < NR_SPOT_LIGHTS ; i++)
@@ -71,7 +77,7 @@ void main()
 
 	// point lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
-		result += CalcPointLight(pointLights[i], normalMap, viewDir, fs_in.FragPos, albedoMap, roughnessMap, metalnessMap, metalnessMap, ambient, fs_in.FragPosLightSpace, aoMap, shadowmaps.shadowmap1);
+		result += CalcPointLight(pointLights[i], normals, viewDir, fs_in.FragPos, albedoMap, roughnessMap, metalnessMap, metalnessMap, ambient, fs_in.FragPosLightSpace, aoMap, shadowmaps.shadowmap1);
 
 	FragColor = vec4(result, 1.0);
 	// bloom

@@ -21,6 +21,7 @@ in VS_OUT {
 
 #include "util/materialStruct.glsl"
 uniform Material material;
+uniform bool UseNormalMap;
 
 void main()
 {             
@@ -29,14 +30,14 @@ void main()
 	gViewPosition = fs_in.FragViewPos;
 
     // also store the per-fragment normals
-	vec3 rawNormalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords));
-	vec3 normalMap = normalize(rawNormalMap * 2.0 - 1.0);
-	// check if TBN and NormalMap valid
-	if (rawNormalMap.g != 0 && length(fs_in.ViewTBN[1]) >= 0.5)	{
+	if (UseNormalMap  && length(fs_in.ViewTBN[1]) >= 0.5)
+	{
+		vec3 normalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords));
 		gNormal = normalize(fs_in.WorldTBN * normalMap);
 		gViewNormal = normalize(fs_in.ViewTBN * normalMap);
 	}
-	else{
+	else
+	{
 		gNormal = fs_in.WorldNormal;
 		gViewNormal = fs_in.ViewNormal;
 	}

@@ -136,6 +136,8 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		{
 			name = "material.texture_normal";
 			texturenum = std::to_string(normalNr++);
+			// set use texture normals
+			shader->setBool("UseNormalMap", true);
 		}
 		if (textures[i].type == Texture::METALNESS)
 		{

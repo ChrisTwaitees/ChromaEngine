@@ -76,10 +76,16 @@ int main()
 	Texture greyAlbedo("resources/textures/colors/grey.jpg");
 	Texture whiteAlbedo("resources/textures/colors/white.jpg");
 	Texture alphaTestAlbedo("resources/textures/test/alphatest.png");
-
 	Texture sandyNormal("resources/textures/test/sandy_normal.jpg");
 	sandyNormal.type = Texture::NORMAL;
 
+	// AgedWoodplanks
+	Texture agedPlanksAlbedo("resources/textures/agedplanks_pbr/albedo.jpg");
+	agedPlanksAlbedo.type = Texture::ALBEDO;
+	Texture agedPlanksNormal("resources/textures/agedplanks_pbr/normal.jpg");
+	agedPlanksNormal.type = Texture::NORMAL;
+	Texture agedPlanksMetRoughAO("resources/textures/agedplanks_pbr/MetRoughAO.jpg");
+	agedPlanksMetRoughAO.type = Texture::METALNESS;
 
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
@@ -93,29 +99,47 @@ int main()
 	// SPHERES
 	// Sphere Positions
 	glm::vec3 spherePositions[] = {
-		glm::vec3(-5.f,  1.0f,  0.0f),
 		glm::vec3(-2.5f,  1.0f,  0.0f),
 		glm::vec3(0.f,  1.0f,  0.0f),
 		glm::vec3(2.5f,  1.0f,  0.0f),
 		glm::vec3(5.0f,  1.0f,  0.0f)
 	};
+
+	// Lookdev model
+	ChromaMeshComponent* sphereModel = new Model("resources/assets/lookdev/sphere.obj");
 	
 	for (glm::vec3 position : spherePositions)
 	{
 		IChromaEntity* SphereEntity = new ChromaEntity;
 		Scene->addEntity(SphereEntity);
 		SphereEntity->setName("Sphere");
-		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
+		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
 		ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
 		SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
 		SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 		SphereMeshComponent->bindTexture(sandyNormal);
 		SphereMeshComponent->bindTexture(greyAlbedo);
-		SphereMeshComponent->bindShader(&litNormalsShader);
 		SphereEntity->addComponent(SphereMeshComponent);
 		SphereEntity->addComponent(SphereRigidComponent);
 		SphereEntity->setPosition(position);
 	}
+
+	// WOOD PLANKS
+	IChromaEntity* SphereEntityWoodplanks = new ChromaEntity;
+	Scene->addEntity(SphereEntityWoodplanks);
+	SphereEntityWoodplanks->setName("Sphere");
+	ChromaMeshComponent* SphereWoodplanksMeshComponent = sphereModel;
+	ChromaPhysicsComponent* SpherewoodRigidComponent = new ChromaPhysicsComponent();
+	SpherewoodRigidComponent->setCollisionShape(ColliderShape::Sphere);
+	SpherewoodRigidComponent->setCollisionState(ColliderState::Kinematic);
+	SphereWoodplanksMeshComponent->bindTexture(agedPlanksAlbedo);
+	SphereWoodplanksMeshComponent->bindTexture(agedPlanksNormal);
+	//SphereWoodplanksMeshComponent->bindTexture(agedPlanksMetRoughAO);
+	SphereWoodplanksMeshComponent->bindShader(&litNormalsShader);
+	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
+	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
+	SphereEntityWoodplanks->setPosition(glm::vec3(-5.f, 1.0f, 0.0f));
+	SphereEntityWoodplanks->setScale(glm::vec3(0.15));
 
 	// SEMI TRANSPARENT
 	IChromaEntity* SphereEntityTransparent = new ChromaEntity;

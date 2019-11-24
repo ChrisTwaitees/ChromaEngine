@@ -2,6 +2,7 @@
 
 
 
+
 ChromaMeshComponent::ChromaMeshComponent()
 {
 	isRenderable = true;
