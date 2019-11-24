@@ -87,7 +87,7 @@ int main()
 	Texture agedPlanksNormal("resources/textures/agedplanks_pbr/normal.jpg");
 	agedPlanksNormal.type = Texture::NORMAL;
 	Texture agedPlanksMetRoughAO("resources/textures/agedplanks_pbr/MetRoughAO.jpg");
-	agedPlanksMetRoughAO.type = Texture::METALNESS;
+	agedPlanksMetRoughAO.type = Texture::METROUGHAO;
 
 	// Rusted Metal
 	Texture rustedIronAlbedo("resources/textures/rustediron_pbr/albedo.jpg");
@@ -95,7 +95,7 @@ int main()
 	Texture rustedIronNormal("resources/textures/rustediron_pbr/normal.jpg");
 	rustedIronNormal.type = Texture::NORMAL;
 	Texture rustedIronMetRoughAO("resources/textures/rustediron_pbr/MetRoughAO.jpg");
-	rustedIronMetRoughAO.type = Texture::METALNESS;
+	rustedIronMetRoughAO.type = Texture::METROUGHAO;
 
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;

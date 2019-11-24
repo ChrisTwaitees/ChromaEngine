@@ -519,9 +519,6 @@
     <None Include="resources\shaders\util\PBRLightingCalculations.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
-    <None Include="resources\shaders\fragGBufferPBRLit.glsl">
-      <Filter>Resources\shaders\buffer</Filter>
-    </None>
     <None Include="resources\shaders\fragPBRLit.glsl">
       <Filter>Resources\shaders</Filter>
     </None>

@@ -7,8 +7,8 @@ in vec2 TexCoords;
 // BUFFERS
 uniform sampler2D gPosition;
 uniform sampler2D gNormal;
-uniform sampler2D gAlbedoRoughness;
-uniform sampler2D gMetalnessSpecular;
+uniform sampler2D gAlbedo;
+uniform sampler2D gMetRoughAO;
 uniform sampler2D gFragPosLightSpace;
 uniform sampler2D gShadowmap;
 uniform sampler2D SSAO;
@@ -40,12 +40,13 @@ void main()
     // retrieve data from G-buffer
     vec3 FragPos = texture(gPosition, TexCoords).rgb;
     vec3 Normal = texture(gNormal, TexCoords).rgb;
-    vec3 Albedo = texture(gAlbedoRoughness, TexCoords).rgb;
-    float Roughness = texture(gAlbedoRoughness, TexCoords).a;
-	float Metalness = texture(gMetalnessSpecular, TexCoords).r;
-	float Specular = texture(gMetalnessSpecular, TexCoords).a;
+    vec3 Albedo = texture(gAlbedo, TexCoords).rgb;
+	vec3 MetRoughAO = texture(gMetRoughAO, TexCoords).rgb;
+	float Metalness = MetRoughAO.r;
+    float Roughness = MetRoughAO.g;
+	float AO = MetRoughAO.b;
 	vec4 FragPosLightSpace = texture(gFragPosLightSpace, TexCoords).rgba;
-	float ssao = texture(SSAO, TexCoords).r;
+	float SSAO = texture(SSAO, TexCoords).r;
 
 	// lighting
 	vec3 lighting;
@@ -53,18 +54,18 @@ void main()
 	
 	 //directional lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-		lighting += CalcDirLight(dirLights[i], Normal, viewDir,  Albedo, Roughness, Specular, Metalness, ambient, FragPosLightSpace, ssao, gShadowmap);
+		lighting += CalcDirLight(dirLights[i], Normal, viewDir,  Albedo, Roughness, AO, Metalness, ambient, FragPosLightSpace, SSAO, gShadowmap);
 
 	// point lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 	{
 	    float dist = length(pointLights[i].position - FragPos);
         if(dist < pointLights[i].radius)  // do expensive lighting
-            lighting += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Specular, Metalness, ambient, FragPosLightSpace, ssao, gShadowmap);
+            lighting += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, AO, Metalness, ambient, FragPosLightSpace, SSAO, gShadowmap);
 	}
 
 	// out
-	FragColor = vec4(lighting * vec3(ssao), 1.0);
+	FragColor = vec4(lighting * vec3(SSAO), 1.0);
 
 	// out bloom
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
@@ -74,4 +75,4 @@ void main()
 		BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 }  
 
-#include "util/BlinnPhongLightingCalculations.glsl"
+#include "util/PBRLightingCalculations.glsl"

@@ -34,7 +34,8 @@ protected:
 	void bindAllGBufferTextures();
 
 	// GBUFFER TEXTURES
-	unsigned int gNormal, gPosition, gAlbedoRoughness, gMetalnessSpecular, gFragPosLightSpace, gViewPosition, gViewNormal;
+	unsigned int gPosition, gViewPosition, gViewNormal, gFragPosLightSpace;
+	unsigned int gAlbedo, gNormal, gMetRoughAO;
 
 	// Passes
 	void calculateShadows();

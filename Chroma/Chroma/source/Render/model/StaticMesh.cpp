@@ -121,6 +121,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 	unsigned int normalNr{ 1 };
 	unsigned int roughnessNr{ 1 };
 	unsigned int metalnessNr{ 1 };
+	unsigned int metroughaoNr{ 1 };
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
@@ -138,6 +139,11 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 			texturenum = std::to_string(normalNr++);
 			// set use texture normals
 			shader->setBool("UseNormalMap", true);
+		}
+		if (textures[i].type == Texture::METROUGHAO)
+		{
+			name = "material.texture_MetRoughAO";
+			texturenum = std::to_string(metroughaoNr++);
 		}
 		if (textures[i].type == Texture::METALNESS)
 		{

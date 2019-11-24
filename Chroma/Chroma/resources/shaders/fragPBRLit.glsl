@@ -44,11 +44,7 @@ void main()
 {
 	vec3 result;
 	// maps
-	vec3 albedoMap = vec3(texture(material.texture_albedo1, fs_in.TexCoords));
-	float metalnessMap = texture(material.texture_metalness1, fs_in.TexCoords).r;
-	float roughnessMap = texture(material.texture_roughness1, fs_in.TexCoords).r;
-	float aoMap = texture(material.texture_ao1, fs_in.TexCoords).r;
-
+	vec3 albedo = vec3(texture(material.texture_albedo1, fs_in.TexCoords));
 	// normals
 	vec3 normals;
 	if (UseNormalMap && length(fs_in.TBN[1]) >= 0.5 ){
@@ -59,6 +55,11 @@ void main()
 	else{
 		normals = fs_in.Normal;
 	}
+	// metalness roughness ao
+	vec3 MetRoughAO = texture(material.texture_MetRoughAO1, fs_in.TexCoords).rgb;
+	float metalness = MetRoughAO.r ;
+	float roughness = MetRoughAO.g;
+	float ao = MetRoughAO.b;
 
 	// TODO : swap out hard coded values
 	float ambient = 0.3;
@@ -69,7 +70,7 @@ void main()
 
 	// direction lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-		result += CalcDirLight(dirLights[i], normals, viewDir, albedoMap, roughnessMap, metalnessMap, metalnessMap, ambient, fs_in.FragPosLightSpace, aoMap, shadowmaps.shadowmap1);
+		result += CalcDirLight(dirLights[i], normals, viewDir, albedo, roughness, metalness, metalness, ambient, fs_in.FragPosLightSpace, ao, shadowmaps.shadowmap1);
 	
 	// spot lights
 	//for(int i = 0; i < NR_SPOT_LIGHTS ; i++)
@@ -77,7 +78,7 @@ void main()
 
 	// point lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
-		result += CalcPointLight(pointLights[i], normals, viewDir, fs_in.FragPos, albedoMap, roughnessMap, metalnessMap, metalnessMap, ambient, fs_in.FragPosLightSpace, aoMap, shadowmaps.shadowmap1);
+		result += CalcPointLight(pointLights[i], normals, viewDir, fs_in.FragPos, albedo, roughness, metalness, metalness, ambient, fs_in.FragPosLightSpace, ao, shadowmaps.shadowmap1);
 
 	FragColor = vec4(result, 1.0);
 	// bloom
