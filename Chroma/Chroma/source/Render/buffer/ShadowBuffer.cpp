@@ -56,9 +56,7 @@ void ShadowBuffer::bindShadowMapToBuffer()
 
 void ShadowBuffer::calculateShadows()
 {
-	// Cull the front faces to prevent a dettached self 
-	// shadowing effect, ** this is designed for opaque objects!
-	glCullFace(GL_FRONT);
+
 
 	// Calculate LightSpace matrix
 	calcLightSpaceMatrix();
@@ -72,6 +70,11 @@ void ShadowBuffer::calculateShadows()
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
 
+	// Cull the front faces to prevent a dettached self 
+	// shadowing effect, ** this is designed for opaque objects!
+	// Attempt to alleviate Peter Panning
+	//glCullFace(GL_FRONT);
+
 	// render scene
 	for (IChromaEntity* entity : m_scene->getEntities())
 	{
@@ -83,9 +86,10 @@ void ShadowBuffer::calculateShadows()
 			((ChromaMeshComponent*)component)->Draw(depthShader);
 		}
 	}
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	glCullFace(GL_BACK); // reset to original culling mode
+	unBind();
+
+	//glCullFace(GL_BACK); // reset to original culling mode
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

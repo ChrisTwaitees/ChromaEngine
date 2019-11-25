@@ -30,7 +30,7 @@ private:
 	void setupMesh() override;
 
 	// Default Shader
-	std::string fragSrc = "resources/shaders/fragLineBillboard.glsl";
+	std::string fragSrc = "resources/shaders/fragBasic.glsl";
 	std::string vtxSrc = "resources/shaders/vertexLineBillboard.glsl";
 
 public:

@@ -46,7 +46,7 @@ class DebugBuffer : public Framebuffer
 	Camera* m_renderCamera;
 
 	// shaders
-	const char* FragSource{ "resources/shaders/fragLineDebug.glsl" };
+	const char* FragSource{ "resources/shaders/fragBasic.glsl" };
 	// line geometry shader
 	const char* lineVtxSource{ "resources/shaders/vertexLineDebug.glsl" };
 	const char* lineGeomSource{ "resources/shaders/geometryLineDebug.glsl" };
@@ -64,10 +64,7 @@ class DebugBuffer : public Framebuffer
 	void generatePointVAO();
 
 	// previous framebuffer to call from
-	Framebuffer* m_prevFrameBuffer;
-
-	// adding RGBA 
-	void GenTexture() override;
+	Framebuffer* m_postFXBuffer;
 
 	// functions
 	void drawShapes();
@@ -75,9 +72,9 @@ class DebugBuffer : public Framebuffer
 	void renderSphere(SphereShape sphere);
 	void renderBox(BoxShape box);
 	// blitting depth buffer before rendering
-	void initialize();
+	void initialize() override;
 	void attachBuffer();
-	void blitDepthBuffer();
+	void blitPostFXBuffer();
 
 public:
 
@@ -89,7 +86,7 @@ public:
 	void ClearBuffer() override;
 	void Draw() override;
 
-	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_renderCamera(camera), m_prevFrameBuffer(prevFrameBuffer) { initialize(); };
+	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_renderCamera(camera), m_postFXBuffer(prevFrameBuffer) { initialize(); };
 };
 
 #endif

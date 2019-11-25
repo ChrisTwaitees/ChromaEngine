@@ -29,9 +29,9 @@
 #include <game/ChromaGame.h>
 
 
-int main()
+int Main()
 {
-	
+
 	// INIT CHROMA
 	// ------------------------------------------------------------------------------------------
 
@@ -48,7 +48,7 @@ int main()
 	// ------------------------------------------------------------------------------------------
 
 	// LIGHTS
-	std::vector<std::shared_ptr<Light>> Lights;
+	std::vector<Light*> Lights;
 
 	// point light positions
 	glm::vec3 pointLightPositions[] = {
@@ -63,14 +63,14 @@ int main()
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
-		std::shared_ptr<Light> pointLight = std::make_shared < Light >(pos, Light::POINT);
+		Light* pointLight = new Light(pos, Light::POINT);
 		pointLight->setIntensity(3.0f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
 	}
 	// SUNLIGHT
-	std::shared_ptr<Light> Sun = std::make_shared<Light>(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 0.8f);
+	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 0.8f);
 	Lights.push_back(Sun);
 
 	// CUBES
@@ -97,36 +97,36 @@ int main()
 	grassPositions.push_back(glm::vec3(0.5f, 0.0f, -0.6f));
 
 	// SHADERS
-	Shader litNormalsShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-	Shader litShader("resources/shaders/fragLitShadows.glsl", "resources/shaders/vertexLitShadows.glsl");
+	Shader litShader("resources/shaders/fragLitShadowsNormals.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader refractionShader("resources/shaders/fragRefraction.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader constantShader("resources/shaders/fragConstant.glsl", "resources/shaders/vertexShaderLighting.glsl");
-	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader constantShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexShaderLighting.glsl");
+	Shader alphaShader("resources/shaders/fragAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader debugNormalsShader("resources/shaders/fragDebugNormals.glsl", "resources/shaders/vertexDebugNormals.glsl", "resources/shaders/geometryDebugNormals.glsl");
 
 
 	// TEXTURES
 	Texture diffuseMap("resources/textures/wooden_panel.png");
 	Texture specularMap("resources/textures/wooden_panel_specular.png");
-	specularMap.type = Texture::SPECULAR;
+	specularMap.type = Texture::METALNESS;
 	Texture concreteMap("resources/textures/brickwall.jpg");
 	Texture normalMap("resources/textures/brickwall_normal.jpg");
 	normalMap.type = Texture::NORMAL;
 	Texture grassMap("resources/textures/grass.png");
+	grassMap.type = Texture::ALBEDO;
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
 	// ENTITIES
 	IChromaEntity* NanosuitEntity = new ChromaEntity;
 	Scene->addEntity(NanosuitEntity);
 	NanosuitEntity->setName("ChromaSuit");
-	NanosuitEntity->setPosition(glm::vec3(30.,0.,0));
-	
+	NanosuitEntity->setPosition(glm::vec3(30., 0., 0));
+
 	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
 	NanoSuitRigidComponent->setCollisionShape(ColliderShape::Convex);
 	NanoSuitRigidComponent->setCollisionState(ColliderState::Dynamic);
 	NanoSuitRigidComponent->setMass(1.0f);
-	NanoSuitModelComponent->bindShader(&litNormalsShader);
+	NanoSuitModelComponent->bindShader(&litShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	NanosuitEntity->addComponent(NanoSuitRigidComponent);
 
@@ -137,7 +137,7 @@ int main()
 		IChromaEntity* BoxEntity = new ChromaEntity;
 		Scene->addEntity(BoxEntity);
 		BoxEntity->setName("Box");
-		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive;
+		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive();
 		BoxMeshComponent->bindShader(&litShader);
 		BoxMeshComponent->bindTexture(diffuseMap);
 		BoxMeshComponent->bindTexture(specularMap);
@@ -154,10 +154,10 @@ int main()
 	std::vector<IChromaEntity*> lamps;
 	for (glm::vec3 position : pointLightPositions)
 	{
-		IChromaEntity* LampEntity = new ChromaEntity;
+		IChromaEntity* LampEntity = new ChromaEntity();
 		Scene->addEntity(LampEntity);
 		LampEntity->setName("Lamp");
-		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive;
+		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive();
 		LampMeshComponent->bindShader(&constantShader);
 		LampMeshComponent->castShadows = false;
 		LampMeshComponent->isLit = false;
@@ -171,21 +171,26 @@ int main()
 		lamps.push_back(LampEntity);
 	}
 
-	//for (glm::vec3 position : grassPositions)
-	//{
-	//	ChromaEntity* GrassPlaneEntity = new ChromaEntity;
-	//	IChromaComponent* GrassPlaneMeshComponent = new PlanePrimitive;
-	//	GrassPlaneMeshComponent->bindTexture(grassMap);
-	//	GrassPlaneMeshComponent->bindShader(&alphaShader);
-	//	GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
-	//	Entities.push_back(GrassPlaneEntity);
-	//}
+	for (glm::vec3 position : grassPositions)
+	{
+		IChromaEntity* GrassPlaneEntity = new ChromaEntity;
+		GrassPlaneEntity->setName("Grass");
+		ChromaMeshComponent* GrassPlaneMeshComponent = new PlanePrimitive();
+		GrassPlaneMeshComponent->bindTexture(grassMap);
+		GrassPlaneMeshComponent->bindShader(&alphaShader);
+		GrassPlaneMeshComponent->isLit = false;
+		GrassPlaneMeshComponent->isForwardLit = true;
+		GrassPlaneMeshComponent->isTransparent = true;
+		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
+		GrassPlaneEntity->setPosition(position);
+		Scene->addEntity(GrassPlaneEntity);
+	}
 
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
 	Scene->addEntity(TerrainEntity);
 	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
-	TerrainMeshComponent->bindShader(&litNormalsShader);
+	TerrainMeshComponent->bindShader(&litShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 
 	// SPHERE
@@ -198,7 +203,7 @@ int main()
 	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 	SphereMeshComponent->bindTexture(normalMap);
 	SphereMeshComponent->bindTexture(concreteMap);
-	SphereMeshComponent->bindShader(&litNormalsShader);
+	SphereMeshComponent->bindShader(&litShader);
 	SphereEntity->addComponent(SphereMeshComponent);
 	SphereEntity->addComponent(SphereRigidComponent);
 
@@ -250,10 +255,11 @@ int main()
 			// fragments
 			for (IChromaComponent* component : lamps[i]->getRenderableComponents())
 			{
-				((ChromaMeshComponent*)component)->getShader()->setVec3("lightColor", Lights[i]->getDiffuse());
-				((ChromaMeshComponent*)component)->getShader()->setFloat("lightIntensity", Lights[i]->getIntensity());
+				glm::vec3 color(Lights[i]->getDiffuse()* Lights[i]->getIntensity());
+				((ChromaMeshComponent*)component)->getShader()->setVec3("color", glm::vec4(color, 1.0));
+
 			}
-				
+
 		}
 
 		// NANO SUIT

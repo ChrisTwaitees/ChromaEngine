@@ -60,15 +60,15 @@ void StaticMesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-void StaticMesh::updateUniforms(const Shader* updateShader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
+void StaticMesh::updateUniforms(const Shader* updateShader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
 {
 	updateTransformUniforms(updateShader, RenderCam, TransformMatrix);
-	updateTextureUniforms(updateShader);
 	updateMaterialUniforms(updateShader);
+	updateTextureUniforms(updateShader);
 	updateLightingUniforms(updateShader, Lights, RenderCam);
 }
 
-void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector < std::shared_ptr<Light>> Lights, Camera& renderCam)
+void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
@@ -116,47 +116,60 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 {
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
-	unsigned int specularNr{ 1 };
 	unsigned int shadowmapNr{ 1 };
 	unsigned int normalNr{ 1 };
 	unsigned int roughnessNr{ 1 };
 	unsigned int metalnessNr{ 1 };
+	unsigned int metroughaoNr{ 1 };
+	unsigned int aoNr{ 1 };
 	for (int i = 0; i < textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		if (textures[i].type == Texture::DIFFUSE)
+		if (textures[i].type == Texture::ALBEDO)
 		{
-			name = "material.texture_diffuse";
+			name = "material.texture_albedo";
 			texturenum = std::to_string(diffuseNr++);
-		}
-		if (textures[i].type == Texture::SPECULAR)
-		{
-			name = "material.texture_specular";
-			texturenum = std::to_string(specularNr++);
-		}
-		if (textures[i].type == Texture::SHADOWMAP)
-		{
-			name = "shadowmaps.shadowmap";
-			texturenum = std::to_string(shadowmapNr++);
+			// set use texture albedo
+			shader->setBool("UseAlbedoMap", true);
 		}
 		if (textures[i].type == Texture::NORMAL)
 		{
 			name = "material.texture_normal";
 			texturenum = std::to_string(normalNr++);
+			// set use texture normals
+			shader->setBool("UseNormalMap", true);
 		}
-		if (textures[i].type == Texture::ROUGHNESS)
+		if (textures[i].type == Texture::METROUGHAO)
 		{
-			name = "material.texture_roughness";
-			texturenum = std::to_string(roughnessNr++);
+			name = "material.texture_MetRoughAO";
+			texturenum = std::to_string(metroughaoNr++);
+			// set use texture metroughao
+			shader->setBool("UseMetRoughAOMap", true);
 		}
 		if (textures[i].type == Texture::METALNESS)
 		{
 			name = "material.texture_metalness";
 			texturenum = std::to_string(metalnessNr++);
 		}
+		if (textures[i].type == Texture::ROUGHNESS)
+		{
+			name = "material.texture_roughness";
+			texturenum = std::to_string(roughnessNr++);
+		}
+		if (textures[i].type == Texture::AO)
+		{
+			name = "material.texture_ao";
+			texturenum = std::to_string(aoNr++);
+		}
+		if (textures[i].type == Texture::SHADOWMAP)
+		{
+			name = "shadowmaps.shadowmap";
+			texturenum = std::to_string(shadowmapNr++);
+		}
+
 		// setting uniform and binding texture
 		shader->setInt(( name + texturenum).c_str(), i);
 
@@ -177,10 +190,13 @@ void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam
 
 void StaticMesh::updateMaterialUniforms(const Shader* shader)
 {
-	shader->setFloat("material.ambientBrightness", 0.16f);
-	shader->setFloat("material.roughness", 64.0f);
-	shader->setFloat("material.specularIntensity", 1.0f);
-	shader->setFloat("material.cubemapIntensity", 1.0f);
+	shader->setFloat("roughness", 0.4f);
+	shader->setVec3("color", glm::vec3(1, 0, 0));
+	shader->setFloat("metalness", 0.0f);
+	shader->setBool("UseAlbedoMap", false);
+	shader->setBool("UseNormalMap", false);
+	shader->setBool("UseMetRoughAOMap", false);
+	//shader->setVec3("ambient", ambient);
 }
 
 void StaticMesh::Draw(Shader &shader)
@@ -190,14 +206,14 @@ void StaticMesh::Draw(Shader &shader)
 	BindDrawVAO();
 }
 
-void StaticMesh::Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
+void StaticMesh::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
 	mShader->use();
 	updateUniforms(mShader, Lights, RenderCamera, transformMatrix);
 	BindDrawVAO();
 }
 
-void StaticMesh::Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix)
+void StaticMesh::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
 	shader.use();
 	updateUniforms(&shader, Lights, RenderCamera, transformMatrix);

@@ -21,6 +21,7 @@ public:
 	bool isRenderable{ false };
 	bool isTransparent{ false };
 	bool isLit{ true };
+	bool isForwardLit{ false };
 	bool castShadows{ true };
 	// Getters/Setters
 	virtual Shader* getShader() = 0;
@@ -37,8 +38,8 @@ public:
 
 	// Draw
 	virtual void Draw(Shader& shader) = 0;
-	virtual void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) = 0;
-	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) = 0;
+	virtual void Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) = 0;
+	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) = 0;
 	virtual void DrawUpdateMaterials(Shader& shader) = 0;
 	virtual void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) = 0;
 
@@ -51,6 +52,11 @@ public:
 	virtual void setStartPos(glm::vec3 startPos) {};
 	virtual void setEndPos(glm::vec3 endPos) {};
 
+	// Constructors
+	ChromaMeshComponent(const ChromaMeshComponent&)
+	{
+		std::cout << "Chroma Mesh Component Copy Constructor Invoked" << std::endl;
+	}
 	ChromaMeshComponent();
 	virtual ~ChromaMeshComponent();
 };

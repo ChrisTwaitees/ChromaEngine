@@ -2,7 +2,6 @@
 #define _SHADER_H_
 
 #include <vector>
-#include <memory>
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -49,10 +48,10 @@ public:
 	unsigned int ShaderID;
 
 	// Rendering
-	virtual void use();
+	void use() const;
 
 	// Uniforms
-	void setLightingUniforms(std::vector<std::shared_ptr<Light>> Lights, Camera& renderCam);
+	void setLightingUniforms(std::vector<Light*> Lights, Camera& renderCam);
 
 	template<typename UniformType>
 	void addUniform(std::string uniformName, UniformType uniformValue){

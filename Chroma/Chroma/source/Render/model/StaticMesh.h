@@ -21,18 +21,18 @@ protected:
 	virtual void calcCentroid();
 
 	// default shader
-	std::string fragShaderSource = "resources/shaders/fragLitReflect.glsl";
-	std::string vtxShaderSource = "resources/shaders/vertexShaderLighting.glsl";
+	std::string fragShaderSource = "resources/shaders/fragPBR.glsl";
+	std::string vtxShaderSource = "resources/shaders/vertexLitShadowsNormals.glsl";
 
 	// render scene data
 	unsigned int VAO, VBO, EBO;
 
 	/*  Functions  */
 	virtual void setupMesh();
-	virtual void updateUniforms(const Shader* shader, std::vector < std::shared_ptr<Light>> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
+	virtual void updateUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
 	virtual void updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix);
 	virtual void updateMaterialUniforms(const Shader* shader);
-	virtual void updateLightingUniforms(const Shader* shader, std::vector < std::shared_ptr<Light>> Lights, Camera& renderCam);
+	virtual void updateLightingUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& renderCam);
 	virtual void updateTextureUniforms(const Shader* shader);
 public:
 	// Mesh Data
@@ -43,8 +43,8 @@ public:
 
 	// Functions
 	virtual void Draw(Shader &shader) override;
-	virtual void Draw(Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
-	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector < std::shared_ptr<Light>> Lights, glm::mat4& transformMatrix) override;
+	virtual void Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
+	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
 	virtual void DrawUpdateMaterials(Shader& shader) override;
 	virtual void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 	virtual void BindDrawVAO();

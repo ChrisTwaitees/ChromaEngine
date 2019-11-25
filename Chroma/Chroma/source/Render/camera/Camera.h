@@ -15,8 +15,14 @@ class ChromaInput;
 class Camera
 {
 protected:
+
 	// build reference frame
 	glm::vec3 up{ 0.0f, 1.0f, 0.0f };
+
+	// movement
+	enum Direction {FORWARD, BACK, LEFT, RIGHT, UP, DOWN};
+	void move(Direction dir = Direction::FORWARD);
+
 	void rebuildView();
 
 	// camera aim
@@ -49,10 +55,6 @@ public:
 	float walkSpeed{ 6.0f };
 	float sprintSpeed{ 12.0f };
 	float cameraSpeed{ 0.05f};
-
-	// movement
-	enum Direction {FORWARD, BACK, LEFT, RIGHT, UP, DOWN};
-	void move(Direction dir = Direction::FORWARD);
 
 	// getters
 	glm::vec3 getPosition() { return cameraPos; };

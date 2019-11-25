@@ -14,7 +14,7 @@ void PostFXBuffer::initialize()
 	{
 		// Bind textures
 		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGBA, GL_FLOAT, NULL);
 		// set texture parameters
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -117,7 +117,6 @@ void PostFXBuffer::Draw()
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
 	screenShader->setInt("bloom", 0);
-	screenShader->setFloat("exposure", exposure);
 	// setting transform uniforms
 	updateTransformUniforms();
 	renderQuad();
@@ -155,14 +154,12 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, blurColorBuffers[!horizontal]);
 		screenShader->setInt("bloom", useBloom);
-		//screenShader->setFloat("exposure", exposure);
 		// setting transform uniforms
 		renderQuad();
 	}
 	else
-	{
 		Draw();
-	}
+
 }
 
 void PostFXBuffer::Bind()
