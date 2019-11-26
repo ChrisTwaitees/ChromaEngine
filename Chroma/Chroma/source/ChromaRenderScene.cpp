@@ -18,6 +18,7 @@
 #include <model/SpherePrimitive.h>
 #include <shader/Shader.h>
 #include <texture/Texture.h>
+#include <texture/HDRTexture.h>
 #include <light/Light.h>
 #include <terrain/Terrain.h>
 #include <game/ChromaGame.h>
@@ -83,19 +84,19 @@ int main()
 	sandyNormal.type = Texture::NORMAL;
 
 	// AgedWoodplanks
-	Texture agedPlanksAlbedo("resources/textures/agedplanks_pbr/albedo.jpg");
+	Texture agedPlanksAlbedo("resources/textures/pbr/agedplanks_pbr/albedo.jpg");
 	agedPlanksAlbedo.type = Texture::ALBEDO;
-	Texture agedPlanksNormal("resources/textures/agedplanks_pbr/normal.jpg");
+	Texture agedPlanksNormal("resources/textures/pbr/agedplanks_pbr/normal.jpg");
 	agedPlanksNormal.type = Texture::NORMAL;
-	Texture agedPlanksMetRoughAO("resources/textures/agedplanks_pbr/MetRoughAO.jpg");
+	Texture agedPlanksMetRoughAO("resources/textures/pbr/agedplanks_pbr/MetRoughAO.jpg");
 	agedPlanksMetRoughAO.type = Texture::METROUGHAO;
 
 	// Rusted Metal
-	Texture rustedIronAlbedo("resources/textures/rustediron_pbr/albedo.jpg");
+	Texture rustedIronAlbedo("resources/textures/pbr/rustediron_pbr/albedo.jpg");
 	rustedIronAlbedo.type = Texture::ALBEDO;
-	Texture rustedIronNormal("resources/textures/rustediron_pbr/normal.jpg");
+	Texture rustedIronNormal("resources/textures/pbr/rustediron_pbr/normal.jpg");
 	rustedIronNormal.type = Texture::NORMAL;
-	Texture rustedIronMetRoughAO("resources/textures/rustediron_pbr/MetRoughAO.jpg");
+	Texture rustedIronMetRoughAO("resources/textures/pbr/rustediron_pbr/MetRoughAO.jpg");
 	rustedIronMetRoughAO.type = Texture::METROUGHAO;
 
 	// Lookdev Sphere
@@ -124,22 +125,22 @@ int main()
 	};
 
 	
-	for (glm::vec3 position : spherePositions)
-	{
-		IChromaEntity* SphereEntity = new ChromaEntity;
-		Scene->addEntity(SphereEntity);
-		SphereEntity->setName("Sphere");
-		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
-		ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
-		SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
-		SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
-		//SphereMeshComponent->bindTexture(sandyNormal);
-		SphereMeshComponent->bindTexture(greyAlbedo);
-		SphereMeshComponent->bindShader(&PBRShader);
-		SphereEntity->addComponent(SphereMeshComponent);
-		SphereEntity->addComponent(SphereRigidComponent);
-		SphereEntity->setPosition(position);
-	}
+	//for (glm::vec3 position : spherePositions)
+	//{
+	//	IChromaEntity* SphereEntity = new ChromaEntity;
+	//	Scene->addEntity(SphereEntity);
+	//	SphereEntity->setName("Sphere");
+	//	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
+	//	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
+	//	SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
+	//	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
+	//	//SphereMeshComponent->bindTexture(sandyNormal);
+	//	SphereMeshComponent->bindTexture(greyAlbedo);
+	//	SphereMeshComponent->bindShader(&PBRShader);
+	//	SphereEntity->addComponent(SphereMeshComponent);
+	//	SphereEntity->addComponent(SphereRigidComponent);
+	//	SphereEntity->setPosition(position);
+	//}
 
 	// LOOKDEV
 	IChromaEntity* SphereEntityLookDev = new ChromaEntity;
@@ -227,7 +228,6 @@ int main()
 
 	// POPULATING SCENE
 	Scene->setLights(Lights);
-
 
 	// RENDER LOOP
 	// -----------
