@@ -98,6 +98,14 @@ int main()
 	Texture rustedIronMetRoughAO("resources/textures/rustediron_pbr/MetRoughAO.jpg");
 	rustedIronMetRoughAO.type = Texture::METROUGHAO;
 
+	// Lookdev Sphere
+	Texture lookdevAlbedo("resources/textures/lookdev_pbr/albedo.jpg");
+	lookdevAlbedo.type = Texture::ALBEDO;
+	Texture lookdevNormal("resources/textures/lookdev_pbr/normal.jpg");
+	lookdevNormal.type = Texture::NORMAL;
+	Texture lookdevMetRoughAO("resources/textures/lookdev_pbr/MetRoughAO.jpg");
+	lookdevMetRoughAO.type = Texture::METROUGHAO;
+
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
 	Scene->addEntity(TerrainEntity);
@@ -132,6 +140,24 @@ int main()
 		SphereEntity->addComponent(SphereRigidComponent);
 		SphereEntity->setPosition(position);
 	}
+
+	// LOOKDEV
+	IChromaEntity* SphereEntityLookDev = new ChromaEntity;
+	Scene->addEntity(SphereEntityLookDev);
+	SphereEntityLookDev->setName("LookDev");
+	ChromaMeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	ChromaPhysicsComponent* SphereLookDevRigidComponent = new ChromaPhysicsComponent();
+	SphereLookDevRigidComponent->setCollisionShape(ColliderShape::Sphere);
+	SphereLookDevRigidComponent->setCollisionState(ColliderState::Kinematic);
+	SphereLookDevMeshComponent->bindShader(&PBRShader);
+	SphereLookDevMeshComponent->bindTexture(lookdevAlbedo);
+	SphereLookDevMeshComponent->bindTexture(lookdevNormal);
+	SphereLookDevMeshComponent->bindTexture(lookdevMetRoughAO);
+	SphereEntityLookDev->addComponent(SphereLookDevMeshComponent);
+	SphereEntityLookDev->addComponent(SphereLookDevRigidComponent);
+	SphereEntityLookDev->setPosition(glm::vec3(0.0f, 2.0f, -4.0f));
+	SphereEntityLookDev->setScale(glm::vec3(0.25));
+
 
 	// RUSTED IRON
 	IChromaEntity* SphereEntityRustedIron = new ChromaEntity;
