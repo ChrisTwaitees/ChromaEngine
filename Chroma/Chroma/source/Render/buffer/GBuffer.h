@@ -5,24 +5,24 @@
 #include <buffer/PostFXBuffer.h>
 #include <buffer/ShadowBuffer.h>
 #include <buffer/SSAOBuffer.h>
+#include <ibl/IBL.h>
 #include <scene/ChromaScene.h>
 
 
 class GBuffer : public Framebuffer
 {
-protected: 
 	// shaders
 	const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
 	const char* vtxLightingSoure{ "resources/shaders/frameBufferVertex.glsl" };
 	const char* fragGeometryPass{ "resources/shaders/fragGBufferGeometry.glsl" };
 	const char* vtxGeometrySource{ "resources/shaders/vertexGBufferLit.glsl" };
-	Shader geometryPassShader{ fragGeometryPass, vtxGeometrySource };
-	Shader lightingPassShader{ fragLightingPass, vtxLightingSoure };
+	Shader m_geometryPassShader{ fragGeometryPass, vtxGeometrySource };
+	Shader m_lightingPassShader{ fragLightingPass, vtxLightingSoure };
 
 	// buffers
-	unsigned int gBuffer;
-	unsigned int gRBO;
-	Framebuffer* mSSAOBuffer{ new SSAOBuffer };
+	unsigned int m_gBuffer;
+	unsigned int m_gRBO;
+	Framebuffer* m_SSAOBuffer{ new SSAOBuffer };
 
 	// scene
 	ChromaScene* m_scene;
@@ -33,11 +33,14 @@ protected:
 	void initialize() override;
 	void bindAllGBufferTextures();
 
-	// GBUFFER TEXTURES
+	// gbuffer textures
 	unsigned int gPosition, gViewPosition, gViewNormal, gFragPosLightSpace;
 	unsigned int gAlbedo, gNormal, gMetRoughAO;
 
-	// Passes
+	// ibl
+	IBL m_ibl;
+
+	// passes
 	void calculateShadows();
 	void drawGeometryPass();
 	void drawLightingPass();
@@ -46,13 +49,14 @@ protected:
 	// uniforms
 	void configureShaders();
 	void setLightingUniforms();
+	void setIBLUniforms();
 	void updateTransformUniforms() override;
 
 public:
-
+	// functions
 	void Bind() override;
 	void Draw() override;
-
+	// structors
 	GBuffer(ChromaScene*& m_scene, Framebuffer*& m_postFXBuffer);
 	~GBuffer();
 };

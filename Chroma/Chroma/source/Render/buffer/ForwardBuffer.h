@@ -3,6 +3,8 @@
 #include <buffer/Framebuffer.h>
 #include <scene/ChromaScene.h>
 
+#include <ibl/IBL.h>
+
 class ForwardBuffer : public Framebuffer
 {
 
@@ -18,6 +20,10 @@ class ForwardBuffer : public Framebuffer
 	void renderTransparency();
 	void attachBuffer();
 	void drawQuad();
+
+	// ibl
+	void setIBLUniforms();
+	IBL m_ibl;
 
 public:
 	void Draw() override;

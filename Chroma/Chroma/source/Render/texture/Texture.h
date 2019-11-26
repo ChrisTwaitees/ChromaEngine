@@ -8,12 +8,13 @@
 class Texture
 {
 protected:
-	void generateTexture();
+	int width, height, nrComponents;
+	virtual void generateTexture();
 public:
 	/*  Texture Data  */
 	unsigned int ID;
 
-	enum TYPE { ALBEDO, NORMAL, METROUGHAO, METALNESS, ROUGHNESS, AO, SHADOWMAP };
+	enum TYPE { ALBEDO, NORMAL, METROUGHAO, METALNESS, ROUGHNESS, AO, SHADOWMAP, HDR};
 	TYPE type = TYPE::ALBEDO;
 
 	// paths

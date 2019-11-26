@@ -8,8 +8,8 @@ class SkyBox
 {
 private:
 	unsigned int VAO, VBO;
-	const char* fragShaderSource = "resources/shaders/skyBoxFrag.glsl";
-	const char* vtxShaderSource = "resources/shaders/skyBoxVertex.glsl";
+	const char* fragShaderSource = "resources/shaders/fragSkyBox.glsl";
+	const char* vtxShaderSource = "resources/shaders/vertexSkyBox.glsl";
 
 	CubeMap cubeMap;
 	Shader skyboxShader{ fragShaderSource , vtxShaderSource };

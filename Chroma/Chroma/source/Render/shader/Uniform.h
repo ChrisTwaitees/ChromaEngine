@@ -88,6 +88,11 @@ public:
 	};
 
 	template<>
+	void setUniform<unsigned int>(std::string uniformName, unsigned int uniformValue) {
+		setInt(uniformName, uniformValue);
+	};
+
+	template<>
 	void setUniform<float>(std::string uniformName, float uniformValue)
 	{
 		setFloat(uniformName, uniformValue);

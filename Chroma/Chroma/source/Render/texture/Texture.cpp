@@ -23,8 +23,6 @@ int Texture::loadFromFile(std::string sourcepath)
 void Texture::generateTexture()
 {
 	glGenTextures(1, &ID);
-
-	int width, height, nrComponents;
 	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
 	if (data)
 	{
@@ -55,10 +53,7 @@ void Texture::generateTexture()
 		stbi_image_free(data);
 	}
 	else
-	{
 		std::cout << "Texture failed to load at path: " << path << std::endl;
-		stbi_image_free(data);
-	}
 }
 
 void Texture::bind()

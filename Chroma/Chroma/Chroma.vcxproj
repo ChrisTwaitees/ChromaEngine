@@ -201,6 +201,7 @@
     <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp" />
     <ClCompile Include="source\Render\camera\Camera.cpp" />
     <ClCompile Include="source\Render\gui\ChromaGUI.cpp" />
+    <ClCompile Include="source\Render\ibl\IBL.cpp" />
     <ClCompile Include="source\Render\light\Light.cpp" />
     <ClCompile Include="source\Render\model\BoxPrimitive.cpp" />
     <ClCompile Include="source\Render\model\CapsulePrimitive.cpp" />
@@ -212,12 +213,12 @@
     <ClCompile Include="source\Render\model\SpherePrimitive.cpp" />
     <ClCompile Include="source\Render\model\StaticMesh.cpp" />
     <ClCompile Include="source\Render\renderer\Renderer.cpp" />
-    <ClCompile Include="source\Render\shader\GeometryShader.cpp" />
     <ClCompile Include="source\Render\shader\Shader.cpp" />
     <ClCompile Include="source\Render\shader\Uniform.cpp" />
     <ClCompile Include="source\Render\terrain\Terrain.cpp" />
     <ClCompile Include="source\Render\texture\CubeMap.cpp" />
     <ClCompile Include="source\Render\texture\Texture.cpp" />
+    <ClCompile Include="source\Render\texture\HDRTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h" />
@@ -254,6 +255,7 @@
     <ClInclude Include="source\Render\buffer\SSAOBuffer.h" />
     <ClInclude Include="source\Render\camera\Camera.h" />
     <ClInclude Include="source\Render\gui\ChromaGUI.h" />
+    <ClInclude Include="source\Render\ibl\IBL.h" />
     <ClInclude Include="source\Render\light\Light.h" />
     <ClInclude Include="source\Render\model\BoxPrimitive.h" />
     <ClInclude Include="source\Render\model\CapsulePrimitive.h" />
@@ -267,13 +269,13 @@
     <ClInclude Include="source\Render\model\Vertex.h" />
     <ClInclude Include="source\Render\renderer\ChromaRendererConfig.h" />
     <ClInclude Include="source\Render\renderer\Renderer.h" />
-    <ClInclude Include="source\Render\shader\GeometryShader.h" />
     <ClInclude Include="source\Render\shader\Shader.h" />
     <ClInclude Include="source\Render\shader\Uniform.h" />
     <ClInclude Include="source\Render\terrain\Terrain.h" />
     <ClInclude Include="source\Render\texture\CubeMap.h" />
     <ClInclude Include="source\Render\texture\stb_image.h" />
     <ClInclude Include="source\Render\texture\Texture.h" />
+    <ClInclude Include="source\Render\texture\HDRTexture.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc" />
@@ -286,10 +288,12 @@
     <None Include="resources\shaders\fragEmpty.glsl" />
     <None Include="resources\shaders\fragGBufferGeometry.glsl" />
     <None Include="resources\shaders\fragGBufferLit.glsl" />
+    <None Include="resources\shaders\fragIBL.glsl" />
     <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
     <None Include="resources\shaders\fragPBR.glsl" />
     <None Include="resources\shaders\fragPBRAlpha.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
+    <None Include="resources\shaders\fragSkyBox.glsl" />
     <None Include="resources\shaders\fragSSAO.glsl" />
     <None Include="resources\shaders\fragSSAOBlur.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
@@ -298,8 +302,8 @@
     <None Include="resources\shaders\geometryDebugNormals.glsl" />
     <None Include="resources\shaders\geometryLineDebug.glsl" />
     <None Include="resources\shaders\geometrySphereDebug.glsl" />
-    <None Include="resources\shaders\skyBoxFrag.glsl" />
-    <None Include="resources\shaders\skyBoxVertex.glsl" />
+    <None Include="resources\shaders\vertexCubeMap.glsl" />
+    <None Include="resources\shaders\vertexSkyBox.glsl" />
     <None Include="resources\shaders\util\BlinnPhongLightingCalculations.glsl" />
     <None Include="resources\shaders\util\lightingStructs.glsl" />
     <None Include="resources\shaders\util\materialStruct.glsl" />

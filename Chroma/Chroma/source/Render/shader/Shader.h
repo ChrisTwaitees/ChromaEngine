@@ -1,30 +1,21 @@
-#ifndef _SHADER_H_
-#define _SHADER_H_
-
+#ifndef _CHROMA_SHADER_H_
+#define _CHROMA_SHADER_H_
+// stl
 #include <vector>
 #include <fstream>
 #include <sstream>
 #include <iostream>
 #include <string>
-
+// thirdparty
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+// chroma
+#include <shader/Uniform.h>
+#include <renderer/ChromaRendererConfig.h>
+#include <camera/Camera.h>
+#include <light/Light.h>
 
-#include "Uniform.h"
-#include "renderer/ChromaRendererConfig.h"
-#include "camera/Camera.h"
-#include "light/Light.h"
-
-
-struct Material {
-	glm::vec3 ambient;
-	float ambientBrightness;
-	glm::vec3 diffuse;
-	glm::vec3 specular;
-	float shininess;
-	float roughness;
-};
 
 class Shader
 {

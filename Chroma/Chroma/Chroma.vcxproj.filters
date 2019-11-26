@@ -100,6 +100,9 @@
     <Filter Include="Resources\shaders\buffer">
       <UniqueIdentifier>{bdecfcfb-65ec-432e-aaa2-ea364be3da55}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\ibl">
+      <UniqueIdentifier>{15a29999-dc41-4324-9f00-86a603256e73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -155,9 +158,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp">
       <Filter>Engine\screenmanager</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\shader\GeometryShader.cpp">
-      <Filter>Render\shader</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\shader\Shader.cpp">
       <Filter>Render\shader</Filter>
@@ -240,6 +240,12 @@
     <ClCompile Include="source\ChromaRenderScene.cpp">
       <Filter>Engine\main</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\texture\HDRTexture.cpp">
+      <Filter>Render\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\ibl\IBL.cpp">
+      <Filter>Render\ibl</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -310,9 +316,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManagerConfig.h">
       <Filter>Engine\screenmanager</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\shader\GeometryShader.h">
-      <Filter>Render\shader</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\shader\Shader.h">
       <Filter>Render\shader</Filter>
@@ -404,6 +407,12 @@
     <ClInclude Include="source\Render\buffer\ForwardBuffer.h">
       <Filter>Render\buffer</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\texture\HDRTexture.h">
+      <Filter>Render\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\ibl\IBL.h">
+      <Filter>Render\ibl</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Chroma.rc">
@@ -433,12 +442,6 @@
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\geometrySphereDebug.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\skyBoxFrag.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\skyBoxVertex.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexBoxDebug.glsl">
@@ -517,6 +520,18 @@
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragPBRAlpha.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexSkyBox.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragSkyBox.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragIBL.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\vertexCubeMap.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
   </ItemGroup>
