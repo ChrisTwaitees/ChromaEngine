@@ -15,10 +15,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="classes\Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{cbd6a861-4d6e-4c63-b617-9f926a8df22c}</UniqueIdentifier>
     </Filter>
@@ -102,6 +98,9 @@
     </Filter>
     <Filter Include="Render\ibl">
       <UniqueIdentifier>{15a29999-dc41-4324-9f00-86a603256e73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\animation">
+      <UniqueIdentifier>{7f812767-bd8b-4bc0-8293-b3d2d219fb3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -246,6 +245,21 @@
     <ClCompile Include="source\Render\ibl\IBL.cpp">
       <Filter>Render\ibl</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\model\SkinnedMesh.cpp">
+      <Filter>Render\model</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\animation\Animation.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\animation\Skeleton.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\animation\KeyFrame.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\animation\Joint.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -271,9 +285,6 @@
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h">
       <Filter>Render\gui\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>classes\Resource Files</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\renderer\ChromaRendererConfig.h">
       <Filter>Render\renderer</Filter>
@@ -413,11 +424,24 @@
     <ClInclude Include="source\Render\ibl\IBL.h">
       <Filter>Render\ibl</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Chroma.rc">
-      <Filter>classes\Resource Files</Filter>
-    </ResourceCompile>
+    <ClInclude Include="source\Render\model\SkinnedMesh.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\SkinnedVertex.h">
+      <Filter>Render\model</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\Animation.h">
+      <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\Skeleton.h">
+      <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\KeyFrame.h">
+      <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\Joint.h">
+      <Filter>Engine\animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">
