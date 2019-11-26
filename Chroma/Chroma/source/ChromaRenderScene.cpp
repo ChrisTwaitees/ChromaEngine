@@ -100,11 +100,11 @@ int main()
 	rustedIronMetRoughAO.type = Texture::METROUGHAO;
 
 	// Lookdev Sphere
-	Texture lookdevAlbedo("resources/textures/lookdev_pbr/albedo.jpg");
+	Texture lookdevAlbedo("resources/textures/pbr/lookdev_pbr/albedo.jpg");
 	lookdevAlbedo.type = Texture::ALBEDO;
-	Texture lookdevNormal("resources/textures/lookdev_pbr/normal.jpg");
+	Texture lookdevNormal("resources/textures/pbr/lookdev_pbr/normal.jpg");
 	lookdevNormal.type = Texture::NORMAL;
-	Texture lookdevMetRoughAO("resources/textures/lookdev_pbr/MetRoughAO.jpg");
+	Texture lookdevMetRoughAO("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
 	lookdevMetRoughAO.type = Texture::METROUGHAO;
 
 	// TERRAIN
