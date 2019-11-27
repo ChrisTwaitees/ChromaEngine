@@ -179,6 +179,10 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\ChromaRenderScene.cpp" />
+    <ClCompile Include="source\Engine\animation\Animation.cpp" />
+    <ClCompile Include="source\Engine\animation\Joint.cpp" />
+    <ClCompile Include="source\Engine\animation\KeyFrame.cpp" />
+    <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
     <ClCompile Include="source\Engine\component\ChromaMeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp" />
     <ClCompile Include="source\Engine\entity\ChromaEntity.cpp" />
@@ -209,6 +213,7 @@
     <ClCompile Include="source\Render\model\LinePrimitive.cpp" />
     <ClCompile Include="source\Render\model\Model.cpp" />
     <ClCompile Include="source\Render\model\PlanePrimitive.cpp" />
+    <ClCompile Include="source\Render\model\SkinnedMesh.cpp" />
     <ClCompile Include="source\Render\model\SkyBox.cpp" />
     <ClCompile Include="source\Render\model\SpherePrimitive.cpp" />
     <ClCompile Include="source\Render\model\StaticMesh.cpp" />
@@ -229,7 +234,10 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="source\Engine\animation\Animation.h" />
+    <ClInclude Include="source\Engine\animation\Joint.h" />
+    <ClInclude Include="source\Engine\animation\KeyFrame.h" />
+    <ClInclude Include="source\Engine\animation\Skeleton.h" />
     <ClInclude Include="source\Engine\component\ChromaMeshComponent.h" />
     <ClInclude Include="source\Engine\component\ChromaPhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IChromaComponent.h" />
@@ -263,6 +271,8 @@
     <ClInclude Include="source\Render\model\LinePrimitive.h" />
     <ClInclude Include="source\Render\model\Model.h" />
     <ClInclude Include="source\Render\model\PlanePrimitive.h" />
+    <ClInclude Include="source\Render\model\SkinnedMesh.h" />
+    <ClInclude Include="source\Render\model\SkinnedVertex.h" />
     <ClInclude Include="source\Render\model\SkyBox.h" />
     <ClInclude Include="source\Render\model\SpherePrimitive.h" />
     <ClInclude Include="source\Render\model\StaticMesh.h" />
@@ -276,9 +286,6 @@
     <ClInclude Include="source\Render\texture\stb_image.h" />
     <ClInclude Include="source\Render\texture\Texture.h" />
     <ClInclude Include="source\Render\texture\HDRTexture.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="Chroma.rc" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl" />
