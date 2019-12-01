@@ -1,37 +1,40 @@
 #include "Model.h"
-#include "../texture/stb_image.h"
+#include <texture/stb_image.h>
 
 void Model::Draw(Shader &shader)
 {
-	for (StaticMesh* mesh : meshes)
+	for (StaticMesh*& mesh : m_meshes)
 		mesh->Draw(shader);
 }
 
 void Model::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	if (mShader)
-		Draw(*mShader, RenderCamera, Lights, transformMatrix);
-	else
-		for (StaticMesh*& mesh : meshes)
-				mesh->Draw(RenderCamera, Lights, transformMatrix);
+	for (StaticMesh*& mesh : m_meshes)
+			mesh->Draw(RenderCamera, Lights, transformMatrix);
 }
 
 void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	for (StaticMesh*& mesh : meshes)
+	for (StaticMesh*& mesh : m_meshes)
 		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
 void Model::DrawUpdateMaterials(Shader& shader)
 {
-	for (StaticMesh*& mesh : meshes)
+	for (StaticMesh*& mesh : m_meshes)
 		mesh->DrawUpdateMaterials(shader);
 }
 
 void Model::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 {
-	for (StaticMesh* mesh : meshes)
+	for (StaticMesh* mesh : m_meshes)
 		mesh->DrawUpdateTransforms(renderCam, modelMatrix);
+}
+
+void Model::bindShader(Shader* const& newShader)
+{
+	for (StaticMesh* mesh : m_meshes)
+		mesh->bindShader(newShader);
 }
 
 
@@ -49,38 +52,40 @@ glm::vec3 Model::getCentroid()
 
 void Model::bindTexture(Texture texture_val)
 {
-	for (StaticMesh* mesh : meshes)
+	for (StaticMesh* mesh : m_meshes)
 		mesh->bindTexture(texture_val);
 }
 
 void Model::setMat4(std::string name, glm::mat4 value)
 {
-	for (StaticMesh* mesh : meshes)
+	for (StaticMesh* mesh : m_meshes)
 		mesh->setMat4(name, value);
 }
 
 void Model::setInt(std::string name, int value)
 {
-	for (StaticMesh* mesh : meshes)
+	for (StaticMesh* mesh : m_meshes)
 		mesh->setInt(name, value);
 }
 
 void Model::setFloat(std::string name, float value)
 {
-	for (StaticMesh* mesh : meshes)
+	for (StaticMesh* mesh : m_meshes)
 		mesh->setFloat(name, value);
 }
 
 
 Model::~Model()
 {
+	for (StaticMesh * mesh : m_meshes)
+		delete mesh;
 }
 
 void Model::calcBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (StaticMesh*& mesh : meshes)
+	for (StaticMesh*& mesh : m_meshes)
 		bboxes.push_back(mesh->getBBox());
 
 	// once collected, calculate new min and max bbox
@@ -98,7 +103,7 @@ void Model::calcBBox()
 
 void Model::calcCentroid()
 {
-	m_centroid = (m_bbox_min - m_bbox_max) * glm::vec3(0.5);
+	m_centroid = m_bbox_min + ((m_bbox_min - m_bbox_max) * glm::vec3(0.5));
 }
 
 void Model::loadModel(std::string path)
@@ -111,7 +116,7 @@ void Model::loadModel(std::string path)
 			std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
 			return;
 		}
-	directory = path.substr(0, path.find_last_of('/'));
+	m_directory = path.substr(0, path.find_last_of('/'));
 	processNode(scene->mRootNode, scene);
 }
 
@@ -121,7 +126,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		meshes.push_back(processMesh(mesh, scene));
+		m_meshes.push_back(processMesh(mesh, scene));
 	}
 	// check if node has children, if so recursively search for meshes
 	for (unsigned int i = 0; i< node->mNumChildren; i++)
@@ -218,11 +223,11 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 		aiString str;
 		mat->GetTexture(type, i, &str);
 		bool skip{ false };
-		for (unsigned int j = 0; j < textures_loaded.size(); j++)
+		for (unsigned int j = 0; j < m_textures.size(); j++)
 		{
-			if (std::strcmp(textures_loaded[j].path.data(), str.C_Str()) == 0)
+			if (std::strcmp(m_textures[j].path.data(), str.C_Str()) == 0)
 			{
-				textures.push_back(textures_loaded[j]);
+				textures.push_back(m_textures[j]);
 				skip = true;
 				break;
 			}
@@ -230,10 +235,10 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 		if (!skip)
 		{
 			Texture texture;
-			texture.loadFromFile(str.C_Str(), directory);
+			texture.loadFromFile(str.C_Str(), m_directory);
 			texture.type = typeName;
 			textures.push_back(texture);
-			textures_loaded.push_back(texture);
+			m_textures.push_back(texture);
 		}
 	}
 	return textures;

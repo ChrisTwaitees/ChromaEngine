@@ -1,7 +1,7 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
-#include "entity/ChromaEntity.h"
+//#include "entity/ChromaEntity.h"
 #include "model/StaticMesh.h"
 
 #include <assimp/Importer.hpp>
@@ -16,10 +16,9 @@ protected:
 	virtual void calcCentroid();
 	// Model Data
 	std::vector<ChromaVertex> m_vertices;
-	std::vector<Texture> textures_loaded;
-	std::vector<StaticMesh*> meshes;
-	std::string directory;
-	Shader* mShader = nullptr;
+	std::vector<Texture> m_textures;
+	std::vector<StaticMesh*> m_meshes;
+	std::string m_directory;
 
 	// Functions
 	void loadModel(std::string path);
@@ -36,9 +35,9 @@ public:
 	void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 
 	// Getters/Settters
-	int getNumTextures() override { return textures_loaded.size(); };
-	void bindShader(Shader* newShader) override { mShader = newShader; };
-	Shader* getShader() override { return mShader; };
+	int getNumTextures() override { return m_textures.size(); };
+	Shader* getShader() override { return m_meshes[0]->getShader(); };
+	void bindShader(Shader* const& newShader) override;
 	glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
 	virtual std::vector<ChromaVertex> getVertices() { return m_vertices; };
 	virtual std::pair<glm::vec3, glm::vec3> getBBox();

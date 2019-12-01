@@ -102,6 +102,12 @@
     <Filter Include="Engine\animation">
       <UniqueIdentifier>{7f812767-bd8b-4bc0-8293-b3d2d219fb3e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\model\primitive">
+      <UniqueIdentifier>{10734572-d2a5-4397-b293-638f911b8c2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\model\skybox">
+      <UniqueIdentifier>{d2af5228-224d-45d4-af53-121e7e8d4cb0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -164,22 +170,7 @@
     <ClCompile Include="source\Render\shader\Uniform.cpp">
       <Filter>Render\shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\model\BoxPrimitive.cpp">
-      <Filter>Render\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\model\Instance.cpp">
-      <Filter>Render\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\model\LinePrimitive.cpp">
-      <Filter>Render\model</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\model\Model.cpp">
-      <Filter>Render\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\model\PlanePrimitive.cpp">
-      <Filter>Render\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\model\SkyBox.cpp">
       <Filter>Render\model</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\model\StaticMesh.cpp">
@@ -211,12 +202,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\input\ChromaInput.cpp">
       <Filter>Engine\input</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\model\CapsulePrimitive.cpp">
-      <Filter>Render\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\model\SpherePrimitive.cpp">
-      <Filter>Render\model</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\physics\Physics.cpp">
       <Filter>Engine\physics</Filter>
@@ -259,6 +244,27 @@
     </ClCompile>
     <ClCompile Include="source\Engine\animation\Joint.cpp">
       <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\animation\AnimationLoader.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\CapsulePrimitive.cpp">
+      <Filter>Render\model\primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\LinePrimitive.cpp">
+      <Filter>Render\model\primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\PlanePrimitive.cpp">
+      <Filter>Render\model\primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\SpherePrimitive.cpp">
+      <Filter>Render\model\primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\BoxPrimitive.cpp">
+      <Filter>Render\model\primitive</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\SkyBox.cpp">
+      <Filter>Render\model\skybox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,22 +340,7 @@
     <ClInclude Include="source\Render\shader\Uniform.h">
       <Filter>Render\shader</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\model\BoxPrimitive.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\Instance.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\LinePrimitive.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
     <ClInclude Include="source\Render\model\Model.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\PlanePrimitive.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\SkyBox.h">
       <Filter>Render\model</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\model\StaticMesh.h">
@@ -381,12 +372,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\input\ChromaInput.h">
       <Filter>Engine\input</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\CapsulePrimitive.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\SpherePrimitive.h">
-      <Filter>Render\model</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\physics\Physics.h">
       <Filter>Engine\physics</Filter>
@@ -441,6 +426,27 @@
     </ClInclude>
     <ClInclude Include="source\Engine\animation\Joint.h">
       <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\AnimationLoader.h">
+      <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\CapsulePrimitive.h">
+      <Filter>Render\model\primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\LinePrimitive.h">
+      <Filter>Render\model\primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\PlanePrimitive.h">
+      <Filter>Render\model\primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\SpherePrimitive.h">
+      <Filter>Render\model\primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\BoxPrimitive.h">
+      <Filter>Render\model\primitive</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\SkyBox.h">
+      <Filter>Render\model\skybox</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -556,6 +562,9 @@
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexCubeMap.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragHDRSkyBox.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
   </ItemGroup>

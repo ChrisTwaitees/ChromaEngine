@@ -11,6 +11,8 @@ void IBL::initialize()
 	initCaptureBuffer();
 	// init env cube map
 	initEnvCubeMap();
+	// capture the hdr in a cubmap
+	captureEnvCubeMap();
 }
 
 void IBL::initCaptureBuffer()
@@ -22,6 +24,8 @@ void IBL::initCaptureBuffer()
 	glBindRenderbuffer(GL_RENDERBUFFER, m_captureRBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_captureRBO);
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void IBL::initEnvCubeMap()
@@ -39,6 +43,7 @@ void IBL::initEnvCubeMap()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
 }
 
 void IBL::captureEnvCubeMap()
@@ -55,6 +60,7 @@ void IBL::captureEnvCubeMap()
 	};
 
 	// convert HDR equirectangular environment map to cubemap equivalent
+	m_captureCubeShader.use();
 	m_captureCubeShader.setMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_HDRtexture.ID);
@@ -68,15 +74,17 @@ void IBL::captureEnvCubeMap()
 			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_envCubeMap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		Draw(); // renders a 1x1 cube
+		// draw cube
+		m_captureCube.Draw(m_captureCubeShader); 
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 void IBL::Draw()
 {
-	//glActiveTexture(GL_TEXTURE0);
-	//glBindTexture(GL_TEXTURE_2D, m_HDRtexture.ID);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_HDRtexture.ID);
 	m_captureCube.Draw(m_captureCubeShader);
 }
 

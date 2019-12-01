@@ -11,10 +11,15 @@
 // entity component
 #include <entity/IChromaEntity.h>
 
+// test
+#include <ibl/IBL.h>
+
 
 class ChromaScene
 {
-private:
+	// TEST
+	IBL testIBL;
+
 	// scene components
 	std::vector<Light*> m_lights;
 	std::vector<IChromaEntity*> m_entities;
@@ -24,9 +29,10 @@ private:
 	Camera* m_renderCamera{ new Camera() };
 	Light* m_sunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
 	SkyBox* m_skybox{ new SkyBox(m_renderCamera) };
-
 	// Lighting
 	glm::vec3 calcAmbientLightColor();
+
+	void initialize();
 
 public:
 	void addEntity(IChromaEntity* const& newEntity);
@@ -36,6 +42,7 @@ public:
 	void removeLight(Light& removeLight);
 
 	// setters
+	void setSkyBox(SkyBox* const& newSkyBox) { m_skybox = newSkyBox; };
 	void setRenderCamera(Camera* const& newRenderCamera) { m_renderCamera = newRenderCamera; };
 	void setLights(std::vector<Light*> newLights);
 	void setEntities(std::vector<IChromaEntity*> const& newEntities);

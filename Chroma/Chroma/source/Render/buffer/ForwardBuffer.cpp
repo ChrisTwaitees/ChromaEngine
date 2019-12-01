@@ -113,20 +113,10 @@ void ForwardBuffer::drawQuad()
 	renderQuad();
 }
 
-void ForwardBuffer::setIBLUniforms()
-{
-	m_ibl.setUniform("view", m_scene->getRenderCamera()->getViewMat());
-	m_ibl.setUniform("projection", m_scene->getRenderCamera()->getProjectionMat());
-}
-
 void ForwardBuffer::Draw()
 {
 	// 1. Render Forward Components to FBO
 	renderForwardComponents();
-
-	// IBL
-	setIBLUniforms();
-	m_ibl.Draw();
 
 	// 2. Bind postFX buffer to draw to
 	m_postFXBuffer->Bind();
@@ -145,6 +135,7 @@ ForwardBuffer::ForwardBuffer(ChromaScene* const& source_scene, Framebuffer* cons
 {
 	m_scene = source_scene;
 	m_postFXBuffer = postFXBuffer;
+
 }
 
 ForwardBuffer::~ForwardBuffer()

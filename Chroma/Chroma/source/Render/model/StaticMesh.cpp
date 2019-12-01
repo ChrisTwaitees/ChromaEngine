@@ -243,7 +243,7 @@ void StaticMesh::BindDrawVAO()
 }
 
 
-void StaticMesh::bindShader(Shader* newShader)
+void StaticMesh::bindShader(Shader* const& newShader)
 {
 	mShader = newShader;
 }

@@ -205,6 +205,11 @@ unsigned int ChromaScreenManager::getScreenHeight()
 	return height;
 }
 
+std::pair<int, int> ChromaScreenManager::getWidthHeight()
+{
+	return std::make_pair(width, height);
+}
+
 
 
 // glfw callbacks

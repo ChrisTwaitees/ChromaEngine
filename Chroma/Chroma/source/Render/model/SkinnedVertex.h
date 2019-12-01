@@ -11,6 +11,8 @@ struct ChromaSkinnedVertex
 	glm::vec3 m_tangent{ 0.0 };
 	glm::vec3 m_bitangent{ 0.0 };
 	glm::vec2 m_texCoords{ 0.0 };
+	glm::ivec3 m_jointIDs{ 0 };
+	glm::vec3 m_jointWeights{ 0.0 };
 
 	glm::vec3 getPosition() { return m_position; };
 	glm::vec3 getNormal() { return m_normal; };

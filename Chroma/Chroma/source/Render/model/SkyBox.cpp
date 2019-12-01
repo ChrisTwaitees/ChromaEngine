@@ -2,6 +2,10 @@
 
 void SkyBox::initialize()
 {
+	// initialize shaders uniforms
+	m_linearShader.setInt("skybox", 0);
+	m_HDRShader.setInt("skybox", 0);
+
 	// create VBO
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -21,25 +25,45 @@ void SkyBox::initialize()
 
 void SkyBox::Draw()
 {
-	glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
-	skyboxShader.use();
 	// set view and projection matrix
-	glm::mat4 view = glm::mat4(glm::mat3(activeCamera->viewMat));
-	skyboxShader.setMat4("view", view);
-	skyboxShader.setMat4("projection", activeCamera->projectionMat);
-
+	glm::mat4 view = glm::mat4(glm::mat3(m_renderCamera->viewMat));
+	// shader
+	switch (m_colorSpace)
+	{
+	case(LINEAR) :
+	{
+		m_linearShader.use();
+		m_linearShader.setMat4("view", view);
+		m_linearShader.setMat4("projection", m_renderCamera->projectionMat);
+		break;
+	}
+	case(HDR):
+	{
+		m_HDRShader.use();
+		m_HDRShader.setMat4("view", view);
+		m_HDRShader.setMat4("projection", m_renderCamera->projectionMat);
+		break;
+	}
+	}
+	// texture 
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMapID);
+	// change depth function so depth test passes when values are equal to depth buffer's content
+	glDepthFunc(GL_LEQUAL);
+	// draw vao
 	glBindVertexArray(VAO);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, cubeMap.ShaderID);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(0);
-	glDepthFunc(GL_LESS); // set depth function back to default
+	// set depth function back to default
+	glDepthFunc(GL_LESS); 
 }
 
 SkyBox::SkyBox(Camera* const& renderCamera)
 {
 
-	cubeMap = CubeMap(defaultImageDir);
-	activeCamera = renderCamera;
+	m_cubeMap = CubeMap(defaultImageDir);
+	m_cubeMapID = m_cubeMap.m_textureID;
+	m_renderCamera = renderCamera;
 	initialize();
 }
 

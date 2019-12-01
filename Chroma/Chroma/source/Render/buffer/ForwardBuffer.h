@@ -21,10 +21,6 @@ class ForwardBuffer : public Framebuffer
 	void attachBuffer();
 	void drawQuad();
 
-	// ibl
-	void setIBLUniforms();
-	IBL m_ibl;
-
 public:
 	void Draw() override;
 

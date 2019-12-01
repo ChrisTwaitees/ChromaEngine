@@ -125,11 +125,6 @@ void GBuffer::setLightingUniforms()
 	m_lightingPassShader.setUniform("ambient", m_scene->getAmbientColor());
 }
 
-void GBuffer::setIBLUniforms()
-{
-	m_ibl.setUniform("view", m_scene->getRenderCamera()->getViewMat());
-	m_ibl.setUniform("projection", m_scene->getRenderCamera()->getViewMat());
-}
 
 void GBuffer::Bind()
 {

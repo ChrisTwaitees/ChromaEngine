@@ -6,6 +6,7 @@
 #include <model/BoxPrimitive.h>
 #include <texture/HDRTexture.h>
 #include <shader/Shader.h>
+#include <screenManager/ChromaScreenManagerConfig.h>
 
 class IBL
 {
@@ -15,8 +16,6 @@ class IBL
 	BoxPrimitive m_captureCube;
 	// capture cube shader
 	Shader m_captureCubeShader{ "resources/shaders/fragIBL.glsl", "resources/shaders/vertexCubeMap.glsl" };
-	// environment cubemap shader
-	Shader m_envCubeShader{ "resources/shaders/fragIBL.glsl", "resources/shaders/vertexCubeMap.glsl" };
 	// capture buffers
 	unsigned int m_captureFBO, m_captureRBO;
 	// environment buffer texture
@@ -29,6 +28,7 @@ class IBL
 public:
 
 	void Draw();
+	int getEnvCubeMapID() { return m_envCubeMap; };
 
 	template <typename UniformType>
 	void setUniform(std::string uniformName, UniformType uniform)
