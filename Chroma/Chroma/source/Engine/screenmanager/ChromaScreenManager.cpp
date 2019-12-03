@@ -24,14 +24,6 @@ bool ChromaScreenManager::initialize()
 		glfwTerminate();
 		return false;
 	}
-
-	// configure Scene
-	if (!configureScene())
-	{
-		std::cout << "Failed to Initialize Chroma GUI: " << std::endl;
-		glfwTerminate();
-		return false;
-	}
 }
 
 bool ChromaScreenManager::configureWindow()
@@ -85,12 +77,6 @@ bool ChromaScreenManager::configureRenderer()
 	glEnable(GL_MULTISAMPLE);
 	// Setting Clear Color
 	glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, SCREEN_DEFAULT_COLOR.w);
-	return true;
-}
-
-bool ChromaScreenManager::configureScene()
-{
-	//camera = new Camera;
 	return true;
 }
 

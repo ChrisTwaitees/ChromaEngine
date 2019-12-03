@@ -113,10 +113,21 @@ void ForwardBuffer::drawQuad()
 	renderQuad();
 }
 
+void ForwardBuffer::updateIBLUniforms()
+{
+	tempIBL->setUniform("view", m_scene->getRenderCamera()->getViewMat() );
+	tempIBL->setUniform("projection", m_scene->getRenderCamera()->getProjectionMat());
+
+}
+
 void ForwardBuffer::Draw()
 {
 	// 1. Render Forward Components to FBO
 	renderForwardComponents();
+
+	// TEMP
+	updateIBLUniforms();
+	tempIBL->Draw();
 
 	// 2. Bind postFX buffer to draw to
 	m_postFXBuffer->Bind();

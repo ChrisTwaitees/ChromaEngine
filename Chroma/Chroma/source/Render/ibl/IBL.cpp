@@ -24,8 +24,6 @@ void IBL::initCaptureBuffer()
 	glBindRenderbuffer(GL_RENDERBUFFER, m_captureRBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 512, 512);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_captureRBO);
-
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void IBL::initEnvCubeMap()
@@ -34,7 +32,6 @@ void IBL::initEnvCubeMap()
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_envCubeMap);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		// note that we store each face with 16 bit floating point values
 		glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB16F,
 			512, 512, 0, GL_RGB, GL_FLOAT, nullptr);
 	}
@@ -61,6 +58,7 @@ void IBL::captureEnvCubeMap()
 
 	// convert HDR equirectangular environment map to cubemap equivalent
 	m_captureCubeShader.use();
+	m_captureCubeShader.setInt("equirectangularMap", 0);
 	m_captureCubeShader.setMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_HDRtexture.ID);
@@ -73,9 +71,8 @@ void IBL::captureEnvCubeMap()
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_envCubeMap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 		// draw cube
-		m_captureCube.Draw(m_captureCubeShader); 
+		m_captureCube.BindDrawVAO();
 	}
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);

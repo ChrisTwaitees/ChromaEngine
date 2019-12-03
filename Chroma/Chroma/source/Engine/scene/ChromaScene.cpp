@@ -7,8 +7,7 @@ glm::vec3 ChromaScene::calcAmbientLightColor()
 
 void ChromaScene::initialize()
 {
-	m_skybox->setColorSpace(HDR);
-	//m_skybox->setCubeMapID(testIBL.getEnvCubeMapID());
+
 }
 
 void ChromaScene::addEntity(IChromaEntity* const& newEntity)

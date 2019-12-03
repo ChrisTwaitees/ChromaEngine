@@ -24,6 +24,11 @@
 #include <game/ChromaGame.h>
 
 
+// test
+#include <ibl/IBL.h>
+#include <texture/CubeMap.h>
+
+
 int main()
 {
 
@@ -32,6 +37,7 @@ int main()
 
 	// SCREEN MANAGER
 	ChromaScreenManager* ScreenManager{ new ChromaScreenManager };
+	IBL* testIBL = new IBL();
 
 	// SCENE 
 	ChromaScene* Scene{ new ChromaScene };
@@ -41,6 +47,13 @@ int main()
 
 	// SCENE CONTENTS
 	// ------------------------------------------------------------------------------------------
+
+	//SKYBOX test
+	SkyBox* test = new SkyBox(Scene->getRenderCamera());
+	test->setColorSpace(HDR);
+	//CubeMap testCubeMap("");
+	test->setCubeMapID(testIBL->getEnvCubeMapID());
+	Scene->setSkyBox(test);
 
 	// LIGHTS
 	const float SUNLIGHT_SPIN_SPEED = .8f;

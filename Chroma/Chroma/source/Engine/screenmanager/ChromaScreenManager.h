@@ -34,7 +34,6 @@ class ChromaScreenManager
 	bool configureWindow();
 	bool configureGui();
 	bool configureRenderer();
-	bool configureScene();
 
 	// renderer
 	static void updateRendererViewportDimensions(int width, int height);

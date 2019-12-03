@@ -68,7 +68,7 @@ private:
 
 public:
 	// getters and setters
-	void setCubeMapID(int newCubeMapID) { m_cubeMapID = newCubeMapID; };
+	void setCubeMapID(int const& newCubeMapID) { m_cubeMapID = newCubeMapID; };
 	unsigned int getCubeMapID() { return m_cubeMap.m_textureID; };
 
 	void setColorSpace(ColorSpace newColorSpace) { m_colorSpace = newColorSpace; };

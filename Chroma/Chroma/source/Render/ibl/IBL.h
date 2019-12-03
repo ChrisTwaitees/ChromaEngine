@@ -28,7 +28,8 @@ class IBL
 public:
 
 	void Draw();
-	int getEnvCubeMapID() { return m_envCubeMap; };
+	unsigned int getEnvCubeMapID() { return m_envCubeMap; };
+	unsigned int getHDRTextureID() { return m_HDRtexture.ID; };
 
 	template <typename UniformType>
 	void setUniform(std::string uniformName, UniformType uniform)

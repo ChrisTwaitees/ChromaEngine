@@ -11,15 +11,9 @@
 // entity component
 #include <entity/IChromaEntity.h>
 
-// test
-#include <ibl/IBL.h>
-
 
 class ChromaScene
 {
-	// TEST
-	IBL testIBL;
-
 	// scene components
 	std::vector<Light*> m_lights;
 	std::vector<IChromaEntity*> m_entities;
