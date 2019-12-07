@@ -108,6 +108,9 @@
     <Filter Include="Render\model\skybox">
       <UniqueIdentifier>{d2af5228-224d-45d4-af53-121e7e8d4cb0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\learnopengl">
+      <UniqueIdentifier>{0f925cc9-cd45-4e3f-9423-22a99f52d398}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="source\Render\model\SkyBox.cpp">
       <Filter>Render\model\skybox</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\learnopengl\WorkingIBL.cpp">
+      <Filter>Engine\learnopengl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -447,6 +453,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\model\SkyBox.h">
       <Filter>Render\model\skybox</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\learnopengl\TESTCAMERA.h">
+      <Filter>Engine\learnopengl</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
