@@ -67,7 +67,7 @@ void main()
 	vec3 color = (Ambient + Lo) * SSAO;
 	//------------------------------------------------------------------------
 	// OUT
-	FragColor = vec4(vec3(ambient), 1.0);
+	FragColor = vec4(vec3(color), 1.0);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
