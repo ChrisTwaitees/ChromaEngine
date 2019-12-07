@@ -24,7 +24,7 @@
 #include <game/ChromaGame.h>
 
 
-int mains()
+int main()
 {
 
 	// INIT CHROMA

@@ -21,10 +21,6 @@ class ForwardBuffer : public Framebuffer
 	void attachBuffer();
 	void drawQuad();
 
-	// IBL TEST
-	void updateIBLUniforms();
-	IBL* tempIBL{ new IBL() };
-
 public:
 	void Draw() override;
 
