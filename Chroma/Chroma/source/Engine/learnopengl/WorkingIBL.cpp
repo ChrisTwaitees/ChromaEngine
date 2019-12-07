@@ -7,8 +7,10 @@
 #include <ibl/IBL.h>
 
 #include <shader/Shader.h>
+#include <buffer/Framebuffer.h>
 #include <model/BoxPrimitive.h>
 #include <learnopengl/TESTCAMERA.h>
+#include <model/NDCPlanePrimitive.h>
 
 #include <iostream>
 
@@ -70,6 +72,7 @@ int main()
 	// build and compile shaders
 	// -------------------------
 	Shader backgroundShader("resources/shaders/fragHDRSkyBox.glsl", "resources/shaders/vertexSkyBox.glsl");
+	Shader frambufferShader("resources/shaders/frameBufferFrag.glsl", "resources/shaders/frameBufferVertex.glsl");
 
 
 	// initialize static shader uniforms before rendering
@@ -81,7 +84,7 @@ int main()
 
 	BoxPrimitive cube;
 	IBL testIBL;
-
+	//NDCPlanePrimitive testPlane;
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))
@@ -115,7 +118,18 @@ int main()
 		cube.BindDrawVAO();
 		glDepthFunc(GL_LESS);
 
+		//frambufferShader.use();
+		//frambufferShader.setUniform("scale", glm::vec2(1.0));
+		//frambufferShader.setUniform("offset", glm::vec2(0.0));
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, testIBL.getBRDFLUTID());
+		//glDisable(GL_CULL_FACE);
+		//glDepthFunc(GL_LEQUAL);
+		//cube.BindDrawVAO();
+		//glDepthFunc(GL_LESS);
 
+
+		//testPlane.BindDrawVAO();
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		// -------------------------------------------------------------------------------
 		glfwSwapBuffers(window);

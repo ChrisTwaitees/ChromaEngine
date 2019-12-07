@@ -272,6 +272,9 @@
     <ClCompile Include="source\Engine\learnopengl\WorkingIBL.cpp">
       <Filter>Engine\learnopengl</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\model\NDCPlanePrimitive.cpp">
+      <Filter>Render\model\primitive</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -457,6 +460,9 @@
     <ClInclude Include="source\Engine\learnopengl\TESTCAMERA.h">
       <Filter>Engine\learnopengl</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\model\NDCPlanePrimitive.h">
+      <Filter>Render\model\primitive</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">
@@ -580,6 +586,9 @@
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragPrefilter.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragBRDF.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
   </ItemGroup>

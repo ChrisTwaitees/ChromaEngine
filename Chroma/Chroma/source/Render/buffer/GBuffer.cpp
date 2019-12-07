@@ -217,7 +217,6 @@ void GBuffer::Draw()
 
 GBuffer::GBuffer(ChromaScene*& Scene, Framebuffer*& PostFXBuffer)
 {
-	setupQuad();
 	initialize();
 	m_scene = Scene;
 	mShadowbuffer = new ShadowBuffer(m_scene);

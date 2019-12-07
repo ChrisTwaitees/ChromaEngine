@@ -32,7 +32,6 @@ void SSAOBuffer::generateBuffers()
 
 void SSAOBuffer::initialize()
 {
-	setupQuad();
 	generateSampleKernel();
 	generateNoiseTexture();
 	generateBuffers();

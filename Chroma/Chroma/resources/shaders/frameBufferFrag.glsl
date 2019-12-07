@@ -10,8 +10,6 @@ void main()
 {	
 	vec4 screenTexture = texture(screenTexture, TexCoords.st);
 
-	FragColor = screenTexture;
-
 	// OUT
 	FragColor = screenTexture;
 
