@@ -148,3 +148,24 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 	// return 
 	return (1.0 - shadow) * lighting;
 }
+
+// FresnelSchlickRougness
+vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
+{
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
+}   
+
+// AMBIENT LIGHT
+vec3  CalcAmbientLight(samplerCube irradianceMap, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao)
+{
+    // ambient lighting (we now use IBL as the ambient term)
+	vec3 F0   = vec3(0.04); 
+	F0        = mix(F0, albedo, metalness);
+    vec3 kS   = fresnelSchlickRoughness(max(dot(normal, viewDir), 0.0), F0, roughness);
+    vec3 kD   = 1.0 - kS;
+    kD       *= 1.0 - metalness;	  
+    vec3 irradiance  = texture(irradianceMap, normal).rgb;
+    vec3 diffuse     = irradiance * albedo;
+    vec3 ambient     = (kD * diffuse) * ao;
+	return ambient;
+}

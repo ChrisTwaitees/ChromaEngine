@@ -32,7 +32,7 @@ uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 // Lighting Functions
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
-float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal, vec3 lightDir);
+vec3 CalcAmbientLight(samplerCube irradianceMap, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao);
 
 void main()
 {         
@@ -62,8 +62,8 @@ void main()
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 		Lo += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
 	// Adding ambient and SSAO
-	vec3 Ambient = ambient * Albedo * AO * SSAO;
-	// Creating color 
+	vec3 Ambient = CalcAmbientLight(irradianceMap, Normal, viewDir, Albedo, Roughness, Metalness, AO) * SSAO;
+	// Final lighting 
 	vec3 color = (Ambient + Lo) * SSAO;
 	//------------------------------------------------------------------------
 	// OUT
