@@ -14,28 +14,30 @@ class IBL
 	HDRTexture m_HDRtexture{ "resources/textures/ibl/newportloft_ibl/newportloft.hdr" };
 	// capture cube
 	BoxPrimitive m_captureCube;
-	// capture cube shader
-	Shader m_captureCubeShader{ "resources/shaders/fragIBL.glsl", "resources/shaders/vertexCubeMap.glsl" };
+	// shaders
+	Shader m_envMapShader{ "resources/shaders/fragIBL.glsl", "resources/shaders/vertexCubeMap.glsl" };
+	Shader m_irradienceMapShader{ "resources/shaders/fragIrradiance.glsl", "resources/shaders/vertexCubeMap.glsl" };
 	// capture buffers
 	unsigned int m_captureFBO, m_captureRBO;
 	// environment buffer texture
-	unsigned int m_envCubeMap;
+	unsigned int m_envCubeMap, m_irradianceMap;
 
+	// functions
 	void initialize();
-	void initCaptureBuffer();
-	void initEnvCubeMap();
-	void captureEnvCubeMap();
+	void generateEnvCubeMap();
+	void generateIrradianceMap();
 public:
 
 	void Draw();
-	unsigned int getEnvCubeMapID() { return m_envCubeMap; };
-	unsigned int getHDRTextureID() { return m_HDRtexture.ID; };
+	inline unsigned int getEnvCubeMapID() { return m_envCubeMap; };
+	inline unsigned int getIrradianceMapID() { return m_irradianceMap; };
+	inline unsigned int getHDRTextureID() { return m_HDRtexture.ID; };
 
 	template <typename UniformType>
 	void setUniform(std::string uniformName, UniformType uniform)
 	{
-		m_captureCubeShader.use();
-		m_captureCubeShader.setUniform(uniformName, uniform);
+		m_envMapShader.use();
+		m_envMapShader.setUniform(uniformName, uniform);
 	}
 	IBL();
 	~IBL();

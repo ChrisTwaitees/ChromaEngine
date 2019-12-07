@@ -110,7 +110,7 @@ int main()
 		backgroundShader.use();
 		backgroundShader.setMat4("view", view);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, testIBL.getEnvCubeMapID());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, testIBL.getIrradianceMapID());
 		glDepthFunc(GL_LEQUAL);
 		cube.BindDrawVAO();
 		glDepthFunc(GL_LESS);
