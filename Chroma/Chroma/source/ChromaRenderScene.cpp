@@ -214,10 +214,10 @@ int main()
 	SphereRigidComponent->setCollisionShape(ColliderShape::Sphere);
 	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 	SphereMeshComponent->bindTexture(alphaTestAlbedo);
-	SphereMeshComponent->bindShader(&SemiTransparentShader);
-	SphereMeshComponent->isLit = false;
-	SphereMeshComponent->isForwardLit = true;
-	SphereMeshComponent->isTransparent = true;
+	SphereMeshComponent->bindShader(&PBRShader);
+	SphereMeshComponent->isLit = true;
+	//SphereMeshComponent->isForwardLit = true;
+	//SphereMeshComponent->isTransparent = true;
 	SphereEntityTransparent->addComponent(SphereMeshComponent);
 	SphereEntityTransparent->addComponent(SphereRigidComponent);
 	SphereEntityTransparent->setPosition(glm::vec3(7.5, 1.0, 0.0));
