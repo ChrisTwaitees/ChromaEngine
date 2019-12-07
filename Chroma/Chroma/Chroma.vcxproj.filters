@@ -576,5 +576,11 @@
     <None Include="resources\shaders\fragHDRSkyBox.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\fragIrradiance.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragPrefilter.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

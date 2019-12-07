@@ -299,9 +299,11 @@
     <None Include="resources\shaders\fragGBufferLit.glsl" />
     <None Include="resources\shaders\fragIBL.glsl" />
     <None Include="resources\shaders\fragHDRSkyBox.glsl" />
+    <None Include="resources\shaders\fragIrradiance.glsl" />
     <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
     <None Include="resources\shaders\fragPBR.glsl" />
     <None Include="resources\shaders\fragPBRAlpha.glsl" />
+    <None Include="resources\shaders\fragPrefilter.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
     <None Include="resources\shaders\fragSkyBox.glsl" />
     <None Include="resources\shaders\fragSSAO.glsl" />

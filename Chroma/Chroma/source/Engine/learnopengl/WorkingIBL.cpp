@@ -31,7 +31,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-int mains()
+int main()
 {
 	// glfw: initialize and configure
 	// ------------------------------
@@ -80,7 +80,7 @@ int mains()
 	backgroundShader.setMat4("projection", projection);
 
 	BoxPrimitive cube;
-	IBL* testIBL = new IBL;
+	IBL testIBL;
 
 	// render loop
 	// -----------
@@ -109,7 +109,7 @@ int mains()
 		backgroundShader.use();
 		backgroundShader.setMat4("view", view);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, testIBL->getIrradianceMapID());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, testIBL.getPrefilterMapID());
 		glDisable(GL_CULL_FACE);
 		glDepthFunc(GL_LEQUAL);
 		cube.BindDrawVAO();
