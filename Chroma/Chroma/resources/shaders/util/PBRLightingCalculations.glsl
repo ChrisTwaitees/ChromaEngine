@@ -1,6 +1,7 @@
 // UTILS
 const float PI = 3.14159265359;
-
+const float MAX_REFLECTION_LOD = 4.0;
+// ----------------------------------------------------------------------------
 // POINT LIGHT
 float CalculateAttenuation(PointLight light, vec3 WorldPos)
 {
@@ -10,7 +11,7 @@ float CalculateAttenuation(PointLight light, vec3 WorldPos)
 	//return 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
 	return  1.0 / (distance * distance);
 }
-
+// ----------------------------------------------------------------------------
 // SHADOW CALCULATIONS
 float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal, vec3 lightDir)
 {
@@ -43,7 +44,7 @@ float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal
         
     return shadow;
 }
-
+// ----------------------------------------------------------------------------
 // PBR
 float DistributionGGX(vec3 N, vec3 H, float roughness)
 {
@@ -58,12 +59,12 @@ float DistributionGGX(vec3 N, vec3 H, float roughness)
 	
     return num / denom;
 }
-
+// ----------------------------------------------------------------------------
 vec3 FresnelSchlick(float cosTheta, vec3 F0)
 {
 	return F0 + (1.0 - F0) * pow(1.0 - cosTheta, 5.0);
 }
-
+// ----------------------------------------------------------------------------
 float GeometrySchlickGGX(float NdotV, float roughness)
 {
     float r = (roughness + 1.0);
@@ -74,7 +75,7 @@ float GeometrySchlickGGX(float NdotV, float roughness)
 	
     return num / denom;
 }
-
+// ----------------------------------------------------------------------------
 float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
 {
     float NdotV = max(dot(N, V), 0.0);
@@ -84,8 +85,7 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
 	
     return ggx1 * ggx2;
 }
-
-
+// ----------------------------------------------------------------------------
 vec3 PBRLighting(vec3 lightRadiance, vec3 Normal, vec3 H, vec3 ViewDir, vec3 LightDir, vec3 albedo, float metalness, float roughness)
 {
 	// Normal Distribution (D)
@@ -112,7 +112,7 @@ vec3 PBRLighting(vec3 lightRadiance, vec3 Normal, vec3 H, vec3 ViewDir, vec3 Lig
 	float NdotL = max(dot(Normal, LightDir), 0.0);        
     return (kD * albedo / PI + specular) * lightRadiance * NdotL;
 }
-
+// ----------------------------------------------------------------------------
 // DIRECTIONAL LIGHT
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap)
 {
@@ -129,7 +129,7 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float 
 	// return 
 	return (1.0 - shadow) * lighting;
 }
-
+// ----------------------------------------------------------------------------
 // POINT LIGHT
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap)
 {
@@ -148,24 +148,30 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 	// return 
 	return (1.0 - shadow) * lighting;
 }
-
+// ----------------------------------------------------------------------------
 // FresnelSchlickRougness
 vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 {
     return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(1.0 - cosTheta, 5.0);
 }   
-
+// ----------------------------------------------------------------------------
 // AMBIENT LIGHT
-vec3  CalcAmbientLight(samplerCube irradianceMap, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao)
+vec3  CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao)
 {
     // ambient lighting (we now use IBL as the ambient term)
+	// DIFFUSE
 	vec3 F0   = vec3(0.04); 
 	F0        = mix(F0, albedo, metalness);
-    vec3 kS   = fresnelSchlickRoughness(max(dot(normal, viewDir), 0.0), F0, roughness);
-    vec3 kD   = 1.0 - kS;
+	vec3 F = fresnelSchlickRoughness(max(dot(normal, viewDir), 0.0), F0, roughness);
+    vec3 kD   = 1.0 - F;
     kD       *= 1.0 - metalness;	  
     vec3 irradiance  = texture(irradianceMap, normal).rgb;
     vec3 diffuse     = irradiance * albedo;
-    vec3 ambient     = (kD * diffuse) * ao;
-	return ambient;
+	// SPECULAR
+    vec3 R                = reflect(-viewDir, normal); 
+	vec3 prefilteredColor = textureLod(prefilterMap, R,  roughness * MAX_REFLECTION_LOD).rgb;    
+    vec2 brdf             = texture(brdfLUT, vec2(max(dot(normal, viewDir), 0.0), roughness)).rg;
+    vec3 specular         = prefilteredColor * (F * brdf.x + brdf.y);
+
+	return (kD * diffuse + specular) * ao;
 }

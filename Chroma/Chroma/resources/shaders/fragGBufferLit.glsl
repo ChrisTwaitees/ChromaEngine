@@ -20,11 +20,12 @@ uniform sampler2D SSAO;
 #define NR_SPOT_LIGHTS 1
 
 // UNIFORMS
-// Lighting Uniforms
 uniform vec3 viewPos;
-//uniform vec3 ambient;
+//IBL
 uniform samplerCube irradianceMap;
-
+uniform samplerCube prefilterMap;
+uniform sampler2D   brdfLUT; 
+// Lights
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
@@ -32,7 +33,7 @@ uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 // Lighting Functions
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
 vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
-vec3 CalcAmbientLight(samplerCube irradianceMap, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao);
+vec3 CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao);
 
 void main()
 {         
@@ -47,29 +48,35 @@ void main()
 	vec4 FragPosLightSpace = texture(gFragPosLightSpace, TexCoords).rgba;
 	float SSAO = texture(SSAO, TexCoords).r;
 
-	// IBL
-	vec3 ambient = texture(irradianceMap, Normal).rgb;
+	// Attrs
+	vec3 viewDir = normalize(viewPos - FragPos);
 
 	// LIGHTING
 	//------------------------------------------------------------------------
 	// PBR calculates irradiance, denoted by Lo
 	vec3 Lo;
-	vec3 viewDir = normalize(viewPos - FragPos);
 	// Directional Lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
 		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
 	// Point Lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 		Lo += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
-	// Adding ambient and SSAO
-	vec3 Ambient = CalcAmbientLight(irradianceMap, Normal, viewDir, Albedo, Roughness, Metalness, AO) * SSAO;
-	// Final lighting 
-	vec3 color = (Ambient + Lo) * SSAO;
+	
+	// AMBIENT
 	//------------------------------------------------------------------------
+	// Adding ambient and SSAO
+	vec3 Ambient = CalcAmbientLight(irradianceMap, prefilterMap, brdfLUT,  Normal, viewDir, Albedo, Roughness, Metalness, AO) * SSAO;
+
+	// FINAL 
+	//------------------------------------------------------------------------
+	vec3 color = (Ambient + Lo) * SSAO;
+
 	// OUT
+	//------------------------------------------------------------------------
 	FragColor = vec4(vec3(color), 1.0);
 
 	// POST FX
+	//------------------------------------------------------------------------
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
     if(brightness > 1.0)
         BrightColor = vec4(FragColor.rgb, 1.0);

@@ -103,7 +103,8 @@ void GBuffer::configureShaders()
 
 	// IBL
 	m_lightingPassShader.setInt("irradianceMap", 7);
-
+	m_lightingPassShader.setInt("prefilterMap", 8);
+	m_lightingPassShader.setInt("brdfLUT", 9);
 }
 
 void GBuffer::bindAllGBufferTextures()
@@ -125,6 +126,10 @@ void GBuffer::bindAllGBufferTextures()
 	// IBL
 	glActiveTexture(GL_TEXTURE7);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->getIBL()->getIrradianceMapID());
+	glActiveTexture(GL_TEXTURE8);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->getIBL()->getPrefilterMapID());
+	glActiveTexture(GL_TEXTURE9);
+	glBindTexture(GL_TEXTURE_2D, m_scene->getIBL()->getBRDFLUTID());
 }
 
 void GBuffer::setLightingUniforms()
