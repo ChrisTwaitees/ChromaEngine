@@ -191,12 +191,11 @@ void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam
 void StaticMesh::updateMaterialUniforms(const Shader* shader)
 {
 	shader->setFloat("roughness", 0.4f);
-	shader->setVec3("color", glm::vec3(1, 0, 0));
+	shader->setVec3("color", glm::vec4(1, 0, 0, 0.5));
 	shader->setFloat("metalness", 0.0f);
 	shader->setBool("UseAlbedoMap", false);
 	shader->setBool("UseNormalMap", false);
 	shader->setBool("UseMetRoughAOMap", false);
-	//shader->setVec3("ambient", ambient);
 }
 
 void StaticMesh::Draw(Shader &shader)

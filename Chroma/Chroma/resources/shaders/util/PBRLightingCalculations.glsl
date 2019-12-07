@@ -8,8 +8,8 @@ float CalculateAttenuation(PointLight light, vec3 WorldPos)
 	// allows for more control not physically correct
 	// physically correct : ;
 	float distance = length(light.position - WorldPos);
-	//return 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-	return  1.0 / (distance * distance);
+	return 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
+	//return  1.0 / (distance * distance);
 }
 // ----------------------------------------------------------------------------
 // SHADOW CALCULATIONS
@@ -24,7 +24,7 @@ float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
     // calculate bias (based on depth map resolution and slope)
-    float bias = max(0.02 * (1.0 - dot(normal, lightDir)), 0.002);
+    float bias = max(0.03 * (1.0 - dot(normal, lightDir)), 0.003);
     // check whether current frag pos is in shadow
     // PCF
     float shadow = 0.0;
@@ -44,6 +44,7 @@ float ShadowCalculation(vec4 FragPosLightSpace, sampler2D shadowmap, vec3 normal
         
     return shadow;
 }
+
 // ----------------------------------------------------------------------------
 // PBR
 float DistributionGGX(vec3 N, vec3 H, float roughness)
@@ -86,7 +87,7 @@ float GeometrySmith(vec3 N, vec3 V, vec3 L, float roughness)
     return ggx1 * ggx2;
 }
 // ----------------------------------------------------------------------------
-vec3 PBRLighting(vec3 lightRadiance, vec3 Normal, vec3 H, vec3 ViewDir, vec3 LightDir, vec3 albedo, float metalness, float roughness)
+vec4 PBRLighting(vec3 lightRadiance, vec3 Normal, vec3 H, vec3 ViewDir, vec3 LightDir, vec3 albedo, float metalness, float roughness)
 {
 	// Normal Distribution (D)
 	float NDF = DistributionGGX(Normal, H, roughness); 
@@ -110,11 +111,11 @@ vec3 PBRLighting(vec3 lightRadiance, vec3 Normal, vec3 H, vec3 ViewDir, vec3 Lig
 
 	// final light calc
 	float NdotL = max(dot(Normal, LightDir), 0.0);        
-    return (kD * albedo / PI + specular) * lightRadiance * NdotL;
+    return vec4((kD * albedo / PI + specular) * lightRadiance * NdotL, NdotL * lightRadiance.r);
 }
 // ----------------------------------------------------------------------------
 // DIRECTIONAL LIGHT
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap)
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap)
 {
 	// light direction
 	vec3 L = normalize(-light.direction);
@@ -123,15 +124,15 @@ vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float 
 	// calculate radiance 
 	vec3 radiance = light.diffuse * light.intensity;
 	// calculate PBR diffuse and specular components
-	vec3 lighting = PBRLighting(radiance, normal, H, viewDir, L, albedo, metalness, roughness);
+	vec4 lighting = PBRLighting(radiance, normal, H, viewDir, L, albedo, metalness, roughness);
 	// shadows
 	float shadow = ShadowCalculation(FragPosLightSpace, shadowmap, normal, L);
 	// return 
-	return (1.0 - shadow) * lighting;
+	return vec4((1.0 - shadow) * lighting);
 }
 // ----------------------------------------------------------------------------
 // POINT LIGHT
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap)
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap)
 {
 	// light direction
 	vec3 L = normalize(light.position - FragPos);
@@ -142,11 +143,11 @@ vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 	// calculate radiance 
 	vec3 radiance = light.diffuse * light.intensity * attenuation;
 	// calculate PBR diffuse and specular components
-	vec3 lighting = PBRLighting(radiance, normal, H, viewDir, L, albedo, metalness, roughness);
+	vec4 lighting = PBRLighting(radiance, normal, H, viewDir, L, albedo, metalness, roughness);
 	// shadows
 	float shadow = ShadowCalculation(FragPosLightSpace, shadowmap, normal, L);
 	// return 
-	return (1.0 - shadow) * lighting;
+	return vec4((1.0 - shadow) * lighting);
 }
 // ----------------------------------------------------------------------------
 // FresnelSchlickRougness
@@ -156,7 +157,7 @@ vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness)
 }   
 // ----------------------------------------------------------------------------
 // AMBIENT LIGHT
-vec3  CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao)
+vec3  CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao, float shadows)
 {
     // ambient lighting (we now use IBL as the ambient term)
 	// DIFFUSE
@@ -172,6 +173,9 @@ vec3  CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, samp
 	vec3 prefilteredColor = textureLod(prefilterMap, R,  roughness * MAX_REFLECTION_LOD).rgb;    
     vec2 brdf             = texture(brdfLUT, vec2(max(dot(normal, viewDir), 0.0), roughness)).rg;
     vec3 specular         = prefilteredColor * (F * brdf.x + brdf.y);
-
-	return (kD * diffuse + specular) * ao;
+	specular *= max(shadows , 0.4);
+	// AMBIENT
+	vec3 ambient = (kD * diffuse + specular) * ao;
+	// return 
+	return  ambient;
 }

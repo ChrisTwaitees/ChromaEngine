@@ -15,7 +15,7 @@ uniform sampler2D SSAO;
 
 // LIGHTS
 #include "util/lightingStructs.glsl"
-#define NR_POINT_LIGHTS 9
+#define NR_POINT_LIGHTS 1
 #define NR_DIR_LIGHTS 1
 #define NR_SPOT_LIGHTS 1
 
@@ -24,16 +24,16 @@ uniform vec3 viewPos;
 //IBL
 uniform samplerCube irradianceMap;
 uniform samplerCube prefilterMap;
-uniform sampler2D   brdfLUT; 
+uniform sampler2D   brdfLUT;
 // Lights
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
 // Lighting Functions
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
-vec3 CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao);
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
+vec3 CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao, float shadows);
 
 void main()
 {         
@@ -54,22 +54,22 @@ void main()
 	// LIGHTING
 	//------------------------------------------------------------------------
 	// PBR calculates irradiance, denoted by Lo
-	vec3 Lo;
+	vec4 Lo;
 	// Directional Lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
 		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
 	// Point Lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 		Lo += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
-	
+
 	// AMBIENT
 	//------------------------------------------------------------------------
 	// Adding ambient and SSAO
-	vec3 Ambient = CalcAmbientLight(irradianceMap, prefilterMap, brdfLUT,  Normal, viewDir, Albedo, Roughness, Metalness, AO) * SSAO;
+	vec3 Ambient = CalcAmbientLight(irradianceMap, prefilterMap, brdfLUT, Normal, viewDir, Albedo, Roughness, Metalness, AO, Lo.a);
 
-	// FINAL 
+	// COMBINE
 	//------------------------------------------------------------------------
-	vec3 color = (Ambient + Lo) * SSAO;
+	vec3 color = (Ambient + Lo.rgb) * SSAO;
 
 	// OUT
 	//------------------------------------------------------------------------

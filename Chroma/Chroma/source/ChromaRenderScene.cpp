@@ -50,13 +50,13 @@ int main()
 
 	// point light positions
 	glm::vec3 pointLightPositions[] = {
-		glm::vec3(2.5f,  1.2f,  2.0f),
+		glm::vec3(10.5f,  1.2f,  2.0f),
 	};
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		Light* pointLight = new Light(pos, Light::POINT);
-		pointLight->setIntensity(1.0f);
+		pointLight->setIntensity(0.01f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
@@ -211,12 +211,13 @@ int main()
 	SphereEntityTransparent->setName("Sphere");
 	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
 	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
-	SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
+	SphereRigidComponent->setCollisionShape(ColliderShape::Sphere);
 	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 	SphereMeshComponent->bindTexture(alphaTestAlbedo);
 	SphereMeshComponent->bindShader(&SemiTransparentShader);
 	SphereMeshComponent->isLit = false;
 	SphereMeshComponent->isForwardLit = true;
+	SphereMeshComponent->isTransparent = true;
 	SphereEntityTransparent->addComponent(SphereMeshComponent);
 	SphereEntityTransparent->addComponent(SphereRigidComponent);
 	SphereEntityTransparent->setPosition(glm::vec3(7.5, 1.0, 0.0));
