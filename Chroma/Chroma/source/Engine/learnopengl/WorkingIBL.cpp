@@ -31,7 +31,7 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
-int mains()
+int main()
 {
 	// glfw: initialize and configure
 	// ------------------------------
@@ -56,7 +56,7 @@ int mains()
 	glfwSetScrollCallback(window, scroll_callback);
 
 	// tell GLFW to capture our mouse
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	// glad: load all OpenGL function pointers
 	// ---------------------------------------
@@ -80,14 +80,9 @@ int mains()
 	backgroundShader.setInt("environmentMap", 0);
 	backgroundShader.setMat4("projection", projection);
 
-	// then before rendering, configure the viewport to the original framebuffer's screen dimensions
-	int scrWidth, scrHeight;
-	glfwGetFramebufferSize(window, &scrWidth, &scrHeight);
-
-	glViewport(0, 0, scrWidth, scrHeight);
-
 	BoxPrimitive cube;
 	IBL testIBL;
+
 	// render loop
 	// -----------
 	while (!glfwWindowShouldClose(window))

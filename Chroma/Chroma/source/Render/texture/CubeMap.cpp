@@ -9,9 +9,11 @@ void CubeMap::generateCubeMap()
 	// for the six faces gen 2D textures
 	int width, height, nrChannels;
 	unsigned char* imageData;
+
 	for (GLuint i = 0; i < faces.size(); i++)
 	{
 		std::string imagePath = dir + "/" + faces[i];
+		stbi_set_flip_vertically_on_load(false);
 		imageData = stbi_load(imagePath.c_str(), &width, &height, &nrChannels,0);
 		if (imageData)
 		{

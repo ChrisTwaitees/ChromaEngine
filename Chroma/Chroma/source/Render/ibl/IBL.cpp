@@ -74,8 +74,8 @@ void IBL::captureEnvCubeMap()
 		// draw cube
 		m_captureCube.BindDrawVAO();
 	}
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
 void IBL::Draw()
