@@ -20,12 +20,11 @@ uniform sampler2D SSAO;
 #define NR_SPOT_LIGHTS 1
 
 // UNIFORMS
-uniform samplerCube skybox;
 // Lighting Uniforms
 uniform vec3 viewPos;
-uniform vec3 ambient;
+//uniform vec3 ambient;
+uniform samplerCube irradianceMap;
 
-//uniform float ambient;
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
@@ -48,6 +47,9 @@ void main()
 	vec4 FragPosLightSpace = texture(gFragPosLightSpace, TexCoords).rgba;
 	float SSAO = texture(SSAO, TexCoords).r;
 
+	// IBL
+	vec3 ambient = texture(irradianceMap, Normal).rgb;
+
 	// LIGHTING
 	//------------------------------------------------------------------------
 	// PBR calculates irradiance, denoted by Lo
@@ -65,7 +67,7 @@ void main()
 	vec3 color = (Ambient + Lo) * SSAO;
 	//------------------------------------------------------------------------
 	// OUT
-	FragColor = vec4(vec3(color), 1.0);
+	FragColor = vec4(vec3(ambient), 1.0);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));

@@ -48,6 +48,9 @@ class GBuffer : public Framebuffer
 	void setLightingUniforms();
 	void updateTransformUniforms() override;
 
+	// cubemap TEST
+	CubeMap testCubeMap{ "resources/textures/skybox/blueskywater"};
+
 public:
 	// functions
 	void Bind() override;

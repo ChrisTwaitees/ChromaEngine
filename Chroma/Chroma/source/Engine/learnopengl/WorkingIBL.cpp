@@ -51,6 +51,7 @@ int mains()
 		glfwTerminate();
 		return -1;
 	}
+
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
@@ -66,8 +67,6 @@ int mains()
 		return -1;
 	}
 
-
-
 	// build and compile shaders
 	// -------------------------
 	Shader backgroundShader("resources/shaders/fragHDRSkyBox.glsl", "resources/shaders/vertexSkyBox.glsl");
@@ -81,7 +80,7 @@ int mains()
 	backgroundShader.setMat4("projection", projection);
 
 	BoxPrimitive cube;
-	IBL testIBL;
+	IBL* testIBL = new IBL;
 
 	// render loop
 	// -----------
@@ -110,7 +109,8 @@ int mains()
 		backgroundShader.use();
 		backgroundShader.setMat4("view", view);
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, testIBL.getIrradianceMapID());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, testIBL->getIrradianceMapID());
+		glDisable(GL_CULL_FACE);
 		glDepthFunc(GL_LEQUAL);
 		cube.BindDrawVAO();
 		glDepthFunc(GL_LESS);

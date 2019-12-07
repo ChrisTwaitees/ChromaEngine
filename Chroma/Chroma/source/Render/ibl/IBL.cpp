@@ -4,11 +4,15 @@
 
 void IBL::initialize()
 {
+	glDisable(GL_CULL_FACE); // double sided rendering
+
 	// env cube map
 	generateEnvCubeMap();
 
 	// irradiance map
 	generateIrradianceMap();
+
+	glEnable(GL_CULL_FACE);
 }
 
 void IBL::generateEnvCubeMap()

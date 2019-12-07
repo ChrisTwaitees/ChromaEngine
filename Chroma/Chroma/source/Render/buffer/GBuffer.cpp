@@ -91,6 +91,7 @@ void GBuffer::updateTransformUniforms()
 
 void GBuffer::configureShaders()
 {
+	// Geometry Buffer
 	m_lightingPassShader.use();
 	m_lightingPassShader.setInt("gPosition", 0);
 	m_lightingPassShader.setInt("gNormal", 1);
@@ -99,6 +100,10 @@ void GBuffer::configureShaders()
 	m_lightingPassShader.setInt("gFragPosLightSpace", 4);
 	m_lightingPassShader.setInt("gShadowmap", 5);
 	m_lightingPassShader.setInt("SSAO", 6);
+
+	// IBL
+	m_lightingPassShader.setInt("irradianceMap", 7);
+
 }
 
 void GBuffer::bindAllGBufferTextures()
@@ -117,6 +122,9 @@ void GBuffer::bindAllGBufferTextures()
 	glBindTexture(GL_TEXTURE_2D, mShadowbuffer->getTexture());
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, m_SSAOBuffer->getTexture());
+	// IBL
+	glActiveTexture(GL_TEXTURE7);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->getIBL()->getIrradianceMapID());
 }
 
 void GBuffer::setLightingUniforms()
@@ -124,7 +132,6 @@ void GBuffer::setLightingUniforms()
 	m_lightingPassShader.setLightingUniforms(m_scene->getLights(), *m_scene->getRenderCamera());
 	m_lightingPassShader.setUniform("ambient", m_scene->getAmbientColor());
 }
-
 
 void GBuffer::Bind()
 {

@@ -11,10 +11,10 @@ in VS_OUT {
 } fs_in;
 
 // LIGHTS
-#define NR_POINT_LIGHTS 4
+#include "util/lightingStructs.glsl"
+#define NR_POINT_LIGHTS 9
 #define NR_DIR_LIGHTS 1
 #define NR_SPOT_LIGHTS 1
-#include "util/lightingStructs.glsl"
 
 // SHADOWMAPS
 struct ShadowMap
@@ -23,15 +23,6 @@ struct ShadowMap
 };
 
 // UNIFORMS
-uniform vec3 viewPos;
-uniform ShadowMap shadowmaps;
-uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform DirLight dirLights[NR_DIR_LIGHTS];
-uniform SpotLight spotLights[NR_SPOT_LIGHTS];
-
-// MATERIALS
-#include "util/materialStruct.glsl"
-uniform Material material;
 // Texture Checks
 uniform bool UseAlbedoMap;
 uniform bool UseNormalMap;
@@ -40,7 +31,21 @@ uniform bool UseMetRoughAOMap;
 uniform vec3 color;
 uniform float roughness;
 uniform float metalness;
+
+// Lighting Uniforms
+uniform vec3 viewPos;
 uniform vec3 ambient;
+uniform samplerCube irradianceMap;
+uniform ShadowMap shadowmaps;
+
+uniform PointLight pointLights[NR_POINT_LIGHTS];
+uniform DirLight dirLights[NR_DIR_LIGHTS];
+uniform SpotLight spotLights[NR_SPOT_LIGHTS];
+
+// MATERIALS
+#include "util/materialStruct.glsl"
+uniform Material material;
+
 
 // LIGHT FUNCTIONS
 vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
@@ -76,7 +81,7 @@ void main()
 	}
 	
 	// TODO : fetch SSAO from GBuffer
-	float SSAO = 1.0;
+	float SSAO = 0.1;
 
 	// LIGHTING
 	//------------------------------------------------------------------------
