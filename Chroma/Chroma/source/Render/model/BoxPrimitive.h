@@ -6,7 +6,7 @@
 class BoxPrimitive : public StaticMesh
 {
 private:
-	std::vector<ChromaVertex> vertices;
+	std::vector<ChromaVertex> m_vertices;
 
 	std::vector<float> boxData = {
 		     // Back face		    normals	             uvs

@@ -22,11 +22,20 @@ class SkinnedMesh : public StaticMesh
 	Skeleton m_skeleton;
 
 	// mesh data
+	std::vector<ChromaSkinnedVertex> m_skinnedVertices;
 
-	std::vector<ChromaSkinnedVertex> m_vertices;
-
+	// functions
+	void calcBBox() override;
+	void calcCentroid() override;
+	void setupMesh() override;
 
 public:
+	// Getters/Setters
+	std::vector<ChromaSkinnedVertex> getSkinnedVertices() { return m_skinnedVertices; };
+	virtual std::pair<glm::vec3, glm::vec3> getBBox() override;
+
+	// Functions
+	void BindDrawVAO() override;
 
 	SkinnedMesh();
 	~SkinnedMesh();

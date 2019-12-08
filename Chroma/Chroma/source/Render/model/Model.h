@@ -52,12 +52,7 @@ public:
 	void setFloat(std::string name, float value) override;
 
 	// Constructors
-	Model(const Model& ref) 
-	{
-		std::cout << "Copy Constructor of Model Invoked" << std::endl;
-	}
 	Model(std::string path) { loadModel(path); };
-	Model() {};
 	~Model();
 };
 

@@ -36,7 +36,7 @@ void BoxPrimitive::BindDrawVAO()
 
 std::vector<ChromaVertex> BoxPrimitive::getVertices()
 {
-	vertices.clear();
+	m_vertices.clear();
 	for (int i = 0; i < boxData.size(); i+=8)
 	{
 		ChromaVertex newVert;
@@ -69,9 +69,9 @@ std::vector<ChromaVertex> BoxPrimitive::getVertices()
 		}
 		newVert.setTexCoords(texcoords);
 
-		vertices.push_back(newVert);
+		m_vertices.push_back(newVert);
 	}
-	return vertices;
+	return m_vertices;
 }
 
 

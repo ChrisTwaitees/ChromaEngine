@@ -64,9 +64,9 @@ void ChromaPhysicsComponent::createCollisionShape()
 	}
 	case(Convex):
 	{
-		std::vector<ChromaVertex> vertices = m_parentEntity->getVertices();
+		std::vector<ChromaVertex> m_vertices = m_parentEntity->getVertices();
 		m_shape = new btConvexHullShape();
-		for (ChromaVertex vert : vertices)
+		for (ChromaVertex vert : m_vertices)
 		{
 			btVector3 btv = btVector3(vert.getPosition().x,
 				vert.getPosition().y,
@@ -77,14 +77,14 @@ void ChromaPhysicsComponent::createCollisionShape()
 	}
 	case(Mesh):
 	{
-		std::vector<ChromaVertex> vertices = m_parentEntity->getVertices();
+		std::vector<ChromaVertex> m_vertices = m_parentEntity->getVertices();
 		btTriangleMesh* mesh = new btTriangleMesh();
 
-		for (int i = 0; i < vertices.size(); i += 3)
+		for (int i = 0; i < m_vertices.size(); i += 3)
 		{
-			ChromaVertex v1 = vertices[i];
-			ChromaVertex v2 = vertices[i + 1];
-			ChromaVertex v3 = vertices[i + 2];
+			ChromaVertex v1 = m_vertices[i];
+			ChromaVertex v2 = m_vertices[i + 1];
+			ChromaVertex v3 = m_vertices[i + 2];
 
 			btVector3 btv1 = btVector3(v1.getPosition().x,
 				v1.getPosition().y,

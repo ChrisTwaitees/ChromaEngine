@@ -8,8 +8,8 @@ std::vector<ChromaVertex> ChromaEntity::getVertices()
 	std::vector<ChromaVertex> verts;
 	for (IChromaComponent* meshComponent : m_meshComponents)
 	{
-		std::vector<ChromaVertex> vertices = ((ChromaMeshComponent*)meshComponent)->getVertices();
-		for (ChromaVertex vert : vertices)
+		std::vector<ChromaVertex> m_vertices = ((ChromaMeshComponent*)meshComponent)->getVertices();
+		for (ChromaVertex vert : m_vertices)
 			verts.push_back(vert);
 	}
 

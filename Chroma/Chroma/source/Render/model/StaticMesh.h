@@ -1,5 +1,6 @@
 #ifndef _MESH_H_
 #define _MESH_H_
+
 // stl
 #include <vector>
 #include <string>
@@ -18,7 +19,7 @@ class StaticMesh : public ChromaMeshComponent
 protected:
 	// mesh data
 	unsigned int VAO, VBO, EBO;
-	std::vector<ChromaVertex> vertices;
+	std::vector<ChromaVertex> m_vertices;
 	std::vector<unsigned int> m_indices;
 	std::vector<Texture> m_textures;
 	// default shader
@@ -55,7 +56,7 @@ public:
 	virtual Shader* getShader() { return m_shader; };
 	int getNumTextures() override { return m_textures.size(); };
 	virtual glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
-	virtual std::vector<ChromaVertex> getVertices() { return vertices; };
+	virtual std::vector<ChromaVertex> getVertices() { return m_vertices; };
 	virtual std::pair<glm::vec3, glm::vec3> getBBox();
 	virtual glm::vec3 getCentroid();
 

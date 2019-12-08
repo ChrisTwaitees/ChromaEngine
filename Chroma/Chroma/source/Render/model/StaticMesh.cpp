@@ -3,13 +3,13 @@
 
 void StaticMesh::calcBBox()
 {
-	vertices = getVertices();
+	m_vertices = getVertices();
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
 	// once collected, calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
-	for (ChromaVertex& vert : vertices)
+	for (ChromaVertex& vert : m_vertices)
 	{
 		newMinBBox = glm::min(newMinBBox, vert.getPosition());
 		newMaxBBox = glm::max(newMaxBBox, vert.getPosition());
@@ -36,7 +36,7 @@ void StaticMesh::setupMesh()
 	// Bind buffers
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ChromaVertex), &vertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(ChromaVertex), &m_vertices[0], GL_STATIC_DRAW);
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int),
@@ -318,7 +318,7 @@ void StaticMesh::setFloat(std::string name, float value)
 StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
 {
 	isRenderable = true;
-	vertices = vertices_val;
+	m_vertices = vertices_val;
 	m_indices = indices_val;
 	m_textures = textures_val;
 	

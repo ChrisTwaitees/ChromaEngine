@@ -83,7 +83,7 @@ private:
 	std::vector<float> texCoords;
 	std::vector<unsigned int> m_indices;
 	std::vector<unsigned int> lineIndices;
-	std::vector<ChromaVertex> vertices;
+	std::vector<ChromaVertex> m_vertices;
 
 	// interleaved
 	std::vector<float> interleavedVertices;
