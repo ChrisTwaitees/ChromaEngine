@@ -47,12 +47,10 @@ class Camera
 	enum Direction {FORWARD, BACK, LEFT, RIGHT, UP, DOWN};
 	void move(Direction dir = Direction::FORWARD);
 
-
 	// camera aim
 	float lastX, lastY, yaw, pitch;
 	float mouseSensitivity{0.05f};
 	float maxPitch{ 90.0f }, maxYaw{90.0f};
-
 
 	// input
 	void processMouseInput(ChromaInput* const& input);
@@ -80,6 +78,7 @@ public:
 	// getters
 	inline glm::vec3 getPosition() const { return cameraPosition; };
 	inline glm::vec3 getDirection() const { return cameraDirection; };
+	// matrices
 	inline glm::mat4 getProjectionMatrix() const { return projectionMatrix; };
 	inline glm::mat4 getViewMatrix() const { return viewMatrix; };
 	inline glm::mat4 getViewProjMatrix() const { return projectionMatrix * viewMatrix; };

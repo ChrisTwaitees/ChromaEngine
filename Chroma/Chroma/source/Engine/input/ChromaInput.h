@@ -25,6 +25,8 @@ class ChromaInput
 	// attrs
 	static double CaptureMouseX, CaptureMouseY;
 	double MouseX{ 0.0f }, MouseY{ 0.0f };
+	double lastMouseX{ 0.0f }, lastMouseY{ 0.0f };
+	glm::vec2 MouseXYOffset{ glm::vec2(0.0f, 0.0f) };
 	float PickedMouseX{ 0.0f }, PickedMouseY{ 0.0f };
 	glm::vec3 lastMouseRay{ glm::vec3(0) };
 	bool cursorEnabled{ true };
@@ -55,11 +57,18 @@ public:
 	std::function<void()> mMousePickerCallback;
 
 	// getters and setters
-	double getMouseX() { return MouseX; };
-	double getMouseY() { return MouseY; };
-	glm::vec2 getMouseXY() { return glm::vec2(MouseX, MouseY); };
-	bool getCursorEnabled() { return cursorEnabled; };
-	glm::vec3 getLastRay() { return lastMouseRay; };
+	// mouse x
+	inline double getMouseX() const { return MouseX; };
+	inline double getMouseXOffset() const { return MouseXYOffset.x; };
+	// mouse y
+	inline double getMouseY() const { return MouseY; };
+	inline double getMouseYOffset() const { return MouseXYOffset.y; };
+	// mouse xy
+	inline glm::vec2 getMouseXY() const { return glm::vec2(MouseX, MouseY); };
+	inline glm::vec2 getMouseXYOffset() const { return MouseXYOffset; };
+	// cursor attrs
+	inline bool getCursorEnabled() const { return cursorEnabled; };
+	inline glm::vec3 getLastRay() const { return lastMouseRay; };
 
 	// bind
 	void bindWindow(GLFWwindow* windowVal);

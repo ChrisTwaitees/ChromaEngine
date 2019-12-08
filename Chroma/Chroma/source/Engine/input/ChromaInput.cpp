@@ -1,8 +1,4 @@
 #include "ChromaInput.h"
-#include "ChromaInput.h"
-
-
-
 
 double ChromaInput::CaptureMouseX;
 double ChromaInput::CaptureMouseY;
@@ -19,6 +15,7 @@ void ChromaInput::bindMousePickerCallback(std::function<void()> callback)
 {
 	mMousePickerCallback = callback;
 }
+
 
 bool ChromaInput::isPressed(Key KeySelection)
 {
@@ -93,28 +90,13 @@ bool ChromaInput::isPressed(Key KeySelection)
 
 void ChromaInput::process()
 {
-	// check if should close on this frame
+	// should close?
 	if (isPressed(ESCAPE)) {
 		glfwSetWindowShouldClose(mWindow, true);
 		return;
 	}
 
-	// toggle wireframe
-	if (isPressed(P))
-	{
-		int polyMode;
-		glGetIntegerv(GL_POLYGON_MODE, &polyMode);
-
-		if (polyMode == GL_LINE){
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-		else {
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-		}
-	}
-
-
-	// window capture release mouse
+	// capture / release mouse
 	int cursorMode = glfwGetInputMode(mWindow, GLFW_CURSOR);
 	if (isPressed(LEFT_ALT))
 	{
@@ -160,8 +142,17 @@ void ChromaInput::mouse_click_callback(GLFWwindow* window, int button, int actio
 
 void ChromaInput::updateMouseCoordinates()
 {
+	// current coordinates
 	MouseX = CaptureMouseX;
 	MouseY = CaptureMouseY;
+
+	// offset
+	MouseXYOffset.x = MouseX - lastMouseX;
+	MouseXYOffset.y = lastMouseY - MouseY;
+
+	// last pos
+	lastMouseX = MouseX;
+	lastMouseY = MouseY;
 }
 
 void ChromaInput::updateMousePicker()
