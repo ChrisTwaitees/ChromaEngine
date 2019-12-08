@@ -133,7 +133,7 @@ int main()
 	ChromaPhysicsComponent* AnimModelRigidComponent = new ChromaPhysicsComponent();
 	AnimModelRigidComponent->setCollisionShape(ColliderShape::Box);
 	AnimModelRigidComponent->setCollisionState(ColliderState::Kinematic);
-	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.obj");
+	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.fbx");
 	AnimModelMeshComponent->bindShader(&PBRShader);
 	AnimModelMeshComponent->bindTexture(walkingAlbedo);
 	//AnimModelMeshComponent->bindTexture(walkingNormal);

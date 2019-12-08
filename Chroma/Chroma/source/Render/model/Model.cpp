@@ -109,7 +109,7 @@ void Model::calcCentroid()
 void Model::loadModel(std::string path)
 {
 	Assimp::Importer importer;
-	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
@@ -138,54 +138,73 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<unsigned int> m_indices;
-	std::vector <Texture> m_textures;
+	std::vector<Texture> m_textures;
+
+	// check if mesh is skinned
+	m_isSkinned = mesh->HasBones();
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
-		ChromaVertex vertex;
 		// process vertex
 		// positions
 		glm::vec3 position;
 		position.x = mesh->mVertices[i].x;
 		position.y = mesh->mVertices[i].y;
 		position.z = mesh->mVertices[i].z;
-		vertex.setPosition(position);
 
 		// normals
 		glm::vec3 normal;
 		normal.x = mesh->mNormals[i].x;
 		normal.y = mesh->mNormals[i].y;
 		normal.z = mesh->mNormals[i].z;
-		vertex.setNormal(normal);
 
 		// tangents
 		glm::vec3 tangent;
 		tangent.x = mesh->mTangents[i].x;
 		tangent.y = mesh->mTangents[i].y;
 		tangent.z = mesh->mTangents[i].z;
-		vertex.setTangent(tangent);
 
 		// bitangents 
 		glm::vec3 bitangent;
 		bitangent.x = mesh->mBitangents[i].x;
 		bitangent.y = mesh->mBitangents[i].y;
 		bitangent.z = mesh->mBitangents[i].z;
-		vertex.setBitangent(bitangent);
 
 		// texture coords
+		glm::vec2 UV1;
 		if (mesh->mTextureCoords[0])
 		{
-			glm::vec2 UV1;
 			UV1.x = mesh->mTextureCoords[0][i].x;
 			UV1.y = mesh->mTextureCoords[0][i].y;
-			vertex.setTexCoords(UV1);
 		}
 		else
-			vertex.setTexCoords(glm::vec2(0.0f, 0.0f));
+			UV1 = glm::vec2(0.0f, 0.0f);
 
 		// add new vertex
-		m_vertices.push_back(vertex);
+		if (m_isSkinned)
+		{
+			ChromaSkinnedVertex vertex;
+			vertex.setPosition(position);
+			vertex.setNormal(normal);
+			vertex.setTangent(tangent);
+			vertex.setBitangent(bitangent);
+			vertex.setTexCoords(UV1);
+			//mesh->mBones[]
+			m_skinnedVertices.push_back(vertex);
+		}
+		else
+		{
+			ChromaVertex vertex;
+			vertex.setPosition(position);
+			vertex.setNormal(normal);
+			vertex.setTangent(tangent);
+			vertex.setBitangent(bitangent);
+			vertex.setTexCoords(UV1);
+			m_vertices.push_back(vertex);
+		}
+
 	}
+
 	// process indices
 	// primitive (face) indices
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
@@ -212,7 +231,12 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		m_textures.insert(m_textures.end(), normalMaps.begin(), normalMaps.end());
 	}
 
-	return new StaticMesh(m_vertices, m_indices, m_textures);
+	if (m_isSkinned)
+	{
+		return new SkinnedMesh(m_skinnedVertices, m_indices, m_textures);
+	}
+	else
+		return new StaticMesh(m_vertices, m_indices, m_textures);
 }
 
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName)
