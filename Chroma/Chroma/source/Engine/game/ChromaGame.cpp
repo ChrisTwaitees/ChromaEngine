@@ -19,6 +19,9 @@ void ChromaGame::MousePickerCallback()
 	glm::vec3 start = m_scene->getRenderCamera()->getPosition();
 	glm::vec3 end = start + (  m_input->getLastRay() * glm::vec3(1000.0));
 	IChromaEntity* clickedEntity  = m_physics->rayTest(start, end);
+	if (clickedEntity)
+		m_screen->setSelectedEntityName(clickedEntity->getName());
+
 }
 
 void ChromaGame::Tick()
@@ -76,9 +79,9 @@ void ChromaGame::ProcessInput()
 	m_input->process();
 	// update camera
 	if (m_screen->cameraSelected == 0)
-		m_scene->getRenderCamera()->setCameraMode(FLYCAM);
-	if (m_screen->cameraSelected == 1)
 		m_scene->getRenderCamera()->setCameraMode(MAYA);
+	if (m_screen->cameraSelected == 1)
+		m_scene->getRenderCamera()->setCameraMode(FLYCAM);
 	m_scene->getRenderCamera()->processInput(m_input);
 	// render physics debug if triggered
 	if (m_screen->drawPhysicsDebug)

@@ -20,12 +20,12 @@ enum CameraMode { FLYCAM, MAYA};
 class Camera
 {
 	// Camera Attrs
-	glm::vec3 cameraPosition{ glm::vec3(0.0, 1.0, 0.0) };
+	glm::vec3 cameraPosition{ glm::vec3(0.0, 4.0, 20.0) };
 	glm::vec3 cameraUp{ CHROMA_UP };
-	glm::vec3 cameraDirection{ CHROMA_FORWARD };
+	glm::vec3 cameraDirection{ CHROMA_BACK };
 
 	// Modes
-	CameraMode CamMode = FLYCAM;
+	CameraMode CamMode = MAYA;
 	
 	// Camera Contollers
 	ICameraController* MayaCamController{ new MayaCameraController() };

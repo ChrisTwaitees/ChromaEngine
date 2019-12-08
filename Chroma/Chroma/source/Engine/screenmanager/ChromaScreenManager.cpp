@@ -173,6 +173,8 @@ void ChromaScreenManager::drawGUI()
 
 	// camera dropdowns
 	ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));
+
+	ImGui::Text("Selected Entity : %s", SelectedEntity.c_str());
 	gui.End();
 }
 

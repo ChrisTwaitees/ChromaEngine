@@ -65,9 +65,10 @@ public:
 	bool useBloom{ false };
 	bool drawDebug{ false };
 	bool drawPhysicsDebug{ false };
-	const char* cameras[2]{ "FlyCam", "Maya" };
+	const char* cameras[2]{ "Maya", "FlyCam" };
 	int cameraSelected{ 0 };
-
+	std::string SelectedEntity = "No Entity Selected";
+	void setSelectedEntityName(std::string newEntity) { SelectedEntity = newEntity; };
 
 	// status
 	int shouldClose() { return glfwWindowShouldClose(window); };
