@@ -1,7 +1,5 @@
 #include "IBL.h"
 
-
-
 void IBL::initialize()
 {
 	// setup capture shader
@@ -83,9 +81,4 @@ void IBL::Draw()
 IBL::IBL()
 {
 	initialize();
-}
-
-
-IBL::~IBL()
-{
 }

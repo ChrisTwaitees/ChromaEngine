@@ -248,11 +248,11 @@ int main()
 		float DeltaTime = ScreenManager->getDeltaTime();
 
 		//Sunlight Rotation		
-		Sun->setPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
+		Sun->setPosition(glm::vec3(std::sin(GameTime * SUNLIGHT_SPIN_SPEED) * SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime * SUNLIGHT_SPIN_SPEED) * SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->getPosition()));
 
 
-		Game.getRenderer()->getDebugBuffer()->drawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
+		Game.getRenderer()->getDebugBuffer()->drawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1, 0, 0));
 
 		Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 

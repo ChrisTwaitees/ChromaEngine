@@ -37,7 +37,7 @@ public:
 		m_captureCubeShader.setUniform(uniformName, uniform);
 	}
 	IBL();
-	~IBL();
+	~IBL() {};
 };
 
 #endif
