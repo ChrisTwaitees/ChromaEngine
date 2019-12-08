@@ -5,42 +5,39 @@
 #include <string>
 
 // chroma
-#include "shader/Shader.h"
-#include "texture/Texture.h"
-#include "camera/Camera.h"
-#include "light/Light.h"
-#include "component/ChromaMeshComponent.h"
-#include "model/Vertex.h"
+#include <shader/Shader.h>
+#include <texture/Texture.h>
+#include <camera/Camera.h>
+#include <light/Light.h>
+#include <component/ChromaMeshComponent.h>
+#include <model/Vertex.h>
 
 
 class StaticMesh : public ChromaMeshComponent
 {
 protected:
-	// calculate attrs
-	virtual void calcBBox();
-	virtual void calcCentroid();
-
+	// mesh data
+	unsigned int VAO, VBO, EBO;
+	std::vector<ChromaVertex> vertices;
+	std::vector<unsigned int> m_indices;
+	std::vector<Texture> m_textures;
 	// default shader
 	std::string fragShaderSource = "resources/shaders/fragPBR.glsl";
 	std::string vtxShaderSource = "resources/shaders/vertexLitShadowsNormals.glsl";
+	Shader* m_shader{ new Shader(fragShaderSource, vtxShaderSource) };
 
-	// render scene data
-	unsigned int VAO, VBO, EBO;
-
-	/*  Functions  */
+	// functions
+	virtual void calcBBox();
+	virtual void calcCentroid();
 	virtual void setupMesh();
+	// render functions
 	virtual void updateUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
 	virtual void updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix);
 	virtual void updateMaterialUniforms(const Shader* shader);
 	virtual void updateLightingUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& renderCam);
 	virtual void updateTextureUniforms(const Shader* shader);
-public:
-	// Mesh Data
-	std::vector<ChromaVertex> vertices;
-	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
-	Shader* mShader = new Shader(fragShaderSource, vtxShaderSource);
 
+public:
 	// Functions
 	virtual void Draw(Shader &shader) override;
 	virtual void Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
@@ -55,8 +52,8 @@ public:
 	virtual void bindTexture(Texture texture_val) override;
 
 	// Getters/Setters
-	virtual Shader* getShader() { return mShader; };
-	int getNumTextures() override { return textures.size(); };
+	virtual Shader* getShader() { return m_shader; };
+	int getNumTextures() override { return m_textures.size(); };
 	virtual glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
 	virtual std::vector<ChromaVertex> getVertices() { return vertices; };
 	virtual std::pair<glm::vec3, glm::vec3> getBBox();

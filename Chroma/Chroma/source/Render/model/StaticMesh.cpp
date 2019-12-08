@@ -39,8 +39,8 @@ void StaticMesh::setupMesh()
 	glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(ChromaVertex), &vertices[0], GL_STATIC_DRAW);
 	
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int),
-		&indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int),
+		&m_indices[0], GL_STATIC_DRAW);
 
 	// vertex positions
 	glEnableVertexAttribArray(0);
@@ -123,49 +123,49 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 	unsigned int metalnessNr{ 1 };
 	unsigned int metroughaoNr{ 1 };
 	unsigned int aoNr{ 1 };
-	for (int i = 0; i < textures.size(); i++)
+	for (int i = 0; i < m_textures.size(); i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);// activate proper texture unit before binding
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		if (textures[i].type == Texture::ALBEDO)
+		if (m_textures[i].type == Texture::ALBEDO)
 		{
 			name = "material.texture_albedo";
 			texturenum = std::to_string(diffuseNr++);
 			// set use texture albedo
 			shader->setBool("UseAlbedoMap", true);
 		}
-		if (textures[i].type == Texture::NORMAL)
+		if (m_textures[i].type == Texture::NORMAL)
 		{
 			name = "material.texture_normal";
 			texturenum = std::to_string(normalNr++);
 			// set use texture normals
 			shader->setBool("UseNormalMap", true);
 		}
-		if (textures[i].type == Texture::METROUGHAO)
+		if (m_textures[i].type == Texture::METROUGHAO)
 		{
 			name = "material.texture_MetRoughAO";
 			texturenum = std::to_string(metroughaoNr++);
 			// set use texture metroughao
 			shader->setBool("UseMetRoughAOMap", true);
 		}
-		if (textures[i].type == Texture::METALNESS)
+		if (m_textures[i].type == Texture::METALNESS)
 		{
 			name = "material.texture_metalness";
 			texturenum = std::to_string(metalnessNr++);
 		}
-		if (textures[i].type == Texture::ROUGHNESS)
+		if (m_textures[i].type == Texture::ROUGHNESS)
 		{
 			name = "material.texture_roughness";
 			texturenum = std::to_string(roughnessNr++);
 		}
-		if (textures[i].type == Texture::AO)
+		if (m_textures[i].type == Texture::AO)
 		{
 			name = "material.texture_ao";
 			texturenum = std::to_string(aoNr++);
 		}
-		if (textures[i].type == Texture::SHADOWMAP)
+		if (m_textures[i].type == Texture::SHADOWMAP)
 		{
 			name = "shadowmaps.shadowmap";
 			texturenum = std::to_string(shadowmapNr++);
@@ -174,7 +174,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		// setting uniform and binding texture
 		shader->setInt(( name + texturenum).c_str(), i);
 
-		glBindTexture(GL_TEXTURE_2D, textures[i].ID);
+		glBindTexture(GL_TEXTURE_2D, m_textures[i].ID);
 		// activate texture
 	}
 	glActiveTexture(GL_TEXTURE0);
@@ -208,8 +208,8 @@ void StaticMesh::Draw(Shader &shader)
 
 void StaticMesh::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	mShader->use();
-	updateUniforms(mShader, Lights, RenderCamera, transformMatrix);
+	m_shader->use();
+	updateUniforms(m_shader, Lights, RenderCamera, transformMatrix);
 	BindDrawVAO();
 }
 
@@ -230,22 +230,22 @@ void StaticMesh::DrawUpdateMaterials(Shader& shader)
 
 void StaticMesh::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 {
-	mShader->use();
-	updateTransformUniforms(mShader, renderCam, modelMatrix);
+	m_shader->use();
+	updateTransformUniforms(m_shader, renderCam, modelMatrix);
 	BindDrawVAO();
 }
 
 void StaticMesh::BindDrawVAO()
 {
 	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(0); // reset to default
 }
 
 
 void StaticMesh::bindShader(Shader* const& newShader)
 {
-	mShader = newShader;
+	m_shader = newShader;
 }
 
 void StaticMesh::bindTextures(std::vector<Texture> textures_val)
@@ -253,26 +253,26 @@ void StaticMesh::bindTextures(std::vector<Texture> textures_val)
 	for (unsigned int i = 0; textures_val.size(); i++)
 	{
 		bool skip{ false };
-		for (unsigned int j = 0; j < textures.size(); j++)
+		for (unsigned int j = 0; j < m_textures.size(); j++)
 		{
-			if (std::strcmp(textures[j].path.data(), textures_val[j].path.data()) == 0)
+			if (std::strcmp(m_textures[j].path.data(), textures_val[j].path.data()) == 0)
 			{
 				skip = true;
 				break;
 			}
 		}
 		if (!skip)
-			textures.push_back(textures_val[i]);
+			m_textures.push_back(textures_val[i]);
 	}
 }
 
 void StaticMesh::bindTexture(Texture texture_val)
 {
 	bool skip{false};
-	for (unsigned int i = 0; i < textures.size(); i++)
+	for (unsigned int i = 0; i < m_textures.size(); i++)
 	{
 		skip = false;
-		if (std::strcmp(textures[i].path.data(), texture_val.path.data()) == 0)
+		if (std::strcmp(m_textures[i].path.data(), texture_val.path.data()) == 0)
 		{
 			skip = true;
 			break;
@@ -280,7 +280,7 @@ void StaticMesh::bindTexture(Texture texture_val)
 	}
 	if (!skip)
 	{
-		textures.push_back(texture_val);
+		m_textures.push_back(texture_val);
 	}
 }
 
@@ -299,28 +299,28 @@ glm::vec3 StaticMesh::getCentroid()
 
 void StaticMesh::setMat4(std::string name, glm::mat4 value)
 {
-	mShader->use();
-	mShader->setMat4(name, value);
+	m_shader->use();
+	m_shader->setMat4(name, value);
 }
 
 void StaticMesh::setInt(std::string name, int value)
 {
-	mShader->use();
-	mShader->setInt(name, value);
+	m_shader->use();
+	m_shader->setInt(name, value);
 }
 
 void StaticMesh::setFloat(std::string name, float value)
 {
-	mShader->use();
-	mShader->setFloat(name, value);
+	m_shader->use();
+	m_shader->setFloat(name, value);
 }
 
 StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
 {
 	isRenderable = true;
 	vertices = vertices_val;
-	indices = indices_val;
-	textures = textures_val;
+	m_indices = indices_val;
+	m_textures = textures_val;
 	
 
 	setupMesh();
@@ -333,5 +333,5 @@ StaticMesh::StaticMesh()
 
 StaticMesh::~StaticMesh()
 {
-	delete mShader;
+	delete m_shader;
 }

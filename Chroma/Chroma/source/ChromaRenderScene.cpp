@@ -118,6 +118,32 @@ int main()
 	Texture rustedIronMetRoughAO("resources/textures/pbr/rustediron_pbr/MetRoughAO.jpg");
 	rustedIronMetRoughAO.type = Texture::METROUGHAO;
 
+	// Animated Model
+	Texture walkingAlbedo("resources/animation/walking_textures/albedo.jpg");
+	walkingAlbedo.type = Texture::ALBEDO;
+	Texture walkingNormal("resources/animation/walking_textures/normal.jpg");
+	walkingNormal.type = Texture::NORMAL;
+	Texture walkingMetRoughAO("resources/animation/walking_textures/MetRoughAO.jpg");
+	walkingMetRoughAO.type = Texture::METROUGHAO;
+
+
+	// ANIMATED MODEL
+	IChromaEntity* AnimModelEntity = new ChromaEntity;
+	Scene->addEntity(AnimModelEntity);
+	ChromaPhysicsComponent* AnimModelRigidComponent = new ChromaPhysicsComponent();
+	AnimModelRigidComponent->setCollisionShape(ColliderShape::Box);
+	AnimModelRigidComponent->setCollisionState(ColliderState::Kinematic);
+	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.obj");
+	AnimModelMeshComponent->bindShader(&PBRShader);
+	AnimModelMeshComponent->bindTexture(walkingAlbedo);
+	//AnimModelMeshComponent->bindTexture(walkingNormal);
+	AnimModelMeshComponent->bindTexture(walkingMetRoughAO);
+	AnimModelEntity->setPosition(glm::vec3(0,0,4));
+	AnimModelEntity->setScale(glm::vec3(0.06));
+	AnimModelEntity->addComponent(AnimModelMeshComponent);
+	AnimModelEntity->addComponent(AnimModelRigidComponent);
+
+
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
 	Scene->addEntity(TerrainEntity);
@@ -141,7 +167,7 @@ int main()
 	{
 		IChromaEntity* SphereEntity = new ChromaEntity;
 		Scene->addEntity(SphereEntity);
-		SphereEntity->setName("Sphere" + (char)i);
+		SphereEntity->setName("Sphere");
 		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
 		ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
 		SphereRigidComponent->setCollisionShape(ColliderShape::Box);

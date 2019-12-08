@@ -1,8 +1,7 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
-//#include "entity/ChromaEntity.h"
-#include "model/StaticMesh.h"
+#include <model/StaticMesh.h>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -10,10 +9,10 @@
 
 class Model : public ChromaMeshComponent
 {
-protected:
 	// calculate attrs
 	virtual void calcBBox();
 	virtual void calcCentroid();
+
 	// Model Data
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<Texture> m_textures;

@@ -137,8 +137,8 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 
 StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
-	std::vector<unsigned int> indices;
-	std::vector <Texture> textures;
+	std::vector<unsigned int> m_indices;
+	std::vector <Texture> m_textures;
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -192,7 +192,7 @@ StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		aiFace face = mesh->mFaces[i];
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
-			indices.push_back(face.mIndices[j]);
+			m_indices.push_back(face.mIndices[j]);
 	}
 	// process material
 	if (mesh->mMaterialIndex >= 0)
@@ -201,23 +201,23 @@ StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		// diffuse textures
 		std::vector<Texture> diffuseMaps = loadMaterialTextures(material,
 			aiTextureType_DIFFUSE, Texture::ALBEDO);
-		textures.insert(textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		m_textures.insert(m_textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 		// specular textures
 		std::vector<Texture> specularMaps = loadMaterialTextures(material,
 			aiTextureType_SPECULAR, Texture::METALNESS);
-		textures.insert(textures.end(), specularMaps.begin(), specularMaps.end());
+		m_textures.insert(m_textures.end(), specularMaps.begin(), specularMaps.end());
 		// normal textures
 		std::vector<Texture> normalMaps = loadMaterialTextures(material,
 			aiTextureType_HEIGHT, Texture::NORMAL);
-		textures.insert(textures.end(), normalMaps.begin(), normalMaps.end());
+		m_textures.insert(m_textures.end(), normalMaps.begin(), normalMaps.end());
 	}
 
-	return new StaticMesh(m_vertices, indices, textures);
+	return new StaticMesh(m_vertices, m_indices, m_textures);
 }
 
 std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName)
 {
-	std::vector<Texture> textures;
+	std::vector<Texture> m_textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;
@@ -227,7 +227,7 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 		{
 			if (std::strcmp(m_textures[j].path.data(), str.C_Str()) == 0)
 			{
-				textures.push_back(m_textures[j]);
+				m_textures.push_back(m_textures[j]);
 				skip = true;
 				break;
 			}
@@ -237,9 +237,9 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 			Texture texture;
 			texture.loadFromFile(str.C_Str(), m_directory);
 			texture.type = typeName;
-			textures.push_back(texture);
+			m_textures.push_back(texture);
 			m_textures.push_back(texture);
 		}
 	}
-	return textures;
+	return m_textures;
 }

@@ -31,19 +31,19 @@ public:
 	unsigned int getVertexCount() const { return (unsigned int)m_verts.size() / 3; }
 	unsigned int getNormalCount() const { return (unsigned int)normals.size() / 3; }
 	unsigned int getTexCoordCount() const { return (unsigned int)texCoords.size() / 2; }
-	unsigned int getIndexCount() const { return (unsigned int)indices.size(); }
+	unsigned int getIndexCount() const { return (unsigned int)m_indices.size(); }
 	unsigned int getLineIndexCount() const { return (unsigned int)lineIndices.size(); }
 	unsigned int getTriangleCount() const { return getIndexCount() / 3; }
 	unsigned int getVertexSize() const { return (unsigned int)m_verts.size() * sizeof(float); }
 	unsigned int getNormalSize() const { return (unsigned int)normals.size() * sizeof(float); }
 	unsigned int getTexCoordSize() const { return (unsigned int)texCoords.size() * sizeof(float); }
-	unsigned int getIndexSize() const { return (unsigned int)indices.size() * sizeof(unsigned int); }
+	unsigned int getIndexSize() const { return (unsigned int)m_indices.size() * sizeof(unsigned int); }
 	unsigned int getLineIndexSize() const { return (unsigned int)lineIndices.size() * sizeof(unsigned int); }
 
 	std::vector<ChromaVertex> getVertices() override { return verts; };
 	const float* getNormals() const { return normals.data(); }
 	const float* getTexCoords() const { return texCoords.data(); }
-	const unsigned int* getIndices() const { return indices.data(); }
+	const unsigned int* getIndices() const { return m_indices.data(); }
 	const unsigned int* getLineIndices() const { return lineIndices.data(); }
 
 	// for interleaved vertices: V/N/T
@@ -81,7 +81,7 @@ private:
 	std::vector<float> m_verts;
 	std::vector<float> normals;
 	std::vector<float> texCoords;
-	std::vector<unsigned int> indices;
+	std::vector<unsigned int> m_indices;
 	std::vector<unsigned int> lineIndices;
 	std::vector<ChromaVertex> vertices;
 

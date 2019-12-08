@@ -131,7 +131,7 @@ void SpherePrimitive::clearArrays()
 	std::vector<float>().swap(m_verts);
 	std::vector<float>().swap(normals);
 	std::vector<float>().swap(texCoords);
-	std::vector<unsigned int>().swap(indices);
+	std::vector<unsigned int>().swap(m_indices);
 	std::vector<unsigned int>().swap(lineIndices);
 }
 
@@ -307,9 +307,9 @@ void SpherePrimitive::addTexCoord(float s, float t)
 ///////////////////////////////////////////////////////////////////////////////
 void SpherePrimitive::addIndices(unsigned int i1, unsigned int i2, unsigned int i3)
 {
-	indices.push_back(i1);
-	indices.push_back(i2);
-	indices.push_back(i3);
+	m_indices.push_back(i1);
+	m_indices.push_back(i2);
+	m_indices.push_back(i3);
 }
 
 
