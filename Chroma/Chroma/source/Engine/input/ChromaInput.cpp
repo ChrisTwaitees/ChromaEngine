@@ -38,6 +38,12 @@ bool ChromaInput::isPressed(Key KeySelection)
 	case ESCAPE:
 		return glfwGetKey(mWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS;
 		break;
+	case LEFT_CTRL:
+		return glfwGetKey(mWindow, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS;
+		break;
+	case RIGHT_CTRL:
+		return glfwGetKey(mWindow, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS;
+		break;
 	case A:
 		return glfwGetKey(mWindow, GLFW_KEY_A) == GLFW_PRESS;
 		break;
@@ -98,7 +104,7 @@ void ChromaInput::process()
 
 	// capture / release mouse
 	int cursorMode = glfwGetInputMode(mWindow, GLFW_CURSOR);
-	if (isPressed(LEFT_ALT))
+	if (isPressed(LEFT_CTRL))
 	{
 		if (cursorMode == GLFW_CURSOR_DISABLED)
 			glfwSetInputMode(mWindow, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

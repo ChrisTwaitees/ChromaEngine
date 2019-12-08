@@ -7,6 +7,13 @@
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define CHROMA_UP glm::vec3(0.0 ,1.0, 0.0)
+#define CHROMA_DOWN glm::vec3(0.0 ,-1.0, 0.0)
+#define CHROMA_FORWARD glm::vec3(0.0 ,0.0, 1.0)
+#define CHROMA_BACK glm::vec3(0.0 ,0.0, -1.0)
+#define CHROMA_RIGHT glm::vec3(1.0 ,0.0, 0.0)
+#define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
+
 static glm::mat4 BulletToGLM(const btTransform& transform)
 {
 	glm::mat4 glmTransform;

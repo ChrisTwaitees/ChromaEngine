@@ -65,6 +65,8 @@ public:
 	bool useBloom{ false };
 	bool drawDebug{ false };
 	bool drawPhysicsDebug{ false };
+	const char* cameras[2]{ "FlyCam", "Maya" };
+	int cameraSelected{ 0 };
 
 
 	// status

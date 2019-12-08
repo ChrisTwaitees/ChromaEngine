@@ -6,6 +6,9 @@ void FlyCameraController::processMouseInput(ChromaInput* const& input, glm::vec3
 	// fetch current xpos and ypos
 	glm::vec2 mouseXYOffset = input->getMouseXYOffset();
 
+	// applying sensitivity
+	mouseXYOffset *= glm::vec2(mouseSensitivity);
+	
 	// adding yaw and pitch
 	yaw += mouseXYOffset.x;
 	pitch += mouseXYOffset.y;
@@ -18,15 +21,17 @@ void FlyCameraController::processMouseInput(ChromaInput* const& input, glm::vec3
 
 	// set direction
 	camDir = direction;
+	glm::vec3 camRight = glm::normalize(glm::cross(CHROMA_UP, camDir));
+	camUp = glm::cross(direction, camRight);
 }
 
 void FlyCameraController::processKeyboardInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
 	// MOVEMENT
 	if (input->isPressed(ChromaInput::LEFT_SHIFT))
-		cameraSpeed = sprintSpeed * input->getDeltaTime();
+		cameraSpeed = fastSpeed * input->getDeltaTime();
 	else
-		cameraSpeed = walkSpeed * input->getDeltaTime();
+		cameraSpeed = slowSpeed * input->getDeltaTime();
 
 	if (input->isPressed(ChromaInput::W))
 		move(FORWARD, camPos, camDir, camUp);
@@ -49,7 +54,8 @@ void FlyCameraController::processKeyboardInput(ChromaInput* const& input, glm::v
 
 void FlyCameraController::move(Direction dir, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
-	glm::vec3 camRight = glm::cross(camDir, camUp);
+	glm::vec3 camRight = glm::normalize(glm::cross(camUp, camDir));
+
 	switch (dir)
 	{
 	case FORWARD:

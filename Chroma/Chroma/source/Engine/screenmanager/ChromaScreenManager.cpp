@@ -152,13 +152,8 @@ void ChromaScreenManager::processTime()
 
 void ChromaScreenManager::drawGUI()
 {
-	// heading
-	ImGui::Text("Chroma Debugging Text");
-	ImGui::Text("FPS %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
-	// toggle skybox
-	//if (ImGui::Button("Toggle SkyBox"))
-	//	ToggleSkybox();
+	// Time
+	ImGui::Text("Deltatime %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 
 	//// exposure
 	//ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);
@@ -176,6 +171,8 @@ void ChromaScreenManager::drawGUI()
 	if (ImGui::Button("Toggle Physics Debug"))
 		TogglePhysicsDebug();
 
+	// camera dropdowns
+	ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));
 	gui.End();
 }
 

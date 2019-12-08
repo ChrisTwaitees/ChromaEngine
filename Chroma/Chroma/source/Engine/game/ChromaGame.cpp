@@ -75,8 +75,13 @@ void ChromaGame::ProcessInput()
 	m_input->setDeltaTime(getDeltaTime());
 	m_input->process();
 	// update camera
+	if (m_screen->cameraSelected == 0)
+		m_scene->getRenderCamera()->setCameraMode(FLYCAM);
+	if (m_screen->cameraSelected == 1)
+		m_scene->getRenderCamera()->setCameraMode(MAYA);
 	m_scene->getRenderCamera()->processInput(m_input);
 	// render physics debug if triggered
 	if (m_screen->drawPhysicsDebug)
 		m_physics->drawDebug();
+
 }
