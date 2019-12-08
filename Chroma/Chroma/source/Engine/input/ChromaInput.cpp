@@ -62,6 +62,9 @@ bool ChromaInput::isPressed(Key KeySelection)
 	case S:
 		return glfwGetKey(mWindow, GLFW_KEY_S) == GLFW_PRESS;
 		break;
+	case Y:
+		return glfwGetKey(mWindow, GLFW_KEY_Y) == GLFW_PRESS;
+		break;
 	case W:
 		return glfwGetKey(mWindow, GLFW_KEY_W) == GLFW_PRESS;
 		break;

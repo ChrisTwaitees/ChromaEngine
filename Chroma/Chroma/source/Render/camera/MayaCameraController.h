@@ -10,6 +10,8 @@ class MayaCameraController : public ICameraController
 	void processKeyboardInput(ChromaInput* const& input) override {};
 
 public:
+	void processInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override {};
+
 	MayaCameraController() {};
 	~MayaCameraController() {};
 };

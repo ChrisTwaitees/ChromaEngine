@@ -16,6 +16,15 @@ class ChromaInput;
 
 class Camera
 {
+
+	// Camera Attrs
+	glm::vec3 cameraPosition{ 0.0f, 5.0f, -5.0f };
+	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
+	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
+	glm::vec3 cameraTarget{ 0.0f, 5.0f, 0.0f };
+	glm::vec3 cameraDirection = glm::normalize(cameraTarget - cameraPosition);
+
+
 	// Modes
 	enum Mode { FLYCAM, MAYA};
 	Mode CameraMode = FLYCAM;
@@ -30,6 +39,8 @@ class Camera
 	float CAM_NEAR{ 0.1f };
 	float CAM_FAR{ 100.0f };
 
+	void rebuildView();
+	
 	// First Person
 	// build reference frame
 	glm::vec3 up{ 0.0f, 1.0f, 0.0f };
@@ -38,27 +49,22 @@ class Camera
 	enum Direction {FORWARD, BACK, LEFT, RIGHT, UP, DOWN};
 	void move(Direction dir = Direction::FORWARD);
 
-	void rebuildView();
 
 	// camera aim
 	float lastX, lastY, yaw, pitch;
 	float mouseSensitivity{0.05f};
 	float maxPitch{ 90.0f }, maxYaw{90.0f};
 
-	// loot at attrs
-	glm::vec3 cameraPosition{ 0.0f, 5.0f, -5.0f };
-	glm::vec3 cameraTarget{ 0.0f, 5.0f, 0.0f };
-	glm::vec3 cameraDirection = glm::normalize(cameraTarget - cameraPosition);
-	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
-	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 
 	// input
 	void processMouseInput(ChromaInput* const& input);
 	void processKeyboardInput(ChromaInput* const& input);
 
-	// input to vx shader
-	glm::mat4 viewMatrix;
-	glm::mat4 projectionMatrix{ glm::perspective(glm::radians(CAM_FOV), CAM_ASPECT, CAM_NEAR, CAM_FAR)};
+	// Matrices
+	glm::mat4 viewMatrix{ glm::mat4(1) };
+	glm::mat4 projectionMatrix{ glm::mat4(1) };
+	void updateViewMatrix();
+	void updateProjectionMatrix();
 	// configure
 	bool firstMouse{true};
 
@@ -67,6 +73,8 @@ class Camera
 	float walkSpeed{ 6.0f };
 	float sprintSpeed{ 12.0f };
 	float cameraSpeed{ 0.05f};
+	void initialize();
+
 public:
 	// process
 	void processInput(ChromaInput* const& input);

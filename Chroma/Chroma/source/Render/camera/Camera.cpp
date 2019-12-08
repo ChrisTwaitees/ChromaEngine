@@ -4,15 +4,37 @@ void Camera::rebuildView()
 {
 	cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	cameraUp = glm::cross(cameraDirection, cameraRight);
-	viewMatrix = glm::lookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
+	updateViewMatrix();
+}
+
+void Camera::initialize()
+{
+	updateProjectionMatrix();
+	updateViewMatrix();
 }
 
 void Camera::processInput(ChromaInput* const& input)
 {
+
 	if (input->getCursorEnabled())
 	{
 		processMouseInput(input);
 		processKeyboardInput(input);
+		switch (CameraMode)
+		{
+		case(Mode::FLYCAM):
+		{
+			FlyCamController->processInput(input, cameraPosition, cameraDirection, cameraUp);
+			updateViewMatrix();
+			break;
+		}
+		case(Mode::MAYA):
+		{
+			MayaCamController->processInput(input, cameraPosition, cameraDirection, cameraUp);
+			updateViewMatrix();
+			break;
+		}
+		}
 	}
 	else
 		firstMouse = true;
@@ -84,6 +106,16 @@ void Camera::processKeyboardInput(ChromaInput* const& input)
 		move(DOWN);
 }
 
+void Camera::updateViewMatrix()
+{
+	viewMatrix = glm::lookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
+}
+
+void Camera::updateProjectionMatrix()
+{
+	projectionMatrix = glm::perspective(glm::radians(CAM_FOV), CAM_ASPECT, CAM_NEAR, CAM_FAR);
+}
+
 
 void Camera::move(Direction dir)
 {
@@ -114,7 +146,7 @@ void Camera::move(Direction dir)
 
 Camera::Camera()
 {
-	viewMatrix = glm::lookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
+	initialize();
 }
 
 Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : cameraPosition{ cameraPos_val }, cameraTarget{ cameraTarget_val }
@@ -122,5 +154,5 @@ Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : cameraPosi
 	cameraDirection = glm::normalize(cameraPosition - cameraTarget);
 	cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	cameraUp = glm::cross(cameraDirection, cameraRight);
-	rebuildView();
+	initialize();
 }

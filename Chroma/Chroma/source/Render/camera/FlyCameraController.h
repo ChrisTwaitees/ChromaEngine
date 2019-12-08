@@ -6,9 +6,12 @@
 
 class FlyCameraController : public ICameraController
 {
-	void processMouseInput(ChromaInput* const& input) override {};
-	void processKeyboardInput(ChromaInput* const& input) override {};
+	// camera controller interface
+	void processMouseInput(ChromaInput* const& input) override;
+	void processKeyboardInput(ChromaInput* const& input) override;
+	
 public:
+	void processInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
 	FlyCameraController() {};
 	~FlyCameraController() {};
 };
