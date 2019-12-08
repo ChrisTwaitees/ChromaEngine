@@ -16,14 +16,12 @@ class ChromaInput;
 
 class Camera
 {
-
 	// Camera Attrs
 	glm::vec3 cameraPosition{ 0.0f, 5.0f, -5.0f };
 	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 	glm::vec3 cameraTarget{ 0.0f, 5.0f, 0.0f };
 	glm::vec3 cameraDirection = glm::normalize(cameraTarget - cameraPosition);
-
 
 	// Modes
 	enum Mode { FLYCAM, MAYA};
@@ -80,11 +78,17 @@ public:
 	void processInput(ChromaInput* const& input);
 
 	// getters
-	glm::vec3 getPosition() { return cameraPosition; };
-	glm::vec3 getDirection() { return cameraDirection; };
+	inline glm::vec3 getPosition() const { return cameraPosition; };
+	inline glm::vec3 getDirection() const { return cameraDirection; };
 	inline glm::mat4 getProjectionMatrix() const { return projectionMatrix; };
 	inline glm::mat4 getViewMatrix() const { return viewMatrix; };
 	inline glm::mat4 getViewProjMatrix() const { return projectionMatrix * viewMatrix; };
+
+	// setters
+	inline void setFOV(float newFOV) { CAM_FOV = newFOV; updateProjectionMatrix(); };
+	inline void setASPECT(float newASPECT) { CAM_ASPECT = newASPECT; updateProjectionMatrix(); };
+	inline void setNEAR(float newNEAR) { CAM_NEAR = newNEAR; updateProjectionMatrix(); };
+	inline void setFAR(float newFAR) { CAM_FAR = newFAR; updateProjectionMatrix(); };
 
 	// constructors
 	Camera() ;
