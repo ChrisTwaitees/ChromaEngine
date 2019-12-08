@@ -26,7 +26,7 @@ void SkyBox::initialize()
 void SkyBox::Draw()
 {
 	// set view and projection matrix
-	glm::mat4 view = glm::mat4(glm::mat3(m_renderCamera->viewMat));
+	glm::mat4 view = glm::mat4(glm::mat3(m_renderCamera->getViewMatrix()));
 	// shader
 	switch (m_colorSpace)
 	{
@@ -34,14 +34,14 @@ void SkyBox::Draw()
 	{
 		m_linearShader.use();
 		m_linearShader.setMat4("view", view);
-		m_linearShader.setMat4("projection", m_renderCamera->projectionMat);
+		m_linearShader.setMat4("projection", m_renderCamera->getProjectionMatrix());
 		break;
 	}
 	case(HDR):
 	{
 		m_HDRShader.use();
 		m_HDRShader.setMat4("view", view);
-		m_HDRShader.setMat4("projection", m_renderCamera->projectionMat);
+		m_HDRShader.setMat4("projection", m_renderCamera->getProjectionMatrix());
 		break;
 	}
 	}

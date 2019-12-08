@@ -4,10 +4,10 @@ void Camera::rebuildView()
 {
 	cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	cameraUp = glm::cross(cameraDirection, cameraRight);
-	viewMat = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
+	viewMatrix = glm::lookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
 }
 
-void Camera::processInput(ChromaInput*& input)
+void Camera::processInput(ChromaInput* const& input)
 {
 	if (input->getCursorEnabled())
 	{
@@ -19,7 +19,7 @@ void Camera::processInput(ChromaInput*& input)
 	
 }
 
-void Camera::processMouseInput(ChromaInput*& input)
+void Camera::processMouseInput(ChromaInput* const& input)
 {
 	double xpos = input->getMouseX();
 	double ypos = input->getMouseY();
@@ -57,7 +57,7 @@ void Camera::processMouseInput(ChromaInput*& input)
 	rebuildView();
 }
 
-void Camera::processKeyboardInput(ChromaInput*& input)
+void Camera::processKeyboardInput(ChromaInput* const& input)
 {
 	// MOVEMENT
 	if (input->isPressed(ChromaInput::LEFT_SHIFT))
@@ -84,27 +84,28 @@ void Camera::processKeyboardInput(ChromaInput*& input)
 		move(DOWN);
 }
 
+
 void Camera::move(Direction dir)
 {
 	switch (dir)
 	{
 	case FORWARD :
-		cameraPos += (cameraDirection * cameraSpeed);
+		cameraPosition += (cameraDirection * cameraSpeed);
 		break;
 	case BACK : 
-		cameraPos -= (cameraDirection * cameraSpeed);
+		cameraPosition -= (cameraDirection * cameraSpeed);
 		break;
 	case RIGHT:
-		cameraPos -= (cameraRight * cameraSpeed);
+		cameraPosition -= (cameraRight * cameraSpeed);
 		break;
 	case LEFT:
-		cameraPos += (cameraRight * cameraSpeed);
+		cameraPosition += (cameraRight * cameraSpeed);
 		break;
 	case UP:
-		cameraPos += (cameraUp * cameraSpeed);
+		cameraPosition += (cameraUp * cameraSpeed);
 		break;
 	case DOWN:
-		cameraPos -= (cameraUp * cameraSpeed);
+		cameraPosition -= (cameraUp * cameraSpeed);
 		break;
 	}
 
@@ -113,12 +114,12 @@ void Camera::move(Direction dir)
 
 Camera::Camera()
 {
-	viewMat = glm::lookAt(cameraPos, cameraPos + cameraDirection, cameraUp);
+	viewMatrix = glm::lookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
 }
 
-Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : cameraPos{ cameraPos_val }, cameraTarget{ cameraTarget_val }
+Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : cameraPosition{ cameraPos_val }, cameraTarget{ cameraTarget_val }
 {
-	cameraDirection = glm::normalize(cameraPos - cameraTarget);
+	cameraDirection = glm::normalize(cameraPosition - cameraTarget);
 	cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	cameraUp = glm::cross(cameraDirection, cameraRight);
 	rebuildView();

@@ -109,7 +109,7 @@
       <UniqueIdentifier>{d2af5228-224d-45d4-af53-121e7e8d4cb0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\learnopengl">
-      <UniqueIdentifier>{0f925cc9-cd45-4e3f-9423-22a99f52d398}</UniqueIdentifier>
+      <UniqueIdentifier>{6f68c941-bc66-4c9c-999a-dcffdcb423b4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -269,11 +269,20 @@
     <ClCompile Include="source\Render\model\SkyBox.cpp">
       <Filter>Render\model\skybox</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\model\NDCPlanePrimitive.cpp">
+      <Filter>Render\model\primitive</Filter>
+    </ClCompile>
     <ClCompile Include="source\Engine\learnopengl\WorkingIBL.cpp">
       <Filter>Engine\learnopengl</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\model\NDCPlanePrimitive.cpp">
-      <Filter>Render\model\primitive</Filter>
+    <ClCompile Include="source\Render\camera\FlyCameraController.cpp">
+      <Filter>Render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\camera\MayaCameraController.cpp">
+      <Filter>Render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\camera\ICameraController.cpp">
+      <Filter>Render\camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -457,11 +466,20 @@
     <ClInclude Include="source\Render\model\SkyBox.h">
       <Filter>Render\model\skybox</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\model\NDCPlanePrimitive.h">
+      <Filter>Render\model\primitive</Filter>
+    </ClInclude>
     <ClInclude Include="source\Engine\learnopengl\TESTCAMERA.h">
       <Filter>Engine\learnopengl</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\model\NDCPlanePrimitive.h">
-      <Filter>Render\model\primitive</Filter>
+    <ClInclude Include="source\Render\camera\FlyCameraController.h">
+      <Filter>Render\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\camera\MayaCameraController.h">
+      <Filter>Render\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\camera\ICameraController.h">
+      <Filter>Render\camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

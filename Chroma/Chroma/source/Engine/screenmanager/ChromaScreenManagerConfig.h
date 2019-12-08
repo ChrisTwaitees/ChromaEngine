@@ -14,10 +14,4 @@ static const glm::vec4 SCREEN_DEFAULT_COLOR(0.0f, 0.0f, 0.0f, 0.0f);
 // INPUT
 static double MOUSE_XOFFSET, MOUSE_YOFFSET;
 
-// CAMERA
-static float CAM_FOV{ 45.0f };
-static const float CAM_ASPECT{ SCREEN_WIDTH / SCREEN_HEIGHT };
-static const float CAM_NEAR{ 0.1f };
-static const float CAM_FAR{ 100.0f };
-
 #endif

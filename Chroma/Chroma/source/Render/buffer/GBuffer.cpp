@@ -155,8 +155,8 @@ void GBuffer::drawGeometryPass()
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
 	m_geometryPassShader.use();
-	m_geometryPassShader.setMat4("view", m_scene->getRenderCamera()->getViewMat());
-	m_geometryPassShader.setMat4("projection", m_scene->getRenderCamera()->getProjectionMat());
+	m_geometryPassShader.setMat4("view", m_scene->getRenderCamera()->getViewMatrix());
+	m_geometryPassShader.setMat4("projection", m_scene->getRenderCamera()->getProjectionMatrix());
 	m_geometryPassShader.setMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 	// Render Scene
 	for (IChromaEntity* entity : m_scene->getEntities())

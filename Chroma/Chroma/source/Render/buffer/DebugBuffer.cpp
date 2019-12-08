@@ -80,8 +80,8 @@ void DebugBuffer::renderLine(LineShape line)
 	m_LineShader.use();
 	m_LineShader.setVec3("Start", line.start);
 	m_LineShader.setVec3("End", line.end);
-	m_LineShader.setMat4("view", m_renderCamera->getViewMat());
-	m_LineShader.setMat4("projection", m_renderCamera->getProjectionMat());
+	m_LineShader.setMat4("view", m_renderCamera->getViewMatrix());
+	m_LineShader.setMat4("projection", m_renderCamera->getProjectionMatrix());
 	m_LineShader.setMat4("model", glm::mat4(1.0f));
 	m_LineShader.setVec3("color", line.color);
 	glBindVertexArray(pointVAO);
@@ -92,7 +92,7 @@ void DebugBuffer::renderLine(LineShape line)
 void DebugBuffer::renderSphere(SphereShape sphere)
 {
 	m_SphereShader.use();
-	m_SphereShader.setMat4("VPMat", m_renderCamera->getProjectionMat() * m_renderCamera->getViewMat());
+	m_SphereShader.setMat4("VPMat", m_renderCamera->getProjectionMatrix() * m_renderCamera->getViewMatrix());
 	m_SphereShader.setMat4("model", sphere.transform);
 	m_SphereShader.setFloat("radius", sphere.radius);
 	m_SphereShader.setVec3("color", sphere.color);
@@ -106,7 +106,7 @@ void DebugBuffer::renderBox(BoxShape box)
 	m_BoxShader.use();
 	m_BoxShader.setVec3("BBoxMin", box.bbox_min);
 	m_BoxShader.setVec3("BBoxMax", box.bbox_max);
-	m_BoxShader.setMat4("VPMat" , m_renderCamera->getProjectionMat() * m_renderCamera->getViewMat());
+	m_BoxShader.setMat4("VPMat" , m_renderCamera->getProjectionMatrix() * m_renderCamera->getViewMatrix());
 	m_BoxShader.setMat4("model", box.transform);
 	m_BoxShader.setVec3("color", box.color);
 	glBindVertexArray(pointVAO);

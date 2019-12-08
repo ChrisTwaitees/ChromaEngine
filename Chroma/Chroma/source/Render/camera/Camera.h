@@ -7,15 +7,30 @@
 #include <math.h>
 #include <iostream>
 #include <GLFW/glfw3.h>
-#include "screenmanager/ChromaScreenManagerConfig.h"
-#include "input/ChromaInput.h"
+#include <screenmanager/ChromaScreenManagerConfig.h>
+#include <camera/FlyCameraController.h>
+#include <camera/MayaCameraController.h>
+#include <input/ChromaInput.h>
 
 class ChromaInput;
 
 class Camera
 {
-protected:
+	// Modes
+	enum Mode { FLYCAM, MAYA};
+	Mode CameraMode = FLYCAM;
+	
+	// Camera Contollers
+	ICameraController* MayaCamController{ new MayaCameraController() };
+	ICameraController* FlyCamController{ new FlyCameraController() };
 
+	// Camera Attributes
+	float CAM_FOV{ 45.0f };
+	float CAM_ASPECT{ SCREEN_WIDTH / SCREEN_HEIGHT };
+	float CAM_NEAR{ 0.1f };
+	float CAM_FAR{ 100.0f };
+
+	// First Person
 	// build reference frame
 	glm::vec3 up{ 0.0f, 1.0f, 0.0f };
 
@@ -31,36 +46,37 @@ protected:
 	float maxPitch{ 90.0f }, maxYaw{90.0f};
 
 	// loot at attrs
-	glm::vec3 cameraPos{ 0.0f, 5.0f, -5.0f };
+	glm::vec3 cameraPosition{ 0.0f, 5.0f, -5.0f };
 	glm::vec3 cameraTarget{ 0.0f, 5.0f, 0.0f };
-	glm::vec3 cameraDirection = glm::normalize(cameraTarget - cameraPos);
+	glm::vec3 cameraDirection = glm::normalize(cameraTarget - cameraPosition);
 	glm::vec3 cameraRight = glm::normalize(glm::cross(up, cameraDirection));
 	glm::vec3 cameraUp = glm::cross(cameraDirection, cameraRight);
 
-public:
-	// input to vx shader
-	glm::mat4 viewMat;
-	glm::mat4 projectionMat{ glm::perspective(glm::radians(CAM_FOV), CAM_ASPECT, CAM_NEAR, CAM_FAR)};
+	// input
+	void processMouseInput(ChromaInput* const& input);
+	void processKeyboardInput(ChromaInput* const& input);
 
+	// input to vx shader
+	glm::mat4 viewMatrix;
+	glm::mat4 projectionMatrix{ glm::perspective(glm::radians(CAM_FOV), CAM_ASPECT, CAM_NEAR, CAM_FAR)};
 	// configure
 	bool firstMouse{true};
-
-	// input
-	void processInput(ChromaInput*& input);
-	void processMouseInput(ChromaInput*& input);
-	void processKeyboardInput(ChromaInput*& input);
 
 	// speed
 	enum Speed {WALK, SPRINT};
 	float walkSpeed{ 6.0f };
 	float sprintSpeed{ 12.0f };
 	float cameraSpeed{ 0.05f};
+public:
+	// process
+	void processInput(ChromaInput* const& input);
 
 	// getters
-	glm::vec3 getPosition() { return cameraPos; };
+	glm::vec3 getPosition() { return cameraPosition; };
 	glm::vec3 getDirection() { return cameraDirection; };
-	glm::mat4 getProjectionMat() { return projectionMat; };
-	glm::mat4 getViewMat() { return viewMat; };
+	inline glm::mat4 getProjectionMatrix() const { return projectionMatrix; };
+	inline glm::mat4 getViewMatrix() const { return viewMatrix; };
+	inline glm::mat4 getViewProjMatrix() const { return projectionMatrix * viewMatrix; };
 
 	// constructors
 	Camera() ;

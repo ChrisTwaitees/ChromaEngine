@@ -185,8 +185,8 @@ void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam
 
 	glm::mat4 finalTransform = getTransformationMatrix() * modelMatrix;
 	shader->setMat4("model", finalTransform);
-	shader->setMat4("view", renderCam.viewMat);
-	shader->setMat4("projection", renderCam.projectionMat);
+	shader->setMat4("view", renderCam.getViewMatrix());
+	shader->setMat4("projection", renderCam.getProjectionMatrix());
 }
 
 void StaticMesh::updateMaterialUniforms(const Shader* shader)

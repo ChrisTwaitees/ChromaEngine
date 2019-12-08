@@ -118,7 +118,7 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal, Chroma
 	// updating shader uniforms
 	SSAOShader.use();
 	sendKernelSamplesToShader();
-	SSAOShader.setMat4("projection", scene->getRenderCamera()->getProjectionMat());
+	SSAOShader.setMat4("projection", scene->getRenderCamera()->getProjectionMatrix());
 	//sending textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gViewPosition);
