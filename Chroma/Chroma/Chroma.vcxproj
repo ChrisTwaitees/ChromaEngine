@@ -219,7 +219,6 @@
     <ClCompile Include="source\Render\model\NDCPlanePrimitive.cpp" />
     <ClCompile Include="source\Render\model\PlanePrimitive.cpp" />
     <ClCompile Include="source\Render\model\SkinnedMesh.cpp" />
-    <ClCompile Include="source\Render\model\SkinnedModel.cpp" />
     <ClCompile Include="source\Render\model\SkyBox.cpp" />
     <ClCompile Include="source\Render\model\SpherePrimitive.cpp" />
     <ClCompile Include="source\Render\model\StaticMesh.cpp" />
@@ -283,7 +282,6 @@
     <ClInclude Include="source\Render\model\NDCPlanePrimitive.h" />
     <ClInclude Include="source\Render\model\PlanePrimitive.h" />
     <ClInclude Include="source\Render\model\SkinnedMesh.h" />
-    <ClInclude Include="source\Render\model\SkinnedModel.h" />
     <ClInclude Include="source\Render\model\SkinnedVertex.h" />
     <ClInclude Include="source\Render\model\SkyBox.h" />
     <ClInclude Include="source\Render\model\SpherePrimitive.h" />

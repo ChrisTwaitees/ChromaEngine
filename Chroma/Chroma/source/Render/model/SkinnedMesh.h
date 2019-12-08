@@ -37,7 +37,8 @@ public:
 	// Functions
 	void BindDrawVAO() override;
 
-	SkinnedMesh();
+	SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
+	SkinnedMesh() { isRenderable = true; };
 	~SkinnedMesh();
 };
 

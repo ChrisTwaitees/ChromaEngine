@@ -3,37 +3,37 @@
 
 void Model::Draw(Shader &shader)
 {
-	for (StaticMesh*& mesh : m_meshes)
+	for (ChromaMeshComponent*& mesh : m_meshes)
 		mesh->Draw(shader);
 }
 
 void Model::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	for (StaticMesh*& mesh : m_meshes)
+	for (ChromaMeshComponent*& mesh : m_meshes)
 			mesh->Draw(RenderCamera, Lights, transformMatrix);
 }
 
 void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	for (StaticMesh*& mesh : m_meshes)
+	for (ChromaMeshComponent*& mesh : m_meshes)
 		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
 void Model::DrawUpdateMaterials(Shader& shader)
 {
-	for (StaticMesh*& mesh : m_meshes)
+	for (ChromaMeshComponent*& mesh : m_meshes)
 		mesh->DrawUpdateMaterials(shader);
 }
 
 void Model::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 {
-	for (StaticMesh* mesh : m_meshes)
+	for (ChromaMeshComponent* mesh : m_meshes)
 		mesh->DrawUpdateTransforms(renderCam, modelMatrix);
 }
 
 void Model::bindShader(Shader* const& newShader)
 {
-	for (StaticMesh* mesh : m_meshes)
+	for (ChromaMeshComponent* mesh : m_meshes)
 		mesh->bindShader(newShader);
 }
 
@@ -52,32 +52,32 @@ glm::vec3 Model::getCentroid()
 
 void Model::bindTexture(Texture texture_val)
 {
-	for (StaticMesh* mesh : m_meshes)
+	for (ChromaMeshComponent* mesh : m_meshes)
 		mesh->bindTexture(texture_val);
 }
 
 void Model::setMat4(std::string name, glm::mat4 value)
 {
-	for (StaticMesh* mesh : m_meshes)
+	for (ChromaMeshComponent* mesh : m_meshes)
 		mesh->setMat4(name, value);
 }
 
 void Model::setInt(std::string name, int value)
 {
-	for (StaticMesh* mesh : m_meshes)
+	for (ChromaMeshComponent* mesh : m_meshes)
 		mesh->setInt(name, value);
 }
 
 void Model::setFloat(std::string name, float value)
 {
-	for (StaticMesh* mesh : m_meshes)
+	for (ChromaMeshComponent* mesh : m_meshes)
 		mesh->setFloat(name, value);
 }
 
 
 Model::~Model()
 {
-	for (StaticMesh * mesh : m_meshes)
+	for (ChromaMeshComponent* mesh : m_meshes)
 		delete mesh;
 }
 
@@ -85,7 +85,7 @@ void Model::calcBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (StaticMesh*& mesh : m_meshes)
+	for (ChromaMeshComponent*& mesh : m_meshes)
 		bboxes.push_back(mesh->getBBox());
 
 	// once collected, calculate new min and max bbox
@@ -135,7 +135,7 @@ void Model::processNode(aiNode* node, const aiScene* scene)
 	}
 }
 
-StaticMesh* Model::processMesh(aiMesh* mesh, const aiScene* scene)
+ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<unsigned int> m_indices;
 	std::vector <Texture> m_textures;

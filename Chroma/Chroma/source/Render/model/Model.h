@@ -2,6 +2,7 @@
 #define _MODEL_H_
 
 #include <model/StaticMesh.h>
+#include <model/SkinnedMesh.h>
 
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
@@ -15,14 +16,16 @@ class Model : public ChromaMeshComponent
 
 	// Model Data
 	std::vector<ChromaVertex> m_vertices;
+	std::vector<ChromaSkinnedVertex> m_skinnedVertices;
+	
 	std::vector<Texture> m_textures;
-	std::vector<StaticMesh*> m_meshes;
+	std::vector<ChromaMeshComponent*> m_meshes;
 	std::string m_directory;
 
 	// Functions
 	void loadModel(std::string path);
 	void processNode(aiNode* node, const aiScene* scene);
-	StaticMesh* processMesh(aiMesh* mesh, const aiScene* scene);
+	ChromaMeshComponent* processMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		Texture::TYPE typeName);
 public:
@@ -33,14 +36,19 @@ public:
 	void DrawUpdateMaterials(Shader& shader) override;
 	void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 
-	// Getters/Settters
-	int getNumTextures() override { return m_textures.size(); };
+	// Getters
+	glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
+	// render components
 	Shader* getShader() override { return m_meshes[0]->getShader(); };
 	void bindShader(Shader* const& newShader) override;
-	glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
-	virtual std::vector<ChromaVertex> getVertices() { return m_vertices; };
-	virtual std::pair<glm::vec3, glm::vec3> getBBox();
-	virtual glm::vec3 getCentroid();
+	int getNumTextures() override { return m_textures.size(); };
+	// verts
+	std::vector<ChromaVertex> getVertices() override { return m_vertices; };
+	std::vector<ChromaSkinnedVertex> getSkinnedVertices() const { return  m_skinnedVertices; };
+	// bbox
+	std::pair<glm::vec3, glm::vec3> getBBox();
+	glm::vec3 getCentroid();
+	// Setters
 
 	// Component requirement 
 	void bindTextures(std::vector<Texture> textures_val) override {};

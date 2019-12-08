@@ -322,7 +322,6 @@ StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsig
 	m_indices = indices_val;
 	m_textures = textures_val;
 	
-
 	setupMesh();
 }
 

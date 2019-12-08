@@ -69,7 +69,6 @@ public:
 
 
 	// Components
-
 	virtual std::vector<IChromaComponent*> getComponents() = 0;
 	virtual std::vector<IChromaComponent*> getRenderableComponents() = 0;
 	virtual std::vector<IChromaComponent*> getLitComponents() = 0;
