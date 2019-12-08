@@ -47,4 +47,41 @@ static btVector3 GLMToBullet(const glm::vec3& vec3)
 }
 
 
+static glm::vec3 getScale(const glm::mat4 mat4)
+{
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(mat4, scale, rotation, translation, skew, perspective);
+
+	return scale;
+}
+
+
+static glm::vec3 getTranslation(const glm::mat4 mat4)
+{
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(mat4, scale, rotation, translation, skew, perspective);
+
+	return translation;
+}
+
+static glm::quat getRotation(const glm::mat4 mat4)
+{
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(mat4, scale, rotation, translation, skew, perspective);
+
+	return rotation;
+}
+
 #endif

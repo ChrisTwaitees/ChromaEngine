@@ -40,7 +40,7 @@ public:
 	unsigned int getIndexSize() const { return (unsigned int)indices.size() * sizeof(unsigned int); }
 	unsigned int getLineIndexSize() const { return (unsigned int)lineIndices.size() * sizeof(unsigned int); }
 
-	std::vector<ChromaVertex> getVertices() override ;
+	std::vector<ChromaVertex> getVertices() override { return verts; };
 	const float* getNormals() const { return normals.data(); }
 	const float* getTexCoords() const { return texCoords.data(); }
 	const unsigned int* getIndices() const { return indices.data(); }
@@ -63,7 +63,6 @@ private:
 	// member functions
 	void updateRadius();
 	void buildVerticesSmooth();
-	void buildVerticesFlat();
 	void buildInterleavedVertices();
 	void clearArrays();
 	void addVertex(float x, float y, float z);

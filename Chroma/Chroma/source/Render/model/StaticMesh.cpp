@@ -3,6 +3,7 @@
 
 void StaticMesh::calcBBox()
 {
+	vertices = getVertices();
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
 	// once collected, calculate new min and max bbox

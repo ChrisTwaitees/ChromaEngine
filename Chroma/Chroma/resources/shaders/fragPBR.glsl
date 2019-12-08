@@ -12,7 +12,7 @@ in VS_OUT {
 
 // LIGHTS
 #include "util/lightingStructs.glsl"
-#define NR_POINT_LIGHTS 1
+#define NR_POINT_LIGHTS 3
 #define NR_DIR_LIGHTS 1
 #define NR_SPOT_LIGHTS 1
 

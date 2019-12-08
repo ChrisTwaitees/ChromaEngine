@@ -48,24 +48,24 @@ std::vector<ChromaVertex> BoxPrimitive::getVertices()
 		// positions
 		for (int j = 0; j < 3; j++)
 		{
-			vertDataIndex += j;
 			position[j] = boxData[vertDataIndex];
+			vertDataIndex++;
 		}
 		newVert.setPosition(position);
 		vertDataIndex++;
 		// normals
 		for (int j = 0; j < 3; j++)
 		{
-			vertDataIndex += j;
 			normal[j] = boxData[vertDataIndex];
+			vertDataIndex++;
 		}
 		newVert.setNormal(normal);
 		vertDataIndex++;
 		// texcoords
 		for (int j = 0; j < 2; j++)
 		{
-			vertDataIndex += j;
 			texcoords[j] = boxData[vertDataIndex];
+			vertDataIndex++;
 		}
 		newVert.setTexCoords(texcoords);
 

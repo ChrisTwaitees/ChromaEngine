@@ -50,13 +50,15 @@ int main()
 
 	// point light positions
 	glm::vec3 pointLightPositions[] = {
-		glm::vec3(10.5f,  1.2f,  2.0f),
+		glm::vec3(3.5f,  1.2f,  2.0f),
+		glm::vec3(0.5f,  0.2f,  -2.0f),
+		glm::vec3(-3.5f,  1.2f,  4.0f),
 	};
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		Light* pointLight = new Light(pos, Light::POINT);
-		pointLight->setIntensity(0.01f);
+		pointLight->setIntensity(0.51f);
 		pointLight->quadratic *= 4.0f;
 		pointLight->linear *= 2.0f;
 		Lights.push_back(pointLight);
@@ -135,40 +137,53 @@ int main()
 	};
 
 	
-	for (glm::vec3 position : spherePositions)
+	for (int i =0; i < 3; i++ )
 	{
 		IChromaEntity* SphereEntity = new ChromaEntity;
 		Scene->addEntity(SphereEntity);
-		SphereEntity->setName("Sphere");
+		SphereEntity->setName("Sphere" + (char)i);
 		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
 		ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
-		SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
+		SphereRigidComponent->setCollisionShape(ColliderShape::Box);
 		SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
 		//SphereMeshComponent->bindTexture(sandyNormal);
 		SphereMeshComponent->bindTexture(greyAlbedo);
 		SphereMeshComponent->bindShader(&PBRShader);
+		SphereEntity->setPosition(spherePositions[i]);
 		SphereEntity->addComponent(SphereMeshComponent);
 		SphereEntity->addComponent(SphereRigidComponent);
-		SphereEntity->setPosition(position);
 	}
 
-	 //LOOKDEV
+	IChromaEntity* CubeEntity = new ChromaEntity;
+	Scene->addEntity(CubeEntity);
+	CubeEntity->setName("Cube");
+	ChromaMeshComponent* CubeMeshComponent = new BoxPrimitive();
+	ChromaPhysicsComponent* CubeRigidComponent = new ChromaPhysicsComponent();
+	CubeRigidComponent->setCollisionShape(ColliderShape::Box);
+	CubeRigidComponent->setCollisionState(ColliderState::Kinematic);
+	//SphereMeshComponent->bindTexture(sandyNormal);
+	CubeMeshComponent->bindTexture(greyAlbedo);
+	CubeMeshComponent->bindShader(&PBRShader);
+	CubeEntity->addComponent(CubeMeshComponent);
+	CubeEntity->addComponent(CubeRigidComponent);
+	CubeEntity->setPosition(glm::vec3(-5.0f, 1.0f, 0.0f));
+
+	// //LOOKDEV
 	IChromaEntity* SphereEntityLookDev = new ChromaEntity;
 	Scene->addEntity(SphereEntityLookDev);
 	SphereEntityLookDev->setName("LookDev");
 	ChromaMeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
 	ChromaPhysicsComponent* SphereLookDevRigidComponent = new ChromaPhysicsComponent();
-	SphereLookDevRigidComponent->setCollisionShape(ColliderShape::Sphere);
+	SphereLookDevRigidComponent->setCollisionShape(ColliderShape::Box);
 	SphereLookDevRigidComponent->setCollisionState(ColliderState::Kinematic);
 	SphereLookDevMeshComponent->bindShader(&PBRShader);
 	SphereLookDevMeshComponent->bindTexture(lookdevAlbedo);
 	SphereLookDevMeshComponent->bindTexture(lookdevNormal);
 	SphereLookDevMeshComponent->bindTexture(lookdevMetRoughAO);
-	SphereEntityLookDev->addComponent(SphereLookDevMeshComponent);
-	SphereEntityLookDev->addComponent(SphereLookDevRigidComponent);
 	SphereEntityLookDev->setPosition(glm::vec3(0.0f, 2.0f, -4.0f));
 	SphereEntityLookDev->setScale(glm::vec3(0.25));
-
+	SphereEntityLookDev->addComponent(SphereLookDevMeshComponent);
+	SphereEntityLookDev->addComponent(SphereLookDevRigidComponent);
 
 	 //RUSTED IRON
 	IChromaEntity* SphereEntityRustedIron = new ChromaEntity;
@@ -182,10 +197,10 @@ int main()
 	SphereRustedIronMeshComponent->bindTexture(rustedIronNormal);
 	SphereRustedIronMeshComponent->bindTexture(rustedIronMetRoughAO);
 	SphereRustedIronMeshComponent->bindShader(&PBRShader);
+	SphereEntityRustedIron->setScale(glm::vec3(0.15));
+	SphereEntityRustedIron->setPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
 	SphereEntityRustedIron->addComponent(SphereRustedIronMeshComponent);
 	SphereEntityRustedIron->addComponent(SphereRustedIronRigidComponent);
-	SphereEntityRustedIron->setPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
-	SphereEntityRustedIron->setScale(glm::vec3(0.15));
 
 	// WOOD PLANKS
 	IChromaEntity* SphereEntityWoodplanks = new ChromaEntity;
@@ -199,10 +214,10 @@ int main()
 	SphereWoodplanksMeshComponent->bindTexture(agedPlanksNormal);
 	SphereWoodplanksMeshComponent->bindTexture(agedPlanksMetRoughAO);
 	SphereWoodplanksMeshComponent->bindShader(&PBRShader);
-	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
-	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
 	SphereEntityWoodplanks->setPosition(glm::vec3(-5.f, 1.0f, 0.0f));
 	SphereEntityWoodplanks->setScale(glm::vec3(0.15));
+	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
+	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
 
 
 	// SEMI TRANSPARENT
@@ -218,9 +233,9 @@ int main()
 	SphereMeshComponent->isLit = true;
 	//SphereMeshComponent->isForwardLit = true;
 	//SphereMeshComponent->isTransparent = true;
+	SphereEntityTransparent->setPosition(glm::vec3(7.5, 1.0, 0.0));
 	SphereEntityTransparent->addComponent(SphereMeshComponent);
 	SphereEntityTransparent->addComponent(SphereRigidComponent);
-	SphereEntityTransparent->setPosition(glm::vec3(7.5, 1.0, 0.0));
 
 	// UNLIT
 	IChromaEntity* SphereEntityUnlit = new ChromaEntity;
@@ -233,9 +248,9 @@ int main()
 	SphereMeshComponentUnlit->bindShader(&UnlitShader);
 	SphereMeshComponentUnlit->isLit = false;
 	SphereMeshComponentUnlit->castShadows = false;
+	SphereEntityUnlit->setPosition(glm::vec3(-7.5, 1.0, 0.0));
 	SphereEntityUnlit->addComponent(SphereMeshComponentUnlit);
 	SphereEntityUnlit->addComponent(SphereRigidComponentUnlit);
-	SphereEntityUnlit->setPosition(glm::vec3(-7.5, 1.0, 0.0));
 
 	// POPULATING SCENE
 	Scene->setLights(Lights);
@@ -253,10 +268,13 @@ int main()
 		Sun->setPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->getPosition()));
 
+		CubeEntity->setPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
+		//CubeEntity->setScale(glm::vec3(glm::sin(GameTime)* 1.0));
 
-		Game.getRenderer()->getDebugBuffer()->drawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
 
-		Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
+		//Game.getRenderer()->getDebugBuffer()->drawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
+
+		//Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 
 
 		// GAME TICK

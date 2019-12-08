@@ -46,8 +46,6 @@ void ChromaPhysicsComponent::transformParentEntity(btTransform& transform)
 
 void ChromaPhysicsComponent::createCollisionShape()
 {
-	std::vector<ChromaVertex> vertices = m_parentEntity->getVertices();
-
 	switch (m_collisionShape)
 	{
 	case(AABB):
@@ -61,11 +59,12 @@ void ChromaPhysicsComponent::createCollisionShape()
 	{
 		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
 		float boxSize = glm::length(bbox.first - bbox.second);
-		m_shape = new btSphereShape(btScalar(boxSize));
+		m_shape = new btSphereShape(btScalar(boxSize) * 0.50);
 		break;
 	}
 	case(Convex):
 	{
+		std::vector<ChromaVertex> vertices = m_parentEntity->getVertices();
 		m_shape = new btConvexHullShape();
 		for (ChromaVertex vert : vertices)
 		{
@@ -78,6 +77,7 @@ void ChromaPhysicsComponent::createCollisionShape()
 	}
 	case(Mesh):
 	{
+		std::vector<ChromaVertex> vertices = m_parentEntity->getVertices();
 		btTriangleMesh* mesh = new btTriangleMesh();
 
 		for (int i = 0; i < vertices.size(); i += 3)
