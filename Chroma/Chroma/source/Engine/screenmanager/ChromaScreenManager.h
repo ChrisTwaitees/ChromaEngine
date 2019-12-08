@@ -34,10 +34,6 @@ class ChromaScreenManager
 	bool configureWindow();
 	bool configureGui();
 	bool configureRenderer();
-	bool configureScene();
-
-	// post processing
-	bool usePostFX{false};
 
 	// renderer
 	static void updateRendererViewportDimensions(int width, int height);
@@ -56,6 +52,7 @@ public:
 	// getters and setters
 	unsigned int getScreenWidth() ;
 	unsigned int getScreenHeight();
+	std::pair<int, int> getWidthHeight();
 	float getDeltaTime() { return delta; };
 	float getTime() { return glfwGetTime(); };
 

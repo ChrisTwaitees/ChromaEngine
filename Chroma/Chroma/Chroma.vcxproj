@@ -180,6 +180,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\ChromaRenderScene.cpp" />
     <ClCompile Include="source\Engine\animation\Animation.cpp" />
+    <ClCompile Include="source\Engine\animation\AnimationLoader.cpp" />
     <ClCompile Include="source\Engine\animation\Joint.cpp" />
     <ClCompile Include="source\Engine\animation\KeyFrame.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
@@ -188,6 +189,7 @@
     <ClCompile Include="source\Engine\entity\ChromaEntity.cpp" />
     <ClCompile Include="source\Engine\game\ChromaGame.cpp" />
     <ClCompile Include="source\Engine\input\ChromaInput.cpp" />
+    <ClCompile Include="source\Engine\learnopengl\WorkingIBL.cpp" />
     <ClCompile Include="source\Engine\memory\ChromaUID.cpp" />
     <ClCompile Include="source\Engine\physics\Physics.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp" />
@@ -209,9 +211,9 @@
     <ClCompile Include="source\Render\light\Light.cpp" />
     <ClCompile Include="source\Render\model\BoxPrimitive.cpp" />
     <ClCompile Include="source\Render\model\CapsulePrimitive.cpp" />
-    <ClCompile Include="source\Render\model\Instance.cpp" />
     <ClCompile Include="source\Render\model\LinePrimitive.cpp" />
     <ClCompile Include="source\Render\model\Model.cpp" />
+    <ClCompile Include="source\Render\model\NDCPlanePrimitive.cpp" />
     <ClCompile Include="source\Render\model\PlanePrimitive.cpp" />
     <ClCompile Include="source\Render\model\SkinnedMesh.cpp" />
     <ClCompile Include="source\Render\model\SkyBox.cpp" />
@@ -235,6 +237,7 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="source\Engine\animation\Animation.h" />
+    <ClInclude Include="source\Engine\animation\AnimationLoader.h" />
     <ClInclude Include="source\Engine\animation\Joint.h" />
     <ClInclude Include="source\Engine\animation\KeyFrame.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
@@ -245,6 +248,7 @@
     <ClInclude Include="source\Engine\entity\IChromaEntity.h" />
     <ClInclude Include="source\Engine\game\ChromaGame.h" />
     <ClInclude Include="source\Engine\input\ChromaInput.h" />
+    <ClInclude Include="source\Engine\learnopengl\TESTCAMERA.h" />
     <ClInclude Include="source\Engine\math\ChromaMath.h" />
     <ClInclude Include="source\Engine\memory\ChromaUID.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
@@ -267,9 +271,9 @@
     <ClInclude Include="source\Render\light\Light.h" />
     <ClInclude Include="source\Render\model\BoxPrimitive.h" />
     <ClInclude Include="source\Render\model\CapsulePrimitive.h" />
-    <ClInclude Include="source\Render\model\Instance.h" />
     <ClInclude Include="source\Render\model\LinePrimitive.h" />
     <ClInclude Include="source\Render\model\Model.h" />
+    <ClInclude Include="source\Render\model\NDCPlanePrimitive.h" />
     <ClInclude Include="source\Render\model\PlanePrimitive.h" />
     <ClInclude Include="source\Render\model\SkinnedMesh.h" />
     <ClInclude Include="source\Render\model\SkinnedVertex.h" />
@@ -291,14 +295,18 @@
     <None Include="resources\shaders\fragBasic.glsl" />
     <None Include="resources\shaders\fragBloomFrameBuffer.glsl" />
     <None Include="resources\shaders\fragBlur.glsl" />
+    <None Include="resources\shaders\fragBRDF.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragEmpty.glsl" />
     <None Include="resources\shaders\fragGBufferGeometry.glsl" />
     <None Include="resources\shaders\fragGBufferLit.glsl" />
     <None Include="resources\shaders\fragIBL.glsl" />
+    <None Include="resources\shaders\fragHDRSkyBox.glsl" />
+    <None Include="resources\shaders\fragIrradiance.glsl" />
     <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
     <None Include="resources\shaders\fragPBR.glsl" />
     <None Include="resources\shaders\fragPBRAlpha.glsl" />
+    <None Include="resources\shaders\fragPrefilter.glsl" />
     <None Include="resources\shaders\fragRefraction.glsl" />
     <None Include="resources\shaders\fragSkyBox.glsl" />
     <None Include="resources\shaders\fragSSAO.glsl" />

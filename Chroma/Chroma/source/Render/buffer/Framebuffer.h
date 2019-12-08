@@ -4,9 +4,10 @@
 #include <iostream>
 #include <vector>
 
-// local
-#include "screenmanager/ChromaScreenManagerConfig.h"
-#include "shader/Shader.h"
+// Chroma
+#include <screenmanager/ChromaScreenManagerConfig.h>
+#include <shader/Shader.h>
+#include <model/NDCPlanePrimitive.h>
 
 
 class Framebuffer
@@ -23,8 +24,7 @@ protected:
 	unsigned int RBO;
 
 	// vertex array / vertex buffer
-	unsigned int VAO;
-	unsigned int VBO;
+	NDCPlanePrimitive quad;
 
 	// position on screen
 	glm::vec2 offset{ glm::vec2(0) };
@@ -32,32 +32,22 @@ protected:
 
 	Shader* screenShader{new Shader(fragSource, vtxSource)};
 
-	// quad data
-	float quadData[20] = {
-		// positions        // texture Coords
-		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
-		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
-		 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
-		 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
-	};
-
 	// texture
 	unsigned int FBOTexture;
 
 	// setup
 	virtual void initialize();
-	void setupQuad();
 
 	// Initializing
 	virtual void GenTexture();
 	virtual void SetTextureParameters();
 	virtual void updateTransformUniforms();
 
-	// draw
-	void renderQuad();
 
 public:
 
+	// draw
+	void renderQuad();
 	// Getters/Setters
 	void setTexture(unsigned int newFBOTexture);
 	virtual unsigned int getTexture() { return FBOTexture; };

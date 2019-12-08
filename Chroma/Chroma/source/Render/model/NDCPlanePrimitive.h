@@ -1,0 +1,33 @@
+#ifndef _CHROMA_NDCPLANE_
+#define _CHROMA_NDCPLANE_
+
+#include <vector>
+
+#include <glm/glm.hpp>
+
+#include <model/StaticMesh.h>
+
+
+class NDCPlanePrimitive
+{
+	// quad data
+	float quadData[20] = {
+		// positions        // texture Coords
+		-1.0f,  1.0f, 0.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 0.0f, 0.0f,
+		 1.0f,  1.0f, 0.0f, 1.0f, 1.0f,
+		 1.0f, -1.0f, 0.0f, 1.0f, 0.0f,
+	};
+	// vertex array / vertex buffer
+	unsigned int VAO, VBO;
+
+	void setupQuad();
+public:
+	// draw
+	void BindDrawVAO();
+
+	NDCPlanePrimitive();
+	~NDCPlanePrimitive();
+};
+
+#endif

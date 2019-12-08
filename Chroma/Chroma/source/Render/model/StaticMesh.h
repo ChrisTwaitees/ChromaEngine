@@ -50,7 +50,7 @@ public:
 	virtual void BindDrawVAO();
 
 	// Bindings
-	virtual void bindShader(Shader* newShader) override;
+	virtual void bindShader(Shader* const& newShader) override;
 	virtual void bindTextures(std::vector<Texture> textures_val) override;
 	virtual void bindTexture(Texture texture_val) override;
 

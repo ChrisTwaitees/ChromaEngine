@@ -4,14 +4,16 @@
 void CubeMap::generateCubeMap()
 {
 	// gen id and bindShadowMapToBuffer
-	glGenTextures(1, &ShaderID);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, ShaderID);
+	glGenTextures(1, &m_textureID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureID);
 	// for the six faces gen 2D textures
 	int width, height, nrChannels;
 	unsigned char* imageData;
+
 	for (GLuint i = 0; i < faces.size(); i++)
 	{
 		std::string imagePath = dir + "/" + faces[i];
+		stbi_set_flip_vertically_on_load(false);
 		imageData = stbi_load(imagePath.c_str(), &width, &height, &nrChannels,0);
 		if (imageData)
 		{
@@ -51,7 +53,7 @@ void CubeMap::generateCubeMap()
 
 void CubeMap::bind()
 {
-	glBindTexture(GL_TEXTURE_CUBE_MAP, ShaderID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureID);
 }
 
 CubeMap::CubeMap(std::string cubeMapsDirectory)

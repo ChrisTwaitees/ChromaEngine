@@ -32,7 +32,7 @@ public:
 	virtual glm::vec3 getCentroid() = 0;
 
 	// Bindings
-	virtual void bindShader(Shader* newShader) = 0;
+	virtual void bindShader(Shader* const& newShader) = 0;
 	virtual void bindTextures(std::vector<Texture> textures_val) = 0;
 	virtual void bindTexture(Texture texture_val) = 0;
 

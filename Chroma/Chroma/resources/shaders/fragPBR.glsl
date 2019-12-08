@@ -11,10 +11,10 @@ in VS_OUT {
 } fs_in;
 
 // LIGHTS
-#define NR_POINT_LIGHTS 4
+#include "util/lightingStructs.glsl"
+#define NR_POINT_LIGHTS 3
 #define NR_DIR_LIGHTS 1
 #define NR_SPOT_LIGHTS 1
-#include "util/lightingStructs.glsl"
 
 // SHADOWMAPS
 struct ShadowMap
@@ -23,15 +23,6 @@ struct ShadowMap
 };
 
 // UNIFORMS
-uniform vec3 viewPos;
-uniform ShadowMap shadowmaps;
-uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform DirLight dirLights[NR_DIR_LIGHTS];
-uniform SpotLight spotLights[NR_SPOT_LIGHTS];
-
-// MATERIALS
-#include "util/materialStruct.glsl"
-uniform Material material;
 // Texture Checks
 uniform bool UseAlbedoMap;
 uniform bool UseNormalMap;
@@ -40,11 +31,29 @@ uniform bool UseMetRoughAOMap;
 uniform vec3 color;
 uniform float roughness;
 uniform float metalness;
-uniform vec3 ambient;
 
-// LIGHT FUNCTIONS
-vec3 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
+
+// MATERIALS
+#include "util/materialStruct.glsl"
+uniform Material material;
+
+uniform ShadowMap shadowmaps;
+
+// UNIFORMS
+uniform vec3 viewPos;
+//IBL
+uniform samplerCube irradianceMap;
+uniform samplerCube prefilterMap;
+uniform sampler2D   brdfLUT; 
+// Lights
+uniform PointLight pointLights[NR_POINT_LIGHTS];
+uniform DirLight dirLights[NR_DIR_LIGHTS];
+uniform SpotLight spotLights[NR_SPOT_LIGHTS];
+
+// Lighting Functions
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
+vec3 CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao, float shadows);
 
 void main()
 {
@@ -76,12 +85,12 @@ void main()
 	}
 	
 	// TODO : fetch SSAO from GBuffer
-	float SSAO = 1.0;
+	float SSAO = 0.1;
 
 	// LIGHTING
 	//------------------------------------------------------------------------
 	// PBR calculates irradiance, denoted by Lo
-	vec3 Lo;
+	vec4 Lo;
 	vec3 viewDir = normalize(viewPos - fs_in.FragPos);
 	// Directional Lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
@@ -89,13 +98,19 @@ void main()
 	// Point Lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 		Lo += CalcPointLight(pointLights[i], Normal, viewDir, fs_in.FragPos, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmaps.shadowmap1);
-	// Adding ambient and SSAO
-	vec3 Ambient = ambient * Albedo * AO * SSAO;
-	// Creating color 
-	vec3 color = (Ambient + Lo) * SSAO;
+
+	// AMBIENT
 	//------------------------------------------------------------------------
+	// Adding ambient and SSAO
+	vec3 Ambient = CalcAmbientLight(irradianceMap, prefilterMap, brdfLUT, Normal, viewDir, Albedo, Roughness, Metalness, AO, Lo.a) * SSAO;
+
+	// COMBINE
+	//------------------------------------------------------------------------
+	vec3 color = (Ambient + Lo.rgb) * SSAO;
+
 	// OUT
-	FragColor = vec4(color, 1.0);
+	//------------------------------------------------------------------------
+	FragColor = vec4(vec3(color), 1.0);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));

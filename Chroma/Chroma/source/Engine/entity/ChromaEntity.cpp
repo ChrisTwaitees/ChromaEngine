@@ -18,7 +18,6 @@ std::vector<ChromaVertex> ChromaEntity::getVertices()
 
 std::pair<glm::vec3, glm::vec3> ChromaEntity::getBBox()
 {
-
 	calcBBox();
 	return std::make_pair(m_bbox_min, m_bbox_max);
 }
@@ -110,8 +109,10 @@ void ChromaEntity::calcBBox()
 		newMaxBBox = glm::max(newMaxBBox, MinMaxBBoxes.second);
 	}
 	// re-establishing min and max bboxes
-	m_bbox_min = newMinBBox;
-	m_bbox_max = newMaxBBox;
+	// scale by entity's current size
+	glm::vec3 scale = getScale(m_transformMatrix);
+	m_bbox_min = newMinBBox * scale;
+	m_bbox_max = newMaxBBox * scale;
 }
 
 void ChromaEntity::calcCentroid()
@@ -178,7 +179,7 @@ void ChromaEntity::setScale(glm::vec3 newscale)
 
 void ChromaEntity::setPosition(glm::vec3 newposition)
 {
-	m_transformMatrix = glm::translate(m_transformMatrix, newposition);
+	m_transformMatrix[3] = glm::vec4(newposition, 1);
 	updatePhysicsComponentsTransforms();
 }
 

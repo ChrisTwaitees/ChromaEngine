@@ -37,9 +37,6 @@ class GBuffer : public Framebuffer
 	unsigned int gPosition, gViewPosition, gViewNormal, gFragPosLightSpace;
 	unsigned int gAlbedo, gNormal, gMetRoughAO;
 
-	// ibl
-	IBL m_ibl;
-
 	// passes
 	void calculateShadows();
 	void drawGeometryPass();
@@ -49,8 +46,10 @@ class GBuffer : public Framebuffer
 	// uniforms
 	void configureShaders();
 	void setLightingUniforms();
-	void setIBLUniforms();
 	void updateTransformUniforms() override;
+
+	// cubemap TEST
+	CubeMap testCubeMap{ "resources/textures/skybox/blueskywater"};
 
 public:
 	// functions

@@ -3,6 +3,7 @@
 
 void StaticMesh::calcBBox()
 {
+	vertices = getVertices();
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
 	// once collected, calculate new min and max bbox
@@ -191,12 +192,11 @@ void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam
 void StaticMesh::updateMaterialUniforms(const Shader* shader)
 {
 	shader->setFloat("roughness", 0.4f);
-	shader->setVec3("color", glm::vec3(1, 0, 0));
+	shader->setVec3("color", glm::vec4(1, 0, 0, 0.5));
 	shader->setFloat("metalness", 0.0f);
 	shader->setBool("UseAlbedoMap", false);
 	shader->setBool("UseNormalMap", false);
 	shader->setBool("UseMetRoughAOMap", false);
-	//shader->setVec3("ambient", ambient);
 }
 
 void StaticMesh::Draw(Shader &shader)
@@ -243,7 +243,7 @@ void StaticMesh::BindDrawVAO()
 }
 
 
-void StaticMesh::bindShader(Shader* newShader)
+void StaticMesh::bindShader(Shader* const& newShader)
 {
 	mShader = newShader;
 }

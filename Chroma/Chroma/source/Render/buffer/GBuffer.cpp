@@ -91,6 +91,7 @@ void GBuffer::updateTransformUniforms()
 
 void GBuffer::configureShaders()
 {
+	// Geometry Buffer
 	m_lightingPassShader.use();
 	m_lightingPassShader.setInt("gPosition", 0);
 	m_lightingPassShader.setInt("gNormal", 1);
@@ -99,6 +100,11 @@ void GBuffer::configureShaders()
 	m_lightingPassShader.setInt("gFragPosLightSpace", 4);
 	m_lightingPassShader.setInt("gShadowmap", 5);
 	m_lightingPassShader.setInt("SSAO", 6);
+
+	// IBL
+	m_lightingPassShader.setInt("irradianceMap", 7);
+	m_lightingPassShader.setInt("prefilterMap", 8);
+	m_lightingPassShader.setInt("brdfLUT", 9);
 }
 
 void GBuffer::bindAllGBufferTextures()
@@ -117,18 +123,19 @@ void GBuffer::bindAllGBufferTextures()
 	glBindTexture(GL_TEXTURE_2D, mShadowbuffer->getTexture());
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, m_SSAOBuffer->getTexture());
+	// IBL
+	glActiveTexture(GL_TEXTURE7);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->getIBL()->getIrradianceMapID());
+	glActiveTexture(GL_TEXTURE8);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->getIBL()->getPrefilterMapID());
+	glActiveTexture(GL_TEXTURE9);
+	glBindTexture(GL_TEXTURE_2D, m_scene->getIBL()->getBRDFLUTID());
 }
 
 void GBuffer::setLightingUniforms()
 {
 	m_lightingPassShader.setLightingUniforms(m_scene->getLights(), *m_scene->getRenderCamera());
 	m_lightingPassShader.setUniform("ambient", m_scene->getAmbientColor());
-}
-
-void GBuffer::setIBLUniforms()
-{
-	m_ibl.setUniform("view", m_scene->getRenderCamera()->getViewMat());
-	m_ibl.setUniform("projection", m_scene->getRenderCamera()->getViewMat());
 }
 
 void GBuffer::Bind()
@@ -215,7 +222,6 @@ void GBuffer::Draw()
 
 GBuffer::GBuffer(ChromaScene*& Scene, Framebuffer*& PostFXBuffer)
 {
-	setupQuad();
 	initialize();
 	m_scene = Scene;
 	mShadowbuffer = new ShadowBuffer(m_scene);

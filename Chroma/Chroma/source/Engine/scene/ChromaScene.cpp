@@ -5,6 +5,13 @@ glm::vec3 ChromaScene::calcAmbientLightColor()
 	return m_sunLight->getDiffuse() * m_sunLight->getIntensity()* glm::vec3(.1);
 }
 
+void ChromaScene::initialize()
+{
+	// setting skybox to IBL environment map
+	m_skybox->setColorSpace(HDR);
+	m_skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
+}
+
 void ChromaScene::addEntity(IChromaEntity* const& newEntity)
 {
 	// bind parent scene
@@ -47,6 +54,7 @@ void ChromaScene::setEntities(std::vector<IChromaEntity*> const& newEntities)
 
 ChromaScene::ChromaScene()
 {
+	initialize();
 }
 
 
