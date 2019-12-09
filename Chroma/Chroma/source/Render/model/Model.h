@@ -1,12 +1,15 @@
 #ifndef _MODEL_H_
 #define _MODEL_H_
 
-#include <model/StaticMesh.h>
-#include <model/SkinnedMesh.h>
-
+// thirdparty
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+
+// chroma
+#include <math/ChromaMath.h>
+#include <model/StaticMesh.h>
+#include <model/SkinnedMesh.h>
 
 class Model : public ChromaMeshComponent
 {

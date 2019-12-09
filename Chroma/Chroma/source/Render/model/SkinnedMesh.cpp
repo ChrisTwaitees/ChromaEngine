@@ -52,16 +52,11 @@ std::pair<glm::vec3, glm::vec3> SkinnedMesh::getBBox()
 	return std::pair<glm::vec3, glm::vec3>();
 }
 
-void SkinnedMesh::BindDrawVAO()
-{
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, m_indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0); // reset to default
-}
 
-SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
+SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val, Skeleton skeleton_val)
 {
 	isRenderable = true;
+	m_skeleton = skeleton_val;
 	m_skinnedVertices = vertices_val;
 	m_indices = indices_val;
 	m_textures = textures_val;

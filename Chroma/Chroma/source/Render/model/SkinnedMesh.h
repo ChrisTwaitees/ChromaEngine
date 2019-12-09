@@ -35,9 +35,8 @@ public:
 	virtual std::pair<glm::vec3, glm::vec3> getBBox() override;
 
 	// Functions
-	void BindDrawVAO() override;
 
-	SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
+	SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val, Skeleton skeleton_val);
 	SkinnedMesh() { isRenderable = true; };
 	~SkinnedMesh();
 };

@@ -189,7 +189,6 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			vertex.setTangent(tangent);
 			vertex.setBitangent(bitangent);
 			vertex.setTexCoords(UV1);
-			//mesh->mBones[]
 			m_skinnedVertices.push_back(vertex);
 		}
 		else
@@ -202,18 +201,17 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			vertex.setTexCoords(UV1);
 			m_vertices.push_back(vertex);
 		}
-
 	}
 
-	// process indices
-	// primitive (face) indices
+	// process indices (faces)
 	for (unsigned int i = 0; i < mesh->mNumFaces; i++)
 	{
 		aiFace face = mesh->mFaces[i];
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
 			m_indices.push_back(face.mIndices[j]);
 	}
-	// process material
+
+	// process material, fetching textures
 	if (mesh->mMaterialIndex >= 0)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
@@ -231,9 +229,40 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		m_textures.insert(m_textures.end(), normalMaps.begin(), normalMaps.end());
 	}
 
+	// build Mesh
 	if (m_isSkinned)
 	{
-		return new SkinnedMesh(m_skinnedVertices, m_indices, m_textures);
+		// Process Skeleton
+		Skeleton skeleton;
+		for (int i = 0; i < mesh->mNumBones; i++)
+		{
+			// fetch assimp bone, copy data to chroma joint
+			aiBone* bone = mesh->mBones[i];
+			Joint newJoint;
+			// name
+			newJoint.setName(bone->mName.C_Str());
+			// offset matrix - joint matrix, relative to its parent
+			newJoint.setOffsetMatrix(AIToGLM(bone->mOffsetMatrix));
+			// ID
+			newJoint.setID(i);
+			
+			// store joint IDs and Weights to skelton and verts
+			for (int j = 0; j < bone->mNumWeights; j++)
+			{
+				// update joint
+				aiVertexWeight vertexWeight = bone->mWeights[j];
+				std::pair<unsigned int, float> newVertexWeight;
+				newVertexWeight.first = vertexWeight.mVertexId;
+				newVertexWeight.second = vertexWeight.mWeight;
+				newJoint.addVertexWeight(newVertexWeight);
+				// update vert
+				m_skinnedVertices[vertexWeight.mVertexId].addJointID(i);
+				m_skinnedVertices[vertexWeight.mVertexId].addJointWeight(vertexWeight.mWeight);
+			}
+			// add new joint
+			skeleton.addJoint(newJoint);
+		}
+		return new SkinnedMesh(m_skinnedVertices, m_indices, m_textures, skeleton);
 	}
 	else
 		return new StaticMesh(m_vertices, m_indices, m_textures);

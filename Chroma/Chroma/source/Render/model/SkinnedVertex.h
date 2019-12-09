@@ -2,6 +2,7 @@
 #define _CHROMA_SKINNED_VERTEX_
 
 #include <glm/glm.hpp>
+#include <vector>
 
 struct ChromaSkinnedVertex
 {
@@ -11,8 +12,11 @@ struct ChromaSkinnedVertex
 	glm::vec3 m_tangent{ 0.0 };
 	glm::vec3 m_bitangent{ 0.0 };
 	glm::vec2 m_texCoords{ 0.0 };
-	glm::ivec3 m_jointIDs{ 0 };
-	glm::vec3 m_jointWeights{ 0.0 };
+	//glm::ivec4 m_jointIDs{ 0 };
+	//glm::vec4 m_jointWeights{ 0.0 };
+	std::vector<unsigned int> m_jointIDs;
+	std::vector<float> m_jointWeights;
+
 	// getters
 	glm::vec3 getPosition() const { return m_position; };
 	glm::vec3 getNormal() const { return m_normal; };
@@ -25,6 +29,9 @@ struct ChromaSkinnedVertex
 	void setTangent(glm::vec3 newTangent) { m_tangent = newTangent; };
 	void setBitangent(glm::vec3 newBitangent) { m_bitangent = newBitangent; };
 	void setTexCoords(glm::vec2 newTexCoords) { m_texCoords = newTexCoords; };
+
+	void addJointID(unsigned int newJointID) { m_jointIDs.push_back(newJointID); };
+	void addJointWeight(float newWeight) { m_jointWeights.push_back(newWeight); };
 };
 
 

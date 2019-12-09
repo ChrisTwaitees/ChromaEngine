@@ -4,6 +4,8 @@
 #include <bullet/btBulletCollisionCommon.h>
 #include <glm/glm.hpp>
 
+#include <assimp/Importer.hpp>
+
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
@@ -13,6 +15,17 @@
 #define CHROMA_BACK glm::vec3(0.0 ,0.0, -1.0)
 #define CHROMA_RIGHT glm::vec3(1.0 ,0.0, 0.0)
 #define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
+
+static glm::mat4 AIToGLM(const aiMatrix4x4& aiMat)
+{
+	return glm::mat4{
+		aiMat.a1, aiMat.b1, aiMat.c1, aiMat.d1,
+		aiMat.a2, aiMat.b2, aiMat.c2, aiMat.d2,
+		aiMat.a3, aiMat.b3, aiMat.c3, aiMat.d3,
+		aiMat.a4, aiMat.b4, aiMat.c4, aiMat.d4
+	};
+}
+
 
 static glm::mat4 BulletToGLM(const btTransform& transform)
 {

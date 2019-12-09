@@ -136,9 +136,9 @@ int main()
 	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.fbx");
 	AnimModelMeshComponent->bindShader(&PBRShader);
 	AnimModelMeshComponent->bindTexture(walkingAlbedo);
-	//AnimModelMeshComponent->bindTexture(walkingNormal);
+	AnimModelMeshComponent->bindTexture(walkingNormal);
 	AnimModelMeshComponent->bindTexture(walkingMetRoughAO);
-	AnimModelEntity->setPosition(glm::vec3(0,0,4));
+	AnimModelEntity->setPosition(glm::vec3(-2,0, - 4));
 	AnimModelEntity->setScale(glm::vec3(0.06));
 	AnimModelEntity->addComponent(AnimModelMeshComponent);
 	AnimModelEntity->addComponent(AnimModelRigidComponent);
@@ -206,7 +206,7 @@ int main()
 	SphereLookDevMeshComponent->bindTexture(lookdevAlbedo);
 	SphereLookDevMeshComponent->bindTexture(lookdevNormal);
 	SphereLookDevMeshComponent->bindTexture(lookdevMetRoughAO);
-	SphereEntityLookDev->setPosition(glm::vec3(0.0f, 2.0f, -4.0f));
+	SphereEntityLookDev->setPosition(glm::vec3(2.0f, 2.0f, -4.0f));
 	SphereEntityLookDev->setScale(glm::vec3(0.25));
 	SphereEntityLookDev->addComponent(SphereLookDevMeshComponent);
 	SphereEntityLookDev->addComponent(SphereLookDevRigidComponent);

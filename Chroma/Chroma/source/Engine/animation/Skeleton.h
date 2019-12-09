@@ -10,6 +10,8 @@ class Skeleton
 	std::vector<Joint> m_joints;
 
 public:
+	void addJoint(Joint newJoint) { m_joints.push_back(newJoint); };
+
 	Skeleton();
 	~Skeleton();
 };
