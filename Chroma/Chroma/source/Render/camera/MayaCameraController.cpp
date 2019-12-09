@@ -45,7 +45,7 @@ void MayaCameraController::calculateUpandDir(glm::vec3& camPos, glm::vec3& camDi
 	camUp = glm::normalize(glm::cross(camDir, camRight));
 }
 
-void MayaCameraController::processInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
+void MayaCameraController::ProcessInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
 	calculateUpandDir(camPos, camDir, camUp);
 	processMouseInput(input, camPos, camDir, camUp);

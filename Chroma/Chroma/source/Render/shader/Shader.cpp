@@ -139,34 +139,34 @@ void Shader::setLightingUniforms(std::vector<Light*> Lights, Camera& renderCam)
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
 			//// lights point light falloff
-			this->setFloat(lightIndex + ".constant", Lights[i]->constant);
-			this->setFloat(lightIndex + ".linear", Lights[i]->linear);
-			this->setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
-			this->setFloat(lightIndex + ".radius", Lights[i]->getRadius());
+			this->SetFloat(lightIndex + ".constant", Lights[i]->constant);
+			this->SetFloat(lightIndex + ".linear", Lights[i]->linear);
+			this->SetFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
+			this->SetFloat(lightIndex + ".radius", Lights[i]->getRadius());
 			break;
 		case Light::SUNLIGHT:
 		case Light::DIRECTIONAL:
 			dirlights++;
 			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
 			//// lights directional
-			this->setVec3(lightIndex + ".direction", Lights[i]->getDirection());
+			this->setVec3(lightIndex + ".direction", Lights[i]->GetDirection());
 			break;
 		case Light::SPOT:
 			spotlights++;
 			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
 			//// lights spotlight
-			this->setFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
-			this->setFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
+			this->SetFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
+			this->SetFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
 			break;
 		default:
 			break;
 		}
 		// lights all
-		this->setFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
+		this->SetFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
 		this->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
-		this->setVec3(lightIndex + ".position", Lights[i]->getPosition());
+		this->setVec3(lightIndex + ".position", Lights[i]->GetPosition());
 		// lights view pos
-		this->setVec3("viewPos", renderCam.getPosition());
+		this->setVec3("viewPos", renderCam.GetPosition());
 	}
 }
 
@@ -201,14 +201,14 @@ void Shader::setBool(const std::string& name, bool value) const
 	Uniforms.setBool(name, value);
 }
 
-void Shader::setInt(const std::string& name, int value) const
+void Shader::SetInt(const std::string& name, int value) const
 {
-	Uniforms.setInt(name, value);
+	Uniforms.SetInt(name, value);
 }
 
-void Shader::setFloat(const std::string& name, float value) const
+void Shader::SetFloat(const std::string& name, float value) const
 {
-	Uniforms.setFloat(name, value);
+	Uniforms.SetFloat(name, value);
 }
 
 void Shader::setVec2(const std::string& name, glm::vec2 value) const
@@ -221,9 +221,9 @@ void Shader::setVec3(const std::string& name, glm::vec3 value) const
 	Uniforms.setVec3(name, value);
 }
 
-void Shader::setMat4(const std::string& name, glm::mat4 value) const
+void Shader::SetMat4(const std::string& name, glm::mat4 value) const
 {
-	Uniforms.setMat4(name, value);
+	Uniforms.SetMat4(name, value);
 }
 
 void Shader::setUniforms()

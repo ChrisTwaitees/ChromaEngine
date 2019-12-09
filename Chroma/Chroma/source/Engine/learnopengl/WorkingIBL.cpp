@@ -17,7 +17,7 @@
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-void processInput(GLFWwindow* window);
+void ProcessInput(GLFWwindow* window);
 
 // settings
 const unsigned int SCR_WIDTH = 1000.0;
@@ -27,7 +27,7 @@ const unsigned int SCR_HEIGHT = 1000.0;
 TESTCAMERA camera(glm::vec3(0.0f, 0.0f, 3.0f));
 float lastX = 1000.0 / 2.0;
 float lastY = 1000.0 / 2.0;
-bool firstMouse = true;
+bool m_FirstMouse = true;
 
 // timing
 float deltaTime = 0.0f;
@@ -79,8 +79,8 @@ int mains()
 	// --------------------------------------------------
 	glm::mat4 projection = glm::perspective(glm::radians(camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
 	backgroundShader.use();
-	backgroundShader.setInt("environmentMap", 0);
-	backgroundShader.setMat4("projection", projection);
+	backgroundShader.SetInt("environmentMap", 0);
+	backgroundShader.SetMat4("projection", projection);
 
 	BoxPrimitive cube;
 	IBL testIBL;
@@ -97,7 +97,7 @@ int mains()
 
 		// input
 		// -----
-		processInput(window);
+		ProcessInput(window);
 
 		// render
 		// ------
@@ -110,7 +110,7 @@ int mains()
 
 		// render skybox (render as last to prevent overdraw)
 		backgroundShader.use();
-		backgroundShader.setMat4("view", view);
+		backgroundShader.SetMat4("view", view);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, testIBL.getPrefilterMapID());
 		glDisable(GL_CULL_FACE);
@@ -144,7 +144,7 @@ int mains()
 
 // process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
 // ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow* window)
+void ProcessInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
@@ -174,11 +174,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 // -------------------------------------------------------
 void mouse_callback(GLFWwindow* window, double xpos, double ypos)
 {
-	if (firstMouse)
+	if (m_FirstMouse)
 	{
 		lastX = xpos;
 		lastY = ypos;
-		firstMouse = false;
+		m_FirstMouse = false;
 	}
 
 	float xoffset = xpos - lastX;

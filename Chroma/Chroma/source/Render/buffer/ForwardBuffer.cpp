@@ -1,6 +1,6 @@
 #include "ForwardBuffer.h"
 
-void ForwardBuffer::initialize()
+void ForwardBuffer::Initialize()
 {
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -58,7 +58,7 @@ void ForwardBuffer::renderForwardComponents()
 		// render unlit components
 		if (entity->getUnlitComponents().size() > 0)
 		{
-			glm::mat4 worldTransform = entity->getTransformationMatrix();
+			glm::mat4 worldTransform = entity->GetTransformationMatrix();
 			for (IChromaComponent*& component : entity->getUnlitComponents())
 				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_scene->getRenderCamera(), worldTransform);
 		}
@@ -78,16 +78,16 @@ void ForwardBuffer::renderTransparency()
 	std::map<float, IChromaEntity*> alpha_sorted;
 	for (IChromaEntity* TransparentEntity : m_scene->getTransparentEntities())
 	{
-		float distance = glm::length(TransparentEntity->getPosition() - m_scene->getRenderCamera()->getPosition());
+		float distance = glm::length(TransparentEntity->GetPosition() - m_scene->getRenderCamera()->GetPosition());
 		alpha_sorted[distance] = TransparentEntity;
 	}
 	// iterating from furthest to closest
 	for (std::map<float, IChromaEntity*>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
 	{
-		glm::mat4 worldTransform = it->second->getTransformationMatrix();
+		glm::mat4 worldTransform = it->second->GetTransformationMatrix();
 		for (IChromaComponent* component : it->second->getTransparentComponents())
 		{
-			if (((ChromaMeshComponent*)component)->isForwardLit) // draw lit transparent components
+			if (((ChromaMeshComponent*)component)->m_IsForwardLit) // draw lit transparent components
 				((ChromaMeshComponent*)component)->Draw(*m_scene->getRenderCamera(), m_scene->getLights(), worldTransform);
 			else // draw unlit transparent components
 				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_scene->getRenderCamera(), worldTransform);

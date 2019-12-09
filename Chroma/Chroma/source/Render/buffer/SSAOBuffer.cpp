@@ -30,7 +30,7 @@ void SSAOBuffer::generateBuffers()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ssaoColorBufferBlur, 0);
 }
 
-void SSAOBuffer::initialize()
+void SSAOBuffer::Initialize()
 {
 	generateSampleKernel();
 	generateNoiseTexture();
@@ -91,20 +91,20 @@ void SSAOBuffer::sendKernelSamplesToShader()
 void SSAOBuffer::configureShaders()
 {
 	SSAOShader.use();
-	SSAOShader.setInt("kernelSize", kernelSamples);
-	SSAOShader.setFloat("radius", 0.5f);
-	SSAOShader.setFloat("bias", 0.025f);
+	SSAOShader.SetInt("kernelSize", kernelSamples);
+	SSAOShader.SetFloat("radius", 0.5f);
+	SSAOShader.SetFloat("bias", 0.025f);
 	SSAOShader.setVec2("noiseScale", noiseScale);
 
-	SSAOShader.setInt("gViewPosition", 0);
-	SSAOShader.setInt("gViewNormal", 1);
-	SSAOShader.setInt("texNoise", 2);
+	SSAOShader.SetInt("gViewPosition", 0);
+	SSAOShader.SetInt("gViewNormal", 1);
+	SSAOShader.SetInt("texNoise", 2);
 
 	SSAOShader.setVec2("scale", scale);
 	SSAOShader.setVec2("offset", offset);
 
 	SSAOBlurShader.use();
-	SSAOBlurShader.setInt("ssaoInput", 0);
+	SSAOBlurShader.SetInt("ssaoInput", 0);
 
 	SSAOBlurShader.setVec2("scale", scale);
 	SSAOBlurShader.setVec2("offset", offset);
@@ -118,7 +118,7 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal, Chroma
 	// updating shader uniforms
 	SSAOShader.use();
 	sendKernelSamplesToShader();
-	SSAOShader.setMat4("projection", scene->getRenderCamera()->getProjectionMatrix());
+	SSAOShader.SetMat4("projection", scene->getRenderCamera()->GetProjectionMatrix());
 	//sending textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gViewPosition);
@@ -144,7 +144,7 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal, Chroma
 
 SSAOBuffer::SSAOBuffer()
 {
-	initialize();
+	Initialize();
 }
 
 

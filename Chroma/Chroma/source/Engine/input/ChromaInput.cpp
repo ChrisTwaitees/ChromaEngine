@@ -3,7 +3,7 @@
 double ChromaInput::CaptureMouseX;
 double ChromaInput::CaptureMouseY;
 
-void ChromaInput::initialize()
+void ChromaInput::Initialize()
 {
 	// glfw attach callbacks
 	glfwSetCursorPosCallback(mWindow, mouse_aim_callback);
@@ -126,7 +126,7 @@ void ChromaInput::process()
 void ChromaInput::bindWindow(GLFWwindow* windowVal)
 {
 	mWindow = windowVal;
-	initialize();
+	Initialize();
 }
 
 // glfw callbacks
@@ -191,13 +191,13 @@ glm::vec3 ChromaInput::screenToWorldRay(float const& mouseX, float const& mouseY
 	// Eye Coordinates
 	// we bring the homogenous clip coordinates into eye space using the 
 	// inverse of the projection matrix
-	glm::vec4 ray_eye = glm::inverse(mCamera->getProjectionMatrix()) * ray_clip;
+	glm::vec4 ray_eye = glm::inverse(mCamera->GetProjectionMatrix()) * ray_clip;
 	ray_eye = glm::vec4(ray_eye.x, ray_eye.y, -1.0, 0.0);
 
 	// World Coordinates
 	// we bring the view/eye coordinates into world space with the 
 	// inverse of the view matrix
-	glm::vec3 ray_world = glm::vec3((glm::inverse(mCamera->getViewMatrix()) * ray_eye));
+	glm::vec3 ray_world = glm::vec3((glm::inverse(mCamera->GetViewMatrix()) * ray_eye));
 	ray_world = glm::normalize(ray_world);
 
 
@@ -208,7 +208,7 @@ glm::vec3 ChromaInput::screenToWorldRay(float const& mouseX, float const& mouseY
 ChromaInput::ChromaInput(GLFWwindow* windowVal)
 {
 	mWindow = windowVal;
-	initialize();
+	Initialize();
 }
 
 ChromaInput::~ChromaInput()

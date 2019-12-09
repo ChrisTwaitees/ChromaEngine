@@ -57,7 +57,7 @@ private:
 public:
 	/*  Functions  */
 	void BindDrawVAO() override;
-	std::vector<ChromaVertex> getVertices() override;
+	std::vector<ChromaVertex> GetVertices() override;
 
 	/*  Constructors  */
 	BoxPrimitive() { setupBox();};

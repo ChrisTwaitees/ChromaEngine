@@ -50,9 +50,9 @@ public:
 	// getters
 	TYPE getType() const { return type; };
 	// getters - directional
-	glm::vec3 getDirection() { return direction; };
+	glm::vec3 GetDirection() { return direction; };
 	// getters - pointlights
-	glm::vec3 getPosition() { return position; };
+	glm::vec3 GetPosition() { return position; };
 	float getIntensity() { return intensity; };
 	glm::vec3 getDiffuse() { return diffuse; };
 	float getRadius() { updatePointRadius(); return radius; };

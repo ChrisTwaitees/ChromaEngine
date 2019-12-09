@@ -18,7 +18,7 @@ struct ChromaSkinnedVertex
 	std::vector<float> m_jointWeights;
 
 	// getters
-	glm::vec3 getPosition() const { return m_position; };
+	glm::vec3 GetPosition() const { return m_position; };
 	glm::vec3 getNormal() const { return m_normal; };
 	glm::vec3 getTangent() const { return m_tangent; };
 	glm::vec3 getBitangent() const { return m_bitangent; };

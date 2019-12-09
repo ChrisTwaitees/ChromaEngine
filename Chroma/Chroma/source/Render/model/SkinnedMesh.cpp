@@ -2,11 +2,11 @@
 
 
 
-void SkinnedMesh::calcBBox()
+void SkinnedMesh::CalculateBBox()
 {
 }
 
-void SkinnedMesh::calcCentroid()
+void SkinnedMesh::CalculateCentroid()
 {
 }
 
@@ -47,7 +47,7 @@ void SkinnedMesh::setupMesh()
 	glBindVertexArray(0);
 }
 
-std::pair<glm::vec3, glm::vec3> SkinnedMesh::getBBox()
+std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
 {
 	return std::pair<glm::vec3, glm::vec3>();
 }
@@ -55,7 +55,7 @@ std::pair<glm::vec3, glm::vec3> SkinnedMesh::getBBox()
 
 SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val, Skeleton skeleton_val)
 {
-	isRenderable = true;
+	m_IsRenderable = true;
 	m_skeleton = skeleton_val;
 	m_skinnedVertices = vertices_val;
 	m_indices = indices_val;

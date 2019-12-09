@@ -1,9 +1,9 @@
 #include "StaticMesh.h"
 
 
-void StaticMesh::calcBBox()
+void StaticMesh::CalculateBBox()
 {
-	m_vertices = getVertices();
+	m_vertices = GetVertices();
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
 	// once collected, calculate new min and max bbox
@@ -11,17 +11,17 @@ void StaticMesh::calcBBox()
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
 	for (ChromaVertex& vert : m_vertices)
 	{
-		newMinBBox = glm::min(newMinBBox, vert.getPosition());
-		newMaxBBox = glm::max(newMaxBBox, vert.getPosition());
+		newMinBBox = glm::min(newMinBBox, vert.GetPosition());
+		newMaxBBox = glm::max(newMaxBBox, vert.GetPosition());
 	}
 	// re-establishing min and max bboxes
-	m_bbox_min = newMinBBox;
-	m_bbox_max = newMaxBBox;
+	m_BBoxMin = newMinBBox;
+	m_BBoxMax = newMaxBBox;
 }
 
-void StaticMesh::calcCentroid()
+void StaticMesh::CalculateCentroid()
 {
-	m_centroid = (m_bbox_min - m_bbox_max) * glm::vec3(0.5);
+	m_Centroid = (m_BBoxMin - m_BBoxMax) * glm::vec3(0.5);
 }
 
 void StaticMesh::setupMesh()
@@ -96,20 +96,20 @@ void StaticMesh::updateLightingUniforms(const Shader* shader, std::vector<Light*
 			break;
 		}
 		//// lights directional
-		shader->setVec3(lightIndex + ".direction", Lights[i]->getDirection());
-		shader->setVec3(lightIndex + ".position", Lights[i]->getPosition());
+		shader->setVec3(lightIndex + ".direction", Lights[i]->GetDirection());
+		shader->setVec3(lightIndex + ".position", Lights[i]->GetPosition());
 		shader->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
-		shader->setFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
+		shader->SetFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
 		//// lights spotlight
-		shader->setFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
-		shader->setFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
+		shader->SetFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
+		shader->SetFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
 		//// lights point light falloff
-		shader->setFloat(lightIndex + ".constant", Lights[i]->constant);
-		shader->setFloat(lightIndex + ".linear", Lights[i]->linear);
-		shader->setFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
-		shader->setFloat(lightIndex + ".radius", Lights[i]->getRadius());
+		shader->SetFloat(lightIndex + ".constant", Lights[i]->constant);
+		shader->SetFloat(lightIndex + ".linear", Lights[i]->linear);
+		shader->SetFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
+		shader->SetFloat(lightIndex + ".radius", Lights[i]->getRadius());
 		//// lights view pos
-		shader->setVec3("viewPos", renderCam.getPosition());
+		shader->setVec3("viewPos", renderCam.GetPosition());
 	}
 }
 
@@ -172,7 +172,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		}
 
 		// setting uniform and binding texture
-		shader->setInt(( name + texturenum).c_str(), i);
+		shader->SetInt(( name + texturenum).c_str(), i);
 
 		glBindTexture(GL_TEXTURE_2D, m_textures[i].ID);
 		// activate texture
@@ -183,17 +183,17 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix)
 {
 
-	glm::mat4 finalTransform = getTransformationMatrix() * modelMatrix;
-	shader->setMat4("model", finalTransform);
-	shader->setMat4("view", renderCam.getViewMatrix());
-	shader->setMat4("projection", renderCam.getProjectionMatrix());
+	glm::mat4 finalTransform = GetTransformationMatrix() * modelMatrix;
+	shader->SetMat4("model", finalTransform);
+	shader->SetMat4("view", renderCam.GetViewMatrix());
+	shader->SetMat4("projection", renderCam.GetProjectionMatrix());
 }
 
 void StaticMesh::updateMaterialUniforms(const Shader* shader)
 {
-	shader->setFloat("roughness", 0.4f);
+	shader->SetFloat("roughness", 0.4f);
 	shader->setVec3("color", glm::vec4(1, 0, 0, 0.5));
-	shader->setFloat("metalness", 0.0f);
+	shader->SetFloat("metalness", 0.0f);
 	shader->setBool("UseAlbedoMap", false);
 	shader->setBool("UseNormalMap", false);
 	shader->setBool("UseMetRoughAOMap", false);
@@ -243,12 +243,12 @@ void StaticMesh::BindDrawVAO()
 }
 
 
-void StaticMesh::bindShader(Shader* const& newShader)
+void StaticMesh::SetShader(Shader* const& newShader)
 {
 	m_shader = newShader;
 }
 
-void StaticMesh::bindTextures(std::vector<Texture> textures_val)
+void StaticMesh::SetTextures(std::vector<Texture> textures_val)
 {
 	for (unsigned int i = 0; textures_val.size(); i++)
 	{
@@ -266,7 +266,7 @@ void StaticMesh::bindTextures(std::vector<Texture> textures_val)
 	}
 }
 
-void StaticMesh::bindTexture(Texture texture_val)
+void StaticMesh::AddTexture(Texture texture_val)
 {
 	bool skip{false};
 	for (unsigned int i = 0; i < m_textures.size(); i++)
@@ -285,39 +285,39 @@ void StaticMesh::bindTexture(Texture texture_val)
 }
 
 
-std::pair<glm::vec3, glm::vec3> StaticMesh::getBBox()
+std::pair<glm::vec3, glm::vec3> StaticMesh::GetBBox()
 {
-	calcBBox();
-	return std::make_pair(m_bbox_min, m_bbox_max);
+	CalculateBBox();
+	return std::make_pair(m_BBoxMin, m_BBoxMax);
 }
 
-glm::vec3 StaticMesh::getCentroid()
+glm::vec3 StaticMesh::GetCentroid()
 {
-	calcCentroid();
-	return m_centroid;
+	CalculateCentroid();
+	return m_Centroid;
 }
 
-void StaticMesh::setMat4(std::string name, glm::mat4 value)
+void StaticMesh::SetMat4(std::string name, glm::mat4 value)
 {
 	m_shader->use();
-	m_shader->setMat4(name, value);
+	m_shader->SetMat4(name, value);
 }
 
-void StaticMesh::setInt(std::string name, int value)
+void StaticMesh::SetInt(std::string name, int value)
 {
 	m_shader->use();
-	m_shader->setInt(name, value);
+	m_shader->SetInt(name, value);
 }
 
-void StaticMesh::setFloat(std::string name, float value)
+void StaticMesh::SetFloat(std::string name, float value)
 {
 	m_shader->use();
-	m_shader->setFloat(name, value);
+	m_shader->SetFloat(name, value);
 }
 
 StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
 {
-	isRenderable = true;
+	m_IsRenderable = true;
 	m_vertices = vertices_val;
 	m_indices = indices_val;
 	m_textures = textures_val;
@@ -327,7 +327,7 @@ StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsig
 
 StaticMesh::StaticMesh()
 {
-	isRenderable = true;
+	m_IsRenderable = true;
 }
 
 StaticMesh::~StaticMesh()

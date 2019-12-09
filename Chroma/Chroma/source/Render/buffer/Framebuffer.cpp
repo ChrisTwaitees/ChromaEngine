@@ -28,7 +28,7 @@ void Framebuffer::renderQuad()
 
 
 
-void Framebuffer::initialize()
+void Framebuffer::Initialize()
 {
 	glGenFramebuffers(1, &FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
@@ -90,7 +90,7 @@ void Framebuffer::Draw()
 
 Framebuffer::Framebuffer()
 {
-	initialize();
+	Initialize();
 }
 
 

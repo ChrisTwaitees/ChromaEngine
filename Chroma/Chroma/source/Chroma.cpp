@@ -118,7 +118,7 @@ int Main()
 	// ENTITIES
 	IChromaEntity* NanosuitEntity = new ChromaEntity;
 	Scene->addEntity(NanosuitEntity);
-	NanosuitEntity->setName("ChromaSuit");
+	NanosuitEntity->SetName("ChromaSuit");
 	NanosuitEntity->setPosition(glm::vec3(30., 0., 0));
 
 	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
@@ -126,7 +126,7 @@ int Main()
 	NanoSuitRigidComponent->setCollisionShape(ColliderShape::Convex);
 	NanoSuitRigidComponent->setCollisionState(ColliderState::Dynamic);
 	NanoSuitRigidComponent->setMass(1.0f);
-	NanoSuitModelComponent->bindShader(&litShader);
+	NanoSuitModelComponent->SetShader(&litShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
 	NanosuitEntity->addComponent(NanoSuitRigidComponent);
 
@@ -136,11 +136,11 @@ int Main()
 	{
 		IChromaEntity* BoxEntity = new ChromaEntity;
 		Scene->addEntity(BoxEntity);
-		BoxEntity->setName("Box");
+		BoxEntity->SetName("Box");
 		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive();
-		BoxMeshComponent->bindShader(&litShader);
-		BoxMeshComponent->bindTexture(diffuseMap);
-		BoxMeshComponent->bindTexture(specularMap);
+		BoxMeshComponent->SetShader(&litShader);
+		BoxMeshComponent->AddTexture(diffuseMap);
+		BoxMeshComponent->AddTexture(specularMap);
 		ChromaPhysicsComponent* BoxRigidComponent = new ChromaPhysicsComponent();
 		BoxRigidComponent->setCollisionShape(ColliderShape::Convex);
 		BoxRigidComponent->setCollisionState(ColliderState::Kinematic);
@@ -156,11 +156,11 @@ int Main()
 	{
 		IChromaEntity* LampEntity = new ChromaEntity();
 		Scene->addEntity(LampEntity);
-		LampEntity->setName("Lamp");
+		LampEntity->SetName("Lamp");
 		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive();
-		LampMeshComponent->bindShader(&constantShader);
-		LampMeshComponent->castShadows = false;
-		LampMeshComponent->isLit = false;
+		LampMeshComponent->SetShader(&constantShader);
+		LampMeshComponent->m_CastShadows = false;
+		LampMeshComponent->m_IsLit = false;
 		ChromaPhysicsComponent* LampRigidComponent = new ChromaPhysicsComponent();
 		LampRigidComponent->setCollisionShape(ColliderShape::Convex);
 		LampRigidComponent->setCollisionState(ColliderState::Kinematic);
@@ -174,13 +174,13 @@ int Main()
 	for (glm::vec3 position : grassPositions)
 	{
 		IChromaEntity* GrassPlaneEntity = new ChromaEntity;
-		GrassPlaneEntity->setName("Grass");
+		GrassPlaneEntity->SetName("Grass");
 		ChromaMeshComponent* GrassPlaneMeshComponent = new PlanePrimitive();
-		GrassPlaneMeshComponent->bindTexture(grassMap);
-		GrassPlaneMeshComponent->bindShader(&alphaShader);
-		GrassPlaneMeshComponent->isLit = false;
-		GrassPlaneMeshComponent->isForwardLit = true;
-		GrassPlaneMeshComponent->isTransparent = true;
+		GrassPlaneMeshComponent->AddTexture(grassMap);
+		GrassPlaneMeshComponent->SetShader(&alphaShader);
+		GrassPlaneMeshComponent->m_IsLit = false;
+		GrassPlaneMeshComponent->m_IsForwardLit = true;
+		GrassPlaneMeshComponent->m_IsTransparent = true;
 		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
 		GrassPlaneEntity->setPosition(position);
 		Scene->addEntity(GrassPlaneEntity);
@@ -190,20 +190,20 @@ int Main()
 	IChromaEntity* TerrainEntity = new ChromaEntity;
 	Scene->addEntity(TerrainEntity);
 	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
-	TerrainMeshComponent->bindShader(&litShader);
+	TerrainMeshComponent->SetShader(&litShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 
 	// SPHERE
 	IChromaEntity* SphereEntity = new ChromaEntity;
 	Scene->addEntity(SphereEntity);
-	SphereEntity->setName("Sphere");
+	SphereEntity->SetName("Sphere");
 	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
 	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
 	SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
 	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
-	SphereMeshComponent->bindTexture(normalMap);
-	SphereMeshComponent->bindTexture(concreteMap);
-	SphereMeshComponent->bindShader(&litShader);
+	SphereMeshComponent->AddTexture(normalMap);
+	SphereMeshComponent->AddTexture(concreteMap);
+	SphereMeshComponent->SetShader(&litShader);
 	SphereEntity->addComponent(SphereMeshComponent);
 	SphereEntity->addComponent(SphereRigidComponent);
 
@@ -222,7 +222,7 @@ int Main()
 		float DeltaTime = ScreenManager->getDeltaTime();
 
 		// Updating sun
-		Sun->setPosition(Sun->getDirection() * -20.0f);
+		Sun->setPosition(Sun->GetDirection() * -20.0f);
 		//Sunlight Rotation
 		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
 
@@ -256,7 +256,7 @@ int Main()
 			for (IChromaComponent* component : lamps[i]->getRenderableComponents())
 			{
 				glm::vec3 color(Lights[i]->getDiffuse()* Lights[i]->getIntensity());
-				((ChromaMeshComponent*)component)->getShader()->setVec3("color", glm::vec4(color, 1.0));
+				((ChromaMeshComponent*)component)->GetShader()->setVec3("color", glm::vec4(color, 1.0));
 
 			}
 

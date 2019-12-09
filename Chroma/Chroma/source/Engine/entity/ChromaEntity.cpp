@@ -2,13 +2,13 @@
 #include <component/ChromaMeshComponent.h>
 #include <component/ChromaPhysicsComponent.h>
 
-std::vector<ChromaVertex> ChromaEntity::getVertices()
+std::vector<ChromaVertex> ChromaEntity::GetVertices()
 {
 	// collecting all vertices within mesh components of entity
 	std::vector<ChromaVertex> verts;
 	for (IChromaComponent* meshComponent : m_meshComponents)
 	{
-		std::vector<ChromaVertex> m_vertices = ((ChromaMeshComponent*)meshComponent)->getVertices();
+		std::vector<ChromaVertex> m_vertices = ((ChromaMeshComponent*)meshComponent)->GetVertices();
 		for (ChromaVertex vert : m_vertices)
 			verts.push_back(vert);
 	}
@@ -16,16 +16,16 @@ std::vector<ChromaVertex> ChromaEntity::getVertices()
 	return verts;
 }
 
-std::pair<glm::vec3, glm::vec3> ChromaEntity::getBBox()
+std::pair<glm::vec3, glm::vec3> ChromaEntity::GetBBox()
 {
-	calcBBox();
-	return std::make_pair(m_bbox_min, m_bbox_max);
+	CalculateBBox();
+	return std::make_pair(m_BBoxMin, m_BBoxMax);
 }
 
-glm::vec3 ChromaEntity::getCentroid()
+glm::vec3 ChromaEntity::GetCentroid()
 {
-	calcCentroid();
-	return m_centroid;
+	CalculateCentroid();
+	return m_Centroid;
 }
 
 void ChromaEntity::Draw(Shader& shader)
@@ -65,17 +65,17 @@ void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 	m_meshComponents.push_back(newMeshComponent);
 
 	// TODO: Consider shared_ptr to prevent memory duplication
-	if (newMeshComponent->isRenderable)
+	if (newMeshComponent->m_IsRenderable)
 		m_renderableComponents.push_back(newMeshComponent);
-	if (newMeshComponent->isLit)
+	if (newMeshComponent->m_IsLit)
 		m_litComponents.push_back(newMeshComponent);
-	if (newMeshComponent->castShadows)
+	if (newMeshComponent->m_CastShadows)
 		m_shadowCastingComponents.push_back(newMeshComponent);
-	if (newMeshComponent->isTransparent)
+	if (newMeshComponent->m_IsTransparent)
 		m_transparentComponents.push_back(newMeshComponent);
-	if (newMeshComponent->isLit == false)
+	if (newMeshComponent->m_IsLit == false)
 		m_unLitComponents.push_back(newMeshComponent);
-	if (newMeshComponent->isTransparent || newMeshComponent->isLit == false)
+	if (newMeshComponent->m_IsTransparent || newMeshComponent->m_IsLit == false)
 		m_transparentComponents.push_back(newMeshComponent);
 }
 
@@ -94,12 +94,12 @@ void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsCompon
 	m_parentScene->getPhysics()->addBodyToWorld(newPhysicsComponent);
 }
 
-void ChromaEntity::calcBBox()
+void ChromaEntity::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
 	for (IChromaComponent* meshComponent : m_meshComponents)
-		bboxes.push_back(((ChromaMeshComponent*)meshComponent)->getBBox());
+		bboxes.push_back(((ChromaMeshComponent*)meshComponent)->GetBBox());
 	// once collected, calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
@@ -111,13 +111,13 @@ void ChromaEntity::calcBBox()
 	// re-establishing min and max bboxes
 	// scale by entity's current size
 	glm::vec3 scale = getScale(m_transformMatrix);
-	m_bbox_min = newMinBBox * scale;
-	m_bbox_max = newMaxBBox * scale;
+	m_BBoxMin = newMinBBox * scale;
+	m_BBoxMax = newMaxBBox * scale;
 }
 
-void ChromaEntity::calcCentroid()
+void ChromaEntity::CalculateCentroid()
 {
-	m_centroid = (m_bbox_min - m_bbox_max) * glm::vec3(0.5);
+	m_Centroid = (m_BBoxMin - m_BBoxMax) * glm::vec3(0.5);
 }
 
 void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)
@@ -185,7 +185,7 @@ void ChromaEntity::setPosition(glm::vec3 newposition)
 
 void ChromaEntity::setRotation(float degrees, glm::vec3 rotationaxis)
 {
-	glm::vec3 existingTranslation = getPosition();
+	glm::vec3 existingTranslation = GetPosition();
 	m_transformMatrix = glm::translate(m_transformMatrix, existingTranslation);
 	rotate(degrees, rotationaxis);
 	updatePhysicsComponentsTransforms();

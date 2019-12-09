@@ -7,7 +7,7 @@
 
 class Animation
 {
-	std::vector<KeyFrame> m_keyFrames;
+	std::vector<KeyFrame> m_KeyFrames;
 public:
 	Animation();
 	~Animation();

@@ -1,8 +1,8 @@
 #ifndef _CHROMA_MESHCOMPONENT_
 #define _CHROMA_MESHCOMPONENT_
-#include <component/IChromaComponent.h>
 
 // Chroma
+#include <component/IChromaComponent.h>
 #include <model/Vertex.h>
 #include <texture/Texture.h>
 #include <camera/Camera.h>
@@ -11,30 +11,31 @@
 class ChromaMeshComponent : public IChromaComponent
 {
 protected:
-	glm::mat4 m_transformationMatrix{ glm::mat4(1) };
-	glm::vec3 m_bbox_min, m_bbox_max;
-	glm::vec3 m_centroid;
+	glm::mat4 m_TransformationMatrix{ 1.0 };
+	glm::vec3 m_BBoxMin{ 0.0 }, m_BBoxMax{ 0.0 };
+	glm::vec3 m_Centroid{ 0.0 };
 	// calculate attrs
-	virtual void calcBBox() = 0;
-	virtual void calcCentroid() = 0;
+	virtual void CalculateBBox() = 0;
+	virtual void CalculateCentroid() = 0;
 public:
-	bool isRenderable{ false };
-	bool isTransparent{ false };
-	bool isLit{ true };
-	bool isForwardLit{ false };
-	bool castShadows{ true };
-	// Getters/Setters
-	virtual Shader* getShader() = 0;
-	virtual int getNumTextures() = 0;
-	virtual glm::mat4 getTransformationMatrix() = 0;
-	virtual std::vector<ChromaVertex> getVertices() = 0;
-	virtual std::pair<glm::vec3, glm::vec3> getBBox() = 0;
-	virtual glm::vec3 getCentroid() = 0;
+	bool m_IsRenderable{ false };
+	bool m_IsTransparent{ false };
+	bool m_IsLit{ true };
+	bool m_IsForwardLit{ false };
+	bool m_CastShadows{ true };
 
-	// Bindings
-	virtual void bindShader(Shader* const& newShader) = 0;
-	virtual void bindTextures(std::vector<Texture> textures_val) = 0;
-	virtual void bindTexture(Texture texture_val) = 0;
+	// Accessors
+	virtual Shader* GetShader() = 0;
+	virtual int GetNumTextures() = 0;
+	virtual glm::mat4 GetTransformationMatrix() = 0;
+	virtual std::vector<ChromaVertex> GetVertices() = 0;
+	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
+	virtual glm::vec3 GetCentroid() = 0;
+
+
+	virtual void SetShader(Shader* const& newShader) = 0;
+	virtual void SetTextures(std::vector<Texture> textures_val) = 0;
+	virtual void AddTexture(Texture texture_val) = 0;
 
 	// Draw
 	virtual void Draw(Shader& shader) = 0;
@@ -44,13 +45,11 @@ public:
 	virtual void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) = 0;
 
 	// Shader Uniforms
-	virtual void setMat4(std::string name, glm::mat4 value) = 0;
-	virtual void setInt(std::string name, int value) = 0;
-	virtual void setFloat(std::string name, float value) = 0;
-
-	// LinePrimitive 
-	virtual void setStartPos(glm::vec3 startPos) {};
-	virtual void setEndPos(glm::vec3 endPos) {};
+	//template<typename UniformType>
+	//void SetUniform(std::string uniformName, UniformType uniform) {};
+	virtual void SetMat4(std::string name, glm::mat4 value) = 0;
+	virtual void SetInt(std::string name, int value) = 0;
+	virtual void SetFloat(std::string name, float value) = 0;
 
 	// Constructors
 	ChromaMeshComponent();

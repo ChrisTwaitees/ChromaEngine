@@ -20,7 +20,7 @@
 class ChromaGame
 {
 	// functions 
-	void initialize();
+	void Initialize();
 
 	// attrs
 	enum State {GAME_ACTIVE, GAME_MENU, GAME_WIN};

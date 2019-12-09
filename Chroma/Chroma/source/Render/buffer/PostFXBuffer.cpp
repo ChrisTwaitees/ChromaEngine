@@ -1,7 +1,7 @@
 #include "PostFXBuffer.h"
 
 
-void PostFXBuffer::initialize()
+void PostFXBuffer::Initialize()
 {
 	screenShader = new Shader(fragSource, vtxSource);
 	blurShader = new Shader(blurfragSource, vtxSource);
@@ -56,10 +56,10 @@ void PostFXBuffer::updateTransformUniforms()
 void PostFXBuffer::configure_shaders()
 {
 	blurShader->use();
-	blurShader->setInt("image", 0);
+	blurShader->SetInt("image", 0);
 	screenShader->use();
-	screenShader->setInt("scene", 0);
-	screenShader->setInt("bloomBlur", 1);
+	screenShader->SetInt("scene", 0);
+	screenShader->SetInt("bloomBlur", 1);
 }
 
 void PostFXBuffer::genBlurBuffer()
@@ -95,7 +95,7 @@ void PostFXBuffer::blurFragments()
 	for (unsigned int i = 0; i < blurIterations; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
-		blurShader->setInt("horizontal", horizontal);
+		blurShader->SetInt("horizontal", horizontal);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(
 			GL_TEXTURE_2D, first_iteration ? colorBuffersTextures[1] : blurColorBuffers[!horizontal]
@@ -116,7 +116,7 @@ void PostFXBuffer::Draw()
 	screenShader->use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
-	screenShader->setInt("bloom", 0);
+	screenShader->SetInt("bloom", 0);
 	// setting transform uniforms
 	updateTransformUniforms();
 	renderQuad();
@@ -135,7 +135,7 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		for (unsigned int i = 0; i < blurIterations; i++)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
-			blurShader->setInt("horizontal", horizontal);
+			blurShader->SetInt("horizontal", horizontal);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(
 				GL_TEXTURE_2D, first_iteration ? colorBuffersTextures[1] : blurColorBuffers[!horizontal]
@@ -153,7 +153,7 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, blurColorBuffers[!horizontal]);
-		screenShader->setInt("bloom", useBloom);
+		screenShader->SetInt("bloom", useBloom);
 		// setting transform uniforms
 		renderQuad();
 	}
@@ -170,7 +170,7 @@ void PostFXBuffer::Bind()
 
 PostFXBuffer::PostFXBuffer()
 {
-	initialize();
+	Initialize();
 }
 
 PostFXBuffer::~PostFXBuffer()

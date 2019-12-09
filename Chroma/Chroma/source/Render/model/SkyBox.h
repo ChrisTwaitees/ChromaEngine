@@ -63,7 +63,7 @@ private:
 		 1.0f, -1.0f,  1.0f
 	};
 
-	void initialize();
+	void Initialize();
 	ColorSpace m_colorSpace = LINEAR;
 
 public:

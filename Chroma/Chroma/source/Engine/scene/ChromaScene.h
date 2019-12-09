@@ -28,7 +28,7 @@ class ChromaScene
 	IBL* m_IBL{ new IBL()}; // image based lighting
 
 	// functions
-	void initialize();
+	void Initialize();
 	glm::vec3 calcAmbientLightColor();
 
 public:

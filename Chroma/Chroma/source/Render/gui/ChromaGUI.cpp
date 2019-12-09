@@ -1,6 +1,6 @@
 #include "ChromaGUI.h"
 
-void ChromaGUI::initialize()
+void ChromaGUI::Initialize()
 {
 	// IMGUI GUI Initialization
 	// Setup Dear ImGui context
@@ -37,7 +37,7 @@ void ChromaGUI::End()
 void ChromaGUI::attachWindow(GLFWwindow& window_val)
 {
 	window = &window_val;
-	initialize();
+	Initialize();
 }
 
 ChromaGUI::ChromaGUI()
@@ -46,11 +46,11 @@ ChromaGUI::ChromaGUI()
 
 ChromaGUI::ChromaGUI(GLFWwindow* window_val) : window{ window_val }
 {
-	initialize();
+	Initialize();
 }
 
 
 ChromaGUI::~ChromaGUI()
 {
-	initialize();
+	Initialize();
 }

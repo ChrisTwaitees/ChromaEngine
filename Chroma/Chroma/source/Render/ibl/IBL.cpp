@@ -1,6 +1,6 @@
 #include "IBL.h"
 
-void IBL::initialize()
+void IBL::Initialize()
 {
 	glDisable(GL_CULL_FACE); // double sided rendering
 	glDepthFunc(GL_LEQUAL);
@@ -48,8 +48,8 @@ void IBL::generateEnvCubeMap()
 
 	// convert HDR equirectangular environment map to cubemap equivalent
 	m_envMapShader.use();
-	m_envMapShader.setInt("equirectangularMap", 0);
-	m_envMapShader.setMat4("projection", captureProjection);
+	m_envMapShader.SetInt("equirectangularMap", 0);
+	m_envMapShader.SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_HDRtexture.ID);
 
@@ -57,7 +57,7 @@ void IBL::generateEnvCubeMap()
 	glBindFramebuffer(GL_FRAMEBUFFER, m_captureFBO);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		m_envMapShader.setMat4("view", captureViews[i]);
+		m_envMapShader.SetMat4("view", captureViews[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_envCubeMap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -91,8 +91,8 @@ void IBL::generateIrradianceMap()
 
 	// convolute the irradiance cubemap
 	m_irradienceMapShader.use();
-	m_irradienceMapShader.setInt("environmentMap", 0);
-	m_irradienceMapShader.setMat4("projection", captureProjection);
+	m_irradienceMapShader.SetInt("environmentMap", 0);
+	m_irradienceMapShader.SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_envCubeMap);
 
@@ -100,7 +100,7 @@ void IBL::generateIrradianceMap()
 	glBindFramebuffer(GL_FRAMEBUFFER, m_captureFBO);
 	for (unsigned int i = 0; i < 6; ++i)
 	{
-		m_irradienceMapShader.setMat4("view", captureViews[i]);
+		m_irradienceMapShader.SetMat4("view", captureViews[i]);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 			GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_irradianceMap, 0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -135,8 +135,8 @@ void IBL::generatePrefilterMap()
 
 	// convolute the prefilter cubemap
 	m_prefilterMapShader.use();
-	m_prefilterMapShader.setInt("environmentMap", 0);
-	m_prefilterMapShader.setMat4("projection", captureProjection);
+	m_prefilterMapShader.SetInt("environmentMap", 0);
+	m_prefilterMapShader.SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_envCubeMap);
 
@@ -152,10 +152,10 @@ void IBL::generatePrefilterMap()
 		glViewport(0, 0, mipWidth, mipHeight);
 
 		float roughness = (float)mip / (float)(maxMipLevels - 1);
-		m_prefilterMapShader.setFloat("roughness", roughness);
+		m_prefilterMapShader.SetFloat("roughness", roughness);
 		for (unsigned int i = 0; i < 6; ++i)
 		{
-			m_prefilterMapShader.setMat4("view", captureViews[i]);
+			m_prefilterMapShader.SetMat4("view", captureViews[i]);
 			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0,
 				GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, m_prefilterMap, mip);
 
@@ -209,10 +209,10 @@ void IBL::Draw()
 void IBL::setIBLTexture(HDRTexture newHDRTexture)
 {
 	m_HDRtexture = newHDRTexture;
-	initialize();
+	Initialize();
 }
 
 IBL::IBL()
 {
-	initialize();
+	Initialize();
 }

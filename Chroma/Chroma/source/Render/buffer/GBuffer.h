@@ -30,7 +30,7 @@ class GBuffer : public Framebuffer
 	Framebuffer* m_postFXBuffer;
 
 	// functions
-	void initialize() override;
+	void Initialize() override;
 	void bindAllGBufferTextures();
 
 	// gbuffer textures

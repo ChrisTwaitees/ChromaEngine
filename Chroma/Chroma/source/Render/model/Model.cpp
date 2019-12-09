@@ -31,47 +31,47 @@ void Model::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 		mesh->DrawUpdateTransforms(renderCam, modelMatrix);
 }
 
-void Model::bindShader(Shader* const& newShader)
+void Model::SetShader(Shader* const& newShader)
 {
 	for (ChromaMeshComponent* mesh : m_meshes)
-		mesh->bindShader(newShader);
+		mesh->SetShader(newShader);
 }
 
 
-std::pair<glm::vec3, glm::vec3> Model::getBBox()
+std::pair<glm::vec3, glm::vec3> Model::GetBBox()
 {
-	calcBBox();
-	return std::make_pair(m_bbox_min, m_bbox_max);
+	CalculateBBox();
+	return std::make_pair(m_BBoxMin, m_BBoxMax);
 }
 
-glm::vec3 Model::getCentroid()
+glm::vec3 Model::GetCentroid()
 {
-	calcCentroid();
-	return m_centroid;
+	CalculateCentroid();
+	return m_Centroid;
 }
 
-void Model::bindTexture(Texture texture_val)
-{
-	for (ChromaMeshComponent* mesh : m_meshes)
-		mesh->bindTexture(texture_val);
-}
-
-void Model::setMat4(std::string name, glm::mat4 value)
+void Model::AddTexture(Texture texture_val)
 {
 	for (ChromaMeshComponent* mesh : m_meshes)
-		mesh->setMat4(name, value);
+		mesh->AddTexture(texture_val);
 }
 
-void Model::setInt(std::string name, int value)
+void Model::SetMat4(std::string name, glm::mat4 value)
 {
 	for (ChromaMeshComponent* mesh : m_meshes)
-		mesh->setInt(name, value);
+		mesh->SetMat4(name, value);
 }
 
-void Model::setFloat(std::string name, float value)
+void Model::SetInt(std::string name, int value)
 {
 	for (ChromaMeshComponent* mesh : m_meshes)
-		mesh->setFloat(name, value);
+		mesh->SetInt(name, value);
+}
+
+void Model::SetFloat(std::string name, float value)
+{
+	for (ChromaMeshComponent* mesh : m_meshes)
+		mesh->SetFloat(name, value);
 }
 
 
@@ -81,12 +81,12 @@ Model::~Model()
 		delete mesh;
 }
 
-void Model::calcBBox()
+void Model::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
 	for (ChromaMeshComponent*& mesh : m_meshes)
-		bboxes.push_back(mesh->getBBox());
+		bboxes.push_back(mesh->GetBBox());
 
 	// once collected, calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
@@ -97,13 +97,13 @@ void Model::calcBBox()
 		newMaxBBox = glm::max(newMaxBBox, MinMaxBBoxes.second);
 	}
 	// re-establishing min and max bboxes
-	m_bbox_min = newMinBBox;
-	m_bbox_max = newMaxBBox;
+	m_BBoxMin = newMinBBox;
+	m_BBoxMax = newMaxBBox;
 }
 
-void Model::calcCentroid()
+void Model::CalculateCentroid()
 {
-	m_centroid = m_bbox_min + ((m_bbox_min - m_bbox_max) * glm::vec3(0.5));
+	m_Centroid = m_BBoxMin + ((m_BBoxMin - m_BBoxMax) * glm::vec3(0.5));
 }
 
 void Model::loadModel(std::string path)
@@ -240,11 +240,11 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			aiBone* bone = mesh->mBones[i];
 			Joint newJoint;
 			// name
-			newJoint.setName(bone->mName.C_Str());
+			newJoint.SetName(bone->mName.C_Str());
 			// offset matrix - joint matrix, relative to its parent
-			newJoint.setOffsetMatrix(AIToGLM(bone->mOffsetMatrix));
+			newJoint.SetOffsetMatrix(AIToGLM(bone->mOffsetMatrix));
 			// ID
-			newJoint.setID(i);
+			newJoint.SetID(i);
 			
 			// store joint IDs and Weights to skelton and verts
 			for (int j = 0; j < bone->mNumWeights; j++)
@@ -254,13 +254,13 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 				std::pair<unsigned int, float> newVertexWeight;
 				newVertexWeight.first = vertexWeight.mVertexId;
 				newVertexWeight.second = vertexWeight.mWeight;
-				newJoint.addVertexWeight(newVertexWeight);
+				newJoint.AddVertexWeight(newVertexWeight);
 				// update vert
 				m_skinnedVertices[vertexWeight.mVertexId].addJointID(i);
 				m_skinnedVertices[vertexWeight.mVertexId].addJointWeight(vertexWeight.mWeight);
 			}
 			// add new joint
-			skeleton.addJoint(newJoint);
+			skeleton.AddJoint(newJoint);
 		}
 		return new SkinnedMesh(m_skinnedVertices, m_indices, m_textures, skeleton);
 	}

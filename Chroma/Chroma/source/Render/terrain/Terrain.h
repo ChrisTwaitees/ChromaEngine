@@ -11,14 +11,14 @@ private:
 	double TerrainHeight;
 
 	// initialize
-	void initialize();
+	void Initialize();
 
 public:
 	/*  Functions  */
 	void setTerrainHeight(double newTerrainHeight);
 	double getTerrainHeight() { return TerrainHeight; };
 	
-	glm::mat4 getTransformationMatrix() override;
+	glm::mat4 GetTransformationMatrix() override;
 
 	Terrain();
 	Terrain(Camera* camera_val);

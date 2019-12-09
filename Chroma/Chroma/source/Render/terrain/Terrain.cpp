@@ -1,6 +1,6 @@
 #include "Terrain.h"
 
-void Terrain::initialize()
+void Terrain::Initialize()
 {
 	// Setting Default Transform
 	TerrainIdentityMatrix = glm::scale(TerrainIdentityMatrix, glm::vec3(10.0f));
@@ -15,14 +15,14 @@ void Terrain::setTerrainHeight(double newTerrainHeight)
 	TerrainTransformMatrix = glm::translate(TerrainIdentityMatrix, glm::vec3(0.0f, newTerrainHeight, 0.0f));
 }
 
-glm::mat4 Terrain::getTransformationMatrix()
+glm::mat4 Terrain::GetTransformationMatrix()
 {
 	return TerrainTransformMatrix;
 }
 
 Terrain::Terrain()
 {
-	initialize();
+	Initialize();
 	setupQuad();
 }
 

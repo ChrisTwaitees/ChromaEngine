@@ -28,8 +28,8 @@ protected:
 	Shader* m_shader{ new Shader(fragShaderSource, vtxShaderSource) };
 
 	// functions
-	virtual void calcBBox();
-	virtual void calcCentroid();
+	virtual void CalculateBBox();
+	virtual void CalculateCentroid();
 	virtual void setupMesh();
 	// render functions
 	virtual void updateUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
@@ -48,22 +48,22 @@ public:
 	virtual void BindDrawVAO();
 
 	// Bindings
-	virtual void bindShader(Shader* const& newShader) override;
-	virtual void bindTextures(std::vector<Texture> textures_val) override;
-	virtual void bindTexture(Texture texture_val) override;
+	virtual void SetShader(Shader* const& newShader) override;
+	virtual void SetTextures(std::vector<Texture> textures_val) override;
+	virtual void AddTexture(Texture texture_val) override;
 
 	// Getters/Setters
-	virtual Shader* getShader() { return m_shader; };
-	int getNumTextures() override { return m_textures.size(); };
-	virtual glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
-	virtual std::vector<ChromaVertex> getVertices() { return m_vertices; };
-	virtual std::pair<glm::vec3, glm::vec3> getBBox();
-	virtual glm::vec3 getCentroid();
+	virtual Shader* GetShader() { return m_shader; };
+	int GetNumTextures() override { return m_textures.size(); };
+	virtual glm::mat4 GetTransformationMatrix() override { return m_TransformationMatrix; };
+	virtual std::vector<ChromaVertex> GetVertices() { return m_vertices; };
+	virtual std::pair<glm::vec3, glm::vec3> GetBBox();
+	virtual glm::vec3 GetCentroid();
 
 	// Shader Uniforms
-	virtual void setMat4(std::string name, glm::mat4 value) override;
-	virtual void setInt(std::string name, int value) override;
-	virtual void setFloat(std::string name, float value) override;
+	virtual void SetMat4(std::string name, glm::mat4 value) override;
+	virtual void SetInt(std::string name, int value) override;
+	virtual void SetFloat(std::string name, float value) override;
 
 	StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
 	StaticMesh();

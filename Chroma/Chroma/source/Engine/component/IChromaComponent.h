@@ -26,7 +26,7 @@ public:
 	// name / uid / type
 	ChromaUID getUID() { return uid; };
 	std::string getName() { return name; };
-	void setName(std::string newName) { name = newName; };
+	void SetName(std::string newName) { name = newName; };
 
 	// parent
 	IChromaEntity* getParentEntity() {	return m_parentEntity;	}

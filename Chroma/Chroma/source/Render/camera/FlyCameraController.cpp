@@ -79,7 +79,7 @@ void FlyCameraController::move(Direction dir, glm::vec3& camPos, glm::vec3& camD
 	}
 }
 
-void FlyCameraController::processInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
+void FlyCameraController::ProcessInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
 	processMouseInput(input, camPos, camDir, camUp);
 	processKeyboardInput(input, camPos, camDir, camUp);

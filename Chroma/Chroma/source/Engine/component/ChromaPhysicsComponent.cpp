@@ -50,34 +50,34 @@ void ChromaPhysicsComponent::createCollisionShape()
 	{
 	case(AABB):
 	{
-		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
+		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->GetBBox();
 		glm::vec3 boxSize = glm::abs(bbox.second);
 		m_shape = new btBoxShape(GLMToBullet(boxSize));
 		break;
 	}
 	case(Sphere) :
 	{
-		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
+		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->GetBBox();
 		float boxSize = glm::length(bbox.first - bbox.second);
 		m_shape = new btSphereShape(btScalar(boxSize) * 0.50);
 		break;
 	}
 	case(Convex):
 	{
-		std::vector<ChromaVertex> m_vertices = m_parentEntity->getVertices();
+		std::vector<ChromaVertex> m_vertices = m_parentEntity->GetVertices();
 		m_shape = new btConvexHullShape();
 		for (ChromaVertex vert : m_vertices)
 		{
-			btVector3 btv = btVector3(vert.getPosition().x,
-				vert.getPosition().y,
-				vert.getPosition().z);
+			btVector3 btv = btVector3(vert.GetPosition().x,
+				vert.GetPosition().y,
+				vert.GetPosition().z);
 			((btConvexHullShape*)m_shape)->addPoint(btv);
 		}
 		break;
 	}
 	case(Mesh):
 	{
-		std::vector<ChromaVertex> m_vertices = m_parentEntity->getVertices();
+		std::vector<ChromaVertex> m_vertices = m_parentEntity->GetVertices();
 		btTriangleMesh* mesh = new btTriangleMesh();
 
 		for (int i = 0; i < m_vertices.size(); i += 3)
@@ -86,15 +86,15 @@ void ChromaPhysicsComponent::createCollisionShape()
 			ChromaVertex v2 = m_vertices[i + 1];
 			ChromaVertex v3 = m_vertices[i + 2];
 
-			btVector3 btv1 = btVector3(v1.getPosition().x,
-				v1.getPosition().y,
-				v1.getPosition().z);
-			btVector3 btv2 = btVector3(v2.getPosition().x,
-				v2.getPosition().y,
-				v2.getPosition().z);
-			btVector3 btv3 = btVector3(v3.getPosition().x,
-				v3.getPosition().y,
-				v3.getPosition().z);
+			btVector3 btv1 = btVector3(v1.GetPosition().x,
+				v1.GetPosition().y,
+				v1.GetPosition().z);
+			btVector3 btv2 = btVector3(v2.GetPosition().x,
+				v2.GetPosition().y,
+				v2.GetPosition().z);
+			btVector3 btv3 = btVector3(v3.GetPosition().x,
+				v3.GetPosition().y,
+				v3.GetPosition().z);
 
 			mesh->addTriangle(btv1, btv2, btv3);
 		}
@@ -103,7 +103,7 @@ void ChromaPhysicsComponent::createCollisionShape()
 	}
 	case(Capsule):
 	{
-		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
+		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->GetBBox();
 		float boxheight = glm::length(bbox.first.y - bbox.second.y);
 		bbox.first.y = 0;
 		bbox.second.y = 0;
@@ -114,7 +114,7 @@ void ChromaPhysicsComponent::createCollisionShape()
 	}
 	case(Box):
 	{
-		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->getBBox();
+		std::pair<glm::vec3, glm::vec3> bbox = getParentEntity()->GetBBox();
 		glm::vec3 boxSize = glm::abs(bbox.second);
 		m_shape = new btBoxShape(GLMToBullet(boxSize));
 		break;
@@ -126,7 +126,7 @@ void ChromaPhysicsComponent::createCollisionShape()
 void ChromaPhysicsComponent::createRigidBody()
 {
 	// fetch entity position
-	m_transform = GLMToBullet(getParentEntity()->getTransformationMatrix());
+	m_transform = GLMToBullet(getParentEntity()->GetTransformationMatrix());
 
 	// default motion state
 	m_motionState = new btDefaultMotionState(m_transform);

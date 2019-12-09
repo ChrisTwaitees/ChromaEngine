@@ -8,13 +8,13 @@ void ShadowBuffer::calcLightSpaceMatrix()
 	// calculate LightSpaceMatrix
 	float near_plane = 0.1f, far_plane = 35.0f;
 	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
-	glm::mat4 lightView = glm::lookAt(SceneSunLight->getDirection() * -10.0f,
+	glm::mat4 lightView = glm::lookAt(SceneSunLight->GetDirection() * -10.0f,
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	lightSpaceMatrix = lightProjection * lightView;
 }
 
-void ShadowBuffer::initialize()
+void ShadowBuffer::Initialize()
 {
 	// create frame buffer to store depth to
 	glGenFramebuffers(1, &depthMapFBO);
@@ -39,7 +39,7 @@ void ShadowBuffer::initialize()
 	for (IChromaEntity* entity : m_scene->getEntities())
 		for (IChromaComponent* component : entity->getMeshComponents())
 		{
-			((ChromaMeshComponent*)component)->bindTexture(ShadowMapTexture);
+			((ChromaMeshComponent*)component)->AddTexture(ShadowMapTexture);
 		}
 }
 
@@ -63,7 +63,7 @@ void ShadowBuffer::calculateShadows()
 
 	// Set uniforms on shader
 	depthShader.use();
-	depthShader.setMat4("lightSpaceMatrix", lightSpaceMatrix);
+	depthShader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
 	// Set map resolution
 	glViewport(0, 0, width, height);
@@ -78,11 +78,11 @@ void ShadowBuffer::calculateShadows()
 	// render scene
 	for (IChromaEntity* entity : m_scene->getEntities())
 	{
-		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();	
+		glm::mat4 finalTransformMatrix = entity->GetTransformationMatrix();	
 		for (IChromaComponent* component : entity->getShadowCastingComponents())
 		{
-			finalTransformMatrix *= ((ChromaMeshComponent*)component)->getTransformationMatrix();
-			depthShader.setMat4("model", finalTransformMatrix);
+			finalTransformMatrix *= ((ChromaMeshComponent*)component)->GetTransformationMatrix();
+			depthShader.SetMat4("model", finalTransformMatrix);
 			((ChromaMeshComponent*)component)->Draw(depthShader);
 		}
 	}
@@ -99,11 +99,11 @@ void ShadowBuffer::calculateShadows()
 ShadowBuffer::ShadowBuffer(ChromaScene*& Scene)
 {
 	m_scene = Scene;
-	initialize();
+	Initialize();
 }
 
 
 ShadowBuffer::~ShadowBuffer()
 {
-	initialize();
+	Initialize();
 }

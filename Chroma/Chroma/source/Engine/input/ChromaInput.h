@@ -33,7 +33,7 @@ class ChromaInput
 	double deltaTime;
 
 	// functions 
-	void initialize();
+	void Initialize();
 
 	// callbacks
 	static void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos);

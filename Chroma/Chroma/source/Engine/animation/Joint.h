@@ -10,20 +10,20 @@
 
 // chroma
 
-
-
 class Joint
 {
+	// Joint Data
 	unsigned int m_ID;
-	std::string m_name;
-	glm::mat4 m_offsetMatrix;
-	std::vector<std::pair<unsigned int, float>> m_vertexWeights;
+	std::string m_Name;
+	glm::mat4 m_OffsetMatrix;
+	std::vector<std::pair<unsigned int, float>> m_VertexWeights;
 
 public:
-	void setID(unsigned int JointID) { m_ID = JointID; };
-	void setName(std::string Name) { m_name = Name; };
-	void setOffsetMatrix(glm::mat4 newOffsetMatrix) { m_offsetMatrix = newOffsetMatrix; };
-	void addVertexWeight(std::pair<unsigned int, float> newVertexWeight) { m_vertexWeights.push_back(newVertexWeight); };
+	// Accessors
+	void SetID(unsigned int JointID) { m_ID = JointID; };
+	void SetName(std::string Name) { m_Name = Name; };
+	void SetOffsetMatrix(glm::mat4 newOffsetMatrix) { m_OffsetMatrix = newOffsetMatrix; };
+	void AddVertexWeight(std::pair<unsigned int, float> newVertexWeight) { m_VertexWeights.push_back(newVertexWeight); };
 
 	Joint();
 	~Joint();

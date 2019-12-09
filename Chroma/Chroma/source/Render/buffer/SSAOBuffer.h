@@ -30,7 +30,7 @@ class SSAOBuffer : public Framebuffer
 	void generateBuffers();
 
 	// initialize
-	void initialize() override;
+	void Initialize() override;
 
 	// sampleKernels
 	unsigned int kernelSamples{ 16 };

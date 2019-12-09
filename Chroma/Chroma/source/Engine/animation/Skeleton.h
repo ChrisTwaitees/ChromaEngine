@@ -1,16 +1,18 @@
 #ifndef _CHROMA_SKELETON_
 #define _CHROMA_SKELETON_
 
+// stl
 #include <vector>
-
+// chroma
 #include <animation/Joint.h>
 
 class Skeleton
 {
-	std::vector<Joint> m_joints;
+	std::vector<Joint> m_Joints;
 
 public:
-	void addJoint(Joint newJoint) { m_joints.push_back(newJoint); };
+	// Accessors
+	void AddJoint(Joint newJoint) { m_Joints.push_back(newJoint); };
 
 	Skeleton();
 	~Skeleton();

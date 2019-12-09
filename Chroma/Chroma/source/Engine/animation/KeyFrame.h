@@ -9,21 +9,23 @@
 
 struct JointTransform
 {
-	glm::vec3 position;
-	glm::quat rotation;
+	glm::vec3 m_Position{ 0.0 };
+	glm::quat m_Rotation{ 0.0, 0.0, 0.0, 0.0 };
 };
 
 class KeyFrame
 {
-	std::vector<JointTransform> m_jointTransforms;
-	float m_timeStamp;
+	std::vector<JointTransform> m_JointTransforms;
+	float m_TimeStamp{ 0.0 };
 
-	
 public:
-	void setJointTransforms(std::vector<JointTransform> jointTransforms) { m_jointTransforms = jointTransforms; };
 
-	float getTimeStamp() {return m_timeStamp; };
-	std::vector<JointTransform> getJointTransforms() { return m_jointTransforms; };
+	// Accessors
+	float GetTimeStamp() {return m_TimeStamp; };
+	std::vector<JointTransform> GetJointTransforms() { return m_JointTransforms; };
+
+	void SetJointTransforms(std::vector<JointTransform> jointTransforms) { m_JointTransforms = jointTransforms; };
+
 	KeyFrame();
 	~KeyFrame();
 };
@@ -33,18 +35,18 @@ static KeyFrame lerpKeyFrames(KeyFrame sourceKeyFrame, KeyFrame targetKeyFrame, 
 	KeyFrame newKeyFrame;
 	std::vector<JointTransform> lerpedJointTransforms;
 
-	if (sourceKeyFrame.getJointTransforms().size() == targetKeyFrame.getJointTransforms().size())
-		for (int i = 0 ; i < sourceKeyFrame.getJointTransforms().size(); i++)
+	if (sourceKeyFrame.GetJointTransforms().size() == targetKeyFrame.GetJointTransforms().size())
+		for (int i = 0 ; i < sourceKeyFrame.GetJointTransforms().size(); i++)
 		{
 			JointTransform lerpedTransform;
-			lerpedTransform.position = glm::mix(sourceKeyFrame.getJointTransforms()[i].position, targetKeyFrame.getJointTransforms()[i].position, bias);
-			lerpedTransform.rotation = glm::slerp(sourceKeyFrame.getJointTransforms()[i].rotation, targetKeyFrame.getJointTransforms()[i].rotation, bias);
+			lerpedTransform.m_Position = glm::mix(sourceKeyFrame.GetJointTransforms()[i].m_Position, targetKeyFrame.GetJointTransforms()[i].m_Position, bias);
+			lerpedTransform.m_Rotation = glm::slerp(sourceKeyFrame.GetJointTransforms()[i].m_Rotation, targetKeyFrame.GetJointTransforms()[i].m_Rotation, bias);
 			lerpedJointTransforms.push_back(lerpedTransform);
 		}
 	else
 		std::cout << "KeyFrames incompatible" << std::endl;
 
-	newKeyFrame.setJointTransforms(lerpedJointTransforms);
+	newKeyFrame.SetJointTransforms(lerpedJointTransforms);
 	return newKeyFrame;
 };
 

@@ -38,8 +38,8 @@ public:
 	/*  Functions  */
 	void BindDrawVAO() override;
 
-	void setStartPos(glm::vec3 newStart) override { start = newStart; };
-	void setEndPos(glm::vec3 newEnd) override { end = newEnd; };
+	void setStartPos(glm::vec3 newStart) { start = newStart; };
+	void setEndPos(glm::vec3 newEnd) { end = newEnd; };
 
 	LinePrimitive(glm::vec3 start_val, glm::vec3 end_val, float thicknessVal = 0.2f);
 	~LinePrimitive();

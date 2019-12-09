@@ -30,7 +30,7 @@ class ChromaScreenManager
 	float lastFrame{0.0f};
 
 	// setup
-	bool initialize();
+	bool Initialize();
 	bool configureWindow();
 	bool configureGui();
 	bool configureRenderer();

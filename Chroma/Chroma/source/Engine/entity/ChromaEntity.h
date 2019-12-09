@@ -20,8 +20,8 @@ int findIndexInVector(const std::vector<IChromaComponent*>& vector, IChromaCompo
 class ChromaEntity : public IChromaEntity
 {
 	// calculate attrs
-	void calcBBox();
-	void calcCentroid();
+	void CalculateBBox();
+	void CalculateCentroid();
 
 	// Components
 	std::vector<IChromaComponent*> m_components;
@@ -69,8 +69,8 @@ public:
 
 	// name
 	ChromaUID getUID() { return m_uid; };
-	std::string getName() { return m_name; };
-	void setName(std::string newName) { m_name = newName; };
+	std::string getName() { return m_Name; };
+	void SetName(std::string newName) { m_Name = newName; };
 
 
 	// Transformations
@@ -84,13 +84,13 @@ public:
 	void setPosition(glm::vec3 newposition) override;
 	void setRotation(float degrees, glm::vec3 rotationaxis) override;
 	// get
-	glm::mat4 getTransformationMatrix() override { return m_transformMatrix; };
-	virtual glm::vec3 getPosition() override { return glm::vec3(m_transformMatrix[3]); } ;
+	glm::mat4 GetTransformationMatrix() override { return m_transformMatrix; };
+	virtual glm::vec3 GetPosition() override { return glm::vec3(m_transformMatrix[3]); } ;
 
 	// attrs
-	std::vector<ChromaVertex> getVertices() override;
-	std::pair<glm::vec3, glm::vec3> getBBox() override;
-	glm::vec3 getCentroid() override;
+	std::vector<ChromaVertex> GetVertices() override;
+	std::pair<glm::vec3, glm::vec3> GetBBox() override;
+	glm::vec3 GetCentroid() override;
 
 	// Draw
 	virtual void Draw(Shader& shader);

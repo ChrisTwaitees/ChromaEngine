@@ -1,6 +1,6 @@
 #include "ChromaScreenManager.h"
 
-bool ChromaScreenManager::initialize()
+bool ChromaScreenManager::Initialize()
 {
 	// Configure Window
 	if (!configureWindow())
@@ -211,7 +211,7 @@ void ChromaScreenManager::framebuffer_size_callback(GLFWwindow* window, int widt
 // --------------------
 ChromaScreenManager::ChromaScreenManager()
 {
-	initialize();
+	Initialize();
 }
 
 ChromaScreenManager::~ChromaScreenManager()

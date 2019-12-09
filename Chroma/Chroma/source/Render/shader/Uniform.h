@@ -84,18 +84,18 @@ public:
 
 	template<>
 	void setUniform<int>(std::string uniformName, int uniformValue) {
-		setInt(uniformName, uniformValue);
+		SetInt(uniformName, uniformValue);
 	};
 
 	template<>
 	void setUniform<unsigned int>(std::string uniformName, unsigned int uniformValue) {
-		setInt(uniformName, uniformValue);
+		SetInt(uniformName, uniformValue);
 	};
 
 	template<>
 	void setUniform<float>(std::string uniformName, float uniformValue)
 	{
-		setFloat(uniformName, uniformValue);
+		SetFloat(uniformName, uniformValue);
 	};
 
 	template<>
@@ -113,7 +113,7 @@ public:
 	template<>
 	void setUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
 	{
-		setMat4(uniformName, uniformValue);
+		SetMat4(uniformName, uniformValue);
 	};
 
 	// Renders
@@ -121,11 +121,11 @@ public:
 
 	// Uniform Updating
 	void setBool(const std::string& name, bool value) const;
-	void setInt(const std::string& name, int value) const;
-	void setFloat(const std::string& name, float value) const;
+	void SetInt(const std::string& name, int value) const;
+	void SetFloat(const std::string& name, float value) const;
 	void setVec2(const std::string& name, glm::vec2 value) const;
 	void setVec3(const std::string& name, glm::vec3 value) const;
-	void setMat4(const std::string& name, glm::mat4 matrix) const;
+	void SetMat4(const std::string& name, glm::mat4 matrix) const;
 
 
 	Uniform(unsigned int *shaderID) : ShaderID{ shaderID } {};

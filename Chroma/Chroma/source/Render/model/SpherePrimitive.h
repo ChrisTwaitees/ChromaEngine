@@ -40,7 +40,7 @@ public:
 	unsigned int getIndexSize() const { return (unsigned int)m_indices.size() * sizeof(unsigned int); }
 	unsigned int getLineIndexSize() const { return (unsigned int)lineIndices.size() * sizeof(unsigned int); }
 
-	std::vector<ChromaVertex> getVertices() override { return verts; };
+	std::vector<ChromaVertex> GetVertices() override { return verts; };
 	const float* getNormals() const { return normals.data(); }
 	const float* getTexCoords() const { return texCoords.data(); }
 	const unsigned int* getIndices() const { return m_indices.data(); }

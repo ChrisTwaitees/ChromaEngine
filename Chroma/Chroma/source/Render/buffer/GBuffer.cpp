@@ -1,7 +1,7 @@
 #include "GBuffer.h"
 #include <component/ChromaMeshComponent.h>
 
-void GBuffer::initialize()
+void GBuffer::Initialize()
 {
 	// create the buffer
 	glGenFramebuffers(1, &m_gBuffer);
@@ -93,18 +93,18 @@ void GBuffer::configureShaders()
 {
 	// Geometry Buffer
 	m_lightingPassShader.use();
-	m_lightingPassShader.setInt("gPosition", 0);
-	m_lightingPassShader.setInt("gNormal", 1);
-	m_lightingPassShader.setInt("gAlbedo", 2);
-	m_lightingPassShader.setInt("gMetRoughAO", 3);
-	m_lightingPassShader.setInt("gFragPosLightSpace", 4);
-	m_lightingPassShader.setInt("gShadowmap", 5);
-	m_lightingPassShader.setInt("SSAO", 6);
+	m_lightingPassShader.SetInt("gPosition", 0);
+	m_lightingPassShader.SetInt("gNormal", 1);
+	m_lightingPassShader.SetInt("gAlbedo", 2);
+	m_lightingPassShader.SetInt("gMetRoughAO", 3);
+	m_lightingPassShader.SetInt("gFragPosLightSpace", 4);
+	m_lightingPassShader.SetInt("gShadowmap", 5);
+	m_lightingPassShader.SetInt("SSAO", 6);
 
 	// IBL
-	m_lightingPassShader.setInt("irradianceMap", 7);
-	m_lightingPassShader.setInt("prefilterMap", 8);
-	m_lightingPassShader.setInt("brdfLUT", 9);
+	m_lightingPassShader.SetInt("irradianceMap", 7);
+	m_lightingPassShader.SetInt("prefilterMap", 8);
+	m_lightingPassShader.SetInt("brdfLUT", 9);
 }
 
 void GBuffer::bindAllGBufferTextures()
@@ -155,17 +155,17 @@ void GBuffer::drawGeometryPass()
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
 	m_geometryPassShader.use();
-	m_geometryPassShader.setMat4("view", m_scene->getRenderCamera()->getViewMatrix());
-	m_geometryPassShader.setMat4("projection", m_scene->getRenderCamera()->getProjectionMatrix());
-	m_geometryPassShader.setMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
+	m_geometryPassShader.SetMat4("view", m_scene->getRenderCamera()->GetViewMatrix());
+	m_geometryPassShader.SetMat4("projection", m_scene->getRenderCamera()->GetProjectionMatrix());
+	m_geometryPassShader.SetMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 	// Render Scene
 	for (IChromaEntity* entity : m_scene->getEntities())
 	{
-		glm::mat4 finalTransformMatrix = entity->getTransformationMatrix();
+		glm::mat4 finalTransformMatrix = entity->GetTransformationMatrix();
 		for (IChromaComponent* component : entity->getLitComponents())
 		{
-			finalTransformMatrix = finalTransformMatrix * ((ChromaMeshComponent*)component)->getTransformationMatrix();
-			m_geometryPassShader.setMat4("model", finalTransformMatrix);
+			finalTransformMatrix = finalTransformMatrix * ((ChromaMeshComponent*)component)->GetTransformationMatrix();
+			m_geometryPassShader.SetMat4("model", finalTransformMatrix);
 			((ChromaMeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
 		}
 	}
@@ -222,7 +222,7 @@ void GBuffer::Draw()
 
 GBuffer::GBuffer(ChromaScene*& Scene, Framebuffer*& PostFXBuffer)
 {
-	initialize();
+	Initialize();
 	m_scene = Scene;
 	mShadowbuffer = new ShadowBuffer(m_scene);
 	m_postFXBuffer = PostFXBuffer;

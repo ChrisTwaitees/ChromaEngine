@@ -19,7 +19,7 @@ class MayaCameraController : public ICameraController
 	void calculateUpandDir(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp);
 
 public:
-	void processInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
+	void ProcessInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
 
 	MayaCameraController() {};
 	~MayaCameraController() {};

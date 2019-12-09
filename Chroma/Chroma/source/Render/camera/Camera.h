@@ -15,58 +15,57 @@
 #include <input/ChromaInput.h>
 
 class ChromaInput;
-enum CameraMode { FLYCAM, MAYA};
+enum CameraMode { FlyCam, Maya};
 
 class Camera
 {
 	// Camera Attrs
-	glm::vec3 cameraPosition{ glm::vec3(0.0, 4.0, 20.0) };
-	glm::vec3 cameraUp{ CHROMA_UP };
-	glm::vec3 cameraDirection{ CHROMA_BACK };
+	glm::vec3 m_CameraPosition{ glm::vec3(0.0, 4.0, 20.0) };
+	glm::vec3 m_CameraUp{ CHROMA_UP };
+	glm::vec3 m_CameraDirection{ CHROMA_BACK };
 
 	// Modes
-	CameraMode CamMode = MAYA;
+	CameraMode m_CamMode = Maya;
 	
 	// Camera Contollers
-	ICameraController* MayaCamController{ new MayaCameraController() };
-	ICameraController* FlyCamController{ new FlyCameraController() };
+	ICameraController* m_MayaCamController{ new MayaCameraController() };
+	ICameraController* m_FlyCamController{ new FlyCameraController() };
 
 	// Camera Attributes
-	float CAM_FOV{ 45.0f };
-	float CAM_ASPECT{ SCREEN_WIDTH / SCREEN_HEIGHT };
-	float CAM_NEAR{ 0.1f };
-	float CAM_FAR{ 100.0f };
-	bool firstMouse{ true };
+	float m_CamFOV{ 45.0f };
+	float m_CamAspect{ SCREEN_WIDTH / SCREEN_HEIGHT };
+	float m_CamNear{ 0.1f };
+	float m_CamFar{ 100.0f };
+	bool m_FirstMouse{ true };
 
 	// Matrices
-	glm::mat4 viewMatrix{ glm::mat4(1) };
-	glm::mat4 projectionMatrix{ glm::mat4(1) };
-	void updateViewMatrix();
-	void updateProjectionMatrix();
+	glm::mat4 m_ViewMatrix{ glm::mat4(1) };
+	glm::mat4 m_ProjectionMatrix{ glm::mat4(1) };
+	void UpdateViewMatrix();
+	void UpdateProjectionMatrix();
 
-	// functions
-	void initialize();
+	// Functions
+	void Initialize();
 
 public:
-	// process
-	void processInput(ChromaInput* const& input);
+	// Process
+	void ProcessInput(ChromaInput* const& input);
 
-	// getters
-	inline glm::vec3 getPosition() const { return cameraPosition; };
-	inline glm::vec3 getDirection() const { return cameraDirection; };
+	// Accessors
+	inline glm::vec3 GetPosition() const { return m_CameraPosition; };
+	inline glm::vec3 GetDirection() const { return m_CameraDirection; };
 	// matrices
-	inline glm::mat4 getProjectionMatrix() const { return projectionMatrix; };
-	inline glm::mat4 getViewMatrix() const { return viewMatrix; };
-	inline glm::mat4 getViewProjMatrix() const { return projectionMatrix * viewMatrix; };
+	inline glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; };
+	inline glm::mat4 GetViewMatrix() const { return m_ViewMatrix; };
+	inline glm::mat4 GetViewProjMatrix() const { return m_ProjectionMatrix * m_ViewMatrix; };
+	
+	inline void SetFOV(float newFOV) { m_CamFOV = newFOV; UpdateProjectionMatrix(); };
+	inline void SetASPECT(float newASPECT) { m_CamAspect = newASPECT; UpdateProjectionMatrix(); };
+	inline void SetNEAR(float newNEAR) { m_CamNear = newNEAR; UpdateProjectionMatrix(); };
+	inline void SetFAR(float newFAR) { m_CamFar = newFAR; UpdateProjectionMatrix(); };
+	inline void SetCameraMode(CameraMode newMode) { m_CamMode = newMode; };
 
-	// setters
-	inline void setFOV(float newFOV) { CAM_FOV = newFOV; updateProjectionMatrix(); };
-	inline void setASPECT(float newASPECT) { CAM_ASPECT = newASPECT; updateProjectionMatrix(); };
-	inline void setNEAR(float newNEAR) { CAM_NEAR = newNEAR; updateProjectionMatrix(); };
-	inline void setFAR(float newFAR) { CAM_FAR = newFAR; updateProjectionMatrix(); };
-	inline void setCameraMode(CameraMode newMode) { CamMode = newMode; };
-
-	// constructors
+	// Structors
 	Camera();
 	Camera(glm::vec3 camerPos, glm::vec3 cameraTarget);
 	~Camera() {};

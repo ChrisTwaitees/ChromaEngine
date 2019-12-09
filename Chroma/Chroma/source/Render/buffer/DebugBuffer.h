@@ -72,7 +72,7 @@ class DebugBuffer : public Framebuffer
 	void renderSphere(SphereShape sphere);
 	void renderBox(BoxShape box);
 	// blitting depth buffer before rendering
-	void initialize() override;
+	void Initialize() override;
 	void attachBuffer();
 	void blitPostFXBuffer();
 
@@ -86,7 +86,7 @@ public:
 	void ClearBuffer() override;
 	void Draw() override;
 
-	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_renderCamera(camera), m_postFXBuffer(prevFrameBuffer) { initialize(); };
+	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_renderCamera(camera), m_postFXBuffer(prevFrameBuffer) { Initialize(); };
 };
 
 #endif

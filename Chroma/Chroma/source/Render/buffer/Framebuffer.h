@@ -36,7 +36,7 @@ protected:
 	unsigned int FBOTexture;
 
 	// setup
-	virtual void initialize();
+	virtual void Initialize();
 
 	// Initializing
 	virtual void GenTexture();

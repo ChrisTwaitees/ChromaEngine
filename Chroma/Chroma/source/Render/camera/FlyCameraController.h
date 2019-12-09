@@ -12,7 +12,7 @@ class FlyCameraController : public ICameraController
 
 	// attrs
 	// camera aim
-	bool firstMouse{ true };
+	bool m_FirstMouse{ true };
 	float yaw{ 0.0f }, pitch{ 0.0f };
 	float mouseSensitivity{ 0.05f };
 	float maxPitch{ 90.0f }, maxYaw{ 90.0f };
@@ -25,7 +25,7 @@ class FlyCameraController : public ICameraController
 	float cameraSpeed{ 0.05f };
 	
 public:
-	void processInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
+	void ProcessInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
 	FlyCameraController() {};
 	~FlyCameraController() {};
 };

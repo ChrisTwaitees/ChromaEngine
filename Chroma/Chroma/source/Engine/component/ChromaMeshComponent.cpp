@@ -1,14 +1,12 @@
 #include "ChromaMeshComponent.h"
 
 
-
-
 ChromaMeshComponent::ChromaMeshComponent()
 {
-	isRenderable = true;
-	isLit = true;
-	castShadows = true;
-	isTransparent = false;
+	m_IsRenderable = true;
+	m_IsLit = true;
+	m_CastShadows = true;
+	m_IsTransparent = false;
 }
 
 

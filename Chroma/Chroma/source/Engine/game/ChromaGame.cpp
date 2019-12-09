@@ -16,7 +16,7 @@ void ChromaGame::Draw()
 void ChromaGame::MousePickerCallback()
 {
 	// Ray Interest Test
-	glm::vec3 start = m_scene->getRenderCamera()->getPosition();
+	glm::vec3 start = m_scene->getRenderCamera()->GetPosition();
 	glm::vec3 end = start + (  m_input->getLastRay() * glm::vec3(1000.0));
 	IChromaEntity* clickedEntity  = m_physics->rayTest(start, end);
 	if (clickedEntity)
@@ -53,11 +53,11 @@ ChromaGame::ChromaGame(ChromaScene*& Scene, ChromaScreenManager*& ScreenManager)
 	m_scene = Scene;
 	m_screen = ScreenManager;
 
-	initialize();
+	Initialize();
 
 }
 
-void ChromaGame::initialize()
+void ChromaGame::Initialize()
 {
 	// input
 	m_input->bindWindow(m_screen->getWindow());
@@ -79,10 +79,10 @@ void ChromaGame::ProcessInput()
 	m_input->process();
 	// update camera
 	if (m_screen->cameraSelected == 0)
-		m_scene->getRenderCamera()->setCameraMode(MAYA);
+		m_scene->getRenderCamera()->SetCameraMode(Maya);
 	if (m_screen->cameraSelected == 1)
-		m_scene->getRenderCamera()->setCameraMode(FLYCAM);
-	m_scene->getRenderCamera()->processInput(m_input);
+		m_scene->getRenderCamera()->SetCameraMode(FlyCam);
+	m_scene->getRenderCamera()->ProcessInput(m_input);
 	// render physics debug if triggered
 	if (m_screen->drawPhysicsDebug)
 		m_physics->drawDebug();

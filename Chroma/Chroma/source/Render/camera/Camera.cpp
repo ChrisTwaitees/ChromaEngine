@@ -1,55 +1,55 @@
 #include "Camera.h"
 
-void Camera::initialize()
+void Camera::Initialize()
 {
-	updateProjectionMatrix();
-	updateViewMatrix();
+	UpdateProjectionMatrix();
+	UpdateViewMatrix();
 }
 
-void Camera::processInput(ChromaInput* const& input)
+void Camera::ProcessInput(ChromaInput* const& input)
 {
 	if (input->getCursorEnabled())
 	{
-		switch (CamMode)
+		switch (m_CamMode)
 		{
-		case(CameraMode::FLYCAM):
+		case(CameraMode::FlyCam):
 		{
-			FlyCamController->processInput(input, cameraPosition, cameraDirection, cameraUp);
-			updateViewMatrix();
+			m_FlyCamController->ProcessInput(input, m_CameraPosition, m_CameraDirection, m_CameraUp);
+			UpdateViewMatrix();
 			break;
 		}
-		case(CameraMode::MAYA):
+		case(CameraMode::Maya):
 		{
-			MayaCamController->processInput(input, cameraPosition, cameraDirection, cameraUp);
-			updateViewMatrix();
+			m_MayaCamController->ProcessInput(input, m_CameraPosition, m_CameraDirection, m_CameraUp);
+			UpdateViewMatrix();
 			break;
 		}
 		}
 	}
 	else
-		firstMouse = true;
+		m_FirstMouse = true;
 	
 }
 
-void Camera::updateViewMatrix()
+void Camera::UpdateViewMatrix()
 {
-	viewMatrix = glm::lookAt(cameraPosition, cameraPosition + cameraDirection, cameraUp);
+	m_ViewMatrix = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraDirection, m_CameraUp);
 }
 
-void Camera::updateProjectionMatrix()
+void Camera::UpdateProjectionMatrix()
 {
-	projectionMatrix = glm::perspective(glm::radians(CAM_FOV), CAM_ASPECT, CAM_NEAR, CAM_FAR);
+	m_ProjectionMatrix = glm::perspective(glm::radians(m_CamFOV), m_CamAspect, m_CamNear, m_CamFar);
 }
 
 Camera::Camera()
 {
-	initialize();
+	Initialize();
 }
 
-Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : cameraPosition{ cameraPos_val }
+Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : m_CameraPosition{ cameraPos_val }
 {
-	cameraDirection = glm::normalize(cameraPosition - cameraTarget_val);
-	glm::vec3 camRight = glm::normalize(glm::cross(CHROMA_UP, cameraDirection));
-	cameraUp = glm::cross(cameraDirection, camRight);
-	initialize();
+	m_CameraDirection = glm::normalize(m_CameraPosition - cameraTarget_val);
+	glm::vec3 camRight = glm::normalize(glm::cross(CHROMA_UP, m_CameraDirection));
+	m_CameraUp = glm::cross(m_CameraDirection, camRight);
+	Initialize();
 }

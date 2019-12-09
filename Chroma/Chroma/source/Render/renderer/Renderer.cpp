@@ -33,7 +33,7 @@ void Renderer::renderPostFX()
 	m_postFXBuffer->setUniform("gamma", m_screenManager->gamma);
 }
 
-void Renderer::initialize()
+void Renderer::Initialize()
 {
 	m_GBuffer = new GBuffer(m_scene, m_postFXBuffer);
 	m_debugBuffer = new DebugBuffer(m_scene->getRenderCamera(), m_postFXBuffer);
@@ -63,7 +63,7 @@ Renderer::Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager
 {
 	m_scene = Scene;
 	m_screenManager = ScreenManager;
-	initialize();
+	Initialize();
 }
 
 Renderer::~Renderer()

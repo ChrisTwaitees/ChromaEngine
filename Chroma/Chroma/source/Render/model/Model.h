@@ -14,8 +14,8 @@
 class Model : public ChromaMeshComponent
 {
 	// calculate attrs
-	virtual void calcBBox();
-	virtual void calcCentroid();
+	virtual void CalculateBBox();
+	virtual void CalculateCentroid();
 
 	// Model Data
 	bool m_isSkinned{ false };
@@ -41,27 +41,27 @@ public:
 	void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 
 	// Getters
-	glm::mat4 getTransformationMatrix() override { return m_transformationMatrix; };
+	glm::mat4 GetTransformationMatrix() override { return m_TransformationMatrix; };
 	// render components
-	Shader* getShader() override { return m_meshes[0]->getShader(); };
-	void bindShader(Shader* const& newShader) override;
-	int getNumTextures() override { return m_textures.size(); };
+	Shader* GetShader() override { return m_meshes[0]->GetShader(); };
+	void SetShader(Shader* const& newShader) override;
+	int GetNumTextures() override { return m_textures.size(); };
 	// verts
-	std::vector<ChromaVertex> getVertices() override { return m_vertices; };
+	std::vector<ChromaVertex> GetVertices() override { return m_vertices; };
 	std::vector<ChromaSkinnedVertex> getSkinnedVertices() const { return  m_skinnedVertices; };
 	// bbox
-	std::pair<glm::vec3, glm::vec3> getBBox();
-	glm::vec3 getCentroid();
+	std::pair<glm::vec3, glm::vec3> GetBBox();
+	glm::vec3 GetCentroid();
 	// Setters
 
 	// Component requirement 
-	void bindTextures(std::vector<Texture> textures_val) override {};
-	void bindTexture(Texture texture_val) override;
+	void SetTextures(std::vector<Texture> textures_val) override {};
+	void AddTexture(Texture texture_val) override;
 
 	// Shader Uniforms
-	void setMat4(std::string name, glm::mat4 value) override;
-	void setInt(std::string name, int value) override;
-	void setFloat(std::string name, float value) override;
+	void SetMat4(std::string name, glm::mat4 value) override;
+	void SetInt(std::string name, int value) override;
+	void SetFloat(std::string name, float value) override;
 
 	// Constructors
 	Model(std::string path) { loadModel(path); };

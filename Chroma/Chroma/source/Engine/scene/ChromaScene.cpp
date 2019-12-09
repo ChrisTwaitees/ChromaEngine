@@ -5,7 +5,7 @@ glm::vec3 ChromaScene::calcAmbientLightColor()
 	return m_sunLight->getDiffuse() * m_sunLight->getIntensity()* glm::vec3(.1);
 }
 
-void ChromaScene::initialize()
+void ChromaScene::Initialize()
 {
 	// setting skybox to IBL environment map
 	m_skybox->setColorSpace(HDR);
@@ -21,7 +21,7 @@ void ChromaScene::addEntity(IChromaEntity* const& newEntity)
 	// check if entity has any transparent components break if found one
 	for (IChromaComponent* meshComponent : newEntity->getMeshComponents())
 	{
-		if (((ChromaMeshComponent*)meshComponent)->isTransparent)
+		if (((ChromaMeshComponent*)meshComponent)->m_IsTransparent)
 		{
 			m_transparentEntities.push_back(newEntity);
 			break;
@@ -54,7 +54,7 @@ void ChromaScene::setEntities(std::vector<IChromaEntity*> const& newEntities)
 
 ChromaScene::ChromaScene()
 {
-	initialize();
+	Initialize();
 }
 
 

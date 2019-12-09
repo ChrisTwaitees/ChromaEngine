@@ -37,7 +37,7 @@ class IBL
 	unsigned int m_envCubeMap, m_irradianceMap, m_prefilterMap, m_brdfLUTTexture;
 
 	// functions
-	void initialize();
+	void Initialize();
 	void generateEnvCubeMap();
 	void generateIrradianceMap();
 	void generatePrefilterMap();

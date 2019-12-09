@@ -30,7 +30,7 @@ protected:
 	float exposure{ 1.0f };
 
 	// Functions
-	void initialize() override;
+	void Initialize() override;
 	void updateTransformUniforms() override;
 	void configure_shaders();
 

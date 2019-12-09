@@ -13,7 +13,7 @@ class ForwardBuffer : public Framebuffer
 	Framebuffer* m_postFXBuffer{ nullptr };
 
 	// functions
-	void initialize() override;
+	void Initialize() override;
 	void fetchColorAndDepth();
 	void blitDepthBuffer();
 	void renderForwardComponents();

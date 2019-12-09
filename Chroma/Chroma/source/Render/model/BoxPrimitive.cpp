@@ -34,7 +34,7 @@ void BoxPrimitive::BindDrawVAO()
 	glBindVertexArray(0); // reset to default
 }
 
-std::vector<ChromaVertex> BoxPrimitive::getVertices()
+std::vector<ChromaVertex> BoxPrimitive::GetVertices()
 {
 	m_vertices.clear();
 	for (int i = 0; i < boxData.size(); i+=8)

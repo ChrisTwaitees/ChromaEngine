@@ -54,7 +54,7 @@ protected:
 	Framebuffer* m_postFXBuffer{ new PostFXBuffer() };
 
 	// INITIALIZE
-	void initialize();
+	void Initialize();
 public:
 
 	void RenderScene();

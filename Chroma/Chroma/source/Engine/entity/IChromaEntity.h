@@ -23,12 +23,12 @@ protected:
 	// Transforms
 	glm::mat4 m_transformMatrix = glm::mat4(1);
 	glm::mat4 m_identityMatrix = glm::mat4(1);
-	glm::vec3 m_bbox_min, m_bbox_max;
-	glm::vec3 m_centroid;
+	glm::vec3 m_BBoxMin, m_BBoxMax;
+	glm::vec3 m_Centroid;
 	// UID
 	ChromaUID m_uid;
 	// name
-	std::string m_name;
+	std::string m_Name;
 	// parent scene
 	ChromaScene* m_parentScene;
 	// Components
@@ -43,7 +43,7 @@ public:
 	// Name
 	virtual ChromaUID getUID() = 0;
 	virtual std::string getName() = 0;
-	virtual void setName(std::string newName) = 0;
+	virtual void SetName(std::string newName) = 0;
 
 	// scene
 	virtual ChromaScene* getParentScene() = 0;
@@ -61,11 +61,11 @@ public:
 	virtual void setRotation(float degrees, glm::vec3 rotationaxis) = 0;
 	
 	// get
-	virtual glm::mat4 getTransformationMatrix() = 0;
-	virtual glm::vec3 getPosition() = 0 ;
-	virtual std::vector<ChromaVertex> getVertices() = 0;
-	virtual std::pair<glm::vec3, glm::vec3> getBBox() = 0;
-	virtual glm::vec3 getCentroid() = 0;
+	virtual glm::mat4 GetTransformationMatrix() = 0;
+	virtual glm::vec3 GetPosition() = 0 ;
+	virtual std::vector<ChromaVertex> GetVertices() = 0;
+	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
+	virtual glm::vec3 GetCentroid() = 0;
 
 
 	// Components

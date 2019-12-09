@@ -248,9 +248,6 @@
     <ClCompile Include="source\Engine\animation\Joint.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\animation\AnimationLoader.cpp">
-      <Filter>Engine\animation</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\model\CapsulePrimitive.cpp">
       <Filter>Render\model\primitive</Filter>
     </ClCompile>
@@ -443,9 +440,6 @@
       <Filter>Engine\animation</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\animation\Joint.h">
-      <Filter>Engine\animation</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\animation\AnimationLoader.h">
       <Filter>Engine\animation</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\model\CapsulePrimitive.h">
