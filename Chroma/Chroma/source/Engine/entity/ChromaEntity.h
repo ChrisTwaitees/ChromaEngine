@@ -46,8 +46,8 @@ class ChromaEntity : public IChromaEntity
 	void updatePhysicsComponentsTransforms();
 
 	template<class ComponentClass>
-	void bindParentEntity(ComponentClass component) {
-		component->bindParentEntity(this);
+	void SetParentEntity(ComponentClass component) {
+		component->SetParentEntity(this);
 	}
 
 public:
@@ -68,8 +68,8 @@ public:
 
 
 	// name
-	ChromaUID getUID() { return m_uid; };
-	std::string getName() { return m_Name; };
+	ChromaUID GetUID() { return m_uid; };
+	std::string GetName() { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
 
 

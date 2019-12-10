@@ -11,9 +11,8 @@ class ChromaUID
 private:
 	static unsigned int random_char();
 	static const unsigned int CHROMA_UID_LENGTH{ 8 };
-public:
-
 	static std::string NewID();
+public:
 	std::string UID;
 	ChromaUID();
 	~ChromaUID();

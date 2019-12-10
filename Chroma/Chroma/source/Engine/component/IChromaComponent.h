@@ -4,12 +4,14 @@
 //stl
 #include <string>
 #include <typeinfo>
+
 // chroma
 #include <memory/ChromaUID.h>
 #include <shader/Shader.h>
 #include <camera/Camera.h>
 #include <light/Light.h>
 #include <texture/Texture.h>
+
 // forward declarations
 class IChromaEntity;
 
@@ -17,20 +19,22 @@ class IChromaComponent
 {
 protected:
 	// name
-	ChromaUID uid;
-	std::string name;
+	ChromaUID UID;
+	std::string m_Name;
 
 	// parent
-	IChromaEntity* m_parentEntity;
+	IChromaEntity* m_ParentEntity{ nullptr };
+
 public:
-	// name / uid / type
-	ChromaUID getUID() { return uid; };
-	std::string getName() { return name; };
-	void SetName(std::string newName) { name = newName; };
 
-	// parent
-	IChromaEntity* getParentEntity() {	return m_parentEntity;	}
-	virtual void bindParentEntity(IChromaEntity* const& parentEntity) { m_parentEntity = parentEntity; }
+	// Acessors
+	ChromaUID GetUID() const { return UID; };
+
+	std::string GetName() const { return m_Name; };
+	void SetName(std::string newName) { m_Name = newName; };
+
+	IChromaEntity* GetParentEntity() const {	return m_ParentEntity;	}
+	virtual void SetParentEntity(IChromaEntity* const& parentEntity) { m_ParentEntity = parentEntity; }
 
 	IChromaComponent() {};
 	virtual ~IChromaComponent() {};

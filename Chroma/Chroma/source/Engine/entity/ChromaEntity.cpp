@@ -59,7 +59,7 @@ ChromaEntity::~ChromaEntity()
 void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 {
 	// bind parent entity
-	bindParentEntity(newMeshComponent);
+	SetParentEntity(newMeshComponent);
 
 	// add mesh component
 	m_meshComponents.push_back(newMeshComponent);
@@ -82,13 +82,13 @@ void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent)
 {
 	// bind parent entity
-	bindParentEntity(newPhysicsComponent);
+	SetParentEntity(newPhysicsComponent);
 
 	// add physics component
 	m_physicsComponents.push_back(newPhysicsComponent);
 
 	// build rigidBody
-	newPhysicsComponent->buildRigidBody();
+	newPhysicsComponent->BuildRigidBody();
 
 	// add rigid body to physics world
 	m_parentScene->getPhysics()->addBodyToWorld(newPhysicsComponent);
@@ -123,7 +123,7 @@ void ChromaEntity::CalculateCentroid()
 void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)
 {
 	// bind parent entity
-	bindParentEntity(newComponent);
+	SetParentEntity(newComponent);
 
 	// TODO: Consider shared_ptr to prevent memory duplication
 	m_components.push_back(newComponent);
@@ -147,7 +147,7 @@ void ChromaEntity::updatePhysicsComponentsTransforms()
 	for (IChromaComponent* physicsComponent : m_physicsComponents)
 	{
 		if (((ChromaPhysicsComponent*)physicsComponent)->getColliderState() == Kinematic) // check if physics object is kinematic
-			((ChromaPhysicsComponent*)physicsComponent)->setWorldTransform(m_transformMatrix);
+			((ChromaPhysicsComponent*)physicsComponent)->SetWorldTransform(m_transformMatrix);
 	}
 }
 
@@ -202,7 +202,7 @@ int findIndexInVector(const std::vector<IChromaComponent*>& componentsVector, IC
 		return distance(componentsVector.begin(), it);
 	else
 	{
-		std::cout << "ChromaComponent: " << component->getName() << "not found in Chroma Entity" << std::endl;
+		std::cout << "ChromaComponent: " << component->GetName() << "not found in Chroma Entity" << std::endl;
 		return -1;
 	}
 }

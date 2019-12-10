@@ -17,56 +17,56 @@ enum ColliderState {Static, Kinematic, Dynamic};
 class ChromaPhysicsComponent :	public IChromaComponent
 {
 	// attrs
-	float m_mass{ 0.0f };
+	float m_Mass{ 0.0f };
 	// collision shape
-	ColliderShape m_collisionShape = ColliderShape::AABB;
-	ColliderState m_collisionState = ColliderState::Kinematic;
+	ColliderShape m_ColliderShape = ColliderShape::Box;
+	ColliderState m_CollisionState = ColliderState::Kinematic;
 
 	// physical settings
-	float m_restitution{ 1.0f };
-	float m_friction{ 0.5f };
+	float m_Restitution{ 1.0f };
+	float m_Friction{ 0.5f };
 
 	// members
-	btRigidBody* m_rigidBody;
-	btCollisionShape* m_shape;
-	btMotionState* m_motionState;
-	btTransform m_transform;
+	btRigidBody* m_RigidBody;
+	btCollisionShape* m_CollisionShape;
+	btMotionState* m_MotionState;
+	btTransform m_ColliderTransform;
 
 	// functions
-	void createCollisionShape();
-	void createRigidBody();
-	void setCollisionFlags();
+	void CreateCollisionShape();
+	void CreateRigidBody();
+	void SetCollisionFlags();
 
 public:
-	// get/set
-	float getMass() { return m_mass; };
-	void setMass(float const& newMass) { m_mass = newMass; };
 
-	float getRestitution() { return m_restitution; };
-	void setRestitution(float const& newRestitution) { m_restitution = newRestitution; };
+	void BuildRigidBody();
+	void Transform(btTransform& transform);
 
-	float getFriction() { return m_friction; };
-	void setFriction(float const& newFriction) { m_friction = newFriction; };
+	// Accessors
+	float GetMass() const { return m_Mass; };
+	void setMass(float const& newMass) { m_Mass = newMass; };
+
+	float GetRestitution() const { return m_Restitution; };
+	void SetRestitution(float const& newRestitution) { m_Restitution = newRestitution; };
+
+	float GetFriction() const { return m_Friction; };
+	void SetFriction(float const& newFriction) { m_Friction = newFriction; };
 	// collisions
-	void setCollisionShape(ColliderShape const& shape) { m_collisionShape = shape; };
-	ColliderShape getColliderShape() { return m_collisionShape; };
+	ColliderShape GetColliderShape() const { return m_ColliderShape; };
+	void SetColliderShape(ColliderShape const& shape) { m_ColliderShape = shape; };
 
-	void setCollisionState(ColliderState const& state) { m_collisionState = state; };
-	ColliderState getColliderState() { return m_collisionState; };
+	ColliderState getColliderState() const { return m_CollisionState; };
+	void SetCollisionState(ColliderState const& state) { m_CollisionState = state; };
 	
-	btRigidBody* getRigidBody() { return m_rigidBody; };
+	btRigidBody* GetRigidBody() const { return m_RigidBody; };
 
-	btMotionState* getMotionState() { return m_motionState; };
+	btMotionState* GetMotionState() const { return m_MotionState; };
 	// transforms
-	void setLinearVelocity(glm::vec3 const& velocity);
-	const glm::vec3 getLinearVelocity();
+	const glm::vec3 GetLinearVelocity() const;
+	void SetLinearVelocity(glm::vec3 const& velocity);
 
-	void setWorldTransform(glm::mat4 const& transform);
-	glm::mat4 getWorldTransform() ;
-
-	// functions
-	void buildRigidBody();
-	void transformParentEntity(btTransform& transform);
+	glm::mat4 GetWorldTransform() const;
+	void SetWorldTransform(glm::mat4 const& transform);
 
 	ChromaPhysicsComponent();
 	~ChromaPhysicsComponent();

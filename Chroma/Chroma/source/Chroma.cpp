@@ -123,8 +123,8 @@ int Main()
 
 	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
-	NanoSuitRigidComponent->setCollisionShape(ColliderShape::Convex);
-	NanoSuitRigidComponent->setCollisionState(ColliderState::Dynamic);
+	NanoSuitRigidComponent->SetColliderShape(ColliderShape::Convex);
+	NanoSuitRigidComponent->SetCollisionState(ColliderState::Dynamic);
 	NanoSuitRigidComponent->setMass(1.0f);
 	NanoSuitModelComponent->SetShader(&litShader);
 	NanosuitEntity->addComponent(NanoSuitModelComponent);
@@ -142,8 +142,8 @@ int Main()
 		BoxMeshComponent->AddTexture(diffuseMap);
 		BoxMeshComponent->AddTexture(specularMap);
 		ChromaPhysicsComponent* BoxRigidComponent = new ChromaPhysicsComponent();
-		BoxRigidComponent->setCollisionShape(ColliderShape::Convex);
-		BoxRigidComponent->setCollisionState(ColliderState::Kinematic);
+		BoxRigidComponent->SetColliderShape(ColliderShape::Convex);
+		BoxRigidComponent->SetCollisionState(ColliderState::Kinematic);
 
 		BoxEntity->setPosition(position);
 		BoxEntity->addComponent(BoxMeshComponent);
@@ -162,8 +162,8 @@ int Main()
 		LampMeshComponent->m_CastShadows = false;
 		LampMeshComponent->m_IsLit = false;
 		ChromaPhysicsComponent* LampRigidComponent = new ChromaPhysicsComponent();
-		LampRigidComponent->setCollisionShape(ColliderShape::Convex);
-		LampRigidComponent->setCollisionState(ColliderState::Kinematic);
+		LampRigidComponent->SetColliderShape(ColliderShape::Convex);
+		LampRigidComponent->SetCollisionState(ColliderState::Kinematic);
 
 		LampEntity->setPosition(position);
 		LampEntity->addComponent(LampMeshComponent);
@@ -199,8 +199,8 @@ int Main()
 	SphereEntity->SetName("Sphere");
 	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
 	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
-	SphereRigidComponent->setCollisionShape(ColliderShape::Convex);
-	SphereRigidComponent->setCollisionState(ColliderState::Kinematic);
+	SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
+	SphereRigidComponent->SetCollisionState(ColliderState::Kinematic);
 	SphereMeshComponent->AddTexture(normalMap);
 	SphereMeshComponent->AddTexture(concreteMap);
 	SphereMeshComponent->SetShader(&litShader);

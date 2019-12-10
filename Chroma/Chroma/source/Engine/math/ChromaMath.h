@@ -9,6 +9,7 @@
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+// CONSTS
 #define CHROMA_UP glm::vec3(0.0 ,1.0, 0.0)
 #define CHROMA_DOWN glm::vec3(0.0 ,-1.0, 0.0)
 #define CHROMA_FORWARD glm::vec3(0.0 ,0.0, 1.0)
@@ -16,6 +17,7 @@
 #define CHROMA_RIGHT glm::vec3(1.0 ,0.0, 0.0)
 #define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
 
+// ASSIMP
 static glm::mat4 AIToGLM(const aiMatrix4x4& aiMat)
 {
 	return glm::mat4{
@@ -26,14 +28,23 @@ static glm::mat4 AIToGLM(const aiMatrix4x4& aiMat)
 	};
 }
 
+static glm::vec3 AItoGLM(const aiVector3D& aiVec3)
+{
+	return glm::vec3(aiVec3[0], aiVec3[1], aiVec3[2]);
+}
 
+static glm::quat AItoGLM(const aiQuaternion& aiVec3)
+{
+	return glm::quat(aiVec3.w, aiVec3.x, aiVec3.y, aiVec3.z);
+}
+
+// BULLET
 static glm::mat4 BulletToGLM(const btTransform& transform)
 {
 	glm::mat4 glmTransform;
 	transform.getOpenGLMatrix(glm::value_ptr(glmTransform));
 	return glmTransform;
 }
-
 
 static glm::mat4 BulletToGLM(btTransform& transform)
 {
@@ -67,6 +78,7 @@ static btVector3 GLMToBullet(const glm::vec3& vec3)
 }
 
 
+// MATRICES
 static glm::vec3 getScale(const glm::mat4 mat4)
 {
 	glm::vec3 scale;
@@ -78,7 +90,6 @@ static glm::vec3 getScale(const glm::mat4 mat4)
 
 	return scale;
 }
-
 
 static glm::vec3 getTranslation(const glm::mat4 mat4)
 {

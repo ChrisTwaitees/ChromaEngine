@@ -41,8 +41,8 @@ protected:
 
 public:
 	// Name
-	virtual ChromaUID getUID() = 0;
-	virtual std::string getName() = 0;
+	virtual ChromaUID GetUID() = 0;
+	virtual std::string GetName() = 0;
 	virtual void SetName(std::string newName) = 0;
 
 	// scene

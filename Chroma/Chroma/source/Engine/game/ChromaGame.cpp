@@ -20,7 +20,7 @@ void ChromaGame::MousePickerCallback()
 	glm::vec3 end = start + (  m_input->getLastRay() * glm::vec3(1000.0));
 	IChromaEntity* clickedEntity  = m_physics->rayTest(start, end);
 	if (clickedEntity)
-		m_screen->setSelectedEntityName(clickedEntity->getName());
+		m_screen->setSelectedEntityName(clickedEntity->GetName());
 
 }
 

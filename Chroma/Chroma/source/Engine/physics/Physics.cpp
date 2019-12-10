@@ -58,7 +58,7 @@ void ChromaPhysics::updateGravity()
 
 void ChromaPhysics::addBodyToWorld(ChromaPhysicsComponent*& physicsComponent)
 {
-	m_world->addRigidBody(physicsComponent->getRigidBody());
+	m_world->addRigidBody(physicsComponent->GetRigidBody());
 }
 
 
@@ -86,7 +86,7 @@ void ChromaPhysics::update(ChromaTime& time)
 				trans = obj->getWorldTransform();
 			// apply transform
 			if (physicsComponent->getColliderState() == Dynamic)
-				physicsComponent->transformParentEntity(trans);
+				physicsComponent->Transform(trans);
 		}
 	}
 
@@ -124,8 +124,8 @@ IChromaEntity* ChromaPhysics::rayTest(glm::vec3& worldRay_origin, glm::vec3& wor
 		if (rayObjectPointer != NULL)
 		{
 			std::cout << "Entity Hit : " << std::endl;
-			std::cout << static_cast<IChromaComponent*>(rayObjectPointer)->getParentEntity()->getName() << std::endl;
-			return static_cast<IChromaComponent*>(rayObjectPointer)->getParentEntity();
+			std::cout << static_cast<IChromaComponent*>(rayObjectPointer)->GetParentEntity()->GetName() << std::endl;
+			return static_cast<IChromaComponent*>(rayObjectPointer)->GetParentEntity();
 		}
 		else
 		{
