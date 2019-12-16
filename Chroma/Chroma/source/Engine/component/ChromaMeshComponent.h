@@ -46,11 +46,10 @@ public:
 	virtual void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) = 0;
 
 	// Shader Uniforms
-	//template<typename UniformType>
-	//void SetUniform(std::string uniformName, UniformType uniform) {};
 	virtual void SetMat4(std::string name, glm::mat4 value) = 0;
 	virtual void SetInt(std::string name, int value) = 0;
 	virtual void SetFloat(std::string name, float value) = 0;
+	virtual void SetJointUniforms(Shader& shader) {};
 
 	// Constructors
 	ChromaMeshComponent();

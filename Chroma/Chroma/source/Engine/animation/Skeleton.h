@@ -3,16 +3,29 @@
 
 // stl
 #include <vector>
+#include <map>
+
+
 // chroma
 #include <animation/Joint.h>
 
 class Skeleton
 {
-	std::vector<Joint> m_Joints;
+	glm::mat4 m_GlobalTransform{ 1.0 };
+	glm::mat4 m_GlobalTransformInverse{ 1.0 };
+	Joint m_RootJoint;
+	std::map<std::string, Joint> m_NamedJoints;
+	std::map<int, Joint> m_IndexedJoints;
 
 public:
+	void PrintSkeletonData();
 	// Accessors
-	void AddJoint(Joint newJoint) { m_Joints.push_back(newJoint); };
+	void AddJoint(Joint const& newJoint);
+	void SetGlobalTransform(glm::mat4 const& newGlobalTransform) ;
+
+	int GetNumJoints() const { return m_IndexedJoints.size(); };
+	Joint GetJoint(int& index);
+	Joint GetJoint(std::string const& jointName);
 
 	Skeleton();
 	~Skeleton();

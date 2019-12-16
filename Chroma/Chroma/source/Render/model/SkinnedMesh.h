@@ -38,8 +38,9 @@ public:
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() override;
 
 	// Functions
+	void SetJointUniforms(Shader& skinnedShader) override;
 
-	SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val, Skeleton skeleton_val, glm::mat4 rootTransform_val);
+	SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val);
 	SkinnedMesh() { m_IsRenderable = true; };
 	~SkinnedMesh();
 };

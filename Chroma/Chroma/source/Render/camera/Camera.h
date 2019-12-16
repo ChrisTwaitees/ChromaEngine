@@ -9,7 +9,7 @@
 
 // chroma
 #include <math/ChromaMath.h>
-#include <screenmanager/ChromaScreenManagerConfig.h>
+#include <ChromaConfig.h>
 #include <camera/FlyCameraController.h>
 #include <camera/MayaCameraController.h>
 #include <input/ChromaInput.h>

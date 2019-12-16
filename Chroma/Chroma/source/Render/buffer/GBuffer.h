@@ -7,6 +7,7 @@
 #include <buffer/SSAOBuffer.h>
 #include <ibl/IBL.h>
 #include <scene/ChromaScene.h>
+#include <model/Model.h>
 
 
 class GBuffer : public Framebuffer

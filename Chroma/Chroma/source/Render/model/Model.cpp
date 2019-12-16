@@ -74,6 +74,14 @@ void Model::SetFloat(std::string name, float value)
 		mesh->SetFloat(name, value);
 }
 
+void Model::SetJointUniforms(Shader& skinnedShader)
+{
+	for (ChromaMeshComponent* mesh : m_meshes)
+	{
+		((SkinnedMesh*)mesh)->SetJointUniforms(skinnedShader);
+	}	
+}
+
 
 Model::~Model()
 {
@@ -106,7 +114,7 @@ void Model::CalculateCentroid()
 	m_Centroid = m_BBoxMin + ((m_BBoxMin - m_BBoxMax) * glm::vec3(0.5));
 }
 
-void Model::loadModel(std::string path)
+void Model::LoadModel(std::string path)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_LimitBoneWeights);
@@ -117,25 +125,25 @@ void Model::loadModel(std::string path)
 			return;
 		}
 	m_directory = path.substr(0, path.find_last_of('/'));
-	processNode(scene->mRootNode, scene);
+	ProcessNode(scene->mRootNode, scene);
 }
 
-void Model::processNode(aiNode* node, const aiScene* scene)
+void Model::ProcessNode(aiNode* node, const aiScene* scene)
 {
 	// process node's meshes (if it has any)
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		m_meshes.push_back(processMesh(mesh, scene));
+		m_meshes.push_back(ProcessMesh(mesh, scene));
 	}
 	// check if node has children, if so recursively search for meshes
 	for (unsigned int i = 0; i< node->mNumChildren; i++)
 	{
-		processNode(node->mChildren[i], scene);
+		ProcessNode(node->mChildren[i], scene);
 	}
 }
 
-ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
+ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<unsigned int> m_indices;
 	std::vector<Texture> m_textures;
@@ -184,21 +192,21 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		if (m_IsSkinned)
 		{
 			ChromaSkinnedVertex vertex;
-			vertex.setPosition(position);
-			vertex.setNormal(normal);
-			vertex.setTangent(tangent);
-			vertex.setBitangent(bitangent);
-			vertex.setTexCoords(UV1);
+			vertex.SetPosition(position);
+			vertex.SetNormal(normal);
+			vertex.SetTangent(tangent);
+			vertex.SetBitangent(bitangent);
+			vertex.SetTexCoords(UV1);
 			m_skinnedVertices.push_back(vertex);
 		}
 		else
 		{
 			ChromaVertex vertex;
-			vertex.setPosition(position);
-			vertex.setNormal(normal);
-			vertex.setTangent(tangent);
-			vertex.setBitangent(bitangent);
-			vertex.setTexCoords(UV1);
+			vertex.SetPosition(position);
+			vertex.SetNormal(normal);
+			vertex.SetTangent(tangent);
+			vertex.SetBitangent(bitangent);
+			vertex.SetTexCoords(UV1);
 			m_vertices.push_back(vertex);
 		}
 	}
@@ -216,15 +224,15 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 		// diffuse textures
-		std::vector<Texture> diffuseMaps = loadMaterialTextures(material,
+		std::vector<Texture> diffuseMaps = LoadMaterialTextures(material,
 			aiTextureType_DIFFUSE, Texture::ALBEDO);
 		m_textures.insert(m_textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 		// specular textures
-		std::vector<Texture> specularMaps = loadMaterialTextures(material,
+		std::vector<Texture> specularMaps = LoadMaterialTextures(material,
 			aiTextureType_SPECULAR, Texture::METALNESS);
 		m_textures.insert(m_textures.end(), specularMaps.begin(), specularMaps.end());
 		// normal textures
-		std::vector<Texture> normalMaps = loadMaterialTextures(material,
+		std::vector<Texture> normalMaps = LoadMaterialTextures(material,
 			aiTextureType_HEIGHT, Texture::NORMAL);
 		m_textures.insert(m_textures.end(), normalMaps.begin(), normalMaps.end());
 	}
@@ -234,6 +242,8 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		// Process Skeleton
 		Skeleton skeleton;
+		skeleton.SetGlobalTransform(AIToGLM(scene->mRootNode->mTransformation));
+
 		for (int i = 0; i < mesh->mNumBones; i++)
 		{
 			// fetch assimp bone, copy data to chroma joint
@@ -242,7 +252,7 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			// name
 			newJoint.SetName(bone->mName.C_Str());
 			// offset matrix - joint matrix, relative to its parent
-			newJoint.SetOffsetMatrix(AIToGLM(bone->mOffsetMatrix));
+			newJoint.SetLocalTransform(AIToGLM(bone->mOffsetMatrix));
 			// ID
 			newJoint.SetID(i);
 			
@@ -251,13 +261,10 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			{
 				// update joint
 				aiVertexWeight vertexWeight = bone->mWeights[j];
-				std::pair<unsigned int, float> newVertexWeight;
-				newVertexWeight.first = vertexWeight.mVertexId;
-				newVertexWeight.second = vertexWeight.mWeight;
-				newJoint.AddVertexWeight(newVertexWeight);
-				// update vert
-				m_skinnedVertices[vertexWeight.mVertexId].addJointID(i);
-				m_skinnedVertices[vertexWeight.mVertexId].addJointWeight(vertexWeight.mWeight);
+				std::pair<unsigned int, float> skinningData;
+				skinningData.first = i;
+				skinningData.second = vertexWeight.mWeight;
+				SetSkinningData(m_skinnedVertices[vertexWeight.mVertexId], skinningData);
 			}
 			// add new joint
 			skeleton.AddJoint(newJoint);
@@ -268,7 +275,7 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 		return new StaticMesh(m_vertices, m_indices, m_textures);
 }
 
-std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName)
+std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName)
 {
 	std::vector<Texture> m_textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
@@ -295,4 +302,36 @@ std::vector<Texture> Model::loadMaterialTextures(aiMaterial* mat, aiTextureType 
 		}
 	}
 	return m_textures;
+}
+
+void Model::SetSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float> const& jointIDWeight)
+{
+	// check for existing weights
+	for (int i = 0; i < MAX_VERT_INFLUENCES; i++)
+	{
+		// if no weights been set, break loop and set a weight
+		// this is likely when jointindex = 0
+		if (glm::length(vert.m_jointWeights) == 0.0)
+		{
+			break;
+		}
+		// set weight if it's already existing but not if the weight is already 1.0
+		if (jointIDWeight.first == vert.m_jointIDs[i] && glm::length(vert.m_jointWeights) != 1.0)
+		{
+			std::cout << "setting joint ID : " << jointIDWeight.first << " to weight : " << jointIDWeight.second;
+			vert.m_jointWeights[i] = jointIDWeight.second;
+			return;
+		}
+	}
+
+	for (int i = 0; i < MAX_VERT_INFLUENCES; i++)
+	{
+		// if ID is 0 it moset likely has not yet been set
+		if (vert.m_jointIDs[i] == 0)
+		{
+			vert.m_jointIDs[i] = jointIDWeight.first;
+			vert.m_jointWeights[i] = jointIDWeight.second;
+			return;
+		}
+	}
 }

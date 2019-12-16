@@ -57,7 +57,7 @@ public:
 	// set
 	virtual void setTransformMatrix(glm::mat4 newTransformMat) = 0;
 	virtual void setScale(glm::vec3 newscale) = 0;
-	virtual void setPosition(glm::vec3 newposition) = 0;
+	virtual void SetPosition(glm::vec3 newposition) = 0;
 	virtual void setRotation(float degrees, glm::vec3 rotationaxis) = 0;
 	
 	// get

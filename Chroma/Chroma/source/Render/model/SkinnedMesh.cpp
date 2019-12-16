@@ -51,10 +51,10 @@ void SkinnedMesh::setupMesh()
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_bitangent));
 	// vertex bone IDs
 	glEnableVertexAttribArray(5);
-	glVertexAttribIPointer(5, 4, GL_INT, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_jointIDs));
+	glVertexAttribIPointer(5, MAX_VERT_INFLUENCES, GL_INT, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_jointIDs));
 	// vertex bone weights
 	glEnableVertexAttribArray(6);
-	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_jointWeights));
+	glVertexAttribPointer(6, MAX_VERT_INFLUENCES, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_jointWeights));
 
 	glBindVertexArray(0);
 }
@@ -65,10 +65,22 @@ std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
 }
 
 
-SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val, Skeleton skeleton_val, glm::mat4 rootTransform_val)
+void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
+{
+	// set transform per joint
+	for (int i = 0; i < m_Skeleton.GetNumJoints(); i++)
+	{
+		std::string jntUniformName = "aJoints[" + std::to_string(i) +"]";
+		skinnedShader.setUniform(jntUniformName, m_Skeleton.GetJoint(i).GetLocalTransform());
+	}
+}
+
+SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val)
 {
 	m_IsRenderable = true;
 	m_Skeleton = skeleton_val;
+	m_Skeleton.PrintSkeletonData();
+	std::cout << m_Skeleton.GetNumJoints() << std::endl;
 	m_skinnedVertices = vertices_val;
 	m_indices = indices_val;
 	m_textures = textures_val;
@@ -81,4 +93,5 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vec
 
 SkinnedMesh::~SkinnedMesh()
 {
+	//delete m_Skeleton;
 }

@@ -240,6 +240,7 @@
     <ClInclude Include="source\Engine\animation\Animation.h" />
     <ClInclude Include="source\Engine\animation\Joint.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
+    <ClInclude Include="source\Engine\ChromaConfig.h" />
     <ClInclude Include="source\Engine\component\ChromaMeshComponent.h" />
     <ClInclude Include="source\Engine\component\ChromaPhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IChromaComponent.h" />
@@ -255,7 +256,6 @@
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h" />
     <ClInclude Include="source\Engine\scene\ChromaScene.h" />
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h" />
-    <ClInclude Include="source\Engine\screenmanager\ChromaScreenManagerConfig.h" />
     <ClInclude Include="source\Engine\time\ChromaTime.h" />
     <ClInclude Include="source\Render\buffer\DebugBuffer.h" />
     <ClInclude Include="source\Render\buffer\ForwardBuffer.h" />
@@ -283,7 +283,6 @@
     <ClInclude Include="source\Render\model\SpherePrimitive.h" />
     <ClInclude Include="source\Render\model\StaticMesh.h" />
     <ClInclude Include="source\Render\model\Vertex.h" />
-    <ClInclude Include="source\Render\renderer\ChromaRendererConfig.h" />
     <ClInclude Include="source\Render\renderer\Renderer.h" />
     <ClInclude Include="source\Render\shader\Shader.h" />
     <ClInclude Include="source\Render\shader\Uniform.h" />

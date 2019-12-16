@@ -3,6 +3,7 @@
 
 #include <glm/glm.hpp>
 #include <vector>
+#include <ChromaConfig.h>
 
 struct ChromaSkinnedVertex
 {
@@ -12,10 +13,8 @@ struct ChromaSkinnedVertex
 	glm::vec3 m_tangent{ 0.0 };
 	glm::vec3 m_bitangent{ 0.0 };
 	glm::vec2 m_texCoords{ 0.0 };
-	//glm::ivec4 m_jointIDs{ 0 };
-	//glm::vec4 m_jointWeights{ 0.0 };
-	std::vector<unsigned int> m_jointIDs;
-	std::vector<float> m_jointWeights;
+	glm::ivec4 m_jointIDs { 0 };
+	glm::vec4 m_jointWeights{ 0.0 };
 
 	// getters
 	glm::vec3 GetPosition() const { return m_position; };
@@ -24,15 +23,14 @@ struct ChromaSkinnedVertex
 	glm::vec3 getBitangent() const { return m_bitangent; };
 	glm::vec2 getTexCoords() const { return m_texCoords; };
 	// setters
-	void setPosition(glm::vec3 newPosition) { m_position = newPosition; };
-	void setNormal(glm::vec3 newNormal) { m_normal = newNormal; };
-	void setTangent(glm::vec3 newTangent) { m_tangent = newTangent; };
-	void setBitangent(glm::vec3 newBitangent) { m_bitangent = newBitangent; };
-	void setTexCoords(glm::vec2 newTexCoords) { m_texCoords = newTexCoords; };
-
-	void addJointID(unsigned int newJointID) { m_jointIDs.push_back(newJointID); };
-	void addJointWeight(float newWeight) { m_jointWeights.push_back(newWeight); };
+	void SetPosition(glm::vec3 newPosition) { m_position = newPosition; };
+	void SetNormal(glm::vec3 newNormal) { m_normal = newNormal; };
+	void SetTangent(glm::vec3 newTangent) { m_tangent = newTangent; };
+	void SetBitangent(glm::vec3 newBitangent) { m_bitangent = newBitangent; };
+	void SetTexCoords(glm::vec2 newTexCoords) { m_texCoords = newTexCoords; };
 };
+
+
 
 
 #endif

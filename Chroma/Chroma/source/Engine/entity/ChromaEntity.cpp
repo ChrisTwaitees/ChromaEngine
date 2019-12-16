@@ -177,7 +177,7 @@ void ChromaEntity::setScale(glm::vec3 newscale)
 	updatePhysicsComponentsTransforms();
 }
 
-void ChromaEntity::setPosition(glm::vec3 newposition)
+void ChromaEntity::SetPosition(glm::vec3 newposition)
 {
 	m_transformMatrix[3] = glm::vec4(newposition, 1);
 	updatePhysicsComponentsTransforms();

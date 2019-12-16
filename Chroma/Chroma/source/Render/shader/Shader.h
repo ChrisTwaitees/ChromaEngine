@@ -11,8 +11,9 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 // chroma
+#include <ChromaConfig.h>
 #include <shader/Uniform.h>
-#include <renderer/ChromaRendererConfig.h>
+#include <ChromaConfig.h>
 #include <camera/Camera.h>
 #include <light/Light.h>
 
@@ -24,6 +25,7 @@ private:
 	void CheckCompileErrors(GLuint shader, std::string type);
 	void CompileAndLink();
 	void LoadShaderSource();
+	void Replace(std::string& sourceString, std::string const& from, std::string const& to);
 	std::string ExpandShaderSource(std::string shaderSourcePath);
 
 	//Attrs

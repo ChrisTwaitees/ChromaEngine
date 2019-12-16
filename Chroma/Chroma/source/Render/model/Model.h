@@ -26,11 +26,13 @@ class Model : public ChromaMeshComponent
 	std::string m_directory;
 
 	// Functions
-	void loadModel(std::string path);
-	void processNode(aiNode* node, const aiScene* scene);
-	ChromaMeshComponent* processMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type,
+	void LoadModel(std::string path);
+	void ProcessNode(aiNode* node, const aiScene* scene);
+	ChromaMeshComponent* ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		Texture::TYPE typeName);
+	void SetSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
+
 public:
 	// Draw
 	void Draw(Shader& shader) override;
@@ -61,9 +63,11 @@ public:
 	void SetMat4(std::string name, glm::mat4 value) override;
 	void SetInt(std::string name, int value) override;
 	void SetFloat(std::string name, float value) override;
+	void SetJointUniforms(Shader& skinnedShader) override;
+
 
 	// Constructors
-	Model(std::string path) { loadModel(path); };
+	Model(std::string path) { LoadModel(path); };
 	~Model();
 };
 

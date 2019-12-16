@@ -9,7 +9,7 @@
 #include <bullet/btBulletDynamicsCommon.h>
 
 // chroma
-#include <screenmanager/ChromaScreenManagerConfig.h> 
+#include <ChromaConfig.h> 
 #include <component/ChromaPhysicsComponent.h>
 #include <physics/PhysicsDebug.h>
 #include <buffer/DebugBuffer.h>

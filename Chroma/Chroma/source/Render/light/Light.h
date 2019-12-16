@@ -37,7 +37,7 @@ public:
 	void setType(Light::TYPE light_type) { type = light_type; };
 	void setDiffuse(glm::vec3 color) { diffuse = color; };
 	void setIntensity(float intensity_val) { intensity = intensity_val; };
-	void setPosition(glm::vec3 newPosition) { position = newPosition; };
+	void SetPosition(glm::vec3 newPosition) { position = newPosition; };
 	void setDirection(glm::vec3 direction_val) { direction = glm::normalize(direction_val); };
 	// setters- attenuation
 	void setConstant(float constant_val) { constant = constant_val;  };

@@ -81,7 +81,7 @@ public:
 	// set
 	void setTransformMatrix(glm::mat4 newTransformMat) override { m_transformMatrix = newTransformMat; };
 	void setScale(glm::vec3 newscale) override;
-	void setPosition(glm::vec3 newposition) override;
+	void SetPosition(glm::vec3 newposition) override;
 	void setRotation(float degrees, glm::vec3 rotationaxis) override;
 	// get
 	glm::mat4 GetTransformationMatrix() override { return m_transformMatrix; };

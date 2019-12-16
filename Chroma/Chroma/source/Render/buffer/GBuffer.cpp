@@ -67,19 +67,19 @@ void GBuffer::Initialize()
 
 	// - tell OpenGL which color attachments we'll use for rendering 
 	unsigned int attachments[7] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6 };
-	glDrawBuffers(7, attachments); 
-	// create and attach depth buffer (renderbuffer)
-	glGenRenderbuffers(1, &m_gRBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_gRBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_gRBO);
-	// finally check if framebuffer is complete
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "Framebuffer not complete!" << std::endl;
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+glDrawBuffers(7, attachments);
+// create and attach depth buffer (renderbuffer)
+glGenRenderbuffers(1, &m_gRBO);
+glBindRenderbuffer(GL_RENDERBUFFER, m_gRBO);
+glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
+glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_gRBO);
+// finally check if framebuffer is complete
+if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+std::cout << "Framebuffer not complete!" << std::endl;
+glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	// configure shaders
-	configureShaders();
+// configure shaders
+configureShaders();
 }
 
 void GBuffer::updateTransformUniforms()
@@ -164,9 +164,17 @@ void GBuffer::drawGeometryPass()
 		glm::mat4 finalTransformMatrix = entity->GetTransformationMatrix();
 		for (IChromaComponent* component : entity->getLitComponents())
 		{
+			// transform components by entity transform
 			finalTransformMatrix = finalTransformMatrix * ((ChromaMeshComponent*)component)->GetTransformationMatrix();
 			m_geometryPassShader.SetMat4("model", finalTransformMatrix);
-			m_geometryPassShader.setUniform("isSkinned",((ChromaMeshComponent*)component)->m_IsSkinned);
+
+			// check if mesh skinned
+			if (((ChromaMeshComponent*)component)->m_IsSkinned)
+			{
+				m_geometryPassShader.setUniform("isSkinned",((ChromaMeshComponent*)component)->m_IsSkinned);
+				((ChromaMeshComponent*)component)->SetJointUniforms(m_geometryPassShader);
+			}
+			// set material uniforms
 			((ChromaMeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
 		}
 	}

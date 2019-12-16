@@ -126,7 +126,7 @@ int main()
 	walkingNormal.type = Texture::NORMAL;
 	Texture walkingMetRoughAO("resources/animation/walking_textures/MetRoughAO.jpg");
 	walkingMetRoughAO.type = Texture::METROUGHAO;
-
+	
 
 	// ANIMATED MODEL
 	IChromaEntity* AnimModelEntity = new ChromaEntity;
@@ -139,7 +139,7 @@ int main()
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
 	AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
-	AnimModelEntity->setPosition(glm::vec3(-2,0, - 4));
+	AnimModelEntity->SetPosition(glm::vec3(-2,0, - 4));
 	AnimModelEntity->setScale(glm::vec3(0.06));
 	AnimModelEntity->addComponent(AnimModelMeshComponent);
 	AnimModelEntity->addComponent(AnimModelRigidComponent);
@@ -178,7 +178,7 @@ int main()
 		//SphereMeshComponent->AddTexture(sandyNormal);
 		SphereMeshComponent->AddTexture(greyAlbedo);
 		SphereMeshComponent->SetShader(&PBRShader);
-		SphereEntity->setPosition(spherePositions[i]);
+		SphereEntity->SetPosition(spherePositions[i]);
 		SphereEntity->addComponent(SphereMeshComponent);
 		SphereEntity->addComponent(SphereRigidComponent);
 	}
@@ -195,7 +195,7 @@ int main()
 	CubeMeshComponent->SetShader(&PBRShader);
 	CubeEntity->addComponent(CubeMeshComponent);
 	CubeEntity->addComponent(CubeRigidComponent);
-	CubeEntity->setPosition(glm::vec3(-5.0f, 1.0f, 0.0f));
+	CubeEntity->SetPosition(glm::vec3(-5.0f, 1.0f, 0.0f));
 
 	// //LOOKDEV
 	IChromaEntity* SphereEntityLookDev = new ChromaEntity;
@@ -209,7 +209,7 @@ int main()
 	SphereLookDevMeshComponent->AddTexture(lookdevAlbedo);
 	SphereLookDevMeshComponent->AddTexture(lookdevNormal);
 	SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
-	SphereEntityLookDev->setPosition(glm::vec3(2.0f, 2.0f, -4.0f));
+	SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
 	SphereEntityLookDev->setScale(glm::vec3(0.25));
 	SphereEntityLookDev->addComponent(SphereLookDevMeshComponent);
 	SphereEntityLookDev->addComponent(SphereLookDevRigidComponent);
@@ -227,7 +227,7 @@ int main()
 	SphereRustedIronMeshComponent->AddTexture(rustedIronMetRoughAO);
 	SphereRustedIronMeshComponent->SetShader(&PBRShader);
 	SphereEntityRustedIron->setScale(glm::vec3(0.15));
-	SphereEntityRustedIron->setPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
+	SphereEntityRustedIron->SetPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
 	SphereEntityRustedIron->addComponent(SphereRustedIronMeshComponent);
 	SphereEntityRustedIron->addComponent(SphereRustedIronRigidComponent);
 
@@ -243,7 +243,7 @@ int main()
 	SphereWoodplanksMeshComponent->AddTexture(agedPlanksNormal);
 	SphereWoodplanksMeshComponent->AddTexture(agedPlanksMetRoughAO);
 	SphereWoodplanksMeshComponent->SetShader(&PBRShader);
-	SphereEntityWoodplanks->setPosition(glm::vec3(-5.f, 1.0f, 0.0f));
+	SphereEntityWoodplanks->SetPosition(glm::vec3(-5.f, 1.0f, 0.0f));
 	SphereEntityWoodplanks->setScale(glm::vec3(0.15));
 	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
 	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
@@ -262,7 +262,7 @@ int main()
 	SphereMeshComponent->m_IsLit = true;
 	//SphereMeshComponent->m_IsForwardLit = true;
 	//SphereMeshComponent->m_IsTransparent = true;
-	SphereEntityTransparent->setPosition(glm::vec3(7.5, 1.0, 0.0));
+	SphereEntityTransparent->SetPosition(glm::vec3(7.5, 1.0, 0.0));
 	SphereEntityTransparent->addComponent(SphereMeshComponent);
 	SphereEntityTransparent->addComponent(SphereRigidComponent);
 
@@ -277,7 +277,7 @@ int main()
 	SphereMeshComponentUnlit->SetShader(&UnlitShader);
 	SphereMeshComponentUnlit->m_IsLit = false;
 	SphereMeshComponentUnlit->m_CastShadows = false;
-	SphereEntityUnlit->setPosition(glm::vec3(-7.5, 1.0, 0.0));
+	SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 1.0, 0.0));
 	SphereEntityUnlit->addComponent(SphereMeshComponentUnlit);
 	SphereEntityUnlit->addComponent(SphereRigidComponentUnlit);
 
@@ -294,10 +294,10 @@ int main()
 		float DeltaTime = ScreenManager->getDeltaTime();
 
 		//Sunlight Rotation		
-		Sun->setPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
+		Sun->SetPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->GetPosition()));
 
-		CubeEntity->setPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
+		CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
 		//CubeEntity->setScale(glm::vec3(glm::sin(GameTime)* 1.0));
 
 

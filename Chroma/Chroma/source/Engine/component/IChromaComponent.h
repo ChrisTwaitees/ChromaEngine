@@ -11,6 +11,7 @@
 #include <camera/Camera.h>
 #include <light/Light.h>
 #include <texture/Texture.h>
+#include <ChromaConfig.h>
 
 // forward declarations
 class IChromaEntity;
@@ -33,7 +34,7 @@ public:
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
 
-	IChromaEntity* GetParentEntity() const {	return m_ParentEntity;	}
+	IChromaEntity* GetParentEntity() const {   return m_ParentEntity;	}
 	virtual void SetParentEntity(IChromaEntity* const& parentEntity) { m_ParentEntity = parentEntity; }
 
 	IChromaComponent() {};

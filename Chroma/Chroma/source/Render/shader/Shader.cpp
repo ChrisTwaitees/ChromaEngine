@@ -61,6 +61,14 @@ std::string Shader::ExpandShaderSource(std::string shaderSourcePath)
 			if (line.find("_OPENGL_VERSION_") != std::string::npos) // checking for opengl version override
 				line = "#version " + OPENGL_VERSION;
 
+		// replace MAX_VERT_INFLUENCES
+		if (line.find("#MAX_VERT_INFLUENCES") != std::string::npos)
+			Replace(line, "#MAX_VERT_INFLUENCES", std::to_string(MAX_VERT_INFLUENCES));
+
+		// replace MAX JOINTS
+		if (line.find("#MAX_JOINTS") != std::string::npos)
+			Replace(line, "#MAX_JOINTS", std::to_string(MAX_JOINTS));
+
 		// expand includes with included files
 		if (line.find("#include") != std::string::npos)
 			{
@@ -96,6 +104,12 @@ void Shader::LoadShaderSource()
 	{
 		geometryCode = ExpandShaderSource(geometrySourcePath);
 	}
+}
+
+void Shader::Replace(std::string& sourceString, std::string const& from, std::string const& to)
+{
+	size_t start_pos = sourceString.find(from);
+	sourceString.replace(start_pos, from.length(), to);
 }
 
 Shader::Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath)

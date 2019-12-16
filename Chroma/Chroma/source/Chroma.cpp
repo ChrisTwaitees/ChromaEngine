@@ -119,7 +119,7 @@ int Main()
 	IChromaEntity* NanosuitEntity = new ChromaEntity;
 	Scene->addEntity(NanosuitEntity);
 	NanosuitEntity->SetName("ChromaSuit");
-	NanosuitEntity->setPosition(glm::vec3(30., 0., 0));
+	NanosuitEntity->SetPosition(glm::vec3(30., 0., 0));
 
 	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
 	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
@@ -145,7 +145,7 @@ int Main()
 		BoxRigidComponent->SetColliderShape(ColliderShape::Convex);
 		BoxRigidComponent->SetCollisionState(ColliderState::Kinematic);
 
-		BoxEntity->setPosition(position);
+		BoxEntity->SetPosition(position);
 		BoxEntity->addComponent(BoxMeshComponent);
 		BoxEntity->addComponent(BoxRigidComponent);
 		boxes.push_back(BoxEntity);
@@ -165,7 +165,7 @@ int Main()
 		LampRigidComponent->SetColliderShape(ColliderShape::Convex);
 		LampRigidComponent->SetCollisionState(ColliderState::Kinematic);
 
-		LampEntity->setPosition(position);
+		LampEntity->SetPosition(position);
 		LampEntity->addComponent(LampMeshComponent);
 		LampEntity->addComponent(LampRigidComponent);
 		lamps.push_back(LampEntity);
@@ -182,7 +182,7 @@ int Main()
 		GrassPlaneMeshComponent->m_IsForwardLit = true;
 		GrassPlaneMeshComponent->m_IsTransparent = true;
 		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
-		GrassPlaneEntity->setPosition(position);
+		GrassPlaneEntity->SetPosition(position);
 		Scene->addEntity(GrassPlaneEntity);
 	}
 
@@ -222,7 +222,7 @@ int Main()
 		float DeltaTime = ScreenManager->getDeltaTime();
 
 		// Updating sun
-		Sun->setPosition(Sun->GetDirection() * -20.0f);
+		Sun->SetPosition(Sun->GetDirection() * -20.0f);
 		//Sunlight Rotation
 		Sun->setDirection(glm::normalize((glm::vec3(std::sin(GameTime * 1.0f), -glm::abs(std::sin(GameTime * 1.0f)), -std::cos(GameTime * 1.0f)))));
 
@@ -243,13 +243,13 @@ int Main()
 				newLightPos.x = pointLightPositions[i].x + (std::cos(GameTime * 2.0f + i)) * 4.0f;
 				newLightPos.z = pointLightPositions[i].z + sin(std::sin(GameTime * 2.0f + i)) * 4.0f;
 				newLightPos.y = pointLightPositions[i].y + std::sin(GameTime * 2.5f + i) * 4.0f;
-				Lights[i]->setPosition(newLightPos);
+				Lights[i]->SetPosition(newLightPos);
 
 				Lights[i]->setDiffuse(glm::mod(newLightPos, glm::vec3(1.0)));
 				//positions
-				lamps[i]->setPosition(newLightPos);
+				lamps[i]->SetPosition(newLightPos);
 				lamps[i]->scale(glm::vec3(0.3f));
-				SphereEntity->setPosition(newLightPos);
+				SphereEntity->SetPosition(newLightPos);
 				Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(0), newLightPos, glm::vec3(1, 1, 0));
 			}
 			// fragments

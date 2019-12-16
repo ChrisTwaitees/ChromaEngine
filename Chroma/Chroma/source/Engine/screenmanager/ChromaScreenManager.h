@@ -13,7 +13,7 @@
 // camera
 #include "camera/Camera.h"
 //config
-#include  "ChromaScreenManagerConfig.h"
+#include  "ChromaConfig.h"
 // framebuffer
 #include "buffer/Framebuffer.h"
 

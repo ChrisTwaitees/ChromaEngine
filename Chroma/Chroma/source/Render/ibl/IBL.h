@@ -7,7 +7,7 @@
 #include <model/NDCPlanePrimitive.h>
 #include <texture/HDRTexture.h>
 #include <shader/Shader.h>
-#include <screenManager/ChromaScreenManagerConfig.h>
+#include <ChromaConfig.h>
 
 class IBL
 {

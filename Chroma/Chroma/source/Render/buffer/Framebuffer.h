@@ -5,7 +5,7 @@
 #include <vector>
 
 // Chroma
-#include <screenmanager/ChromaScreenManagerConfig.h>
+#include <ChromaConfig.h>
 #include <shader/Shader.h>
 #include <model/NDCPlanePrimitive.h>
 
@@ -55,7 +55,7 @@ public:
 	virtual unsigned int getFBO() { return FBO; };
 
 	void setScale(glm::vec2 newScale) { scale = newScale; };
-	void setPosition(glm::vec2 newPosition) { offset = newPosition; };
+	void SetPosition(glm::vec2 newPosition) { offset = newPosition; };
 
 
 	template<typename UniformType>

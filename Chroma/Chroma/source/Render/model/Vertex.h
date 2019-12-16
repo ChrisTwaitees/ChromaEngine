@@ -18,11 +18,11 @@ struct ChromaVertex
 	glm::vec3 getBitangent() { return m_bitangent; };
 	glm::vec2 getTexCoords() { return m_texCoords; };
 
-	void setPosition(glm::vec3 newPosition) { m_position = newPosition; };
-	void setNormal(glm::vec3 newNormal) { m_normal = newNormal; };
-	void setTangent(glm::vec3 newTangent) { m_tangent = newTangent; };
-	void setBitangent(glm::vec3 newBitangent) { m_bitangent = newBitangent; };
-	void setTexCoords(glm::vec2 newTexCoords) { m_texCoords = newTexCoords; };
+	void SetPosition(glm::vec3 newPosition) { m_position = newPosition; };
+	void SetNormal(glm::vec3 newNormal) { m_normal = newNormal; };
+	void SetTangent(glm::vec3 newTangent) { m_tangent = newTangent; };
+	void SetBitangent(glm::vec3 newBitangent) { m_bitangent = newBitangent; };
+	void SetTexCoords(glm::vec2 newTexCoords) { m_texCoords = newTexCoords; };
 };
 
 
