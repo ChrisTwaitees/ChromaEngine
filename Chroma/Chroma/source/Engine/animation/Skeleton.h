@@ -18,7 +18,6 @@ class Skeleton
 	std::map<int, Joint> m_IndexedJoints;
 
 public:
-	void PrintSkeletonData();
 	// Accessors
 	void AddJoint(Joint const& newJoint);
 	void SetGlobalTransform(glm::mat4 const& newGlobalTransform) ;
@@ -26,6 +25,9 @@ public:
 	int GetNumJoints() const { return m_IndexedJoints.size(); };
 	Joint GetJoint(int& index);
 	Joint GetJoint(std::string const& jointName);
+
+	// Functions
+	void CalculateJointBindTransforms();
 
 	Skeleton();
 	~Skeleton();

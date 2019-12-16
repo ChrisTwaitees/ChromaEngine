@@ -71,7 +71,7 @@ void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 	for (int i = 0; i < m_Skeleton.GetNumJoints(); i++)
 	{
 		std::string jntUniformName = "aJoints[" + std::to_string(i) +"]";
-		skinnedShader.setUniform(jntUniformName, m_Skeleton.GetJoint(i).GetLocalTransform());
+		skinnedShader.setUniform(jntUniformName, m_Skeleton.GetJoint(i).GetLocalBindTransform());
 	}
 }
 
@@ -79,7 +79,6 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 {
 	m_IsRenderable = true;
 	m_Skeleton = skeleton_val;
-	m_Skeleton.PrintSkeletonData();
 	std::cout << m_Skeleton.GetNumJoints() << std::endl;
 	m_skinnedVertices = vertices_val;
 	m_indices = indices_val;

@@ -252,7 +252,7 @@ ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			// name
 			newJoint.SetName(bone->mName.C_Str());
 			// offset matrix - joint matrix, relative to its parent
-			newJoint.SetLocalTransform(AIToGLM(bone->mOffsetMatrix));
+			newJoint.SetLocalBindTransform(AIToGLM(bone->mOffsetMatrix));
 			// ID
 			newJoint.SetID(i);
 			

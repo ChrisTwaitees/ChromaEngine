@@ -1,15 +1,6 @@
 #include "Skeleton.h"
 
 
-
-void Skeleton::PrintSkeletonData()
-{
-	for (std::pair<int, Joint> entry : m_IndexedJoints)
-	{
-		std::cout << entry.first << entry.second.GetName() << std::endl;
-	}
-}
-
 void Skeleton::AddJoint(Joint const& newJoint)
 {
 	m_NamedJoints[newJoint.GetName()] = newJoint;
@@ -37,7 +28,6 @@ Joint Skeleton::GetJoint(int& index)
 		std::cout << "::SKELETON ERROR::" << std::endl;
 		std::cout << "JOINT ID : " << index << " COULD NOT BE FOUND IN SKELETON. " << std::endl;
 	}
-	//return m_IndexedJoints[index];
 }
 
 Joint Skeleton::GetJoint(std::string const&  jointName) 
@@ -51,6 +41,11 @@ Joint Skeleton::GetJoint(std::string const&  jointName)
 		std::cout << "::SKELETON ERROR::" << std::endl;
 		std::cout << "JOINT NAME : " << jointName << " COULD NOT BE FOUND IN SKELETON. " << std::endl;
 	}
+}
+
+void Skeleton::CalculateJointBindTransforms()
+{
+	m_RootJoint.CalculateInverseModelBindTransforms(m_GlobalTransform);
 }
 
 Skeleton::Skeleton()
