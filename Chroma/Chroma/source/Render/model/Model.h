@@ -18,7 +18,6 @@ class Model : public ChromaMeshComponent
 	virtual void CalculateCentroid();
 
 	// Model Data
-	bool m_isSkinned{ false };
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<ChromaSkinnedVertex> m_skinnedVertices;
 	

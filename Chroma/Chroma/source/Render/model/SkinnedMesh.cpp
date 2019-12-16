@@ -4,10 +4,16 @@
 
 void SkinnedMesh::CalculateBBox()
 {
-}
-
-void SkinnedMesh::CalculateCentroid()
-{
+	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
+	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
+	for (ChromaSkinnedVertex& vert : m_skinnedVertices)
+	{
+		newMinBBox = glm::min(newMinBBox, vert.GetPosition());
+		newMaxBBox = glm::max(newMaxBBox, vert.GetPosition());
+	}
+	// re-establishing min and max bboxes
+	m_BBoxMin = newMinBBox;
+	m_BBoxMax = newMaxBBox;
 }
 
 void SkinnedMesh::setupMesh()
@@ -43,23 +49,31 @@ void SkinnedMesh::setupMesh()
 	// vertex bitangents
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_bitangent));
+	// vertex bone IDs
+	glEnableVertexAttribArray(5);
+	glVertexAttribIPointer(5, 4, GL_INT, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_jointIDs));
+	// vertex bone weights
+	glEnableVertexAttribArray(6);
+	glVertexAttribPointer(6, 4, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_jointWeights));
 
 	glBindVertexArray(0);
 }
 
 std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
 {
-	return std::pair<glm::vec3, glm::vec3>();
+	return std::make_pair(m_BBoxMin, m_BBoxMax);
 }
 
 
-SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val, Skeleton skeleton_val)
+SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val, Skeleton skeleton_val, glm::mat4 rootTransform_val)
 {
 	m_IsRenderable = true;
-	m_skeleton = skeleton_val;
+	m_Skeleton = skeleton_val;
 	m_skinnedVertices = vertices_val;
 	m_indices = indices_val;
 	m_textures = textures_val;
+	m_RootTransform = rootTransform_val;
+	m_RootTransformInversed = glm::inverse(rootTransform_val);
 
 	setupMesh();
 }

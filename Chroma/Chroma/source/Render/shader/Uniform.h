@@ -116,11 +116,17 @@ public:
 		SetMat4(uniformName, uniformValue);
 	};
 
+	template<>
+	void setUniform<bool>(std::string uniformName, bool uniformValue)
+	{
+		SetBool(uniformName, uniformValue);
+	};
+
 	// Renders
 	void setUniforms();
 
 	// Uniform Updating
-	void setBool(const std::string& name, bool value) const;
+	void SetBool(const std::string& name, bool value) const;
 	void SetInt(const std::string& name, int value) const;
 	void SetFloat(const std::string& name, float value) const;
 	void setVec2(const std::string& name, glm::vec2 value) const;

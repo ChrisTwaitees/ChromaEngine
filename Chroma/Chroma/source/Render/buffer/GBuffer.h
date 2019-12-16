@@ -14,10 +14,12 @@ class GBuffer : public Framebuffer
 	// shaders
 	const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
 	const char* vtxLightingSoure{ "resources/shaders/frameBufferVertex.glsl" };
+	Shader m_lightingPassShader{ fragLightingPass, vtxLightingSoure };
+
 	const char* fragGeometryPass{ "resources/shaders/fragGBufferGeometry.glsl" };
 	const char* vtxGeometrySource{ "resources/shaders/vertexGBufferLit.glsl" };
 	Shader m_geometryPassShader{ fragGeometryPass, vtxGeometrySource };
-	Shader m_lightingPassShader{ fragLightingPass, vtxLightingSoure };
+
 
 	// buffers
 	unsigned int m_gBuffer;

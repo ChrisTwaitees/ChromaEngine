@@ -4,6 +4,9 @@ layout (location = 1 ) in vec3 aNormal;
 layout (location = 2 ) in vec2 aTexCoords;
 layout (location = 3) in vec3 aTangent;
 layout (location = 4) in vec3 aBitangent;  
+layout (location = 5) in int[4] aJointIDs;
+layout (location = 6) in float[4] aJointWeights;
+
 
 out VS_OUT{
 	vec3 FragWorldPos;
@@ -16,10 +19,13 @@ out VS_OUT{
 	mat3 ViewTBN;
 } vs_out;
 
+// UNIFORMS
 uniform mat4 projection;
 uniform mat4 view;
 uniform mat4 model;
 uniform mat4 lightSpaceMatrix;
+uniform bool isSkinned;
+
 
 void main()
 {    

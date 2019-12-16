@@ -180,7 +180,10 @@ void Shader::CheckCompileErrors(GLuint shader, std::string type)
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			std::cout << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << std::endl;
+			std::cout << "SHADER FRAG SOURCE : " << fragSourcePath   << std::endl;
+			std::cout << "SHADER VTX SOURCE : " << vertexSourcePath <<  std::endl;
+			std::cout << "SHADER GEOM SOURCE : " << geometrySourcePath << "\n -- --------------------------------------------------- -- " << std::endl;
 		}
 	}
 	else
@@ -189,16 +192,19 @@ void Shader::CheckCompileErrors(GLuint shader, std::string type)
 		if (!success)
 		{
 			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << "\n -- --------------------------------------------------- -- " << std::endl;
+			std::cout << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog <<  std::endl;
+			std::cout << "SHADER FRAG SOURCE : " << fragSourcePath << std::endl;
+			std::cout << "SHADER VTX SOURCE : " << vertexSourcePath << std::endl;
+			std::cout << "SHADER GEOM SOURCE : " << geometrySourcePath << "\n -- --------------------------------------------------- -- " << std::endl;
 		}
 	}
 }
 
 
 
-void Shader::setBool(const std::string& name, bool value) const
+void Shader::SetBool(const std::string& name, bool value) const
 {
-	Uniforms.setBool(name, value);
+	Uniforms.SetBool(name, value);
 }
 
 void Shader::SetInt(const std::string& name, int value) const

@@ -141,7 +141,7 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	std::vector<Texture> m_textures;
 
 	// check if mesh is skinned
-	m_isSkinned = mesh->HasBones();
+	m_IsSkinned = mesh->HasBones();
 
 	for (unsigned int i = 0; i < mesh->mNumVertices; i++)
 	{
@@ -181,7 +181,7 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			UV1 = glm::vec2(0.0f, 0.0f);
 
 		// add new vertex
-		if (m_isSkinned)
+		if (m_IsSkinned)
 		{
 			ChromaSkinnedVertex vertex;
 			vertex.setPosition(position);
@@ -230,7 +230,7 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 	}
 
 	// build Mesh
-	if (m_isSkinned)
+	if (m_IsSkinned)
 	{
 		// Process Skeleton
 		Skeleton skeleton;
@@ -262,7 +262,7 @@ ChromaMeshComponent* Model::processMesh(aiMesh* mesh, const aiScene* scene)
 			// add new joint
 			skeleton.AddJoint(newJoint);
 		}
-		return new SkinnedMesh(m_skinnedVertices, m_indices, m_textures, skeleton);
+		return new SkinnedMesh(m_skinnedVertices, m_indices, m_textures, skeleton, AIToGLM(scene->mRootNode->mTransformation));
 	}
 	else
 		return new StaticMesh(m_vertices, m_indices, m_textures);

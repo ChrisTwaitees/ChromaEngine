@@ -166,6 +166,7 @@ void GBuffer::drawGeometryPass()
 		{
 			finalTransformMatrix = finalTransformMatrix * ((ChromaMeshComponent*)component)->GetTransformationMatrix();
 			m_geometryPassShader.SetMat4("model", finalTransformMatrix);
+			m_geometryPassShader.setUniform("isSkinned",((ChromaMeshComponent*)component)->m_IsSkinned);
 			((ChromaMeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
 		}
 	}

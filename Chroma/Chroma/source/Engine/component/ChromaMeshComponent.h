@@ -23,6 +23,7 @@ public:
 	bool m_IsLit{ true };
 	bool m_IsForwardLit{ false };
 	bool m_CastShadows{ true };
+	bool m_IsSkinned{ false };
 
 	// Accessors
 	virtual Shader* GetShader() = 0;

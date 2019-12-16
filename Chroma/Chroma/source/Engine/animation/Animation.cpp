@@ -1,7 +1,6 @@
 #include "Animation.h"
 
 
-
 void Animation::LoadAnimation(std::string sourcePath)
 {
 	Assimp::Importer importer;

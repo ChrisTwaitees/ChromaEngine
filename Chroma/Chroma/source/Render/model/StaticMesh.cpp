@@ -134,21 +134,21 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 			name = "material.texture_albedo";
 			texturenum = std::to_string(diffuseNr++);
 			// set use texture albedo
-			shader->setBool("UseAlbedoMap", true);
+			shader->SetBool("UseAlbedoMap", true);
 		}
 		if (m_textures[i].type == Texture::NORMAL)
 		{
 			name = "material.texture_normal";
 			texturenum = std::to_string(normalNr++);
 			// set use texture normals
-			shader->setBool("UseNormalMap", true);
+			shader->SetBool("UseNormalMap", true);
 		}
 		if (m_textures[i].type == Texture::METROUGHAO)
 		{
 			name = "material.texture_MetRoughAO";
 			texturenum = std::to_string(metroughaoNr++);
 			// set use texture metroughao
-			shader->setBool("UseMetRoughAOMap", true);
+			shader->SetBool("UseMetRoughAOMap", true);
 		}
 		if (m_textures[i].type == Texture::METALNESS)
 		{
@@ -194,9 +194,9 @@ void StaticMesh::updateMaterialUniforms(const Shader* shader)
 	shader->SetFloat("roughness", 0.4f);
 	shader->setVec3("color", glm::vec4(1, 0, 0, 0.5));
 	shader->SetFloat("metalness", 0.0f);
-	shader->setBool("UseAlbedoMap", false);
-	shader->setBool("UseNormalMap", false);
-	shader->setBool("UseMetRoughAOMap", false);
+	shader->SetBool("UseAlbedoMap", false);
+	shader->SetBool("UseNormalMap", false);
+	shader->SetBool("UseMetRoughAOMap", false);
 }
 
 void StaticMesh::Draw(Shader &shader)

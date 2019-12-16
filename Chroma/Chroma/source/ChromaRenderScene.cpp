@@ -147,7 +147,6 @@ int main()
 	Animation testAnimation("resources/animation/walking.fbx");
 	
 
-
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
 	Scene->addEntity(TerrainEntity);

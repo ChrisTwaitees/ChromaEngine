@@ -21,7 +21,7 @@ void Uniform::setUniforms()
 }
 
 
-void Uniform::setBool(const std::string& name, bool value) const
+void Uniform::SetBool(const std::string& name, bool value) const
 {
 	glUniform1i(glGetUniformLocation(*ShaderID, name.c_str()), (int)value);
 }
