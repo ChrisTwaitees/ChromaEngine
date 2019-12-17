@@ -23,6 +23,7 @@ public:
 	void SetRootJoint(Joint* newRootJoint) { m_RootJoint = newRootJoint; };
 
 	int GetNumJoints() const { return m_Joints.size(); };
+	std::map<std::pair<int, std::string>, Joint*> GetIndexedNamedJoints() const { return m_Joints; };
 	std::map<std::string, Joint*> GetNamedJoints() const ;
 	std::map<int, Joint*> GetIndexedJoints() const ;
 	std::vector<Joint*> GetJoints() const;
