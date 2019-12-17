@@ -31,25 +31,18 @@ void DebugBuffer::blitPostFXBuffer()
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_postFXBuffer->getFBO()); // fetch  postFXBuffer
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO); // copy depth and color to current buffer
 	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
-	);
-	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
 	);
+
 }
 
-glm::vec3 DebugBuffer::GetTranslation(glm::mat4 mat4)
+void DebugBuffer::blitDepthPostFXBuffer()
 {
-	glm::vec3 scale;
-	glm::quat rotation;
-	glm::vec3 translation;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-	glm::decompose(mat4, scale, rotation, translation, skew, perspective);
-
-	return translation;
-
+	glBlitFramebuffer(
+		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
+	);
 }
+
 
 void DebugBuffer::generatePointVAO()
 {
@@ -72,11 +65,35 @@ void DebugBuffer::generatePointVAO()
 
 }
 
-
 void DebugBuffer::drawShapes()
 {
+	// OVERLAY 
 	attachBuffer();
+	DrawOverlayShapes();
 
+	// DEPTH RESPECTING
+	blitDepthPostFXBuffer();
+	DrawDepthCulledShapes();
+
+
+	unBind();
+}
+
+void DebugBuffer::DrawOverlayShapes()
+{
+	// lines
+	for (LineShape line : m_OverlayLines)
+		renderLine(line);
+	// spheres
+	for (SphereShape sphere : m_OverlaySpheres)
+		renderSphere(sphere);
+	// boxes
+	for (BoxShape box : m_OverlayBoxes)
+		renderBox(box);
+}
+
+void DebugBuffer::DrawDepthCulledShapes()
+{
 	// lines
 	for (LineShape line : m_lines)
 		renderLine(line);
@@ -86,8 +103,6 @@ void DebugBuffer::drawShapes()
 	// boxes
 	for (BoxShape box : m_boxes)
 		renderBox(box);
-
-	unBind();
 }
 
 void DebugBuffer::renderLine(LineShape line)
@@ -139,6 +154,15 @@ void DebugBuffer::DrawLine(const glm::vec3& from, const glm::vec3& to, const glm
 	m_lines.push_back(new_line);
 }
 
+void DebugBuffer::DrawOverlayLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color)
+{
+	LineShape new_line;
+	new_line.start = from;
+	new_line.end = to;
+	new_line.color = color;
+	m_OverlayLines.push_back(new_line);
+}
+
 void DebugBuffer::DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color)
 {
 	BoxShape new_box;
@@ -158,6 +182,15 @@ void DebugBuffer::DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const 
 	m_boxes.push_back(new_box);
 }
 
+void DebugBuffer::DrawOverlayBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color)
+{
+	BoxShape new_box;
+	new_box.bbox_min = bbMin;
+	new_box.bbox_max = bbMax;
+	new_box.color = color;
+	m_OverlayBoxes.push_back(new_box);
+}
+
 void DebugBuffer::DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color)
 {
 	SphereShape new_sphere;
@@ -165,6 +198,15 @@ void DebugBuffer::DrawSphere(const glm::vec3& center, const float& radius, const
 	new_sphere.radius = radius;
 	new_sphere.color = color;
 	m_spheres.push_back(new_sphere);
+}
+
+void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& radius, const glm::vec3& color)
+{
+	SphereShape new_sphere;
+	new_sphere.transform = glm::translate(new_sphere.transform, center);
+	new_sphere.radius = radius;
+	new_sphere.color = color;
+	m_OverlaySpheres.push_back(new_sphere);
 }
 
 void DebugBuffer::DrawSceneSkeletons(ChromaScene* const& scene)
@@ -186,7 +228,9 @@ void DebugBuffer::DrawSceneSkeletons(ChromaScene* const& scene)
 void DebugBuffer::ClearBuffer()
 {
 	Bind();
+	m_OverlayLines.clear();
 	m_lines.clear();
+
 	m_spheres.clear();
 	m_boxes.clear();
 	unBind();
@@ -218,6 +262,7 @@ void DebugBuffer::attachBuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	blitPostFXBuffer();
 }
+
 
 
 

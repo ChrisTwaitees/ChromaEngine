@@ -40,8 +40,11 @@ class DebugBuffer : public Framebuffer
 {
 	// shapes
 	std::vector<LineShape> m_lines;
+	std::vector<LineShape> m_OverlayLines;
 	std::vector<BoxShape> m_boxes;
-	std::vector<SphereShape> m_spheres;
+	std::vector<BoxShape> m_OverlayBoxes;
+ 	std::vector<SphereShape> m_spheres;
+	std::vector<SphereShape> m_OverlaySpheres;
 
 	// attrs
 	unsigned int pointVAO, pointVBO;
@@ -70,6 +73,8 @@ class DebugBuffer : public Framebuffer
 
 	// functions
 	void drawShapes();
+	void DrawOverlayShapes();
+	void DrawDepthCulledShapes();
 	void renderLine(LineShape line);
 	void renderSphere(SphereShape sphere);
 	void renderBox(BoxShape box);
@@ -77,13 +82,19 @@ class DebugBuffer : public Framebuffer
 	void Initialize() override;
 	void attachBuffer();
 	void blitPostFXBuffer();
-	glm::vec3 GetTranslation(glm::mat4 mat4);
+	void blitDepthPostFXBuffer();
+	
 
 public:
 	void DrawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
+	void DrawOverlayLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
+
 	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
 	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color);
+	void DrawOverlayBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
+
 	void DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
+	void DrawOverlaySphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
 
 	void DrawSceneSkeletons(ChromaScene* const &scene);
 

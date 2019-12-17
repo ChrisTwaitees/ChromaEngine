@@ -72,7 +72,7 @@ std::string Skeleton::GetJointName(int const& jointID) const
 
 Joint Skeleton::GetJoint(int const& index)
 {
-	for (auto const& IDNameJoint : m_Joints)
+	for (auto & IDNameJoint : m_Joints)
 	{
 		if (IDNameJoint.first.first == index)
 		{
@@ -83,9 +83,21 @@ Joint Skeleton::GetJoint(int const& index)
 	std::cout << "JOINT ID : " << index << " COULD NOT BE FOUND. " << std::endl;
 }
 
+Joint* Skeleton::GetJointPtr(int const& index)
+{
+	for (auto& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.first == index)
+		{
+			return &IDNameJoint.second;
+		}
+	}
+	return nullptr;
+}
+
 Joint Skeleton::GetJoint(std::string const& jointName) 
 {
-	for (auto const& IDNameJoint : m_Joints)
+	for (auto& IDNameJoint : m_Joints)
 	{
 		if (IDNameJoint.first.second == jointName)
 		{
@@ -94,7 +106,19 @@ Joint Skeleton::GetJoint(std::string const& jointName)
 	}
 	std::cout << "::SKELETON ERROR::" << std::endl;
 	std::cout << "JOINT NAME : " << jointName << " COULD NOT BE FOUND. " << std::endl;
-	
+}
+
+Joint* Skeleton::GetJointPtr(std::string const& jointName)
+{
+	for (auto& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.second == jointName)
+		{
+			return &IDNameJoint.second;
+		}
+	}
+	return nullptr;
+
 }
 
 bool Skeleton::GetJointExists(int const& index) const
@@ -123,36 +147,37 @@ bool Skeleton::GetJointExists(std::string const& jointName) const
 	return false;
 }
 
-void Skeleton::CalculateJointBindTransforms()
-{
-	ProcessChildModelBindTransforms(&GetRootJoint(), m_GlobalTransform);
-}
-
 void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
 {
-	DebugWalkChildJoints(&GetRootJoint(), debugBuffer);
+	DebugWalkChildJoints(GetRootJoint(), debugBuffer);
 }
 
-void Skeleton::DebugWalkChildJoints(Joint* currentJoint, DebugBuffer* const &debugBuffer)
+void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
 {
-	glm::vec3 startPos = GLMGetTranslation(currentJoint->GetLocalBindTransform());
+	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetModelBindTransform());
 
-	for (Joint& child : currentJoint->GetChildJoints())
+	for (Joint const& child : currentJoint.GetChildJoints())
 	{
-		glm::vec3 endPos = GLMGetTranslation(child.GetLocalBindTransform());
-		debugBuffer->DrawLine(startPos, endPos, glm::vec3(1.0));
-		DebugWalkChildJoints(&GetJoint(child.GetID()), debugBuffer);
+		glm::vec3 endPos = GLMGetTranslation(GetJoint(child.GetID()).GetModelBindTransform());
+		debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0));
+		DebugWalkChildJoints(GetJoint(child.GetID()), debugBuffer);
 	}
 }
 
-void Skeleton::ProcessChildModelBindTransforms(Joint* currentJoint, glm::mat4 const& parentTransform)
-{
-	currentJoint->SetModelBindTransform(parentTransform * currentJoint->GetLocalBindTransform());
-	currentJoint->SetModelInverseBindTransform(glm::inverse(currentJoint->GetModelBindTransform()));
 
-	for (Joint& child : currentJoint->GetChildJoints())
+// Joint Hierarchy on Innit
+void Skeleton::CalculateJointBindTransforms()
+{
+	ProcessChildModelBindTransforms(m_RootJointID, m_GlobalTransform);
+}
+
+void Skeleton::ProcessChildModelBindTransforms(int const& jointID, glm::mat4 const& parentTransform)
+{
+	GetJointPtr(jointID)->SetModelBindTransform(parentTransform * GetJointPtr(jointID)->GetLocalBindTransform());
+	GetJointPtr(jointID)->SetModelInverseBindTransform(glm::inverse(GetJointPtr(jointID)->GetModelBindTransform()));
+	for (Joint const& child : GetJointPtr(jointID)->GetChildJoints())
 	{
-		ProcessChildModelBindTransforms(&GetJoint(child.GetID()), currentJoint->GetModelBindTransform());
+		ProcessChildModelBindTransforms(child.GetID(), GetJointPtr(jointID)->GetModelBindTransform());
 	}
 }
 

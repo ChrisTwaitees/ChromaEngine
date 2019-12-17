@@ -79,7 +79,6 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 {
 	m_IsRenderable = true;
 	m_Skeleton = skeleton_val;
-	m_Skeleton.CalculateJointBindTransforms();
 	m_skinnedVertices = vertices_val;
 	m_indices = indices_val;
 	m_textures = textures_val;

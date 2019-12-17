@@ -93,27 +93,13 @@ static glm::vec3 getScale(glm::mat4 const& mat4)
 
 static glm::vec3 getTranslation(glm::mat4 const& mat4)
 {
-	glm::vec3 scale;
-	glm::quat rotation;
-	glm::vec3 translation;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-	glm::decompose(mat4, scale, rotation, translation, skew, perspective);
-
-	return translation;
+	return glm::vec3(mat4[3]);
 }
 
 
 static glm::vec3 GLMGetTranslation(glm::mat4 const& mat4)
 {
-	glm::vec3 scale;
-	glm::quat rotation;
-	glm::vec3 translation;
-	glm::vec3 skew;
-	glm::vec4 perspective;
-	glm::decompose(mat4, scale, rotation, translation, skew, perspective);
-
-	return translation;
+	return glm::vec3(mat4[3]);
 }
 
 static glm::quat getRotation(glm::mat4 const& mat4)

@@ -374,6 +374,9 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 			namedJoint.second->SetChildJoints(childJoints);
 		}
 	}
+
+	// Calculate ModelBindTransforms
+	skeleton.CalculateJointBindTransforms();
 }
 
 void Model::GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joint>& childJoints)

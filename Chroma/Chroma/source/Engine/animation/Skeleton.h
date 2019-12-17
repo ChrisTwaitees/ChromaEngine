@@ -18,8 +18,8 @@ class Skeleton
 	std::map<std::pair<int, std::string>, Joint> m_Joints;
 
 	// Functions
-	void ProcessChildModelBindTransforms(Joint* currentJoint, glm::mat4 const& parentTransform);
-	void DebugWalkChildJoints(Joint* currentJoint, DebugBuffer* const& debugBuffer);
+	void ProcessChildModelBindTransforms(int const& jointID, glm::mat4 const& parentTransform);
+	void DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const& debugBuffer);
 public:
 	// Accessors
 	void AddJoint(Joint& newJoint);
@@ -37,7 +37,9 @@ public:
 	std::string GetJointName(int const& jointID) const;
 
 	Joint GetJoint(int const& index);
+	Joint* GetJointPtr(int const& index);
 	Joint GetJoint(std::string const& jointName);
+	Joint* GetJointPtr(std::string const& jointName);
 	Joint GetRootJoint() { return GetJoint(m_RootJointID); };
 
 	bool GetJointExists(int const& index) const;
