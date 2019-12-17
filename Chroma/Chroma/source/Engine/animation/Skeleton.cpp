@@ -173,11 +173,12 @@ void Skeleton::CalculateJointBindTransforms()
 
 void Skeleton::ProcessChildModelBindTransforms(int const& jointID, glm::mat4 const& parentTransform)
 {
-	GetJointPtr(jointID)->SetModelBindTransform(parentTransform * GetJointPtr(jointID)->GetLocalBindTransform());
-	GetJointPtr(jointID)->SetModelInverseBindTransform(glm::inverse(GetJointPtr(jointID)->GetModelBindTransform()));
+	glm::mat4 modelBindTransform{ parentTransform * GetJointPtr(jointID)->GetLocalBindTransform() };
+	GetJointPtr(jointID)->SetModelBindTransform(modelBindTransform);
+	GetJointPtr(jointID)->SetModelInverseBindTransform(glm::inverse(modelBindTransform));
 	for (Joint const& child : GetJointPtr(jointID)->GetChildJoints())
 	{
-		ProcessChildModelBindTransforms(child.GetID(), GetJointPtr(jointID)->GetModelBindTransform());
+		ProcessChildModelBindTransforms(child.GetID(), modelBindTransform);
 	}
 }
 
