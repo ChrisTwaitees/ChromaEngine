@@ -71,7 +71,7 @@ void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 	for (auto const& IDJoint : m_Skeleton.GetIndexedNamedJoints())
 	{
 		std::string jntUniformName = "aJoints[" + std::to_string(IDJoint.first.first) + "]";
-		skinnedShader.setUniform(jntUniformName, IDJoint.second.GetModelInverseBindTransform());
+		skinnedShader.setUniform(jntUniformName, IDJoint.second.GetModelBindTransform());
 	}
 }
 
@@ -92,5 +92,4 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 
 SkinnedMesh::~SkinnedMesh()
 {
-	//delete m_Skeleton;
 }

@@ -131,10 +131,10 @@ int main()
 	// ANIMATED MODEL
 	IChromaEntity* AnimModelEntity = new ChromaEntity;
 	Scene->addEntity(AnimModelEntity);
+	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.fbx");
 	ChromaPhysicsComponent* AnimModelRigidComponent = new ChromaPhysicsComponent();
 	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
 	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.fbx");
 	AnimModelMeshComponent->SetShader(&PBRShader);
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
@@ -144,7 +144,7 @@ int main()
 	AnimModelEntity->addComponent(AnimModelMeshComponent);
 	AnimModelEntity->addComponent(AnimModelRigidComponent);
 
-	Animation testAnimation("resources/animation/walking.fbx");
+	Animation testAnimation("resources/animation/walking2.fbx");
 	
 
 	// TERRAIN
@@ -301,8 +301,8 @@ int main()
 		//CubeEntity->setScale(glm::vec3(glm::sin(GameTime)* 1.0));
 
 
-		//Game.getRenderer()->getDebugBuffer()->drawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
-
+		Game.getRenderer()->getDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
+		
 		//Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 
 

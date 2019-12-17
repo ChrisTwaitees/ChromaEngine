@@ -56,7 +56,9 @@ public:
 	int GetNumTextures() override { return m_textures.size(); };
 	// verts
 	std::vector<ChromaVertex> GetVertices() override { return m_vertices; };
-	std::vector<ChromaSkinnedVertex> getSkinnedVertices() const { return  m_skinnedVertices; };
+	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_skinnedVertices; };
+	// animation/ skinning
+	Skeleton* GetSkeleton();
 
 	// Component requirement 
 	void SetTextures(std::vector<Texture> textures_val) override {};

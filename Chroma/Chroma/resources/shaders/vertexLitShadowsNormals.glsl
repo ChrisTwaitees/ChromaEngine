@@ -25,15 +25,15 @@ uniform mat4 model;
 uniform mat4 lightSpaceMatrix;
 // skinning
 uniform bool isSkinned;
-uniform mat4 aJoints[#MAX_VERT_INFLUENCES];
+uniform mat4 aJoints[MAX_JOINTS];
 
 void main()
 {    
 	// Skinning
 	vec4 LocalPosition;
+	mat4 BoneTransform =mat4(1.0);
 	if (isSkinned)
 	{
-		mat4 BoneTransform;
 		for(int i = 0 ; i < #MAX_VERT_INFLUENCES ; i++)
 		{
 			BoneTransform += aJoints[aJointIDs[i]] * aJointWeights[i];

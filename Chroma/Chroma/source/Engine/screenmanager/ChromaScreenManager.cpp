@@ -134,6 +134,16 @@ void ChromaScreenManager::TogglePhysicsDebug()
 	drawPhysicsDebug = drawPhysicsDebug ? false : true;
 }
 
+void ChromaScreenManager::ToggleSkeletonsDebug()
+{
+	drawSkeletonsDebug = drawSkeletonsDebug ? false : true;
+}
+
+void ChromaScreenManager::ToggleGraphicsDebug()
+{
+	drawGraphicsDebug = drawGraphicsDebug ? false : true;
+}
+
 
 void ChromaScreenManager::updateRendererViewportDimensions(int width, int height)
 {
@@ -170,6 +180,15 @@ void ChromaScreenManager::drawGUI()
 	//// debug draw
 	if (ImGui::Button("Toggle Physics Debug"))
 		TogglePhysicsDebug();
+
+	if (ImGui::Button("Toggle Skeletons Debug"))
+		ToggleSkeletonsDebug();
+
+	if (ImGui::Button("Toggle Graphics Debug"))
+		ToggleGraphicsDebug();
+
+	// Graphics Debug Dropdowns 
+	ImGui::Combo("Graphics Debug", &graphicsDebugSelected, GraphicsDebugs, IM_ARRAYSIZE(GraphicsDebugs));
 
 	// camera dropdowns
 	ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));

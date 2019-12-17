@@ -1,5 +1,6 @@
 #include "DebugBuffer.h"
 
+
 void DebugBuffer::Initialize()
 {
 	glGenFramebuffers(1, &FBO);
@@ -34,6 +35,19 @@ void DebugBuffer::blitPostFXBuffer()
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
 	);
+}
+
+glm::vec3 DebugBuffer::GetTranslation(glm::mat4 mat4)
+{
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(mat4, scale, rotation, translation, skew, perspective);
+
+	return translation;
+
 }
 
 void DebugBuffer::generatePointVAO()
@@ -114,7 +128,8 @@ void DebugBuffer::renderBox(BoxShape box)
 	glBindVertexArray(0);
 }
 
-void DebugBuffer::drawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color)
+
+void DebugBuffer::DrawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color)
 {
 	LineShape new_line;
 	new_line.start = from;
@@ -123,7 +138,7 @@ void DebugBuffer::drawLine(const glm::vec3& from, const glm::vec3& to, const glm
 	m_lines.push_back(new_line);
 }
 
-void DebugBuffer::drawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color)
+void DebugBuffer::DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color)
 {
 	BoxShape new_box;
 	new_box.bbox_min = bbMin;
@@ -132,7 +147,7 @@ void DebugBuffer::drawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const 
 	m_boxes.push_back(new_box);
 }
 
-void DebugBuffer::drawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color)
+void DebugBuffer::DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color)
 {
 	BoxShape new_box;
 	new_box.bbox_min = bbMin;
@@ -142,7 +157,7 @@ void DebugBuffer::drawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const 
 	m_boxes.push_back(new_box);
 }
 
-void DebugBuffer::drawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color)
+void DebugBuffer::DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color)
 {
 	SphereShape new_sphere;
 	new_sphere.transform = glm::translate(new_sphere.transform, center);

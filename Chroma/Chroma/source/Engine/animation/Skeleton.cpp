@@ -1,6 +1,8 @@
 #include "Skeleton.h"
 
 
+
+
 void Skeleton::AddJoint(Joint& newJoint)
 {
 	m_Joints[make_pair(newJoint.GetID(), newJoint.GetName())] = newJoint;
@@ -123,8 +125,37 @@ bool Skeleton::GetJointExists(std::string const& jointName) const
 
 void Skeleton::CalculateJointBindTransforms()
 {
-	GetRootJoint().CalculateInverseModelBindTransforms(m_GlobalTransform);
+	ProcessChildModelBindTransforms(&GetRootJoint(), m_GlobalTransform);
 }
+
+void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
+{
+	DebugWalkChildJoints(&GetRootJoint(), debugBuffer);
+}
+
+void Skeleton::DebugWalkChildJoints(Joint* currentJoint, DebugBuffer* const &debugBuffer)
+{
+	glm::vec3 startPos = GLMGetTranslation(currentJoint->GetModelBindTransform());
+
+	for (Joint& child : currentJoint->GetChildJoints())
+	{
+		glm::vec3 endPos = GLMGetTranslation(child.GetModelBindTransform());
+		debugBuffer->DrawLine(startPos, endPos, glm::vec3(1.0));
+		DebugWalkChildJoints(&GetJoint(child.GetID()), debugBuffer);
+	}
+}
+
+void Skeleton::ProcessChildModelBindTransforms(Joint* currentJoint, glm::mat4 const& parentTransform)
+{
+	currentJoint->SetModelBindTransform(parentTransform * currentJoint->GetLocalBindTransform());
+	currentJoint->SetModelInverseBindTransform(glm::inverse(currentJoint->GetModelBindTransform()));
+
+	for (Joint& child : currentJoint->GetChildJoints())
+	{
+		ProcessChildModelBindTransforms(&GetJoint(child.GetID()), currentJoint->GetModelBindTransform());
+	}
+}
+
 
 Skeleton::Skeleton()
 {
@@ -133,10 +164,4 @@ Skeleton::Skeleton()
 
 Skeleton::~Skeleton()
 {
-	// clean up joints
-	/*for (auto const& IDNameJoint : m_Joints)
-	{
-		delete IDNameJoint.second;
-
-	}*/
 }

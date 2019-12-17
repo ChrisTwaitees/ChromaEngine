@@ -65,6 +65,10 @@ public:
 	bool useBloom{ false };
 	bool drawDebug{ false };
 	bool drawPhysicsDebug{ false };
+	bool drawSkeletonsDebug{ true };
+	bool drawGraphicsDebug{ false };
+	const char* GraphicsDebugs[8]{ "Alebdo", "Normals", "Metalness", "Roughness", "AO", "SSAO", "Shadows", "Reflections" };
+	int graphicsDebugSelected{ 0 };
 	const char* cameras[2]{ "Maya", "FlyCam" };
 	int cameraSelected{ 0 };
 	std::string SelectedEntity = "No Entity Selected";
@@ -82,6 +86,8 @@ public:
 	void ToggleBloom();
 	void ToggleDebug();
 	void TogglePhysicsDebug();
+	void ToggleSkeletonsDebug();
+	void ToggleGraphicsDebug();
 
 	// construction
 	ChromaScreenManager();

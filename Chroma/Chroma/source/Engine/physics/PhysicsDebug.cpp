@@ -2,17 +2,17 @@
 
 void ChromaPhysicsDebug::drawLine(const btVector3& from, const btVector3& to, const btVector3& color)
 {
-	m_debugBuffer->drawLine(BulletToGLM(from), BulletToGLM(to), BulletToGLM(color));
+	m_debugBuffer->DrawLine(BulletToGLM(from), BulletToGLM(to), BulletToGLM(color));
 }
 
 void ChromaPhysicsDebug::drawBox(const btVector3& bbMin, const btVector3& bbMax, const btVector3& color)
 {
-	m_debugBuffer->drawBox(BulletToGLM(bbMin), BulletToGLM(bbMax), BulletToGLM(color));
+	m_debugBuffer->DrawBox(BulletToGLM(bbMin), BulletToGLM(bbMax), BulletToGLM(color));
 }
 
 void ChromaPhysicsDebug::drawBox(const btVector3& bbMin, const btVector3& bbMax, const btTransform& trans, const btVector3& color)
 {
-	m_debugBuffer->drawBox(BulletToGLM(bbMin), BulletToGLM(bbMax), BulletToGLM(trans), BulletToGLM(color));
+	m_debugBuffer->DrawBox(BulletToGLM(bbMin), BulletToGLM(bbMax), BulletToGLM(trans), BulletToGLM(color));
 }
 
 void ChromaPhysicsDebug::drawContactPoint(const btVector3& PointOnB, const btVector3& normalOnB, btScalar distance, int lifeTime, const btVector3& color)

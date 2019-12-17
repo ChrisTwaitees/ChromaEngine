@@ -33,12 +33,14 @@ class SkinnedMesh : public StaticMesh
 	void setupMesh() override;
 
 public:
-	// Getters/Setters
-	std::vector<ChromaSkinnedVertex> getSkinnedVertices() { return m_skinnedVertices; };
+	// Accessors
+	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() { return m_skinnedVertices; };
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() override;
+	Skeleton* GetSkeleton() { return &m_Skeleton; };
 
 	// Functions
 	void SetJointUniforms(Shader& skinnedShader) override;
+
 
 	SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val);
 	SkinnedMesh() { m_IsRenderable = true; };

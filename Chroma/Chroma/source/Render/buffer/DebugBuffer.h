@@ -75,13 +75,13 @@ class DebugBuffer : public Framebuffer
 	void Initialize() override;
 	void attachBuffer();
 	void blitPostFXBuffer();
+	glm::vec3 GetTranslation(glm::mat4 mat4);
 
 public:
-
-	void drawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
-	void drawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
-	void drawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color);
-	void drawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
+	void DrawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
+	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
+	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color);
+	void DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
 
 	void ClearBuffer() override;
 	void Draw() override;

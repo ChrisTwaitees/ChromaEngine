@@ -84,6 +84,16 @@ void ShadowBuffer::calculateShadows()
 			finalTransformMatrix *= ((ChromaMeshComponent*)component)->GetTransformationMatrix();
 			depthShader.SetMat4("model", finalTransformMatrix);
 			((ChromaMeshComponent*)component)->Draw(depthShader);
+
+			// check if mesh skinned
+			if (((ChromaMeshComponent*)component)->m_IsSkinned)
+			{
+				depthShader.setUniform("isSkinned", ((ChromaMeshComponent*)component)->m_IsSkinned);
+				((ChromaMeshComponent*)component)->SetJointUniforms(depthShader);
+			}
+			// set material uniforms
+			((ChromaMeshComponent*)component)->DrawUpdateMaterials(depthShader);
+
 		}
 	}
 

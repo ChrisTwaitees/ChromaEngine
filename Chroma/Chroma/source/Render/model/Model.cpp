@@ -86,6 +86,11 @@ void Model::SetJointUniforms(Shader& skinnedShader)
 	}	
 }
 
+Skeleton* Model::GetSkeleton()
+{
+	return ((SkinnedMesh*)m_meshes[0])->GetSkeleton();
+}
+
 void Model::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall

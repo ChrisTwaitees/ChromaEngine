@@ -5,9 +5,10 @@
 #include <vector>
 #include <map>
 
-
 // chroma
 #include <animation/Joint.h>
+#include <buffer/DebugBuffer.h>
+
 
 class Skeleton
 {
@@ -16,6 +17,9 @@ class Skeleton
 	int m_RootJointID{ 0 };
 	std::map<std::pair<int, std::string>, Joint> m_Joints;
 
+	// Functions
+	void ProcessChildModelBindTransforms(Joint* currentJoint, glm::mat4 const& parentTransform);
+	void DebugWalkChildJoints(Joint* currentJoint, DebugBuffer* const& debugBuffer);
 public:
 	// Accessors
 	void AddJoint(Joint& newJoint);
@@ -41,6 +45,7 @@ public:
 
 	// Functions
 	void CalculateJointBindTransforms();
+	void DebugDraw(DebugBuffer* debugBuffer);
 
 	Skeleton();
 	~Skeleton();
