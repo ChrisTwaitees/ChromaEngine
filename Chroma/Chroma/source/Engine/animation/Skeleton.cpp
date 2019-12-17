@@ -135,11 +135,11 @@ void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
 
 void Skeleton::DebugWalkChildJoints(Joint* currentJoint, DebugBuffer* const &debugBuffer)
 {
-	glm::vec3 startPos = GLMGetTranslation(currentJoint->GetModelBindTransform());
+	glm::vec3 startPos = GLMGetTranslation(currentJoint->GetLocalBindTransform());
 
 	for (Joint& child : currentJoint->GetChildJoints())
 	{
-		glm::vec3 endPos = GLMGetTranslation(child.GetModelBindTransform());
+		glm::vec3 endPos = GLMGetTranslation(child.GetLocalBindTransform());
 		debugBuffer->DrawLine(startPos, endPos, glm::vec3(1.0));
 		DebugWalkChildJoints(&GetJoint(child.GetID()), debugBuffer);
 	}

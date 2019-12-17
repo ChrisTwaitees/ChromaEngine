@@ -135,6 +135,7 @@ int main()
 	ChromaPhysicsComponent* AnimModelRigidComponent = new ChromaPhysicsComponent();
 	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
 	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	AnimModelMeshComponent->m_IsLit=false;
 	AnimModelMeshComponent->SetShader(&PBRShader);
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
@@ -166,120 +167,120 @@ int main()
 	};
 
 	
-	for (int i =0; i < 3; i++ )
-	{
-		IChromaEntity* SphereEntity = new ChromaEntity;
-		Scene->addEntity(SphereEntity);
-		SphereEntity->SetName("Sphere");
-		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
-		ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
-		SphereRigidComponent->SetColliderShape(ColliderShape::Box);
-		SphereRigidComponent->SetCollisionState(ColliderState::Kinematic);
-		//SphereMeshComponent->AddTexture(sandyNormal);
-		SphereMeshComponent->AddTexture(greyAlbedo);
-		SphereMeshComponent->SetShader(&PBRShader);
-		SphereEntity->SetPosition(spherePositions[i]);
-		SphereEntity->addComponent(SphereMeshComponent);
-		SphereEntity->addComponent(SphereRigidComponent);
-	}
+	//for (int i =0; i < 3; i++ )
+	//{
+	//	IChromaEntity* SphereEntity = new ChromaEntity;
+	//	Scene->addEntity(SphereEntity);
+	//	SphereEntity->SetName("Sphere");
+	//	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
+	//	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
+	//	SphereRigidComponent->SetColliderShape(ColliderShape::Box);
+	//	SphereRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//	//SphereMeshComponent->AddTexture(sandyNormal);
+	//	SphereMeshComponent->AddTexture(greyAlbedo);
+	//	SphereMeshComponent->SetShader(&PBRShader);
+	//	SphereEntity->SetPosition(spherePositions[i]);
+	//	SphereEntity->addComponent(SphereMeshComponent);
+	//	SphereEntity->addComponent(SphereRigidComponent);
+	//}
 
-	IChromaEntity* CubeEntity = new ChromaEntity;
-	Scene->addEntity(CubeEntity);
-	CubeEntity->SetName("Cube");
-	ChromaMeshComponent* CubeMeshComponent = new BoxPrimitive();
-	ChromaPhysicsComponent* CubeRigidComponent = new ChromaPhysicsComponent();
-	CubeRigidComponent->SetColliderShape(ColliderShape::Box);
-	CubeRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	//SphereMeshComponent->AddTexture(sandyNormal);
-	CubeMeshComponent->AddTexture(greyAlbedo);
-	CubeMeshComponent->SetShader(&PBRShader);
-	CubeEntity->addComponent(CubeMeshComponent);
-	CubeEntity->addComponent(CubeRigidComponent);
-	CubeEntity->SetPosition(glm::vec3(-5.0f, 1.0f, 0.0f));
+	//IChromaEntity* CubeEntity = new ChromaEntity;
+	//Scene->addEntity(CubeEntity);
+	//CubeEntity->SetName("Cube");
+	//ChromaMeshComponent* CubeMeshComponent = new BoxPrimitive();
+	//ChromaPhysicsComponent* CubeRigidComponent = new ChromaPhysicsComponent();
+	//CubeRigidComponent->SetColliderShape(ColliderShape::Box);
+	//CubeRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	////SphereMeshComponent->AddTexture(sandyNormal);
+	//CubeMeshComponent->AddTexture(greyAlbedo);
+	//CubeMeshComponent->SetShader(&PBRShader);
+	//CubeEntity->addComponent(CubeMeshComponent);
+	//CubeEntity->addComponent(CubeRigidComponent);
+	//CubeEntity->SetPosition(glm::vec3(-5.0f, 1.0f, 0.0f));
 
-	// //LOOKDEV
-	IChromaEntity* SphereEntityLookDev = new ChromaEntity;
-	Scene->addEntity(SphereEntityLookDev);
-	SphereEntityLookDev->SetName("LookDev");
-	ChromaMeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
-	ChromaPhysicsComponent* SphereLookDevRigidComponent = new ChromaPhysicsComponent();
-	SphereLookDevRigidComponent->SetColliderShape(ColliderShape::Box);
-	SphereLookDevRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	SphereLookDevMeshComponent->SetShader(&PBRShader);
-	SphereLookDevMeshComponent->AddTexture(lookdevAlbedo);
-	SphereLookDevMeshComponent->AddTexture(lookdevNormal);
-	SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
-	SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
-	SphereEntityLookDev->setScale(glm::vec3(0.25));
-	SphereEntityLookDev->addComponent(SphereLookDevMeshComponent);
-	SphereEntityLookDev->addComponent(SphereLookDevRigidComponent);
+	//// //LOOKDEV
+	//IChromaEntity* SphereEntityLookDev = new ChromaEntity;
+	//Scene->addEntity(SphereEntityLookDev);
+	//SphereEntityLookDev->SetName("LookDev");
+	//ChromaMeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	//ChromaPhysicsComponent* SphereLookDevRigidComponent = new ChromaPhysicsComponent();
+	//SphereLookDevRigidComponent->SetColliderShape(ColliderShape::Box);
+	//SphereLookDevRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//SphereLookDevMeshComponent->SetShader(&PBRShader);
+	//SphereLookDevMeshComponent->AddTexture(lookdevAlbedo);
+	//SphereLookDevMeshComponent->AddTexture(lookdevNormal);
+	//SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
+	//SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
+	//SphereEntityLookDev->setScale(glm::vec3(0.25));
+	//SphereEntityLookDev->addComponent(SphereLookDevMeshComponent);
+	//SphereEntityLookDev->addComponent(SphereLookDevRigidComponent);
 
-	 //RUSTED IRON
-	IChromaEntity* SphereEntityRustedIron = new ChromaEntity;
-	Scene->addEntity(SphereEntityRustedIron);
-	SphereEntityRustedIron->SetName("Rusted Iron");
-	ChromaMeshComponent* SphereRustedIronMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
-	ChromaPhysicsComponent* SphereRustedIronRigidComponent = new ChromaPhysicsComponent();
-	SphereRustedIronRigidComponent->SetColliderShape(ColliderShape::Sphere);
-	SphereRustedIronRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	SphereRustedIronMeshComponent->AddTexture(rustedIronAlbedo);
-	SphereRustedIronMeshComponent->AddTexture(rustedIronNormal);
-	SphereRustedIronMeshComponent->AddTexture(rustedIronMetRoughAO);
-	SphereRustedIronMeshComponent->SetShader(&PBRShader);
-	SphereEntityRustedIron->setScale(glm::vec3(0.15));
-	SphereEntityRustedIron->SetPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
-	SphereEntityRustedIron->addComponent(SphereRustedIronMeshComponent);
-	SphereEntityRustedIron->addComponent(SphereRustedIronRigidComponent);
+	// //RUSTED IRON
+	//IChromaEntity* SphereEntityRustedIron = new ChromaEntity;
+	//Scene->addEntity(SphereEntityRustedIron);
+	//SphereEntityRustedIron->SetName("Rusted Iron");
+	//ChromaMeshComponent* SphereRustedIronMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	//ChromaPhysicsComponent* SphereRustedIronRigidComponent = new ChromaPhysicsComponent();
+	//SphereRustedIronRigidComponent->SetColliderShape(ColliderShape::Sphere);
+	//SphereRustedIronRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//SphereRustedIronMeshComponent->AddTexture(rustedIronAlbedo);
+	//SphereRustedIronMeshComponent->AddTexture(rustedIronNormal);
+	//SphereRustedIronMeshComponent->AddTexture(rustedIronMetRoughAO);
+	//SphereRustedIronMeshComponent->SetShader(&PBRShader);
+	//SphereEntityRustedIron->setScale(glm::vec3(0.15));
+	//SphereEntityRustedIron->SetPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
+	//SphereEntityRustedIron->addComponent(SphereRustedIronMeshComponent);
+	//SphereEntityRustedIron->addComponent(SphereRustedIronRigidComponent);
 
-	// WOOD PLANKS
-	IChromaEntity* SphereEntityWoodplanks = new ChromaEntity;
-	Scene->addEntity(SphereEntityWoodplanks);
-	SphereEntityWoodplanks->SetName("Wood Planks");
-	ChromaMeshComponent* SphereWoodplanksMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
-	ChromaPhysicsComponent* SpherewoodRigidComponent = new ChromaPhysicsComponent();
-	SpherewoodRigidComponent->SetColliderShape(ColliderShape::Sphere);
-	SpherewoodRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	SphereWoodplanksMeshComponent->AddTexture(agedPlanksAlbedo);
-	SphereWoodplanksMeshComponent->AddTexture(agedPlanksNormal);
-	SphereWoodplanksMeshComponent->AddTexture(agedPlanksMetRoughAO);
-	SphereWoodplanksMeshComponent->SetShader(&PBRShader);
-	SphereEntityWoodplanks->SetPosition(glm::vec3(-5.f, 1.0f, 0.0f));
-	SphereEntityWoodplanks->setScale(glm::vec3(0.15));
-	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
-	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
+	//// WOOD PLANKS
+	//IChromaEntity* SphereEntityWoodplanks = new ChromaEntity;
+	//Scene->addEntity(SphereEntityWoodplanks);
+	//SphereEntityWoodplanks->SetName("Wood Planks");
+	//ChromaMeshComponent* SphereWoodplanksMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	//ChromaPhysicsComponent* SpherewoodRigidComponent = new ChromaPhysicsComponent();
+	//SpherewoodRigidComponent->SetColliderShape(ColliderShape::Sphere);
+	//SpherewoodRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//SphereWoodplanksMeshComponent->AddTexture(agedPlanksAlbedo);
+	//SphereWoodplanksMeshComponent->AddTexture(agedPlanksNormal);
+	//SphereWoodplanksMeshComponent->AddTexture(agedPlanksMetRoughAO);
+	//SphereWoodplanksMeshComponent->SetShader(&PBRShader);
+	//SphereEntityWoodplanks->SetPosition(glm::vec3(-5.f, 1.0f, 0.0f));
+	//SphereEntityWoodplanks->setScale(glm::vec3(0.15));
+	//SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
+	//SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
 
 
-	// SEMI TRANSPARENT
-	IChromaEntity* SphereEntityTransparent = new ChromaEntity;
-	Scene->addEntity(SphereEntityTransparent);
-	SphereEntityTransparent->SetName("Sphere");
-	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
-	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
-	SphereRigidComponent->SetColliderShape(ColliderShape::Sphere);
-	SphereRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	SphereMeshComponent->AddTexture(alphaTestAlbedo);
-	SphereMeshComponent->SetShader(&PBRShader);
-	SphereMeshComponent->m_IsLit = true;
-	//SphereMeshComponent->m_IsForwardLit = true;
-	//SphereMeshComponent->m_IsTransparent = true;
-	SphereEntityTransparent->SetPosition(glm::vec3(7.5, 1.0, 0.0));
-	SphereEntityTransparent->addComponent(SphereMeshComponent);
-	SphereEntityTransparent->addComponent(SphereRigidComponent);
+	//// SEMI TRANSPARENT
+	//IChromaEntity* SphereEntityTransparent = new ChromaEntity;
+	//Scene->addEntity(SphereEntityTransparent);
+	//SphereEntityTransparent->SetName("Sphere");
+	//ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
+	//ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
+	//SphereRigidComponent->SetColliderShape(ColliderShape::Sphere);
+	//SphereRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//SphereMeshComponent->AddTexture(alphaTestAlbedo);
+	//SphereMeshComponent->SetShader(&PBRShader);
+	//SphereMeshComponent->m_IsLit = true;
+	////SphereMeshComponent->m_IsForwardLit = true;
+	////SphereMeshComponent->m_IsTransparent = true;
+	//SphereEntityTransparent->SetPosition(glm::vec3(7.5, 1.0, 0.0));
+	//SphereEntityTransparent->addComponent(SphereMeshComponent);
+	//SphereEntityTransparent->addComponent(SphereRigidComponent);
 
-	// UNLIT
-	IChromaEntity* SphereEntityUnlit = new ChromaEntity;
-	Scene->addEntity(SphereEntityUnlit);
-	SphereEntityUnlit->SetName("Sphere");
-	ChromaMeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
-	ChromaPhysicsComponent* SphereRigidComponentUnlit = new ChromaPhysicsComponent();
-	SphereRigidComponentUnlit->SetColliderShape(ColliderShape::Convex);
-	SphereRigidComponentUnlit->SetCollisionState(ColliderState::Kinematic);
-	SphereMeshComponentUnlit->SetShader(&UnlitShader);
-	SphereMeshComponentUnlit->m_IsLit = false;
-	SphereMeshComponentUnlit->m_CastShadows = false;
-	SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 1.0, 0.0));
-	SphereEntityUnlit->addComponent(SphereMeshComponentUnlit);
-	SphereEntityUnlit->addComponent(SphereRigidComponentUnlit);
+	//// UNLIT
+	//IChromaEntity* SphereEntityUnlit = new ChromaEntity;
+	//Scene->addEntity(SphereEntityUnlit);
+	//SphereEntityUnlit->SetName("Sphere");
+	//ChromaMeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
+	//ChromaPhysicsComponent* SphereRigidComponentUnlit = new ChromaPhysicsComponent();
+	//SphereRigidComponentUnlit->SetColliderShape(ColliderShape::Convex);
+	//SphereRigidComponentUnlit->SetCollisionState(ColliderState::Kinematic);
+	//SphereMeshComponentUnlit->SetShader(&UnlitShader);
+	//SphereMeshComponentUnlit->m_IsLit = false;
+	//SphereMeshComponentUnlit->m_CastShadows = false;
+	//SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 1.0, 0.0));
+	//SphereEntityUnlit->addComponent(SphereMeshComponentUnlit);
+	//SphereEntityUnlit->addComponent(SphereRigidComponentUnlit);
 
 	// POPULATING SCENE
 	Scene->setLights(Lights);
@@ -297,12 +298,11 @@ int main()
 		Sun->SetPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->GetPosition()));
 
-		CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
+		//CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
 		//CubeEntity->setScale(glm::vec3(glm::sin(GameTime)* 1.0));
 
 
 		Game.getRenderer()->getDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
-		
 		//Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 
 

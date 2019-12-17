@@ -13,6 +13,8 @@
 #include <model/SpherePrimitive.h>
 #include <model/BoxPrimitive.h>
 
+class ChromaScene;
+
 struct LineShape
 {
 	glm::vec3 start;
@@ -82,6 +84,8 @@ public:
 	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
 	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color);
 	void DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
+
+	void DrawSceneSkeletons(ChromaScene* const &scene);
 
 	void ClearBuffer() override;
 	void Draw() override;
