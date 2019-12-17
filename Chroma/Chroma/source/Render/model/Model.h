@@ -26,14 +26,16 @@ class Model : public ChromaMeshComponent
 	std::string m_directory;
 
 	// Functions
+	// meshes
 	void LoadModel(std::string path);
-	void ProcessNode(aiNode* node, const aiScene* scene);
+	void GetChildMeshNodes(aiNode* node, const aiScene* scene);
 	ChromaMeshComponent* ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
-		Texture::TYPE typeName);
-	void SetSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
-	void ProcessJointHierarchy(const aiScene* scene, aiMesh* mesh, Skeleton& skeleton);
-	bool ProcessChildJointNodes(aiNode* node, Skeleton& skeleton);
+	// skinning and skeletons
+	void SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
+	void ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skeleton);
+	void GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joint*>& childJoints);
+	// textures
+	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,Texture::TYPE typeName);
 
 public:
 	// Draw

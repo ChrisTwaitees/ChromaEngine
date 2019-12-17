@@ -13,23 +13,25 @@ class Skeleton
 {
 	glm::mat4 m_GlobalTransform{ 1.0 };
 	glm::mat4 m_GlobalTransformInverse{ 1.0 };
-	Joint m_RootJoint;
-	std::map<std::string, Joint> m_NamedJoints;
-	std::map<int, Joint> m_IndexedJoints;
+	Joint* m_RootJoint{new Joint};
+	std::map<std::pair<int, std::string>, Joint*> m_Joints;
 
 public:
 	// Accessors
-	void AddJoint(Joint const& newJoint);
+	void AddJoint(Joint*& newJoint);
 	void SetGlobalTransform(glm::mat4 const& newGlobalTransform) ;
-	void SetRootJoint(Joint newRootJoint) { m_RootJoint = newRootJoint; };
+	void SetRootJoint(Joint* newRootJoint) { m_RootJoint = newRootJoint; };
 
-	int GetNumJoints() const { return m_IndexedJoints.size(); };
-	std::map<std::string, Joint> GetNamedJoints() const { return m_NamedJoints; };
-	Joint GetJoint(int& index);
-	Joint GetJoint(std::string const& jointName);
+	int GetNumJoints() const { return m_Joints.size(); };
+	std::map<std::string, Joint*> GetNamedJoints() const ;
+	std::map<int, Joint*> GetIndexedJoints() const ;
+	std::vector<Joint*> GetJoints() const;
 
-	bool GetJointExists(int& index);
-	bool GetJointExists(std::string const& jointName);
+	Joint* GetJoint(int const& index);
+	Joint* GetJoint(std::string const& jointName);
+
+	bool GetJointExists(int const& index) const;
+	bool GetJointExists(std::string const& jointName) const;
 
 	// Functions
 	void CalculateJointBindTransforms();

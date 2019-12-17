@@ -1,10 +1,9 @@
 #include "Skeleton.h"
 
 
-void Skeleton::AddJoint(Joint const& newJoint)
+void Skeleton::AddJoint(Joint*& newJoint)
 {
-	m_NamedJoints[newJoint.GetName()] = newJoint;
-	m_IndexedJoints[newJoint.GetID()] = newJoint;
+	m_Joints[make_pair(newJoint->GetID(), newJoint->GetName())] = newJoint;
 }
 
 void Skeleton::SetGlobalTransform(glm::mat4 const& newGlobalTransform)
@@ -13,46 +12,92 @@ void Skeleton::SetGlobalTransform(glm::mat4 const& newGlobalTransform)
 	m_GlobalTransformInverse = glm::inverse(newGlobalTransform);
 }
 
-Joint Skeleton::GetJoint(int& index)
+std::map<std::string, Joint*> Skeleton::GetNamedJoints() const
 {
-	std::map<int, Joint>::iterator it;
-	m_IndexedJoints[index];
-	it = m_IndexedJoints.find(index);
-	if (it != m_IndexedJoints.end())
-		return it->second;
-	else
+	std::map<std::string, Joint*> newJointNameMap;
+	for (auto const& IDNameJoint : m_Joints)
 	{
-		std::cout << "::SKELETON ERROR::" << std::endl;
-		std::cout << "JOINT ID : " << index << " COULD NOT BE FOUND IN SKELETON. " << std::endl;
+		newJointNameMap[IDNameJoint.first.second] = IDNameJoint.second;
 	}
+	return newJointNameMap;
 }
 
-Joint Skeleton::GetJoint(std::string const&  jointName) 
+std::map<int, Joint*> Skeleton::GetIndexedJoints() const
 {
-	std::map<std::string, Joint>::iterator it;
-	it = m_NamedJoints.find(jointName);
-	if (it != m_NamedJoints.end())
-		return it->second;
-	else
+	std::map<int, Joint*> newJointIDMap;
+	for (auto const& IDNameJoint : m_Joints)
 	{
-		std::cout << "::SKELETON ERROR::" << std::endl;
-		std::cout << "JOINT NAME : " << jointName << " COULD NOT BE FOUND IN SKELETON. " << std::endl;
+		newJointIDMap[IDNameJoint.first.first] = IDNameJoint.second;
 	}
+	return newJointIDMap;
 }
 
-bool Skeleton::GetJointExists(int& index)
+std::vector<Joint*> Skeleton::GetJoints() const
 {
-	return m_IndexedJoints.find(index) == m_IndexedJoints.end() ? false : true;
+	std::vector<Joint*> skeletonJoints;
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		skeletonJoints.push_back(IDNameJoint.second);
+	}
+	return skeletonJoints;
 }
 
-bool Skeleton::GetJointExists(std::string const& jointName)
+Joint* Skeleton::GetJoint(int const& index)
 {
-	return m_NamedJoints.find(jointName) == m_NamedJoints.end() ? false : true;
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.first == index)
+		{
+			return IDNameJoint.second;
+		}
+	}
+	std::cout << "::SKELETON ERROR::" << std::endl;
+	std::cout << "JOINT ID : " << index << " COULD NOT BE FOUND. " << std::endl;
+}
+
+Joint* Skeleton::GetJoint(std::string const& jointName) 
+{
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.second == jointName)
+		{
+			return IDNameJoint.second;
+		}
+	}
+	std::cout << "::SKELETON ERROR::" << std::endl;
+	std::cout << "JOINT NAME : " << jointName << " COULD NOT BE FOUND. " << std::endl;
+	
+}
+
+bool Skeleton::GetJointExists(int const& index) const
+{
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.first == index)
+		{
+			return true;
+		}
+	}
+	// could not find
+	return false;
+}
+
+bool Skeleton::GetJointExists(std::string const& jointName) const
+{
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.second == jointName)
+		{
+			return true;
+		}
+	}
+	// could not find
+	return false;
 }
 
 void Skeleton::CalculateJointBindTransforms()
 {
-	m_RootJoint.CalculateInverseModelBindTransforms(m_GlobalTransform);
+	m_RootJoint->CalculateInverseModelBindTransforms(m_GlobalTransform);
 }
 
 Skeleton::Skeleton()
@@ -62,4 +107,10 @@ Skeleton::Skeleton()
 
 Skeleton::~Skeleton()
 {
+	// clean up joints
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		delete IDNameJoint.second;
+
+	}
 }

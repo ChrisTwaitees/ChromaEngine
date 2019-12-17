@@ -71,7 +71,7 @@ void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 	for (int i = 0; i < m_Skeleton.GetNumJoints(); i++)
 	{
 		std::string jntUniformName = "aJoints[" + std::to_string(i) +"]";
-		skinnedShader.setUniform(jntUniformName, m_Skeleton.GetJoint(i).GetLocalBindTransform());
+		skinnedShader.setUniform(jntUniformName, m_Skeleton.GetJoint(i)->GetLocalBindTransform());
 	}
 }
 
