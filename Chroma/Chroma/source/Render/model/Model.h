@@ -32,6 +32,8 @@ class Model : public ChromaMeshComponent
 	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,
 		Texture::TYPE typeName);
 	void SetSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
+	void ProcessJointHierarchy(const aiScene* scene, aiMesh* mesh, Skeleton& skeleton);
+	bool ProcessChildJointNodes(aiNode* node, Skeleton& skeleton);
 
 public:
 	// Draw

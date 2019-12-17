@@ -21,10 +21,15 @@ public:
 	// Accessors
 	void AddJoint(Joint const& newJoint);
 	void SetGlobalTransform(glm::mat4 const& newGlobalTransform) ;
+	void SetRootJoint(Joint newRootJoint) { m_RootJoint = newRootJoint; };
 
 	int GetNumJoints() const { return m_IndexedJoints.size(); };
+	std::map<std::string, Joint> GetNamedJoints() const { return m_NamedJoints; };
 	Joint GetJoint(int& index);
 	Joint GetJoint(std::string const& jointName);
+
+	bool GetJointExists(int& index);
+	bool GetJointExists(std::string const& jointName);
 
 	// Functions
 	void CalculateJointBindTransforms();

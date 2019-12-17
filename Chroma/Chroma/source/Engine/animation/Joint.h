@@ -16,10 +16,10 @@ class Joint
 	// Joint Data
 	int m_ID;
 	std::string m_Name;
-	glm::mat4 m_LocalBindTransform;
-	glm::mat4 m_ModelInverseBindTransform;
+	glm::mat4 m_LocalBindTransform{ 1.0 };
+	glm::mat4 m_ModelInverseBindTransform{ 1.0 };
 
-	glm::mat4 m_AnimatedTransform;
+	glm::mat4 m_AnimatedTransform{ 1.0 };
 	std::vector<Joint> m_ChildJoints;
 
 public:

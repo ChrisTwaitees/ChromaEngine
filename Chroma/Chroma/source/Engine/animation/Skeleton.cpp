@@ -5,15 +5,12 @@ void Skeleton::AddJoint(Joint const& newJoint)
 {
 	m_NamedJoints[newJoint.GetName()] = newJoint;
 	m_IndexedJoints[newJoint.GetID()] = newJoint;
-	if (newJoint.GetID() == 0)
-		m_RootJoint = newJoint;
 }
 
 void Skeleton::SetGlobalTransform(glm::mat4 const& newGlobalTransform)
 {
 	m_GlobalTransform = newGlobalTransform;
 	m_GlobalTransformInverse = glm::inverse(newGlobalTransform);
-
 }
 
 Joint Skeleton::GetJoint(int& index)
@@ -41,6 +38,16 @@ Joint Skeleton::GetJoint(std::string const&  jointName)
 		std::cout << "::SKELETON ERROR::" << std::endl;
 		std::cout << "JOINT NAME : " << jointName << " COULD NOT BE FOUND IN SKELETON. " << std::endl;
 	}
+}
+
+bool Skeleton::GetJointExists(int& index)
+{
+	return m_IndexedJoints.find(index) == m_IndexedJoints.end() ? false : true;
+}
+
+bool Skeleton::GetJointExists(std::string const& jointName)
+{
+	return m_NamedJoints.find(jointName) == m_NamedJoints.end() ? false : true;
 }
 
 void Skeleton::CalculateJointBindTransforms()

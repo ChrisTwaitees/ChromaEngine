@@ -243,32 +243,9 @@ ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		// Process Skeleton
 		Skeleton skeleton;
 		skeleton.SetGlobalTransform(AIToGLM(scene->mRootNode->mTransformation));
-
-		for (int i = 0; i < mesh->mNumBones; i++)
-		{
-			// fetch assimp bone, copy data to chroma joint
-			aiBone* bone = mesh->mBones[i];
-			Joint newJoint;
-			// name
-			newJoint.SetName(bone->mName.C_Str());
-			// offset matrix - joint matrix, relative to its parent
-			newJoint.SetLocalBindTransform(AIToGLM(bone->mOffsetMatrix));
-			// ID
-			newJoint.SetID(i);
-			
-			// store joint IDs and Weights to skelton and verts
-			for (int j = 0; j < bone->mNumWeights; j++)
-			{
-				// update joint
-				aiVertexWeight vertexWeight = bone->mWeights[j];
-				std::pair<unsigned int, float> skinningData;
-				skinningData.first = i;
-				skinningData.second = vertexWeight.mWeight;
-				SetSkinningData(m_skinnedVertices[vertexWeight.mVertexId], skinningData);
-			}
-			// add new joint
-			skeleton.AddJoint(newJoint);
-		}
+		// Process Joint Hierarchy
+		ProcessJointHierarchy(scene, mesh, skeleton);
+		// Skinned Mesh Constructor
 		return new SkinnedMesh(m_skinnedVertices, m_indices, m_textures, skeleton, AIToGLM(scene->mRootNode->mTransformation));
 	}
 	else
@@ -335,3 +312,88 @@ void Model::SetSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float> con
 		}
 	}
 }
+
+void Model::ProcessJointHierarchy(const aiScene* scene, aiMesh* mesh, Skeleton& skeleton)
+{
+	for (int i = 0; i < mesh->mNumBones; i++)
+	{
+		// fetch assimp bone, copy data to chroma joint
+		aiBone* bone = mesh->mBones[i];
+		Joint newJoint;
+		// Joint Name
+		newJoint.SetName(bone->mName.C_Str());
+		// Joint Local Transform, relative to its Parent
+		newJoint.SetLocalBindTransform(AIToGLM(bone->mOffsetMatrix));
+		// Joint ID
+		newJoint.SetID(i);
+
+		// store joint IDs and Weights to skelton and verts
+		for (int j = 0; j < bone->mNumWeights; j++)
+		{
+			// update joint
+			aiVertexWeight vertexWeight = bone->mWeights[j];
+			std::pair<unsigned int, float> skinningData;
+			skinningData.first = i;
+			skinningData.second = vertexWeight.mWeight;
+			SetSkinningData(m_skinnedVertices[vertexWeight.mVertexId], skinningData);
+		}
+		// Add new joint
+		skeleton.AddJoint(newJoint);
+	}
+
+	// Locating Root Joint
+	aiNode* rootSceneNode = scene->mRootNode;
+	aiNode* rootJointNode = rootSceneNode;
+	for (int i = 0; i < rootSceneNode->mNumChildren; i++)
+	{
+		aiNode* aiChildNode = rootSceneNode->mChildren[i];
+		std::string nodeName{ aiChildNode->mName.C_Str() };
+		if (skeleton.GetJointExists(nodeName)) 
+		{
+			std::cout << "Root Joint Found : " << aiChildNode->mName.C_Str() << std::endl;
+			rootJointNode = aiChildNode;
+			skeleton.SetRootJoint(skeleton.GetJoint(aiChildNode->mName.C_Str()));
+		}
+	}
+
+	// Processing Child Joints
+	std::cout << "Calculating joint children" << std::endl;
+	for (std::pair<std::string, Joint> namedJoint : skeleton.GetNamedJoints())
+	{
+		aiNode* jointNode = rootSceneNode->FindNode(aiString(namedJoint.first));
+		if (jointNode != NULL) // ensure joint has been found
+		{
+			std::cout << "Joint node Found in Scene : " << jointNode->mName.C_Str() << std::endl;
+			// drill down to find joints
+			//Joint childJoint{ NULL };
+			bool isFound{ false };
+			while (isFound != true)
+			{
+				isFound = ProcessChildJointNodes(jointNode, skeleton);
+			}
+		}
+	}
+
+//	ProcessChildJointNodes(rootJointNode, skeleton);
+}
+
+bool Model::ProcessChildJointNodes(aiNode* node, Skeleton& skeleton)
+{
+	for (unsigned int i = 0; i < node->mNumChildren; i++)
+	{
+		std::string childNodeName{ node->mChildren[i]->mName.C_Str() };
+		if (skeleton.GetJointExists(childNodeName)) // Check whether child node is a joint in skeleton
+		{
+			std::cout << "Found Child in Joint Hierarchy : " << childNodeName  << std::endl;
+			std::cout << "Adding Joint : " << childNodeName << " as Child of : " << node->mName.C_Str() << std::endl;
+			std::string parentJointName{ node->mName.C_Str() };
+			//return skeleton.GetJoint(childNodeName);
+			return true;
+		}
+		else
+		{
+			ProcessChildJointNodes(node->mChildren[i], skeleton);
+		}
+	}
+}
+
