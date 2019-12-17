@@ -20,7 +20,7 @@ class Joint
 	glm::mat4 m_ModelInverseBindTransform{ 1.0 };
 
 	glm::mat4 m_AnimatedTransform{ 1.0 };
-	std::vector<Joint*> m_ChildJoints;
+	std::vector<Joint> m_ChildJoints;
 
 public:
 	// Accessors
@@ -30,14 +30,15 @@ public:
 	void SetAnimatedTransform(glm::mat4 newAnimatedTransform) { m_AnimatedTransform = newAnimatedTransform; };
 	void SetModelInverseBindTransform(glm::mat4 newInverseModelBindTransform) { m_ModelInverseBindTransform = newInverseModelBindTransform; };
 
-	void AddChildJoint(Joint*&  newChildJoint) { m_ChildJoints.push_back(newChildJoint); };
-	void SetChildJoints(std::vector<Joint*>& newChildJoints) { m_ChildJoints.clear(); m_ChildJoints = newChildJoints; };
+	void AddChildJoint(Joint&  newChildJoint) { m_ChildJoints.push_back(newChildJoint); };
+	void SetChildJoints(std::vector<Joint>& newChildJoints) { m_ChildJoints = newChildJoints; };
 
 	int GetID() const { return m_ID; };
 	std::string GetName() const { return m_Name; };
+	glm::mat4 GetModelInverseBindTransform() const { return m_ModelInverseBindTransform; };
 	glm::mat4 GetLocalBindTransform() const { return m_LocalBindTransform; };
 	glm::mat4 GetAnimatedTransform() const { return m_AnimatedTransform; };
-	std::vector<Joint*> GetChildJoints() const { return m_ChildJoints; };
+	std::vector<Joint> GetChildJoints() const { return m_ChildJoints; };
 	
 	// FUnctions
 	void CalculateInverseModelBindTransforms(glm::mat4 parentModelBindTransform);

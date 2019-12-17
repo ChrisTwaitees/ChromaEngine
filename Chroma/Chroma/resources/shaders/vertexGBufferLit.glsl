@@ -29,41 +29,39 @@ uniform mat4 model;
 uniform mat4 lightSpaceMatrix;
 // skinning
 uniform bool isSkinned;
-uniform mat4 aJoints[MAX_JOINTS];
+uniform mat4 aJoints[#MAX_JOINTS];
 
 
 void main()
 {    
 	// Skinning
 	vec4 LocalPosition;
+	mat4 BoneTransform =mat4(1.0);
 	if (isSkinned)
 	{
-		mat4 BoneTransform;
 		for(int i = 0 ; i < #MAX_VERT_INFLUENCES ; i++)
 		{
 			BoneTransform += aJoints[aJointIDs[i]] * aJointWeights[i];
 		}
 		LocalPosition =  BoneTransform * vec4( aPos , 1.0);
-		//LocalPosition =  vec4(aPos + (aJointWeights[0] *10.0) , 1.0);
-
 	}
 	else
 		LocalPosition =  vec4(aPos , 1.0);
 
 	// world and view, normals and positions
-    vs_out.FragWorldPos = vec3(model * LocalPosition);
+    vs_out.FragWorldPos = vec3(model * LocalPosition) ;
 	vs_out.FragViewPos = vec3(view * vec4(vs_out.FragWorldPos, 1.0));
-    vs_out.WorldNormal =  transpose(inverse(mat3(model))) * aNormal;
-	vs_out.ViewNormal =  transpose(inverse(mat3(view * model))) * aNormal;
+    vs_out.WorldNormal =  transpose( mat3(BoneTransform) * inverse(mat3(model))) * aNormal;
+	vs_out.ViewNormal =  transpose(inverse(mat3(BoneTransform * view * model))) * aNormal;
 
 	// uvs and shadowmapping lightspace
     vs_out.TexCoords = aTexCoords;
-    vs_out.FragPosLightSpace = lightSpaceMatrix * vec4( vs_out.FragWorldPos , 1.0);
+    vs_out.FragPosLightSpace = lightSpaceMatrix * BoneTransform *  vec4(  vs_out.FragWorldPos , 1.0);
 	
 	// tbn
-	vec3 T = normalize(vec3(model * vec4(aTangent,   0.0)));
-    vec3 B = normalize(vec3(model * vec4(aBitangent, 0.0)));
-    vec3 N = normalize(vec3(model * vec4(aNormal,    0.0)));
+	vec3 T = normalize(vec3(BoneTransform * model * vec4(aTangent,   0.0)));
+    vec3 B = normalize(vec3(BoneTransform * model * vec4(aBitangent, 0.0)));
+    vec3 N = normalize(vec3(BoneTransform * model * vec4(aNormal,    0.0)));
 
 	// world and view tbn
 	vs_out.WorldTBN = mat3(T, B, N);

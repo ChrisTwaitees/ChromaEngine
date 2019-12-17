@@ -319,13 +319,13 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 	{
 		// fetch assimp bone, copy data to chroma joint
 		aiBone* bone = mesh->mBones[i];
-		Joint* newJoint{ new Joint };
+		Joint newJoint;
 		// Joint Name
-		newJoint->SetName(bone->mName.C_Str());
+		newJoint.SetName(bone->mName.C_Str());
 		// Joint Local Transform, relative to its Parent
-		newJoint->SetLocalBindTransform(AIToGLM(bone->mOffsetMatrix));
+		newJoint.SetLocalBindTransform(AIToGLM(bone->mOffsetMatrix));
 		// Joint ID
-		newJoint->SetID(i);
+		newJoint.SetID(i);
 
 		// store joint IDs and Weights to skelton and verts
 		for (int j = 0; j < bone->mNumWeights; j++)
@@ -343,7 +343,6 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 
 	// Get Root Joint
 	aiNode* rootSceneNode = scene->mRootNode;
-	aiNode* rootJointNode = rootSceneNode;
 	for (int i = 0; i < rootSceneNode->mNumChildren; i++)
 	{
 		aiNode* aiChildNode = rootSceneNode->mChildren[i];
@@ -351,8 +350,7 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 		if (skeleton.GetJointExists(nodeName)) 
 		{
 			std::cout << "Root Joint Found : " << aiChildNode->mName.C_Str() << std::endl;
-			rootJointNode = aiChildNode;
-			skeleton.SetRootJoint(skeleton.GetJoint(aiChildNode->mName.C_Str()));
+			skeleton.SetRootJointID(skeleton.GetJointID(nodeName));
 		}
 	}
 
@@ -366,14 +364,14 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 		if (jointNode != NULL) 
 		{
 			std::cout << "Joint node Found in Scene : " << jointNode->mName.C_Str() << std::endl;
-			std::vector<Joint*> childJoints;
+			std::vector<Joint> childJoints;
 			GetChildJointNodes(jointNode, skeleton, childJoints);
 			namedJoint.second->SetChildJoints(childJoints);
 		}
 	}
 }
 
-void Model::GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joint*>& childJoints)
+void Model::GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joint>& childJoints)
 {
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{

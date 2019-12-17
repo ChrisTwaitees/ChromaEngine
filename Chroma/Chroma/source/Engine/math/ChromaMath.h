@@ -21,10 +21,10 @@
 static glm::mat4 AIToGLM(const aiMatrix4x4& aiMat)
 {
 	return glm::mat4{
-		aiMat.a1, aiMat.b1, aiMat.c1, aiMat.d1,
-		aiMat.a2, aiMat.b2, aiMat.c2, aiMat.d2,
-		aiMat.a3, aiMat.b3, aiMat.c3, aiMat.d3,
-		aiMat.a4, aiMat.b4, aiMat.c4, aiMat.d4
+		aiMat[0][1], aiMat[0][2], aiMat[0][3], aiMat[0][4],
+		aiMat[1][1], aiMat[1][2], aiMat[1][3], aiMat[1][4],
+		aiMat[2][1], aiMat[2][2], aiMat[2][3], aiMat[2][4],
+		aiMat[3][1], aiMat[3][2], aiMat[3][3], aiMat[3][4]
 	};
 }
 

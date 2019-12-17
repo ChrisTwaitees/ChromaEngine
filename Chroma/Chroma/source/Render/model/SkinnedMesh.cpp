@@ -68,15 +68,10 @@ std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
 void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 {
 	// set transform per joint
-	//for (auto const& IDJoint : m_Skeleton.GetIndexedNamedJoints())
-	//{
-	//	std::string jntUniformName = "aJoints[" + std::to_string(IDJoint.first.first) + "]";
-	//	skinnedShader.setUniform(jntUniformName, IDJoint.second->GetLocalBindTransform());
-	//}
-
-	for (Joint* joint : m_Skeleton.GetJoints())
+	for (auto const& IDJoint : m_Skeleton.GetIndexedNamedJoints())
 	{
-		std::cout << joint->GetName();
+		std::string jntUniformName = "aJoints[" + std::to_string(IDJoint.first.first) + "]";
+		skinnedShader.setUniform(jntUniformName, IDJoint.second.GetModelInverseBindTransform());
 	}
 }
 
