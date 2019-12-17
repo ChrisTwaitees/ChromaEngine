@@ -1,6 +1,8 @@
 #include "Model.h"
 #include <texture/stb_image.h>
 
+
+// DRAW
 void Model::Draw(Shader &shader)
 {
 	for (ChromaMeshComponent*& mesh : m_meshes)
@@ -37,7 +39,7 @@ void Model::SetShader(Shader* const& newShader)
 		mesh->SetShader(newShader);
 }
 
-
+// BBOX
 std::pair<glm::vec3, glm::vec3> Model::GetBBox()
 {
 	CalculateBBox();
@@ -50,12 +52,14 @@ glm::vec3 Model::GetCentroid()
 	return m_Centroid;
 }
 
+// TEXTURES
 void Model::AddTexture(Texture texture_val)
 {
 	for (ChromaMeshComponent* mesh : m_meshes)
 		mesh->AddTexture(texture_val);
 }
 
+// UNIFORMS
 void Model::SetMat4(std::string name, glm::mat4 value)
 {
 	for (ChromaMeshComponent* mesh : m_meshes)
@@ -80,13 +84,6 @@ void Model::SetJointUniforms(Shader& skinnedShader)
 	{
 		((SkinnedMesh*)mesh)->SetJointUniforms(skinnedShader);
 	}	
-}
-
-
-Model::~Model()
-{
-	for (ChromaMeshComponent* mesh : m_meshes)
-		delete mesh;
 }
 
 void Model::CalculateBBox()
@@ -114,6 +111,8 @@ void Model::CalculateCentroid()
 	m_Centroid = m_BBoxMin + ((m_BBoxMin - m_BBoxMax) * glm::vec3(0.5));
 }
 
+
+// LOADING
 void Model::LoadModel(std::string path)
 {
 	Assimp::Importer importer;
@@ -393,3 +392,8 @@ void Model::GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joi
 	}
 }
 
+Model::~Model()
+{
+	for (ChromaMeshComponent* mesh : m_meshes)
+		delete mesh;
+}

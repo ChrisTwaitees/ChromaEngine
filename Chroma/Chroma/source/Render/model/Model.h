@@ -13,17 +13,18 @@
 
 class Model : public ChromaMeshComponent
 {
-	// calculate attrs
+	// calculate dimensions
 	virtual void CalculateBBox();
 	virtual void CalculateCentroid();
 
 	// Model Data
+	std::string m_directory;
+	std::vector<ChromaMeshComponent*> m_meshes;
+	// verts
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<ChromaSkinnedVertex> m_skinnedVertices;
-	
+	//textures
 	std::vector<Texture> m_textures;
-	std::vector<ChromaMeshComponent*> m_meshes;
-	std::string m_directory;
 
 	// Functions
 	// meshes
@@ -45,8 +46,10 @@ public:
 	void DrawUpdateMaterials(Shader& shader) override;
 	void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 
-	// Getters
+	// Accessors	
 	glm::mat4 GetTransformationMatrix() override { return m_TransformationMatrix; };
+	std::pair<glm::vec3, glm::vec3> GetBBox();
+	glm::vec3 GetCentroid();
 	// render components
 	Shader* GetShader() override { return m_meshes[0]->GetShader(); };
 	void SetShader(Shader* const& newShader) override;
@@ -54,10 +57,6 @@ public:
 	// verts
 	std::vector<ChromaVertex> GetVertices() override { return m_vertices; };
 	std::vector<ChromaSkinnedVertex> getSkinnedVertices() const { return  m_skinnedVertices; };
-	// bbox
-	std::pair<glm::vec3, glm::vec3> GetBBox();
-	glm::vec3 GetCentroid();
-	// Setters
 
 	// Component requirement 
 	void SetTextures(std::vector<Texture> textures_val) override {};
@@ -68,7 +67,6 @@ public:
 	void SetInt(std::string name, int value) override;
 	void SetFloat(std::string name, float value) override;
 	void SetJointUniforms(Shader& skinnedShader) override;
-
 
 	// Constructors
 	Model(std::string path) { LoadModel(path); };
