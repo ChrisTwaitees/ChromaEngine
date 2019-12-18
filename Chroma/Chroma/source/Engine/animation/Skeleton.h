@@ -1,9 +1,15 @@
 #ifndef _CHROMA_SKELETON_
 #define _CHROMA_SKELETON_
 
+
+
 // stl
 #include <vector>
 #include <map>
+
+// thirdparty
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 
 // chroma
 #include <animation/Joint.h>
@@ -23,12 +29,12 @@ class Skeleton
 
 	float m_Scale{ 1.0f };
 	glm::vec3 m_Translation{ 1.0f };
+	glm::quat m_Rotation{ glm::quat() };
 
 	// Functions
 	void ProcessChildModelBindTransforms(int const& jointID, glm::mat4 const& parentTransform);
 	void DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const& debugBuffer);
-	void UpdateSkeletonScale();
-	void UpdateSkeletonTranslation();
+	void UpdateSkeletonRootTransform();
 
 public:
 	// Accessors
@@ -37,8 +43,9 @@ public:
 	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.GetID(); };
 	void SetRootJointID(int const& newRootJointID) { m_RootJointID = newRootJointID; };
 
-	void SetSkeletonScale(float const& newScale) { m_Scale = newScale; UpdateSkeletonScale(); };
-	void SetSkeletonTranslation(glm::vec3 const& newTranslation) { m_Translation = newTranslation; UpdateSkeletonTranslation(); };
+	void SetSkeletonScale(float const& newScale) { m_Scale = newScale; UpdateSkeletonRootTransform(); };
+	void SetSkeletonTranslation(glm::vec3 const& newTranslation) { m_Translation = newTranslation; UpdateSkeletonRootTransform(); };
+	void SetSkeletonRotation(glm::quat const& newRotation) { m_Rotation = newRotation; UpdateSkeletonRootTransform(); };
 
 	int GetNumJoints() const { return m_Joints.size(); };
 	std::map<std::pair<int, std::string>, Joint> GetIndexedNamedJoints() const { return m_Joints; };

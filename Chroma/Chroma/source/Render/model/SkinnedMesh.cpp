@@ -72,6 +72,7 @@ void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 	for (auto const& IDJoint : m_Skeleton.GetIndexedNamedJoints())
 	{
 		std::string jntUniformName = "aJoints[" + std::to_string(IDJoint.first.first) + "]";
+		//glUniformMatrix4fv(glGetUniformLocation(skinnedShader.ShaderID, jntUniformName.c_str()), 1, GL_TRUE, glm::value_ptr(IDJoint.second.GetModelBindTransform()));
 		skinnedShader.setUniform(jntUniformName, IDJoint.second.GetModelBindTransform());
 	}
 }

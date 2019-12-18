@@ -61,6 +61,7 @@ public:
 	Skeleton* GetSkeleton();
 	void SetSkeletonScale(float const& newScale);
 	void SetSkeletonTranslation(glm::vec3 const& newPosition);
+	void SetSkeletonRotation(glm::quat const& newRotation);
 
 	// Component requirement 
 	void SetTextures(std::vector<Texture> textures_val) override {};

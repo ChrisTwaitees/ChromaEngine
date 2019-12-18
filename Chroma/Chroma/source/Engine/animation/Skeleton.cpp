@@ -164,35 +164,19 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 	}
 }
 
-void Skeleton::UpdateSkeletonScale()
+
+void Skeleton::UpdateSkeletonRootTransform()
 {
-
-	glm::mat4 scaleMat =  glm::scale(m_IdentityMatrix, glm::vec3(m_Scale));
-	m_WorldTransform = scaleMat * m_WorldTransform;
-	m_WorldTransformInverse = glm::inverse(m_WorldTransform);
-
+	glm::mat4 rootTransform = glm::translate(m_IdentityMatrix, m_Translation);
+	rootTransform = glm::toMat4(m_Rotation) * rootTransform;
+	rootTransform = glm::scale(rootTransform, glm::vec3(m_Scale));
+	
+	ProcessChildModelBindTransforms(m_RootJointID, rootTransform);
 	//for (auto const& IDNameJoint : m_Joints)
 	//{
-	//	glm::mat4 newLocalBindTransform = scaleMat * IDNameJoint.second.GetLocalBindTransform();
+	//	glm::mat4 newLocalBindTransform = translateMat * IDNameJoint.second.GetLocalBindTransform();
 	//	GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(newLocalBindTransform);
 	//}
-
-	CalculateJointBindTransforms();
-}
-
-void Skeleton::UpdateSkeletonTranslation()
-{
-	glm::mat4 translateMat = glm::translate(m_IdentityMatrix, m_Translation);
-	m_WorldTransform = translateMat * m_WorldTransform;
-	m_WorldTransformInverse = glm::inverse(m_WorldTransform);
-
-	for (auto const& IDNameJoint : m_Joints)
-	{
-		glm::mat4 newLocalBindTransform = translateMat * IDNameJoint.second.GetLocalBindTransform();
-		GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(newLocalBindTransform);
-	}
-
-	CalculateJointBindTransforms();
 }
 
 

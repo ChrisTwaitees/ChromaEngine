@@ -101,6 +101,11 @@ void Model::SetSkeletonTranslation(glm::vec3 const& newPosition)
 	((SkinnedMesh*)m_meshes[0])->SetSkeletonTranslation(newPosition);
 }
 
+void Model::SetSkeletonRotation(glm::quat const& newRotation)
+{
+	((SkinnedMesh*)m_meshes[0])->SetSkeletonRotation(newRotation);
+}
+
 void Model::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
