@@ -343,7 +343,7 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 		// Joint Name
 		newJoint.SetName(bone->mName.C_Str());
 		// Joint Local Transform, relative to its Parent
-		newJoint.SetLocalBindTransform(AIToGLM(bone->mOffsetMatrix));
+		newJoint.SetLocalBindTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
 		// Joint ID
 		newJoint.SetID(i);
 

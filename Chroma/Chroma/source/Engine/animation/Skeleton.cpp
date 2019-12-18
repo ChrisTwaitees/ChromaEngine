@@ -154,12 +154,18 @@ void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
 
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
 {
-	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetModelBindTransform());
+	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetLocalBindTransform());
 
 	for (Joint const& child : currentJoint.GetChildJoints())
 	{
-		glm::vec3 endPos = GLMGetTranslation(GetJoint(child.GetID()).GetModelBindTransform());
-		debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0));
+		glm::vec3 endPos = GLMGetTranslation(GetJoint(child.GetID()).GetLocalBindTransform());
+		if(currentJoint.GetID() == m_RootJointID)
+			debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0 , 0.0,  0.0));
+		else if (child.GetID() == GetJointID("mixamorig:Head"))
+			debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0, 1.0, 0.0));
+		else
+			debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0));
+
 		DebugWalkChildJoints(GetJoint(child.GetID()), debugBuffer);
 	}
 }
@@ -171,14 +177,8 @@ void Skeleton::UpdateSkeletonRootTransform()
 	rootTransform = glm::toMat4(m_Rotation) * rootTransform;
 	rootTransform = glm::scale(rootTransform, glm::vec3(m_Scale));
 	
-	ProcessChildModelBindTransforms(m_RootJointID, rootTransform);
-	//for (auto const& IDNameJoint : m_Joints)
-	//{
-	//	glm::mat4 newLocalBindTransform = translateMat * IDNameJoint.second.GetLocalBindTransform();
-	//	GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(newLocalBindTransform);
-	//}
+	//ProcessChildModelBindTransforms(m_RootJointID, rootTransform);
 }
-
 
 // Joint Hierarchy on Innit
 void Skeleton::CalculateJointBindTransforms()
