@@ -18,15 +18,28 @@
 #define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
 
 // ASSIMP
-static glm::mat4 AIToGLM(const aiMatrix4x4& aiMat)
+//static glm::mat4 AIToGLM(const aiMatrix4x4& aiMat)
+//{
+//	return glm::mat4{
+//		aiMat[0][1], aiMat[0][2], aiMat[0][3], aiMat[0][4],
+//		aiMat[1][1], aiMat[1][2], aiMat[1][3], aiMat[1][4],
+//		aiMat[2][1], aiMat[2][2], aiMat[2][3], aiMat[2][4],
+//		aiMat[3][1], aiMat[3][2], aiMat[3][3], aiMat[3][4]
+//	};
+//}
+
+static glm::mat4 AIToGLM(const aiMatrix4x4& from)
 {
-	return glm::mat4{
-		aiMat[0][1], aiMat[0][2], aiMat[0][3], aiMat[0][4],
-		aiMat[1][1], aiMat[1][2], aiMat[1][3], aiMat[1][4],
-		aiMat[2][1], aiMat[2][2], aiMat[2][3], aiMat[2][4],
-		aiMat[3][1], aiMat[3][2], aiMat[3][3], aiMat[3][4]
-	};
+	glm::mat4 to;
+	//the a,b,c,d in assimp is the row ; the 1,2,3,4 is the column
+	to[0][0] = from.a1; to[1][0] = from.a2; to[2][0] = from.a3; to[3][0] = from.a4;
+	to[0][1] = from.b1; to[1][1] = from.b2; to[2][1] = from.b3; to[3][1] = from.b4;
+	to[0][2] = from.c1; to[1][2] = from.c2; to[2][2] = from.c3; to[3][2] = from.c4;
+	to[0][3] = from.d1; to[1][3] = from.d2; to[2][3] = from.d3; to[3][3] = from.d4;
+	return to;
 }
+
+
 
 static glm::vec3 AItoGLM(const aiVector3D& aiVec3)
 {

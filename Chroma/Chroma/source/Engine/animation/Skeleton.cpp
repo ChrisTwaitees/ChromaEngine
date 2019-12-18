@@ -1,5 +1,5 @@
 #include "Skeleton.h"
-
+#include <entity/IChromaEntity.h>
 
 
 
@@ -10,8 +10,8 @@ void Skeleton::AddJoint(Joint& newJoint)
 
 void Skeleton::SetGlobalTransform(glm::mat4 const& newGlobalTransform)
 {
-	m_GlobalTransform = newGlobalTransform;
-	m_GlobalTransformInverse = glm::inverse(newGlobalTransform);
+	m_WorldTransform = newGlobalTransform;
+	m_WorldTransformInverse = glm::inverse(newGlobalTransform);
 }
 
 std::map<std::string, Joint*> Skeleton::GetNamedJoints()
@@ -154,21 +154,52 @@ void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
 
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
 {
-	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetModelBindTransform());
+	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetLocalBindTransform());
 
 	for (Joint const& child : currentJoint.GetChildJoints())
 	{
-		glm::vec3 endPos = GLMGetTranslation(GetJoint(child.GetID()).GetModelBindTransform());
+		glm::vec3 endPos = GLMGetTranslation(GetJoint(child.GetID()).GetLocalBindTransform());
 		debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0));
 		DebugWalkChildJoints(GetJoint(child.GetID()), debugBuffer);
 	}
+}
+
+void Skeleton::UpdateSkeletonScale()
+{
+
+	glm::mat4 scaleMat =  glm::scale(m_IdentityMatrix, glm::vec3(m_Scale));
+	m_WorldTransform = scaleMat * m_WorldTransform;
+	m_WorldTransformInverse = glm::inverse(m_WorldTransform);
+
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		glm::mat4 newLocalBindTransform = scaleMat * IDNameJoint.second.GetLocalBindTransform();
+		GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(newLocalBindTransform);
+	}
+
+	CalculateJointBindTransforms();
+}
+
+void Skeleton::UpdateSkeletonTranslation()
+{
+	glm::mat4 translateMat = glm::translate(m_IdentityMatrix, m_Translation);
+	m_WorldTransform = translateMat * m_WorldTransform;
+	m_WorldTransformInverse = glm::inverse(m_WorldTransform);
+
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		glm::mat4 newLocalBindTransform = translateMat * IDNameJoint.second.GetLocalBindTransform();
+		GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(newLocalBindTransform);
+	}
+
+	CalculateJointBindTransforms();
 }
 
 
 // Joint Hierarchy on Innit
 void Skeleton::CalculateJointBindTransforms()
 {
-	ProcessChildModelBindTransforms(m_RootJointID, m_GlobalTransform);
+	ProcessChildModelBindTransforms(m_RootJointID, m_WorldTransform);
 }
 
 void Skeleton::ProcessChildModelBindTransforms(int const& jointID, glm::mat4 const& parentTransform)

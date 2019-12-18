@@ -8,24 +8,37 @@
 // chroma
 #include <animation/Joint.h>
 #include <buffer/DebugBuffer.h>
+#include <component/ChromaMeshComponent.h>
 
 
 class Skeleton
 {
-	glm::mat4 m_GlobalTransform{ 1.0 };
-	glm::mat4 m_GlobalTransformInverse{ 1.0 };
+	ChromaMeshComponent* m_ParentComponent;
+
+	glm::mat4 m_IdentityMatrix{ 1.0 };
+	glm::mat4 m_WorldTransform{ 1.0 };
+	glm::mat4 m_WorldTransformInverse{ 1.0 };
 	int m_RootJointID{ 0 };
 	std::map<std::pair<int, std::string>, Joint> m_Joints;
+
+	float m_Scale{ 1.0f };
+	glm::vec3 m_Translation{ 1.0f };
 
 	// Functions
 	void ProcessChildModelBindTransforms(int const& jointID, glm::mat4 const& parentTransform);
 	void DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const& debugBuffer);
+	void UpdateSkeletonScale();
+	void UpdateSkeletonTranslation();
+
 public:
 	// Accessors
 	void AddJoint(Joint& newJoint);
 	void SetGlobalTransform(glm::mat4 const& newGlobalTransform) ;
 	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.GetID(); };
 	void SetRootJointID(int const& newRootJointID) { m_RootJointID = newRootJointID; };
+
+	void SetSkeletonScale(float const& newScale) { m_Scale = newScale; UpdateSkeletonScale(); };
+	void SetSkeletonTranslation(glm::vec3 const& newTranslation) { m_Translation = newTranslation; UpdateSkeletonTranslation(); };
 
 	int GetNumJoints() const { return m_Joints.size(); };
 	std::map<std::pair<int, std::string>, Joint> GetIndexedNamedJoints() const { return m_Joints; };
@@ -46,6 +59,7 @@ public:
 	bool GetJointExists(std::string const& jointName) const;
 
 	// Functions
+	void BindParentComponent(ChromaMeshComponent* const& newMeshComponent) { m_ParentComponent = newMeshComponent; };
 	void CalculateJointBindTransforms();
 	void DebugDraw(DebugBuffer* debugBuffer);
 

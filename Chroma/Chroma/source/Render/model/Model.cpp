@@ -91,6 +91,16 @@ Skeleton* Model::GetSkeleton()
 	return ((SkinnedMesh*)m_meshes[0])->GetSkeleton();
 }
 
+void Model::SetSkeletonScale(float const& newScale)
+{
+	((SkinnedMesh*)m_meshes[0])->SetSkeletonScale(newScale);
+}
+
+void Model::SetSkeletonTranslation(glm::vec3 const& newPosition)
+{
+	((SkinnedMesh*)m_meshes[0])->SetSkeletonTranslation(newPosition);
+}
+
 void Model::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
@@ -376,7 +386,7 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 	}
 
 	// Calculate ModelBindTransforms
-	skeleton.CalculateJointBindTransforms();
+	//skeleton.CalculateJointBindTransforms();
 }
 
 void Model::GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joint>& childJoints)

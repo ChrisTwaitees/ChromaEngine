@@ -59,6 +59,8 @@ public:
 	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_skinnedVertices; };
 	// animation/ skinning
 	Skeleton* GetSkeleton();
+	void SetSkeletonScale(float const& newScale);
+	void SetSkeletonTranslation(glm::vec3 const& newPosition);
 
 	// Component requirement 
 	void SetTextures(std::vector<Texture> textures_val) override {};

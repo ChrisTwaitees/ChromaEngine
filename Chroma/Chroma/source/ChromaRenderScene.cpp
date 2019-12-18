@@ -131,7 +131,7 @@ int main()
 	// ANIMATED MODEL
 	IChromaEntity* AnimModelEntity = new ChromaEntity;
 	Scene->addEntity(AnimModelEntity);
-	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.fbx");
+	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking3.fbx");
 	ChromaPhysicsComponent* AnimModelRigidComponent = new ChromaPhysicsComponent();
 	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
 	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
@@ -142,10 +142,12 @@ int main()
 	AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
 	AnimModelEntity->SetPosition(glm::vec3(-2,0, - 4));
 	AnimModelEntity->setScale(glm::vec3(0.06));
+	((Model*)AnimModelMeshComponent)->SetSkeletonTranslation(glm::vec3(-2, 0, -4));
+	((Model*)AnimModelMeshComponent)->SetSkeletonScale(0.06);
 	AnimModelEntity->addComponent(AnimModelMeshComponent);
 	AnimModelEntity->addComponent(AnimModelRigidComponent);
 
-	Animation testAnimation("resources/animation/walking2.fbx");
+	Animation testAnimation("resources/animation/walking3.fbx");
 	
 
 	// TERRAIN
