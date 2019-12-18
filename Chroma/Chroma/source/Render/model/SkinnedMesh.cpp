@@ -68,13 +68,7 @@ std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
 
 void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 {
-	// set transform per joint
-	for (auto const& IDJoint : m_Skeleton.GetIndexedNamedJoints())
-	{
-		std::string jntUniformName = "aJoints[" + std::to_string(IDJoint.first.first) + "]";
-		//glUniformMatrix4fv(glGetUniformLocation(skinnedShader.ShaderID, jntUniformName.c_str()), 1, GL_TRUE, glm::value_ptr(IDJoint.second.GetModelBindTransform()));
-		skinnedShader.setUniform(jntUniformName, IDJoint.second.GetLocalBindTransform());
-	}
+	m_Skeleton.SetJointUniforms(skinnedShader);
 }
 
 SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val)
@@ -85,7 +79,6 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 	// Skeleton
 	m_Skeleton = skeleton_val;
 	m_Skeleton.BindParentComponent(this);
-	//m_Skeleton.CalculateJointLocalBindOffsetTransforms();
 	// Verts
 	m_SkinnedVertices = vertices_val;
 	m_Indices = indices_val;

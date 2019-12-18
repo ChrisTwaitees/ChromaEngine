@@ -1,7 +1,7 @@
 #include "Animation.h"
 
 
-void Animation::LoadAnimation(std::string sourcePath)
+void Animation::LoadAnimation(std::string const& sourcePath)
 {
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(sourcePath, NULL);

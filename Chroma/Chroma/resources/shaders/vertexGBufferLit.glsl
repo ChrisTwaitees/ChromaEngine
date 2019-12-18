@@ -34,34 +34,42 @@ uniform mat4 aJoints[MAX_JOINTS];
 
 void main()
 {    
-	// Skinning
-	vec4 LocalPosition = vec4(0.0);
+	vec4 LocalPosition = vec4(aPos , 1.0);
+	vec3 LocalNormal = aNormal;
+
 	if (isSkinned)
 	{
+		mat4 BoneTransform = mat4(0.0);
 		for(int i = 0 ; i < #MAX_VERT_INFLUENCES ; i++)
 		{
-			mat4 jointTransform = aJoints[aJointIDs[i]];
-			vec4 posePosition = jointTransform * vec4(aPos, 1.0);
-			LocalPosition += posePosition * aJointWeights[i];			
+			BoneTransform += aJoints[aJointIDs[i]] * aJointWeights[i];
 		}
+//		// Local Position
+		LocalPosition = BoneTransform * LocalPosition;
+//		// world and view, normals 
+		vs_out.WorldNormal =  transpose(  inverse(mat3(model * BoneTransform))) * aNormal;
+		vs_out.ViewNormal =  transpose(inverse(mat3( view * model * BoneTransform))) * aNormal;
+		LocalNormal = transpose(  inverse(mat3(BoneTransform))) * aNormal;
 	}
 	else
-		LocalPosition =  vec4(aPos , 1.0);
+	{
+		// world and view, normals 
+		vs_out.WorldNormal =  transpose(  inverse(mat3(model))) * aNormal;
+		vs_out.ViewNormal =  transpose(inverse(mat3( view * model))) * aNormal;
+	}
 
-	// world and view, normals and positions
-    vs_out.FragWorldPos = vec3(model * LocalPosition) ;
+	// world and view, positions
+	vs_out.FragWorldPos = vec3(model * LocalPosition) ;
 	vs_out.FragViewPos = vec3(view * vec4(vs_out.FragWorldPos, 1.0));
-    vs_out.WorldNormal =  transpose(  inverse(mat3(model))) * aNormal;
-	vs_out.ViewNormal =  transpose(inverse(mat3( view * model))) * aNormal;
 
 	// uvs and shadowmapping lightspace
     vs_out.TexCoords = aTexCoords;
-    vs_out.FragPosLightSpace = lightSpaceMatrix * vec4(  vs_out.FragWorldPos , 1.0);
+    vs_out.FragPosLightSpace = lightSpaceMatrix * vec4(vs_out.FragWorldPos , 1.0);
 	
 	// tbn
-	vec3 T = normalize(vec3( model * vec4(aTangent,   0.0)));
-    vec3 B = normalize(vec3( model * vec4(aBitangent, 0.0)));
-    vec3 N = normalize(vec3( model * vec4(aNormal,    0.0)));
+	vec3 T = normalize(vec3( model * vec4(aTangent,    0.0)));
+    vec3 B = normalize(vec3( model * vec4(aBitangent,  0.0)));
+    vec3 N = normalize(vec3( model * vec4(LocalNormal, 0.0)));
 
 	// world and view tbn
 	vs_out.WorldTBN = mat3(T, B, N);

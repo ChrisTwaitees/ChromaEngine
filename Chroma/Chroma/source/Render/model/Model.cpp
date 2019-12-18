@@ -339,11 +339,14 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 	{
 		// fetch assimp bone, copy data to chroma joint
 		aiBone* bone = mesh->mBones[i];
+		
 		Joint newJoint;
 		// Joint Name
 		newJoint.SetName(bone->mName.C_Str());
 		// Joint Model Transform, Relative to Model Origin
 		newJoint.SetModelBindTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
+		// Joint Final Transform intialized to model transform
+		newJoint.SetFinalTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
 		// Joint Inverse Model Transform, Relative from Joint to Origin
 		newJoint.SetModelInverseBindTransform(AIToGLM(bone->mOffsetMatrix));
 		// Joint ID
@@ -398,7 +401,7 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 	}
 
 	// Calculate Local Bind Offset Transforms
-	//skeleton.CalculateJointLocalBindOffsetTransforms();
+	skeleton.InitializeSkeleton();
 }
 
 void Model::GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs)

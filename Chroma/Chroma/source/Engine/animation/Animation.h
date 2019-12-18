@@ -42,7 +42,7 @@ class Animation
 {
 	std::vector<AnimTake> m_AnimTakes;
 
-	void LoadAnimation(std::string sourcePath);
+	void LoadAnimation(std::string const& sourcePath);
 	void ProcessAnimation(const aiScene* scene, aiNode* rootNode);
 
 public:

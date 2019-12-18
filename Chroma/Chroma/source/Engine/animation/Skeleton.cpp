@@ -2,6 +2,11 @@
 #include <entity/IChromaEntity.h>
 
 
+void Skeleton::InitializeSkeleton()
+{
+	// calculate local bind offset relative to parent joint
+	CalculateJointLocalBindOffsetTransforms();
+}
 
 void Skeleton::AddJoint(Joint& newJoint)
 {
@@ -83,18 +88,6 @@ Joint Skeleton::GetJoint(int const& index)
 	std::cout << "JOINT ID : " << index << " COULD NOT BE FOUND. " << std::endl;
 }
 
-Joint* Skeleton::GetJointPtr(int const& index)
-{
-	for (auto& IDNameJoint : m_Joints)
-	{
-		if (IDNameJoint.first.first == index)
-		{
-			return &IDNameJoint.second;
-		}
-	}
-	return nullptr;
-}
-
 Joint Skeleton::GetJoint(std::string const& jointName) 
 {
 	for (auto& IDNameJoint : m_Joints)
@@ -106,6 +99,18 @@ Joint Skeleton::GetJoint(std::string const& jointName)
 	}
 	std::cout << "::SKELETON ERROR::" << std::endl;
 	std::cout << "JOINT NAME : " << jointName << " COULD NOT BE FOUND. " << std::endl;
+}
+
+Joint* Skeleton::GetJointPtr(int const& index)
+{
+	for (auto& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.first == index)
+		{
+			return &IDNameJoint.second;
+		}
+	}
+	return nullptr;
 }
 
 Joint* Skeleton::GetJointPtr(std::string const& jointName)
@@ -149,16 +154,18 @@ bool Skeleton::GetJointExists(std::string const& jointName) const
 
 void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
 {
+	// Loop through Skeleton drawing to debug buffer
 	DebugWalkChildJoints(GetRootJoint(), debugBuffer);
 }
 
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
 {
-	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetLocalBindTransform());
+	// Debug Draw Skelton
+	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetFinalTransform());
 
 	for (int const& childID : currentJoint.GetChildJointIDs())
 	{
-		glm::vec3 endPos = GLMGetTranslation(GetJoint(childID).GetLocalBindTransform());
+		glm::vec3 endPos = GLMGetTranslation(GetJoint(childID).GetFinalTransform());
 		if(currentJoint.GetID() == m_RootJointID)
 			debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0 , 0.0,  0.0));
 		else if (childID == GetJointID("mixamorig:Head"))
@@ -173,27 +180,49 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 
 void Skeleton::UpdateSkeletonRootTransform()
 {
+	// Build rootTransform Matrix
 	glm::mat4 rootTransform = glm::translate(m_IdentityMatrix, m_Translation);
 	rootTransform = glm::toMat4(m_Rotation) * rootTransform;
 	rootTransform = glm::scale(rootTransform, glm::vec3(m_Scale));
-	
-	//ProcessChildModelBindTransforms(m_RootJointID, rootTransform);
+	// Apply to root, traversing down chain
+	TransformJointAndChildren(m_RootJointID, rootTransform);
 }
 
-// Joint Hierarchy on Innit
-void Skeleton::CalculateJointLocalBindOffsetTransforms()
+void Skeleton::TransformJointAndChildren(int const& jointID, glm::mat4 const& transform)
 {
-	ProcessChildModelBindTransforms(m_RootJointID, m_WorldTransform);
-}
+	// Recursive applying offset from Model Bind Transform
+	glm::mat4 updatedTransform{ transform * GetJointPtr(jointID)->GetModelBindTransform()};
+	GetJointPtr(jointID)->SetFinalTransform(updatedTransform);
 
-void Skeleton::ProcessChildModelBindTransforms(int const& jointID, glm::mat4 const& parentTransform)
-{
-	glm::mat4 modelBindTransform{ parentTransform * GetJointPtr(jointID)->GetLocalBindTransform() };
-	GetJointPtr(jointID)->SetModelBindTransform(modelBindTransform);
-	GetJointPtr(jointID)->SetModelInverseBindTransform(glm::inverse(modelBindTransform));
 	for (int const& childID : GetJointPtr(jointID)->GetChildJointIDs())
 	{
-		ProcessChildModelBindTransforms(childID, modelBindTransform);
+		TransformJointAndChildren(childID, transform);
+	}
+}
+
+void Skeleton::SetJointUniforms(Shader& skinnedShader)
+{
+	// Render Pipeline Entry point, setting shader's Joint Matrices
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		std::string jntUniformName = "aJoints[" + std::to_string(IDNameJoint.first.first) + "]";
+		glm::mat4 OffsetTransform = IDNameJoint.second.GetFinalTransform()* IDNameJoint.second.GetModelInverseBindTransform();
+		skinnedShader.setUniform(jntUniformName, OffsetTransform);
+	}
+}
+
+void Skeleton::CalculateJointLocalBindOffsetTransforms()
+{
+	// Init Skeleton, calculating local joint offset to parent
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.second.GetParentJointID() != -1) // root joint has no parent
+		{
+			glm::mat4 parentModelBindTransform = GetJointPtr(IDNameJoint.second.GetParentJointID())->GetModelBindTransform();
+			glm::mat4 currentInverseModelBindTransform = GetJointPtr(IDNameJoint.first.first)->GetModelInverseBindTransform();
+			glm::mat4 localModelBindTransform = glm::inverse(parentModelBindTransform * currentInverseModelBindTransform);
+			GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(localModelBindTransform);
+		}
 	}
 }
 

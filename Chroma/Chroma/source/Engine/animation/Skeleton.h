@@ -32,8 +32,9 @@ class Skeleton
 	glm::quat m_Rotation{ glm::quat() };
 
 	// Functions
-	void ProcessChildModelBindTransforms(int const& jointID, glm::mat4 const& parentTransform);
+	void ProcessJointLocalBindOffsetTransforms(int const& jointID, glm::mat4 const& parentTransform);
 	void DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const& debugBuffer);
+	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
 	void UpdateSkeletonRootTransform();
 
 public:
@@ -67,8 +68,10 @@ public:
 
 	// Functions
 	void BindParentComponent(ChromaMeshComponent* const& newMeshComponent) { m_ParentComponent = newMeshComponent; };
+	void SetJointUniforms(Shader& skinnedShader);
 	void CalculateJointLocalBindOffsetTransforms();
 	void DebugDraw(DebugBuffer* debugBuffer);
+	void InitializeSkeleton();
 
 	Skeleton();
 	~Skeleton();
