@@ -86,14 +86,12 @@ void ShadowBuffer::calculateShadows()
 			((ChromaMeshComponent*)component)->Draw(depthShader);
 
 			// check if mesh skinned
+			depthShader.setUniform("isSkinned", ((ChromaMeshComponent*)component)->m_IsSkinned);
 			if (((ChromaMeshComponent*)component)->m_IsSkinned)
-			{
-				depthShader.setUniform("isSkinned", ((ChromaMeshComponent*)component)->m_IsSkinned);
 				((ChromaMeshComponent*)component)->SetJointUniforms(depthShader);
-			}
-			// set material uniforms
-			((ChromaMeshComponent*)component)->DrawUpdateMaterials(depthShader);
 
+			// Draw Update Materials
+			((ChromaMeshComponent*)component)->DrawUpdateMaterials(depthShader);
 		}
 	}
 

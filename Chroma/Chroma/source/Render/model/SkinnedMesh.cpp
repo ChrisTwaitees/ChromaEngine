@@ -6,7 +6,7 @@ void SkinnedMesh::CalculateBBox()
 {
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
-	for (ChromaSkinnedVertex& vert : m_skinnedVertices)
+	for (ChromaSkinnedVertex& vert : m_SkinnedVertices)
 	{
 		newMinBBox = glm::min(newMinBBox, vert.GetPosition());
 		newMaxBBox = glm::max(newMaxBBox, vert.GetPosition());
@@ -16,7 +16,7 @@ void SkinnedMesh::CalculateBBox()
 	m_BBoxMax = newMaxBBox;
 }
 
-void SkinnedMesh::setupMesh()
+void SkinnedMesh::SetupMesh()
 {
 	// Generate buffers
 	// Vertex Array Object Buffer
@@ -28,11 +28,11 @@ void SkinnedMesh::setupMesh()
 	// Bind buffers
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_skinnedVertices.size() * sizeof(ChromaSkinnedVertex), &m_skinnedVertices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_SkinnedVertices.size() * sizeof(ChromaSkinnedVertex), &m_SkinnedVertices[0], GL_STATIC_DRAW);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indices.size() * sizeof(unsigned int),
-		&m_indices[0], GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int),
+		&m_Indices[0], GL_STATIC_DRAW);
 
 	// vertex positions
 	glEnableVertexAttribArray(0);
@@ -61,6 +61,7 @@ void SkinnedMesh::setupMesh()
 
 std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
 {
+	CalculateBBox();
 	return std::make_pair(m_BBoxMin, m_BBoxMax);
 }
 
@@ -77,17 +78,23 @@ void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 
 SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val)
 {
+	// Renderables
 	m_IsRenderable = true;
+	m_IsSkinned = true;
+	// Skeleton
 	m_Skeleton = skeleton_val;
 	m_Skeleton.BindParentComponent(this);
 	m_Skeleton.CalculateJointBindTransforms();
-	m_skinnedVertices = vertices_val;
-	m_indices = indices_val;
-	m_textures = textures_val;
+	// Verts
+	m_SkinnedVertices = vertices_val;
+	m_Indices = indices_val;
+	// Transforms
 	m_RootTransform = rootTransform_val;
 	m_RootTransformInversed = glm::inverse(rootTransform_val);
-
-	setupMesh();
+	// Textures
+	m_Textures = textures_val;
+	// Build Mesh
+	SetupMesh();
 }
 
 

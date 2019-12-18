@@ -159,8 +159,8 @@ void Model::GetChildMeshNodes(aiNode* node, const aiScene* scene)
 
 ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
-	std::vector<unsigned int> m_indices;
-	std::vector<Texture> m_textures;
+	std::vector<unsigned int> m_Indices;
+	std::vector<Texture> m_Textures;
 
 	// check if mesh is skinned
 	m_IsSkinned = mesh->HasBones();
@@ -211,7 +211,7 @@ ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 			vertex.SetTangent(tangent);
 			vertex.SetBitangent(bitangent);
 			vertex.SetTexCoords(UV1);
-			m_skinnedVertices.push_back(vertex);
+			m_SkinnedVertices.push_back(vertex);
 		}
 		else
 		{
@@ -230,7 +230,7 @@ ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		aiFace face = mesh->mFaces[i];
 		for (unsigned int j = 0; j < face.mNumIndices; j++)
-			m_indices.push_back(face.mIndices[j]);
+			m_Indices.push_back(face.mIndices[j]);
 	}
 
 	// process material, fetching textures
@@ -240,15 +240,15 @@ ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		// diffuse textures
 		std::vector<Texture> diffuseMaps = LoadMaterialTextures(material,
 			aiTextureType_DIFFUSE, Texture::ALBEDO);
-		m_textures.insert(m_textures.end(), diffuseMaps.begin(), diffuseMaps.end());
+		m_Textures.insert(m_Textures.end(), diffuseMaps.begin(), diffuseMaps.end());
 		// specular textures
 		std::vector<Texture> specularMaps = LoadMaterialTextures(material,
 			aiTextureType_SPECULAR, Texture::METALNESS);
-		m_textures.insert(m_textures.end(), specularMaps.begin(), specularMaps.end());
+		m_Textures.insert(m_Textures.end(), specularMaps.begin(), specularMaps.end());
 		// normal textures
 		std::vector<Texture> normalMaps = LoadMaterialTextures(material,
 			aiTextureType_HEIGHT, Texture::NORMAL);
-		m_textures.insert(m_textures.end(), normalMaps.begin(), normalMaps.end());
+		m_Textures.insert(m_Textures.end(), normalMaps.begin(), normalMaps.end());
 	}
 
 	// build Mesh
@@ -260,25 +260,25 @@ ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 		// Process Joint Hierarchy
 		ProcessSkeleton(scene, mesh, skeleton);
 		// Skinned Mesh Constructor
-		return new SkinnedMesh(m_skinnedVertices, m_indices, m_textures, skeleton, AIToGLM(scene->mRootNode->mTransformation));
+		return new SkinnedMesh(m_SkinnedVertices, m_Indices, m_Textures, skeleton, AIToGLM(scene->mRootNode->mTransformation));
 	}
 	else
-		return new StaticMesh(m_vertices, m_indices, m_textures);
+		return new StaticMesh(m_vertices, m_Indices, m_Textures);
 }
 
 std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName)
 {
-	std::vector<Texture> m_textures;
+	std::vector<Texture> m_Textures;
 	for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 	{
 		aiString str;
 		mat->GetTexture(type, i, &str);
 		bool skip{ false };
-		for (unsigned int j = 0; j < m_textures.size(); j++)
+		for (unsigned int j = 0; j < m_Textures.size(); j++)
 		{
-			if (std::strcmp(m_textures[j].path.data(), str.C_Str()) == 0)
+			if (std::strcmp(m_Textures[j].path.data(), str.C_Str()) == 0)
 			{
-				m_textures.push_back(m_textures[j]);
+				m_Textures.push_back(m_Textures[j]);
 				skip = true;
 				break;
 			}
@@ -288,11 +288,11 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
 			Texture texture;
 			texture.loadFromFile(str.C_Str(), m_directory);
 			texture.type = typeName;
-			m_textures.push_back(texture);
-			m_textures.push_back(texture);
+			m_Textures.push_back(texture);
+			m_Textures.push_back(texture);
 		}
 	}
-	return m_textures;
+	return m_Textures;
 }
 
 void Model::SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float> const& jointIDWeight)
@@ -350,7 +350,7 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 			std::pair<unsigned int, float> skinningData;
 			skinningData.first = i;
 			skinningData.second = vertexWeight.mWeight;
-			SetVertSkinningData(m_skinnedVertices[vertexWeight.mVertexId], skinningData);
+			SetVertSkinningData(m_SkinnedVertices[vertexWeight.mVertexId], skinningData);
 		}
 		// Add new joint
 		skeleton.AddJoint(newJoint);

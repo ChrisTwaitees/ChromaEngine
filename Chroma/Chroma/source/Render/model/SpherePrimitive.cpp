@@ -12,7 +12,7 @@ const int MIN_STACK_COUNT = 2;
 SpherePrimitive::SpherePrimitive(float radius, int sectors, int stacks) : interleavedStride(32)
 {
 	set(radius, sectors, stacks);
-	setupMesh();
+	SetupMesh();
 }
 
 
@@ -51,7 +51,7 @@ void SpherePrimitive::setStackCount(int stacks)
 }
 
 
-void SpherePrimitive::setupMesh()
+void SpherePrimitive::SetupMesh()
 {
 	// Vertex Array Object Buffer
 	glGenVertexArrays(1, &VAO);
@@ -131,7 +131,7 @@ void SpherePrimitive::clearArrays()
 	std::vector<float>().swap(m_verts);
 	std::vector<float>().swap(normals);
 	std::vector<float>().swap(texCoords);
-	std::vector<unsigned int>().swap(m_indices);
+	std::vector<unsigned int>().swap(m_Indices);
 	std::vector<unsigned int>().swap(lineIndices);
 }
 
@@ -307,9 +307,9 @@ void SpherePrimitive::addTexCoord(float s, float t)
 ///////////////////////////////////////////////////////////////////////////////
 void SpherePrimitive::addIndices(unsigned int i1, unsigned int i2, unsigned int i3)
 {
-	m_indices.push_back(i1);
-	m_indices.push_back(i2);
-	m_indices.push_back(i3);
+	m_Indices.push_back(i1);
+	m_Indices.push_back(i2);
+	m_Indices.push_back(i3);
 }
 
 

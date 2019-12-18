@@ -27,7 +27,7 @@ private:
    -0.5f,  0.0f, 0.0f,   0.0f,  0.0f, 0.0f,   0.0f, 0.5f
 	};
 
-	void setupMesh() override;
+	void SetupMesh() override;
 
 	// Default Shader
 	std::string fragSrc = "resources/shaders/fragBasic.glsl";

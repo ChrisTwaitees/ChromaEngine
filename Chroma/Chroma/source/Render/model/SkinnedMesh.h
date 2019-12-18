@@ -26,15 +26,15 @@ class SkinnedMesh : public StaticMesh
 	glm::mat4 m_RootTransformInversed{ 1 };
 
 	// mesh data
-	std::vector<ChromaSkinnedVertex> m_skinnedVertices;
+	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
 
 	// functions
 	void CalculateBBox() override;
-	void setupMesh() override;
+	void SetupMesh() override;
 
 public:
 	// Accessors
-	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() { return m_skinnedVertices; };
+	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() { return m_SkinnedVertices; };
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() override;
 	Skeleton* GetSkeleton() { return &m_Skeleton; };
 

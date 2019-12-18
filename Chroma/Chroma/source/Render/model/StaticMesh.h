@@ -20,8 +20,8 @@ protected:
 	// mesh data
 	unsigned int VAO, VBO, EBO;
 	std::vector<ChromaVertex> m_vertices;
-	std::vector<unsigned int> m_indices;
-	std::vector<Texture> m_textures;
+	std::vector<unsigned int> m_Indices;
+	std::vector<Texture> m_Textures;
 	// default shader
 	std::string fragShaderSource = "resources/shaders/fragPBR.glsl";
 	std::string vtxShaderSource = "resources/shaders/vertexLitShadowsNormals.glsl";
@@ -30,7 +30,7 @@ protected:
 	// functions
 	virtual void CalculateBBox();
 	virtual void CalculateCentroid();
-	virtual void setupMesh();
+	virtual void SetupMesh();
 	// render functions
 	virtual void updateUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
 	virtual void updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix);
@@ -54,7 +54,7 @@ public:
 
 	// Getters/Setters
 	virtual Shader* GetShader() { return m_shader; };
-	int GetNumTextures() override { return m_textures.size(); };
+	int GetNumTextures() override { return m_Textures.size(); };
 	virtual glm::mat4 GetTransformationMatrix() override { return m_TransformationMatrix; };
 	virtual std::vector<ChromaVertex> GetVertices() { return m_vertices; };
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox();

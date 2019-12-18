@@ -22,9 +22,9 @@ class Model : public ChromaMeshComponent
 	std::vector<ChromaMeshComponent*> m_meshes;
 	// verts
 	std::vector<ChromaVertex> m_vertices;
-	std::vector<ChromaSkinnedVertex> m_skinnedVertices;
+	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
 	//textures
-	std::vector<Texture> m_textures;
+	std::vector<Texture> m_Textures;
 
 	// Functions
 	// meshes
@@ -53,10 +53,10 @@ public:
 	// render components
 	Shader* GetShader() override { return m_meshes[0]->GetShader(); };
 	void SetShader(Shader* const& newShader) override;
-	int GetNumTextures() override { return m_textures.size(); };
+	int GetNumTextures() override { return m_Textures.size(); };
 	// verts
 	std::vector<ChromaVertex> GetVertices() override { return m_vertices; };
-	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_skinnedVertices; };
+	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_SkinnedVertices; };
 	// animation/ skinning
 	Skeleton* GetSkeleton();
 	void SetSkeletonScale(float const& newScale);

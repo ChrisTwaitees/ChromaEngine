@@ -1,7 +1,7 @@
 #include "LinePrimitive.h"
 
 
-void LinePrimitive::setupMesh()
+void LinePrimitive::SetupMesh()
 {
 	int stride = 8;
 	GLsizei verts_size = lineData.size() * sizeof(lineData[0]);
@@ -47,7 +47,7 @@ LinePrimitive::LinePrimitive(glm::vec3 start_val, glm::vec3 end_val, float thick
 	start = start_val;
 	end = end_val;
 	thickness = thicknessVal;
-	setupMesh();
+	SetupMesh();
 }
 
 LinePrimitive::~LinePrimitive()
