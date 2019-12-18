@@ -332,7 +332,7 @@ void Model::SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>
 	}
 }
 
-void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skeleton)
+void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& skeleton)
 {
 	// Build Skeleton 
 	for (int i = 0; i < mesh->mNumBones; i++)
@@ -342,8 +342,10 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 		Joint newJoint;
 		// Joint Name
 		newJoint.SetName(bone->mName.C_Str());
-		// Joint Local Transform, relative to its Parent
-		newJoint.SetLocalBindTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
+		// Joint Model Transform, Relative to Model Origin
+		newJoint.SetModelBindTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
+		// Joint Inverse Model Transform, Relative from Joint to Origin
+		newJoint.SetModelInverseBindTransform(AIToGLM(bone->mOffsetMatrix));
 		// Joint ID
 		newJoint.SetID(i);
 
@@ -374,7 +376,7 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 		}
 	}
 
-	// Processing Child Joints
+	// Processing Child and Parent Joints
 	std::cout << "Calculating joint children" << std::endl;
 	for (std::pair<std::string, Joint*> namedJoint : skeleton.GetNamedJoints())
 	{
@@ -383,18 +385,23 @@ void Model::ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skelet
 		aiNode* jointNode = rootSceneNode->FindNode(aiString(namedJoint.first));
 		if (jointNode != NULL) 
 		{
-			std::cout << "Joint node Found in Scene : " << jointNode->mName.C_Str() << std::endl;
-			std::vector<Joint> childJoints;
-			GetChildJointNodes(jointNode, skeleton, childJoints);
-			namedJoint.second->SetChildJoints(childJoints);
+			std::cout << "Joint node Found in Scene : " << namedJoint.first << std::endl;
+			// Get Parent ID
+			int parentJointID{ -1 };
+			GetParentJointID(jointNode, skeleton, parentJointID);
+			namedJoint.second->SetParentJointID(parentJointID);
+			// Get Child IDs
+			std::vector<int> childJointIDs;
+			GetChildJointIDs(jointNode, skeleton, childJointIDs);
+			namedJoint.second->SetChildJointIDs(childJointIDs);
 		}
 	}
 
-	// Calculate ModelBindTransforms
-	//skeleton.CalculateJointBindTransforms();
+	// Calculate Local Bind Offset Transforms
+	//skeleton.CalculateJointLocalBindOffsetTransforms();
 }
 
-void Model::GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joint>& childJoints)
+void Model::GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs)
 {
 	for (unsigned int i = 0; i < node->mNumChildren; i++)
 	{
@@ -402,16 +409,37 @@ void Model::GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joi
 		std::string childNodeName{ node->mChildren[i]->mName.C_Str() };
 		if (skeleton.GetJointExists(childNodeName))
 		{
-			std::cout << "Adding Child Joint : " << childNodeName  << std::endl;
-			std::string parentJointName{ node->mName.C_Str() };
-			childJoints.push_back(skeleton.GetJoint(childNodeName));
+			std::cout << "Adding Child Joint : " << childNodeName << " : ID : " << skeleton.GetJointID(childNodeName) << std::endl;
+			childJointIDs.push_back(skeleton.GetJointID(childNodeName));
 		}
 		else // Else keep looking
 		{
-			GetChildJointNodes(node->mChildren[i], skeleton, childJoints);
+			GetChildJointIDs(node->mChildren[i], skeleton, childJointIDs);
 		}
 	}
 }
+
+void Model::GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID)
+{
+	std::string currentJointName{ node->mName.C_Str() };
+	std::string parentNodeName{ node->mParent->mName.C_Str() };
+	// Set Parent Joint ID if found in skeleton
+	if (skeleton.GetJointExists(parentNodeName))
+	{
+		std::cout << "Setting Parent Joint ID : " << skeleton.GetJointID(parentNodeName) << std::endl;
+		parentJointID = skeleton.GetJointID(parentNodeName);
+	}
+	else if (parentNodeName == "RootNode")
+	{
+		std::cout << "Root Joint Found, Setting ID to -1" << std::endl;
+		parentJointID = -1;
+	}
+	else // Else keep looking
+	{
+		GetParentJointID(node->mParent, skeleton, parentJointID);
+	}
+}
+
 
 Model::~Model()
 {

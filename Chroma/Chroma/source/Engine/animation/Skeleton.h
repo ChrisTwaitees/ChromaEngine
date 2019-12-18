@@ -67,7 +67,7 @@ public:
 
 	// Functions
 	void BindParentComponent(ChromaMeshComponent* const& newMeshComponent) { m_ParentComponent = newMeshComponent; };
-	void CalculateJointBindTransforms();
+	void CalculateJointLocalBindOffsetTransforms();
 	void DebugDraw(DebugBuffer* debugBuffer);
 
 	Skeleton();

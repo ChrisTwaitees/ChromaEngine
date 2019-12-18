@@ -33,8 +33,9 @@ class Model : public ChromaMeshComponent
 	ChromaMeshComponent* ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	// skinning and skeletons
 	void SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
-	void ProcessSkeleton(const aiScene* scene, aiMesh* mesh, Skeleton& skeleton);
-	void GetChildJointNodes(aiNode* node, Skeleton& skeleton, std::vector<Joint>& childJoints);
+	void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton);
+	void GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
+	void GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID);
 	// textures
 	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,Texture::TYPE typeName);
 

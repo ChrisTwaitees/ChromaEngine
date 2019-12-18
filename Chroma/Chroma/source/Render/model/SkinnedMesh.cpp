@@ -85,7 +85,7 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 	// Skeleton
 	m_Skeleton = skeleton_val;
 	m_Skeleton.BindParentComponent(this);
-	//m_Skeleton.CalculateJointBindTransforms();
+	//m_Skeleton.CalculateJointLocalBindOffsetTransforms();
 	// Verts
 	m_SkinnedVertices = vertices_val;
 	m_Indices = indices_val;
