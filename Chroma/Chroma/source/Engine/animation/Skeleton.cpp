@@ -154,11 +154,11 @@ void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
 
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
 {
-	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetLocalBindTransform());
+	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetModelBindTransform());
 
 	for (Joint const& child : currentJoint.GetChildJoints())
 	{
-		glm::vec3 endPos = GLMGetTranslation(GetJoint(child.GetID()).GetLocalBindTransform());
+		glm::vec3 endPos = GLMGetTranslation(GetJoint(child.GetID()).GetModelBindTransform());
 		debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0));
 		DebugWalkChildJoints(GetJoint(child.GetID()), debugBuffer);
 	}
@@ -171,11 +171,11 @@ void Skeleton::UpdateSkeletonScale()
 	m_WorldTransform = scaleMat * m_WorldTransform;
 	m_WorldTransformInverse = glm::inverse(m_WorldTransform);
 
-	for (auto const& IDNameJoint : m_Joints)
-	{
-		glm::mat4 newLocalBindTransform = scaleMat * IDNameJoint.second.GetLocalBindTransform();
-		GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(newLocalBindTransform);
-	}
+	//for (auto const& IDNameJoint : m_Joints)
+	//{
+	//	glm::mat4 newLocalBindTransform = scaleMat * IDNameJoint.second.GetLocalBindTransform();
+	//	GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(newLocalBindTransform);
+	//}
 
 	CalculateJointBindTransforms();
 }

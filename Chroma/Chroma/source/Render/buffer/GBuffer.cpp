@@ -158,6 +158,7 @@ void GBuffer::drawGeometryPass()
 	m_geometryPassShader.SetMat4("view", m_scene->getRenderCamera()->GetViewMatrix());
 	m_geometryPassShader.SetMat4("projection", m_scene->getRenderCamera()->GetProjectionMatrix());
 	m_geometryPassShader.SetMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
+
 	// Render Scene
 	for (IChromaEntity* entity : m_scene->getEntities())
 	{
@@ -169,12 +170,11 @@ void GBuffer::drawGeometryPass()
 			m_geometryPassShader.SetMat4("model", finalTransformMatrix);
 
 			// check if mesh skinned
+			m_geometryPassShader.setUniform("isSkinned", ((ChromaMeshComponent*)component)->m_IsSkinned);
 			if (((ChromaMeshComponent*)component)->m_IsSkinned)
-			{
-				m_geometryPassShader.setUniform("isSkinned",((ChromaMeshComponent*)component)->m_IsSkinned);
 				((ChromaMeshComponent*)component)->SetJointUniforms(m_geometryPassShader);
-			}
-			// set material uniforms
+
+			// Draw Update Materials
 			((ChromaMeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
 		}
 	}

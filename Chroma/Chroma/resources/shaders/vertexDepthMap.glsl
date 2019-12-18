@@ -18,15 +18,15 @@ uniform mat4 aJoints[MAX_JOINTS];
 void main()
 {
 	// Skinning
-	vec4 LocalPosition;
-	mat4 BoneTransform =mat4(1.0);
+	vec4 LocalPosition = vec4(0.0);
 	if (isSkinned)
 	{
 		for(int i = 0 ; i < #MAX_VERT_INFLUENCES ; i++)
 		{
-			BoneTransform += aJoints[aJointIDs[i]] * aJointWeights[i];
+			mat4 jointTransform = aJoints[aJointIDs[i]];
+			vec4 posePosition = jointTransform * vec4(aPos, 1.0);
+			LocalPosition += posePosition * aJointWeights[i];			
 		}
-		LocalPosition =  BoneTransform * vec4( aPos , 1.0);
 	}
 	else
 		LocalPosition =  vec4(aPos , 1.0);
