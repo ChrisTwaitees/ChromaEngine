@@ -50,22 +50,22 @@ void ForwardBuffer::renderForwardComponents()
 	fetchColorAndDepth();
 
 	// Render Skybox first for Transparent Entities
-	m_scene->getSkyBox()->Draw();
+	m_scene->GetSkyBox()->Draw();
 
 	// Render Unlit Components
-	for (IChromaEntity* const& entity : m_scene->getEntities())
+	for (IChromaEntity* const& entity : m_scene->GetEntities())
 	{
 		// render unlit components
 		if (entity->getUnlitComponents().size() > 0)
 		{
 			glm::mat4 worldTransform = entity->GetTransformationMatrix();
 			for (IChromaComponent*& component : entity->getUnlitComponents())
-				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_scene->getRenderCamera(), worldTransform);
+				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_scene->GetRenderCamera(), worldTransform);
 		}
 	}
 
 	// Render Transparent Entities
-	if (m_scene->getTransparentEntities().size() > 0)
+	if (m_scene->GetTransparentEntities().size() > 0)
 		renderTransparency();
 }
 
@@ -76,9 +76,9 @@ void ForwardBuffer::renderTransparency()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
 	std::map<float, IChromaEntity*> alpha_sorted;
-	for (IChromaEntity* TransparentEntity : m_scene->getTransparentEntities())
+	for (IChromaEntity* TransparentEntity : m_scene->GetTransparentEntities())
 	{
-		float distance = glm::length(TransparentEntity->GetPosition() - m_scene->getRenderCamera()->GetPosition());
+		float distance = glm::length(TransparentEntity->GetPosition() - m_scene->GetRenderCamera()->GetPosition());
 		alpha_sorted[distance] = TransparentEntity;
 	}
 	// iterating from furthest to closest
@@ -88,9 +88,9 @@ void ForwardBuffer::renderTransparency()
 		for (IChromaComponent* component : it->second->getTransparentComponents())
 		{
 			if (((ChromaMeshComponent*)component)->m_IsForwardLit) // draw lit transparent components
-				((ChromaMeshComponent*)component)->Draw(*m_scene->getRenderCamera(), m_scene->getLights(), worldTransform);
+				((ChromaMeshComponent*)component)->Draw(*m_scene->GetRenderCamera(), m_scene->GetLights(), worldTransform);
 			else // draw unlit transparent components
-				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_scene->getRenderCamera(), worldTransform);
+				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_scene->GetRenderCamera(), worldTransform);
 		}
 	}
 	glDisable(GL_BLEND);

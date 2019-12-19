@@ -28,7 +28,7 @@ class ChromaGame
 	ChromaScene* m_scene;
 	ChromaScreenManager* m_screen;
 	Renderer* m_renderer;
-	ChromaPhysics* m_physics{ new ChromaPhysics()};
+	ChromaPhysics* m_Physics{ new ChromaPhysics()};
 
 	// input
 	ChromaTime m_time;

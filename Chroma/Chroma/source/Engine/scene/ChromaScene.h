@@ -9,6 +9,8 @@
 #include <physics/Physics.h>
 #include <model/SkyBox.h>
 #include <ibl/IBL.h>
+#include <time/ChromaTime.h>
+
 // entity component
 #include <entity/IChromaEntity.h>
 
@@ -16,44 +18,51 @@
 class ChromaScene
 {
 	// scene components
-	std::vector<Light*> m_lights;
-	std::vector<IChromaEntity*> m_entities;
-	std::vector<IChromaEntity*> m_transparentEntities;
-	ChromaPhysics* m_physics;
+	std::vector<Light*> m_Lights;
+
+	std::vector<IChromaEntity*> m_Entities;
+	std::vector<IChromaEntity*> m_TransparentEntities;
+
+	ChromaPhysics* m_Physics;
+	ChromaTime* m_Time;
+	
 
 	// render components
-	Camera* m_renderCamera{ new Camera() };
-	Light* m_sunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
-	SkyBox* m_skybox{ new SkyBox(m_renderCamera) };
+	Camera* m_RenderCamera{ new Camera() };
+	Light* m_SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
+	SkyBox* m_Skybox{ new SkyBox(m_RenderCamera) };
 	IBL* m_IBL{ new IBL()}; // image based lighting
 
 	// functions
 	void Initialize();
-	glm::vec3 calcAmbientLightColor();
+	glm::vec3 CalculateAmbientLightColor();
 
 public:
 	// entities
-	void addEntity(IChromaEntity* const& newEntity);
-	void removeEntity(IChromaEntity& removeEntity);
+	void AddEntity(IChromaEntity* const& newEntity);
+	void RemoveEntity(IChromaEntity& RemoveEntity);
 	// lights
-	void addLight(Light* const& newLight) { m_lights.push_back(newLight); };
-	void removeLight(Light& removeLight);
+	void AddLight(Light* const& newLight) { m_Lights.push_back(newLight); };
+	void RemoveLight(Light& RemoveLight);
 	// setters
-	void setSkyBox(SkyBox* const& newSkyBox) { m_skybox = newSkyBox; };
-	void setRenderCamera(Camera* const& newRenderCamera) { m_renderCamera = newRenderCamera; };
-	void setLights(std::vector<Light*> newLights);
-	void setEntities(std::vector<IChromaEntity*> const& newEntities);
-	void setPhysics(ChromaPhysics*& newPhysics) { m_physics = newPhysics; };
+	void SetSkyBox(SkyBox* const& newSkyBox) { m_Skybox = newSkyBox; };
+	void SetRenderCamera(Camera* const& newRenderCamera) { m_RenderCamera = newRenderCamera; };
+	void SetLights(std::vector<Light*> newLights);
+	void SetEntities(std::vector<IChromaEntity*> const& newEntities);
+	void SetPhysics(ChromaPhysics*& newPhysics) { m_Physics = newPhysics; };
+	void SetTime(ChromaTime*& newTime) { m_Time = newTime; };
+
 	// getters
-	std::vector<IChromaEntity*> getEntities() { return m_entities; };
-	std::vector<IChromaEntity*> getTransparentEntities() { return m_transparentEntities; };
-	Camera* getRenderCamera() { return m_renderCamera; };
-	std::vector<Light*> getLights() { return m_lights; };
-	Light* getSunLight() { return m_sunLight; };
-	ChromaPhysics* getPhysics() { return  m_physics; };
-	SkyBox* getSkyBox() { return m_skybox; };
-	glm::vec3 getAmbientColor() { return calcAmbientLightColor(); };
-	IBL* getIBL() { return m_IBL; };
+	std::vector<IChromaEntity*> GetEntities() { return m_Entities; };
+	std::vector<IChromaEntity*> GetTransparentEntities() { return m_TransparentEntities; };
+	Camera* GetRenderCamera() { return m_RenderCamera; };
+	std::vector<Light*> GetLights() { return m_Lights; };
+	Light* GetSunLight() { return m_SunLight; };
+	ChromaPhysics* GetPhysics() { return  m_Physics; };
+	ChromaTime* GetTime() { return m_Time; };
+	SkyBox* GetSkyBox() { return m_Skybox; };
+	glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
+	IBL* GetIBL() { return m_IBL; };
 
 	ChromaScene();
 	~ChromaScene();

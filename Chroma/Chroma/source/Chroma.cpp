@@ -117,7 +117,7 @@ int Main()
 
 	// ENTITIES
 	IChromaEntity* NanosuitEntity = new ChromaEntity;
-	Scene->addEntity(NanosuitEntity);
+	Scene->AddEntity(NanosuitEntity);
 	NanosuitEntity->SetName("ChromaSuit");
 	NanosuitEntity->SetPosition(glm::vec3(30., 0., 0));
 
@@ -135,7 +135,7 @@ int Main()
 	for (glm::vec3 position : cubePositions)
 	{
 		IChromaEntity* BoxEntity = new ChromaEntity;
-		Scene->addEntity(BoxEntity);
+		Scene->AddEntity(BoxEntity);
 		BoxEntity->SetName("Box");
 		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive();
 		BoxMeshComponent->SetShader(&litShader);
@@ -155,7 +155,7 @@ int Main()
 	for (glm::vec3 position : pointLightPositions)
 	{
 		IChromaEntity* LampEntity = new ChromaEntity();
-		Scene->addEntity(LampEntity);
+		Scene->AddEntity(LampEntity);
 		LampEntity->SetName("Lamp");
 		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive();
 		LampMeshComponent->SetShader(&constantShader);
@@ -183,19 +183,19 @@ int Main()
 		GrassPlaneMeshComponent->m_IsTransparent = true;
 		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
 		GrassPlaneEntity->SetPosition(position);
-		Scene->addEntity(GrassPlaneEntity);
+		Scene->AddEntity(GrassPlaneEntity);
 	}
 
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
-	Scene->addEntity(TerrainEntity);
+	Scene->AddEntity(TerrainEntity);
 	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->SetShader(&litShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 
 	// SPHERE
 	IChromaEntity* SphereEntity = new ChromaEntity;
-	Scene->addEntity(SphereEntity);
+	Scene->AddEntity(SphereEntity);
 	SphereEntity->SetName("Sphere");
 	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
 	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
@@ -209,7 +209,7 @@ int Main()
 
 
 	// POPULATING SCENE
-	Scene->setLights(Lights);
+	Scene->SetLights(Lights);
 
 
 	// RENDER LOOP

@@ -4,7 +4,7 @@
 void ChromaGame::Update()
 {
 	// physics
-	m_physics->update(m_time);
+	m_Physics->update(m_time);
 
 	// workers
 	IChromaWorker::DoWork();
@@ -19,9 +19,9 @@ void ChromaGame::Draw()
 void ChromaGame::MousePickerCallback()
 {
 	// Ray Interest Test
-	glm::vec3 start = m_scene->getRenderCamera()->GetPosition();
+	glm::vec3 start = m_scene->GetRenderCamera()->GetPosition();
 	glm::vec3 end = start + (  m_input->getLastRay() * glm::vec3(1000.0));
-	IChromaEntity* clickedEntity  = m_physics->rayTest(start, end);
+	IChromaEntity* clickedEntity  = m_Physics->rayTest(start, end);
 	if (clickedEntity)
 		m_screen->setSelectedEntityName(clickedEntity->GetName());
 
@@ -64,15 +64,15 @@ void ChromaGame::Initialize()
 {
 	// input
 	m_input->bindWindow(m_screen->getWindow());
-	m_input->bindCamera(m_scene->getRenderCamera());
+	m_input->bindCamera(m_scene->GetRenderCamera());
 	m_input->bindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
 
 	// renderer
 	m_renderer = new Renderer(m_scene, m_screen);
 
 	// add Physics to scene
-	m_physics->bindDebugBuffer(m_renderer->getDebugBuffer());
-	m_scene->setPhysics(m_physics);
+	m_Physics->bindDebugBuffer(m_renderer->getDebugBuffer());
+	m_scene->SetPhysics(m_Physics);
 }
 
 void ChromaGame::ProcessInput()
@@ -83,14 +83,14 @@ void ChromaGame::ProcessInput()
 
 	// update camera
 	if (m_screen->cameraSelected == 0)
-		m_scene->getRenderCamera()->SetCameraMode(Maya);
+		m_scene->GetRenderCamera()->SetCameraMode(Maya);
 	if (m_screen->cameraSelected == 1)
-		m_scene->getRenderCamera()->SetCameraMode(FlyCam);
-	m_scene->getRenderCamera()->ProcessInput(m_input);
+		m_scene->GetRenderCamera()->SetCameraMode(FlyCam);
+	m_scene->GetRenderCamera()->ProcessInput(m_input);
 
 	// render physics debug 
 	if (m_screen->drawPhysicsDebug)
-		m_physics->drawDebug();
+		m_Physics->drawDebug();
 
 	// render skeletons debug
 	if (m_screen->drawSkeletonsDebug)

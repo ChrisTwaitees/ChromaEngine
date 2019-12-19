@@ -13,7 +13,7 @@ private:
 
 	CubeMap m_cubeMap;
 	int m_cubeMapID;
-	Camera* m_renderCamera;
+	Camera* m_RenderCamera;
 	Shader m_linearShader{ "resources/shaders/fragSkyBox.glsl" , "resources/shaders/vertexSkyBox.glsl" };
 	Shader m_HDRShader{ "resources/shaders/fragHDRSkyBox.glsl" , "resources/shaders/vertexSkyBox.glsl" };
 	std::string defaultImageDir{ "resources/textures/skybox/blueskywater" };

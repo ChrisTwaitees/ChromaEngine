@@ -83,7 +83,7 @@ void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsCompon
 	newPhysicsComponent->BuildRigidBody();
 
 	// add rigid body to physics world
-	m_ParentScene->getPhysics()->addBodyToWorld(newPhysicsComponent);
+	m_ParentScene->GetPhysics()->addBodyToWorld(newPhysicsComponent);
 }
 
 void ChromaEntity::addAnimationComponent(ChromaAnimationComponent*& newAnimationComponent)

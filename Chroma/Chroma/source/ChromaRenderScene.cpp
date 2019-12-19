@@ -131,7 +131,7 @@ int main()
 	// ANIMATED MODEL
 	IChromaEntity* AnimModelEntity = new ChromaEntity;
 	AnimModelEntity->SetName("AnimationModel");
-	Scene->addEntity(AnimModelEntity);
+	Scene->AddEntity(AnimModelEntity);
 	ChromaMeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking3.fbx");
 	ChromaPhysicsComponent* AnimModelRigidComponent = new ChromaPhysicsComponent();
 	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
@@ -153,7 +153,7 @@ int main()
 
 	// TERRAIN
 	IChromaEntity* TerrainEntity = new ChromaEntity;
-	Scene->addEntity(TerrainEntity);
+	Scene->AddEntity(TerrainEntity);
 	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->SetShader(&PBRShader);
 	TerrainMeshComponent->AddTexture(PlanksAlbedo);
@@ -173,7 +173,7 @@ int main()
 	for (int i =0; i < 3; i++ )
 	{
 		IChromaEntity* SphereEntity = new ChromaEntity;
-		Scene->addEntity(SphereEntity);
+		Scene->AddEntity(SphereEntity);
 		SphereEntity->SetName("Sphere");
 		ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive();
 		ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
@@ -188,7 +188,7 @@ int main()
 	}
 
 	IChromaEntity* CubeEntity = new ChromaEntity;
-	Scene->addEntity(CubeEntity);
+	Scene->AddEntity(CubeEntity);
 	CubeEntity->SetName("Cube");
 	ChromaMeshComponent* CubeMeshComponent = new BoxPrimitive();
 	ChromaPhysicsComponent* CubeRigidComponent = new ChromaPhysicsComponent();
@@ -203,7 +203,7 @@ int main()
 
 	// //LOOKDEV
 	IChromaEntity* SphereEntityLookDev = new ChromaEntity;
-	Scene->addEntity(SphereEntityLookDev);
+	Scene->AddEntity(SphereEntityLookDev);
 	SphereEntityLookDev->SetName("LookDev");
 	ChromaMeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
 	ChromaPhysicsComponent* SphereLookDevRigidComponent = new ChromaPhysicsComponent();
@@ -220,7 +220,7 @@ int main()
 
 	 //RUSTED IRON
 	IChromaEntity* SphereEntityRustedIron = new ChromaEntity;
-	Scene->addEntity(SphereEntityRustedIron);
+	Scene->AddEntity(SphereEntityRustedIron);
 	SphereEntityRustedIron->SetName("Rusted Iron");
 	ChromaMeshComponent* SphereRustedIronMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
 	ChromaPhysicsComponent* SphereRustedIronRigidComponent = new ChromaPhysicsComponent();
@@ -237,7 +237,7 @@ int main()
 
 	// WOOD PLANKS
 	IChromaEntity* SphereEntityWoodplanks = new ChromaEntity;
-	Scene->addEntity(SphereEntityWoodplanks);
+	Scene->AddEntity(SphereEntityWoodplanks);
 	SphereEntityWoodplanks->SetName("Wood Planks");
 	ChromaMeshComponent* SphereWoodplanksMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
 	ChromaPhysicsComponent* SpherewoodRigidComponent = new ChromaPhysicsComponent();
@@ -255,7 +255,7 @@ int main()
 
 	// SEMI TRANSPARENT
 	IChromaEntity* SphereEntityTransparent = new ChromaEntity;
-	Scene->addEntity(SphereEntityTransparent);
+	Scene->AddEntity(SphereEntityTransparent);
 	SphereEntityTransparent->SetName("Sphere");
 	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
 	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
@@ -272,7 +272,7 @@ int main()
 
 	// UNLIT
 	IChromaEntity* SphereEntityUnlit = new ChromaEntity;
-	Scene->addEntity(SphereEntityUnlit);
+	Scene->AddEntity(SphereEntityUnlit);
 	SphereEntityUnlit->SetName("Sphere");
 	ChromaMeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
 	ChromaPhysicsComponent* SphereRigidComponentUnlit = new ChromaPhysicsComponent();
@@ -286,7 +286,7 @@ int main()
 	SphereEntityUnlit->addComponent(SphereRigidComponentUnlit);
 
 	// POPULATING SCENE
-	Scene->setLights(Lights);
+	Scene->SetLights(Lights);
 
 	// RENDER LOOP
 	// -----------

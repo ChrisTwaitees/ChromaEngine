@@ -26,7 +26,7 @@ void SkyBox::Initialize()
 void SkyBox::Draw()
 {
 	// set view and projection matrix
-	glm::mat4 view = glm::mat4(glm::mat3(m_renderCamera->GetViewMatrix()));
+	glm::mat4 view = glm::mat4(glm::mat3(m_RenderCamera->GetViewMatrix()));
 	// shader
 	switch (m_colorSpace)
 	{
@@ -34,14 +34,14 @@ void SkyBox::Draw()
 	{
 		m_linearShader.use();
 		m_linearShader.SetMat4("view", view);
-		m_linearShader.SetMat4("projection", m_renderCamera->GetProjectionMatrix());
+		m_linearShader.SetMat4("projection", m_RenderCamera->GetProjectionMatrix());
 		break;
 	}
 	case(HDR):
 	{
 		m_HDRShader.use();
 		m_HDRShader.SetMat4("view", view);
-		m_HDRShader.SetMat4("projection", m_renderCamera->GetProjectionMatrix());
+		m_HDRShader.SetMat4("projection", m_RenderCamera->GetProjectionMatrix());
 		break;
 	}
 	}
@@ -63,7 +63,7 @@ SkyBox::SkyBox(Camera* const& renderCamera)
 
 	m_cubeMap = CubeMap(defaultImageDir);
 	m_cubeMapID = m_cubeMap.m_textureID;
-	m_renderCamera = renderCamera;
+	m_RenderCamera = renderCamera;
 	Initialize();
 }
 

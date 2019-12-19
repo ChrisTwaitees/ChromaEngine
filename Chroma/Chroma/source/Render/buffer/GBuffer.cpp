@@ -125,17 +125,17 @@ void GBuffer::bindAllGBufferTextures()
 	glBindTexture(GL_TEXTURE_2D, m_SSAOBuffer->getTexture());
 	// IBL
 	glActiveTexture(GL_TEXTURE7);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->getIBL()->getIrradianceMapID());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->GetIBL()->getIrradianceMapID());
 	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->getIBL()->getPrefilterMapID());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_scene->GetIBL()->getPrefilterMapID());
 	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_2D, m_scene->getIBL()->getBRDFLUTID());
+	glBindTexture(GL_TEXTURE_2D, m_scene->GetIBL()->getBRDFLUTID());
 }
 
 void GBuffer::setLightingUniforms()
 {
-	m_lightingPassShader.setLightingUniforms(m_scene->getLights(), *m_scene->getRenderCamera());
-	m_lightingPassShader.setUniform("ambient", m_scene->getAmbientColor());
+	m_lightingPassShader.setLightingUniforms(m_scene->GetLights(), *m_scene->GetRenderCamera());
+	m_lightingPassShader.setUniform("ambient", m_scene->GetAmbientColor());
 }
 
 void GBuffer::Bind()
@@ -155,12 +155,12 @@ void GBuffer::drawGeometryPass()
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
 	m_geometryPassShader.use();
-	m_geometryPassShader.SetMat4("view", m_scene->getRenderCamera()->GetViewMatrix());
-	m_geometryPassShader.SetMat4("projection", m_scene->getRenderCamera()->GetProjectionMatrix());
+	m_geometryPassShader.SetMat4("view", m_scene->GetRenderCamera()->GetViewMatrix());
+	m_geometryPassShader.SetMat4("projection", m_scene->GetRenderCamera()->GetProjectionMatrix());
 	m_geometryPassShader.SetMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 
 	// Render Scene
-	for (IChromaEntity* entity : m_scene->getEntities())
+	for (IChromaEntity* entity : m_scene->GetEntities())
 	{
 		glm::mat4 finalTransformMatrix = entity->GetTransformationMatrix();
 		for (IChromaComponent* component : entity->getLitComponents())

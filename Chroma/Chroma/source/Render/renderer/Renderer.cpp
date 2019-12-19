@@ -36,7 +36,7 @@ void Renderer::renderPostFX()
 void Renderer::Initialize()
 {
 	m_GBuffer = new GBuffer(m_scene, m_postFXBuffer);
-	m_debugBuffer = new DebugBuffer(m_scene->getRenderCamera(), m_postFXBuffer);
+	m_debugBuffer = new DebugBuffer(m_scene->GetRenderCamera(), m_postFXBuffer);
 	m_forwardBuffer = new ForwardBuffer(m_scene, m_postFXBuffer);
 }
 

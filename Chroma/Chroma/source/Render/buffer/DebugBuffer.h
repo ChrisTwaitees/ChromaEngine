@@ -48,7 +48,7 @@ class DebugBuffer : public Framebuffer
 
 	// attrs
 	unsigned int pointVAO, pointVBO;
-	Camera* m_renderCamera;
+	Camera* m_RenderCamera;
 
 	// shaders
 	const char* FragSource{ "resources/shaders/fragBasic.glsl" };
@@ -101,7 +101,7 @@ public:
 	void ClearBuffer() override;
 	void Draw() override;
 
-	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_renderCamera(camera), m_postFXBuffer(prevFrameBuffer) { Initialize(); };
+	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_RenderCamera(camera), m_postFXBuffer(prevFrameBuffer) { Initialize(); };
 };
 
 #endif

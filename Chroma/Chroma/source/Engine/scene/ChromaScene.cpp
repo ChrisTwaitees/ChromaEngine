@@ -1,54 +1,54 @@
 #include "ChromaScene.h"
 
-glm::vec3 ChromaScene::calcAmbientLightColor()
+glm::vec3 ChromaScene::CalculateAmbientLightColor()
 {
-	return m_sunLight->getDiffuse() * m_sunLight->getIntensity()* glm::vec3(.1);
+	return m_SunLight->getDiffuse() * m_SunLight->getIntensity()* glm::vec3(.1);
 }
 
 void ChromaScene::Initialize()
 {
 	// setting skybox to IBL environment map
-	m_skybox->setColorSpace(HDR);
-	m_skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
+	m_Skybox->setColorSpace(HDR);
+	m_Skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
 }
 
-void ChromaScene::addEntity(IChromaEntity* const& newEntity)
+void ChromaScene::AddEntity(IChromaEntity* const& newEntity)
 {
 	// bind parent scene
 	newEntity->bindParentScene(this);
 	// collect entity
-	m_entities.push_back(newEntity);
+	m_Entities.push_back(newEntity);
 	// check if entity has any transparent components break if found one
 	for (IChromaComponent* meshComponent : newEntity->getMeshComponents())
 	{
 		if (((ChromaMeshComponent*)meshComponent)->m_IsTransparent)
 		{
-			m_transparentEntities.push_back(newEntity);
+			m_TransparentEntities.push_back(newEntity);
 			break;
 		}
 	}
 }
 
-void ChromaScene::removeEntity(IChromaEntity& removeEntity)
+void ChromaScene::RemoveEntity(IChromaEntity& RemoveEntity)
 {
 }
 
-void ChromaScene::removeLight(Light& removeLight)
+void ChromaScene::RemoveLight(Light& RemoveLight)
 {
 }
 
-void ChromaScene::setLights(std::vector<Light*> newLights)
+void ChromaScene::SetLights(std::vector<Light*> newLights)
 {
-	m_lights = newLights;
+	m_Lights = newLights;
 	for (Light* light : newLights)
 		if (light->type == Light::SUNLIGHT)
-			m_sunLight = light;
+			m_SunLight = light;
 }
 
-void ChromaScene::setEntities(std::vector<IChromaEntity*> const& newEntities)
+void ChromaScene::SetEntities(std::vector<IChromaEntity*> const& newEntities)
 {
 	for (IChromaEntity* entity : newEntities)
-		addEntity(entity);
+		AddEntity(entity);
 }
 
 
