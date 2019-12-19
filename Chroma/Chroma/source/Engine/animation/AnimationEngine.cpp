@@ -8,11 +8,9 @@ void AnimationEngine::Update(ChromaTime& time)
 		std::cout << "Animated Entity : "  << m_Scene->GetEntity(UID)->GetName() <<  " : Processing Animations" << std::endl;
 		for (IComponent* const& component : m_Scene->GetEntity(UID)->getAnimationComponents())
 		{
-			((AnimationComponent*)component)->ProcessAnimators();
+			((AnimationComponent*)component)->ProcessAnimators(time);
 		}
 	}
-
-	std::cout << "Animation Engine Reading Delta time : " << time.GetDeltaTime() << " Game time : " << time.GetGameTime() << std::endl;
 }
 
 AnimationEngine::AnimationEngine()

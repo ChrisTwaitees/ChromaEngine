@@ -7,7 +7,7 @@ void Animator::TriggerTimer(float const& duration, float& counter)
 //	IWorker::AddWork(this->TriggerTimer);
 }
 
-void Animator::DoAnimation()
+void Animator::DoAnimation(ChromaTime& time)
 {
 	std::cout << "Processing Active Animations" << std::endl;
 	for (Animation const& animation : m_Animations)
@@ -18,6 +18,7 @@ void Animator::DoAnimation()
 
 		}
 	}
+	std::cout << "Animator Reading Delta time : " << time.GetDeltaTime() << " Game time : " << time.GetGameTime() << std::endl;
 }
 
 Animator::Animator()

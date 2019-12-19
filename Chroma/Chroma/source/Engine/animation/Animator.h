@@ -8,18 +8,23 @@
 #include <worker/IWorker.h>
 // chroma
 #include <animation/Animation.h>
+#include <animation/Skeleton.h>
+#include <time/ChromaTime.h>
 
 
 class Animator
 {
 	std::vector<Animation> m_Animations;
+	Skeleton* m_Skeleton{ nullptr };
 	
 public:
 
 	void AddAnimation(Animation const& newAnimation) { m_Animations.push_back(newAnimation); };
 	void TriggerTimer(float const& duration, float& counter);
 
-	void DoAnimation();
+	void BindSkeleton(Skeleton*& newSkeleton) { m_Skeleton = newSkeleton; };
+
+	void DoAnimation(ChromaTime& time);
 
 	Animator();
 	~Animator();
