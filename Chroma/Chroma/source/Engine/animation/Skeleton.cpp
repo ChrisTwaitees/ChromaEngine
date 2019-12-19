@@ -73,6 +73,38 @@ std::string Skeleton::GetJointName(int const& jointID) const
 	throw "JOINT NAME COULD NOT BE FOUND.";
 }
 
+glm::mat4 Skeleton::GetJointTransform(std::string const& jointName) const
+{
+	for (auto& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.second == jointName)
+		{
+			return IDNameJoint.second.GetFinalTransform();
+		}
+	}
+	throw "JOINT COULD NOT BE FOUND.";
+}
+
+glm::mat4 Skeleton::GetJointTransform(int const& jointID) const
+{
+	for (auto& IDNameJoint : m_Joints)
+	{
+		if (IDNameJoint.first.first == jointID)
+		{
+			return IDNameJoint.second.GetFinalTransform();
+		}
+	}
+	throw "JOINT COULD NOT BE FOUND.";
+}
+
+glm::mat4 Skeleton::GetRootTransform() const
+{
+	// Build rootTransform Matrix
+	glm::mat4 rootTransform = glm::translate(m_IdentityMatrix, m_Translation);
+	rootTransform = glm::toMat4(m_Rotation) * rootTransform;
+	return glm::scale(rootTransform, glm::vec3(m_Scale));
+}
+
 Joint Skeleton::GetJoint(int const& index)
 {
 	for (auto & IDNameJoint : m_Joints)
@@ -176,12 +208,8 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 
 void Skeleton::UpdateSkeletonRootTransform()
 {
-	// Build rootTransform Matrix
-	glm::mat4 rootTransform = glm::translate(m_IdentityMatrix, m_Translation);
-	rootTransform = glm::toMat4(m_Rotation) * rootTransform;
-	rootTransform = glm::scale(rootTransform, glm::vec3(m_Scale));
 	// Apply to root, traversing down chain
-	TransformJointAndChildren(m_RootJointID, rootTransform);
+	TransformJointAndChildren(m_RootJointID, GetRootTransform());
 }
 
 void Skeleton::TransformJointAndChildren(int const& jointID, glm::mat4 const& transform)

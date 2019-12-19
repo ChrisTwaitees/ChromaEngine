@@ -91,19 +91,19 @@ Skeleton* Model::GetSkeleton()
 	return ((SkinnedMesh*)m_meshes[0])->GetSkeleton();
 }
 
-void Model::SetSkeletonScale(float const& newScale)
+void Model::SetScale(float const& newScale)
 {
-	((SkinnedMesh*)m_meshes[0])->SetSkeletonScale(newScale);
+	((SkinnedMesh*)m_meshes[0])->SetScale(newScale);
 }
 
-void Model::SetSkeletonTranslation(glm::vec3 const& newPosition)
+void Model::SetTranslation(glm::vec3 const& newPosition)
 {
-	((SkinnedMesh*)m_meshes[0])->SetSkeletonTranslation(newPosition);
+	((SkinnedMesh*)m_meshes[0])->SetTranslation(newPosition);
 }
 
-void Model::SetSkeletonRotation(glm::quat const& newRotation)
+void Model::SetRotation(glm::quat const& newRotation)
 {
-	((SkinnedMesh*)m_meshes[0])->SetSkeletonRotation(newRotation);
+	((SkinnedMesh*)m_meshes[0])->SetRotation(newRotation);
 }
 
 void Model::CalculateBBox()

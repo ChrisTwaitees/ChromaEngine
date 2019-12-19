@@ -40,9 +40,9 @@ public:
 
 	// Functions
 	void SetJointUniforms(Shader& skinnedShader) override;
-	void SetSkeletonScale(float const& newScale) { m_Skeleton.SetSkeletonScale(newScale); };
-	void SetSkeletonTranslation(glm::vec3 const& newTranslation) { m_Skeleton.SetSkeletonTranslation(newTranslation); };
-	void SetSkeletonRotation(glm::quat const& newRotation) { m_Skeleton.SetSkeletonRotation(newRotation); };
+	void SetScale(float const& newScale) { m_Skeleton.SetScale(newScale); };
+	void SetTranslation(glm::vec3 const& newTranslation) { m_Skeleton.SetTranslation(newTranslation); };
+	void SetRotation(glm::quat const& newRotation) { m_Skeleton.SetRotation(newRotation); };
 
 	SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val);
 	SkinnedMesh() { m_IsRenderable = true; };

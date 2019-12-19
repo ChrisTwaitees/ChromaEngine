@@ -5,11 +5,12 @@
 #include <vector>
 // thirdparty
 #include <GLFW/glfw3.h>
-#include <worker/IWorker.h>
+#include <glm/glm.hpp>
 // chroma
 #include <animation/Animation.h>
 #include <animation/Skeleton.h>
 #include <time/ChromaTime.h>
+#include <worker/IWorker.h>
 
 
 class Animator
@@ -22,7 +23,7 @@ public:
 	void AddAnimation(Animation const& newAnimation) { m_Animations.push_back(newAnimation); };
 	void TriggerTimer(float const& duration, float& counter);
 
-	void BindSkeleton(Skeleton*& newSkeleton) { m_Skeleton = newSkeleton; };
+	void BindSkeleton(Skeleton* newSkeleton) { m_Skeleton = newSkeleton; };
 
 	void DoAnimation(ChromaTime& time);
 

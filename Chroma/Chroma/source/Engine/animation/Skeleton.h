@@ -12,13 +12,10 @@
 // chroma
 #include <animation/Joint.h>
 #include <buffer/DebugBuffer.h>
-#include <component/MeshComponent.h>
 
 
 class Skeleton
 {
-	MeshComponent* m_ParentComponent;
-
 	glm::mat4 m_IdentityMatrix{ 1.0 };
 	glm::mat4 m_WorldTransform{ 1.0 };
 	glm::mat4 m_WorldTransformInverse{ 1.0 };
@@ -31,7 +28,6 @@ class Skeleton
 
 	// Functions
 	void DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const& debugBuffer);
-	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
 	void UpdateSkeletonRootTransform();
 
 public:
@@ -41,9 +37,9 @@ public:
 	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.GetID(); };
 	void SetRootJointID(int const& newRootJointID) { m_RootJointID = newRootJointID; };
 
-	void SetSkeletonScale(float const& newScale) { m_Scale = newScale; UpdateSkeletonRootTransform(); };
-	void SetSkeletonTranslation(glm::vec3 const& newTranslation) { m_Translation = newTranslation; UpdateSkeletonRootTransform(); };
-	void SetSkeletonRotation(glm::quat const& newRotation) { m_Rotation = newRotation; UpdateSkeletonRootTransform(); };
+	void SetScale(float const& newScale) { m_Scale = newScale; UpdateSkeletonRootTransform(); };
+	void SetTranslation(glm::vec3 const& newTranslation) { m_Translation = newTranslation; UpdateSkeletonRootTransform(); };
+	void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; UpdateSkeletonRootTransform(); };
 
 	int GetNumJoints() const { return m_Joints.size(); };
 	std::map<std::pair<int, std::string>, Joint> GetIndexedNamedJoints() const { return m_Joints; };
@@ -53,6 +49,10 @@ public:
 
 	int GetJointID(std::string const& jointName) const;
 	std::string GetJointName(int const& jointID) const;
+
+	glm::mat4 GetJointTransform(std::string const& jointName) const;
+	glm::mat4 GetJointTransform(int const& jointID) const;
+	glm::mat4 GetRootTransform() const;
 
 	Joint GetJoint(int const& index);
 	Joint* GetJointPtr(int const& index);
@@ -64,9 +64,9 @@ public:
 	bool GetJointExists(std::string const& jointName) const;
 
 	// Functions
-	void BindParentComponent(MeshComponent* const& newMeshComponent) { m_ParentComponent = newMeshComponent; };
 	void SetJointUniforms(Shader& skinnedShader);
 	void CalculateJointLocalBindOffsetTransforms();
+	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
 	void DebugDraw(DebugBuffer* debugBuffer);
 	void InitializeSkeleton();
 

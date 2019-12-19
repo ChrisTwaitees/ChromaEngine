@@ -156,13 +156,14 @@ int main()
 	// animation
 	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
 	Animator testAnimator;
+	testAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
 	Animation testAnimation("resources/animation/walking3.fbx");
 	testAnimator.AddAnimation(testAnimation);
 	AnimModelAnimationComponent->AddAnimator(testAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 	// transforming entity
-	////((Model*)AnimModelMeshComponent)->SetSkeletonTranslation(glm::vec3(-2, 0, -4));
-	((Model*)AnimModelMeshComponent)->SetSkeletonScale(0.06);
+	////((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, 0, -4));
+	((Model*)AnimModelMeshComponent)->SetScale(0.06);
 	// ____________________________________________________
 
 	// TERRAIN
@@ -326,10 +327,10 @@ int main()
 
 		Game.getRenderer()->GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
 		//Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
-		//((Model*)AnimModelMeshComponent)->SetSkeletonTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
+		//((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
 		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };
 		float rotationAmount = glm::radians(glm::sin(GameTime*0.5) * 90);
-		((Model*)AnimModelMeshComponent)->SetSkeletonRotation(glm::angleAxis(rotationAmount, rotationAxis));
+		//((Model*)AnimModelMeshComponent)->SetRotation(glm::angleAxis(rotationAmount, rotationAxis));
 		// GAME TICK
 		Game.Tick();
 

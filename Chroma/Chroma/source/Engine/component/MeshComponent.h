@@ -8,6 +8,7 @@
 #include <camera/Camera.h>
 #include <light/Light.h>
 
+
 class MeshComponent : public IComponent
 {
 protected:
@@ -26,12 +27,13 @@ public:
 	bool m_IsSkinned{ false };
 
 	// Accessors
+	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
+	virtual glm::vec3 GetCentroid() = 0;
 	virtual Shader* GetShader() = 0;
 	virtual int GetNumTextures() = 0;
 	virtual glm::mat4 GetTransformationMatrix() = 0;
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
-	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
-	virtual glm::vec3 GetCentroid() = 0;
+	//virtual Skeleton* GetSkeleton() {};
 
 
 	virtual void SetShader(Shader* const& newShader) = 0;
