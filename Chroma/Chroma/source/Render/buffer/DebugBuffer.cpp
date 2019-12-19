@@ -28,7 +28,7 @@ void DebugBuffer::Initialize()
 
 void DebugBuffer::blitPostFXBuffer()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_postFXBuffer->getFBO()); // fetch  postFXBuffer
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->getFBO()); // fetch  postFXBuffer
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO); // copy depth and color to current buffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
@@ -68,7 +68,7 @@ void DebugBuffer::generatePointVAO()
 void DebugBuffer::drawShapes()
 {
 	// OVERLAY 
-	attachBuffer();
+	AttachBuffer();
 	DrawOverlayShapes();
 
 	// DEPTH RESPECTING
@@ -209,11 +209,11 @@ void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& radius
 	m_OverlaySpheres.push_back(new_sphere);
 }
 
-void DebugBuffer::DrawSceneSkeletons(Scene* const& scene)
+void DebugBuffer::DrawSceneSkeletons(Scene* const& m_Scene)
 {
-	for (IEntity* entity : scene->GetEntities())
+	for (std::string const& UID : m_Scene->GetAnimatedEntityUIDs())
 	{
-		for (IComponent* component : entity->getMeshComponents())
+		for (IComponent* component : m_Scene->GetEntity(UID)->getMeshComponents())
 		{
 			// check if mesh skinned
 			if (((MeshComponent*)component)->m_IsSkinned)
@@ -228,11 +228,15 @@ void DebugBuffer::DrawSceneSkeletons(Scene* const& scene)
 void DebugBuffer::ClearBuffer()
 {
 	Bind();
-	m_OverlayLines.clear();
-	m_lines.clear();
 
+	m_OverlayLines.clear();
+	m_OverlayBoxes.clear();
+	m_OverlaySpheres.clear();
+
+	m_lines.clear();
 	m_spheres.clear();
 	m_boxes.clear();
+
 	unBind();
 }
 
@@ -242,7 +246,7 @@ void DebugBuffer::Draw()
 	drawShapes();
 
 	// 2. Bind postFX buffer to draw to
-	m_postFXBuffer->Bind();
+	m_PostFXBuffer->Bind();
 
 	// use screen shader
 	screenShader->use();
@@ -254,10 +258,10 @@ void DebugBuffer::Draw()
 	updateTransformUniforms();
 	renderQuad();
 	// return to default frambuffer
-	m_postFXBuffer->unBind();
+	m_PostFXBuffer->unBind();
 }
 
-void DebugBuffer::attachBuffer()
+void DebugBuffer::AttachBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 	blitPostFXBuffer();

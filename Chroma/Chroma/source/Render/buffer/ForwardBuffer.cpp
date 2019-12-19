@@ -24,7 +24,7 @@ void ForwardBuffer::Initialize()
 
 void ForwardBuffer::fetchColorAndDepth()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_postFXBuffer->getFBO()); // fetch  postFXBuffer
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->getFBO()); // fetch  postFXBuffer
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO); // copy depth and color to current buffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
@@ -37,7 +37,7 @@ void ForwardBuffer::fetchColorAndDepth()
 void ForwardBuffer::blitDepthBuffer()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_postFXBuffer->getFBO());// write to default HDR Framebuffer
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->getFBO());// write to default HDR Framebuffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
@@ -46,26 +46,26 @@ void ForwardBuffer::blitDepthBuffer()
 void ForwardBuffer::renderForwardComponents()
 {
 	// attach current buffer and copy contents of postfx buffer
-	attachBuffer();
+	AttachBuffer();
 	fetchColorAndDepth();
 
 	// Render Skybox first for Transparent Entities
 	m_Scene->GetSkyBox()->Draw();
 
 	// Render Unlit Components
-	for (IEntity* const& entity : m_Scene->GetEntities())
+	for (std::string const& UID : m_Scene->GetEntityUIDs())
 	{
 		// render unlit components
-		if (entity->getUnlitComponents().size() > 0)
+		if (m_Scene->GetEntity(UID)->getUnlitComponents().size() > 0)
 		{
-			glm::mat4 worldTransform = entity->GetTransformationMatrix();
-			for (IComponent*& component : entity->getUnlitComponents())
+			glm::mat4 worldTransform = m_Scene->GetEntity(UID)->GetTransformationMatrix();
+			for (IComponent*& component : m_Scene->GetEntity(UID)->getUnlitComponents())
 				((MeshComponent*)component)->DrawUpdateTransforms(*m_Scene->GetRenderCamera(), worldTransform);
 		}
 	}
 
 	// Render Transparent Entities
-	if (m_Scene->GetTransparentEntities().size() > 0)
+	if (m_Scene->GetTransparentEntityUIDs().size() > 0)
 		renderTransparency();
 }
 
@@ -75,17 +75,17 @@ void ForwardBuffer::renderTransparency()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
-	std::map<float, IEntity*> alpha_sorted;
-	for (IEntity* TransparentEntity : m_Scene->GetTransparentEntities())
+	std::map<float, std::string> alpha_sorted;
+	for (std::string const& UID : m_Scene->GetTransparentEntityUIDs())
 	{
-		float distance = glm::length(TransparentEntity->GetPosition() - m_Scene->GetRenderCamera()->GetPosition());
-		alpha_sorted[distance] = TransparentEntity;
+		float distance = glm::length(m_Scene->GetEntity(UID)->GetPosition() - m_Scene->GetRenderCamera()->GetPosition());
+		alpha_sorted[distance] = UID;
 	}
 	// iterating from furthest to closest
-	for (std::map<float, IEntity*>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
+	for (std::map<float, std::string>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
 	{
-		glm::mat4 worldTransform = it->second->GetTransformationMatrix();
-		for (IComponent* component : it->second->getTransparentComponents())
+		glm::mat4 worldTransform = m_Scene->GetEntity(it->second)->GetTransformationMatrix();
+		for (IComponent* component : m_Scene->GetEntity(it->second)->GetTransparentComponents())
 		{
 			if (((MeshComponent*)component)->m_IsForwardLit) // draw lit transparent components
 				((MeshComponent*)component)->Draw(*m_Scene->GetRenderCamera(), m_Scene->GetLights(), worldTransform);
@@ -96,12 +96,12 @@ void ForwardBuffer::renderTransparency()
 	glDisable(GL_BLEND);
 }
 
-void ForwardBuffer::attachBuffer()
+void ForwardBuffer::AttachBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
 }
 
-void ForwardBuffer::drawQuad()
+void ForwardBuffer::DrawQuad()
 {
 	// use screen shader
 	screenShader->use();
@@ -119,22 +119,22 @@ void ForwardBuffer::Draw()
 	renderForwardComponents();
 
 	// 2. Bind postFX buffer to draw to
-	m_postFXBuffer->Bind();
+	m_PostFXBuffer->Bind();
 
 	// 3. Draw Quad
-	drawQuad();
+	DrawQuad();
 
 	// 4. copy content of depth buffer to Post FX Buffer
 	blitDepthBuffer();
 
 	// 5. Unbind postFX buffer
-	m_postFXBuffer->unBind();
+	m_PostFXBuffer->unBind();
 }
 
 ForwardBuffer::ForwardBuffer(Scene* const& source_scene, Framebuffer* const& postFXBuffer)
 {
 	m_Scene = source_scene;
-	m_postFXBuffer = postFXBuffer;
+	m_PostFXBuffer = postFXBuffer;
 
 }
 

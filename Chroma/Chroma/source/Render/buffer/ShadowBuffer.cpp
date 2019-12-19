@@ -36,8 +36,8 @@ void ShadowBuffer::Initialize()
 
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
-	for (IEntity* entity : m_Scene->GetEntities())
-		for (IComponent* component : entity->getMeshComponents())
+	for (std::string const& UID : m_Scene->GetEntityUIDs())
+		for (IComponent* component : m_Scene->GetEntity(UID)->getMeshComponents())
 		{
 			((MeshComponent*)component)->AddTexture(ShadowMapTexture);
 		}
@@ -76,10 +76,10 @@ void ShadowBuffer::calculateShadows()
 	//glCullFace(GL_FRONT);
 
 	// render scene
-	for (IEntity* entity : m_Scene->GetEntities())
+	for (std::string const& UID : m_Scene->GetEntityUIDs())
 	{
-		glm::mat4 finalTransformMatrix = entity->GetTransformationMatrix();	
-		for (IComponent* component : entity->getShadowCastingComponents())
+		glm::mat4 finalTransformMatrix = m_Scene->GetEntity(UID)->GetTransformationMatrix();	
+		for (IComponent* component : m_Scene->GetEntity(UID)->getShadowCastingComponents())
 		{
 			finalTransformMatrix *= ((MeshComponent*)component)->GetTransformationMatrix();
 			depthShader.SetMat4("model", finalTransformMatrix);

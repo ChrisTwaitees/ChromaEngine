@@ -4,6 +4,8 @@
 //stl
 #include <vector>
 #include <set>
+#include <functional>
+
 //chroma
 #include <camera/Camera.h>
 #include <light/Light.h>
@@ -11,9 +13,9 @@
 #include <model/SkyBox.h>
 #include <ibl/IBL.h>
 #include <time/ChromaTime.h>
-
 // entity component
 #include <entity/IEntity.h>
+
 
 
 class Scene
@@ -21,9 +23,13 @@ class Scene
 	// scene components
 	std::vector<Light*> m_Lights;
 
-	std::set<IEntity*> m_Entities;
-	std::set<IEntity*> m_TransparentEntities;
-	std::set<IEntity*> m_AnimatedEntities;
+	// Entities
+	std::map<std::string, IEntity*> m_Entities;
+
+	// UIDs
+	std::set<std::string> m_EntityUIDs;
+	std::set<std::string> m_TransparentEntityUIDs;
+	std::set<std::string> m_AnimatedEntityUIDs;
 
 	PhysicsEngine* m_Physics;
 	ChromaTime* m_Time;
@@ -45,6 +51,7 @@ public:
 	void AddAnimatedEntity(IEntity* const& newAnimatedEntity) ;
 	void AddTransparentEntity(IEntity* const& newTransparentEntity);
 	void RemoveEntity(IEntity& RemoveEntity);
+
 	// lights
 	void AddLight(Light* const& newLight) { m_Lights.push_back(newLight); };
 	void RemoveLight(Light& RemoveLight);
@@ -58,9 +65,11 @@ public:
 	void SetTime(ChromaTime* const& newTime) { m_Time = newTime; };
 
 	// getters
-	std::set<IEntity*> GetEntities() { return m_Entities; };
-	std::set<IEntity*> GetTransparentEntities() { return m_TransparentEntities; };
-	std::set<IEntity*> GetAnimatedEntities() { return m_AnimatedEntities; };
+	IEntity* GetEntity(std::string UID);
+	std::set<std::string> GetEntityUIDs() const { return m_EntityUIDs; };
+	std::set<std::string> GetTransparentEntityUIDs() const { return m_TransparentEntityUIDs; };
+	std::set<std::string> GetAnimatedEntityUIDs() const { return m_AnimatedEntityUIDs; };
+
 
 	Camera* GetRenderCamera() { return m_RenderCamera; };
 	std::vector<Light*> GetLights() { return m_Lights; };

@@ -5,6 +5,15 @@ glm::vec3 Scene::CalculateAmbientLightColor()
 	return m_SunLight->getDiffuse() * m_SunLight->getIntensity()* glm::vec3(.1);
 }
 
+IEntity* Scene::GetEntity(std::string UID)
+{
+	if (m_Entities.find(UID) != m_Entities.end())
+	{
+		return m_Entities.find(UID)->second;
+	}
+}
+
+
 void Scene::Initialize()
 {
 	// setting skybox to IBL environment map
@@ -24,7 +33,10 @@ void Scene::AddEntity(IEntity* const& newEntity)
 	ProcessNewEntity(newEntity);
 
 	// collect entity
-	m_Entities.insert(newEntity);
+	m_EntityUIDs.insert(newEntity->GetUID());
+
+	// collect entity
+	m_Entities[newEntity->GetUID()] = newEntity;
 }
 
 void Scene::AddAnimatedEntity(IEntity* const& newAnimatedEntity)
@@ -32,8 +44,8 @@ void Scene::AddAnimatedEntity(IEntity* const& newAnimatedEntity)
 	// process
 	ProcessNewEntity(newAnimatedEntity);
 
-	// add to animated entities
-	m_AnimatedEntities.insert(newAnimatedEntity);
+	// add UID to animated entity UIDs
+	m_AnimatedEntityUIDs.insert(newAnimatedEntity->GetUID());
 }
 
 void Scene::AddTransparentEntity(IEntity* const& newTransparentEntity)
@@ -41,13 +53,16 @@ void Scene::AddTransparentEntity(IEntity* const& newTransparentEntity)
 	// process
 	ProcessNewEntity(newTransparentEntity);
 
-	// add to Transparent Entities
-	m_AnimatedEntities.insert(newTransparentEntity);
+	// add UID to transparent entity UIDs
+	m_TransparentEntityUIDs.insert(newTransparentEntity->GetUID());
 }
 
 void Scene::RemoveEntity(IEntity& RemoveEntity)
 {
 }
+
+
+
 
 void Scene::RemoveLight(Light& RemoveLight)
 {

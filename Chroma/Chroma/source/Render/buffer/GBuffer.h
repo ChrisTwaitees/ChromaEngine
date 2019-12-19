@@ -1,6 +1,7 @@
 #ifndef _CHROMA_GBUFFER_
 #define _CHROMA_GBUFFER_
 
+
 #include <buffer/Framebuffer.h>
 #include <buffer/PostFXBuffer.h>
 #include <buffer/ShadowBuffer.h>
@@ -8,6 +9,7 @@
 #include <ibl/IBL.h>
 #include <scene/Scene.h>
 #include <model/Model.h>
+
 
 
 class GBuffer : public Framebuffer
@@ -30,7 +32,7 @@ class GBuffer : public Framebuffer
 	// scene
 	Scene* m_Scene;
 	ShadowBuffer* mShadowbuffer;
-	Framebuffer* m_postFXBuffer;
+	Framebuffer* m_PostFXBuffer;
 
 	// functions
 	void Initialize() override;
@@ -54,12 +56,13 @@ class GBuffer : public Framebuffer
 	// cubemap TEST
 	CubeMap testCubeMap{ "resources/textures/skybox/blueskywater"};
 
+	void RenderWithShader(IEntity* Entity);
 public:
 	// functions
 	void Bind() override;
 	void Draw() override;
 	// structors
-	GBuffer(Scene*& m_Scene, Framebuffer*& m_postFXBuffer);
+	GBuffer(Scene*& m_Scene, Framebuffer*& m_PostFXBuffer);
 	~GBuffer();
 };
 

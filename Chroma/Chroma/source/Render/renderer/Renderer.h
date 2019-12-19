@@ -51,7 +51,7 @@ protected:
 	DebugBuffer* m_debugBuffer;
 
 	// Post FX
-	Framebuffer* m_postFXBuffer{ new PostFXBuffer() };
+	Framebuffer* m_PostFXBuffer{ new PostFXBuffer() };
 
 	// INITIALIZE
 	void Initialize();

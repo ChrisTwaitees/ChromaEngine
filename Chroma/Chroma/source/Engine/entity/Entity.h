@@ -64,7 +64,7 @@ public:
 	std::vector<IComponent*> getRenderableComponents() { return m_RenderableComponents; };
 	std::vector<IComponent*> getLitComponents() { return m_LitComponents; };
 	std::vector<IComponent*> getShadowCastingComponents() { return m_ShadowCastingComponents; };
-	std::vector<IComponent*> getTransparentComponents() { return m_TransparentComponents; };
+	std::vector<IComponent*> GetTransparentComponents() { return m_TransparentComponents; };
 	std::vector<IComponent*> getUnlitComponents() { return m_UnLitComponents; };
 
 	std::vector<IComponent*> getMeshComponents() { return m_MeshComponents; };

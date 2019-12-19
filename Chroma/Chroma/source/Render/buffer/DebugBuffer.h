@@ -69,7 +69,7 @@ class DebugBuffer : public Framebuffer
 	void generatePointVAO();
 
 	// previous framebuffer to call from
-	Framebuffer* m_postFXBuffer;
+	Framebuffer* m_PostFXBuffer;
 
 	// functions
 	void drawShapes();
@@ -80,7 +80,7 @@ class DebugBuffer : public Framebuffer
 	void renderBox(BoxShape box);
 	// blitting depth buffer before rendering
 	void Initialize() override;
-	void attachBuffer();
+	void AttachBuffer();
 	void blitPostFXBuffer();
 	void blitDepthPostFXBuffer();
 	
@@ -101,7 +101,7 @@ public:
 	void ClearBuffer() override;
 	void Draw() override;
 
-	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_RenderCamera(camera), m_postFXBuffer(prevFrameBuffer) { Initialize(); };
+	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_RenderCamera(camera), m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
 };
 
 #endif

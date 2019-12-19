@@ -150,6 +150,7 @@ void GBuffer::calculateShadows()
 	mShadowbuffer->calculateShadows();
 }
 
+
 void GBuffer::drawGeometryPass()
 {
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
@@ -160,10 +161,10 @@ void GBuffer::drawGeometryPass()
 	m_geometryPassShader.SetMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 
 	// Render Scene
-	for (IEntity* entity : m_Scene->GetEntities())
+	for (std::string const& UID : m_Scene->GetEntityUIDs())
 	{
-		glm::mat4 finalTransformMatrix = entity->GetTransformationMatrix();
-		for (IComponent* component : entity->getLitComponents())
+		glm::mat4 finalTransformMatrix = m_Scene->GetEntity(UID)->GetTransformationMatrix();
+		for (IComponent* component : m_Scene->GetEntity(UID)->getLitComponents())
 		{
 			// transform components by entity transform
 			finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransformationMatrix();
@@ -179,6 +180,25 @@ void GBuffer::drawGeometryPass()
 		}
 	}
 	unBind();
+}
+
+void GBuffer::RenderWithShader(IEntity* Entity)
+{
+	glm::mat4 finalTransformMatrix = Entity->GetTransformationMatrix();
+	for (IComponent* component : Entity->getLitComponents())
+	{
+		// transform components by entity transform
+		finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransformationMatrix();
+		m_geometryPassShader.SetMat4("model", finalTransformMatrix);
+
+		// check if mesh skinned
+		m_geometryPassShader.setUniform("isSkinned", ((MeshComponent*)component)->m_IsSkinned);
+		if (((MeshComponent*)component)->m_IsSkinned)
+			((MeshComponent*)component)->SetJointUniforms(m_geometryPassShader);
+
+		// Draw Update Materials
+		((MeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
+	}
 }
 
 void GBuffer::drawLightingPass()
@@ -198,7 +218,7 @@ void GBuffer::drawLightingPass()
 void GBuffer::blitDepthBuffer()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_gBuffer);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_postFXBuffer->getFBO());// write to default HDR Framebuffer
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->getFBO());// write to default HDR Framebuffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
@@ -216,7 +236,7 @@ void GBuffer::Draw()
 	((SSAOBuffer*)m_SSAOBuffer)->Draw(gViewPosition, gViewNormal, m_Scene);
 
 	// 2. Render pass to PostFX buffer
-	m_postFXBuffer->Bind();
+	m_PostFXBuffer->Bind();
 
 	// 3. lighting pass: calculate lighting using gbuffer textures
 	drawLightingPass();
@@ -226,7 +246,7 @@ void GBuffer::Draw()
 	blitDepthBuffer();
 
 	// 5. Unbind postFX buffer
-	m_postFXBuffer->unBind();
+	m_PostFXBuffer->unBind();
 }
 
 GBuffer::GBuffer(Scene*& Scene, Framebuffer*& PostFXBuffer)
@@ -234,7 +254,7 @@ GBuffer::GBuffer(Scene*& Scene, Framebuffer*& PostFXBuffer)
 	Initialize();
 	m_Scene = Scene;
 	mShadowbuffer = new ShadowBuffer(m_Scene);
-	m_postFXBuffer = PostFXBuffer;
+	m_PostFXBuffer = PostFXBuffer;
 }
 
 GBuffer::~GBuffer()

@@ -10,7 +10,7 @@ class ForwardBuffer : public Framebuffer
 
 	// scene
 	Scene* m_Scene{ nullptr };
-	Framebuffer* m_postFXBuffer{ nullptr };
+	Framebuffer* m_PostFXBuffer{ nullptr };
 
 	// functions
 	void Initialize() override;
@@ -18,8 +18,8 @@ class ForwardBuffer : public Framebuffer
 	void blitDepthBuffer();
 	void renderForwardComponents();
 	void renderTransparency();
-	void attachBuffer();
-	void drawQuad();
+	void AttachBuffer();
+	void DrawQuad();
 
 public:
 	void Draw() override;

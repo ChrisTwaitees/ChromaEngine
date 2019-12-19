@@ -76,7 +76,7 @@ public:
 	virtual std::vector<IComponent*> getRenderableComponents() = 0;
 	virtual std::vector<IComponent*> getLitComponents() = 0;
 	virtual std::vector<IComponent*> getShadowCastingComponents() = 0;
-	virtual std::vector<IComponent*> getTransparentComponents() = 0;
+	virtual std::vector<IComponent*> GetTransparentComponents() = 0;
 	virtual std::vector<IComponent*> getUnlitComponents() = 0;
 
 	virtual std::vector<IComponent*> getMeshComponents() = 0;
