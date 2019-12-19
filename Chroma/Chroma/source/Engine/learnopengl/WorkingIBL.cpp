@@ -30,7 +30,7 @@ float lastY = 1000.0 / 2.0;
 bool m_FirstMouse = true;
 
 // timing
-float deltaTime = 0.0f;
+float m_DeltaTime = 0.0f;
 float lastFrame = 0.0f;
 
 int mains()
@@ -92,7 +92,7 @@ int mains()
 		// per-frame time logic
 		// --------------------
 		float currentFrame = glfwGetTime();
-		deltaTime = currentFrame - lastFrame;
+		m_DeltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
 
 		// input
@@ -149,15 +149,15 @@ void ProcessInput(GLFWwindow* window)
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
 
-	float cameraSpeed = 2.5 * deltaTime;
+	float cameraSpeed = 2.5 * m_DeltaTime;
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera.ProcessKeyboard(FORWARD, deltaTime);
+		camera.ProcessKeyboard(FORWARD, m_DeltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera.ProcessKeyboard(BACKWARD, deltaTime);
+		camera.ProcessKeyboard(BACKWARD, m_DeltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera.ProcessKeyboard(LEFT, deltaTime);
+		camera.ProcessKeyboard(LEFT, m_DeltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera.ProcessKeyboard(RIGHT, deltaTime);
+		camera.ProcessKeyboard(RIGHT, m_DeltaTime);
 }
 
 // glfw: whenever the window size changed (by OS or user resize) this callback function executes

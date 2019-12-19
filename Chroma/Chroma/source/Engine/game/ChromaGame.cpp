@@ -30,7 +30,7 @@ void ChromaGame::MousePickerCallback()
 void ChromaGame::Tick()
 {
 	// update time
-	m_time.process();
+	m_time.Process();
 	// process input
 	ProcessInput();
 
@@ -63,9 +63,9 @@ ChromaGame::ChromaGame(ChromaScene*& Scene, ChromaScreenManager*& ScreenManager)
 void ChromaGame::Initialize()
 {
 	// Input
-	m_Input->bindWindow(m_Screen->getWindow());
-	m_Input->bindCamera(m_Scene->GetRenderCamera());
-	m_Input->bindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
+	m_Input->BindWindow(m_Screen->getWindow());
+	m_Input->BindCamera(m_Scene->GetRenderCamera());
+	m_Input->BindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
 
 	// Renderer
 	m_Renderer = new Renderer(m_Scene, m_Screen);
@@ -83,8 +83,8 @@ void ChromaGame::Initialize()
 void ChromaGame::ProcessInput()
 {
 	// process input
-	m_Input->setDeltaTime(getDeltaTime());
-	m_Input->process(); 
+	m_Input->SetDeltaTime(GetDeltaTime());
+	m_Input->Process(); 
 
 	// update camera
 	if (m_Screen->cameraSelected == 0)

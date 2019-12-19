@@ -7,7 +7,7 @@
 #include <assimp/postprocess.h>
 
 // chroma
-#include <math/ChromaMath.h>
+#include <math/Math.h>
 #include <model/StaticMesh.h>
 #include <model/SkinnedMesh.h>
 

@@ -1,8 +1,6 @@
 #ifndef _CHROMA_SKELETON_
 #define _CHROMA_SKELETON_
 
-
-
 // stl
 #include <vector>
 #include <map>

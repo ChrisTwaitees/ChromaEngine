@@ -219,7 +219,7 @@ int Main()
 		// SCREENMANAGER START
 		ScreenManager->StartLoop();
 		float GameTime = ScreenManager->getTime();
-		float DeltaTime = ScreenManager->getDeltaTime();
+		float DeltaTime = ScreenManager->GetDeltaTime();
 
 		// Updating sun
 		Sun->SetPosition(Sun->GetDirection() * -20.0f);

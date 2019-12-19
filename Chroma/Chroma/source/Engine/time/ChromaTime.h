@@ -23,10 +23,10 @@ public:
 	double GetLag() { return lag; };
 	void DecreaseLag(double decreaseAmount) { lag -= decreaseAmount; }
 	double GetMSPerFrame() { return MS_PER_FRAME; };
-	double getDeltaTime() { return  delta; };
+	double GetDeltaTime() { return  delta; };
 	double GetGameTime() { return glfwGetTime(); }
 
-	void process();
+	void Process();
 };
 
 #endif

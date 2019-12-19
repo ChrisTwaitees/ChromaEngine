@@ -8,13 +8,13 @@
 #include <glm/glm.hpp>
 
 // chroma
-#include <math/ChromaMath.h>
+#include <math/Math.h>
 #include <ChromaConfig.h>
 #include <camera/FlyCameraController.h>
 #include <camera/MayaCameraController.h>
-#include <input/ChromaInput.h>
+#include <input/Input.h>
 
-class ChromaInput;
+class Input;
 enum CameraMode { FlyCam, Maya};
 
 class Camera
@@ -49,7 +49,7 @@ class Camera
 
 public:
 	// Process
-	void ProcessInput(ChromaInput* const& input);
+	void ProcessInput(Input* const& input);
 
 	// Accessors
 	inline glm::vec3 GetPosition() const { return m_CameraPosition; };

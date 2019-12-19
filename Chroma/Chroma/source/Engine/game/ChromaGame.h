@@ -7,7 +7,7 @@
 // thirdparty
 #include <GLFW/glfw3.h>
 // chroma
-#include <input/ChromaInput.h>
+#include <input/Input.h>
 #include <renderer/Renderer.h>
 #include <scene/ChromaScene.h>
 #include <screenmanager/ChromaScreenManager.h>
@@ -32,7 +32,7 @@ class ChromaGame
 
 	// input
 	ChromaTime m_time;
-	ChromaInput* m_Input{ new ChromaInput };
+	Input* m_Input{ new Input };
 
 	// game loop functions
 	void ProcessInput();
@@ -43,7 +43,7 @@ class ChromaGame
 	void MousePickerCallback();
 
 public:
-	double getDeltaTime() { return m_time.getDeltaTime(); };
+	double GetDeltaTime() { return m_time.GetDeltaTime(); };
 	State getGameState() { return GameState; };
 	Renderer* getRenderer() { return m_Renderer; };
 

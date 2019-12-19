@@ -295,7 +295,7 @@ int main()
 		// SCREENMANAGER START
 		ScreenManager->StartLoop();
 		float GameTime = ScreenManager->getTime();
-		float DeltaTime = ScreenManager->getDeltaTime();
+		float DeltaTime = ScreenManager->GetDeltaTime();
 
 		//Sunlight Rotation		
 		Sun->SetPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));

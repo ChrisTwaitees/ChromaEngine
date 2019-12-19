@@ -14,7 +14,7 @@
 #include <glm/gtc/quaternion.hpp>
 
 // chroma
-#include <math/ChromaMath.h>
+#include <math/Math.h>
 
 struct KeyFrame
 {

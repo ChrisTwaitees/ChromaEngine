@@ -65,7 +65,7 @@ void PhysicsEngine::addBodyToWorld(ChromaPhysicsComponent*& physicsComponent)
 void PhysicsEngine::Update(ChromaTime& time)
 {
 	// step simulation
-	m_world->stepSimulation(time.getDeltaTime());
+	m_world->stepSimulation(time.GetDeltaTime());
 	// update transforms of physics entities
 	for (int i = 0; i < m_world->getNumCollisionObjects(); i++)
 	{

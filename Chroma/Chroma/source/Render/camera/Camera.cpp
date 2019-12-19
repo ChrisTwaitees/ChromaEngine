@@ -6,9 +6,9 @@ void Camera::Initialize()
 	UpdateViewMatrix();
 }
 
-void Camera::ProcessInput(ChromaInput* const& input)
+void Camera::ProcessInput(Input* const& input)
 {
-	if (input->getCursorEnabled())
+	if (input->GetCursorEnabled())
 	{
 		switch (m_CamMode)
 		{

@@ -1,6 +1,6 @@
 #include "ChromaPhysicsComponent.h"
 #include <entity/IChromaEntity.h>
-#include <math/ChromaMath.h>
+#include <math/Math.h>
 
 
 void ChromaPhysicsComponent::BuildRigidBody()

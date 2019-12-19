@@ -1,10 +1,10 @@
 #include "FlyCameraController.h"
-#include <input/ChromaInput.h>
+#include <input/Input.h>
 
-void FlyCameraController::processMouseInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
+void FlyCameraController::ProcessMouseInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
 	// fetch current xpos and ypos
-	glm::vec2 mouseXYOffset = input->getMouseXYOffset();
+	glm::vec2 mouseXYOffset = input->GetMouseXYOffset();
 
 	// applying sensitivity
 	mouseXYOffset *= glm::vec2(mouseSensitivity);
@@ -25,30 +25,30 @@ void FlyCameraController::processMouseInput(ChromaInput* const& input, glm::vec3
 	camUp = glm::cross(direction, camRight);
 }
 
-void FlyCameraController::processKeyboardInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
+void FlyCameraController::processKeyboardInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
 	// MOVEMENT
-	if (input->isPressed(ChromaInput::LEFT_SHIFT))
-		cameraSpeed = fastSpeed * input->getDeltaTime();
+	if (input->IsPressed(Input::LEFT_SHIFT))
+		cameraSpeed = fastSpeed * input->GetDeltaTime();
 	else
-		cameraSpeed = slowSpeed * input->getDeltaTime();
+		cameraSpeed = slowSpeed * input->GetDeltaTime();
 
-	if (input->isPressed(ChromaInput::W))
+	if (input->IsPressed(Input::W))
 		move(FORWARD, camPos, camDir, camUp);
 
-	if (input->isPressed(ChromaInput::S))
+	if (input->IsPressed(Input::S))
 		move(BACK, camPos, camDir, camUp);
 
-	if (input->isPressed(ChromaInput::D))
+	if (input->IsPressed(Input::D))
 		move(RIGHT, camPos, camDir, camUp);
 
-	if (input->isPressed(ChromaInput::A))
+	if (input->IsPressed(Input::A))
 		move(LEFT, camPos, camDir, camUp);
 
-	if (input->isPressed(ChromaInput::Q))
+	if (input->IsPressed(Input::Q))
 		move(UP, camPos, camDir, camUp);
 
-	if (input->isPressed(ChromaInput::E))
+	if (input->IsPressed(Input::E))
 		move(DOWN, camPos, camDir, camUp);
 }
 
@@ -79,8 +79,8 @@ void FlyCameraController::move(Direction dir, glm::vec3& camPos, glm::vec3& camD
 	}
 }
 
-void FlyCameraController::ProcessInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
+void FlyCameraController::ProcessInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
-	processMouseInput(input, camPos, camDir, camUp);
+	ProcessMouseInput(input, camPos, camDir, camUp);
 	processKeyboardInput(input, camPos, camDir, camUp);
 }

@@ -7,7 +7,7 @@ void ChromaTime::sleep(int milliseconds)
 	std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 
-void ChromaTime::process()
+void ChromaTime::Process()
 {
 	// updating deltatime and lag
 	current = GetGameTime();

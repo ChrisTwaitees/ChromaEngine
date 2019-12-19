@@ -9,16 +9,16 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 // chroma 
-class ChromaInput;
+class Input;
 
 class ICameraController
 {
 protected:
-	virtual void processMouseInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) = 0;
-	virtual void processKeyboardInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) = 0;
+	virtual void ProcessMouseInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) = 0;
+	virtual void processKeyboardInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) = 0;
 
 public:
-	virtual void ProcessInput(ChromaInput* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) = 0;
+	virtual void ProcessInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) = 0;
 
 	ICameraController() {};
 	virtual ~ICameraController() {};

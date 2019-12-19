@@ -114,6 +114,9 @@
     <Filter Include="Engine\worker">
       <UniqueIdentifier>{715fa53f-0e2f-4d97-8641-fcc9f1463a67}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\model\mesh">
+      <UniqueIdentifier>{1e30206c-bb5f-4af6-8418-7a1b233dd0d9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -176,12 +179,6 @@
     <ClCompile Include="source\Render\shader\Uniform.cpp">
       <Filter>Render\shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\model\Model.cpp">
-      <Filter>Render\model</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\model\StaticMesh.cpp">
-      <Filter>Render\model</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\buffer\Framebuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
@@ -206,9 +203,6 @@
     <ClCompile Include="source\Engine\time\ChromaTime.cpp">
       <Filter>Engine\time</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\input\ChromaInput.cpp">
-      <Filter>Engine\input</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
@@ -232,9 +226,6 @@
     </ClCompile>
     <ClCompile Include="source\Render\ibl\IBL.cpp">
       <Filter>Render\ibl</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\model\SkinnedMesh.cpp">
-      <Filter>Render\model</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\animation\Animation.cpp">
       <Filter>Engine\animation</Filter>
@@ -289,6 +280,18 @@
     </ClCompile>
     <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp">
       <Filter>Engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\input\Input.cpp">
+      <Filter>Engine\input</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\Model.cpp">
+      <Filter>Render\model\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\SkinnedMesh.cpp">
+      <Filter>Render\model\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\model\StaticMesh.cpp">
+      <Filter>Render\model\mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,12 +361,6 @@
     <ClInclude Include="source\Render\shader\Uniform.h">
       <Filter>Render\shader</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\model\Model.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\StaticMesh.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
     <ClInclude Include="source\Render\buffer\Framebuffer.h">
       <Filter>Render\buffer</Filter>
     </ClInclude>
@@ -388,26 +385,17 @@
     <ClInclude Include="source\Engine\time\ChromaTime.h">
       <Filter>Engine\time</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\input\ChromaInput.h">
-      <Filter>Engine\input</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\entity\ChromaEntity.h">
       <Filter>Engine\entity</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\component\ChromaPhysicsComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\model\Vertex.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\entity\IChromaEntity.h">
       <Filter>Engine\entity</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\scene\ChromaScene.h">
       <Filter>Engine\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\math\ChromaMath.h">
-      <Filter>Engine\math</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h">
       <Filter>Engine\physics</Filter>
@@ -423,12 +411,6 @@
     </ClInclude>
     <ClInclude Include="source\Render\ibl\IBL.h">
       <Filter>Render\ibl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\SkinnedMesh.h">
-      <Filter>Render\model</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\model\SkinnedVertex.h">
-      <Filter>Render\model</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\animation\Animation.h">
       <Filter>Engine\animation</Filter>
@@ -486,6 +468,27 @@
     </ClInclude>
     <ClInclude Include="source\Engine\physics\PhysicsEngine.h">
       <Filter>Engine\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\input\Input.h">
+      <Filter>Engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\math\Math.h">
+      <Filter>Engine\math</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\Model.h">
+      <Filter>Render\model\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\SkinnedMesh.h">
+      <Filter>Render\model\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\SkinnedVertex.h">
+      <Filter>Render\model\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\StaticMesh.h">
+      <Filter>Render\model\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\model\Vertex.h">
+      <Filter>Render\model\mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

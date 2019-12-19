@@ -53,7 +53,7 @@ public:
 	unsigned int getScreenWidth() ;
 	unsigned int getScreenHeight();
 	std::pair<int, int> getWidthHeight();
-	float getDeltaTime() { return delta; };
+	float GetDeltaTime() { return delta; };
 	float getTime() { return glfwGetTime(); };
 
 	GLFWwindow* getWindow() { return window; };
