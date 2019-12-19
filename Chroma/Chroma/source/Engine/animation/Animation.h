@@ -47,6 +47,8 @@ class Animation
 
 public:
 
+	std::vector<AnimTake> GetAnimTakes() const { return m_AnimTakes; };
+
 	Animation(std::string sourcePath);
 	~Animation();
 };

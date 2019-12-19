@@ -94,6 +94,9 @@ void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 	// Prepare for Entity
 	ProcessNewComponent(newAnimationComponent);
 
+	// add animation component
+	m_AnimationComponents.push_back(newAnimationComponent);
+
 	// add to scene's animated entities
 	GetParentScene()->AddAnimatedEntity(this);
 

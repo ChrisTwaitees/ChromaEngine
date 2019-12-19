@@ -5,6 +5,7 @@
 // chroma
 #include <scene/Scene.h>
 #include <time/ChromaTime.h>
+#include <component/AnimationComponent.h>
 
 class AnimationEngine
 {
