@@ -209,9 +209,6 @@
     <ClCompile Include="source\Render\ibl\IBL.cpp">
       <Filter>Render\ibl</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\animation\Animation.cpp">
-      <Filter>Engine\animation</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\animation\Skeleton.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
@@ -305,6 +302,9 @@
     <ClCompile Include="source\Engine\time\Time.cpp">
       <Filter>Engine\time</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\animation\AnimationLoader.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -396,9 +396,6 @@
     </ClInclude>
     <ClInclude Include="source\Render\ibl\IBL.h">
       <Filter>Render\ibl</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\animation\Animation.h">
-      <Filter>Engine\animation</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\animation\Skeleton.h">
       <Filter>Engine\animation</Filter>
@@ -504,6 +501,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\time\Time.h">
       <Filter>Engine\time</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\AnimationLoader.h">
+      <Filter>Engine\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

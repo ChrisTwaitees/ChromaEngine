@@ -58,6 +58,8 @@ public:
 	Joint* GetJointPtr(int const& index);
 	Joint GetJoint(std::string const& jointName);
 	Joint* GetJointPtr(std::string const& jointName);
+	Joint GetJointPartialName(std::string const& jointName);
+	Joint* GetJointPtrPartialName(std::string const& jointName);
 	Joint GetRootJoint() { return GetJoint(m_RootJointID); };
 
 	bool GetJointExists(int const& index) const;

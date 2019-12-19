@@ -9,7 +9,7 @@
 
 // chroma
 #include <screenManager/ScreenManager.h>
-#include <animation/Animation.h>
+#include <animation/AnimationLoader.h>
 #include <component/IComponent.h>
 #include <component/MeshComponent.h>
 #include <component/AnimationComponent.h>
@@ -155,11 +155,10 @@ int main()
 	AnimModelEntity->AddComponent(AnimModelRigidComponent);
 	// animation
 	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
-	Animator testAnimator;
-	testAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
-	Animation testAnimation("resources/animation/walking3.fbx");
-	testAnimator.AddAnimation(testAnimation);
-	AnimModelAnimationComponent->AddAnimator(testAnimator);
+	Animator AnimModelAnimator;
+	AnimModelAnimator.LoadAnimations("resources/animation/walking3.fbx");
+	AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
+	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 	// transforming entity
 	////((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, 0, -4));

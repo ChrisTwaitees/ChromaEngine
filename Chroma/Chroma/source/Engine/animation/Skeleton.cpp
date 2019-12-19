@@ -97,14 +97,6 @@ glm::mat4 Skeleton::GetJointTransform(int const& jointID) const
 	throw "JOINT COULD NOT BE FOUND.";
 }
 
-glm::mat4 Skeleton::GetRootTransform() const
-{
-	// Build rootTransform Matrix
-	glm::mat4 rootTransform = glm::translate(m_IdentityMatrix, m_Translation);
-	rootTransform = glm::toMat4(m_Rotation) * rootTransform;
-	return glm::scale(rootTransform, glm::vec3(m_Scale));
-}
-
 Joint Skeleton::GetJoint(int const& index)
 {
 	for (auto & IDNameJoint : m_Joints)
@@ -154,6 +146,30 @@ Joint* Skeleton::GetJointPtr(std::string const& jointName)
 
 }
 
+Joint Skeleton::GetJointPartialName(std::string const& jointName)
+{
+	for (auto& IDNameJoint : m_Joints)
+	{
+		if (jointName.find(IDNameJoint.first.second) != std::string::npos)
+		{
+			return IDNameJoint.second;
+		}
+	}
+	throw "JOINT COULD NOT BE FOUND.";
+}
+
+Joint* Skeleton::GetJointPtrPartialName(std::string const& jointName)
+{
+	for (auto& IDNameJoint : m_Joints)
+	{
+		if (jointName.find(IDNameJoint.first.second) != std::string::npos)
+		{
+			return &IDNameJoint.second;
+		}
+	}
+	return nullptr;
+}
+
 bool Skeleton::GetJointExists(int const& index) const
 {
 	for (auto const& IDNameJoint : m_Joints)
@@ -178,6 +194,15 @@ bool Skeleton::GetJointExists(std::string const& jointName) const
 	}
 	// could not find
 	return false;
+}
+
+
+glm::mat4 Skeleton::GetRootTransform() const
+{
+	// Build rootTransform Matrix
+	glm::mat4 rootTransform = glm::translate(m_IdentityMatrix, m_Translation);
+	rootTransform = glm::toMat4(m_Rotation) * rootTransform;
+	return glm::scale(rootTransform, glm::vec3(m_Scale));
 }
 
 void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
