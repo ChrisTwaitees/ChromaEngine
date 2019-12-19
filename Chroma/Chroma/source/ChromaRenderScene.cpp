@@ -303,7 +303,7 @@ int main()
 
 		CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
 
-		Game.getRenderer()->getDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
+		Game.getRenderer()->GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
 		//Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 		//((Model*)AnimModelMeshComponent)->SetSkeletonTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
 		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };

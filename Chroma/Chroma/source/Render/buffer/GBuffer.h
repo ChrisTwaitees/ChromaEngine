@@ -28,7 +28,7 @@ class GBuffer : public Framebuffer
 	Framebuffer* m_SSAOBuffer{ new SSAOBuffer };
 
 	// scene
-	ChromaScene* m_scene;
+	ChromaScene* m_Scene;
 	ShadowBuffer* mShadowbuffer;
 	Framebuffer* m_postFXBuffer;
 
@@ -59,7 +59,7 @@ public:
 	void Bind() override;
 	void Draw() override;
 	// structors
-	GBuffer(ChromaScene*& m_scene, Framebuffer*& m_postFXBuffer);
+	GBuffer(ChromaScene*& m_Scene, Framebuffer*& m_postFXBuffer);
 	~GBuffer();
 };
 

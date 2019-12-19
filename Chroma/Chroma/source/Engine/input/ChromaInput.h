@@ -68,7 +68,7 @@ public:
 	inline glm::vec2 getMouseXYOffset() const { return MouseXYOffset; };
 	// cursor attrs
 	inline bool getCursorEnabled() const { return cursorEnabled; };
-	inline glm::vec3 getLastRay() const { return lastMouseRay; };
+	inline glm::vec3 GetLastRay() const { return lastMouseRay; };
 
 	// bind
 	void bindWindow(GLFWwindow* windowVal);

@@ -191,7 +191,7 @@
     <ClCompile Include="source\Engine\input\ChromaInput.cpp" />
     <ClCompile Include="source\Engine\learnopengl\WorkingIBL.cpp" />
     <ClCompile Include="source\Engine\memory\ChromaUID.cpp" />
-    <ClCompile Include="source\Engine\physics\Physics.cpp" />
+    <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp" />
     <ClCompile Include="source\Engine\scene\ChromaScene.cpp" />
     <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp" />
@@ -257,7 +257,7 @@
     <ClInclude Include="source\Engine\math\ChromaMath.h" />
     <ClInclude Include="source\Engine\memory\ChromaUID.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
-    <ClInclude Include="source\Engine\physics\Physics.h" />
+    <ClInclude Include="source\Engine\physics\PhysicsEngine.h" />
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h" />
     <ClInclude Include="source\Engine\scene\ChromaScene.h" />
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h" />

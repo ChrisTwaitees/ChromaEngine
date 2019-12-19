@@ -9,7 +9,7 @@ class ForwardBuffer : public Framebuffer
 {
 
 	// scene
-	ChromaScene* m_scene{ nullptr };
+	ChromaScene* m_Scene{ nullptr };
 	Framebuffer* m_postFXBuffer{ nullptr };
 
 	// functions

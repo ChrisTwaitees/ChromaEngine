@@ -35,9 +35,9 @@ void Renderer::renderPostFX()
 
 void Renderer::Initialize()
 {
-	m_GBuffer = new GBuffer(m_scene, m_postFXBuffer);
-	m_debugBuffer = new DebugBuffer(m_scene->GetRenderCamera(), m_postFXBuffer);
-	m_forwardBuffer = new ForwardBuffer(m_scene, m_postFXBuffer);
+	m_GBuffer = new GBuffer(m_Scene, m_postFXBuffer);
+	m_debugBuffer = new DebugBuffer(m_Scene->GetRenderCamera(), m_postFXBuffer);
+	m_forwardBuffer = new ForwardBuffer(m_Scene, m_postFXBuffer);
 }
 
 void Renderer::RenderScene()
@@ -61,14 +61,14 @@ void Renderer::RenderScene()
 
 Renderer::Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager)
 {
-	m_scene = Scene;
+	m_Scene = Scene;
 	m_screenManager = ScreenManager;
 	Initialize();
 }
 
 Renderer::~Renderer()
 {
-	delete m_scene;
+	delete m_Scene;
 	delete m_screenManager;
 	delete m_GBuffer;
 	delete m_debugBuffer;

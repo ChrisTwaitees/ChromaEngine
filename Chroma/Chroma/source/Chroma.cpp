@@ -250,7 +250,7 @@ int Main()
 				lamps[i]->SetPosition(newLightPos);
 				lamps[i]->scale(glm::vec3(0.3f));
 				SphereEntity->SetPosition(newLightPos);
-				Game.getRenderer()->getDebugBuffer()->DrawLine(glm::vec3(0), newLightPos, glm::vec3(1, 1, 0));
+				Game.getRenderer()->GetDebugBuffer()->DrawLine(glm::vec3(0), newLightPos, glm::vec3(1, 1, 0));
 			}
 			// fragments
 			for (IChromaComponent* component : lamps[i]->getRenderableComponents())

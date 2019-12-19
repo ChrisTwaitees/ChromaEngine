@@ -17,7 +17,7 @@
 
 class IChromaEntity;
 
-class ChromaPhysics
+class PhysicsEngine
 {
 private:
 	// attrs
@@ -31,7 +31,7 @@ private:
 	btDiscreteDynamicsWorld*			  m_world;
 
 	// debug
-	ChromaPhysicsDebug* m_debug{ new ChromaPhysicsDebug()};
+	PhysicsDebug* m_debug{ new PhysicsDebug()};
 
 	// functions
 	void init();
@@ -42,17 +42,19 @@ private:
 public:
 	void addBodyToWorld(ChromaPhysicsComponent*& physicsComponent);
 	
-	void update(ChromaTime& time);
+	void Update(ChromaTime& time);
 
 	void setGravity(glm::vec3& newGravity) ;
 
-	void bindDebugBuffer(DebugBuffer* const& DebugRenderer);
+	void BindDebugBuffer(DebugBuffer* const& DebugRenderer);
 	void drawDebug();
 
-	IChromaEntity* rayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
+	// Ray Queries
+	IChromaEntity* GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
+	bool RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 
-	ChromaPhysics();
-	~ChromaPhysics();
+	PhysicsEngine();
+	~PhysicsEngine();
 };
 
 #endif

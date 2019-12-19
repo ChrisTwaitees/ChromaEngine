@@ -1,7 +1,7 @@
-#include "Physics.h"
+#include "PhysicsEngine.h"
 #include <entity/IChromaEntity.h>
 
-void ChromaPhysics::init()
+void PhysicsEngine::init()
 {
 	// create world
 	initPhysics();
@@ -10,7 +10,7 @@ void ChromaPhysics::init()
 	createGround();
 }
 
-void ChromaPhysics::initPhysics()
+void PhysicsEngine::initPhysics()
 {
 	//1
 	m_broadphase = new btDbvtBroadphase();
@@ -30,7 +30,7 @@ void ChromaPhysics::initPhysics()
 }
 
 
-void ChromaPhysics::createGround()
+void PhysicsEngine::createGround()
 {
 	btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(10.), btScalar(50.)));
 
@@ -51,18 +51,18 @@ void ChromaPhysics::createGround()
 }
 
 
-void ChromaPhysics::updateGravity()
+void PhysicsEngine::updateGravity()
 {
 	m_world->setGravity(btVector3(m_gravity.x, m_gravity.y, m_gravity.z));
 }
 
-void ChromaPhysics::addBodyToWorld(ChromaPhysicsComponent*& physicsComponent)
+void PhysicsEngine::addBodyToWorld(ChromaPhysicsComponent*& physicsComponent)
 {
 	m_world->addRigidBody(physicsComponent->GetRigidBody());
 }
 
 
-void ChromaPhysics::update(ChromaTime& time)
+void PhysicsEngine::Update(ChromaTime& time)
 {
 	// step simulation
 	m_world->stepSimulation(time.getDeltaTime());
@@ -92,24 +92,24 @@ void ChromaPhysics::update(ChromaTime& time)
 
 }
 
-void ChromaPhysics::setGravity(glm::vec3& newGravity)
+void PhysicsEngine::setGravity(glm::vec3& newGravity)
 {
 	m_world->setGravity(btVector3(newGravity.x, newGravity.y, newGravity.z));
 }
 
-void ChromaPhysics::bindDebugBuffer(DebugBuffer* const& DebugRenderer)
+void PhysicsEngine::BindDebugBuffer(DebugBuffer* const& DebugRenderer)
 {
-	m_debug->bindDebugBuffer(DebugRenderer);
+	m_debug->BindDebugBuffer(DebugRenderer);
 	m_debug->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
 	m_world->setDebugDrawer(m_debug);
 }
 
-void ChromaPhysics::drawDebug()
+void PhysicsEngine::drawDebug()
 {
 	m_world->debugDrawWorld();
 }
 
-IChromaEntity* ChromaPhysics::rayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end)
+IChromaEntity* PhysicsEngine::GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end)
 {
 	btVector3 start(worldRay_origin.x, worldRay_origin.y, worldRay_origin.z);
 	btVector3 end(worldRay_end.x, worldRay_end.y, worldRay_end.z);
@@ -138,13 +138,26 @@ IChromaEntity* ChromaPhysics::rayTest(glm::vec3& worldRay_origin, glm::vec3& wor
 	
 }
 
+bool PhysicsEngine::RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end)
+{
+	btVector3 start(worldRay_origin.x, worldRay_origin.y, worldRay_origin.z);
+	btVector3 end(worldRay_end.x, worldRay_end.y, worldRay_end.z);
 
-ChromaPhysics::ChromaPhysics()
+	btCollisionWorld::ClosestRayResultCallback RayCallback(start, end);
+
+	m_world->rayTest(start, end, RayCallback);
+
+	return RayCallback.hasHit();
+}
+
+
+
+PhysicsEngine::PhysicsEngine()
 {
 	init();
 }
 
-ChromaPhysics::~ChromaPhysics()
+PhysicsEngine::~PhysicsEngine()
 {
 	delete m_world;
 	delete m_solver;

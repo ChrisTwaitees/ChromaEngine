@@ -209,9 +209,6 @@
     <ClCompile Include="source\Engine\input\ChromaInput.cpp">
       <Filter>Engine\input</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\physics\Physics.cpp">
-      <Filter>Engine\physics</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
@@ -289,6 +286,9 @@
     </ClCompile>
     <ClCompile Include="source\Engine\worker\IChromaWorker.cpp">
       <Filter>Engine\worker</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp">
+      <Filter>Engine\physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,9 +391,6 @@
     <ClInclude Include="source\Engine\input\ChromaInput.h">
       <Filter>Engine\input</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\physics\Physics.h">
-      <Filter>Engine\physics</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\entity\ChromaEntity.h">
       <Filter>Engine\entity</Filter>
     </ClInclude>
@@ -486,6 +483,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\worker\IChromaWorker.h">
       <Filter>Engine\worker</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\physics\PhysicsEngine.h">
+      <Filter>Engine\physics</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

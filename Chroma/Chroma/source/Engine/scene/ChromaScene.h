@@ -6,7 +6,7 @@
 //chroma
 #include <camera/Camera.h>
 #include <light/Light.h>
-#include <physics/Physics.h>
+#include <physics/PhysicsEngine.h>
 #include <model/SkyBox.h>
 #include <ibl/IBL.h>
 #include <time/ChromaTime.h>
@@ -23,7 +23,7 @@ class ChromaScene
 	std::vector<IChromaEntity*> m_Entities;
 	std::vector<IChromaEntity*> m_TransparentEntities;
 
-	ChromaPhysics* m_Physics;
+	PhysicsEngine* m_Physics;
 	ChromaTime* m_Time;
 	
 
@@ -49,8 +49,8 @@ public:
 	void SetRenderCamera(Camera* const& newRenderCamera) { m_RenderCamera = newRenderCamera; };
 	void SetLights(std::vector<Light*> newLights);
 	void SetEntities(std::vector<IChromaEntity*> const& newEntities);
-	void SetPhysics(ChromaPhysics*& newPhysics) { m_Physics = newPhysics; };
-	void SetTime(ChromaTime*& newTime) { m_Time = newTime; };
+	void SetPhysics(PhysicsEngine*& newPhysics) { m_Physics = newPhysics; };
+	void SetTime(ChromaTime* const& newTime) { m_Time = newTime; };
 
 	// getters
 	std::vector<IChromaEntity*> GetEntities() { return m_Entities; };
@@ -58,7 +58,7 @@ public:
 	Camera* GetRenderCamera() { return m_RenderCamera; };
 	std::vector<Light*> GetLights() { return m_Lights; };
 	Light* GetSunLight() { return m_SunLight; };
-	ChromaPhysics* GetPhysics() { return  m_Physics; };
+	PhysicsEngine* GetPhysics() { return  m_Physics; };
 	ChromaTime* GetTime() { return m_Time; };
 	SkyBox* GetSkyBox() { return m_Skybox; };
 	glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };

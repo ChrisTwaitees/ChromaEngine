@@ -12,7 +12,7 @@
 #include <scene/ChromaScene.h>
 #include <screenmanager/ChromaScreenManager.h>
 #include <time/ChromaTime.h>
-#include <physics/Physics.h>
+#include <physics/PhysicsEngine.h>
 #include <worker/IChromaWorker.h>
 
 class ChromaGame
@@ -25,14 +25,14 @@ class ChromaGame
 	State GameState { GAME_MENU };
 
 	// components
-	ChromaScene* m_scene;
-	ChromaScreenManager* m_screen;
-	Renderer* m_renderer;
-	ChromaPhysics* m_Physics{ new ChromaPhysics()};
+	ChromaScene* m_Scene;
+	ChromaScreenManager* m_Screen;
+	Renderer* m_Renderer;
+	PhysicsEngine* m_Physics{ new PhysicsEngine()};
 
 	// input
 	ChromaTime m_time;
-	ChromaInput* m_input{ new ChromaInput };
+	ChromaInput* m_Input{ new ChromaInput };
 
 	// game loop functions
 	void ProcessInput();
@@ -45,7 +45,7 @@ class ChromaGame
 public:
 	double getDeltaTime() { return m_time.getDeltaTime(); };
 	State getGameState() { return GameState; };
-	Renderer* getRenderer() { return m_renderer; };
+	Renderer* getRenderer() { return m_Renderer; };
 
 
 	// Game Loop

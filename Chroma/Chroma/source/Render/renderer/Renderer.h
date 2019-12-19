@@ -36,7 +36,7 @@ private:
 
 protected:
 	// SCENE
-	ChromaScene* m_scene;
+	ChromaScene* m_Scene;
 
 	// SCREENMANAGER
 	const ChromaScreenManager* m_screenManager;
@@ -62,7 +62,7 @@ public:
 	Renderer() {};
 	Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager);
 
-	DebugBuffer* getDebugBuffer() { return m_debugBuffer; };
+	DebugBuffer* GetDebugBuffer() { return m_debugBuffer; };
 	~Renderer();
 };
 
