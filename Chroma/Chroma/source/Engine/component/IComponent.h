@@ -20,7 +20,7 @@ class IComponent
 {
 protected:
 	// name
-	const char* m_UID;
+	std::string m_UID;
 	std::string m_Name;
 
 	// parent

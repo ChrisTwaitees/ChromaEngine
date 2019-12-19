@@ -11,7 +11,7 @@ unsigned int UIDRandomChar()
 	return dis(gen);
 }
 
-const char* UIDNewUID()
+std::string UIDNewUID()
 {
 	std::stringstream ss;
 	for (auto i = 0; i < CHROMA_UID_LENGTH; i++) {
@@ -21,11 +21,11 @@ const char* UIDNewUID()
 		auto hex = hexstream.str();
 		ss << (hex.length() < 2 ? '0' + hex : hex);
 	}
-	return ss.str().c_str();
+	return ss.str();
 }
 
 
-const char* UID::GenerateNewUID()
+std::string UID::GenerateNewUID()
 {
 	return UIDNewUID();
 }

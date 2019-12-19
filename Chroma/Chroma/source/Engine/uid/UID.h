@@ -9,7 +9,7 @@
 
 namespace UID
 {
-	const char* GenerateNewUID();
+	std::string GenerateNewUID();
 }
 
 
