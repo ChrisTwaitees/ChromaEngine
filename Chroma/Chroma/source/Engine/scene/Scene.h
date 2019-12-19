@@ -3,6 +3,7 @@
 
 //stl
 #include <vector>
+#include <set>
 //chroma
 #include <camera/Camera.h>
 #include <light/Light.h>
@@ -20,8 +21,9 @@ class Scene
 	// scene components
 	std::vector<Light*> m_Lights;
 
-	std::vector<IEntity*> m_Entities;
-	std::vector<IEntity*> m_TransparentEntities;
+	std::set<IEntity*> m_Entities;
+	std::set<IEntity*> m_TransparentEntities;
+	std::set<IEntity*> m_AnimatedEntities;
 
 	PhysicsEngine* m_Physics;
 	ChromaTime* m_Time;
@@ -34,26 +36,32 @@ class Scene
 
 	// functions
 	void Initialize();
+	void ProcessNewEntity(IEntity* const& newEntity);
 	glm::vec3 CalculateAmbientLightColor();
 
 public:
 	// entities
 	void AddEntity(IEntity* const& newEntity);
+	void AddAnimatedEntity(IEntity* const& newAnimatedEntity) ;
+	void AddTransparentEntity(IEntity* const& newTransparentEntity);
 	void RemoveEntity(IEntity& RemoveEntity);
 	// lights
 	void AddLight(Light* const& newLight) { m_Lights.push_back(newLight); };
 	void RemoveLight(Light& RemoveLight);
 	// setters
+	void SetEntities(std::vector<IEntity*> const& newEntities);
+
 	void SetSkyBox(SkyBox* const& newSkyBox) { m_Skybox = newSkyBox; };
 	void SetRenderCamera(Camera* const& newRenderCamera) { m_RenderCamera = newRenderCamera; };
 	void SetLights(std::vector<Light*> newLights);
-	void SetEntities(std::vector<IEntity*> const& newEntities);
 	void SetPhysics(PhysicsEngine*& newPhysics) { m_Physics = newPhysics; };
 	void SetTime(ChromaTime* const& newTime) { m_Time = newTime; };
 
 	// getters
-	std::vector<IEntity*> GetEntities() { return m_Entities; };
-	std::vector<IEntity*> GetTransparentEntities() { return m_TransparentEntities; };
+	std::set<IEntity*> GetEntities() { return m_Entities; };
+	std::set<IEntity*> GetTransparentEntities() { return m_TransparentEntities; };
+	std::set<IEntity*> GetAnimatedEntities() { return m_AnimatedEntities; };
+
 	Camera* GetRenderCamera() { return m_RenderCamera; };
 	std::vector<Light*> GetLights() { return m_Lights; };
 	Light* GetSunLight() { return m_SunLight; };

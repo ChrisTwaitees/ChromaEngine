@@ -13,6 +13,8 @@
 #include <screenmanager/ScreenManager.h>
 #include <time/ChromaTime.h>
 #include <physics/PhysicsEngine.h>
+#include <animation/AnimationEngine.h>
+
 #include <worker/IWorker.h>
 
 class ChromaGame
@@ -25,10 +27,11 @@ class ChromaGame
 	State GameState { GAME_MENU };
 
 	// components
-	Scene* m_Scene;
-	ScreenManager* m_Screen;
-	Renderer* m_Renderer;
-	PhysicsEngine* m_Physics{ new PhysicsEngine()};
+	Scene* m_Scene{ nullptr };
+	ScreenManager* m_Screen{ nullptr };
+	Renderer* m_Renderer{ nullptr };
+	PhysicsEngine* m_Physics{ new PhysicsEngine() };
+	AnimationEngine* m_Animation{ new AnimationEngine() };
 
 	// input
 	ChromaTime m_time;
@@ -43,10 +46,11 @@ class ChromaGame
 	void MousePickerCallback();
 
 public:
+	// Accessors
+	double GetGameTime() { return m_time.GetGameTime(); };
 	double GetDeltaTime() { return m_time.GetDeltaTime(); };
-	State getGameState() { return GameState; };
-	Renderer* getRenderer() { return m_Renderer; };
-
+	State getGameState() const { return GameState; };
+	Renderer* getRenderer() const { return m_Renderer; };
 
 	// Game Loop
 	void Tick();

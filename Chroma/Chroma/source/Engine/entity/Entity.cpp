@@ -50,13 +50,13 @@ void Entity::Draw(Camera& RenderCamera, std::vector<Light*> Lights)
 // ADDING/REMOVING COMPONENTS
 void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 {
-	// bind parent entity
-	SetParentEntity(newMeshComponent);
+	// Prepare for Entity
+	ProcessNewComponent(newMeshComponent);
 
 	// add mesh component
 	m_MeshComponents.push_back(newMeshComponent);
 
-	// TODO: Consider shared_ptr to prevent memory duplication
+	// TODO: Consider std::map<UID, Component> for look up instead of duplication
 	if (newMeshComponent->m_IsRenderable)
 		m_RenderableComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_IsLit)
@@ -64,7 +64,10 @@ void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 	if (newMeshComponent->m_CastShadows)
 		m_ShadowCastingComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_IsTransparent)
+	{
 		m_TransparentComponents.push_back(newMeshComponent);
+		GetParentScene()->AddTransparentEntity(this);
+	}
 	if (newMeshComponent->m_IsLit == false)
 		m_UnLitComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_IsTransparent || newMeshComponent->m_IsLit == false)
@@ -73,8 +76,8 @@ void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 
 void Entity::addPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
 {
-	// bind parent entity
-	SetParentEntity(newPhysicsComponent);
+	// Prepare for Entity
+	ProcessNewComponent(newPhysicsComponent);
 
 	// add physics component
 	m_PhysicsComponents.push_back(newPhysicsComponent);
@@ -88,8 +91,12 @@ void Entity::addPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
 
 void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 {
-	// bind parent entity
-	SetParentEntity(newAnimationComponent);
+	// Prepare for Entity
+	ProcessNewComponent(newAnimationComponent);
+
+	// add to scene's animated entities
+	GetParentScene()->AddAnimatedEntity(this);
+
 }
 
 void Entity::CalculateBBox()
@@ -120,8 +127,8 @@ void Entity::CalculateCentroid()
 
 void Entity::addEmptyComponent(IComponent*& newComponent)
 {
-	// bind parent entity
-	SetParentEntity(newComponent);
+	// Prepare for Entity
+	ProcessNewComponent(newComponent);
 
 	// TODO: Consider shared_ptr to prevent memory duplication
 	m_Components.push_back(newComponent);
@@ -140,7 +147,7 @@ void Entity::removeEmptyComponent(IComponent*& removeMe)
 		m_RenderableComponents.erase(m_RenderableComponents.begin() + componentIndex);
 }
 
-void Entity::updatePhysicsComponentsTransforms()
+void Entity::UpdatePhysicsComponentsTransforms()
 {
 	for (IComponent* physicsComponent : m_PhysicsComponents)
 	{
@@ -149,36 +156,42 @@ void Entity::updatePhysicsComponentsTransforms()
 	}
 }
 
+void Entity::ProcessNewComponent(IComponent* const& newComponent)
+{
+	// bind parent entity
+	SetParentEntity(newComponent);
+}
+
 
 // TRANSFORMATIONS
 void Entity::scale(glm::vec3 scalefactor)
 {
 	m_transformMatrix = glm::scale(m_transformMatrix, scalefactor);
-	updatePhysicsComponentsTransforms();
+	UpdatePhysicsComponentsTransforms();
 }
 
 void Entity::translate(glm::vec3 translatefactor)
 {
 	m_transformMatrix = glm::translate(m_transformMatrix, translatefactor);
-	updatePhysicsComponentsTransforms();
+	UpdatePhysicsComponentsTransforms();
 }
 
 void Entity::rotate(float degrees, glm::vec3 rotationaxis)
 {
 	m_transformMatrix = glm::rotate(m_transformMatrix, glm::radians(degrees), rotationaxis);
-	updatePhysicsComponentsTransforms();
+	UpdatePhysicsComponentsTransforms();
 }
 
 void Entity::setScale(glm::vec3 newscale)
 {
 	m_transformMatrix = glm::scale(m_transformMatrix, newscale);
-	updatePhysicsComponentsTransforms();
+	UpdatePhysicsComponentsTransforms();
 }
 
 void Entity::SetPosition(glm::vec3 newposition)
 {
 	m_transformMatrix[3] = glm::vec4(newposition, 1);
-	updatePhysicsComponentsTransforms();
+	UpdatePhysicsComponentsTransforms();
 }
 
 void Entity::setRotation(float degrees, glm::vec3 rotationaxis)
@@ -186,7 +199,7 @@ void Entity::setRotation(float degrees, glm::vec3 rotationaxis)
 	glm::vec3 existingTranslation = GetPosition();
 	m_transformMatrix = glm::translate(m_transformMatrix, existingTranslation);
 	rotate(degrees, rotationaxis);
-	updatePhysicsComponentsTransforms();
+	UpdatePhysicsComponentsTransforms();
 }
 
 

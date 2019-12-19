@@ -293,6 +293,9 @@
     <ClCompile Include="source\Engine\screenmanager\ScreenManager.cpp">
       <Filter>Engine\screenmanager</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\animation\AnimationEngine.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -489,6 +492,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\screenmanager\ScreenManager.h">
       <Filter>Engine\screenmanager</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\AnimationEngine.h">
+      <Filter>Engine\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

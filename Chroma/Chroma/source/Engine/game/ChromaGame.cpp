@@ -6,6 +6,9 @@ void ChromaGame::Update()
 	// Physics
 	m_Physics->Update(m_time);
 
+	// Animation
+	m_Animation->Update(m_time);
+
 	// Workers
 	IWorker::DoWork();
 }
@@ -74,10 +77,12 @@ void ChromaGame::Initialize()
 	m_Physics->BindDebugBuffer(m_Renderer->GetDebugBuffer());
 	m_Scene->SetPhysics(m_Physics);
 
+	// AnimationEngine
+	m_Animation->BindScene(m_Scene);
+
 	// Time
 	m_Scene->SetTime(&m_time);
 
-	// AnimationEngine
 }
 
 void ChromaGame::ProcessInput()

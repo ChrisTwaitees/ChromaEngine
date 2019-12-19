@@ -12,6 +12,7 @@
 #include <animation/Animation.h>
 #include <component/IComponent.h>
 #include <component/MeshComponent.h>
+#include <component/AnimationComponent.h>
 #include <entity/Entity.h>
 #include <scene/Scene.h>
 #include <model/Model.h>
@@ -43,6 +44,7 @@ int main()
 	// ------------------------------------------------------------------------------------------
 
 	// LIGHTS
+	// ____________________________________________________
 	const float SUNLIGHT_SPIN_SPEED = .8f;
 	const float SUNLIGHT_DISTANCE = 15.0f;
 
@@ -71,8 +73,11 @@ int main()
 	Sun->setIntensity(3.0);
 	Lights.push_back(Sun);
 
+	scene->SetLights(Lights);
+	// ____________________________________________________
 
 	// SHADERS
+	// ____________________________________________________
 	Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	UnlitShader.use();
 	UnlitShader.setVec3("color", glm::vec3(1, 1, 0));
@@ -86,8 +91,11 @@ int main()
 	lookdevNormal.type = Texture::NORMAL;
 	Texture lookdevMetRoughAO("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
 	lookdevMetRoughAO.type = Texture::METROUGHAO;
+	// ____________________________________________________
 
 	// TEXTURES
+	// ____________________________________________________
+	// Generic
 	Texture blackAlbedo("resources/textures/colors/black.jpg");
 	Texture greyAlbedo("resources/textures/colors/grey.jpg");
 	Texture whiteAlbedo("resources/textures/colors/white.jpg");
@@ -126,32 +134,39 @@ int main()
 	walkingNormal.type = Texture::NORMAL;
 	Texture walkingMetRoughAO("resources/animation/walking_textures/MetRoughAO.jpg");
 	walkingMetRoughAO.type = Texture::METROUGHAO;
-	
+	// ____________________________________________________
 
 	// ANIMATED MODEL
+	// ____________________________________________________
 	IEntity* AnimModelEntity = new Entity;
 	AnimModelEntity->SetName("AnimationModel");
 	scene->AddEntity(AnimModelEntity);
+	// mesh
 	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking3.fbx");
-	PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
-	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
-	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	AnimModelMeshComponent->m_IsLit=true;
 	AnimModelMeshComponent->SetShader(&PBRShader);
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
 	AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
-	//AnimModelEntity->SetPosition(glm::vec3(-2,0, - 4));
-	//AnimModelEntity->setScale(glm::vec3(0.06));
+	AnimModelEntity->AddComponent(AnimModelMeshComponent);
+	// rigid
+	PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
+	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
+	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	AnimModelEntity->AddComponent(AnimModelRigidComponent);
+	// animation
+	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
+	Animator testAnimator;
+	Animation testAnimation("resources/animation/walking3.fbx");
+	testAnimator.AddAnimation(testAnimation);
+	AnimModelAnimationComponent->AddAnimator(testAnimator);
+	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
+	// transforming entity
 	((Model*)AnimModelMeshComponent)->SetSkeletonTranslation(glm::vec3(-2, 0, -4));
 	((Model*)AnimModelMeshComponent)->SetSkeletonScale(0.06);
-	AnimModelEntity->addComponent(AnimModelMeshComponent);
-	AnimModelEntity->addComponent(AnimModelRigidComponent);
-
-	Animation testAnimation("resources/animation/walking3.fbx");
-	
+	// ____________________________________________________
 
 	// TERRAIN
+	// ____________________________________________________
 	IEntity* TerrainEntity = new Entity;
 	scene->AddEntity(TerrainEntity);
 	MeshComponent* TerrainMeshComponent = new Terrain;
@@ -159,7 +174,8 @@ int main()
 	TerrainMeshComponent->AddTexture(PlanksAlbedo);
 	TerrainMeshComponent->AddTexture(PlanksNormal);
 	TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
-	TerrainEntity->addComponent(TerrainMeshComponent);
+	TerrainEntity->AddComponent(TerrainMeshComponent);
+	// ____________________________________________________
 
 	// SPHERES
 	// Sphere Positions
@@ -183,10 +199,13 @@ int main()
 		SphereMeshComponent->AddTexture(greyAlbedo);
 		SphereMeshComponent->SetShader(&PBRShader);
 		SphereEntity->SetPosition(spherePositions[i]);
-		SphereEntity->addComponent(SphereMeshComponent);
-		SphereEntity->addComponent(SphereRigidComponent);
+		SphereEntity->AddComponent(SphereMeshComponent);
+		SphereEntity->AddComponent(SphereRigidComponent);
 	}
-
+	// ____________________________________________________
+	
+	// CUBES
+	// ____________________________________________________
 	IEntity* CubeEntity = new Entity;
 	scene->AddEntity(CubeEntity);
 	CubeEntity->SetName("Cube");
@@ -197,11 +216,15 @@ int main()
 	//SphereMeshComponent->AddTexture(sandyNormal);
 	CubeMeshComponent->AddTexture(greyAlbedo);
 	CubeMeshComponent->SetShader(&PBRShader);
-	CubeEntity->addComponent(CubeMeshComponent);
-	CubeEntity->addComponent(CubeRigidComponent);
+	CubeEntity->AddComponent(CubeMeshComponent);
+	CubeEntity->AddComponent(CubeRigidComponent);
 	CubeEntity->SetPosition(glm::vec3(-5.0f, 1.0f, 0.0f));
+	// ____________________________________________________
 
-	// //LOOKDEV
+	
+	// ____________________________________________________
+
+	//LOOKDEV
 	IEntity* SphereEntityLookDev = new Entity;
 	scene->AddEntity(SphereEntityLookDev);
 	SphereEntityLookDev->SetName("LookDev");
@@ -215,8 +238,8 @@ int main()
 	SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
 	SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
 	SphereEntityLookDev->setScale(glm::vec3(0.25));
-	SphereEntityLookDev->addComponent(SphereLookDevMeshComponent);
-	SphereEntityLookDev->addComponent(SphereLookDevRigidComponent);
+	SphereEntityLookDev->AddComponent(SphereLookDevMeshComponent);
+	SphereEntityLookDev->AddComponent(SphereLookDevRigidComponent);
 
 	 //RUSTED IRON
 	IEntity* SphereEntityRustedIron = new Entity;
@@ -232,8 +255,8 @@ int main()
 	SphereRustedIronMeshComponent->SetShader(&PBRShader);
 	SphereEntityRustedIron->setScale(glm::vec3(0.15));
 	SphereEntityRustedIron->SetPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
-	SphereEntityRustedIron->addComponent(SphereRustedIronMeshComponent);
-	SphereEntityRustedIron->addComponent(SphereRustedIronRigidComponent);
+	SphereEntityRustedIron->AddComponent(SphereRustedIronMeshComponent);
+	SphereEntityRustedIron->AddComponent(SphereRustedIronRigidComponent);
 
 	// WOOD PLANKS
 	IEntity* SphereEntityWoodplanks = new Entity;
@@ -249,9 +272,8 @@ int main()
 	SphereWoodplanksMeshComponent->SetShader(&PBRShader);
 	SphereEntityWoodplanks->SetPosition(glm::vec3(-5.f, 1.0f, 0.0f));
 	SphereEntityWoodplanks->setScale(glm::vec3(0.15));
-	SphereEntityWoodplanks->addComponent(SphereWoodplanksMeshComponent);
-	SphereEntityWoodplanks->addComponent(SpherewoodRigidComponent);
-
+	SphereEntityWoodplanks->AddComponent(SphereWoodplanksMeshComponent);
+	SphereEntityWoodplanks->AddComponent(SpherewoodRigidComponent);
 
 	// SEMI TRANSPARENT
 	IEntity* SphereEntityTransparent = new Entity;
@@ -267,8 +289,8 @@ int main()
 	//SphereMeshComponent->m_IsForwardLit = true;
 	//SphereMeshComponent->m_IsTransparent = true;
 	SphereEntityTransparent->SetPosition(glm::vec3(7.5, 1.0, 0.0));
-	SphereEntityTransparent->addComponent(SphereMeshComponent);
-	SphereEntityTransparent->addComponent(SphereRigidComponent);
+	SphereEntityTransparent->AddComponent(SphereMeshComponent);
+	SphereEntityTransparent->AddComponent(SphereRigidComponent);
 
 	// UNLIT
 	IEntity* SphereEntityUnlit = new Entity;
@@ -282,11 +304,10 @@ int main()
 	SphereMeshComponentUnlit->m_IsLit = false;
 	SphereMeshComponentUnlit->m_CastShadows = false;
 	SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 1.0, 0.0));
-	SphereEntityUnlit->addComponent(SphereMeshComponentUnlit);
-	SphereEntityUnlit->addComponent(SphereRigidComponentUnlit);
+	SphereEntityUnlit->AddComponent(SphereMeshComponentUnlit);
+	SphereEntityUnlit->AddComponent(SphereRigidComponentUnlit);
+	// ____________________________________________________
 
-	// POPULATING SCENE
-	scene->SetLights(Lights);
 
 	// RENDER LOOP
 	// -----------

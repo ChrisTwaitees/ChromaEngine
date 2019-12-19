@@ -127,8 +127,8 @@ int Main()
 	NanoSuitRigidComponent->SetCollisionState(ColliderState::Dynamic);
 	NanoSuitRigidComponent->setMass(1.0f);
 	NanoSuitModelComponent->SetShader(&litShader);
-	NanosuitEntity->addComponent(NanoSuitModelComponent);
-	NanosuitEntity->addComponent(NanoSuitRigidComponent);
+	NanosuitEntity->AddComponent(NanoSuitModelComponent);
+	NanosuitEntity->AddComponent(NanoSuitRigidComponent);
 
 
 	std::vector<IEntity*> boxes;
@@ -146,8 +146,8 @@ int Main()
 		BoxRigidComponent->SetCollisionState(ColliderState::Kinematic);
 
 		BoxEntity->SetPosition(position);
-		BoxEntity->addComponent(BoxMeshComponent);
-		BoxEntity->addComponent(BoxRigidComponent);
+		BoxEntity->AddComponent(BoxMeshComponent);
+		BoxEntity->AddComponent(BoxRigidComponent);
 		boxes.push_back(BoxEntity);
 	}
 
@@ -166,8 +166,8 @@ int Main()
 		LampRigidComponent->SetCollisionState(ColliderState::Kinematic);
 
 		LampEntity->SetPosition(position);
-		LampEntity->addComponent(LampMeshComponent);
-		LampEntity->addComponent(LampRigidComponent);
+		LampEntity->AddComponent(LampMeshComponent);
+		LampEntity->AddComponent(LampRigidComponent);
 		lamps.push_back(LampEntity);
 	}
 
@@ -181,7 +181,7 @@ int Main()
 		GrassPlaneMeshComponent->m_IsLit = false;
 		GrassPlaneMeshComponent->m_IsForwardLit = true;
 		GrassPlaneMeshComponent->m_IsTransparent = true;
-		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
+		GrassPlaneEntity->AddComponent(GrassPlaneMeshComponent);
 		GrassPlaneEntity->SetPosition(position);
 		scene->AddEntity(GrassPlaneEntity);
 	}
@@ -191,7 +191,7 @@ int Main()
 	scene->AddEntity(TerrainEntity);
 	MeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->SetShader(&litShader);
-	TerrainEntity->addComponent(TerrainMeshComponent);
+	TerrainEntity->AddComponent(TerrainMeshComponent);
 
 	// SPHERE
 	IEntity* SphereEntity = new Entity;
@@ -204,8 +204,8 @@ int Main()
 	SphereMeshComponent->AddTexture(normalMap);
 	SphereMeshComponent->AddTexture(concreteMap);
 	SphereMeshComponent->SetShader(&litShader);
-	SphereEntity->addComponent(SphereMeshComponent);
-	SphereEntity->addComponent(SphereRigidComponent);
+	SphereEntity->AddComponent(SphereMeshComponent);
+	SphereEntity->AddComponent(SphereRigidComponent);
 
 
 	// POPULATING SCENE

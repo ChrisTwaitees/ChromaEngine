@@ -85,27 +85,27 @@ public:
 
 	// add
 	template<typename component>
-	void addComponent(component newComponent) {
+	void AddComponent(component newComponent) {
 		std::cout << "ComponentType not supported" << std::endl;
 	};
 
 	template<>
-	void addComponent<IComponent*>(IComponent* newComponent) {
+	void AddComponent<IComponent*>(IComponent* newComponent) {
 		addEmptyComponent(newComponent);
 	};
 
 	template<>
-	void addComponent<MeshComponent*>(MeshComponent* newComponent) {
+	void AddComponent<MeshComponent*>(MeshComponent* newComponent) {
 		addMeshComponent(newComponent);
 	};
 
 	template<>
-	void addComponent<PhysicsComponent*>(PhysicsComponent* newComponent) {
+	void AddComponent<PhysicsComponent*>(PhysicsComponent* newComponent) {
 		addPhysicsComponent(newComponent);
 	};
 
 	template<>
-	void addComponent<AnimationComponent*>(AnimationComponent* newComponent) {
+	void AddComponent<AnimationComponent*>(AnimationComponent* newComponent) {
 		addAnimationComponent(newComponent);
 	};
 

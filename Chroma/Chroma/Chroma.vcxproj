@@ -180,6 +180,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\ChromaRenderScene.cpp" />
     <ClCompile Include="source\Engine\animation\Animation.cpp" />
+    <ClCompile Include="source\Engine\animation\AnimationEngine.cpp" />
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
     <ClCompile Include="source\Engine\animation\Joint.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
@@ -241,6 +242,7 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="source\Engine\animation\Animation.h" />
+    <ClInclude Include="source\Engine\animation\AnimationEngine.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
     <ClInclude Include="source\Engine\animation\Joint.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />

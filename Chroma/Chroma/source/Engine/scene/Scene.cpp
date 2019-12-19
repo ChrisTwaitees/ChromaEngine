@@ -12,21 +12,37 @@ void Scene::Initialize()
 	m_Skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
 }
 
-void Scene::AddEntity(IEntity* const& newEntity)
+void Scene::ProcessNewEntity(IEntity* const& newEntity)
 {
 	// bind parent scene
 	newEntity->bindParentScene(this);
+}
+
+void Scene::AddEntity(IEntity* const& newEntity)
+{
+	// process
+	ProcessNewEntity(newEntity);
+
 	// collect entity
-	m_Entities.push_back(newEntity);
-	// check if entity has any transparent components break if found one
-	for (IComponent* meshComponent : newEntity->getMeshComponents())
-	{
-		if (((MeshComponent*)meshComponent)->m_IsTransparent)
-		{
-			m_TransparentEntities.push_back(newEntity);
-			break;
-		}
-	}
+	m_Entities.insert(newEntity);
+}
+
+void Scene::AddAnimatedEntity(IEntity* const& newAnimatedEntity)
+{
+	// process
+	ProcessNewEntity(newAnimatedEntity);
+
+	// add to animated entities
+	m_AnimatedEntities.insert(newAnimatedEntity);
+}
+
+void Scene::AddTransparentEntity(IEntity* const& newTransparentEntity)
+{
+	// process
+	ProcessNewEntity(newTransparentEntity);
+
+	// add to Transparent Entities
+	m_AnimatedEntities.insert(newTransparentEntity);
 }
 
 void Scene::RemoveEntity(IEntity& RemoveEntity)

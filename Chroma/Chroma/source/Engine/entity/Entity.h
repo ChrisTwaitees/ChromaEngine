@@ -46,8 +46,9 @@ class Entity : public IEntity
 	void removePhysicsComponent(PhysicsComponent*& newPhysicsComponent) override {};
 	void removeAnimationComponent(AnimationComponent*& oldAnimationComponent) override {};
 
-	// Components transforms
-	void updatePhysicsComponentsTransforms();
+	// Components functions
+	void UpdatePhysicsComponentsTransforms();
+	void ProcessNewComponent(IComponent* const& newComponent);
 
 	template<class ComponentClass>
 	void SetParentEntity(ComponentClass component) {
