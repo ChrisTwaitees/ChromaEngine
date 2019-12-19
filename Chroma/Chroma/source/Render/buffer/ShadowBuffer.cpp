@@ -1,5 +1,5 @@
 #include "ShadowBuffer.h"
-#include <component/ChromaMeshComponent.h>
+#include <component/MeshComponent.h>
 
 void ShadowBuffer::calcLightSpaceMatrix()
 {
@@ -36,10 +36,10 @@ void ShadowBuffer::Initialize()
 
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
-	for (IChromaEntity* entity : m_Scene->GetEntities())
-		for (IChromaComponent* component : entity->getMeshComponents())
+	for (IEntity* entity : m_Scene->GetEntities())
+		for (IComponent* component : entity->getMeshComponents())
 		{
-			((ChromaMeshComponent*)component)->AddTexture(ShadowMapTexture);
+			((MeshComponent*)component)->AddTexture(ShadowMapTexture);
 		}
 }
 
@@ -76,22 +76,22 @@ void ShadowBuffer::calculateShadows()
 	//glCullFace(GL_FRONT);
 
 	// render scene
-	for (IChromaEntity* entity : m_Scene->GetEntities())
+	for (IEntity* entity : m_Scene->GetEntities())
 	{
 		glm::mat4 finalTransformMatrix = entity->GetTransformationMatrix();	
-		for (IChromaComponent* component : entity->getShadowCastingComponents())
+		for (IComponent* component : entity->getShadowCastingComponents())
 		{
-			finalTransformMatrix *= ((ChromaMeshComponent*)component)->GetTransformationMatrix();
+			finalTransformMatrix *= ((MeshComponent*)component)->GetTransformationMatrix();
 			depthShader.SetMat4("model", finalTransformMatrix);
-			((ChromaMeshComponent*)component)->Draw(depthShader);
+			((MeshComponent*)component)->Draw(depthShader);
 
 			// check if mesh skinned
-			depthShader.setUniform("isSkinned", ((ChromaMeshComponent*)component)->m_IsSkinned);
-			if (((ChromaMeshComponent*)component)->m_IsSkinned)
-				((ChromaMeshComponent*)component)->SetJointUniforms(depthShader);
+			depthShader.setUniform("isSkinned", ((MeshComponent*)component)->m_IsSkinned);
+			if (((MeshComponent*)component)->m_IsSkinned)
+				((MeshComponent*)component)->SetJointUniforms(depthShader);
 
 			// Draw Update Materials
-			((ChromaMeshComponent*)component)->DrawUpdateMaterials(depthShader);
+			((MeshComponent*)component)->DrawUpdateMaterials(depthShader);
 		}
 	}
 
@@ -104,7 +104,7 @@ void ShadowBuffer::calculateShadows()
 }
 
 
-ShadowBuffer::ShadowBuffer(ChromaScene*& Scene)
+ShadowBuffer::ShadowBuffer(Scene*& Scene)
 {
 	m_Scene = Scene;
 	Initialize();

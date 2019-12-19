@@ -4,7 +4,12 @@
 
 void Animator::TriggerTimer(float const& duration, float& counter)
 {
-//	IChromaWorker::AddWork(this->TriggerTimer);
+//	IWorker::AddWork(this->TriggerTimer);
+}
+
+void Animator::DoAnimation()
+{
+	std::cout << "Processing Active Animations" << std::endl;
 }
 
 Animator::Animator()

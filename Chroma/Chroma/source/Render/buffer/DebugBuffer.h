@@ -13,7 +13,7 @@
 #include <model/SpherePrimitive.h>
 #include <model/BoxPrimitive.h>
 
-class ChromaScene;
+class Scene;
 
 struct LineShape
 {
@@ -96,7 +96,7 @@ public:
 	void DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
 	void DrawOverlaySphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
 
-	void DrawSceneSkeletons(ChromaScene* const &scene);
+	void DrawSceneSkeletons(Scene* const &scene);
 
 	void ClearBuffer() override;
 	void Draw() override;

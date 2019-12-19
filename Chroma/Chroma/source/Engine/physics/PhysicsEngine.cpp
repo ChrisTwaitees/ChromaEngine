@@ -1,5 +1,5 @@
 #include "PhysicsEngine.h"
-#include <entity/IChromaEntity.h>
+#include <entity/IEntity.h>
 
 void PhysicsEngine::init()
 {
@@ -56,7 +56,7 @@ void PhysicsEngine::updateGravity()
 	m_world->setGravity(btVector3(m_gravity.x, m_gravity.y, m_gravity.z));
 }
 
-void PhysicsEngine::addBodyToWorld(ChromaPhysicsComponent*& physicsComponent)
+void PhysicsEngine::addBodyToWorld(PhysicsComponent*& physicsComponent)
 {
 	m_world->addRigidBody(physicsComponent->GetRigidBody());
 }
@@ -77,7 +77,7 @@ void PhysicsEngine::Update(ChromaTime& time)
 		if (body->getUserPointer() != NULL)
 		{
 			// collect physics component
-			ChromaPhysicsComponent* physicsComponent = static_cast<ChromaPhysicsComponent*>(body->getUserPointer());
+			PhysicsComponent* physicsComponent = static_cast<PhysicsComponent*>(body->getUserPointer());
 			btTransform trans;
 			// collect transform
 			if (body && body->getMotionState())
@@ -109,7 +109,7 @@ void PhysicsEngine::drawDebug()
 	m_world->debugDrawWorld();
 }
 
-IChromaEntity* PhysicsEngine::GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end)
+IEntity* PhysicsEngine::GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end)
 {
 	btVector3 start(worldRay_origin.x, worldRay_origin.y, worldRay_origin.z);
 	btVector3 end(worldRay_end.x, worldRay_end.y, worldRay_end.z);
@@ -124,8 +124,8 @@ IChromaEntity* PhysicsEngine::GetEntityRayTest(glm::vec3& worldRay_origin, glm::
 		if (rayObjectPointer != NULL)
 		{
 			std::cout << "Entity Hit : " << std::endl;
-			std::cout << static_cast<IChromaComponent*>(rayObjectPointer)->GetParentEntity()->GetName() << std::endl;
-			return static_cast<IChromaComponent*>(rayObjectPointer)->GetParentEntity();
+			std::cout << static_cast<IComponent*>(rayObjectPointer)->GetParentEntity()->GetName() << std::endl;
+			return static_cast<IComponent*>(rayObjectPointer)->GetParentEntity();
 		}
 		else
 		{

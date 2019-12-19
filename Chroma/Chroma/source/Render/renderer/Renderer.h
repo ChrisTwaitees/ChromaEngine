@@ -6,9 +6,9 @@
 #include <vector>
 
 // chroma
-#include <screenmanager/ChromaScreenManager.h>
-#include <scene/ChromaScene.h>
-#include <entity/ChromaEntity.h>
+#include <screenmanager/ScreenManager.h>
+#include <scene/Scene.h>
+#include <entity/Entity.h>
 #include <buffer/GBuffer.h>
 #include <buffer/PostFXBuffer.h>
 #include <buffer/DebugBuffer.h>
@@ -36,10 +36,10 @@ private:
 
 protected:
 	// SCENE
-	ChromaScene* m_Scene;
+	Scene* m_Scene;
 
 	// SCREENMANAGER
-	const ChromaScreenManager* m_screenManager;
+	const ScreenManager* m_screenManager;
 
 	// Deffered Buffer
 	Framebuffer* m_GBuffer;
@@ -60,7 +60,7 @@ public:
 	void RenderScene();
 
 	Renderer() {};
-	Renderer(ChromaScene*& Scene, const ChromaScreenManager* ScreenManager);
+	Renderer(Scene*& Scene, const ScreenManager* ScreenManager);
 
 	DebugBuffer* GetDebugBuffer() { return m_debugBuffer; };
 	~Renderer();

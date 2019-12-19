@@ -12,12 +12,12 @@
 // chroma
 #include <animation/Joint.h>
 #include <buffer/DebugBuffer.h>
-#include <component/ChromaMeshComponent.h>
+#include <component/MeshComponent.h>
 
 
 class Skeleton
 {
-	ChromaMeshComponent* m_ParentComponent;
+	MeshComponent* m_ParentComponent;
 
 	glm::mat4 m_IdentityMatrix{ 1.0 };
 	glm::mat4 m_WorldTransform{ 1.0 };
@@ -64,7 +64,7 @@ public:
 	bool GetJointExists(std::string const& jointName) const;
 
 	// Functions
-	void BindParentComponent(ChromaMeshComponent* const& newMeshComponent) { m_ParentComponent = newMeshComponent; };
+	void BindParentComponent(MeshComponent* const& newMeshComponent) { m_ParentComponent = newMeshComponent; };
 	void SetJointUniforms(Shader& skinnedShader);
 	void CalculateJointLocalBindOffsetTransforms();
 	void DebugDraw(DebugBuffer* debugBuffer);

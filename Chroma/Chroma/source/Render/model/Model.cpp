@@ -5,37 +5,37 @@
 // DRAW
 void Model::Draw(Shader &shader)
 {
-	for (ChromaMeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_meshes)
 		mesh->Draw(shader);
 }
 
 void Model::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	for (ChromaMeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_meshes)
 			mesh->Draw(RenderCamera, Lights, transformMatrix);
 }
 
 void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	for (ChromaMeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_meshes)
 		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
 void Model::DrawUpdateMaterials(Shader& shader)
 {
-	for (ChromaMeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_meshes)
 		mesh->DrawUpdateMaterials(shader);
 }
 
 void Model::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 {
-	for (ChromaMeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_meshes)
 		mesh->DrawUpdateTransforms(renderCam, modelMatrix);
 }
 
 void Model::SetShader(Shader* const& newShader)
 {
-	for (ChromaMeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_meshes)
 		mesh->SetShader(newShader);
 }
 
@@ -55,32 +55,32 @@ glm::vec3 Model::GetCentroid()
 // TEXTURES
 void Model::AddTexture(Texture texture_val)
 {
-	for (ChromaMeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_meshes)
 		mesh->AddTexture(texture_val);
 }
 
 // UNIFORMS
 void Model::SetMat4(std::string name, glm::mat4 value)
 {
-	for (ChromaMeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_meshes)
 		mesh->SetMat4(name, value);
 }
 
 void Model::SetInt(std::string name, int value)
 {
-	for (ChromaMeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_meshes)
 		mesh->SetInt(name, value);
 }
 
 void Model::SetFloat(std::string name, float value)
 {
-	for (ChromaMeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_meshes)
 		mesh->SetFloat(name, value);
 }
 
 void Model::SetJointUniforms(Shader& skinnedShader)
 {
-	for (ChromaMeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_meshes)
 	{
 		((SkinnedMesh*)mesh)->SetJointUniforms(skinnedShader);
 	}	
@@ -110,7 +110,7 @@ void Model::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (ChromaMeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_meshes)
 		bboxes.push_back(mesh->GetBBox());
 
 	// once collected, calculate new min and max bbox
@@ -162,7 +162,7 @@ void Model::GetChildMeshNodes(aiNode* node, const aiScene* scene)
 	}
 }
 
-ChromaMeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+MeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 {
 	std::vector<unsigned int> m_Indices;
 	std::vector<Texture> m_Textures;
@@ -446,6 +446,6 @@ void Model::GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parent
 
 Model::~Model()
 {
-	for (ChromaMeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_meshes)
 		delete mesh;
 }

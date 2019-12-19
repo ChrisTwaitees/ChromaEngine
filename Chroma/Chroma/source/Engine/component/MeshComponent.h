@@ -2,13 +2,13 @@
 #define _CHROMA_MESHCOMPONENT_
 
 // Chroma
-#include <component/IChromaComponent.h>
+#include <component/IComponent.h>
 #include <model/Vertex.h>
 #include <texture/Texture.h>
 #include <camera/Camera.h>
 #include <light/Light.h>
 
-class ChromaMeshComponent : public IChromaComponent
+class MeshComponent : public IComponent
 {
 protected:
 	glm::mat4 m_TransformationMatrix{ 1.0 };
@@ -52,8 +52,8 @@ public:
 	virtual void SetJointUniforms(Shader& shader) {};
 
 	// Constructors
-	ChromaMeshComponent();
-	virtual ~ChromaMeshComponent();
+	MeshComponent();
+	virtual ~MeshComponent();
 };
 
 #endif

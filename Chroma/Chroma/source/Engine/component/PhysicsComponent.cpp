@@ -1,9 +1,9 @@
-#include "ChromaPhysicsComponent.h"
-#include <entity/IChromaEntity.h>
+#include "PhysicsComponent.h"
+#include <entity/IEntity.h>
 #include <math/Math.h>
 
 
-void ChromaPhysicsComponent::BuildRigidBody()
+void PhysicsComponent::BuildRigidBody()
 {
 	// ran when component added to entity
 	CreateCollisionShape();
@@ -13,22 +13,22 @@ void ChromaPhysicsComponent::BuildRigidBody()
 	SetCollisionFlags();
 }
 
-void ChromaPhysicsComponent::SetLinearVelocity(glm::vec3 const& velocity)
+void PhysicsComponent::SetLinearVelocity(glm::vec3 const& velocity)
 {
 	m_RigidBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 }
 
-const glm::vec3 ChromaPhysicsComponent::GetLinearVelocity() const
+const glm::vec3 PhysicsComponent::GetLinearVelocity() const
 {
 	return  BulletToGLM(m_RigidBody->getLinearVelocity());
 }
 
-void ChromaPhysicsComponent::SetWorldTransform(glm::mat4 const& transform)
+void PhysicsComponent::SetWorldTransform(glm::mat4 const& transform)
 {
 	m_MotionState->setWorldTransform(GLMToBullet(transform));
 }
 
-glm::mat4 ChromaPhysicsComponent::GetWorldTransform() const
+glm::mat4 PhysicsComponent::GetWorldTransform() const
 {
 	btTransform transform;
 	m_MotionState->getWorldTransform(transform);
@@ -36,13 +36,13 @@ glm::mat4 ChromaPhysicsComponent::GetWorldTransform() const
 
 }
 
-void ChromaPhysicsComponent::Transform(btTransform& transform)
+void PhysicsComponent::Transform(btTransform& transform)
 {
 	glm::mat4 transformMat = BulletToGLM(transform);
 	GetParentEntity()->setTransformMatrix(transformMat);
 }
 
-void ChromaPhysicsComponent::CreateCollisionShape()
+void PhysicsComponent::CreateCollisionShape()
 {
 	switch (m_ColliderShape)
 	{
@@ -121,7 +121,7 @@ void ChromaPhysicsComponent::CreateCollisionShape()
 
 }
 
-void ChromaPhysicsComponent::CreateRigidBody()
+void PhysicsComponent::CreateRigidBody()
 {
 	// fetch entity position
 	m_ColliderTransform = GLMToBullet(GetParentEntity()->GetTransformationMatrix());
@@ -148,7 +148,7 @@ void ChromaPhysicsComponent::CreateRigidBody()
 	m_RigidBody->setUserPointer(this);
 }
 
-void ChromaPhysicsComponent::SetCollisionFlags()
+void PhysicsComponent::SetCollisionFlags()
 {
 	// static objects have a mass of 0
 	// kinematic objects have a mass 0 but can be moved by code
@@ -165,12 +165,12 @@ void ChromaPhysicsComponent::SetCollisionFlags()
 }
 
 
-ChromaPhysicsComponent::ChromaPhysicsComponent()
+PhysicsComponent::PhysicsComponent()
 {
 }
 
 
-ChromaPhysicsComponent::~ChromaPhysicsComponent()
+PhysicsComponent::~PhysicsComponent()
 {
 	delete m_RigidBody->getMotionState();
 	delete m_RigidBody;

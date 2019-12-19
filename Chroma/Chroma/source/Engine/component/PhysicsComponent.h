@@ -6,7 +6,7 @@
 #include <bullet/btBulletCollisionCommon.h>
 
 // chroma
-#include <component/IChromaComponent.h>
+#include <component/IComponent.h>
 #include <time/ChromaTime.h>
 #include <model/Vertex.h>
 
@@ -14,7 +14,7 @@
 enum ColliderShape { Box, Convex, Mesh, Capsule, Sphere, AABB };
 enum ColliderState {Static, Kinematic, Dynamic};
 
-class ChromaPhysicsComponent :	public IChromaComponent
+class PhysicsComponent :	public IComponent
 {
 	// attrs
 	float m_Mass{ 0.0f };
@@ -68,8 +68,8 @@ public:
 	glm::mat4 GetWorldTransform() const;
 	void SetWorldTransform(glm::mat4 const& transform);
 
-	ChromaPhysicsComponent();
-	~ChromaPhysicsComponent();
+	PhysicsComponent();
+	~PhysicsComponent();
 };
 
 #endif

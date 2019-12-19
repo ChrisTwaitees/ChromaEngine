@@ -1,7 +1,7 @@
 #ifndef _CHROMA_FORWARD_BUFFER_
 #define _CHROMA_FORWARD_BUFFER_
 #include <buffer/Framebuffer.h>
-#include <scene/ChromaScene.h>
+#include <scene/Scene.h>
 
 #include <ibl/IBL.h>
 
@@ -9,7 +9,7 @@ class ForwardBuffer : public Framebuffer
 {
 
 	// scene
-	ChromaScene* m_Scene{ nullptr };
+	Scene* m_Scene{ nullptr };
 	Framebuffer* m_postFXBuffer{ nullptr };
 
 	// functions
@@ -24,7 +24,7 @@ class ForwardBuffer : public Framebuffer
 public:
 	void Draw() override;
 
-	ForwardBuffer(ChromaScene* const& source_scene, Framebuffer* const& postFXBuffer);
+	ForwardBuffer(Scene* const& source_scene, Framebuffer* const& postFXBuffer);
 	~ForwardBuffer();
 };
 

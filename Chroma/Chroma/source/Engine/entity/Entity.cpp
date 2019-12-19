@@ -1,15 +1,15 @@
-#include "ChromaEntity.h"
-#include <component/ChromaMeshComponent.h>
-#include <component/ChromaPhysicsComponent.h>
-#include <component/ChromaAnimationComponent.h>
+#include "Entity.h"
+#include <component/MeshComponent.h>
+#include <component/PhysicsComponent.h>
+#include <component/AnimationComponent.h>
 
-std::vector<ChromaVertex> ChromaEntity::GetVertices()
+std::vector<ChromaVertex> Entity::GetVertices()
 {
 	// collecting all vertices within mesh components of entity
 	std::vector<ChromaVertex> verts;
-	for (IChromaComponent* meshComponent : m_MeshComponents)
+	for (IComponent* meshComponent : m_MeshComponents)
 	{
-		std::vector<ChromaVertex> m_vertices = ((ChromaMeshComponent*)meshComponent)->GetVertices();
+		std::vector<ChromaVertex> m_vertices = ((MeshComponent*)meshComponent)->GetVertices();
 		for (ChromaVertex vert : m_vertices)
 			verts.push_back(vert);
 	}
@@ -17,38 +17,38 @@ std::vector<ChromaVertex> ChromaEntity::GetVertices()
 	return verts;
 }
 
-std::pair<glm::vec3, glm::vec3> ChromaEntity::GetBBox()
+std::pair<glm::vec3, glm::vec3> Entity::GetBBox()
 {
 	CalculateBBox();
 	return std::make_pair(m_BBoxMin, m_BBoxMax);
 }
 
-glm::vec3 ChromaEntity::GetCentroid()
+glm::vec3 Entity::GetCentroid()
 {
 	CalculateCentroid();
 	return m_Centroid;
 }
 
-void ChromaEntity::Draw(Shader& shader)
+void Entity::Draw(Shader& shader)
 {
-	for (IChromaComponent* component : m_RenderableComponents)
-		((ChromaMeshComponent*)component)->Draw(shader);
+	for (IComponent* component : m_RenderableComponents)
+		((MeshComponent*)component)->Draw(shader);
 }
 
-void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights)
+void Entity::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights)
 {
-	for (IChromaComponent* component : m_RenderableComponents)
-		((ChromaMeshComponent*)component)->Draw(shader, RenderCamera, Lights, m_transformMatrix);
+	for (IComponent* component : m_RenderableComponents)
+		((MeshComponent*)component)->Draw(shader, RenderCamera, Lights, m_transformMatrix);
 }
 
-void ChromaEntity::Draw(Camera& RenderCamera, std::vector<Light*> Lights)
+void Entity::Draw(Camera& RenderCamera, std::vector<Light*> Lights)
 {
-	for (IChromaComponent* component : m_RenderableComponents)
-		((ChromaMeshComponent*)component)->Draw(RenderCamera, Lights, m_transformMatrix);
+	for (IComponent* component : m_RenderableComponents)
+		((MeshComponent*)component)->Draw(RenderCamera, Lights, m_transformMatrix);
 }
 
 // ADDING/REMOVING COMPONENTS
-void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
+void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 {
 	// bind parent entity
 	SetParentEntity(newMeshComponent);
@@ -71,7 +71,7 @@ void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 		m_TransparentComponents.push_back(newMeshComponent);
 }
 
-void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent)
+void Entity::addPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
 {
 	// bind parent entity
 	SetParentEntity(newPhysicsComponent);
@@ -86,18 +86,18 @@ void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsCompon
 	m_ParentScene->GetPhysics()->addBodyToWorld(newPhysicsComponent);
 }
 
-void ChromaEntity::addAnimationComponent(ChromaAnimationComponent*& newAnimationComponent)
+void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 {
 	// bind parent entity
 	SetParentEntity(newAnimationComponent);
 }
 
-void ChromaEntity::CalculateBBox()
+void Entity::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (IChromaComponent* meshComponent : m_MeshComponents)
-		bboxes.push_back(((ChromaMeshComponent*)meshComponent)->GetBBox());
+	for (IComponent* meshComponent : m_MeshComponents)
+		bboxes.push_back(((MeshComponent*)meshComponent)->GetBBox());
 	// once collected, calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
@@ -113,12 +113,12 @@ void ChromaEntity::CalculateBBox()
 	m_BBoxMax = newMaxBBox * scale;
 }
 
-void ChromaEntity::CalculateCentroid()
+void Entity::CalculateCentroid()
 {
 	m_Centroid = (m_BBoxMin - m_BBoxMax) * glm::vec3(0.5);
 }
 
-void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)
+void Entity::addEmptyComponent(IComponent*& newComponent)
 {
 	// bind parent entity
 	SetParentEntity(newComponent);
@@ -127,7 +127,7 @@ void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)
 	m_Components.push_back(newComponent);
 }
 
-void ChromaEntity::removeEmptyComponent(IChromaComponent*& removeMe)
+void Entity::removeEmptyComponent(IComponent*& removeMe)
 {
 	// all components 
 	int componentIndex = findIndexInVector(m_Components, removeMe);
@@ -140,48 +140,48 @@ void ChromaEntity::removeEmptyComponent(IChromaComponent*& removeMe)
 		m_RenderableComponents.erase(m_RenderableComponents.begin() + componentIndex);
 }
 
-void ChromaEntity::updatePhysicsComponentsTransforms()
+void Entity::updatePhysicsComponentsTransforms()
 {
-	for (IChromaComponent* physicsComponent : m_PhysicsComponents)
+	for (IComponent* physicsComponent : m_PhysicsComponents)
 	{
-		if (((ChromaPhysicsComponent*)physicsComponent)->getColliderState() == Kinematic) // check if physics object is kinematic
-			((ChromaPhysicsComponent*)physicsComponent)->SetWorldTransform(m_transformMatrix);
+		if (((PhysicsComponent*)physicsComponent)->getColliderState() == Kinematic) // check if physics object is kinematic
+			((PhysicsComponent*)physicsComponent)->SetWorldTransform(m_transformMatrix);
 	}
 }
 
 
 // TRANSFORMATIONS
-void ChromaEntity::scale(glm::vec3 scalefactor)
+void Entity::scale(glm::vec3 scalefactor)
 {
 	m_transformMatrix = glm::scale(m_transformMatrix, scalefactor);
 	updatePhysicsComponentsTransforms();
 }
 
-void ChromaEntity::translate(glm::vec3 translatefactor)
+void Entity::translate(glm::vec3 translatefactor)
 {
 	m_transformMatrix = glm::translate(m_transformMatrix, translatefactor);
 	updatePhysicsComponentsTransforms();
 }
 
-void ChromaEntity::rotate(float degrees, glm::vec3 rotationaxis)
+void Entity::rotate(float degrees, glm::vec3 rotationaxis)
 {
 	m_transformMatrix = glm::rotate(m_transformMatrix, glm::radians(degrees), rotationaxis);
 	updatePhysicsComponentsTransforms();
 }
 
-void ChromaEntity::setScale(glm::vec3 newscale)
+void Entity::setScale(glm::vec3 newscale)
 {
 	m_transformMatrix = glm::scale(m_transformMatrix, newscale);
 	updatePhysicsComponentsTransforms();
 }
 
-void ChromaEntity::SetPosition(glm::vec3 newposition)
+void Entity::SetPosition(glm::vec3 newposition)
 {
 	m_transformMatrix[3] = glm::vec4(newposition, 1);
 	updatePhysicsComponentsTransforms();
 }
 
-void ChromaEntity::setRotation(float degrees, glm::vec3 rotationaxis)
+void Entity::setRotation(float degrees, glm::vec3 rotationaxis)
 {
 	glm::vec3 existingTranslation = GetPosition();
 	m_transformMatrix = glm::translate(m_transformMatrix, existingTranslation);
@@ -191,7 +191,7 @@ void ChromaEntity::setRotation(float degrees, glm::vec3 rotationaxis)
 
 
 // VECTOR FUNCTIONS
-int findIndexInVector(const std::vector<IChromaComponent*>& componentsVector, IChromaComponent*& component)
+int findIndexInVector(const std::vector<IComponent*>& componentsVector, IComponent*& component)
 {
 	// Find given element in vector
 	auto it = std::find(componentsVector.begin(), componentsVector.end(), component);
@@ -206,11 +206,11 @@ int findIndexInVector(const std::vector<IChromaComponent*>& componentsVector, IC
 }
 
 
-ChromaEntity::ChromaEntity()
+Entity::Entity()
 {
 }
 
 
-ChromaEntity::~ChromaEntity()
+Entity::~Entity()
 {
 }

@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 
 #include <buffer/Framebuffer.h>
-#include <scene/ChromaScene.h>
+#include <scene/Scene.h>
 
 
 class SSAOBuffer : public Framebuffer
@@ -50,7 +50,7 @@ class SSAOBuffer : public Framebuffer
 
 
 public:
-	void Draw(unsigned int& gViewPosition, unsigned int& gNormal, ChromaScene*& scene);
+	void Draw(unsigned int& gViewPosition, unsigned int& gNormal, Scene*& scene);
 	virtual unsigned int getTexture() override { return ssaoColorBufferBlur; };
 
 	SSAOBuffer();

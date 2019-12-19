@@ -14,9 +14,9 @@
 #include <ChromaConfig.h>
 
 // forward declarations
-class IChromaEntity;
+class IEntity;
 
-class IChromaComponent
+class IComponent
 {
 protected:
 	// name
@@ -24,7 +24,7 @@ protected:
 	std::string m_Name;
 
 	// parent
-	IChromaEntity* m_ParentEntity{ nullptr };
+	IEntity* m_ParentEntity{ nullptr };
 
 public:
 
@@ -34,11 +34,11 @@ public:
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
 
-	IChromaEntity* GetParentEntity() const {   return m_ParentEntity;	}
-	virtual void SetParentEntity(IChromaEntity* const& parentEntity) { m_ParentEntity = parentEntity; }
+	IEntity* GetParentEntity() const {   return m_ParentEntity;	}
+	virtual void SetParentEntity(IEntity* const& parentEntity) { m_ParentEntity = parentEntity; }
 
-	IChromaComponent() {};
-	virtual ~IChromaComponent() {};
+	IComponent() {};
+	virtual ~IComponent() {};
 };
 
 #endif

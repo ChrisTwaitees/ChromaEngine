@@ -5,10 +5,10 @@
 #include <vector>
 // thirdparty
 #include <GLFW/glfw3.h>
-//#include <worker/IChromaWorker.h>
+#include <worker/IWorker.h>
 // chroma
 #include <animation/Animation.h>
-#include <screenmanager/ChromaScreenManager.h>
+
 
 class Animator
 {
@@ -18,6 +18,8 @@ public:
 
 	void AddAnimation(Animation const& newAnimation) { m_Animations.push_back(newAnimation); };
 	void TriggerTimer(float const& duration, float& counter);
+
+	void DoAnimation();
 
 	Animator();
 	~Animator();

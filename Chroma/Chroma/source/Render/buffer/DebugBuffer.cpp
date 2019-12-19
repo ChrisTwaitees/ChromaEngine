@@ -1,5 +1,5 @@
 #include "DebugBuffer.h"
-#include <scene/ChromaScene.h>
+#include <scene/Scene.h>
 #include <model/Model.h>
 
 void DebugBuffer::Initialize()
@@ -209,14 +209,14 @@ void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& radius
 	m_OverlaySpheres.push_back(new_sphere);
 }
 
-void DebugBuffer::DrawSceneSkeletons(ChromaScene* const& scene)
+void DebugBuffer::DrawSceneSkeletons(Scene* const& scene)
 {
-	for (IChromaEntity* entity : scene->GetEntities())
+	for (IEntity* entity : scene->GetEntities())
 	{
-		for (IChromaComponent* component : entity->getMeshComponents())
+		for (IComponent* component : entity->getMeshComponents())
 		{
 			// check if mesh skinned
-			if (((ChromaMeshComponent*)component)->m_IsSkinned)
+			if (((MeshComponent*)component)->m_IsSkinned)
 			{
 				((Model*)component)->GetSkeleton()->DebugDraw(this);
 			}

@@ -9,11 +9,11 @@
 // chroma
 #include <input/Input.h>
 #include <renderer/Renderer.h>
-#include <scene/ChromaScene.h>
-#include <screenmanager/ChromaScreenManager.h>
+#include <scene/Scene.h>
+#include <screenmanager/ScreenManager.h>
 #include <time/ChromaTime.h>
 #include <physics/PhysicsEngine.h>
-#include <worker/IChromaWorker.h>
+#include <worker/IWorker.h>
 
 class ChromaGame
 {
@@ -25,8 +25,8 @@ class ChromaGame
 	State GameState { GAME_MENU };
 
 	// components
-	ChromaScene* m_Scene;
-	ChromaScreenManager* m_Screen;
+	Scene* m_Scene;
+	ScreenManager* m_Screen;
 	Renderer* m_Renderer;
 	PhysicsEngine* m_Physics{ new PhysicsEngine()};
 
@@ -51,7 +51,7 @@ public:
 	// Game Loop
 	void Tick();
 
-	ChromaGame(ChromaScene*& Scene, ChromaScreenManager*& ScreenManager);
+	ChromaGame(Scene*& Scene, ScreenManager*& ScreenManager);
 	~ChromaGame();
 
 };

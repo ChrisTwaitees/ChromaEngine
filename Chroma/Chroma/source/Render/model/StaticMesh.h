@@ -10,11 +10,11 @@
 #include <texture/Texture.h>
 #include <camera/Camera.h>
 #include <light/Light.h>
-#include <component/ChromaMeshComponent.h>
+#include <component/MeshComponent.h>
 #include <model/Vertex.h>
 
 
-class StaticMesh : public ChromaMeshComponent
+class StaticMesh : public MeshComponent
 {
 protected:
 	// mesh data

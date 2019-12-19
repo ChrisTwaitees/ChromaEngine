@@ -53,14 +53,14 @@ void ForwardBuffer::renderForwardComponents()
 	m_Scene->GetSkyBox()->Draw();
 
 	// Render Unlit Components
-	for (IChromaEntity* const& entity : m_Scene->GetEntities())
+	for (IEntity* const& entity : m_Scene->GetEntities())
 	{
 		// render unlit components
 		if (entity->getUnlitComponents().size() > 0)
 		{
 			glm::mat4 worldTransform = entity->GetTransformationMatrix();
-			for (IChromaComponent*& component : entity->getUnlitComponents())
-				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_Scene->GetRenderCamera(), worldTransform);
+			for (IComponent*& component : entity->getUnlitComponents())
+				((MeshComponent*)component)->DrawUpdateTransforms(*m_Scene->GetRenderCamera(), worldTransform);
 		}
 	}
 
@@ -75,22 +75,22 @@ void ForwardBuffer::renderTransparency()
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
-	std::map<float, IChromaEntity*> alpha_sorted;
-	for (IChromaEntity* TransparentEntity : m_Scene->GetTransparentEntities())
+	std::map<float, IEntity*> alpha_sorted;
+	for (IEntity* TransparentEntity : m_Scene->GetTransparentEntities())
 	{
 		float distance = glm::length(TransparentEntity->GetPosition() - m_Scene->GetRenderCamera()->GetPosition());
 		alpha_sorted[distance] = TransparentEntity;
 	}
 	// iterating from furthest to closest
-	for (std::map<float, IChromaEntity*>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
+	for (std::map<float, IEntity*>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
 	{
 		glm::mat4 worldTransform = it->second->GetTransformationMatrix();
-		for (IChromaComponent* component : it->second->getTransparentComponents())
+		for (IComponent* component : it->second->getTransparentComponents())
 		{
-			if (((ChromaMeshComponent*)component)->m_IsForwardLit) // draw lit transparent components
-				((ChromaMeshComponent*)component)->Draw(*m_Scene->GetRenderCamera(), m_Scene->GetLights(), worldTransform);
+			if (((MeshComponent*)component)->m_IsForwardLit) // draw lit transparent components
+				((MeshComponent*)component)->Draw(*m_Scene->GetRenderCamera(), m_Scene->GetLights(), worldTransform);
 			else // draw unlit transparent components
-				((ChromaMeshComponent*)component)->DrawUpdateTransforms(*m_Scene->GetRenderCamera(), worldTransform);
+				((MeshComponent*)component)->DrawUpdateTransforms(*m_Scene->GetRenderCamera(), worldTransform);
 		}
 	}
 	glDisable(GL_BLEND);
@@ -131,7 +131,7 @@ void ForwardBuffer::Draw()
 	m_postFXBuffer->unBind();
 }
 
-ForwardBuffer::ForwardBuffer(ChromaScene* const& source_scene, Framebuffer* const& postFXBuffer)
+ForwardBuffer::ForwardBuffer(Scene* const& source_scene, Framebuffer* const& postFXBuffer)
 {
 	m_Scene = source_scene;
 	m_postFXBuffer = postFXBuffer;

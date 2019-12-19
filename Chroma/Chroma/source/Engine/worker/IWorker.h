@@ -1,5 +1,5 @@
-#ifndef _CHROMA_WORKER_
-#define	_CHROMA_WORKER_
+#ifndef _CHROMA_WORKER_H_
+#define	_CHROMA_WORKER_H_
 
 
 #include <vector>
@@ -24,7 +24,7 @@
 
 static std::vector<std::function<void(void)>> m_Jobs;
 
-class IChromaWorker
+class IWorker
 {
 //	typedef std::vector<std::function<void(void)>> m_Functions;
 
@@ -35,8 +35,8 @@ public:
 	void AddJob(std::function<void(void)>& newFunction) { m_Jobs.push_back(newFunction); };
 	static void DoWork();
 
-	IChromaWorker();
-	~IChromaWorker();
+	IWorker();
+	~IWorker();
 };
 
 #endif

@@ -11,11 +11,11 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 // chroma
-#include <screenManager/ChromaScreenManager.h>
-#include <component/IChromaComponent.h>
-#include <component/ChromaMeshComponent.h>
-#include <entity/ChromaEntity.h>
-#include <scene/ChromaScene.h>
+#include <screenManager/ScreenManager.h>
+#include <component/IComponent.h>
+#include <component/MeshComponent.h>
+#include <entity/Entity.h>
+#include <scene/Scene.h>
 #include <model/Model.h>
 #include <model/BoxPrimitive.h>
 #include <model/PlanePrimitive.h>
@@ -36,13 +36,13 @@ int Main()
 	// ------------------------------------------------------------------------------------------
 
 	// SCREEN MANAGER
-	ChromaScreenManager* ScreenManager{ new ChromaScreenManager };
+	ScreenManager* screenManager{ new ScreenManager };
 
 	// SCENE 
-	ChromaScene* Scene{ new ChromaScene };
+	Scene* scene{ new Scene};
 
 	// GAME
-	ChromaGame Game(Scene, ScreenManager);
+	ChromaGame Game(scene, screenManager);
 
 	// SCENE CONTENTS
 	// ------------------------------------------------------------------------------------------
@@ -116,13 +116,13 @@ int Main()
 	Texture terrainTex("resources/textures/terrain1.jpeg");
 
 	// ENTITIES
-	IChromaEntity* NanosuitEntity = new ChromaEntity;
-	Scene->AddEntity(NanosuitEntity);
+	IEntity* NanosuitEntity = new Entity;
+	scene->AddEntity(NanosuitEntity);
 	NanosuitEntity->SetName("ChromaSuit");
 	NanosuitEntity->SetPosition(glm::vec3(30., 0., 0));
 
-	ChromaMeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
-	ChromaPhysicsComponent* NanoSuitRigidComponent = new ChromaPhysicsComponent();
+	MeshComponent* NanoSuitModelComponent = new Model("resources/assets/nanosuit/nanosuit.obj");
+	PhysicsComponent* NanoSuitRigidComponent = new PhysicsComponent();
 	NanoSuitRigidComponent->SetColliderShape(ColliderShape::Convex);
 	NanoSuitRigidComponent->SetCollisionState(ColliderState::Dynamic);
 	NanoSuitRigidComponent->setMass(1.0f);
@@ -131,17 +131,17 @@ int Main()
 	NanosuitEntity->addComponent(NanoSuitRigidComponent);
 
 
-	std::vector<IChromaEntity*> boxes;
+	std::vector<IEntity*> boxes;
 	for (glm::vec3 position : cubePositions)
 	{
-		IChromaEntity* BoxEntity = new ChromaEntity;
-		Scene->AddEntity(BoxEntity);
+		IEntity* BoxEntity = new Entity;
+		scene->AddEntity(BoxEntity);
 		BoxEntity->SetName("Box");
-		ChromaMeshComponent* BoxMeshComponent = new BoxPrimitive();
+		MeshComponent* BoxMeshComponent = new BoxPrimitive();
 		BoxMeshComponent->SetShader(&litShader);
 		BoxMeshComponent->AddTexture(diffuseMap);
 		BoxMeshComponent->AddTexture(specularMap);
-		ChromaPhysicsComponent* BoxRigidComponent = new ChromaPhysicsComponent();
+		PhysicsComponent* BoxRigidComponent = new PhysicsComponent();
 		BoxRigidComponent->SetColliderShape(ColliderShape::Convex);
 		BoxRigidComponent->SetCollisionState(ColliderState::Kinematic);
 
@@ -151,17 +151,17 @@ int Main()
 		boxes.push_back(BoxEntity);
 	}
 
-	std::vector<IChromaEntity*> lamps;
+	std::vector<IEntity*> lamps;
 	for (glm::vec3 position : pointLightPositions)
 	{
-		IChromaEntity* LampEntity = new ChromaEntity();
-		Scene->AddEntity(LampEntity);
+		IEntity* LampEntity = new Entity();
+		scene->AddEntity(LampEntity);
 		LampEntity->SetName("Lamp");
-		ChromaMeshComponent* LampMeshComponent = new BoxPrimitive();
+		MeshComponent* LampMeshComponent = new BoxPrimitive();
 		LampMeshComponent->SetShader(&constantShader);
 		LampMeshComponent->m_CastShadows = false;
 		LampMeshComponent->m_IsLit = false;
-		ChromaPhysicsComponent* LampRigidComponent = new ChromaPhysicsComponent();
+		PhysicsComponent* LampRigidComponent = new PhysicsComponent();
 		LampRigidComponent->SetColliderShape(ColliderShape::Convex);
 		LampRigidComponent->SetCollisionState(ColliderState::Kinematic);
 
@@ -173,9 +173,9 @@ int Main()
 
 	for (glm::vec3 position : grassPositions)
 	{
-		IChromaEntity* GrassPlaneEntity = new ChromaEntity;
+		IEntity* GrassPlaneEntity = new Entity;
 		GrassPlaneEntity->SetName("Grass");
-		ChromaMeshComponent* GrassPlaneMeshComponent = new PlanePrimitive();
+		MeshComponent* GrassPlaneMeshComponent = new PlanePrimitive();
 		GrassPlaneMeshComponent->AddTexture(grassMap);
 		GrassPlaneMeshComponent->SetShader(&alphaShader);
 		GrassPlaneMeshComponent->m_IsLit = false;
@@ -183,22 +183,22 @@ int Main()
 		GrassPlaneMeshComponent->m_IsTransparent = true;
 		GrassPlaneEntity->addComponent(GrassPlaneMeshComponent);
 		GrassPlaneEntity->SetPosition(position);
-		Scene->AddEntity(GrassPlaneEntity);
+		scene->AddEntity(GrassPlaneEntity);
 	}
 
 	// TERRAIN
-	IChromaEntity* TerrainEntity = new ChromaEntity;
-	Scene->AddEntity(TerrainEntity);
-	ChromaMeshComponent* TerrainMeshComponent = new Terrain;
+	IEntity* TerrainEntity = new Entity;
+	scene->AddEntity(TerrainEntity);
+	MeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->SetShader(&litShader);
 	TerrainEntity->addComponent(TerrainMeshComponent);
 
 	// SPHERE
-	IChromaEntity* SphereEntity = new ChromaEntity;
-	Scene->AddEntity(SphereEntity);
+	IEntity* SphereEntity = new Entity;
+	scene->AddEntity(SphereEntity);
 	SphereEntity->SetName("Sphere");
-	ChromaMeshComponent* SphereMeshComponent = new SpherePrimitive;
-	ChromaPhysicsComponent* SphereRigidComponent = new ChromaPhysicsComponent();
+	MeshComponent* SphereMeshComponent = new SpherePrimitive;
+	PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
 	SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
 	SphereRigidComponent->SetCollisionState(ColliderState::Kinematic);
 	SphereMeshComponent->AddTexture(normalMap);
@@ -209,17 +209,17 @@ int Main()
 
 
 	// POPULATING SCENE
-	Scene->SetLights(Lights);
+	scene->SetLights(Lights);
 
 
 	// RENDER LOOP
 	// -----------
-	while (!ScreenManager->shouldClose())
+	while (!screenManager->shouldClose())
 	{
 		// SCREENMANAGER START
-		ScreenManager->StartLoop();
-		float GameTime = ScreenManager->getTime();
-		float DeltaTime = ScreenManager->GetDeltaTime();
+		screenManager->StartLoop();
+		float GameTime = screenManager->getTime();
+		float DeltaTime = screenManager->GetDeltaTime();
 
 		// Updating sun
 		Sun->SetPosition(Sun->GetDirection() * -20.0f);
@@ -253,10 +253,10 @@ int Main()
 				Game.getRenderer()->GetDebugBuffer()->DrawLine(glm::vec3(0), newLightPos, glm::vec3(1, 1, 0));
 			}
 			// fragments
-			for (IChromaComponent* component : lamps[i]->getRenderableComponents())
+			for (IComponent* component : lamps[i]->getRenderableComponents())
 			{
 				glm::vec3 color(Lights[i]->getDiffuse()* Lights[i]->getIntensity());
-				((ChromaMeshComponent*)component)->GetShader()->setVec3("color", glm::vec4(color, 1.0));
+				((MeshComponent*)component)->GetShader()->setVec3("color", glm::vec4(color, 1.0));
 
 			}
 
@@ -279,12 +279,12 @@ int Main()
 		Game.Tick();
 
 		// END SCREEN
-		ScreenManager->EndLoop();
+		screenManager->EndLoop();
 	}
 
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
-	ScreenManager->Close();
+	screenManager->Close();
 	return 0;
 }

@@ -10,13 +10,13 @@
 #include <glm/gtc/matrix_transform.hpp>
 // Chroma
 #include <buffer/Framebuffer.h>
-#include <scene/ChromaScene.h>
+#include <scene/Scene.h>
 
 class ShadowBuffer : Framebuffer
 {
 private:
 	// Chroma Scene
-	ChromaScene* m_Scene;
+	Scene* m_Scene;
 	// DepthBuffers
 	unsigned int depthMapFBO;
 	// resolution
@@ -44,7 +44,7 @@ public:
 	void calculateShadows();
 
 	// constructors
-	ShadowBuffer(ChromaScene*& Scene);
+	ShadowBuffer(Scene*& Scene);
 	~ShadowBuffer();
 };
 

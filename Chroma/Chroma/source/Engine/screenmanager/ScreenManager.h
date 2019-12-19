@@ -1,5 +1,5 @@
-#ifndef _CHROMA_SCREENMANAGER_
-#define _CHROMA_SCREENMANAGER_
+#ifndef _CHROMA_SCREENMANAGER_H_
+#define _CHROMA_SCREENMANAGER_H_
 // stl
 #include <vector>
 #include <iostream>
@@ -17,7 +17,7 @@
 // framebuffer
 #include "buffer/Framebuffer.h"
 
-class ChromaScreenManager
+class ScreenManager
 {
 	// window
 	GLFWwindow* window; 
@@ -90,8 +90,8 @@ public:
 	void ToggleGraphicsDebug();
 
 	// construction
-	ChromaScreenManager();
-	~ChromaScreenManager();
+	ScreenManager();
+	~ScreenManager();
 };
 
 #endif

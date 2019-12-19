@@ -11,7 +11,7 @@
 #include <model/StaticMesh.h>
 #include <model/SkinnedMesh.h>
 
-class Model : public ChromaMeshComponent
+class Model : public MeshComponent
 {
 	// calculate dimensions
 	virtual void CalculateBBox();
@@ -19,7 +19,7 @@ class Model : public ChromaMeshComponent
 
 	// Model Data
 	std::string m_directory;
-	std::vector<ChromaMeshComponent*> m_meshes;
+	std::vector<MeshComponent*> m_meshes;
 	// verts
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
@@ -30,7 +30,7 @@ class Model : public ChromaMeshComponent
 	// meshes
 	void LoadModel(std::string path);
 	void GetChildMeshNodes(aiNode* node, const aiScene* scene);
-	ChromaMeshComponent* ProcessMesh(aiMesh* mesh, const aiScene* scene);
+	MeshComponent* ProcessMesh(aiMesh* mesh, const aiScene* scene);
 	// skinning and skeletons
 	void SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
 	void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton);

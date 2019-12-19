@@ -1,8 +1,8 @@
-#include "IChromaWorker.h"
+#include "IWorker.h"
 
 
 
-void IChromaWorker::DoWork()
+void IWorker::DoWork()
 {
 	for (auto& job : m_Jobs)
 	{
@@ -11,11 +11,11 @@ void IChromaWorker::DoWork()
 	std::cout << "num workers : " << m_Jobs.size() << std::endl;
 }
 
-IChromaWorker::IChromaWorker()
+IWorker::IWorker()
 {
 }
 
 
-IChromaWorker::~IChromaWorker()
+IWorker::~IWorker()
 {
 }

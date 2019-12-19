@@ -10,12 +10,12 @@
 
 // chroma
 #include <ChromaConfig.h> 
-#include <component/ChromaPhysicsComponent.h>
+#include <component/PhysicsComponent.h>
 #include <physics/PhysicsDebug.h>
 #include <buffer/DebugBuffer.h>
 #include <time/ChromaTime.h>
 
-class IChromaEntity;
+class IEntity;
 
 class PhysicsEngine
 {
@@ -40,7 +40,7 @@ private:
 	void updateGravity();
 
 public:
-	void addBodyToWorld(ChromaPhysicsComponent*& physicsComponent);
+	void addBodyToWorld(PhysicsComponent*& physicsComponent);
 	
 	void Update(ChromaTime& time);
 
@@ -50,7 +50,7 @@ public:
 	void drawDebug();
 
 	// Ray Queries
-	IChromaEntity* GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
+	IEntity* GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 	bool RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 
 	PhysicsEngine();

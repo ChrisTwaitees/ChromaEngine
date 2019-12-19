@@ -7,7 +7,7 @@ void ChromaGame::Update()
 	m_Physics->Update(m_time);
 
 	// Workers
-	IChromaWorker::DoWork();
+	IWorker::DoWork();
 }
 
 void ChromaGame::Draw()
@@ -21,7 +21,7 @@ void ChromaGame::MousePickerCallback()
 	// Ray Interest Test
 	glm::vec3 start = m_Scene->GetRenderCamera()->GetPosition();
 	glm::vec3 end = start + (  m_Input->GetLastRay() * glm::vec3(1000.0));
-	IChromaEntity* clickedEntity  = m_Physics->GetEntityRayTest(start, end);
+	IEntity* clickedEntity  = m_Physics->GetEntityRayTest(start, end);
 	if (clickedEntity)
 		m_Screen->setSelectedEntityName(clickedEntity->GetName());
 
@@ -51,7 +51,7 @@ ChromaGame::~ChromaGame()
 {
 }
 
-ChromaGame::ChromaGame(ChromaScene*& Scene, ChromaScreenManager*& ScreenManager)
+ChromaGame::ChromaGame(Scene*& Scene, ScreenManager*& ScreenManager)
 {
 	m_Scene = Scene;
 	m_Screen = ScreenManager;

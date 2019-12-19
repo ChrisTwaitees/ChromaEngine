@@ -1,6 +1,6 @@
-#include "ChromaScreenManager.h"
+#include "ScreenManager.h"
 
-bool ChromaScreenManager::Initialize()
+bool ScreenManager::Initialize()
 {
 	// Configure Window
 	if (!configureWindow())
@@ -26,7 +26,7 @@ bool ChromaScreenManager::Initialize()
 	}
 }
 
-bool ChromaScreenManager::configureWindow()
+bool ScreenManager::configureWindow()
 {
 	// glfw: initialize and configure
 	// ------------------------------
@@ -50,13 +50,13 @@ bool ChromaScreenManager::configureWindow()
 	return true;
 }
 
-bool ChromaScreenManager::configureGui()
+bool ScreenManager::configureGui()
 {
 	gui.attachWindow(*window);
 	return true;
 }
 
-bool ChromaScreenManager::configureRenderer()
+bool ScreenManager::configureRenderer()
 {
 	// OpenGL 3
 	// glad: load all OpenGL function pointers
@@ -84,7 +84,7 @@ bool ChromaScreenManager::configureRenderer()
 // CHROMA SCREEN MANAGER LOOP
 // --------------------
 
-void ChromaScreenManager::StartLoop()
+void ScreenManager::StartLoop()
 {
 	// process
 	processTime();
@@ -92,7 +92,7 @@ void ChromaScreenManager::StartLoop()
 	gui.StartLoop();
 }
 
-void ChromaScreenManager::EndLoop()
+void ScreenManager::EndLoop()
 {
 	
 	//draw GUI
@@ -103,7 +103,7 @@ void ChromaScreenManager::EndLoop()
 	glfwPollEvents();
 }
 
-void ChromaScreenManager::Close()
+void ScreenManager::Close()
 {
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
@@ -114,45 +114,45 @@ void ChromaScreenManager::Close()
 // Convenience Methods
 // --------------------
 
-void ChromaScreenManager::ToggleSkybox()
+void ScreenManager::ToggleSkybox()
 {
 	useSkybox = useSkybox ? false : true;
 }
 
-void ChromaScreenManager::ToggleBloom()
+void ScreenManager::ToggleBloom()
 {
 	useBloom = useBloom ? false : true;
 }
 
-void ChromaScreenManager::ToggleDebug()
+void ScreenManager::ToggleDebug()
 {
 	drawDebug = drawDebug ? false : true;
 }
 
-void ChromaScreenManager::TogglePhysicsDebug()
+void ScreenManager::TogglePhysicsDebug()
 {
 	drawPhysicsDebug = drawPhysicsDebug ? false : true;
 }
 
-void ChromaScreenManager::ToggleSkeletonsDebug()
+void ScreenManager::ToggleSkeletonsDebug()
 {
 	drawSkeletonsDebug = drawSkeletonsDebug ? false : true;
 }
 
-void ChromaScreenManager::ToggleGraphicsDebug()
+void ScreenManager::ToggleGraphicsDebug()
 {
 	drawGraphicsDebug = drawGraphicsDebug ? false : true;
 }
 
 
-void ChromaScreenManager::updateRendererViewportDimensions(int width, int height)
+void ScreenManager::updateRendererViewportDimensions(int width, int height)
 {
 	// make sure the viewport matches the new window dimensions;  
 	glViewport(0, 0, width, height);
 }
 
 
-void ChromaScreenManager::processTime()
+void ScreenManager::processTime()
 {
 	float GameTime = glfwGetTime();
 	delta = GameTime - lastFrame;
@@ -160,7 +160,7 @@ void ChromaScreenManager::processTime()
 }
 
 
-void ChromaScreenManager::drawGUI()
+void ScreenManager::drawGUI()
 {
 	// Time
 	ImGui::Text("Deltatime %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
@@ -202,19 +202,19 @@ void ChromaScreenManager::drawGUI()
 	gui.End();
 }
 
-unsigned int ChromaScreenManager::getScreenWidth()
+unsigned int ScreenManager::getScreenWidth()
 {
 	glfwGetWindowSize(window, &width, &height);
 	return width;
 }
 
-unsigned int ChromaScreenManager::getScreenHeight()
+unsigned int ScreenManager::getScreenHeight()
 {
 	glfwGetWindowSize(window, &width, &height);
 	return height;
 }
 
-std::pair<int, int> ChromaScreenManager::getWidthHeight()
+std::pair<int, int> ScreenManager::getWidthHeight()
 {
 	return std::make_pair(width, height);
 }
@@ -223,7 +223,7 @@ std::pair<int, int> ChromaScreenManager::getWidthHeight()
 
 // glfw callbacks
 // --------------------
-void ChromaScreenManager::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+void ScreenManager::framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	updateRendererViewportDimensions(width, height);
 }
@@ -233,11 +233,11 @@ void ChromaScreenManager::framebuffer_size_callback(GLFWwindow* window, int widt
 
 // structors
 // --------------------
-ChromaScreenManager::ChromaScreenManager()
+ScreenManager::ScreenManager()
 {
 	Initialize();
 }
 
-ChromaScreenManager::~ChromaScreenManager()
+ScreenManager::~ScreenManager()
 {
 }

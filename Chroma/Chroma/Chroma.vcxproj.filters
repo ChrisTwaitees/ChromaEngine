@@ -155,12 +155,6 @@
     <ClCompile Include="source\Render\texture\Texture.cpp">
       <Filter>Render\texture</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\component\ChromaMeshComponent.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\entity\ChromaEntity.cpp">
-      <Filter>Engine\entity</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\game\ChromaGame.cpp">
       <Filter>Engine\game</Filter>
     </ClCompile>
@@ -169,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\memory\ChromaUID.cpp">
       <Filter>Engine\memory</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp">
-      <Filter>Engine\screenmanager</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\shader\Shader.cpp">
       <Filter>Render\shader</Filter>
@@ -202,12 +193,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\time\ChromaTime.cpp">
       <Filter>Engine\time</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\scene\ChromaScene.cpp">
-      <Filter>Engine\scene</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp">
       <Filter>Engine\physics</Filter>
@@ -272,12 +257,6 @@
     <ClCompile Include="source\Engine\animation\Animator.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\component\ChromaAnimationComponent.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\worker\IChromaWorker.cpp">
-      <Filter>Engine\worker</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp">
       <Filter>Engine\physics</Filter>
     </ClCompile>
@@ -292,6 +271,27 @@
     </ClCompile>
     <ClCompile Include="source\Render\model\StaticMesh.cpp">
       <Filter>Render\model\mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\entity\Entity.cpp">
+      <Filter>Engine\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\PhysicsComponent.cpp">
+      <Filter>Engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\MeshComponent.cpp">
+      <Filter>Engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\AnimationComponent.cpp">
+      <Filter>Engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\worker\IWorker.cpp">
+      <Filter>Engine\worker</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\scene\Scene.cpp">
+      <Filter>Engine\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\screenmanager\ScreenManager.cpp">
+      <Filter>Engine\screenmanager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -334,12 +334,6 @@
     <ClInclude Include="source\Render\texture\Texture.h">
       <Filter>Render\texture</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\component\ChromaMeshComponent.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\component\IChromaComponent.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\game\ChromaGame.h">
       <Filter>Engine\game</Filter>
     </ClInclude>
@@ -351,9 +345,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\memory\packed_freelist.h">
       <Filter>Engine\memory</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h">
-      <Filter>Engine\screenmanager</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\shader\Shader.h">
       <Filter>Render\shader</Filter>
@@ -384,18 +375,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\time\ChromaTime.h">
       <Filter>Engine\time</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\entity\ChromaEntity.h">
-      <Filter>Engine\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\component\ChromaPhysicsComponent.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\entity\IChromaEntity.h">
-      <Filter>Engine\entity</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\scene\ChromaScene.h">
-      <Filter>Engine\scene</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h">
       <Filter>Engine\physics</Filter>
@@ -460,12 +439,6 @@
     <ClInclude Include="source\Engine\animation\Animator.h">
       <Filter>Engine\animation</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\component\ChromaAnimationComponent.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\worker\IChromaWorker.h">
-      <Filter>Engine\worker</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\physics\PhysicsEngine.h">
       <Filter>Engine\physics</Filter>
     </ClInclude>
@@ -489,6 +462,33 @@
     </ClInclude>
     <ClInclude Include="source\Render\model\Vertex.h">
       <Filter>Render\model\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\entity\IEntity.h">
+      <Filter>Engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\entity\Entity.h">
+      <Filter>Engine\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\IComponent.h">
+      <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\PhysicsComponent.h">
+      <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\MeshComponent.h">
+      <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\AnimationComponent.h">
+      <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\worker\IWorker.h">
+      <Filter>Engine\worker</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\scene\Scene.h">
+      <Filter>Engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\screenmanager\ScreenManager.h">
+      <Filter>Engine\screenmanager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 #include "GBuffer.h"
-#include <component/ChromaMeshComponent.h>
+#include <component/MeshComponent.h>
 
 void GBuffer::Initialize()
 {
@@ -160,22 +160,22 @@ void GBuffer::drawGeometryPass()
 	m_geometryPassShader.SetMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 
 	// Render Scene
-	for (IChromaEntity* entity : m_Scene->GetEntities())
+	for (IEntity* entity : m_Scene->GetEntities())
 	{
 		glm::mat4 finalTransformMatrix = entity->GetTransformationMatrix();
-		for (IChromaComponent* component : entity->getLitComponents())
+		for (IComponent* component : entity->getLitComponents())
 		{
 			// transform components by entity transform
-			finalTransformMatrix = finalTransformMatrix * ((ChromaMeshComponent*)component)->GetTransformationMatrix();
+			finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransformationMatrix();
 			m_geometryPassShader.SetMat4("model", finalTransformMatrix);
 
 			// check if mesh skinned
-			m_geometryPassShader.setUniform("isSkinned", ((ChromaMeshComponent*)component)->m_IsSkinned);
-			if (((ChromaMeshComponent*)component)->m_IsSkinned)
-				((ChromaMeshComponent*)component)->SetJointUniforms(m_geometryPassShader);
+			m_geometryPassShader.setUniform("isSkinned", ((MeshComponent*)component)->m_IsSkinned);
+			if (((MeshComponent*)component)->m_IsSkinned)
+				((MeshComponent*)component)->SetJointUniforms(m_geometryPassShader);
 
 			// Draw Update Materials
-			((ChromaMeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
+			((MeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
 		}
 	}
 	unBind();
@@ -229,7 +229,7 @@ void GBuffer::Draw()
 	m_postFXBuffer->unBind();
 }
 
-GBuffer::GBuffer(ChromaScene*& Scene, Framebuffer*& PostFXBuffer)
+GBuffer::GBuffer(Scene*& Scene, Framebuffer*& PostFXBuffer)
 {
 	Initialize();
 	m_Scene = Scene;

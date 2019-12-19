@@ -1,27 +1,27 @@
-#include "ChromaScene.h"
+#include "Scene.h"
 
-glm::vec3 ChromaScene::CalculateAmbientLightColor()
+glm::vec3 Scene::CalculateAmbientLightColor()
 {
 	return m_SunLight->getDiffuse() * m_SunLight->getIntensity()* glm::vec3(.1);
 }
 
-void ChromaScene::Initialize()
+void Scene::Initialize()
 {
 	// setting skybox to IBL environment map
 	m_Skybox->setColorSpace(HDR);
 	m_Skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
 }
 
-void ChromaScene::AddEntity(IChromaEntity* const& newEntity)
+void Scene::AddEntity(IEntity* const& newEntity)
 {
 	// bind parent scene
 	newEntity->bindParentScene(this);
 	// collect entity
 	m_Entities.push_back(newEntity);
 	// check if entity has any transparent components break if found one
-	for (IChromaComponent* meshComponent : newEntity->getMeshComponents())
+	for (IComponent* meshComponent : newEntity->getMeshComponents())
 	{
-		if (((ChromaMeshComponent*)meshComponent)->m_IsTransparent)
+		if (((MeshComponent*)meshComponent)->m_IsTransparent)
 		{
 			m_TransparentEntities.push_back(newEntity);
 			break;
@@ -29,15 +29,15 @@ void ChromaScene::AddEntity(IChromaEntity* const& newEntity)
 	}
 }
 
-void ChromaScene::RemoveEntity(IChromaEntity& RemoveEntity)
+void Scene::RemoveEntity(IEntity& RemoveEntity)
 {
 }
 
-void ChromaScene::RemoveLight(Light& RemoveLight)
+void Scene::RemoveLight(Light& RemoveLight)
 {
 }
 
-void ChromaScene::SetLights(std::vector<Light*> newLights)
+void Scene::SetLights(std::vector<Light*> newLights)
 {
 	m_Lights = newLights;
 	for (Light* light : newLights)
@@ -45,19 +45,19 @@ void ChromaScene::SetLights(std::vector<Light*> newLights)
 			m_SunLight = light;
 }
 
-void ChromaScene::SetEntities(std::vector<IChromaEntity*> const& newEntities)
+void Scene::SetEntities(std::vector<IEntity*> const& newEntities)
 {
-	for (IChromaEntity* entity : newEntities)
+	for (IEntity* entity : newEntities)
 		AddEntity(entity);
 }
 
 
-ChromaScene::ChromaScene()
+Scene::Scene()
 {
 	Initialize();
 }
 
 
-ChromaScene::~ChromaScene()
+Scene::~Scene()
 {
 }

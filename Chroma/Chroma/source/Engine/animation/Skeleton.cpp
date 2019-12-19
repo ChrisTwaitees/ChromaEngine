@@ -1,5 +1,5 @@
 #include "Skeleton.h"
-#include <entity/IChromaEntity.h>
+#include <entity/IEntity.h>
 
 
 void Skeleton::InitializeSkeleton()
