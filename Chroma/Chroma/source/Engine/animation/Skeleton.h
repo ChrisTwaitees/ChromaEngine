@@ -32,7 +32,6 @@ class Skeleton
 	glm::quat m_Rotation{ glm::quat() };
 
 	// Functions
-	void ProcessJointLocalBindOffsetTransforms(int const& jointID, glm::mat4 const& parentTransform);
 	void DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const& debugBuffer);
 	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
 	void UpdateSkeletonRootTransform();

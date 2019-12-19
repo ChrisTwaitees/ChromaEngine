@@ -193,6 +193,11 @@ void ChromaScreenManager::drawGUI()
 	// camera dropdowns
 	ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));
 
+	// Animation 
+	ImGui::Text("Current Animation : %s", "Walking.fbx");
+	ImGui::ProgressBar(0.5, ImVec2(250,20), "Animation Progress");
+
+	// Display Selected Entity
 	ImGui::Text("Selected Entity : %s", SelectedEntity.c_str());
 	gui.End();
 }

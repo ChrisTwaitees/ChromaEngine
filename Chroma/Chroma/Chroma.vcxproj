@@ -180,8 +180,10 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\ChromaRenderScene.cpp" />
     <ClCompile Include="source\Engine\animation\Animation.cpp" />
+    <ClCompile Include="source\Engine\animation\Animator.cpp" />
     <ClCompile Include="source\Engine\animation\Joint.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
+    <ClCompile Include="source\Engine\component\ChromaAnimationComponent.cpp" />
     <ClCompile Include="source\Engine\component\ChromaMeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\ChromaPhysicsComponent.cpp" />
     <ClCompile Include="source\Engine\entity\ChromaEntity.cpp" />
@@ -194,6 +196,7 @@
     <ClCompile Include="source\Engine\scene\ChromaScene.cpp" />
     <ClCompile Include="source\Engine\screenmanager\ChromaScreenManager.cpp" />
     <ClCompile Include="source\Engine\time\ChromaTime.cpp" />
+    <ClCompile Include="source\Engine\worker\IChromaWorker.cpp" />
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\Chroma.cpp" />
     <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
@@ -238,9 +241,11 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="source\Engine\animation\Animation.h" />
+    <ClInclude Include="source\Engine\animation\Animator.h" />
     <ClInclude Include="source\Engine\animation\Joint.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
     <ClInclude Include="source\Engine\ChromaConfig.h" />
+    <ClInclude Include="source\Engine\component\ChromaAnimationComponent.h" />
     <ClInclude Include="source\Engine\component\ChromaMeshComponent.h" />
     <ClInclude Include="source\Engine\component\ChromaPhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IChromaComponent.h" />
@@ -257,6 +262,7 @@
     <ClInclude Include="source\Engine\scene\ChromaScene.h" />
     <ClInclude Include="source\Engine\screenmanager\ChromaScreenManager.h" />
     <ClInclude Include="source\Engine\time\ChromaTime.h" />
+    <ClInclude Include="source\Engine\worker\IChromaWorker.h" />
     <ClInclude Include="source\Render\buffer\DebugBuffer.h" />
     <ClInclude Include="source\Render\buffer\ForwardBuffer.h" />
     <ClInclude Include="source\Render\buffer\Framebuffer.h" />

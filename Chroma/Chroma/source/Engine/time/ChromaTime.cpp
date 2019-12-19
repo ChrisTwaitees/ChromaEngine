@@ -10,7 +10,7 @@ void ChromaTime::sleep(int milliseconds)
 void ChromaTime::process()
 {
 	// updating deltatime and lag
-	current = getGameTime();
+	current = GetGameTime();
 	delta = current - previous;
 	previous = current;
 

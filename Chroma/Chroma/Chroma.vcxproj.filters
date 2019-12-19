@@ -111,6 +111,9 @@
     <Filter Include="Engine\learnopengl">
       <UniqueIdentifier>{6f68c941-bc66-4c9c-999a-dcffdcb423b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\worker">
+      <UniqueIdentifier>{715fa53f-0e2f-4d97-8641-fcc9f1463a67}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -277,6 +280,15 @@
     </ClCompile>
     <ClCompile Include="source\Render\camera\ICameraController.cpp">
       <Filter>Render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\animation\Animator.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\ChromaAnimationComponent.cpp">
+      <Filter>Engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\worker\IChromaWorker.cpp">
+      <Filter>Engine\worker</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -465,6 +477,15 @@
     </ClInclude>
     <ClInclude Include="source\Engine\ChromaConfig.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\Animator.h">
+      <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\ChromaAnimationComponent.h">
+      <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\worker\IChromaWorker.h">
+      <Filter>Engine\worker</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

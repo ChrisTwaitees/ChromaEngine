@@ -24,23 +24,27 @@ class ChromaEntity : public IChromaEntity
 	void CalculateCentroid();
 
 	// Components
-	std::vector<IChromaComponent*> m_components;
-	std::vector<IChromaComponent*> m_renderableComponents;
-	std::vector<IChromaComponent*> m_litComponents;
-	std::vector<IChromaComponent*> m_shadowCastingComponents;
-	std::vector<IChromaComponent*> m_transparentComponents;
-	std::vector<IChromaComponent*> m_unLitComponents;
+	std::vector<IChromaComponent*> m_Components;
+	std::vector<IChromaComponent*> m_RenderableComponents;
+	std::vector<IChromaComponent*> m_LitComponents;
+	std::vector<IChromaComponent*> m_ShadowCastingComponents;
+	std::vector<IChromaComponent*> m_TransparentComponents;
+	std::vector<IChromaComponent*> m_UnLitComponents;
 
-	std::vector<IChromaComponent*> m_meshComponents;
-	std::vector<IChromaComponent*> m_physicsComponents;
+	std::vector<IChromaComponent*> m_MeshComponents;
+	std::vector<IChromaComponent*> m_PhysicsComponents;
+	std::vector<IChromaComponent*> m_AnimationComponents;
 
 	// Components
 	void addEmptyComponent(IChromaComponent*& newComponent) override;
 	void addMeshComponent(ChromaMeshComponent*& newMeshComponent) override;
 	void addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) override;
+	void addAnimationComponent(ChromaAnimationComponent*& newAnimationComponent) override;
+
 	void removeEmptyComponent(IChromaComponent*& newComponent) override;
 	void removeMeshComponent(ChromaMeshComponent*& newMeshComponent) override {};
 	void removePhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) override {};
+	void removeAnimationComponent(ChromaAnimationComponent*& oldAnimationComponent) override {};
 
 	// Components transforms
 	void updatePhysicsComponentsTransforms();
@@ -52,26 +56,25 @@ class ChromaEntity : public IChromaEntity
 
 public:
 	// Scene 
-	ChromaScene* getParentScene() override { return m_parentScene; };
-	void bindParentScene(ChromaScene* const& scene) override { m_parentScene = scene; };
+	ChromaScene* GetParentScene() override { return m_ParentScene; };
+	void bindParentScene(ChromaScene* const& scene) override { m_ParentScene = scene; };
 
 	// components
-	std::vector<IChromaComponent*> getComponents() { return m_components; };
-	std::vector<IChromaComponent*> getRenderableComponents() { return m_renderableComponents; };
-	std::vector<IChromaComponent*> getLitComponents() { return m_litComponents; };
-	std::vector<IChromaComponent*> getShadowCastingComponents() { return m_shadowCastingComponents; };
-	std::vector<IChromaComponent*> getTransparentComponents() { return m_transparentComponents; };
-	std::vector<IChromaComponent*> getUnlitComponents() { return m_unLitComponents; };
+	std::vector<IChromaComponent*> getComponents() { return m_Components; };
+	std::vector<IChromaComponent*> getRenderableComponents() { return m_RenderableComponents; };
+	std::vector<IChromaComponent*> getLitComponents() { return m_LitComponents; };
+	std::vector<IChromaComponent*> getShadowCastingComponents() { return m_ShadowCastingComponents; };
+	std::vector<IChromaComponent*> getTransparentComponents() { return m_TransparentComponents; };
+	std::vector<IChromaComponent*> getUnlitComponents() { return m_UnLitComponents; };
 
-	std::vector<IChromaComponent*> getMeshComponents() { return m_meshComponents; };
-	std::vector<IChromaComponent*> getPhysicsComponents() { return m_physicsComponents; };
-
+	std::vector<IChromaComponent*> getMeshComponents() { return m_MeshComponents; };
+	std::vector<IChromaComponent*> getPhysicsComponents() { return m_PhysicsComponents; };
+	std::vector<IChromaComponent*> getAnimationComponents() { return m_AnimationComponents; };
 
 	// name
 	ChromaUID GetUID() { return m_uid; };
 	std::string GetName() { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
-
 
 	// Transformations
 	// additive

@@ -15,7 +15,7 @@
 class ChromaScene;
 class ChromaMeshComponent;
 class ChromaPhysicsComponent;
-
+class ChromaAnimationComponent;
 
 class IChromaEntity
 {
@@ -30,14 +30,17 @@ protected:
 	// name
 	std::string m_Name;
 	// parent scene
-	ChromaScene* m_parentScene;
+	ChromaScene* m_ParentScene;
 	// Components
 	virtual void addEmptyComponent(IChromaComponent*& newComponent) = 0;
 	virtual void addMeshComponent(ChromaMeshComponent*& newMeshComponent) = 0;
 	virtual void addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) = 0;
+	virtual void addAnimationComponent(ChromaAnimationComponent*& newAnimationComponent) = 0;
+
 	virtual void removeEmptyComponent(IChromaComponent*& newComponent) = 0;
 	virtual void removeMeshComponent(ChromaMeshComponent*& newMeshComponent) = 0;
 	virtual void removePhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent) = 0;
+	virtual void removeAnimationComponent(ChromaAnimationComponent*& oldAnimationComponent) = 0;
 
 public:
 	// Name
@@ -46,7 +49,7 @@ public:
 	virtual void SetName(std::string newName) = 0;
 
 	// scene
-	virtual ChromaScene* getParentScene() = 0;
+	virtual ChromaScene* GetParentScene() = 0;
 	virtual void bindParentScene(ChromaScene* const& scene) = 0;
 
 	// Transformations
@@ -78,7 +81,7 @@ public:
 
 	virtual std::vector<IChromaComponent*> getMeshComponents() = 0;
 	virtual std::vector<IChromaComponent*> getPhysicsComponents() = 0;
-
+	virtual std::vector<IChromaComponent*> getAnimationComponents() = 0;
 
 	// add
 	template<typename component>
@@ -101,6 +104,11 @@ public:
 		addPhysicsComponent(newComponent);
 	};
 
+	template<>
+	void addComponent<ChromaAnimationComponent*>(ChromaAnimationComponent* newComponent) {
+		addAnimationComponent(newComponent);
+	};
+
 	// remove
 	template<typename component>
 	void removeComponent(component newComponent) {
@@ -120,6 +128,11 @@ public:
 	template<>
 	void removeComponent<ChromaPhysicsComponent*>(ChromaPhysicsComponent* newComponent) {
 		removePhysicsComponent(newComponent);
+	};
+
+	template<>
+	void removeComponent<ChromaAnimationComponent*>(ChromaAnimationComponent* newComponent) {
+		removeAnimationComponent(newComponent);
 	};
 
 

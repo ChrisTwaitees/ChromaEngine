@@ -20,11 +20,11 @@ class ChromaTime
 	double lag{ 0.0f };
 
 public:
-	double getLag() { return lag; };
-	void decreaseLag(double decreaseAmount) { lag -= decreaseAmount; }
-	double getMSPerFrame() { return MS_PER_FRAME; };
-	double getGameTime() { return glfwGetTime(); }
+	double GetLag() { return lag; };
+	void DecreaseLag(double decreaseAmount) { lag -= decreaseAmount; }
+	double GetMSPerFrame() { return MS_PER_FRAME; };
 	double getDeltaTime() { return  delta; };
+	double GetGameTime() { return glfwGetTime(); }
 
 	void process();
 };

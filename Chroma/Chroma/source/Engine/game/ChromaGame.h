@@ -1,21 +1,19 @@
 #ifndef _CHROMA_GAME_
 #define _CHROMA_GAME_
 
-#include <GLFW/glfw3.h>
-#include <functional>
-		 
+//stl
 #include <iostream>
+#include <functional>
+// thirdparty
+#include <GLFW/glfw3.h>
+// chroma
 #include <input/ChromaInput.h>
 #include <renderer/Renderer.h>
-#include <buffer/DebugBuffer.h>
 #include <scene/ChromaScene.h>
 #include <screenmanager/ChromaScreenManager.h>
 #include <time/ChromaTime.h>
 #include <physics/Physics.h>
-
-// testing ray creation
-#include "model/LinePrimitive.h"
-
+#include <worker/IChromaWorker.h>
 
 class ChromaGame
 {

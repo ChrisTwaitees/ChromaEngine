@@ -5,6 +5,9 @@ void ChromaGame::Update()
 {
 	// physics
 	m_physics->update(m_time);
+
+	// workers
+	IChromaWorker::DoWork();
 }
 
 void ChromaGame::Draw()
@@ -32,10 +35,10 @@ void ChromaGame::Tick()
 	ProcessInput();
 
 	// update while lag is less than framerate cap
-	while (m_time.getLag() >= m_time.getMSPerFrame())
+	while (m_time.GetLag() >= m_time.GetMSPerFrame())
 	{
 		Update();
-		m_time.decreaseLag(m_time.getMSPerFrame());
+		m_time.DecreaseLag(m_time.GetMSPerFrame());
 	}
 	// consider sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
 

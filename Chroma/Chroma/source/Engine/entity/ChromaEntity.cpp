@@ -1,12 +1,13 @@
 #include "ChromaEntity.h"
 #include <component/ChromaMeshComponent.h>
 #include <component/ChromaPhysicsComponent.h>
+#include <component/ChromaAnimationComponent.h>
 
 std::vector<ChromaVertex> ChromaEntity::GetVertices()
 {
 	// collecting all vertices within mesh components of entity
 	std::vector<ChromaVertex> verts;
-	for (IChromaComponent* meshComponent : m_meshComponents)
+	for (IChromaComponent* meshComponent : m_MeshComponents)
 	{
 		std::vector<ChromaVertex> m_vertices = ((ChromaMeshComponent*)meshComponent)->GetVertices();
 		for (ChromaVertex vert : m_vertices)
@@ -30,29 +31,20 @@ glm::vec3 ChromaEntity::GetCentroid()
 
 void ChromaEntity::Draw(Shader& shader)
 {
-	for (IChromaComponent* component : m_renderableComponents)
+	for (IChromaComponent* component : m_RenderableComponents)
 		((ChromaMeshComponent*)component)->Draw(shader);
 }
 
 void ChromaEntity::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights)
 {
-	for (IChromaComponent* component : m_renderableComponents)
+	for (IChromaComponent* component : m_RenderableComponents)
 		((ChromaMeshComponent*)component)->Draw(shader, RenderCamera, Lights, m_transformMatrix);
 }
 
 void ChromaEntity::Draw(Camera& RenderCamera, std::vector<Light*> Lights)
 {
-	for (IChromaComponent* component : m_renderableComponents)
+	for (IChromaComponent* component : m_RenderableComponents)
 		((ChromaMeshComponent*)component)->Draw(RenderCamera, Lights, m_transformMatrix);
-}
-
-ChromaEntity::ChromaEntity()
-{
-}
-
-
-ChromaEntity::~ChromaEntity()
-{
 }
 
 // ADDING/REMOVING COMPONENTS
@@ -62,21 +54,21 @@ void ChromaEntity::addMeshComponent(ChromaMeshComponent*& newMeshComponent)
 	SetParentEntity(newMeshComponent);
 
 	// add mesh component
-	m_meshComponents.push_back(newMeshComponent);
+	m_MeshComponents.push_back(newMeshComponent);
 
 	// TODO: Consider shared_ptr to prevent memory duplication
 	if (newMeshComponent->m_IsRenderable)
-		m_renderableComponents.push_back(newMeshComponent);
+		m_RenderableComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_IsLit)
-		m_litComponents.push_back(newMeshComponent);
+		m_LitComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_CastShadows)
-		m_shadowCastingComponents.push_back(newMeshComponent);
+		m_ShadowCastingComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_IsTransparent)
-		m_transparentComponents.push_back(newMeshComponent);
+		m_TransparentComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_IsLit == false)
-		m_unLitComponents.push_back(newMeshComponent);
+		m_UnLitComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_IsTransparent || newMeshComponent->m_IsLit == false)
-		m_transparentComponents.push_back(newMeshComponent);
+		m_TransparentComponents.push_back(newMeshComponent);
 }
 
 void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsComponent)
@@ -85,20 +77,26 @@ void ChromaEntity::addPhysicsComponent(ChromaPhysicsComponent*& newPhysicsCompon
 	SetParentEntity(newPhysicsComponent);
 
 	// add physics component
-	m_physicsComponents.push_back(newPhysicsComponent);
+	m_PhysicsComponents.push_back(newPhysicsComponent);
 
 	// build rigidBody
 	newPhysicsComponent->BuildRigidBody();
 
 	// add rigid body to physics world
-	m_parentScene->getPhysics()->addBodyToWorld(newPhysicsComponent);
+	m_ParentScene->getPhysics()->addBodyToWorld(newPhysicsComponent);
+}
+
+void ChromaEntity::addAnimationComponent(ChromaAnimationComponent*& newAnimationComponent)
+{
+	// bind parent entity
+	SetParentEntity(newAnimationComponent);
 }
 
 void ChromaEntity::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (IChromaComponent* meshComponent : m_meshComponents)
+	for (IChromaComponent* meshComponent : m_MeshComponents)
 		bboxes.push_back(((ChromaMeshComponent*)meshComponent)->GetBBox());
 	// once collected, calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
@@ -126,25 +124,25 @@ void ChromaEntity::addEmptyComponent(IChromaComponent*& newComponent)
 	SetParentEntity(newComponent);
 
 	// TODO: Consider shared_ptr to prevent memory duplication
-	m_components.push_back(newComponent);
+	m_Components.push_back(newComponent);
 }
 
 void ChromaEntity::removeEmptyComponent(IChromaComponent*& removeMe)
 {
 	// all components 
-	int componentIndex = findIndexInVector(m_components, removeMe);
+	int componentIndex = findIndexInVector(m_Components, removeMe);
 	if (componentIndex > 0)
-		m_components.erase(m_components.begin() + componentIndex);	
+		m_Components.erase(m_Components.begin() + componentIndex);	
 	// renderable components
 	// TODO: Consider using shared_ptr to better manage memory
-	componentIndex = findIndexInVector(m_renderableComponents, removeMe);
+	componentIndex = findIndexInVector(m_RenderableComponents, removeMe);
 	if (componentIndex)
-		m_renderableComponents.erase(m_renderableComponents.begin() + componentIndex);
+		m_RenderableComponents.erase(m_RenderableComponents.begin() + componentIndex);
 }
 
 void ChromaEntity::updatePhysicsComponentsTransforms()
 {
-	for (IChromaComponent* physicsComponent : m_physicsComponents)
+	for (IChromaComponent* physicsComponent : m_PhysicsComponents)
 	{
 		if (((ChromaPhysicsComponent*)physicsComponent)->getColliderState() == Kinematic) // check if physics object is kinematic
 			((ChromaPhysicsComponent*)physicsComponent)->SetWorldTransform(m_transformMatrix);
@@ -205,4 +203,14 @@ int findIndexInVector(const std::vector<IChromaComponent*>& componentsVector, IC
 		std::cout << "ChromaComponent: " << component->GetName() << "not found in Chroma Entity" << std::endl;
 		return -1;
 	}
+}
+
+
+ChromaEntity::ChromaEntity()
+{
+}
+
+
+ChromaEntity::~ChromaEntity()
+{
 }
