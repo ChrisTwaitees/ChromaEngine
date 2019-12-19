@@ -50,10 +50,11 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			aiNodeAnim* aiAnimNode = aiAnim->mChannels[j];
 			KeyFrame newKeyFrame;
 
-			// Name and joint id
-			newKeyFrame.m_JointID = j;
-			newKeyFrame.m_JointName = aiAnimNode->mNodeName.C_Str();
-
+			// aiNodeAnim channels correlate to the joint keyed
+			// they name however often does not match the joint so we do a simple search 
+			// to find the correct joint 
+			newKeyFrame.m_JointName = GetJointName(aiAnimNode, scene);
+			
 			// Positions
 			for (unsigned int a = 0; a < aiAnimNode->mNumPositionKeys; a++)
 			{
@@ -115,6 +116,29 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 		// add to takes
 		takes.push_back(newTake);
 	}
+}
+
+std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene)
+{
+	for (int i = 0; i < scene->mNumMeshes; i++)
+	{	
+		aiMesh* mesh = scene->mMeshes[i];
+		if (mesh->HasBones())
+		{
+			for (int j = 0; j < mesh->mNumBones; j++)
+			{
+				aiBone* bone = mesh->mBones[j];
+				std::string boneName{ bone->mName.C_Str() };
+				std::string animNodeChannelName{ animNode->mNodeName.C_Str() };
+				if (animNodeChannelName.find(boneName) != std::string::npos)
+				{
+					return boneName;
+				}
+
+			}
+		}
+	}
+		
 }
 
 

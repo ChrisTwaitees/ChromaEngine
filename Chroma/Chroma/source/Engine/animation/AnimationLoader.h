@@ -1,7 +1,6 @@
 #ifndef _CHROMA_ANIMATION_
 #define _CHROMA_ANIMATION_
 
-
 // stl
 #include <vector>
 #include <iostream>
@@ -28,8 +27,7 @@ struct JointTransform
 struct KeyFrame
 {
 	std::string m_JointName;
-	int m_JointID;
-	// format is <data, framenumber>
+	// format is <timeStamp, JointTransform>
 	std::map<float, JointTransform> m_JointTransforms;
 };
 
@@ -43,15 +41,16 @@ struct Take
 	std::vector<KeyFrame> m_KeyFrames;
 };
 
+void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes);
+void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& takes);
+
+
+std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene);
+
 namespace AnimationLoader
 {
 	std::vector<Take> LoadAnimations(std::string sourcePath);
 }
-
-
-
-void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes);
-void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& takes);
 
 
 #endif
