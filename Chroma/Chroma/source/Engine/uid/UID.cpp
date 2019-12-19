@@ -1,6 +1,9 @@
-#include "ChromaUID.h"
+#include "UID.h"
 
-unsigned int ChromaUID::random_char()
+
+
+
+unsigned int UIDRandomChar()
 {
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -8,25 +11,21 @@ unsigned int ChromaUID::random_char()
 	return dis(gen);
 }
 
-std::string ChromaUID::NewID()
+const char* UIDNewUID()
 {
 	std::stringstream ss;
 	for (auto i = 0; i < CHROMA_UID_LENGTH; i++) {
-		const auto rc = random_char();
+		const auto rc = UIDRandomChar();
 		std::stringstream hexstream;
 		hexstream << std::hex << rc;
 		auto hex = hexstream.str();
 		ss << (hex.length() < 2 ? '0' + hex : hex);
 	}
-	return ss.str();
-}
-
-ChromaUID::ChromaUID()
-{
-	UID = NewID();
+	return ss.str().c_str();
 }
 
 
-ChromaUID::~ChromaUID()
+const char* UID::GenerateNewUID()
 {
+	return UIDNewUID();
 }

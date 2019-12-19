@@ -30,9 +30,6 @@
     <Filter Include="Engine\scene">
       <UniqueIdentifier>{a115db08-c96b-4cc4-a7ce-a6db6d537335}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\memory">
-      <UniqueIdentifier>{e1388c38-c673-4d55-9ee4-767c39ff7017}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\game">
       <UniqueIdentifier>{0518dd9a-2268-4715-878c-365d837abbfe}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,12 @@
     <Filter Include="Render\model\mesh">
       <UniqueIdentifier>{1e30206c-bb5f-4af6-8418-7a1b233dd0d9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\memory">
+      <UniqueIdentifier>{e1388c38-c673-4d55-9ee4-767c39ff7017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\uid">
+      <UniqueIdentifier>{2d2902b3-1bbc-49e8-8323-3955b516950a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -160,9 +163,6 @@
     </ClCompile>
     <ClCompile Include="source\Render\gui\ChromaGUI.cpp">
       <Filter>Render\gui</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\memory\ChromaUID.cpp">
-      <Filter>Engine\memory</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\shader\Shader.cpp">
       <Filter>Render\shader</Filter>
@@ -296,6 +296,15 @@
     <ClCompile Include="source\Engine\animation\AnimationEngine.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\entity\IEntity.cpp">
+      <Filter>classes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\IComponent.cpp">
+      <Filter>classes\Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\uid\UID.cpp">
+      <Filter>Engine\uid</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -342,9 +351,6 @@
     </ClInclude>
     <ClInclude Include="source\Render\gui\ChromaGUI.h">
       <Filter>Render\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\memory\ChromaUID.h">
-      <Filter>Engine\memory</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\memory\packed_freelist.h">
       <Filter>Engine\memory</Filter>
@@ -495,6 +501,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\animation\AnimationEngine.h">
       <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\uid\UID.h">
+      <Filter>Engine\uid</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 // chroma
 #include <model/Vertex.h>
-#include <memory/ChromaUID.h>
+#include <uid/UID.h>
 #include <component/IComponent.h>
 
 // forward declarations
@@ -26,7 +26,7 @@ protected:
 	glm::vec3 m_BBoxMin, m_BBoxMax;
 	glm::vec3 m_Centroid;
 	// UID
-	ChromaUID m_uid;
+	std::string m_UID;
 	// name
 	std::string m_Name;
 	// parent scene
@@ -44,9 +44,9 @@ protected:
 
 public:
 	// Name
-	virtual ChromaUID GetUID() = 0;
-	virtual std::string GetName() = 0;
-	virtual void SetName(std::string newName) = 0;
+	std::string GetUID() const { return m_UID; };
+	std::string GetName() const { return m_Name; };
+	void SetName(std::string newName) { m_Name = newName; };
 
 	// scene
 	virtual Scene* GetParentScene() = 0;
@@ -135,7 +135,7 @@ public:
 		removeAnimationComponent(newComponent);
 	};
 
-
+	IEntity();
 	virtual ~IEntity() {};
 };
 

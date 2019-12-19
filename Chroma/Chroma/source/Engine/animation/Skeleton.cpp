@@ -58,8 +58,7 @@ int Skeleton::GetJointID(std::string const& jointName) const
 			return IDNameJoint.first.first;
 		}
 	}
-	std::cout << "::SKELETON ERROR::" << std::endl;
-	std::cout << "JOINT ID COULD NOT BE FOUND WITH NAME : " << jointName << std::endl;
+	throw "JOINT ID COULD NOT BE FOUND." ;
 }
 
 std::string Skeleton::GetJointName(int const& jointID) const
@@ -71,8 +70,7 @@ std::string Skeleton::GetJointName(int const& jointID) const
 			return IDNameJoint.first.second;
 		}
 	}
-	std::cout << "::SKELETON ERROR::" << std::endl;
-	std::cout << "JOINT NAME COULD NOT BE FOUND WITH ID : " << jointID << std::endl;
+	throw "JOINT NAME COULD NOT BE FOUND.";
 }
 
 Joint Skeleton::GetJoint(int const& index)
@@ -84,8 +82,7 @@ Joint Skeleton::GetJoint(int const& index)
 			return IDNameJoint.second;
 		}
 	}
-	std::cout << "::SKELETON ERROR::" << std::endl;
-	std::cout << "JOINT ID : " << index << " COULD NOT BE FOUND. " << std::endl;
+	throw "JOINT COULD NOT BE FOUND.";
 }
 
 Joint Skeleton::GetJoint(std::string const& jointName) 
@@ -97,8 +94,7 @@ Joint Skeleton::GetJoint(std::string const& jointName)
 			return IDNameJoint.second;
 		}
 	}
-	std::cout << "::SKELETON ERROR::" << std::endl;
-	std::cout << "JOINT NAME : " << jointName << " COULD NOT BE FOUND. " << std::endl;
+	throw "JOINT COULD NOT BE FOUND.";
 }
 
 Joint* Skeleton::GetJointPtr(int const& index)

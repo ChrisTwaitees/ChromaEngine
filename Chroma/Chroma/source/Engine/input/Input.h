@@ -31,7 +31,7 @@ class Input
 
 	glm::vec3 m_LastMouseRay{ glm::vec3(0) };
 	double m_DeltaTime{ 0.0f };
-	int m_ScreenWidth, m_ScreenHeight;
+	int m_ScreenWidth{ 0 }, m_ScreenHeight{ 0 };
 
 	// functions 
 	void Initialize();

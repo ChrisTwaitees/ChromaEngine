@@ -6,7 +6,7 @@
 #include <typeinfo>
 
 // chroma
-#include <memory/ChromaUID.h>
+#include <uid/UID.h>
 #include <shader/Shader.h>
 #include <camera/Camera.h>
 #include <light/Light.h>
@@ -20,7 +20,7 @@ class IComponent
 {
 protected:
 	// name
-	ChromaUID UID;
+	const char* m_UID;
 	std::string m_Name;
 
 	// parent
@@ -29,7 +29,7 @@ protected:
 public:
 
 	// Acessors
-	ChromaUID GetUID() const { return UID; };
+	std::string GetUID() const { return m_UID; };
 
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
@@ -37,7 +37,7 @@ public:
 	IEntity* GetParentEntity() const {   return m_ParentEntity;	}
 	virtual void SetParentEntity(IEntity* const& parentEntity) { m_ParentEntity = parentEntity; }
 
-	IComponent() {};
+	IComponent();
 	virtual ~IComponent() {};
 };
 

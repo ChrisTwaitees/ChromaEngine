@@ -161,7 +161,7 @@ int main()
 	AnimModelAnimationComponent->AddAnimator(testAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 	// transforming entity
-	((Model*)AnimModelMeshComponent)->SetSkeletonTranslation(glm::vec3(-2, 0, -4));
+	////((Model*)AnimModelMeshComponent)->SetSkeletonTranslation(glm::vec3(-2, 0, -4));
 	((Model*)AnimModelMeshComponent)->SetSkeletonScale(0.06);
 	// ____________________________________________________
 

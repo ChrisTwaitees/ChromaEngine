@@ -7,7 +7,6 @@
 #include <entity/IEntity.h>
 
 #include <model/Vertex.h>
-#include <memory/ChromaUID.h>
 #include <texture/Texture.h>
 #include <shader/Shader.h>
 #include <light/Light.h>
@@ -71,11 +70,6 @@ public:
 	std::vector<IComponent*> getMeshComponents() { return m_MeshComponents; };
 	std::vector<IComponent*> getPhysicsComponents() { return m_PhysicsComponents; };
 	std::vector<IComponent*> getAnimationComponents() { return m_AnimationComponents; };
-
-	// name
-	ChromaUID GetUID() { return m_uid; };
-	std::string GetName() { return m_Name; };
-	void SetName(std::string newName) { m_Name = newName; };
 
 	// Transformations
 	// additive

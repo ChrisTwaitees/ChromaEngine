@@ -10,7 +10,7 @@
 class ChromaGUI
 {
 protected:
-	GLFWwindow* window;
+	GLFWwindow* window{ nullptr };
 	void Initialize();
 public:
 	void StartLoop();
