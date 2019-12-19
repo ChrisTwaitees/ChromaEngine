@@ -16,7 +16,7 @@ public:
 
 	void AddAnimator(Animator const& newAnimator) { m_Animators.push_back(newAnimator); };
 
-	void ProcessAnimators(ChromaTime& time);
+	void ProcessAnimators(Time& time);
 	AnimationComponent();
 	~AnimationComponent();
 };

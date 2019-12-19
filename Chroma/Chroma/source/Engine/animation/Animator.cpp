@@ -4,10 +4,10 @@
 
 void Animator::TriggerTimer(float const& duration, float& counter)
 {
-//	IWorker::AddWork(this->TriggerTimer);
+//	IWorker::AddJob(this->TriggerTimer);
 }
 
-void Animator::DoAnimation(ChromaTime& time)
+void Animator::DoAnimation(Time& time)
 {
 
 	std::cout << "Processing Active Animations" << std::endl;

@@ -62,7 +62,7 @@ void PhysicsEngine::addBodyToWorld(PhysicsComponent*& physicsComponent)
 }
 
 
-void PhysicsEngine::Update(ChromaTime& time)
+void PhysicsEngine::Update(Time& time)
 {
 	// step simulation
 	m_world->stepSimulation(time.GetDeltaTime());

@@ -34,7 +34,7 @@ class ChromaGame
 	AnimationEngine* m_Animation{ new AnimationEngine() };
 
 	// input
-	ChromaTime m_time;
+	Time m_time;
 	Input* m_Input{ new Input };
 
 	// game loop functions

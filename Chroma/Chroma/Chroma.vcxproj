@@ -197,7 +197,7 @@
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp" />
     <ClCompile Include="source\Engine\scene\Scene.cpp" />
     <ClCompile Include="source\Engine\screenmanager\ScreenManager.cpp" />
-    <ClCompile Include="source\Engine\time\ChromaTime.cpp" />
+    <ClCompile Include="source\Engine\time\Time.cpp" />
     <ClCompile Include="source\Engine\uid\UID.cpp" />
     <ClCompile Include="source\Engine\worker\IWorker.cpp" />
     <ClCompile Include="source\glad.c" />
@@ -264,7 +264,7 @@
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h" />
     <ClInclude Include="source\Engine\scene\Scene.h" />
     <ClInclude Include="source\Engine\screenmanager\ScreenManager.h" />
-    <ClInclude Include="source\Engine\time\ChromaTime.h" />
+    <ClInclude Include="source\Engine\time\Time.h" />
     <ClInclude Include="source\Engine\uid\UID.h" />
     <ClInclude Include="source\Engine\worker\IWorker.h" />
     <ClInclude Include="source\Render\buffer\DebugBuffer.h" />

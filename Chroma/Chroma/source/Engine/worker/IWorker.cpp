@@ -8,7 +8,6 @@ void IWorker::DoWork()
 	{
 		job();
 	}
-	std::cout << "num workers : " << m_Jobs.size() << std::endl;
 }
 
 IWorker::IWorker()

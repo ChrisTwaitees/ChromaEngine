@@ -11,11 +11,10 @@ class AnimationEngine
 {
 	Scene* m_Scene{ nullptr };
 
-
 public:
 
 	void BindScene(Scene*& newScene) { m_Scene = newScene; };
-	void Update(ChromaTime& time);
+	void Update(Time& time);
 
 	AnimationEngine();
 	~AnimationEngine();

@@ -25,7 +25,7 @@ public:
 
 	void BindSkeleton(Skeleton* newSkeleton) { m_Skeleton = newSkeleton; };
 
-	void DoAnimation(ChromaTime& time);
+	void DoAnimation(Time& time);
 
 	Animator();
 	~Animator();

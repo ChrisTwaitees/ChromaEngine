@@ -42,7 +42,7 @@ private:
 public:
 	void addBodyToWorld(PhysicsComponent*& physicsComponent);
 	
-	void Update(ChromaTime& time);
+	void Update(Time& time);
 
 	void setGravity(glm::vec3& newGravity) ;
 

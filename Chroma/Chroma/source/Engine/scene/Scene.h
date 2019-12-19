@@ -32,7 +32,7 @@ class Scene
 	std::set<std::string> m_AnimatedEntityUIDs;
 
 	PhysicsEngine* m_Physics;
-	ChromaTime* m_Time;
+	Time* m_Time;
 
 	// render components
 	Camera* m_RenderCamera{ new Camera() };
@@ -62,7 +62,7 @@ public:
 	void SetRenderCamera(Camera* const& newRenderCamera) { m_RenderCamera = newRenderCamera; };
 	void SetLights(std::vector<Light*> newLights);
 	void SetPhysics(PhysicsEngine*& newPhysics) { m_Physics = newPhysics; };
-	void SetTime(ChromaTime* const& newTime) { m_Time = newTime; };
+	void SetTime(Time* const& newTime) { m_Time = newTime; };
 
 	// getters
 	IEntity* GetEntity(std::string UID);
@@ -75,7 +75,7 @@ public:
 	std::vector<Light*> GetLights() { return m_Lights; };
 	Light* GetSunLight() { return m_SunLight; };
 	PhysicsEngine* GetPhysics() { return  m_Physics; };
-	ChromaTime* GetTime() { return m_Time; };
+	Time* GetTime() { return m_Time; };
 	SkyBox* GetSkyBox() { return m_Skybox; };
 	glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
 	IBL* GetIBL() { return m_IBL; };

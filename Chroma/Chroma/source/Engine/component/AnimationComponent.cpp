@@ -1,11 +1,10 @@
 #include "AnimationComponent.h"
 
 
-void AnimationComponent::ProcessAnimators(ChromaTime& time)
+void AnimationComponent::ProcessAnimators(Time& time)
 {
 	for (Animator& animator : m_Animators)
 	{
-		std::cout << "Processing Animator : " << std::endl;
 		animator.DoAnimation(time);
 	}
 }
