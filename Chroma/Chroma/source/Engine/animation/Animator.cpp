@@ -7,7 +7,7 @@ void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 	if (m_Takes.find(takeName) != m_Takes.end())
 	{
 		float framenum = glm::mod(timeStamp, m_Takes.at(takeName).m_Duration) * (1.0 / m_Takes.at(takeName).m_Duration) * m_Takes.at(takeName).m_NumFrames;
-		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, m_Skeleton->GetRootTransform(), framenum);
+		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, glm::mat4(1.0), framenum);
 	}
 	else
 	{
@@ -19,12 +19,12 @@ void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& timeStamp)
 {
 	// Calculate Local JointTransform at Time
-	glm::mat4 localAnimatedJointTransform = parentTransform * GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp) * m_Skeleton->GetJointPtr(jointID)->GetModelBindTransform();
+	glm::mat4 localAnimatedJointTransform = parentTransform * GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp) ;
 	// Create Model Space Anim Transform
 	glm::mat4 FinalAnimTransform =  localAnimatedJointTransform * m_Skeleton->GetJointPtr(jointID)->GetModelBindTransform();
 	// Set Model Space Anim Transform
-	m_Skeleton->GetJointPtr(jointID)->SetFinalTransform(FinalAnimTransform);
-	//m_Skeleton->GetRootTransform() * 
+	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(FinalAnimTransform);
+
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->GetChildJointIDs())
 		ApplyAnimJointHierarchy(childJointID, keyFrames, localAnimatedJointTransform, timeStamp);
 
@@ -41,7 +41,7 @@ glm::mat4 Animator::GetJointMat4AtKeyFrameTime(std::string const& jointName, Key
 	else
 	{
 		// No Keyframe found for joint, return identity matrix
-		return glm::mat4(1);
+		return glm::mat4(1.0);
 	}
 }
 
@@ -81,7 +81,7 @@ JointTransform Animator::GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, flo
 
 glm::mat4 Animator::JointTransformToMat4(JointTransform& jointTransform)
 {
-	glm::mat4 jointToLocal = glm::translate(glm::mat4(1), jointTransform.m_Translation);
+	glm::mat4 jointToLocal = glm::translate(glm::mat4(1.0), jointTransform.m_Translation);
 	jointToLocal = glm::toMat4(jointTransform.m_Rotation) * jointToLocal;
 	return glm::scale(jointToLocal, jointTransform.m_Scale);
 }

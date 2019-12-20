@@ -25,8 +25,10 @@ class Skeleton
 	float m_Scale{ 1.0f };
 	glm::vec3 m_Translation{ 1.0f };
 	glm::quat m_Rotation{ glm::quat() };
+	glm::mat4 m_RootTransform{ glm::mat4(1.0) };
 
 	// Functions
+	glm::mat4 BuildRootTransform();
 	void DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const& debugBuffer);
 	void UpdateSkeletonRootTransform();
 
@@ -52,7 +54,7 @@ public:
 
 	glm::mat4 GetJointTransform(std::string const& jointName) const;
 	glm::mat4 GetJointTransform(int const& jointID) const;
-	glm::mat4 GetRootTransform() const;
+	glm::mat4 GetRootTransform() const { return m_RootTransform; };
 	unsigned int GetRootJointID() const { return m_RootJointID; };
 
 	Joint GetJoint(int const& index);

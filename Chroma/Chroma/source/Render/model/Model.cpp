@@ -330,6 +330,7 @@ void Model::SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>
 			return;
 		}
 	}
+
 }
 
 void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& skeleton)
@@ -346,7 +347,7 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 		// Joint Model Transform, Relative to Model Origin
 		newJoint.SetModelBindTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
 		// Joint Final Transform intialized to model transform
-		newJoint.SetFinalTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
+		newJoint.SetModelSpaceTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
 		// Joint Inverse Model Transform, Relative from Joint to Origin
 		newJoint.SetModelInverseBindTransform(AIToGLM(bone->mOffsetMatrix));
 		// Joint ID
@@ -362,6 +363,13 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 			skinningData.second = vertexWeight.mWeight;
 			SetVertSkinningData(m_SkinnedVertices[vertexWeight.mVertexId], skinningData);
 		}
+		// Normalize Skinning weights
+		for (ChromaSkinnedVertex skinnedVert : m_SkinnedVertices)
+		{
+			skinnedVert.m_jointWeights = glm::normalize(skinnedVert.m_jointWeights);
+		}
+
+
 		// Add new joint
 		skeleton.AddJoint(newJoint);
 	}

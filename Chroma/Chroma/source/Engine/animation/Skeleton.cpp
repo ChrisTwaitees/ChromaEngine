@@ -79,7 +79,7 @@ glm::mat4 Skeleton::GetJointTransform(std::string const& jointName) const
 	{
 		if (IDNameJoint.first.second == jointName)
 		{
-			return IDNameJoint.second.GetFinalTransform();
+			return IDNameJoint.second.GetModelSpaceTransform();
 		}
 	}
 	throw "JOINT COULD NOT BE FOUND.";
@@ -91,7 +91,7 @@ glm::mat4 Skeleton::GetJointTransform(int const& jointID) const
 	{
 		if (IDNameJoint.first.first == jointID)
 		{
-			return IDNameJoint.second.GetFinalTransform();
+			return IDNameJoint.second.GetModelSpaceTransform();
 		}
 	}
 	throw "JOINT COULD NOT BE FOUND.";
@@ -196,8 +196,13 @@ bool Skeleton::GetJointExists(std::string const& jointName) const
 	return false;
 }
 
+void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
+{
+	// Loop through Skeleton drawing to debug buffer
+	DebugWalkChildJoints(GetRootJoint(), debugBuffer);
+}
 
-glm::mat4 Skeleton::GetRootTransform() const
+glm::mat4 Skeleton::BuildRootTransform()
 {
 	// Build rootTransform Matrix
 	glm::mat4 rootTransform = glm::translate(m_IdentityMatrix, m_Translation);
@@ -205,20 +210,14 @@ glm::mat4 Skeleton::GetRootTransform() const
 	return glm::scale(rootTransform, glm::vec3(m_Scale));
 }
 
-void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
-{
-	// Loop through Skeleton drawing to debug buffer
-	DebugWalkChildJoints(GetRootJoint(), debugBuffer);
-}
-
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
 {
 	// Debug Draw Skelton
-	glm::vec3 startPos = GLMGetTranslation(GetJoint(currentJoint.GetID()).GetFinalTransform());
+	glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * currentJoint.GetModelSpaceTransform());
 
 	for (int const& childID : currentJoint.GetChildJointIDs())
 	{
-		glm::vec3 endPos = GLMGetTranslation(GetJoint(childID).GetFinalTransform());
+		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJoint(childID).GetModelSpaceTransform());
 		if(currentJoint.GetID() == m_RootJointID)
 			debugBuffer->DrawOverlayLine(startPos, endPos, glm::vec3(1.0 , 0.0,  0.0));
 		else if (childID == GetJointID("mixamorig:Head"))
@@ -230,33 +229,32 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 	}
 }
 
+void Skeleton::SetJointUniforms(Shader& skinnedShader)
+{
+	// Render Pipeline Entry point, setting shader's Joint Matrices
+	for (auto const& IDNameJoint : m_Joints)
+	{
+		glm::mat4 WorldSpaceOffsetTransform = GetRootTransform() * IDNameJoint.second.GetModelSpaceTransform() * IDNameJoint.second.GetModelInverseBindTransform();
+		std::string jntUniformName = "aJoints[" + std::to_string(IDNameJoint.first.first) + "]";
+		skinnedShader.setUniform(jntUniformName, WorldSpaceOffsetTransform);
+	}
+}
 
 void Skeleton::UpdateSkeletonRootTransform()
 {
 	// Apply to root, traversing down chain
-	TransformJointAndChildren(m_RootJointID, GetRootTransform());
+	m_RootTransform = BuildRootTransform();
 }
 
 void Skeleton::TransformJointAndChildren(int const& jointID, glm::mat4 const& transform)
 {
 	// Recursive applying offset from Model Bind Transform
 	glm::mat4 updatedTransform{ transform * GetJointPtr(jointID)->GetModelBindTransform()};
-	GetJointPtr(jointID)->SetFinalTransform(updatedTransform);
+	GetJointPtr(jointID)->SetModelSpaceTransform(updatedTransform);
 
 	for (int const& childID : GetJointPtr(jointID)->GetChildJointIDs())
 	{
 		TransformJointAndChildren(childID, transform);
-	}
-}
-
-void Skeleton::SetJointUniforms(Shader& skinnedShader)
-{
-	// Render Pipeline Entry point, setting shader's Joint Matrices
-	for (auto const& IDNameJoint : m_Joints)
-	{
-		std::string jntUniformName = "aJoints[" + std::to_string(IDNameJoint.first.first) + "]";
-		glm::mat4 OffsetTransform = IDNameJoint.second.GetFinalTransform()* IDNameJoint.second.GetModelInverseBindTransform();
-		skinnedShader.setUniform(jntUniformName, OffsetTransform);
 	}
 }
 

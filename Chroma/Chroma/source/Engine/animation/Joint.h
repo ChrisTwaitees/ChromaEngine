@@ -23,7 +23,7 @@ class Joint
 	glm::mat4 m_ModelInverseBindTransform{ 1.0 }; // Inverse of Model Bind Transform
 	glm::mat4 m_LocalBindOffsetTransform{ 1.0 }; // Joint - space bind Transform, relative to parent modelBindTransform
 
-	glm::mat4 m_FinalTransform{ 1.0 }; // Passed to Shader
+	glm::mat4 m_ModelSpaceTransform{ 1.0 }; // Passed to WorldSpace Transform for Shader
 
 	// Parent/ Child Joint IDs
 	std::vector<int> m_ChildJointIDs; 
@@ -38,7 +38,7 @@ public:
 	void SetLocalBindTransform(glm::mat4 newOffsetMatrix) { m_LocalBindOffsetTransform = newOffsetMatrix; };
 	void SetModelInverseBindTransform(glm::mat4 newInverseModelBindTransform) { m_ModelInverseBindTransform = newInverseModelBindTransform; };
 	
-	void SetFinalTransform(glm::mat4 newFinalTransform) { m_FinalTransform = newFinalTransform; };
+	void SetModelSpaceTransform(glm::mat4 newFinalTransform) { m_ModelSpaceTransform = newFinalTransform; };
 
 	void AddChildJointID(int const&  newChildJoint) { m_ChildJointIDs.push_back(newChildJoint); };
 	void SetChildJointIDs(std::vector<int> const& newChildJoints) { m_ChildJointIDs = newChildJoints; };
@@ -52,7 +52,7 @@ public:
 	glm::mat4 GetModelInverseBindTransform() const { return m_ModelInverseBindTransform; };
 	glm::mat4 GetLocalBindTransform() const { return m_LocalBindOffsetTransform; };
 
-	glm::mat4 GetFinalTransform() const { return m_FinalTransform; };
+	glm::mat4 GetModelSpaceTransform() const { return m_ModelSpaceTransform; };
 
 	std::vector<int> GetChildJointIDs() const { return m_ChildJointIDs; };
 	int GetParentJointID() const { return m_ParentJointID; };
