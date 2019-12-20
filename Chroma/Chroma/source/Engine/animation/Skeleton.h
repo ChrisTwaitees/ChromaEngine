@@ -53,6 +53,7 @@ public:
 	glm::mat4 GetJointTransform(std::string const& jointName) const;
 	glm::mat4 GetJointTransform(int const& jointID) const;
 	glm::mat4 GetRootTransform() const;
+	unsigned int GetRootJointID() const { return m_RootJointID; };
 
 	Joint GetJoint(int const& index);
 	Joint* GetJointPtr(int const& index);
