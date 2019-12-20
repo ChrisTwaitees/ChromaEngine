@@ -31,18 +31,14 @@ class Animator
 	// joint transforms
 	void ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform , float const& timeStamp);
 
-	glm::mat4 JointTransformToLocalTransform(JointTransform& jointTransform);
-	glm::mat4 GetJointKeyFrameTransformAtTime(std::string const& jointName, KeyFrames& keyFrames, float timeStamp);
-	JointTransform CalculateJointTransformAtTime(KeyFrame& keyFrame, float const& timeStamp);
-
-
+	glm::mat4 GetJointMat4AtKeyFrameTime(std::string const& jointName, KeyFrames& keyFrames, float timeStamp);
+	JointTransform GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, float const& timeStamp);
 	JointTransform InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp);
+	glm::mat4 JointTransformToMat4(JointTransform& jointTransform);
 
 
 public:
 	void LoadAnimations(std::string const& sourcePath);
-
-	void TriggerTimer(float const& duration, float& counter);
 
 	void BindSkeleton(Skeleton* newSkeleton) { m_Skeleton = newSkeleton; };
 
