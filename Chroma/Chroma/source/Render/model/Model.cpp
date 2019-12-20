@@ -432,22 +432,25 @@ void Model::GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>&
 
 void Model::GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID)
 {
-	std::string currentJointName{ node->mName.C_Str() };
-	std::string parentNodeName{ node->mParent->mName.C_Str() };
-	// Set Parent Joint ID if found in skeleton
-	if (skeleton.GetJointExists(parentNodeName))
+	if (node->mParent != NULL)
 	{
-		std::cout << "Setting Parent Joint ID : " << skeleton.GetJointID(parentNodeName) << std::endl;
-		parentJointID = skeleton.GetJointID(parentNodeName);
+		std::string currentJointName{ node->mName.C_Str() };
+		std::string parentNodeName{ node->mParent->mName.C_Str() };
+
+		if (skeleton.GetJointExists(parentNodeName))// Set Parent Joint ID if found in skeleton
+		{
+			std::cout << "Setting Parent Joint ID : " << skeleton.GetJointID(parentNodeName) << std::endl;
+			parentJointID = skeleton.GetJointID(parentNodeName);
+		}
+		else // Else keep looking
+		{
+			GetParentJointID(node->mParent, skeleton, parentJointID);
+		}
 	}
-	else if (parentNodeName == "RootNode")
+	else
 	{
 		std::cout << "Root Joint Found, Setting ID to -1" << std::endl;
 		parentJointID = -1;
-	}
-	else // Else keep looking
-	{
-		GetParentJointID(node->mParent, skeleton, parentJointID);
 	}
 }
 

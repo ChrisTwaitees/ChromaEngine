@@ -142,7 +142,7 @@ int main()
 	AnimModelEntity->SetName("AnimationModel");
 	scene->AddEntity(AnimModelEntity);
 	// mesh
-	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking3.fbx");
+	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking4.fbx");
 	AnimModelMeshComponent->SetShader(&PBRShader);
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
@@ -156,7 +156,7 @@ int main()
 	// animation
 	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
 	Animator AnimModelAnimator;
-	AnimModelAnimator.LoadAnimations("resources/animation/walking3.fbx");
+	AnimModelAnimator.LoadAnimations("resources/animation/walking4.fbx");
 	AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
 	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);

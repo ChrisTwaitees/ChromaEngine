@@ -50,7 +50,7 @@ public:
 
 	glm::mat4 GetModelBindTransform() const { return m_ModelBindTransform; };
 	glm::mat4 GetModelInverseBindTransform() const { return m_ModelInverseBindTransform; };
-	glm::mat4 GetLocalBindTransform() const { return m_LocalBindOffsetTransform; };
+	glm::mat4 GetLocalBindOffsetTransform() const { return m_LocalBindOffsetTransform; };
 
 	glm::mat4 GetModelSpaceTransform() const { return m_ModelSpaceTransform; };
 

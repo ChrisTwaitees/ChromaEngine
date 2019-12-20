@@ -18,15 +18,15 @@ void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 
 void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& timeStamp)
 {
-	// Calculate Local JointTransform at Time
-	glm::mat4 localAnimatedJointTransform = parentTransform * GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp) ;
 	// Create Model Space Anim Transform
-	glm::mat4 FinalAnimTransform =  localAnimatedJointTransform * m_Skeleton->GetJointPtr(jointID)->GetModelBindTransform();
+	glm::mat4 animModelTransform = parentTransform * GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp);
+	
+
 	// Set Model Space Anim Transform
-	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(FinalAnimTransform);
+	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(animModelTransform);
 
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->GetChildJointIDs())
-		ApplyAnimJointHierarchy(childJointID, keyFrames, localAnimatedJointTransform, timeStamp);
+		ApplyAnimJointHierarchy(childJointID, keyFrames, animModelTransform, timeStamp);
 
 }
 
@@ -119,6 +119,8 @@ void Animator::DoAnimation(Time& time)
 		std::cout << "::ANIMATOR ERROR:: No Skeleton Found, cannot perform animation" << std::endl;
 		return;
 	}
+
+	//m_Skeleton->SetTranslation(glm::vec3(0.0, glm::abs(glm::sin(time.GetGameTime())), 0.0));
 
 	PlayTake(m_CurrentTake, time.GetGameTime());
 }

@@ -18,16 +18,8 @@
 #define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
 
 // ASSIMP
-static glm::mat4 AIToGLM(const aiMatrix4x4& from)
-{
-	glm::mat4 to;
-	//the a,b,c,d in assimp is the row ; the 1,2,3,4 is the column
-	to[0][0] = from.a1; to[1][0] = from.a2; to[2][0] = from.a3; to[3][0] = from.a4;
-	to[0][1] = from.b1; to[1][1] = from.b2; to[2][1] = from.b3; to[3][1] = from.b4;
-	to[0][2] = from.c1; to[1][2] = from.c2; to[2][2] = from.c3; to[3][2] = from.c4;
-	to[0][3] = from.d1; to[1][3] = from.d2; to[2][3] = from.d3; to[3][3] = from.d4;
-	return to;
-}
+static inline glm::mat4 AIToGLM(const aiMatrix4x4& m) { return glm::transpose(glm::make_mat4(&m.a1)); }
+
 
 static glm::mat3 AIToGLM(const aiMatrix3x3& from)
 {
@@ -39,16 +31,9 @@ static glm::mat3 AIToGLM(const aiMatrix3x3& from)
 	return to;
 }
 
+static inline glm::vec3 AItoGLM(const aiVector3D& v) { return glm::vec3(v.x, v.y, v.z); }
 
-static glm::vec3 AItoGLM(const aiVector3D& aiVec3)
-{
-	return glm::vec3(aiVec3[0], aiVec3[1], aiVec3[2]);
-}
-
-static glm::quat AItoGLM(const aiQuaternion& aiQuat)
-{
-	return glm::quat(aiQuat.w, aiQuat.x, aiQuat.y, aiQuat.z);
-}
+static inline glm::quat AItoGLM(const aiQuaternion& q) { return glm::quat(q.w, q.x, q.y, q.z); }
 
 // BULLET
 static glm::mat4 BulletToGLM(const btTransform& transform)

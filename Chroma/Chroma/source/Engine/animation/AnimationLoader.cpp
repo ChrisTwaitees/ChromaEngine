@@ -43,17 +43,31 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 		std::cout << "Animation FPS : " << newTake.m_FPS << std::endl;
 		std::cout << "Animation Duration : " << newTake.m_Duration << std::endl;
 
+
+		
 		// storing keyframes in take
 		for (unsigned int j = 0; j < aiAnim->mNumChannels; j++)
 		{
 			// aiNodeAnim/KeyFrames/Channels contain Joint's transforms key data of entirety of animation
 			aiNodeAnim* aiAnimNode = aiAnim->mChannels[j];
-			KeyFrame newKeyFrame;
 
 			// aiNodeAnim channels correlate to the joint keyed
 			// they name however often does not match the joint so we do a simple search 
 			// to find the correct joint 
-			newKeyFrame.m_JointName = GetJointName(aiAnimNode, scene);
+			std::string JointName = GetJointName(aiAnimNode, scene);
+			if (JointName.empty())
+			{
+				std::cout << "Could not find correlating joint for channel : " << aiAnimNode->mNodeName.C_Str() << std::endl;
+				continue;
+			}
+			// if Keyframe for joint does not exist yet, create one
+			std::map<std::string, KeyFrame>::iterator it = newTake.m_KeyFrames.find(JointName);
+			if (it == newTake.m_KeyFrames.end())
+			{
+				KeyFrame newKey;
+				newKey.m_JointName = JointName;
+				newTake.m_KeyFrames.insert(std::make_pair(JointName, newKey));
+			}
 			
 			// Positions
 			for (unsigned int a = 0; a < aiAnimNode->mNumPositionKeys; a++)
@@ -61,15 +75,15 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 				float timeStamp = aiAnimNode->mPositionKeys[a].mTime;
 				glm::vec3 translation = AItoGLM(aiAnimNode->mPositionKeys[a].mValue);
 				// position , framenumber
-				if (newKeyFrame.m_JointTransforms.find(timeStamp) != newKeyFrame.m_JointTransforms.end())
+				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
 				{
-					newKeyFrame.m_JointTransforms.find(timeStamp)->second.m_Translation = translation;
+					newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp)->second.m_Translation = translation;
 				}
 				else
 				{
 					JointTransform newJointTransform;
 					newJointTransform.m_Translation = translation;
-					newKeyFrame.m_JointTransforms[timeStamp] = newJointTransform;
+					newTake.m_KeyFrames.at(JointName).m_JointTransforms[timeStamp] = newJointTransform;
 				}
 			}
 
@@ -79,15 +93,15 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 				float timeStamp = aiAnimNode->mRotationKeys[a].mTime;
 				glm::quat rotation = AItoGLM(aiAnimNode->mRotationKeys[a].mValue);
 				// rotation , framenumber
-				if (newKeyFrame.m_JointTransforms.find(timeStamp) != newKeyFrame.m_JointTransforms.end())
+				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
 				{
-					newKeyFrame.m_JointTransforms.find(timeStamp)->second.m_Rotation = rotation;
+					newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp)->second.m_Rotation = rotation;
 				}
 				else
 				{
 					JointTransform newJointTransform;
 					newJointTransform.m_Rotation = rotation;
-					newKeyFrame.m_JointTransforms[timeStamp] = newJointTransform;
+					newTake.m_KeyFrames.at(JointName).m_JointTransforms[timeStamp] = newJointTransform;
 				}
 			}
 
@@ -97,21 +111,17 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 				float timeStamp = aiAnimNode->mScalingKeys[a].mTime;
 				glm::vec3 scale = AItoGLM(aiAnimNode->mScalingKeys[a].mValue);
 				// scale , framenumber
-				if (newKeyFrame.m_JointTransforms.find(timeStamp) != newKeyFrame.m_JointTransforms.end())
+				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
 				{
-					newKeyFrame.m_JointTransforms.find(timeStamp)->second.m_Scale = scale;
+					newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp)->second.m_Scale = scale;
 				}
 				else
 				{
 					JointTransform newJointTransform;
 					newJointTransform.m_Scale = scale;
-					newKeyFrame.m_JointTransforms[timeStamp] = newJointTransform;
+					newTake.m_KeyFrames.at(JointName).m_JointTransforms[timeStamp] = newJointTransform;
 				}
 			}
-
-			// add keyframe to take
-			newTake.m_KeyFrames.insert(std::make_pair(newKeyFrame.m_JointName, newKeyFrame));
-		
 		}
 		// add to takes
 		takes.push_back(newTake);
@@ -138,7 +148,7 @@ std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene)
 			}
 		}
 	}
-		
+	return std::string();
 }
 
 
