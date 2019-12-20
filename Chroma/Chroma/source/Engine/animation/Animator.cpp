@@ -19,8 +19,10 @@ void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& timeStamp)
 {
 	// Create Model Space Anim Transform
-	glm::mat4 animModelTransform = parentTransform * GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp);
-	
+	glm::mat4 localAnimatedTransform = GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp);
+
+	glm::mat4 animModelTransform = glm::inverse(m_Skeleton->GetJointPtr(jointID)->GetLocalBindOffsetTransform()) * parentTransform  * localAnimatedTransform;
+	//glm::mat4 animModelTransform = parentTransform * localAnimatedTransform;
 	// Set Model Space Anim Transform
 	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(animModelTransform);
 

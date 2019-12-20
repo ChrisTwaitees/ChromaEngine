@@ -231,12 +231,15 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 
 void Skeleton::SetJointUniforms(Shader& skinnedShader)
 {
+	/*std::vector<glm::mat4> Transforms;
+	boneTransform((float)currentTime, Transforms);
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "gBones"), (GLsizei)Transforms.size(), GL_FALSE, glm::value_ptr(Transforms[0]));*/
 	// Render Pipeline Entry point, setting shader's Joint Matrices
 	for (auto const& IDNameJoint : m_Joints)
 	{
-		glm::mat4 WorldSpaceOffsetTransform = GetRootTransform() * IDNameJoint.second.GetModelSpaceTransform() * IDNameJoint.second.GetModelInverseBindTransform();
+		glm::mat4 WorldSpaceOffset = GetRootTransform() * IDNameJoint.second.GetModelSpaceTransform() * IDNameJoint.second.GetModelInverseBindTransform();
 		std::string jntUniformName = "aJoints[" + std::to_string(IDNameJoint.first.first) + "]";
-		skinnedShader.setUniform(jntUniformName, WorldSpaceOffsetTransform);
+		skinnedShader.setUniform(jntUniformName, WorldSpaceOffset);
 	}
 }
 
@@ -267,8 +270,12 @@ void Skeleton::CalculateJointLocalBindOffsetTransforms()
 		{
 			glm::mat4 parentModelBindTransform = GetJointPtr(IDNameJoint.second.GetParentJointID())->GetModelBindTransform();
 			glm::mat4 currentInverseModelBindTransform = GetJointPtr(IDNameJoint.first.first)->GetModelInverseBindTransform();
-			glm::mat4 localModelBindTransform = glm::inverse(parentModelBindTransform * currentInverseModelBindTransform);
+			glm::mat4 localModelBindTransform = parentModelBindTransform * currentInverseModelBindTransform;
 			GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(localModelBindTransform);
+		}
+		else
+		{
+			GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(glm::mat4(1.0));
 		}
 	}
 }

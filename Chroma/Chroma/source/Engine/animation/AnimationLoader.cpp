@@ -42,8 +42,6 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 		std::cout << "Animation NumFrames : " << newTake.m_NumFrames << std::endl;
 		std::cout << "Animation FPS : " << newTake.m_FPS << std::endl;
 		std::cout << "Animation Duration : " << newTake.m_Duration << std::endl;
-
-
 		
 		// storing keyframes in take
 		for (unsigned int j = 0; j < aiAnim->mNumChannels; j++)
