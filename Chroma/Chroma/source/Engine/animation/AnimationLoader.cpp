@@ -110,7 +110,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			}
 
 			// add keyframe to take
-			newTake.m_KeyFrames.push_back(newKeyFrame);
+			newTake.m_KeyFrames.insert(std::make_pair(newKeyFrame.m_JointName, newKeyFrame));
 		
 		}
 		// add to takes

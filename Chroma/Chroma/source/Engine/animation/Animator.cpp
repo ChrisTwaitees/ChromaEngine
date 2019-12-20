@@ -9,50 +9,52 @@ void Animator::AddTake(Take const& newTake)
 
 void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 {
-	float framenum = glm::mod(timeStamp, m_Takes.at(takeName).m_Duration)* (1.0 / m_Takes.at(takeName).m_Duration) * m_Takes.at(takeName).m_NumFrames;
-	ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, glm::mat4(1), framenum);
 
-	//ApplyKeyFramesAtTime(m_Takes.at(takeName).m_KeyFrames, framenum);
-}
-
-bool Animator::GetJointHasKeys(std::string const& jointName, std::vector<KeyFrame> keyFrames)
-{
-	for (KeyFrame const& keyFrame : keyFrames)
+	if (m_Takes.find(takeName) != m_Takes.end())
 	{
-		if (keyFrame.m_JointName == jointName)
-		{
-			return true;
-		}
+		float framenum = glm::mod(timeStamp, m_Takes.at(takeName).m_Duration) * (1.0 / m_Takes.at(takeName).m_Duration) * m_Takes.at(takeName).m_NumFrames;
+		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, m_Skeleton->GetRootTransform(), framenum);
 	}
-	std::cout << "Could not find joint : " << jointName << " in KeyFrames" << std::endl;
-	return false;
+	else
+	{
+		std::cout << "NO TAKE : " << takeName << "FOUND, CANNOT APPLY ANIMATION" << std::endl;
+		return;
+	}
 }
 
-void Animator::ApplyAnimJointHierarchy(int const& jointID, std::vector<KeyFrame>& keyFrames, glm::mat4 const& parentTransform, float const& timeStamp)
+void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& timeStamp)
 {
-	// Get Joint's KeyFrame
-	KeyFrame currentJointKeyFrame = GetKeyFrame(m_Skeleton->GetJointName(jointID), keyFrames);
 	// Calculate Local JointTransform at Time
-	JointTransform localAnimatedJointTransform = CalculateJointTransformAtTime(currentJointKeyFrame, timeStamp);
-	// Convert to Transform Matrix
-	glm::mat4 LocalAnimTransform = parentTransform * JointTransformToLocalTransform(localAnimatedJointTransform);
+	glm::mat4 localAnimatedJointTransform = parentTransform * GetJointKeyFrameTransformAtTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp) * m_Skeleton->GetJointPtr(jointID)->GetModelBindTransform();
 	// Create Model Space Anim Transform
-	glm::mat4 FinalAnimTransform = LocalAnimTransform * m_Skeleton->GetJointPtr(jointID)->GetModelBindTransform();
+	glm::mat4 FinalAnimTransform =  localAnimatedJointTransform * m_Skeleton->GetJointPtr(jointID)->GetModelBindTransform();
 	// Set Model Space Anim Transform
 	m_Skeleton->GetJointPtr(jointID)->SetFinalTransform(FinalAnimTransform);
 	//m_Skeleton->GetRootTransform() * 
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->GetChildJointIDs())
-			ApplyAnimJointHierarchy(childJointID, keyFrames, LocalAnimTransform, timeStamp);
+		ApplyAnimJointHierarchy(childJointID, keyFrames, localAnimatedJointTransform, timeStamp);
+
+}
+
+glm::mat4 Animator::GetJointKeyFrameTransformAtTime(std::string const& jointName, KeyFrames& keyFrames, float timeStamp)
+{
+	// Get Joint's KeyFrame
+	if (keyFrames.find(jointName) != keyFrames.end())
+	{
+		JointTransform animatedJointTransform = CalculateJointTransformAtTime(keyFrames.at(jointName), timeStamp);
+		return JointTransformToLocalTransform(animatedJointTransform);
+	}
+	else
+	{
+		// No Keyframe found for joint, return identity matrix
+		return glm::mat4(1);
+	}
+	
 }
 
 
 JointTransform Animator::CalculateJointTransformAtTime(KeyFrame& keyFrame, float const& timeStamp)
 {
-	if (keyFrame.m_JointTransforms.size() == 0)
-	{
-		return JointTransform();
-	}
-
 	float nearestCurrent{ 0.0 };
 	float nearestNext{ 0.0 };
 
@@ -87,17 +89,6 @@ glm::mat4 Animator::JointTransformToLocalTransform(JointTransform& jointTransfor
 	return glm::scale(jointToLocal, jointTransform.m_Scale);
 }
 
-KeyFrame Animator::GetKeyFrame(std::string const& jointName, std::vector<KeyFrame> keyFrames)
-{
-	for (KeyFrame const& keyFrame : keyFrames)
-	{
-		if (keyFrame.m_JointName == jointName)
-		{
-			return keyFrame;
-		}
-	}
-	return KeyFrame();
-}
 
 JointTransform Animator::InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp)
 {
@@ -134,17 +125,6 @@ void Animator::DoAnimation(Time& time)
 	}
 
 	PlayTake(m_CurrentTake, time.GetGameTime());
-
-
-	/*std::cout << "Processing Active Animations" << std::endl;
-	for (Animation const& animation : m_Takes)
-	{
-		for (AnimTake const& animTake : animation.GetAnimTakes())
-		{
-			std::cout << "Animation Take Name : " << animTake.m_Name << std::endl;
-
-		}
-	}*/
 }
 
 Animator::Animator()

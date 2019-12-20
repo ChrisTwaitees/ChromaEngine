@@ -38,7 +38,7 @@ struct Take
 	int m_NumFrames;
 	float m_FPS;
 	float m_Duration;
-	std::vector<KeyFrame> m_KeyFrames;
+	std::map<std::string, KeyFrame> m_KeyFrames;
 };
 
 void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes);

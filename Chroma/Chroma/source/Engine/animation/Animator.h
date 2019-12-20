@@ -13,23 +13,28 @@
 #include <worker/IWorker.h>
 
 
+typedef std::map<std::string, KeyFrame> KeyFrames;
+
 class Animator
 {
+	// skeleton
+	Skeleton* m_Skeleton{ nullptr };
+
+	// takes
 	std::map<std::string, Take> m_Takes;
 	std::string m_CurrentTake;
-
-	Skeleton* m_Skeleton{ nullptr };
 	void AddTake(Take const& newTake);
 
+	// animation
 	void PlayTake(std::string const& takeName, float const& timeStamp);
 
-	JointTransform CalculateJointTransformAtTime(KeyFrame& keyFrame, float const& timeStamp);
+	// joint transforms
+	void ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform , float const& timeStamp);
+
 	glm::mat4 JointTransformToLocalTransform(JointTransform& jointTransform);
+	glm::mat4 GetJointKeyFrameTransformAtTime(std::string const& jointName, KeyFrames& keyFrames, float timeStamp);
+	JointTransform CalculateJointTransformAtTime(KeyFrame& keyFrame, float const& timeStamp);
 
-	KeyFrame GetKeyFrame(std::string const& jointName, std::vector<KeyFrame> keyFrames);
-
-	bool GetJointHasKeys(std::string const& jointName, std::vector<KeyFrame> keyFrames);
-	void ApplyAnimJointHierarchy(int const& jointID, std::vector<KeyFrame>& keyFrames, glm::mat4 const& parentTransform , float const& timeStamp);
 
 	JointTransform InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp);
 
