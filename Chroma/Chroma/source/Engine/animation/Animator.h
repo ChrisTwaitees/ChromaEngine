@@ -44,6 +44,8 @@ public:
 
 	void DoAnimation(Time& time);
 
+	void DebugAnimationTake(std::string const& takeName, float const& debugTime);
+
 	Animator();
 	~Animator();
 };

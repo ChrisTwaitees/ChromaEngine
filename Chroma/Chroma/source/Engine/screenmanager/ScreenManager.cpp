@@ -134,9 +134,10 @@ void ScreenManager::TogglePhysicsDebug()
 	drawPhysicsDebug = drawPhysicsDebug ? false : true;
 }
 
-void ScreenManager::ToggleSkeletonsDebug()
+void ScreenManager::ToggleAnimationDebug()
 {
-	drawSkeletonsDebug = drawSkeletonsDebug ? false : true;
+	DebugAnim = DebugAnim ? false : true;
+	drawSkeletonsDebug = DebugAnim ? false : true;
 }
 
 void ScreenManager::ToggleGraphicsDebug()
@@ -173,16 +174,9 @@ void ScreenManager::drawGUI()
 	if (ImGui::Button("Toggle Bloom"))
 		ToggleBloom();
 
-	// debug draw
-	//if (ImGui::Button("Toggle Debug"))
-	//	ToggleDebug();
-
 	//// debug draw
 	if (ImGui::Button("Toggle Physics Debug"))
 		TogglePhysicsDebug();
-
-	if (ImGui::Button("Toggle Skeletons Debug"))
-		ToggleSkeletonsDebug();
 
 	if (ImGui::Button("Toggle Graphics Debug"))
 		ToggleGraphicsDebug();
@@ -194,9 +188,12 @@ void ScreenManager::drawGUI()
 	ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));
 
 	// Animation 
-	ImGui::Text("Current Animation : %s", "Walking.fbx");
-	ImGui::ProgressBar(0.5, ImVec2(250,20), "Animation Progress");
-
+	if (ImGui::Button("Toggle Animation Debug"))
+		ToggleAnimationDebug();
+	char test;
+	ImGui::InputText("Animation Clip Name : ", AnimClipName, IM_ARRAYSIZE(AnimClipName));
+	ImGui::Text("Current Animation : %s", AnimClipName);
+	ImGui::SliderFloat("Animation Clip Position", &DebugAnimClipPos, 0.0, 1.0);
 	// Display Selected Entity
 	ImGui::Text("Selected Entity : %s", SelectedEntity.c_str());
 	gui.End();

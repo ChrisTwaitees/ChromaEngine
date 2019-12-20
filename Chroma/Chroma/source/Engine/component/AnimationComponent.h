@@ -17,6 +17,7 @@ public:
 	void AddAnimator(Animator const& newAnimator) { m_Animators.push_back(newAnimator); };
 
 	void ProcessAnimators(Time& time);
+	void ProcessAnimatorsDebug(std::string const& debugAnimClipName, float const& debugTime);
 	AnimationComponent();
 	~AnimationComponent();
 };

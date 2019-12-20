@@ -9,6 +9,14 @@ void AnimationComponent::ProcessAnimators(Time& time)
 	}
 }
 
+void AnimationComponent::ProcessAnimatorsDebug(std::string const& debugAnimClipName, float const& debugTime)
+{
+	for (Animator& animator : m_Animators)
+	{
+		animator.DebugAnimationTake(debugAnimClipName, debugTime);
+	}
+}
+
 AnimationComponent::AnimationComponent()
 {
 }

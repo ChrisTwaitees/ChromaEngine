@@ -15,6 +15,7 @@ public:
 
 	void BindScene(Scene*& newScene) { m_Scene = newScene; };
 	void Update(Time& time);
+	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
 
 	AnimationEngine();
 	~AnimationEngine();

@@ -7,8 +7,10 @@ void ChromaGame::Update()
 	m_Physics->Update(m_time);
 
 	// Animation
-	m_Animation->Update(m_time);
-
+	if (m_Screen->DebugAnim)
+		m_Animation->UpdateDebug(m_Screen->AnimClipName, m_Screen->DebugAnimClipPos);
+	else
+		m_Animation->Update(m_time);
 	// Workers
 	IWorker::DoWork();
 }
@@ -102,8 +104,8 @@ void ChromaGame::ProcessInput()
 	if (m_Screen->drawPhysicsDebug)
 		m_Physics->drawDebug();
 
-	// render skeletons debug
-	if (m_Screen->drawSkeletonsDebug)
+	// animation debug
+	if (m_Screen->DebugAnim)
 		m_Renderer->GetDebugBuffer()->DrawSceneSkeletons(m_Scene);
 
 }

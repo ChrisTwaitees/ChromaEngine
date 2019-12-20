@@ -21,7 +21,6 @@ void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames,
 	// Create Model Space Anim Transform
 	glm::mat4 animModelTransform = parentTransform * GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp);
 	
-
 	// Set Model Space Anim Transform
 	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(animModelTransform);
 
@@ -120,10 +119,22 @@ void Animator::DoAnimation(Time& time)
 		return;
 	}
 
-	//m_Skeleton->SetTranslation(glm::vec3(0.0, glm::abs(glm::sin(time.GetGameTime())), 0.0));
-
 	PlayTake(m_CurrentTake, time.GetGameTime());
 }
+
+void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)
+{
+	if (m_Skeleton == nullptr)
+	{
+		std::cout << "::ANIMATOR ERROR:: No Skeleton Found, cannot perform animation" << std::endl;
+		return;
+	}
+
+	PlayTake(takeName, debugTime);
+}
+
+
+
 
 Animator::Animator()
 {
