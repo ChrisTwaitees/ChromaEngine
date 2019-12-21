@@ -11,7 +11,7 @@ void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 	}
 	else
 	{
-		std::cout << "NO TAKE : " << takeName << "FOUND, CANNOT APPLY ANIMATION" << std::endl;
+		//std::cout << "NO TAKE : " << takeName << "FOUND, CANNOT APPLY ANIMATION" << std::endl;
 		return;
 	}
 }
@@ -19,15 +19,14 @@ void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& timeStamp)
 {
 	// Create Model Space Anim Transform
-	glm::mat4 localAnimatedTransform = GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp);
-
-	glm::mat4 animModelTransform = glm::inverse(m_Skeleton->GetJointPtr(jointID)->GetLocalBindOffsetTransform()) * parentTransform  * localAnimatedTransform;
-	//glm::mat4 animModelTransform = parentTransform * localAnimatedTransform;
-	// Set Model Space Anim Transform
-	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(animModelTransform);
+	glm::mat4 localAnimatedTransform =  GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp);
+	//glm::mat4 ModelAnimatedTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform() * parentTransform *  localAnimatedTransform;
+	glm::mat4 ModelAnimatedTransform = parentTransform * localAnimatedTransform;
+	
+	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(ModelAnimatedTransform);
 
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->GetChildJointIDs())
-		ApplyAnimJointHierarchy(childJointID, keyFrames, animModelTransform, timeStamp);
+		ApplyAnimJointHierarchy(childJointID, keyFrames, ModelAnimatedTransform, timeStamp);
 
 }
 

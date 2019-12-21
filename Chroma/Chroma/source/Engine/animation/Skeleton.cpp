@@ -264,14 +264,14 @@ void Skeleton::TransformJointAndChildren(int const& jointID, glm::mat4 const& tr
 void Skeleton::CalculateJointLocalBindOffsetTransforms()
 {
 	// Init Skeleton, calculating local joint offset to parent
-	for (auto const& IDNameJoint : m_Joints)
+	for (auto& IDNameJoint : m_Joints)
 	{
 		if (IDNameJoint.second.GetParentJointID() != -1) // root joint has no parent
 		{
 			glm::mat4 parentModelBindTransform = GetJointPtr(IDNameJoint.second.GetParentJointID())->GetModelBindTransform();
-			glm::mat4 currentInverseModelBindTransform = GetJointPtr(IDNameJoint.first.first)->GetModelInverseBindTransform();
-			glm::mat4 localModelBindTransform = parentModelBindTransform * currentInverseModelBindTransform;
-			GetJointPtr(IDNameJoint.first.first)->SetLocalBindTransform(localModelBindTransform);
+			glm::mat4 currentInverseModelBindTransform = IDNameJoint.second.GetModelInverseBindTransform();
+			glm::mat4 localModelBindTransform = glm::inverse(parentModelBindTransform * currentInverseModelBindTransform);
+			IDNameJoint.second.SetLocalBindTransform(localModelBindTransform);
 		}
 		else
 		{
