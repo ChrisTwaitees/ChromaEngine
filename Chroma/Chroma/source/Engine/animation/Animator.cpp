@@ -67,15 +67,15 @@ JointTransform Animator::GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, flo
 	}
 
 	// if current frame practically the same as current time stamp don't bother interpolating
-	if (timeStamp - nearestCurrent  < std::numeric_limits<float>::epsilon())
+	if (timeStamp - nearestCurrent < std::numeric_limits<float>::epsilon())
 	{
 		return keyFrame.m_JointTransforms.at(nearestCurrent);
 	}
 	else
 	{
 		// if timestamp sitting between frames interpolate jointtransforms
-		float lerp{ (timeStamp - nearestCurrent) / (nearestNext - nearestCurrent) };
-		return InterpolateJointTransforms(keyFrame.m_JointTransforms.at(nearestCurrent), keyFrame.m_JointTransforms.at(nearestNext), lerp);
+		float interpolateAmount{ (timeStamp - nearestCurrent) / (nearestNext - nearestCurrent) };
+		return InterpolateJointTransforms(keyFrame.m_JointTransforms.at(nearestCurrent), keyFrame.m_JointTransforms.at(nearestNext), interpolateAmount);
 	}
 }
 
