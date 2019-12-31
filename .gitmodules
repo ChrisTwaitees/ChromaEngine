@@ -1,0 +1,3 @@
+[submodule "Chroma/thirdparty/include/spdlog"]
+	path = Chroma/thirdparty/include/spdlog
+	url = https://github.com/gabime/spdlog
