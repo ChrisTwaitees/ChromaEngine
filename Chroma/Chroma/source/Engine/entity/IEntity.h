@@ -10,6 +10,7 @@
 #include <model/Vertex.h>
 #include <uid/UID.h>
 #include <component/IComponent.h>
+#include <core/Core.h>
 
 // forward declarations
 class Scene;
@@ -86,7 +87,7 @@ public:
 	// add
 	template<typename component>
 	void AddComponent(component newComponent) {
-		std::cout << "ComponentType not supported" << std::endl;
+		CHROMA_FATAL("ComponentType not supported!" );
 	};
 
 	template<>
@@ -112,7 +113,7 @@ public:
 	// remove
 	template<typename component>
 	void removeComponent(component newComponent) {
-		std::cout << "ComponentType not supported" << std::endl;
+		CHROMA_FATAL("ComponentType not supported!");
 	};
 
 	template<>

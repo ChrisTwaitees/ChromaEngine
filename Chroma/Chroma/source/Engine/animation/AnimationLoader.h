@@ -13,6 +13,7 @@
 #include <glm/gtc/quaternion.hpp>
 
 // chroma
+#include <core/Core.h>
 #include <math/Math.h>
 
 

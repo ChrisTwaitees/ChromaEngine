@@ -140,7 +140,7 @@ void Model::LoadModel(std::string path)
 
 	if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
-			std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+			CHROMA_WARN("ERROR::ASSIMP:: {0}", importer.GetErrorString());
 			return;
 		}
 	m_directory = path.substr(0, path.find_last_of('/'));
@@ -314,7 +314,7 @@ void Model::SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>
 		// set weight if it's already existing but not if the weight is already 1.0
 		if (jointIDWeight.first == vert.m_jointIDs[i] && glm::length(vert.m_jointWeights) != 1.0)
 		{
-			std::cout << "setting joint ID : " << jointIDWeight.first << " to weight : " << jointIDWeight.second;
+			CHROMA_TRACE("MODEL LOADER :: Setting Joint ID : {0} to Weight : {1}", jointIDWeight.first, jointIDWeight.second);
 			vert.m_jointWeights[i] = jointIDWeight.second;
 			return;
 		}
@@ -382,13 +382,12 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 		std::string nodeName{ aiChildNode->mName.C_Str() };
 		if (skeleton.GetJointExists(nodeName)) 
 		{
-			std::cout << "Root Joint Found : " << aiChildNode->mName.C_Str() << std::endl;
+			CHROMA_TRACE("MODEL LOADER :: Root Joint Found : {0}", aiChildNode->mName.C_Str());
 			skeleton.SetRootJointID(skeleton.GetJointID(nodeName));
 		}
 	}
 
 	// Processing Child and Parent Joints
-	std::cout << "Calculating joint children" << std::endl;
 	for (std::pair<std::string, Joint*> namedJoint : skeleton.GetNamedJoints())
 	{
 		// If node exists in aiScene, collect child joints 
@@ -396,7 +395,6 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 		aiNode* jointNode = rootSceneNode->FindNode(aiString(namedJoint.first));
 		if (jointNode != NULL) 
 		{
-			std::cout << "Joint node Found in Scene : " << namedJoint.first << std::endl;
 			// Get Parent ID
 			int parentJointID{ -1 };
 			GetParentJointID(jointNode, skeleton, parentJointID);
@@ -420,7 +418,7 @@ void Model::GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>&
 		std::string childNodeName{ node->mChildren[i]->mName.C_Str() };
 		if (skeleton.GetJointExists(childNodeName))
 		{
-			std::cout << "Adding Child Joint : " << childNodeName << " : ID : " << skeleton.GetJointID(childNodeName) << std::endl;
+			CHROMA_TRACE("MODEL LOADER :: Adding Child Joint : {0}  : ID : {1} ", childNodeName, skeleton.GetJointID(childNodeName));
 			childJointIDs.push_back(skeleton.GetJointID(childNodeName));
 		}
 		else // Else keep looking
@@ -439,7 +437,6 @@ void Model::GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parent
 
 		if (skeleton.GetJointExists(parentNodeName))// Set Parent Joint ID if found in skeleton
 		{
-			std::cout << "Setting Parent Joint ID : " << skeleton.GetJointID(parentNodeName) << std::endl;
 			parentJointID = skeleton.GetJointID(parentNodeName);
 		}
 		else // Else keep looking
@@ -449,7 +446,6 @@ void Model::GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parent
 	}
 	else
 	{
-		std::cout << "Root Joint Found, Setting ID to -1" << std::endl;
 		parentJointID = -1;
 	}
 }

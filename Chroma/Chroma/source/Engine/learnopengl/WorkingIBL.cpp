@@ -49,7 +49,7 @@ int mains()
 	glfwMakeContextCurrent(window);
 	if (window == NULL)
 	{
-		std::cout << "Failed to create GLFW window" << std::endl;
+		//CHROMA_FATAL("Failed to create GLFW window");
 		glfwTerminate();
 		return -1;
 	}

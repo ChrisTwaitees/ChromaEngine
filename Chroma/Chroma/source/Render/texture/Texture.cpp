@@ -53,7 +53,7 @@ void Texture::generateTexture()
 		stbi_image_free(data);
 	}
 	else
-		std::cout << "Texture failed to load at path: " << path << std::endl;
+		CHROMA_WARN("TEXTURE :: Failed to load from path : {0}", path );
 }
 
 void Texture::bind()

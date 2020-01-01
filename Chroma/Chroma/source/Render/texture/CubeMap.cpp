@@ -39,7 +39,7 @@ void CubeMap::generateCubeMap()
 		}
 		else
 		{
-			std::cout << "Cubemap texture failed to load at path: " << imagePath << std::endl;
+			CHROMA_WARN("CUBEMAP :: Texture failed to load at path: {0} ", imagePath);
 			stbi_image_free(imageData);
 		}
 		// wrapping and filtering 

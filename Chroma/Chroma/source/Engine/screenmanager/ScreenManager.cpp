@@ -5,14 +5,14 @@ bool ScreenManager::Initialize()
 	// Configure Window
 	if (!configureWindow())
 	{
-		std::cout << "Failed to Initialize Chroma Window: " << std::endl;
+		CHROMA_FATAL("Failed to Initialize Chroma Window");
 		return false;
 	}
 
 	// Configure Renderer
 	if (!configureRenderer())
 	{
-		std::cout << "Failed to Initialize Chroma Renderer: " << std::endl;
+		CHROMA_FATAL("Failed to Initialize Chroma Renderer");
 		glfwTerminate();
 		return false;
 	}
@@ -20,7 +20,7 @@ bool ScreenManager::Initialize()
 	// Attach GUI
 	if (!configureGui())
 	{
-		std::cout << "Failed to Initialize Chroma GUI: " << std::endl;
+		CHROMA_FATAL("Failed to Initialize Chroma GUI");
 		glfwTerminate();
 		return false;
 	}
@@ -41,7 +41,7 @@ bool ScreenManager::configureWindow()
 	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "CHROMA", NULL, NULL);
 	if (window == NULL)
 	{
-		std::cout << "Failed to create GLFW window" << std::endl;
+		CHROMA_FATAL("Failed to Initialize GLFW window");
 		glfwTerminate();
 		return false;
 	}
@@ -63,7 +63,7 @@ bool ScreenManager::configureRenderer()
 	// ---------------------------------------
 	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 	{
-		std::cout << "Failed to initialize GLAD" << std::endl;
+		CHROMA_FATAL("Failed to Initialize GLAD");
 		return false;
 	}
 

@@ -67,19 +67,19 @@ void GBuffer::Initialize()
 
 	// - tell OpenGL which color attachments we'll use for rendering 
 	unsigned int attachments[7] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6 };
-glDrawBuffers(7, attachments);
-// create and attach depth buffer (renderbuffer)
-glGenRenderbuffers(1, &m_gRBO);
-glBindRenderbuffer(GL_RENDERBUFFER, m_gRBO);
-glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
-glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_gRBO);
-// finally check if framebuffer is complete
-if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-std::cout << "Framebuffer not complete!" << std::endl;
-glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDrawBuffers(7, attachments);
+	// create and attach depth buffer (renderbuffer)
+	glGenRenderbuffers(1, &m_gRBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_gRBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_gRBO);
+	// finally check if framebuffer is complete
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		CHROMA_WARN("GBUFFER:: Framebuffer not complete!");
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-// configure shaders
-configureShaders();
+	// configure shaders
+	configureShaders();
 }
 
 void GBuffer::updateTransformUniforms()

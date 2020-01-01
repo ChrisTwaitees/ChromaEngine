@@ -33,7 +33,7 @@ void PostFXBuffer::Initialize()
 	glDrawBuffers(2, attachments);
 	// finally check if framebuffer is complete
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-		std::cout << "Framebuffer not complete!" << std::endl;
+		CHROMA_WARN("POSTFX BUFFER:: Framebuffer not complete!");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// generate Blur Buffers and textures
@@ -83,7 +83,7 @@ void PostFXBuffer::genBlurBuffer()
 		);
 		// also check if framebuffers are complete (no need for depth buffer)
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-			std::cout << "Framebuffer not complete!" << std::endl;
+			CHROMA_WARN("POSTFX BUFFER:: Blur Framebuffer not complete!");
 	}
 }
 

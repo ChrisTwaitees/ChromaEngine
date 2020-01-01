@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 #include <iostream>
-
+#include <core/Core.h>
 
 class Texture
 {

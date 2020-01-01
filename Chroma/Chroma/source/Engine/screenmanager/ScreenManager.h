@@ -9,13 +9,14 @@
 // glm
 #include <glm/glm.hpp>
 // ChromaGUI
-#include "gui/ChromaGUI.h"
+#include <gui/ChromaGUI.h>
 // camera
-#include "camera/Camera.h"
+#include <camera/Camera.h>
 //config
-#include  "ChromaConfig.h"
+#include  <ChromaConfig.h>
 // framebuffer
 #include "buffer/Framebuffer.h"
+#include <core/Core.h>
 
 class ScreenManager
 {
@@ -56,7 +57,7 @@ public:
 	float GetDeltaTime() { return delta; };
 	float getTime() { return glfwGetTime(); };
 
-	GLFWwindow* getWindow() { return window; };
+	GLFWwindow* GetWindow() { return window; };
 	
 	// GUI Attrs
 	// debug

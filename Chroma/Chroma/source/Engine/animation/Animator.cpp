@@ -11,7 +11,7 @@ void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 	}
 	else
 	{
-		//std::cout << "NO TAKE : " << takeName << "FOUND, CANNOT APPLY ANIMATION" << std::endl;
+		CHROMA_WARN("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", takeName);
 		return;
 	}
 }
@@ -21,7 +21,10 @@ void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames,
 	// Create Model Space Anim Transform
 	glm::mat4 localAnimatedTransform =  GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp);
 	//glm::mat4 ModelAnimatedTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform() * parentTransform *  localAnimatedTransform;
-	glm::mat4 ModelAnimatedTransform = parentTransform * localAnimatedTransform;
+	glm::mat4 localBindRotateTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform();
+	localBindRotateTransform[3] = glm::vec4(0.0, 0.0 ,0.0, 1.0);
+	glm::mat4 ModelAnimatedTransform = localBindRotateTransform * parentTransform * localAnimatedTransform;
+	//glm::mat4 ModelAnimatedTransform = parentTransform * localAnimatedTransform;
 	
 	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(ModelAnimatedTransform);
 
@@ -35,8 +38,7 @@ glm::mat4 Animator::GetJointMat4AtKeyFrameTime(std::string const& jointName, Key
 	// Fetch KeyFrame and Calculate Transform at Time stamp
 	if (keyFrames.find(jointName) != keyFrames.end())
 	{
-		JointTransform animatedJointTransform = GetJointTransformAtKeyFrameTime(keyFrames.at(jointName), timeStamp);
-		return JointTransformToMat4(animatedJointTransform);
+		return JointTransformToMat4(GetJointTransformAtKeyFrameTime(keyFrames.at(jointName), timeStamp));
 	}
 	else
 	{
@@ -79,11 +81,12 @@ JointTransform Animator::GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, flo
 	}
 }
 
-glm::mat4 Animator::JointTransformToMat4(JointTransform& jointTransform)
+glm::mat4 Animator::JointTransformToMat4(JointTransform const& jointTransform)
 {
 	glm::mat4 jointToLocal = glm::translate(glm::mat4(1.0), jointTransform.m_Translation);
 	jointToLocal = glm::toMat4(jointTransform.m_Rotation) * jointToLocal;
 	return glm::scale(jointToLocal, jointTransform.m_Scale);
+	
 }
 
 JointTransform Animator::InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp)
@@ -91,7 +94,7 @@ JointTransform Animator::InterpolateJointTransforms(JointTransform const& from, 
 	JointTransform interpolated;
 
 	interpolated.m_Translation = glm::mix(from.m_Translation, to.m_Translation, lerp);
-	interpolated.m_Rotation = glm::slerp(from.m_Rotation, to.m_Rotation, lerp);
+	interpolated.m_Rotation = glm::mix(from.m_Rotation, to.m_Rotation, lerp);
 	interpolated.m_Scale = glm::mix(from.m_Scale, to.m_Scale, lerp);
 
 	return interpolated;
@@ -116,7 +119,7 @@ void Animator::DoAnimation(Time& time)
 {
 	if (m_Skeleton == nullptr)
 	{
-		std::cout << "::ANIMATOR ERROR:: No Skeleton Found, cannot perform animation" << std::endl;
+		CHROMA_WARN("ANIMATOR ERROR:: No Skeleton Found, cannot perform animation!");
 		return;
 	}
 
@@ -127,7 +130,7 @@ void Animator::DebugAnimationTake(std::string const& takeName, float const& debu
 {
 	if (m_Skeleton == nullptr)
 	{
-		std::cout << "::ANIMATOR ERROR:: No Skeleton Found, cannot perform animation" << std::endl;
+		CHROMA_WARN("ANIMATOR ERROR:: No Skeleton Found, cannot perform animation!");
 		return;
 	}
 

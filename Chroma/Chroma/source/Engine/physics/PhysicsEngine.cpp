@@ -123,13 +123,12 @@ IEntity* PhysicsEngine::GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& 
 		void* rayObjectPointer = RayCallback.m_collisionObject->getUserPointer();
 		if (rayObjectPointer != NULL)
 		{
-			std::cout << "Entity Hit : " << std::endl;
-			std::cout << static_cast<IComponent*>(rayObjectPointer)->GetParentEntity()->GetName() << std::endl;
+			CHROMA_INFO("PHYSICS DEBUG :: Entity Hit : {0}", static_cast<IComponent*>(rayObjectPointer)->GetParentEntity()->GetName());
 			return static_cast<IComponent*>(rayObjectPointer)->GetParentEntity();
 		}
 		else
 		{
-			std::cout << "Hit RigidBody, no Entity Associated" << std::endl;
+			CHROMA_INFO("PHYSICS DEBUG :: Hit RigidBody, no Entity Associated");
 			return NULL;
 		}
 	}

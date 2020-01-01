@@ -94,7 +94,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -113,7 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -134,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -157,7 +157,7 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -193,6 +193,7 @@
     <ClCompile Include="source\Engine\game\ChromaGame.cpp" />
     <ClCompile Include="source\Engine\input\Input.cpp" />
     <ClCompile Include="source\Engine\learnopengl\WorkingIBL.cpp" />
+    <ClCompile Include="source\Engine\logging\Log.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp" />
     <ClCompile Include="source\Engine\scene\Scene.cpp" />
@@ -253,11 +254,13 @@
     <ClInclude Include="source\Engine\component\MeshComponent.h" />
     <ClInclude Include="source\Engine\component\PhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IComponent.h" />
+    <ClInclude Include="source\Engine\core\Core.h" />
     <ClInclude Include="source\Engine\entity\Entity.h" />
     <ClInclude Include="source\Engine\entity\IEntity.h" />
     <ClInclude Include="source\Engine\game\ChromaGame.h" />
     <ClInclude Include="source\Engine\input\Input.h" />
     <ClInclude Include="source\Engine\learnopengl\TESTCAMERA.h" />
+    <ClInclude Include="source\Engine\logging\Log.h" />
     <ClInclude Include="source\Engine\math\Math.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
     <ClInclude Include="source\Engine\physics\PhysicsEngine.h" />

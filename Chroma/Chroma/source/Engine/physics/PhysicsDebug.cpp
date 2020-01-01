@@ -22,7 +22,7 @@ void PhysicsDebug::drawContactPoint(const btVector3& PointOnB, const btVector3& 
 
 void PhysicsDebug::reportErrorWarning(const char* warningString)
 {
-	std::cout << "Bullet Error Warning : " << warningString << std::endl;
+	CHROMA_WARN("PHYSICS ERROR :: {0}", warningString);
 }
 
 void PhysicsDebug::draw3dText(const btVector3& location, const char* textString)

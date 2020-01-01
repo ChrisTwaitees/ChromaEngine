@@ -22,7 +22,7 @@ void HDRTexture::generateTexture()
 		stbi_image_free(data);
 	}
 	else
-		std::cout << "Failed to load HDR image." << std::endl;
+		CHROMA_WARN("TEXTURE :: Failed to Load HDR Texture : {0}", path);
 
 }
 

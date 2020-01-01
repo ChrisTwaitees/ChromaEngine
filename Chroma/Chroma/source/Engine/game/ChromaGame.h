@@ -14,17 +14,13 @@
 #include <time/ChromaTime.h>
 #include <physics/PhysicsEngine.h>
 #include <animation/AnimationEngine.h>
-
+#include <logging/Log.h>
 #include <worker/IWorker.h>
 
 class ChromaGame
 {
 	// functions 
 	void Initialize();
-
-	// attrs
-	enum State {GAME_ACTIVE, GAME_MENU, GAME_WIN};
-	State GameState { GAME_MENU };
 
 	// components
 	Scene* m_Scene{ nullptr };
@@ -34,8 +30,10 @@ class ChromaGame
 	AnimationEngine* m_Animation{ new AnimationEngine() };
 
 	// input
-	Time m_time;
 	Input* m_Input{ new Input };
+
+	// time
+	Time m_Time;
 
 	// game loop functions
 	void ProcessInput();
@@ -47,9 +45,8 @@ class ChromaGame
 
 public:
 	// Accessors
-	double GetGameTime() { return m_time.GetGameTime(); };
-	double GetDeltaTime() { return m_time.GetDeltaTime(); };
-	State getGameState() const { return GameState; };
+	double GetGameTime() { return m_Time.GetGameTime(); };
+	double GetDeltaTime() { return m_Time.GetDeltaTime(); };
 	Renderer* getRenderer() const { return m_Renderer; };
 
 	// Game Loop

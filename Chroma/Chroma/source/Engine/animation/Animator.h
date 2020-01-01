@@ -11,6 +11,8 @@
 #include <animation/Skeleton.h>
 #include <time/ChromaTime.h>
 #include <worker/IWorker.h>
+#include <glm/gtc/quaternion.hpp> 
+#include <glm/gtx/quaternion.hpp>
 
 
 typedef std::map<std::string, KeyFrame> KeyFrames;
@@ -34,7 +36,7 @@ class Animator
 	glm::mat4 GetJointMat4AtKeyFrameTime(std::string const& jointName, KeyFrames& keyFrames, float timeStamp);
 	JointTransform GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, float const& timeStamp);
 	JointTransform InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp);
-	glm::mat4 JointTransformToMat4(JointTransform& jointTransform);
+	glm::mat4 JointTransformToMat4(JointTransform const& jointTransform);
 
 
 public:

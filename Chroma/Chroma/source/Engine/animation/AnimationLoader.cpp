@@ -8,12 +8,12 @@ void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes
 
 	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 	{
-		std::cout << "ERROR::ASSIMP::" << importer.GetErrorString() << std::endl;
+		CHROMA_WARN("ERROR::ASSIMP::{0}", importer.GetErrorString() );
 		return;
 	}
 	else if (!scene->HasAnimations())
 	{
-		std::cout << "ERROR::ASSIMP:: " << sourcePath << ". Contains no recognized Animation Data." << std::endl;
+		CHROMA_WARN("ERROR::ASSIMP::{0}", importer.GetErrorString());
 		return;
 	}
 	else
@@ -38,11 +38,12 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 		newTake.m_FPS = aiAnim->mTicksPerSecond;
 		newTake.m_Duration = 1.0 / newTake.m_FPS * newTake.m_NumFrames;
 
-		std::cout << "Animation Name : " << newTake.m_Name << std::endl;
-		std::cout << "Animation NumFrames : " << newTake.m_NumFrames << std::endl;
-		std::cout << "Animation FPS : " << newTake.m_FPS << std::endl;
-		std::cout << "Animation Duration : " << newTake.m_Duration << std::endl;
-		
+		// Debug
+		CHROMA_TRACE("AnimationLoader:: Animation Clip Name : {0}", newTake.m_Name);
+		CHROMA_TRACE("AnimationLoader:: Animation Clip Number Frames : {0}", newTake.m_NumFrames);
+		CHROMA_TRACE("AnimationLoader:: Animation Clip FPS : {0}", newTake.m_FPS);
+		CHROMA_TRACE("AnimationLoader:: Animation Clip Duration : {0}", newTake.m_Duration);
+
 		// storing keyframes in take
 		for (unsigned int j = 0; j < aiAnim->mNumChannels; j++)
 		{
@@ -55,7 +56,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			std::string JointName = GetJointName(aiAnimNode, scene);
 			if (JointName.empty())
 			{
-				std::cout << "Could not find correlating joint for channel : " << aiAnimNode->mNodeName.C_Str() << std::endl;
+				CHROMA_TRACE("ANIMATION LOADER:: Could not find correlating joint for channel : {0}", aiAnimNode->mNodeName.C_Str());
 				continue;
 			}
 			// if Keyframe for joint does not exist yet, create one

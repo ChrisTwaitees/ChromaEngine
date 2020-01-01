@@ -216,7 +216,7 @@ int findIndexInVector(const std::vector<IComponent*>& componentsVector, ICompone
 		return distance(componentsVector.begin(), it);
 	else
 	{
-		std::cout << "ChromaComponent: " << component->GetName() << "not found in Chroma Entity" << std::endl;
+		CHROMA_WARN("ChromaComponent: {0} not found in Chroma Entity", component->GetName());
 		return -1;
 	}
 }

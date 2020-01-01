@@ -4,13 +4,14 @@
 void ChromaGame::Update()
 {
 	// Physics
-	m_Physics->Update(m_time);
+	m_Physics->Update(m_Time);
 
 	// Animation
 	if (m_Screen->DebugAnim)
 		m_Animation->UpdateDebug(m_Screen->AnimClipName, m_Screen->DebugAnimClipPos);
 	else
-		m_Animation->Update(m_time);
+		m_Animation->Update(m_Time);
+
 	// Workers
 	IWorker::DoWork();
 }
@@ -35,15 +36,15 @@ void ChromaGame::MousePickerCallback()
 void ChromaGame::Tick()
 {
 	// update time
-	m_time.Process();
+	m_Time.Process();
 	// process input
 	ProcessInput();
 
 	// update while lag is less than framerate cap
-	while (m_time.GetLag() >= m_time.GetMSPerFrame())
+	while (m_Time.GetLag() >= m_Time.GetMSPerFrame())
 	{
 		Update();
-		m_time.DecreaseLag(m_time.GetMSPerFrame());
+		m_Time.DecreaseLag(m_Time.GetMSPerFrame());
 	}
 	// consider sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
 
@@ -67,23 +68,31 @@ ChromaGame::ChromaGame(Scene*& Scene, ScreenManager*& ScreenManager)
 
 void ChromaGame::Initialize()
 {
+	// Logging
+	Chroma::Log::Init();
+	CHROMA_CORE_INFO("Chroma Initializing...");
+
 	// Input
-	m_Input->BindWindow(m_Screen->getWindow());
+	m_Input->BindWindow(m_Screen->GetWindow());
 	m_Input->BindCamera(m_Scene->GetRenderCamera());
 	m_Input->BindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
+	CHROMA_CORE_INFO("Chroma Input Bound.");
 
 	// Renderer
 	m_Renderer = new Renderer(m_Scene, m_Screen);
+	CHROMA_CORE_INFO("Chroma Renderer Initialized.");
 
 	// PhysicsEngine
 	m_Physics->BindDebugBuffer(m_Renderer->GetDebugBuffer());
 	m_Scene->SetPhysics(m_Physics);
+	CHROMA_CORE_INFO("Chroma Physics Engine Initialized.");
 
 	// AnimationEngine
 	m_Animation->BindScene(m_Scene);
+	CHROMA_CORE_INFO("Chroma Animation Engine Initialized.");
 
 	// Time
-	m_Scene->SetTime(&m_time);
+	m_Scene->SetTime(&m_Time);
 
 }
 
@@ -95,9 +104,9 @@ void ChromaGame::ProcessInput()
 
 	// update camera
 	if (m_Screen->cameraSelected == 0)
-		m_Scene->GetRenderCamera()->SetCameraMode(Maya);
-	if (m_Screen->cameraSelected == 1)
 		m_Scene->GetRenderCamera()->SetCameraMode(FlyCam);
+	if (m_Screen->cameraSelected == 1)
+		m_Scene->GetRenderCamera()->SetCameraMode(Maya);
 	m_Scene->GetRenderCamera()->ProcessInput(m_Input);
 
 	// render physics debug 
@@ -105,7 +114,7 @@ void ChromaGame::ProcessInput()
 		m_Physics->drawDebug();
 
 	// animation debug
-	if (m_Screen->DebugAnim)
-		m_Renderer->GetDebugBuffer()->DrawSceneSkeletons(m_Scene);
+	//if (m_Screen->DebugAnim)
+	m_Renderer->GetDebugBuffer()->DrawSceneSkeletons(m_Scene);
 
 }

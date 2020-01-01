@@ -7,6 +7,7 @@
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <core/Core.h>
 
 
 template<typename UniformType>
@@ -43,7 +44,7 @@ public:
 
 	template<class T>
 	void addUniform(std::string name, T uniformType) {
-		std::cout << "not a supported uniform type!" << std::endl;
+		CHROMA_WARN("Not supported Uniform Type!");
 	};
 
 	template<>
@@ -79,7 +80,7 @@ public:
 
 	template<typename T>
 	void setUniform(std::string name, T uniformValue) {
-		std::cout << "not a supported uniform type!" << std::endl;
+		CHROMA_WARN("Not supported Uniform Type!");
 	};
 
 	template<>

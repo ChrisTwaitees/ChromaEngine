@@ -120,6 +120,12 @@
     <Filter Include="Engine\uid">
       <UniqueIdentifier>{2d2902b3-1bbc-49e8-8323-3955b516950a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\logging">
+      <UniqueIdentifier>{918c6227-a32c-463d-8d94-09277466ee03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\core">
+      <UniqueIdentifier>{bacadcf9-e5ff-4323-8026-0596af866e93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -304,6 +310,9 @@
     </ClCompile>
     <ClCompile Include="source\Engine\animation\AnimationLoader.cpp">
       <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\logging\Log.cpp">
+      <Filter>Engine\logging</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -504,6 +513,12 @@
     </ClInclude>
     <ClInclude Include="source\Engine\animation\AnimationLoader.h">
       <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\logging\Log.h">
+      <Filter>Engine\logging</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\core\Core.h">
+      <Filter>Engine\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

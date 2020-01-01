@@ -12,6 +12,7 @@
 #include <light/Light.h>
 #include <texture/Texture.h>
 #include <ChromaConfig.h>
+#include <core/Core.h>
 
 // forward declarations
 class IEntity;
