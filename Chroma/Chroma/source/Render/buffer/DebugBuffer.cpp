@@ -75,7 +75,6 @@ void DebugBuffer::drawShapes()
 	blitDepthPostFXBuffer();
 	DrawDepthCulledShapes();
 
-
 	unBind();
 }
 
@@ -90,6 +89,9 @@ void DebugBuffer::DrawOverlayShapes()
 	// boxes
 	for (BoxShape box : m_OverlayBoxes)
 		renderBox(box);
+	// joints
+	for (JointShape joint : m_OverlayJoints)
+		renderJoint(joint);
 }
 
 void DebugBuffer::DrawDepthCulledShapes()
@@ -114,9 +116,8 @@ void DebugBuffer::renderLine(LineShape line)
 	m_LineShader.SetMat4("projection", m_RenderCamera->GetProjectionMatrix());
 	m_LineShader.SetMat4("model", glm::mat4(1.0f));
 	m_LineShader.setVec3("color", line.color);
-	glBindVertexArray(pointVAO);
-	glDrawArrays(GL_POINTS, 0, 1);
-	glBindVertexArray(0);
+
+	BindPointVAO();
 }
 
 void DebugBuffer::renderSphere(SphereShape sphere)
@@ -126,9 +127,8 @@ void DebugBuffer::renderSphere(SphereShape sphere)
 	m_SphereShader.SetMat4("model", sphere.transform);
 	m_SphereShader.SetFloat("radius", sphere.radius);
 	m_SphereShader.setVec3("color", sphere.color);
-	glBindVertexArray(pointVAO);
-	glDrawArrays(GL_POINTS, 0, 1);
-	glBindVertexArray(0);
+
+	BindPointVAO();
 }
 
 void DebugBuffer::renderBox(BoxShape box)
@@ -139,6 +139,23 @@ void DebugBuffer::renderBox(BoxShape box)
 	m_BoxShader.SetMat4("VPMat" , m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
 	m_BoxShader.SetMat4("model", box.transform);
 	m_BoxShader.setVec3("color", box.color);
+
+	BindPointVAO();
+}
+
+void DebugBuffer::renderJoint(JointShape joint)
+{
+	m_JointShader.use();
+	m_JointShader.setVec3("OriginPos", joint.originPos);
+	m_JointShader.setVec3("ChildPos", joint.childPos);
+	m_JointShader.SetMat4("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_JointShader.SetMat4("transform", joint.transform);
+
+	BindPointVAO();
+}
+
+void DebugBuffer::BindPointVAO()
+{
 	glBindVertexArray(pointVAO);
 	glDrawArrays(GL_POINTS, 0, 1);
 	glBindVertexArray(0);
@@ -207,6 +224,15 @@ void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& radius
 	new_sphere.radius = radius;
 	new_sphere.color = color;
 	m_OverlaySpheres.push_back(new_sphere);
+}
+
+void DebugBuffer::DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform)
+{
+	JointShape newJoint;
+	newJoint.transform = jointTransform;
+	newJoint.originPos = originPosition;
+	newJoint.childPos = childPosition;
+	m_OverlayJoints.push_back(newJoint);
 }
 
 void DebugBuffer::DrawSceneSkeletons(Scene* const& m_Scene)

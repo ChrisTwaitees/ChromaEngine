@@ -26,9 +26,6 @@ void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames,
 	// Create Model Space Anim Transform
 	glm::mat4 localAnimatedTransform =  GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, frameNum);
 	//glm::mat4 ModelAnimatedTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform() * parentTransform *  localAnimatedTransform;
-	//glm::mat4 localBindRotateTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform();
-	//localBindRotateTransform[3] = glm::vec4(0.0, 0.0 ,0.0, 1.0);
-	//glm::mat4 ModelAnimatedTransform = localBindRotateTransform * parentTransform * localAnimatedTransform;
 	glm::mat4 ModelAnimatedTransform = parentTransform * localAnimatedTransform;
 	
 	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(ModelAnimatedTransform);

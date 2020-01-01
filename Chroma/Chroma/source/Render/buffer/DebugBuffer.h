@@ -24,16 +24,23 @@ struct LineShape
 
 struct BoxShape
 {
-	glm::mat4 transform{ 1 };
+	glm::mat4 transform{ 1.0 };
 	glm::vec3 bbox_min, bbox_max;
 	glm::vec3 color;
 };
 
 struct SphereShape
 {
-	glm::mat4 transform{ 1 };
+	glm::mat4 transform{ 1.0 };
 	float radius;
 	glm::vec3 color;
+};
+
+struct JointShape
+{
+	glm::mat4 transform{ 1.0 };
+	glm::vec3 originPos;
+	glm::vec3 childPos;
 };
 
 class DebugBuffer : public Framebuffer
@@ -45,6 +52,8 @@ class DebugBuffer : public Framebuffer
 	std::vector<BoxShape> m_OverlayBoxes;
  	std::vector<SphereShape> m_spheres;
 	std::vector<SphereShape> m_OverlaySpheres;
+
+	std::vector<JointShape> m_OverlayJoints;
 
 	// attrs
 	unsigned int pointVAO, pointVBO;
@@ -60,11 +69,15 @@ class DebugBuffer : public Framebuffer
 	const char* boxVtxSource{ "resources/shaders/vertexBoxDebug.glsl" };
 	const char* boxGeomSource{ "resources/shaders/geometryBoxDebug.glsl" };
 	Shader m_BoxShader{ FragSource, boxVtxSource, boxGeomSource };
-	// sphere geometry shder
+	// sphere geometry shader
 	const char* sphereVtxSource{ "resources/shaders/vertexSphereDebug.glsl" };
 	const char* sphereGeomSource{ "resources/shaders/geometrySphereDebug.glsl" };
 	Shader m_SphereShader{ FragSource, sphereVtxSource, sphereGeomSource };
-	
+	// joint geometry shader
+	const char* jointVtxSource{ "resources/shaders/vertexJointDebug.glsl" };
+	const char* jointGeomSource{ "resources/shaders/geometryJointDebug.glsl" };
+	Shader m_JointShader{ FragSource, jointVtxSource, jointGeomSource };
+
 	// point VAO
 	void generatePointVAO();
 
@@ -78,6 +91,9 @@ class DebugBuffer : public Framebuffer
 	void renderLine(LineShape line);
 	void renderSphere(SphereShape sphere);
 	void renderBox(BoxShape box);
+	void renderJoint(JointShape joint);
+
+	void BindPointVAO();
 	// blitting depth buffer before rendering
 	void Initialize() override;
 	void AttachBuffer();
@@ -86,16 +102,23 @@ class DebugBuffer : public Framebuffer
 	
 
 public:
+	// Line
 	void DrawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
 	void DrawOverlayLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
 
+	// Box
 	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
 	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color);
 	void DrawOverlayBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
 
+	// Sphere
 	void DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
 	void DrawOverlaySphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
 
+	// Joint
+	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform);
+
+	// Skeletons
 	void DrawSceneSkeletons(Scene* const &scene);
 
 	void ClearBuffer() override;
