@@ -9,6 +9,7 @@ namespace Chroma
 	double Chroma::Time::m_Lag;
 	double Chroma::Time::m_MaxMSPerFrame;
 	double Chroma::Time::m_FPS;
+	float Chroma::Time::m_Speed;
 
 	void Time::Sleep(int milliseconds)
 	{
@@ -22,6 +23,7 @@ namespace Chroma
 		m_Current = 0.0f;
 		m_Previous = 0.0f;
 		m_Lag = 0.0f;
+		m_Speed = 1.0f;
 	}
 
 	float Time::GetLoopingTime(float const& loopDuration)

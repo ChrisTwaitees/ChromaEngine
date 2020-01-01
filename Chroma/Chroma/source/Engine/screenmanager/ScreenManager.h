@@ -13,10 +13,12 @@
 // camera
 #include <camera/Camera.h>
 //config
-#include  <ChromaConfig.h>
+#include <ChromaConfig.h>
 // framebuffer
-#include "buffer/Framebuffer.h"
+#include <buffer/Framebuffer.h>
 #include <core/Core.h>
+// time 
+#include <time/Time.h>
 
 class ScreenManager
 {
@@ -60,6 +62,8 @@ public:
 	GLFWwindow* GetWindow() { return window; };
 	
 	// GUI Attrs
+	// ti,e
+	float timeSpeed{ 1.0f };
 	// debug
 	// render
 	bool useSkybox{ true };

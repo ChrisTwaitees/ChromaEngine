@@ -9,6 +9,7 @@
 #include <ibl/IBL.h>
 #include <scene/Scene.h>
 #include <model/Model.h>
+#include <core/Core.h>
 
 
 

@@ -43,6 +43,8 @@ public:
 	void SetTranslation(glm::vec3 const& newTranslation) { m_Translation = newTranslation; UpdateSkeletonRootTransform(); };
 	void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; UpdateSkeletonRootTransform(); };
 
+	void SetToBindPose();
+
 	int GetNumJoints() const { return m_Joints.size(); };
 	std::map<std::pair<int, std::string>, Joint> GetIndexedNamedJoints() const { return m_Joints; };
 	std::map<std::string, Joint*> GetNamedJoints();

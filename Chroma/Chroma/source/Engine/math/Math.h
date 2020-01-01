@@ -56,9 +56,9 @@ static glm::mat3 AIToGLM(const aiMatrix3x3& from)
 	return to;
 }
 
-static inline glm::vec3 AItoGLM(const aiVector3D& v) { return glm::vec3(v.x, v.y, v.z); }
+static inline glm::vec3 AIToGLM(const aiVector3D& v) { return glm::vec3(v.x, v.y, v.z); }
 
-static inline glm::quat AItoGLM(const aiQuaternion& q) { return glm::quat(q.w, q.x, q.y, q.z); }
+static inline glm::quat AIToGLM(const aiQuaternion& q) { return glm::quat(q.w, q.x, q.y, q.z); }
 
 // BULLET
 static glm::mat4 BulletToGLM(const btTransform& transform)
@@ -124,7 +124,7 @@ static glm::vec3 GLMGetTranslation(glm::mat4 const& mat4)
 	return glm::vec3(mat4[3]);
 }
 
-static glm::quat getRotation(glm::mat4 const& mat4)
+static glm::quat GetRotation(glm::mat4 const& mat4)
 {
 	glm::vec3 scale;
 	glm::quat rotation;
@@ -135,6 +135,7 @@ static glm::quat getRotation(glm::mat4 const& mat4)
 
 	return rotation;
 }
+
 
 
 

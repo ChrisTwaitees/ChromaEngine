@@ -24,6 +24,7 @@
 #include <light/Light.h>
 #include <terrain/Terrain.h>
 #include <game/ChromaGame.h>
+#include <time/Time.h>
 
 
 int main()
@@ -142,7 +143,7 @@ int main()
 	AnimModelEntity->SetName("AnimationModel");
 	scene->AddEntity(AnimModelEntity);
 	// mesh
-	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking4.fbx");
+	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.fbx");
 	AnimModelMeshComponent->SetShader(&PBRShader);
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
@@ -156,7 +157,7 @@ int main()
 	// animation
 	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
 	Animator AnimModelAnimator;
-	AnimModelAnimator.LoadAnimations("resources/animation/walking4.fbx");
+	AnimModelAnimator.LoadAnimations("resources/animation/walking7.fbx");
 	AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
 	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
@@ -315,8 +316,8 @@ int main()
 	{
 		// SCREENMANAGER START
 		screenManager->StartLoop();
-		float GameTime = screenManager->getTime();
-		float DeltaTime = screenManager->GetDeltaTime();
+		float GameTime = Chroma::Time::GetGameTime();
+		float DeltaTime = Chroma::Time::GetDeltaTime();
 
 		//Sunlight Rotation		
 		Sun->SetPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));

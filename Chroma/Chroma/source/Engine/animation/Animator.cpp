@@ -12,6 +12,7 @@ void Animator::PlayTake(std::string const& takeName, float const& normalizedTime
 	else
 	{
 		CHROMA_WARN("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", takeName);
+		m_Skeleton->SetToBindPose();
 		return;
 	}
 }
@@ -23,16 +24,15 @@ float Animator::CalculateFrameNumber(std::string const& takeName, float const& n
 
 void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& frameNum)
 {
-	// Create Model Space Anim Transform
-	glm::mat4 localAnimatedTransform =  GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, frameNum);
-	//glm::mat4 ModelAnimatedTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform() * parentTransform *  localAnimatedTransform;
-	glm::mat4 ModelAnimatedTransform = parentTransform * localAnimatedTransform;
-	
-	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(ModelAnimatedTransform);
-
+	// Get Animated Local Transform
+	glm::mat4 LocalAnimatedTransform =  GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, frameNum);
+	// Convert to Model Space Transform
+	glm::mat4 ModelAnimatedTransform =  parentTransform * LocalAnimatedTransform;
+	// Calculate Accumatively
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->GetChildJointIDs())
 		ApplyAnimJointHierarchy(childJointID, keyFrames, ModelAnimatedTransform, frameNum);
-
+	// Once child joint transforms have been calculated 
+	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform( ModelAnimatedTransform);
 }
 
 glm::mat4 Animator::GetJointMat4AtKeyFrameTime(std::string const& jointName, KeyFrames& keyFrames, float frameNum)
@@ -95,7 +95,7 @@ JointTransform Animator::InterpolateJointTransforms(JointTransform const& from, 
 	JointTransform interpolated;
 
 	interpolated.m_Translation = glm::mix(from.m_Translation, to.m_Translation, lerp);
-	interpolated.m_Rotation = glm::mix(from.m_Rotation, to.m_Rotation, lerp);
+	interpolated.m_Rotation = glm::normalize(glm::mix(from.m_Rotation, to.m_Rotation, lerp));
 	interpolated.m_Scale = glm::mix(from.m_Scale, to.m_Scale, lerp);
 
 	return interpolated;
@@ -124,7 +124,7 @@ void Animator::DoAnimation()
 		return;
 	}
 
-	//PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
+	PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
 }
 
 void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)
@@ -137,8 +137,6 @@ void Animator::DebugAnimationTake(std::string const& takeName, float const& debu
 
 	PlayTake(takeName, debugTime);
 }
-
-
 
 
 Animator::Animator()

@@ -358,20 +358,20 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 		{
 			// update joint
 			aiVertexWeight vertexWeight = bone->mWeights[j];
+			// Joint ID, Weight
 			std::pair<unsigned int, float> skinningData;
 			skinningData.first = i;
 			skinningData.second = vertexWeight.mWeight;
 			SetVertSkinningData(m_SkinnedVertices[vertexWeight.mVertexId], skinningData);
 		}
-		// Normalize Skinning weights
-		for (ChromaSkinnedVertex skinnedVert : m_SkinnedVertices)
-		{
-			skinnedVert.m_jointWeights = glm::normalize(skinnedVert.m_jointWeights);
-		}
-
-
 		// Add new joint
 		skeleton.AddJoint(newJoint);
+	}
+
+	// Normalize Skinning Weights
+	for (ChromaSkinnedVertex& skinnedVert : m_SkinnedVertices)
+	{
+		skinnedVert.m_jointWeights = glm::normalize(skinnedVert.m_jointWeights);
 	}
 
 	// Get Root Joint

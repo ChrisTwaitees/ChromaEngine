@@ -19,6 +19,15 @@ void Skeleton::SetGlobalTransform(glm::mat4 const& newGlobalTransform)
 	m_WorldTransformInverse = glm::inverse(newGlobalTransform);
 }
 
+void Skeleton::SetToBindPose()
+{
+	for (auto& IDNameJoint : m_Joints)
+	{
+		IDNameJoint.second.SetModelSpaceTransform( IDNameJoint.second.GetModelBindTransform());
+	}
+
+}
+
 std::map<std::string, Joint*> Skeleton::GetNamedJoints()
 {
 	std::map<std::string, Joint*> newJointNameMap;
@@ -58,7 +67,7 @@ int Skeleton::GetJointID(std::string const& jointName) const
 			return IDNameJoint.first.first;
 		}
 	}
-	throw "JOINT ID COULD NOT BE FOUND." ;
+	CHROMA_ERROR("SKELETON ERROR :: JOINT ID COULD NOT BE FOUND : {0} ", jointName);
 }
 
 std::string Skeleton::GetJointName(int const& jointID) const
@@ -70,7 +79,7 @@ std::string Skeleton::GetJointName(int const& jointID) const
 			return IDNameJoint.first.second;
 		}
 	}
-	throw "JOINT NAME COULD NOT BE FOUND.";
+	CHROMA_ERROR("SKELETON ERROR :: JOINT Name COULD NOT BE FOUND : {0} ", jointID);
 }
 
 glm::mat4 Skeleton::GetJointTransform(std::string const& jointName) const
@@ -82,7 +91,7 @@ glm::mat4 Skeleton::GetJointTransform(std::string const& jointName) const
 			return IDNameJoint.second.GetModelSpaceTransform();
 		}
 	}
-	throw "JOINT COULD NOT BE FOUND.";
+	CHROMA_ERROR("SKELETON ERROR :: JOINT COULD NOT BE FOUND: {0}", jointName);
 }
 
 glm::mat4 Skeleton::GetJointTransform(int const& jointID) const
@@ -94,7 +103,7 @@ glm::mat4 Skeleton::GetJointTransform(int const& jointID) const
 			return IDNameJoint.second.GetModelSpaceTransform();
 		}
 	}
-	throw "JOINT COULD NOT BE FOUND.";
+	CHROMA_ERROR("SKELETON ERROR :: JOINT COULD NOT BE FOUND: {0}", jointID);
 }
 
 Joint Skeleton::GetJoint(int const& index)
@@ -106,7 +115,7 @@ Joint Skeleton::GetJoint(int const& index)
 			return IDNameJoint.second;
 		}
 	}
-	throw "JOINT COULD NOT BE FOUND.";
+	CHROMA_ERROR("SKELETON ERROR :: JOINT COULD NOT BE FOUND: {0}", index);
 }
 
 Joint Skeleton::GetJoint(std::string const& jointName) 
@@ -118,7 +127,7 @@ Joint Skeleton::GetJoint(std::string const& jointName)
 			return IDNameJoint.second;
 		}
 	}
-	throw "JOINT COULD NOT BE FOUND.";
+	CHROMA_ERROR("SKELETON ERROR :: JOINT COULD NOT BE FOUND: {0}", jointName);
 }
 
 Joint* Skeleton::GetJointPtr(int const& index)
@@ -155,7 +164,7 @@ Joint Skeleton::GetJointPartialName(std::string const& jointName)
 			return IDNameJoint.second;
 		}
 	}
-	throw "JOINT COULD NOT BE FOUND.";
+	CHROMA_ERROR("SKELETON ERROR :: JOINT COULD NOT BE FOUND: {0}", jointName);
 }
 
 Joint* Skeleton::GetJointPtrPartialName(std::string const& jointName)
@@ -179,8 +188,7 @@ bool Skeleton::GetJointExists(int const& index) const
 			return true;
 		}
 	}
-	// could not find
-	return false;
+	CHROMA_ERROR("SKELETON ERROR :: JOINT COULD NOT BE FOUND: {0}", index);
 }
 
 bool Skeleton::GetJointExists(std::string const& jointName) const

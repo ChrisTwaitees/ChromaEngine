@@ -164,7 +164,9 @@ void ScreenManager::processTime()
 void ScreenManager::drawGUI()
 {
 	// Time
-	ImGui::Text("Deltatime %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::Text("Deltatime %.3f ms/frame (%.1f FPS)", Chroma::Time::GetDeltaTime(), Chroma::Time::GetFPS);
+	ImGui::SliderFloat("Time Multiply", &timeSpeed, 0.0, 3.0);
+	Chroma::Time::SetSpeed(timeSpeed);
 
 	//// exposure
 	//ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);

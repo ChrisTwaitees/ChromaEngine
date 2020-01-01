@@ -28,6 +28,9 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 	// collect animations
 	for (unsigned int i = 0; i < scene->mNumAnimations ; i++)
 	{
+		// Loading animation
+		CHROMA_TRACE("-----------------------------------------");
+		CHROMA_TRACE("ANIMATION LOADER:: Loading New Animation");
 		// storing each animation as a "take"
 		Take newTake;
 		aiAnimation* aiAnim = scene->mAnimations[i];
@@ -39,10 +42,11 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 		newTake.m_Duration = 1.0 / newTake.m_FPS * newTake.m_NumFrames;
 
 		// Debug
-		CHROMA_TRACE("AnimationLoader:: Animation Clip Name : {0}", newTake.m_Name);
-		CHROMA_TRACE("AnimationLoader:: Animation Clip Number Frames : {0}", newTake.m_NumFrames);
-		CHROMA_TRACE("AnimationLoader:: Animation Clip FPS : {0}", newTake.m_FPS);
-		CHROMA_TRACE("AnimationLoader:: Animation Clip Duration : {0}", newTake.m_Duration);
+		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip Name : {0}", newTake.m_Name);
+		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip Number Frames : {0}", newTake.m_NumFrames);
+		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip FPS : {0}", newTake.m_FPS);
+		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip Duration : {0}", newTake.m_Duration);
+		CHROMA_TRACE("-----------------------------------------");
 
 		// storing keyframes in take
 		for (unsigned int j = 0; j < aiAnim->mNumChannels; j++)
@@ -72,7 +76,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			for (unsigned int a = 0; a < aiAnimNode->mNumPositionKeys; a++)
 			{
 				float timeStamp = aiAnimNode->mPositionKeys[a].mTime;
-				glm::vec3 translation = AItoGLM(aiAnimNode->mPositionKeys[a].mValue);
+				glm::vec3 translation = AIToGLM(aiAnimNode->mPositionKeys[a].mValue);
 				// position , framenumber
 				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
 				{
@@ -90,7 +94,8 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			for (unsigned int a = 0; a < aiAnimNode->mNumRotationKeys; a++)
 			{
 				float timeStamp = aiAnimNode->mRotationKeys[a].mTime;
-				glm::quat rotation = AItoGLM(aiAnimNode->mRotationKeys[a].mValue);
+				glm::quat rotation = AIToGLM(aiAnimNode->mRotationKeys[a].mValue);
+				//RotateByJointOrient(rotation, JointName, scene);
 				// rotation , framenumber
 				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
 				{
@@ -108,7 +113,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			for (unsigned int a = 0; a < aiAnimNode->mNumScalingKeys; a++)
 			{
 				float timeStamp = aiAnimNode->mScalingKeys[a].mTime;
-				glm::vec3 scale = AItoGLM(aiAnimNode->mScalingKeys[a].mValue);
+				glm::vec3 scale = AIToGLM(aiAnimNode->mScalingKeys[a].mValue);
 				// scale , framenumber
 				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
 				{
@@ -125,6 +130,19 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 		// add to takes
 		takes.push_back(newTake);
 	}
+}
+
+void RotateByJointOrient(glm::quat& rotation, const std::string& jointName, const aiScene*& scene)
+{
+	aiNode* joint = scene->mRootNode->FindNode((aiString)jointName);
+
+	if (joint != NULL)
+	{
+		glm::mat4 jointTransform = glm::inverse(AIToGLM(((aiBone*)joint)->mOffsetMatrix));
+		rotation = GetRotation(jointTransform) * rotation;
+	}
+	else
+		return;
 }
 
 std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene)
