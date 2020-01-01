@@ -157,7 +157,7 @@ int main()
 	// animation
 	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
 	Animator AnimModelAnimator;
-	AnimModelAnimator.LoadAnimations("resources/animation/walking7.fbx");
+	AnimModelAnimator.LoadAnimations("resources/animation/walking.fbx");
 	AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
 	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
