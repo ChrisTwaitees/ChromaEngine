@@ -18,7 +18,7 @@ void Animator::PlayTake(std::string const& takeName, float const& normalizedTime
 
 float Animator::CalculateFrameNumber(std::string const& takeName, float const& normalizedTime)
 {
-	return  Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(takeName).m_Duration) * m_Takes.at(takeName).m_NumFrames;
+	return Chroma::Math::Remap(normalizedTime, 0.0, 1.0, 0.0, m_Takes.at(takeName).m_NumFrames);
 }
 
 void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& frameNum)
@@ -69,7 +69,6 @@ JointTransform Animator::GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, flo
 		}
 		++it;
 	}
-
 	// if current frame practically the same as current time stamp don't bother interpolating
 	if (timeStamp - nearestCurrent < std::numeric_limits<float>::epsilon())
 	{
@@ -125,9 +124,7 @@ void Animator::DoAnimation()
 		return;
 	}
 
-
-
-	PlayTake(m_CurrentTake, 0.5);
+	//PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
 }
 
 void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)

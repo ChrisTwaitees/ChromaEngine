@@ -110,12 +110,12 @@ void DebugBuffer::DrawDepthCulledShapes()
 void DebugBuffer::renderLine(LineShape line)
 {
 	m_LineShader.use();
-	m_LineShader.setVec3("Start", line.start);
-	m_LineShader.setVec3("End", line.end);
-	m_LineShader.SetMat4("view", m_RenderCamera->GetViewMatrix());
-	m_LineShader.SetMat4("projection", m_RenderCamera->GetProjectionMatrix());
-	m_LineShader.SetMat4("model", glm::mat4(1.0f));
-	m_LineShader.setVec3("color", line.color);
+	m_LineShader.setUniform("Start", line.start);
+	m_LineShader.setUniform("End", line.end);
+	m_LineShader.setUniform("view", m_RenderCamera->GetViewMatrix());
+	m_LineShader.setUniform("projection", m_RenderCamera->GetProjectionMatrix());
+	m_LineShader.setUniform("model", glm::mat4(1.0f));
+	m_LineShader.setUniform("color", line.color);
 
 	BindPointVAO();
 }
@@ -123,10 +123,10 @@ void DebugBuffer::renderLine(LineShape line)
 void DebugBuffer::renderSphere(SphereShape sphere)
 {
 	m_SphereShader.use();
-	m_SphereShader.SetMat4("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
-	m_SphereShader.SetMat4("model", sphere.transform);
-	m_SphereShader.SetFloat("radius", sphere.radius);
-	m_SphereShader.setVec3("color", sphere.color);
+	m_SphereShader.setUniform("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_SphereShader.setUniform("model", sphere.transform);
+	m_SphereShader.setUniform("radius", sphere.radius);
+	m_SphereShader.setUniform("color", sphere.color);
 
 	BindPointVAO();
 }
@@ -134,11 +134,11 @@ void DebugBuffer::renderSphere(SphereShape sphere)
 void DebugBuffer::renderBox(BoxShape box)
 {
 	m_BoxShader.use();
-	m_BoxShader.setVec3("BBoxMin", box.bbox_min);
-	m_BoxShader.setVec3("BBoxMax", box.bbox_max);
-	m_BoxShader.SetMat4("VPMat" , m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
-	m_BoxShader.SetMat4("model", box.transform);
-	m_BoxShader.setVec3("color", box.color);
+	m_BoxShader.setUniform("BBoxMin", box.bbox_min);
+	m_BoxShader.setUniform("BBoxMax", box.bbox_max);
+	m_BoxShader.setUniform("VPMat" , m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_BoxShader.setUniform("model", box.transform);
+	m_BoxShader.setUniform("color", box.color);
 
 	BindPointVAO();
 }
@@ -146,11 +146,12 @@ void DebugBuffer::renderBox(BoxShape box)
 void DebugBuffer::renderJoint(JointShape joint)
 {
 	m_JointShader.use();
-	m_JointShader.setVec3("OriginPos", joint.originPos);
-	m_JointShader.setVec3("ChildPos", joint.childPos);
-	m_JointShader.SetMat4("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
-	m_JointShader.SetMat4("transform", joint.transform);
-
+	m_JointShader.setUniform("OriginPos", joint.originPos);
+	m_JointShader.setUniform("ChildPos", joint.childPos);
+	m_JointShader.setUniform("Size", joint.size);
+	m_JointShader.setUniform("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_JointShader.setUniform("transform", joint.transform);
+	m_JointShader.setUniform("color", joint.color);
 	BindPointVAO();
 }
 
@@ -226,12 +227,14 @@ void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& radius
 	m_OverlaySpheres.push_back(new_sphere);
 }
 
-void DebugBuffer::DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform)
+void DebugBuffer::DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size, const glm::vec3& color)
 {
 	JointShape newJoint;
 	newJoint.transform = jointTransform;
 	newJoint.originPos = originPosition;
 	newJoint.childPos = childPosition;
+	newJoint.size = size;
+	newJoint.color = color;
 	m_OverlayJoints.push_back(newJoint);
 }
 
@@ -258,6 +261,7 @@ void DebugBuffer::ClearBuffer()
 	m_OverlayLines.clear();
 	m_OverlayBoxes.clear();
 	m_OverlaySpheres.clear();
+	m_OverlayJoints.clear();
 
 	m_lines.clear();
 	m_spheres.clear();

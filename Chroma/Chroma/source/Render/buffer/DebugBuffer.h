@@ -17,30 +17,32 @@ class Scene;
 
 struct LineShape
 {
-	glm::vec3 start;
-	glm::vec3 end;
-	glm::vec3 color;
+	glm::vec3 start{ 0.0 };
+	glm::vec3 end{ 0.0 };
+	glm::vec3 color{ 0.0 };
 };
 
 struct BoxShape
 {
 	glm::mat4 transform{ 1.0 };
-	glm::vec3 bbox_min, bbox_max;
-	glm::vec3 color;
+	glm::vec3 bbox_min{ 0.0 }, bbox_max{ 0.0 };
+	glm::vec3 color{ 1.0 };
 };
 
 struct SphereShape
 {
 	glm::mat4 transform{ 1.0 };
-	float radius;
-	glm::vec3 color;
+	float radius{ 1.0 };
+	glm::vec3 color{ 1.0 };
 };
 
 struct JointShape
 {
 	glm::mat4 transform{ 1.0 };
-	glm::vec3 originPos;
-	glm::vec3 childPos;
+	glm::vec3 originPos{ 0.0 };
+	glm::vec3 childPos{ 0.0 };
+	glm::vec3 color{ 1.0 };
+	float size{ 1.0 };
 };
 
 class DebugBuffer : public Framebuffer
@@ -74,9 +76,10 @@ class DebugBuffer : public Framebuffer
 	const char* sphereGeomSource{ "resources/shaders/geometrySphereDebug.glsl" };
 	Shader m_SphereShader{ FragSource, sphereVtxSource, sphereGeomSource };
 	// joint geometry shader
+	const char* jointFragSource{ "resources/shaders/fragJointDebug.glsl" };
 	const char* jointVtxSource{ "resources/shaders/vertexJointDebug.glsl" };
 	const char* jointGeomSource{ "resources/shaders/geometryJointDebug.glsl" };
-	Shader m_JointShader{ FragSource, jointVtxSource, jointGeomSource };
+	Shader m_JointShader{ jointFragSource, jointVtxSource, jointGeomSource };
 
 	// point VAO
 	void generatePointVAO();
@@ -116,7 +119,7 @@ public:
 	void DrawOverlaySphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
 
 	// Joint
-	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform);
+	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size = 1.0, const glm::vec3& color = glm::vec3(1.0));
 
 	// Skeletons
 	void DrawSceneSkeletons(Scene* const &scene);
