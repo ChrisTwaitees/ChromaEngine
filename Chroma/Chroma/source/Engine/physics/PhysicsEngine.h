@@ -13,7 +13,7 @@
 #include <component/PhysicsComponent.h>
 #include <physics/PhysicsDebug.h>
 #include <buffer/DebugBuffer.h>
-#include <time/ChromaTime.h>
+#include <time/Time.h>
 
 class IEntity;
 
@@ -42,7 +42,7 @@ private:
 public:
 	void addBodyToWorld(PhysicsComponent*& physicsComponent);
 	
-	void Update(Time& time);
+	void Update();
 
 	void setGravity(glm::vec3& newGravity) ;
 

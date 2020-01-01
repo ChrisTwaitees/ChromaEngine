@@ -1,5 +1,5 @@
-#ifndef _CHROMA_ANIMATOR_
-#define _CHROMA_ANIMATOR_
+#ifndef _CHROMA_ANIMATOR_H_
+#define _CHROMA_ANIMATOR_H_
 
 // stl
 #include <vector>
@@ -9,7 +9,7 @@
 // chroma
 #include <animation/AnimationLoader.h>
 #include <animation/Skeleton.h>
-#include <time/ChromaTime.h>
+#include <time/Time.h>
 #include <worker/IWorker.h>
 #include <glm/gtc/quaternion.hpp> 
 #include <glm/gtx/quaternion.hpp>
@@ -28,7 +28,10 @@ class Animator
 	void AddTake(Take const& newTake);
 
 	// animation
-	void PlayTake(std::string const& takeName, float const& timeStamp);
+	void PlayTake(std::string const& takeName, float const& normalizedTime);
+
+	// time
+	float CalculateFrameNumber(std::string const& takeName, float const& normalizedTime);
 
 	// joint transforms
 	void ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform , float const& timeStamp);
@@ -44,7 +47,7 @@ public:
 
 	void BindSkeleton(Skeleton* newSkeleton) { m_Skeleton = newSkeleton; };
 
-	void DoAnimation(Time& time);
+	void DoAnimation();
 
 	void DebugAnimationTake(std::string const& takeName, float const& debugTime);
 
@@ -52,4 +55,4 @@ public:
 	~Animator();
 };
 
-#endif _CHROMA_ANIMATOR_
+#endif 

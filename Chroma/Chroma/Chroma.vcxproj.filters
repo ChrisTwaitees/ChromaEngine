@@ -149,9 +149,6 @@
     <ClCompile Include="source\glad.c">
       <Filter>thirdparty</Filter>
     </ClCompile>
-    <ClCompile Include="source\Chroma.cpp">
-      <Filter>Engine\main</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\renderer\Renderer.cpp">
       <Filter>Render\renderer</Filter>
     </ClCompile>

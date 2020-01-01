@@ -156,7 +156,7 @@ void ScreenManager::updateRendererViewportDimensions(int width, int height)
 void ScreenManager::processTime()
 {
 	float GameTime = glfwGetTime();
-	delta = GameTime - lastFrame;
+	m_Delta = GameTime - lastFrame;
 	lastFrame = GameTime;
 }
 

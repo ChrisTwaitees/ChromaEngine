@@ -4,7 +4,6 @@
 
 // chroma
 #include <scene/Scene.h>
-#include <time/ChromaTime.h>
 #include <component/AnimationComponent.h>
 
 class AnimationEngine
@@ -14,7 +13,7 @@ class AnimationEngine
 public:
 
 	void BindScene(Scene*& newScene) { m_Scene = newScene; };
-	void Update(Time& time);
+	void Update();
 	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
 
 	AnimationEngine();

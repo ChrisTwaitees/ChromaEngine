@@ -19,6 +19,29 @@
 #define CHROMA_RIGHT glm::vec3(1.0 ,0.0, 0.0)
 #define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
 
+
+// UTILITIES
+namespace Chroma
+{
+	class Math
+	{
+	public:
+		static float Remap(float value, float inMin, float inMax, float outMin, float outMax)
+		{
+			return outMin + (value - inMin) * (outMax - outMin) / (inMax - inMin);
+		}
+
+		static float Remap01(float value, float inMin, float inMax)
+		{
+			return (value - inMin)  / (inMax - inMin);
+		}
+	};
+}
+
+
+
+// CONVERSIONS
+
 // ASSIMP
 static inline glm::mat4 AIToGLM(const aiMatrix4x4& m) { return glm::transpose(glm::make_mat4(&m.a1)); }
 
@@ -112,5 +135,7 @@ static glm::quat getRotation(glm::mat4 const& mat4)
 
 	return rotation;
 }
+
+
 
 #endif

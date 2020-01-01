@@ -2356,35 +2356,35 @@ bool ImGui::SliderBehaviorT(const ImRect& bb, ImGuiID id, ImGuiDataType data_typ
         else if (g.ActiveIdSource == ImGuiInputSource_Nav)
         {
             const ImVec2 delta2 = GetNavInputAmount2d(ImGuiNavDirSourceFlags_Keyboard | ImGuiNavDirSourceFlags_PadDPad, ImGuiInputReadMode_RepeatFast, 0.0f, 0.0f);
-            float delta = (axis == ImGuiAxis_X) ? delta2.x : -delta2.y;
+            float m_Delta = (axis == ImGuiAxis_X) ? delta2.x : -delta2.y;
             if (g.NavActivatePressedId == id && !g.ActiveIdIsJustActivated)
             {
                 ClearActiveID();
             }
-            else if (delta != 0.0f)
+            else if (m_Delta != 0.0f)
             {
                 clicked_t = SliderCalcRatioFromValueT<TYPE,FLOATTYPE>(data_type, *v, v_min, v_max, power, linear_zero_pos);
                 const int decimal_precision = is_decimal ? ImParseFormatPrecision(format, 3) : 0;
                 if ((decimal_precision > 0) || is_power)
                 {
-                    delta /= 100.0f;    // Gamepad/keyboard tweak speeds in % of slider bounds
+                    m_Delta /= 100.0f;    // Gamepad/keyboard tweak speeds in % of slider bounds
                     if (IsNavInputDown(ImGuiNavInput_TweakSlow))
-                        delta /= 10.0f;
+                        m_Delta /= 10.0f;
                 }
                 else
                 {
                     if ((v_range >= -100.0f && v_range <= 100.0f) || IsNavInputDown(ImGuiNavInput_TweakSlow))
-                        delta = ((delta < 0.0f) ? -1.0f : +1.0f) / (float)v_range; // Gamepad/keyboard tweak speeds in integer steps
+                        m_Delta = ((m_Delta < 0.0f) ? -1.0f : +1.0f) / (float)v_range; // Gamepad/keyboard tweak speeds in integer steps
                     else
-                        delta /= 100.0f;
+                        m_Delta /= 100.0f;
                 }
                 if (IsNavInputDown(ImGuiNavInput_TweakFast))
-                    delta *= 10.0f;
+                    m_Delta *= 10.0f;
                 set_new_value = true;
-                if ((clicked_t >= 1.0f && delta > 0.0f) || (clicked_t <= 0.0f && delta < 0.0f)) // This is to avoid applying the saturation when already past the limits
+                if ((clicked_t >= 1.0f && m_Delta > 0.0f) || (clicked_t <= 0.0f && m_Delta < 0.0f)) // This is to avoid applying the saturation when already past the limits
                     set_new_value = false;
                 else
-                    clicked_t = ImSaturate(clicked_t + delta);
+                    clicked_t = ImSaturate(clicked_t + m_Delta);
             }
         }
 

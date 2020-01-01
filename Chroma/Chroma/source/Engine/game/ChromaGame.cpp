@@ -4,13 +4,13 @@
 void ChromaGame::Update()
 {
 	// Physics
-	m_Physics->Update(m_Time);
+	m_Physics->Update();
 
 	// Animation
 	if (m_Screen->DebugAnim)
 		m_Animation->UpdateDebug(m_Screen->AnimClipName, m_Screen->DebugAnimClipPos);
 	else
-		m_Animation->Update(m_Time);
+		m_Animation->Update();
 
 	// Workers
 	IWorker::DoWork();
@@ -36,17 +36,18 @@ void ChromaGame::MousePickerCallback()
 void ChromaGame::Tick()
 {
 	// update time
-	m_Time.Process();
+	Chroma::Time::Process();
+
 	// process input
 	ProcessInput();
 
 	// update while lag is less than framerate cap
-	while (m_Time.GetLag() >= m_Time.GetMSPerFrame())
+	while (Chroma::Time::GetLag() >= Chroma::Time::GetMSPerFrame())
 	{
 		Update();
-		m_Time.DecreaseLag(m_Time.GetMSPerFrame());
+		Chroma::Time::DecreaseLag(Chroma::Time::GetMSPerFrame());
 	}
-	// consider sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
+	// consider Sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
 
 	// Render Scene
 	Draw();
@@ -72,6 +73,10 @@ void ChromaGame::Initialize()
 	Chroma::Log::Init();
 	CHROMA_CORE_INFO("Chroma Initializing...");
 
+	// Time
+	Chroma::Time::Init();
+	CHROMA_CORE_INFO("Chroma Time Initialized.");
+
 	// Input
 	m_Input->BindWindow(m_Screen->GetWindow());
 	m_Input->BindCamera(m_Scene->GetRenderCamera());
@@ -91,22 +96,19 @@ void ChromaGame::Initialize()
 	m_Animation->BindScene(m_Scene);
 	CHROMA_CORE_INFO("Chroma Animation Engine Initialized.");
 
-	// Time
-	m_Scene->SetTime(&m_Time);
-
 }
 
 void ChromaGame::ProcessInput()
 {
 	// process input
-	m_Input->SetDeltaTime(GetDeltaTime());
+	m_Input->SetDeltaTime(Chroma::Time::GetDeltaTime());
 	m_Input->Process(); 
 
 	// update camera
 	if (m_Screen->cameraSelected == 0)
-		m_Scene->GetRenderCamera()->SetCameraMode(FlyCam);
-	if (m_Screen->cameraSelected == 1)
 		m_Scene->GetRenderCamera()->SetCameraMode(Maya);
+	if (m_Screen->cameraSelected == 1)
+		m_Scene->GetRenderCamera()->SetCameraMode(FlyCam);
 	m_Scene->GetRenderCamera()->ProcessInput(m_Input);
 
 	// render physics debug 

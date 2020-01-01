@@ -27,7 +27,7 @@ class ScreenManager
 	ChromaGUI gui;
 
 	// time
-	float delta{0.0f};
+	float m_Delta{0.0f};
 	float lastFrame{0.0f};
 
 	// setup
@@ -54,7 +54,7 @@ public:
 	unsigned int getScreenWidth() ;
 	unsigned int getScreenHeight();
 	std::pair<int, int> getWidthHeight();
-	float GetDeltaTime() { return delta; };
+	float GetDeltaTime() { return m_Delta; };
 	float getTime() { return glfwGetTime(); };
 
 	GLFWwindow* GetWindow() { return window; };

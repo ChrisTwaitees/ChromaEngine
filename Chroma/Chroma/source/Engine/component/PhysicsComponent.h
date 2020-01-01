@@ -7,7 +7,7 @@
 
 // chroma
 #include <component/IComponent.h>
-#include <time/ChromaTime.h>
+#include <time/Time.h>
 #include <model/Vertex.h>
 
 

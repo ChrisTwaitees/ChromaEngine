@@ -26,7 +26,7 @@ namespace Chroma {
 
 #endif
 
-#if defined(DEBUG)
+#if defined(RELEASE)
 
 // Core log macros
 #define CHROMA_CORE_TRACE(...)    ::Chroma::Log::GetCoreLogger()->trace(__VA_ARGS__)
@@ -43,7 +43,7 @@ namespace Chroma {
 #define CHROMA_FATAL(...)         ::Chroma::Log::GetClientLogger()->error(__VA_ARGS__)
 
 
-#elif defined(RELEASE)
+#elif defined(DEBUG)
 // Core log macros
 #define CHROMA_CORE_TRACE(...) 
 #define CHROMA_CORE_INFO(...)  

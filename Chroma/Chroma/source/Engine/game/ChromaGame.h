@@ -11,7 +11,7 @@
 #include <renderer/Renderer.h>
 #include <scene/Scene.h>
 #include <screenmanager/ScreenManager.h>
-#include <time/ChromaTime.h>
+#include <time/Time.h>
 #include <physics/PhysicsEngine.h>
 #include <animation/AnimationEngine.h>
 #include <logging/Log.h>
@@ -32,9 +32,6 @@ class ChromaGame
 	// input
 	Input* m_Input{ new Input };
 
-	// time
-	Time m_Time;
-
 	// game loop functions
 	void ProcessInput();
 	void Update();
@@ -45,8 +42,6 @@ class ChromaGame
 
 public:
 	// Accessors
-	double GetGameTime() { return m_Time.GetGameTime(); };
-	double GetDeltaTime() { return m_Time.GetDeltaTime(); };
 	Renderer* getRenderer() const { return m_Renderer; };
 
 	// Game Loop

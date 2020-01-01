@@ -1,32 +1,53 @@
-#ifndef _CHROMA_TIME_
-#define _CHROMA_TIME_
+#ifndef _CHROMA_TIME_H_
+#define _CHROMA_TIME_H_
 
 #include <chrono>
 #include <thread>
 
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+
+#include <ChromaConfig.h>
+#include <math/Math.h>
+#include <core/Core.h>
 
 
-class Time
+
+namespace Chroma
 {
-	const int MAX_FRAME_RATE = 60;
-	double MS_PER_FRAME = 1.0 / MAX_FRAME_RATE;
+	class Time
+	{
+	private:
 
-	void sleep(int milliseconds);
+		void Sleep(int milliseconds);
+		static double m_MaxMSPerFrame;
 
-	double delta{ 0.0f };
-	double current{ 0.0f };
-	double previous{ 0.0f };
-	double lag{ 0.0f };
+		static double m_Current;
+		static double m_Previous;
 
-public:
-	double GetLag() { return lag; };
-	void DecreaseLag(double decreaseAmount) { lag -= decreaseAmount; }
-	double GetMSPerFrame() { return MS_PER_FRAME; };
-	double GetDeltaTime() { return  delta; };
-	double GetGameTime() { return glfwGetTime(); }
+		static double m_Delta;
+		static double m_FPS;
 
-	void Process();
-};
+		static double m_Lag;
+
+	public:
+		static void Init();
+		inline static double& GetLag() { return m_Lag; }
+		inline static void DecreaseLag(double decreaseAmount) { m_Lag -= decreaseAmount; }
+		inline static double& GetMSPerFrame() { return m_MaxMSPerFrame; }
+		inline static double& GetDeltaTime() { return  m_Delta; }
+		inline static double GetGameTime() { return glfwGetTime(); }
+		inline static double& GetFPS() { return m_FPS; }
+
+		static float GetLoopingTime(float const& loopDuration);
+		static float GetLoopingTimeNormalized(float const& loopDuration);
+		static void Process();
+	};
+
+}
+
 
 #endif
+
+#define CHROMA_GAMETIME Chroma::Time::GetGameTime()
+#define CHROMA_DELTA_TIME Chroma::Time::GetDeltaTime()

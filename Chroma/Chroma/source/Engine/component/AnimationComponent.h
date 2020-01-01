@@ -6,7 +6,7 @@
 // chroma
 #include <component/IComponent.h>
 #include <animation/Animator.h>
-#include <time/ChromaTime.h>
+#include <time/Time.h>
 
 class AnimationComponent : public IComponent
 {
@@ -16,7 +16,7 @@ public:
 
 	void AddAnimator(Animator const& newAnimator) { m_Animators.push_back(newAnimator); };
 
-	void ProcessAnimators(Time& time);
+	void ProcessAnimators();
 	void ProcessAnimatorsDebug(std::string const& debugAnimClipName, float const& debugTime);
 	AnimationComponent();
 	~AnimationComponent();

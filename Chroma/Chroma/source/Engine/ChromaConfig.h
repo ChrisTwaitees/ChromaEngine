@@ -8,6 +8,9 @@
 #define CHROMA_UID_LENGTH 8
 //static const unsigned int CHROMA_UID_LENGTH{ 8 };
 
+// TIME
+#define CHROMA_MAX_FRAME_RATE 60
+
 
 // ANIMATION
 #define MAX_JOINTS 100

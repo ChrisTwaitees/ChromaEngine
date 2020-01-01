@@ -202,7 +202,6 @@
     <ClCompile Include="source\Engine\uid\UID.cpp" />
     <ClCompile Include="source\Engine\worker\IWorker.cpp" />
     <ClCompile Include="source\glad.c" />
-    <ClCompile Include="source\Chroma.cpp" />
     <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\Framebuffer.cpp" />

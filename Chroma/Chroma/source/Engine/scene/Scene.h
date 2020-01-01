@@ -12,7 +12,6 @@
 #include <physics/PhysicsEngine.h>
 #include <model/SkyBox.h>
 #include <ibl/IBL.h>
-#include <time/ChromaTime.h>
 // entity component
 #include <entity/IEntity.h>
 
@@ -32,7 +31,6 @@ class Scene
 	std::set<std::string> m_AnimatedEntityUIDs;
 
 	PhysicsEngine* m_Physics;
-	Time* m_Time;
 
 	// render components
 	Camera* m_RenderCamera{ new Camera() };
@@ -62,7 +60,6 @@ public:
 	void SetRenderCamera(Camera* const& newRenderCamera) { m_RenderCamera = newRenderCamera; };
 	void SetLights(std::vector<Light*> newLights);
 	void SetPhysics(PhysicsEngine*& newPhysics) { m_Physics = newPhysics; };
-	void SetTime(Time* const& newTime) { m_Time = newTime; };
 
 	// getters
 	IEntity* GetEntity(std::string UID);
@@ -75,7 +72,6 @@ public:
 	std::vector<Light*> GetLights() { return m_Lights; };
 	Light* GetSunLight() { return m_SunLight; };
 	PhysicsEngine* GetPhysics() { return  m_Physics; };
-	Time* GetTime() { return m_Time; };
 	SkyBox* GetSkyBox() { return m_Skybox; };
 	glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
 	IBL* GetIBL() { return m_IBL; };

@@ -1,11 +1,11 @@
 #include "AnimationComponent.h"
 
 
-void AnimationComponent::ProcessAnimators(Time& time)
+void AnimationComponent::ProcessAnimators()
 {
 	for (Animator& animator : m_Animators)
 	{
-		animator.DoAnimation(time);
+		animator.DoAnimation();
 	}
 }
 

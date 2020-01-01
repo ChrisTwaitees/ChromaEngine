@@ -1,13 +1,13 @@
 #include "Animator.h"
 
 
-void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
+void Animator::PlayTake(std::string const& takeName, float const& normalizedTime)
 {
 
 	if (m_Takes.find(takeName) != m_Takes.end())
 	{
-		float framenum = glm::mod(timeStamp, m_Takes.at(takeName).m_Duration) * (1.0 / m_Takes.at(takeName).m_Duration) * m_Takes.at(takeName).m_NumFrames;
-		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, glm::mat4(1.0), framenum);
+		float frameNum = CalculateFrameNumber(takeName, normalizedTime);
+		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, glm::mat4(1.0), frameNum);
 	}
 	else
 	{
@@ -16,29 +16,34 @@ void Animator::PlayTake(std::string const& takeName, float const& timeStamp)
 	}
 }
 
-void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& timeStamp)
+float Animator::CalculateFrameNumber(std::string const& takeName, float const& normalizedTime)
+{
+	return  Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(takeName).m_Duration) * m_Takes.at(takeName).m_NumFrames;
+}
+
+void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& frameNum)
 {
 	// Create Model Space Anim Transform
-	glm::mat4 localAnimatedTransform =  GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, timeStamp);
+	glm::mat4 localAnimatedTransform =  GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, frameNum);
 	//glm::mat4 ModelAnimatedTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform() * parentTransform *  localAnimatedTransform;
-	glm::mat4 localBindRotateTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform();
-	localBindRotateTransform[3] = glm::vec4(0.0, 0.0 ,0.0, 1.0);
-	glm::mat4 ModelAnimatedTransform = localBindRotateTransform * parentTransform * localAnimatedTransform;
-	//glm::mat4 ModelAnimatedTransform = parentTransform * localAnimatedTransform;
+	//glm::mat4 localBindRotateTransform = m_Skeleton->GetJoint(jointID).GetLocalBindOffsetTransform();
+	//localBindRotateTransform[3] = glm::vec4(0.0, 0.0 ,0.0, 1.0);
+	//glm::mat4 ModelAnimatedTransform = localBindRotateTransform * parentTransform * localAnimatedTransform;
+	glm::mat4 ModelAnimatedTransform = parentTransform * localAnimatedTransform;
 	
 	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(ModelAnimatedTransform);
 
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->GetChildJointIDs())
-		ApplyAnimJointHierarchy(childJointID, keyFrames, ModelAnimatedTransform, timeStamp);
+		ApplyAnimJointHierarchy(childJointID, keyFrames, ModelAnimatedTransform, frameNum);
 
 }
 
-glm::mat4 Animator::GetJointMat4AtKeyFrameTime(std::string const& jointName, KeyFrames& keyFrames, float timeStamp)
+glm::mat4 Animator::GetJointMat4AtKeyFrameTime(std::string const& jointName, KeyFrames& keyFrames, float frameNum)
 {
 	// Fetch KeyFrame and Calculate Transform at Time stamp
 	if (keyFrames.find(jointName) != keyFrames.end())
 	{
-		return JointTransformToMat4(GetJointTransformAtKeyFrameTime(keyFrames.at(jointName), timeStamp));
+		return JointTransformToMat4(GetJointTransformAtKeyFrameTime(keyFrames.at(jointName), frameNum));
 	}
 	else
 	{
@@ -115,7 +120,7 @@ void Animator::AddTake(Take const& newTake)
 }
 
 
-void Animator::DoAnimation(Time& time)
+void Animator::DoAnimation()
 {
 	if (m_Skeleton == nullptr)
 	{
@@ -123,7 +128,9 @@ void Animator::DoAnimation(Time& time)
 		return;
 	}
 
-	PlayTake(m_CurrentTake, time.GetGameTime());
+
+
+	PlayTake(m_CurrentTake, 0.5);
 }
 
 void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)
