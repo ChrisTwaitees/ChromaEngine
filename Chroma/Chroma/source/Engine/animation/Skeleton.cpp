@@ -213,18 +213,21 @@ glm::mat4 Skeleton::BuildRootTransform()
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
 {
 	// Debug Draw Skelton
-	glm::mat4 worldSpaceTransform = GetRootTransform() * currentJoint.GetModelSpaceTransform();
-	glm::vec3 startPos = GLMGetTranslation(currentJoint.GetModelSpaceTransform());
+	glm::mat4 worldJointTransform = GetRootTransform() * currentJoint.GetModelSpaceTransform();
+	// Coordinates
+	debugBuffer->DrawOverlayCoordinates(worldJointTransform, 3.5);
+	// Joint
+	glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * currentJoint.GetModelSpaceTransform());
 
 	for (int const& childID : currentJoint.GetChildJointIDs())
 	{
-		glm::vec3 endPos = GLMGetTranslation(GetJoint(childID).GetModelSpaceTransform());
+		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJoint(childID).GetModelSpaceTransform());
 		if(currentJoint.GetID() == m_RootJointID)
-			debugBuffer->DrawOverlayJoint(startPos, endPos, worldSpaceTransform, 1.0, glm::vec3(1.0, 0.0, 0.0));
+			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0, glm::vec3(1.0, 0.0, 0.0));
 		else if (childID == GetJointID("mixamorig:Head"))
-			debugBuffer->DrawOverlayJoint(startPos, endPos, worldSpaceTransform, 1.0, glm::vec3(1.0, 1.0, 0.0));
+			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0, glm::vec3(1.0, 1.0, 0.0));
 		else
-			debugBuffer->DrawOverlayJoint(startPos, endPos, worldSpaceTransform);
+			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0);
 
 		DebugWalkChildJoints(GetJoint(childID), debugBuffer);
 	}

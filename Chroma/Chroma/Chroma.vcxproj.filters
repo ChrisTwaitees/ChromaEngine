@@ -126,6 +126,9 @@
     <Filter Include="Engine\core">
       <UniqueIdentifier>{bacadcf9-e5ff-4323-8026-0596af866e93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\shaders\debug">
+      <UniqueIdentifier>{daa803d9-806b-421c-b0b7-213daf12d631}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -531,28 +534,7 @@
     <None Include="resources\shaders\fragRefraction.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\geometryBoxDebug.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\geometryDebugNormals.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\geometryLineDebug.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\geometrySphereDebug.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexBoxDebug.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexDebugNormals.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
     <None Include="resources\shaders\vertexLineBillboard.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexLineDebug.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexLineShader.glsl">
@@ -565,9 +547,6 @@
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\vertexShaderLighting.glsl">
-      <Filter>Resources\shaders</Filter>
-    </None>
-    <None Include="resources\shaders\vertexSphereDebug.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
     <None Include="resources\shaders\fragBloomFrameBuffer.glsl">
@@ -644,6 +623,48 @@
     </None>
     <None Include="resources\shaders\fragBRDF.glsl">
       <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragCoordinatesDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\geometryCoordinatesDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\vertexCoordinatesDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\fragJointDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\geometryBoxDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\geometryDebugNormals.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\geometryJointDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\geometryLineDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\geometrySphereDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\vertexBoxDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\vertexDebugNormals.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\vertexJointDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\vertexLineDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\vertexSphereDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
     </None>
   </ItemGroup>
 </Project>

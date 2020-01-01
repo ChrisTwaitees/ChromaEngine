@@ -92,6 +92,9 @@ void DebugBuffer::DrawOverlayShapes()
 	// joints
 	for (JointShape joint : m_OverlayJoints)
 		renderJoint(joint);
+	// coordinates
+	for (CoordinatesShape coordinate : m_OverlayCoordinates)
+		renderCoordinate(coordinate);
 }
 
 void DebugBuffer::DrawDepthCulledShapes()
@@ -105,6 +108,9 @@ void DebugBuffer::DrawDepthCulledShapes()
 	// boxes
 	for (BoxShape box : m_boxes)
 		renderBox(box);
+	// coordinates
+	for (CoordinatesShape coordinate : m_Coordinates)
+		renderCoordinate(coordinate);
 }
 
 void DebugBuffer::renderLine(LineShape line)
@@ -146,12 +152,23 @@ void DebugBuffer::renderBox(BoxShape box)
 void DebugBuffer::renderJoint(JointShape joint)
 {
 	m_JointShader.use();
-	m_JointShader.setUniform("OriginPos", joint.originPos);
+	m_JointShader.setUniform("JointPos", joint.jointPos);
 	m_JointShader.setUniform("ChildPos", joint.childPos);
 	m_JointShader.setUniform("Size", joint.size);
 	m_JointShader.setUniform("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
 	m_JointShader.setUniform("transform", joint.transform);
 	m_JointShader.setUniform("color", joint.color);
+	BindPointVAO();
+}
+
+void DebugBuffer::renderCoordinate(CoordinatesShape coordinate)
+{
+	// Coordinate reference 
+	m_CoordinatesShader.use();
+	m_CoordinatesShader.setUniform("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_CoordinatesShader.setUniform("transform", coordinate.transform);
+	m_CoordinatesShader.setUniform("Size", coordinate.size);
+
 	BindPointVAO();
 }
 
@@ -162,6 +179,22 @@ void DebugBuffer::BindPointVAO()
 	glBindVertexArray(0);
 }
 
+
+void DebugBuffer::DrawCoordinates(const glm::mat4& transform, const float& size)
+{
+	CoordinatesShape newCoordinate;
+	newCoordinate.transform = transform;
+	newCoordinate.size = size;
+	m_Coordinates.push_back(newCoordinate);
+}
+
+void DebugBuffer::DrawOverlayCoordinates(const glm::mat4& transform, const float& size)
+{
+	CoordinatesShape newCoordinate;
+	newCoordinate.transform = transform;
+	newCoordinate.size = size;
+	m_OverlayCoordinates.push_back(newCoordinate);
+}
 
 void DebugBuffer::DrawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color)
 {
@@ -231,7 +264,7 @@ void DebugBuffer::DrawOverlayJoint(const glm::vec3& originPosition, const glm::v
 {
 	JointShape newJoint;
 	newJoint.transform = jointTransform;
-	newJoint.originPos = originPosition;
+	newJoint.jointPos = originPosition;
 	newJoint.childPos = childPosition;
 	newJoint.size = size;
 	newJoint.color = color;
@@ -262,10 +295,12 @@ void DebugBuffer::ClearBuffer()
 	m_OverlayBoxes.clear();
 	m_OverlaySpheres.clear();
 	m_OverlayJoints.clear();
+	m_OverlayCoordinates.clear();
 
 	m_lines.clear();
 	m_spheres.clear();
 	m_boxes.clear();
+	m_Coordinates.clear();
 
 	unBind();
 }

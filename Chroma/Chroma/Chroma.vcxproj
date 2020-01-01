@@ -309,6 +309,7 @@
     <None Include="resources\shaders\fragBloomFrameBuffer.glsl" />
     <None Include="resources\shaders\fragBlur.glsl" />
     <None Include="resources\shaders\fragBRDF.glsl" />
+    <None Include="resources\shaders\fragCoordinatesDebug.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragEmpty.glsl" />
     <None Include="resources\shaders\fragGBufferGeometry.glsl" />
@@ -316,6 +317,7 @@
     <None Include="resources\shaders\fragIBL.glsl" />
     <None Include="resources\shaders\fragHDRSkyBox.glsl" />
     <None Include="resources\shaders\fragIrradiance.glsl" />
+    <None Include="resources\shaders\fragJointDebug.glsl" />
     <None Include="resources\shaders\fragLitShadowsNormals.glsl" />
     <None Include="resources\shaders\fragPBR.glsl" />
     <None Include="resources\shaders\fragPBRAlpha.glsl" />
@@ -327,10 +329,14 @@
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\geometryBoxDebug.glsl" />
+    <None Include="resources\shaders\geometryCoordinatesDebug.glsl" />
     <None Include="resources\shaders\geometryDebugNormals.glsl" />
+    <None Include="resources\shaders\geometryJointDebug.glsl" />
     <None Include="resources\shaders\geometryLineDebug.glsl" />
     <None Include="resources\shaders\geometrySphereDebug.glsl" />
+    <None Include="resources\shaders\vertexCoordinatesDebug.glsl" />
     <None Include="resources\shaders\vertexCubeMap.glsl" />
+    <None Include="resources\shaders\vertexJointDebug.glsl" />
     <None Include="resources\shaders\vertexSkyBox.glsl" />
     <None Include="resources\shaders\util\BlinnPhongLightingCalculations.glsl" />
     <None Include="resources\shaders\util\lightingStructs.glsl" />

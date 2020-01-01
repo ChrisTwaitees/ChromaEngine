@@ -1,115 +1,95 @@
 #version 330 core
 layout (points) in;
-layout (line_strip, max_vertices = 19) out;
+layout (line_strip, max_vertices = 13) out;
 
 in VS_OUT{
-	vec3 originPos;
+	vec3 jointPos;
 	vec3 childPos;
-	mat4 MVPMat;
+	mat4 VPMat;
+	mat4 jointMat;
 	float size;
 } vs_in[];
 
-out GS_OUT{
-	bool X;
-	bool Y;
-	bool Z;
-	bool Joint;
-} gs_out;
 
 void main()
 {
 	// Construction attrs 
-	vec4 origin = vec4(vs_in[0].originPos, 1.0);
-	vec4 child = vec4(vs_in[0].childPos, 1.0);
-	mat4 MVPMat = vs_in[0].MVPMat;
+	vec3 jointPos = vs_in[0].jointPos;
+	vec4 childPos = vec4(vs_in[0].childPos, 1.0);
+	mat4 VPMat = vs_in[0].VPMat;
+	mat4 jointMat = vs_in[0].jointMat;
 	float size = vs_in[0].size;
-	float jointLength = length(origin - child);
 
 	// COORDINATE REFERENCE
 	// X
-	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0) ;
-	EmitVertex();
-	gl_Position = MVPMat * (vec4(1.0,0.0,0.0,1.0) * vec4(size * 2.0) );
-	EmitVertex();
-	EndPrimitive();
-	gs_out.X = true;
-	// Y
-	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0);
-	EmitVertex();
-	gl_Position = MVPMat * (vec4(0.0,1.0,0.0,1.0) * vec4(size * 2.0));
-	EmitVertex();
-	EndPrimitive();
-	gs_out.Y = true;
+	//vec4 X  = normalize(jointMat * vec4(1.0,0.0,0.0,1.0));
 	// Z
-	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0);
-	EmitVertex();
-	gl_Position = MVPMat * (vec4(0.0,0.0,1.0,1.0) * vec4(size * 2.0));
-	EmitVertex();
-	EndPrimitive();
-	gs_out.Z = true;
+	//vec4 Z  = normalize(jointMat * vec4(0.0,0.0,1.0,1.0));
+	vec3 Y = normalize(jointPos - childPos.xyz) * 0.05 * size;
 
+	vec3 X = normalize(cross(Y, vec3(0.0,1.0,0.0)))* 0.05 * size;
 
-	// Joint Pyramid Shape
-	gs_out.Joint = true; // coloring
-	vec4 pyramidCenter = vec4(0.0,jointLength,0.0,1.0) ;
-	vec4 topLeft       = vec4(-1.0,0.0,-1.0,1.0);
-	vec4 topRight      = vec4(1.0,0.0,-1.0,1.0);
-	vec4 bottomLeft    = vec4(-1.0,0.0,1.0,1.0);
-	vec4 bottomRight   = vec4(1.0,0.0,1.0,1.0);
+	vec3 Z = normalize(cross(Y, X)) * 0.05 * size;
 
+	// Pyramid Shape
+	vec4 topLeft       = vec4(jointPos + ( -X - Z ) , 1.0);
+	vec4 topRight      = vec4(jointPos + (  X - Z ), 1.0);
+	vec4 bottomLeft    = vec4(jointPos + ( -X + Z ), 1.0);
+	vec4 bottomRight   = vec4(jointPos + (  X + Z ), 1.0);
+	vec4 pyramidCenter =  childPos;
 
 	// Create Square
 	// top left
-	gl_Position =  MVPMat * topLeft;
+	gl_Position =  VPMat * topLeft;
 	EmitVertex();
 
 	// bottom left
-	gl_Position =  MVPMat * bottomLeft;
+	gl_Position =  VPMat * bottomLeft;
 	EmitVertex();
 
 	// bottom right 
-	gl_Position =  MVPMat * bottomRight;
+	gl_Position =  VPMat * bottomRight;
 	EmitVertex();
 
 	// top right 
-	gl_Position =  MVPMat * topRight;
+	gl_Position =  VPMat * topRight;
 	EmitVertex();
 
 	// top left
-	gl_Position =  MVPMat * topLeft;
+	gl_Position =  VPMat * topLeft;
 	EmitVertex();
 	// Build Pyramid
 
 	// point
-	gl_Position =  MVPMat * pyramidCenter;
+	gl_Position =  VPMat * pyramidCenter;
 	EmitVertex();
 
 	// bottom left
-	gl_Position =  MVPMat * bottomLeft;
+	gl_Position =  VPMat * bottomLeft;
 	EmitVertex();
 
 	// point
-	gl_Position =  MVPMat * pyramidCenter;
+	gl_Position =  VPMat * pyramidCenter;
 	EmitVertex();
 
 	// bottom right 
-	gl_Position =  MVPMat * bottomRight;
+	gl_Position =  VPMat * bottomRight;
 	EmitVertex();
 
 	// point
-	gl_Position =  MVPMat * pyramidCenter;
+	gl_Position =  VPMat * pyramidCenter;
 	EmitVertex();
 
 	// top right 
-	gl_Position =  MVPMat * topRight;
+	gl_Position =  VPMat * topRight;
 	EmitVertex();
 
 	// point
-	gl_Position =  MVPMat * pyramidCenter;
+	gl_Position =  VPMat * pyramidCenter;
 	EmitVertex();
 
 	// top left
-	gl_Position =  MVPMat * topLeft;
+	gl_Position =  VPMat * topLeft;
 	EmitVertex();
 
 	EndPrimitive();

@@ -39,9 +39,15 @@ struct SphereShape
 struct JointShape
 {
 	glm::mat4 transform{ 1.0 };
-	glm::vec3 originPos{ 0.0 };
+	glm::vec3 jointPos{ 0.0 };
 	glm::vec3 childPos{ 0.0 };
 	glm::vec3 color{ 1.0 };
+	float size{ 1.0 };
+};
+
+struct CoordinatesShape
+{
+	glm::mat4 transform{ 1.0 };
 	float size{ 1.0 };
 };
 
@@ -50,12 +56,17 @@ class DebugBuffer : public Framebuffer
 	// shapes
 	std::vector<LineShape> m_lines;
 	std::vector<LineShape> m_OverlayLines;
+
 	std::vector<BoxShape> m_boxes;
 	std::vector<BoxShape> m_OverlayBoxes;
+
  	std::vector<SphereShape> m_spheres;
 	std::vector<SphereShape> m_OverlaySpheres;
 
 	std::vector<JointShape> m_OverlayJoints;
+
+	std::vector<CoordinatesShape> m_Coordinates;
+	std::vector<CoordinatesShape> m_OverlayCoordinates;
 
 	// attrs
 	unsigned int pointVAO, pointVBO;
@@ -80,6 +91,11 @@ class DebugBuffer : public Framebuffer
 	const char* jointVtxSource{ "resources/shaders/vertexJointDebug.glsl" };
 	const char* jointGeomSource{ "resources/shaders/geometryJointDebug.glsl" };
 	Shader m_JointShader{ jointFragSource, jointVtxSource, jointGeomSource };
+	// coordinates geometry shader
+	const char* coordinatesFragSource{ "resources/shaders/fragCoordinatesDebug.glsl" };
+	const char* coordinatesVtxSource{ "resources/shaders/vertexCoordinatesDebug.glsl" };
+	const char* coordinatesGeomSource{ "resources/shaders/geometryCoordinatesDebug.glsl" };
+	Shader m_CoordinatesShader{ coordinatesFragSource, coordinatesVtxSource, coordinatesGeomSource };
 
 	// point VAO
 	void generatePointVAO();
@@ -95,6 +111,7 @@ class DebugBuffer : public Framebuffer
 	void renderSphere(SphereShape sphere);
 	void renderBox(BoxShape box);
 	void renderJoint(JointShape joint);
+	void renderCoordinate(CoordinatesShape coordinate);
 
 	void BindPointVAO();
 	// blitting depth buffer before rendering
@@ -105,6 +122,10 @@ class DebugBuffer : public Framebuffer
 	
 
 public:
+	// Coordinates
+	void DrawCoordinates(const glm::mat4& transform, const float& size = 1.0 );
+	void DrawOverlayCoordinates(const glm::mat4& transform, const float& size = 1.0 );
+
 	// Line
 	void DrawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
 	void DrawOverlayLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
