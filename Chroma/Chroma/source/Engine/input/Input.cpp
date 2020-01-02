@@ -9,7 +9,10 @@ namespace Chroma
 
 	// Controller
 	bool Input::m_ControllerEnabled;
+
 	int Input::m_ControllerAxesCount;
+	int Input::m_ControllerButtonsCount;
+	const unsigned char* Input::m_ControllerButtonsMapping;
 
 	float Input::m_ControllerRightVertical;
 	float Input::m_ControllerRightHorizontal;
@@ -125,6 +128,51 @@ namespace Chroma
 		case MIDDLE_MOUSE_RELEASE:
 			return glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_3) == GLFW_RELEASE;
 			break;
+		case CROSS:
+			return m_ControllerButtonsMapping[CROSS_MAPPING] == GLFW_RELEASE;
+			break;
+		case SQUARE:
+			return m_ControllerButtonsMapping[SQUARE_MAPPING] == GLFW_RELEASE;
+			break;
+		case CIRCLE:
+			return m_ControllerButtonsMapping[CIRCLE_MAPPING] == GLFW_RELEASE;
+			break;
+		case TRIANGLE:
+			return m_ControllerButtonsMapping[TRIANGLE_MAPPING] == GLFW_RELEASE;
+			break;
+		case R1:
+			return m_ControllerButtonsMapping[R1_MAPPING] == GLFW_RELEASE;
+			break;
+		case L1:
+			return m_ControllerButtonsMapping[L1_MAPPING] == GLFW_RELEASE;
+			break;
+		case R2:
+			return m_ControllerButtonsMapping[R2_MAPPING] == GLFW_RELEASE;
+			break;
+		case L2:
+			return m_ControllerButtonsMapping[L2_MAPPING] == GLFW_RELEASE;
+			break;
+		case DPADLEFT:
+			return m_ControllerButtonsMapping[DPADLEFT_MAPPING] == GLFW_RELEASE;
+			break;
+		case DPADRIGHT:
+			return m_ControllerButtonsMapping[DPADRIGHT_MAPPING] == GLFW_RELEASE;
+			break;
+		case DPADUP:
+			return m_ControllerButtonsMapping[DPADUP_MAPPING] == GLFW_RELEASE;
+			break;
+		case DPADDOWN:
+			return m_ControllerButtonsMapping[DPADDOWN_MAPPING] == GLFW_RELEASE;
+			break;
+		case OPTIONS:
+			return m_ControllerButtonsMapping[OPTIONS_MAPPING] == GLFW_RELEASE;
+			break;
+		case SHARE:
+			return m_ControllerButtonsMapping[SHARE_MAPPING] == GLFW_RELEASE;
+			break;
+		case TOUCHPAD:
+			return m_ControllerButtonsMapping[TOUCHPAD_MAPPING] == GLFW_RELEASE;
+			break;
 		}
 
 		return false;
@@ -215,29 +263,32 @@ namespace Chroma
 	{
 		if (m_ControllerEnabled)
 		{
-			const float* test = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &m_ControllerAxesCount);
+			// Axes
+			const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &m_ControllerAxesCount);
 			for (int i = 0; i < m_ControllerAxesCount; i++)
 			{
 				// Sticks
-				m_ControllerRightVertical = test[5];
-				m_ControllerRightHorizontal = test[2];
+				m_ControllerRightVertical = axes[5];
+				m_ControllerRightHorizontal = axes[2];
 
-				m_ControllerLeftVertical = test[1];
-				m_ControllerLeftHorizontal = test[0];
+				m_ControllerLeftVertical = axes[1];
+				m_ControllerLeftHorizontal = axes[0];
 
 				// Bumpers
-				m_ControllerLeftBumper = test[3];
-				m_ControllerRightBumper = test[4];
-
-				/*CHROMA_INFO("LeftHorizontal  :  {0}", test[0]);
-				CHROMA_INFO("LeftVertical  :  {0}", test[1]);
-				CHROMA_INFO("RightHorizontal  :  {0}", test[2]);
-
-				CHROMA_INFO("LeftR2  :  {0}", test[3]);
-				CHROMA_INFO("RightR2  :  {0}", test[4]);
-				CHROMA_INFO("RightVertical  :  {0}", test[5]);*/
-
+				m_ControllerLeftBumper = axes[3];
+				m_ControllerRightBumper = axes[4];
 			}
+			// Buttons
+			m_ControllerButtonsMapping = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &m_ControllerButtonsCount);
+
+			// Debugging
+			//for (int i = 0; i < m_ControllerButtonsCount; i++)
+			//{
+			//	if (buttons[i] == GLFW_PRESS)
+			//	{
+			//		CHROMA_INFO("Index : {0}", i);
+			//	}
+			//}
 		}
 		else
 		{

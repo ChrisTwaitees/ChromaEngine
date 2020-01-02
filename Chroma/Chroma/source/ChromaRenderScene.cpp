@@ -334,9 +334,6 @@ int main()
 		// GAME TICK
 		Game.Tick();
 
-		CHROMA_INFO(Chroma::Input::GetControllerEnabled());
-		CHROMA_INFO(Chroma::Input::GetControllerLeftHorizontal());
-
 		// END SCREEN
 		screenManager->EndLoop();
 	}

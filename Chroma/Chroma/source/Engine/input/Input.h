@@ -44,6 +44,8 @@ namespace Chroma
 		static bool m_ControllerEnabled;
 
 		static int m_ControllerAxesCount;
+		static int m_ControllerButtonsCount;
+		static const unsigned char* m_ControllerButtonsMapping;
 
 		static float m_ControllerRightVertical;
 		static float m_ControllerRightHorizontal;
@@ -72,7 +74,9 @@ namespace Chroma
 		enum Key {
 			LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, RIGHT_ALT, SPACEBAR, ESCAPE, A, C, D, E, Q, S, W, Y, P,
 			LEFT_MOUSE, LEFT_CTRL, RIGHT_CTRL, RIGHT_MOUSE, MIDDLE_MOUSE, LEFT_MOUSE_RELEASE, RIGHT_MOUSE_RELEASE,
-			MIDDLE_MOUSE_RELEASE
+			MIDDLE_MOUSE_RELEASE,
+			CROSS, SQUARE, CIRCLE, TRIANGLE, R1, L1, L3, R3, R2, L2, DPADLEFT, DPADRIGHT, DPADUP, DPADDOWN, OPTIONS,
+			SHARE, TOUCHPAD
 		};
 		bool static IsPressed(Key KeySelection);
 
@@ -117,6 +121,25 @@ namespace Chroma
 		~Input();
 	};
 }
+
+
+#define CROSS_MAPPING 1
+#define SQUARE_MAPPING 0
+#define CIRCLE_MAPPING 2
+#define TRIANGLE_MAPPING 3
+#define L1_MAPPING 4
+#define R1_MAPPING 5
+#define L2_MAPPING 6
+#define R2_MAPPING 7
+#define L3_MAPPING 10
+#define R3_MAPPING 11
+#define DPADRIGHT_MAPPING 15
+#define DPADLEFT_MAPPING 17
+#define DPADUP_MAPPING 14
+#define DPADDOWN_MAPPING 16
+#define SHARE_MAPPING 8
+#define OPTIONS_MAPPING 9
+#define TOUCHPAD_MAPPING 13
 
 
 #endif
