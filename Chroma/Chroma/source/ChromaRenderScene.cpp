@@ -166,17 +166,35 @@ int main()
 	((Model*)AnimModelMeshComponent)->SetScale(0.06);
 	// ____________________________________________________
 
-	//// TERRAIN
-	//// ____________________________________________________
-	//IEntity* TerrainEntity = new Entity;
-	//scene->AddEntity(TerrainEntity);
-	//MeshComponent* TerrainMeshComponent = new Terrain;
-	//TerrainMeshComponent->SetShader(&PBRShader);
-	//TerrainMeshComponent->AddTexture(PlanksAlbedo);
-	//TerrainMeshComponent->AddTexture(PlanksNormal);
-	//TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
-	//TerrainEntity->AddComponent(TerrainMeshComponent);
-	//// ____________________________________________________
+
+	// CAPSULE
+	// ____________________________________________________
+	IEntity* CapsuleEntity = new Entity;
+	scene->AddEntity(CapsuleEntity);
+	// mesh
+	MeshComponent* CapsuleMeshComponent = new Model("resources/primitives/capsule.obj");
+	CapsuleMeshComponent->SetShader(&PBRShader);
+	CapsuleMeshComponent->AddTexture(greyAlbedo);
+	CapsuleEntity->AddComponent(CapsuleMeshComponent);
+	// rigid
+	PhysicsComponent* CapsuleRigidComponent = new PhysicsComponent();
+	CapsuleRigidComponent->SetColliderShape(ColliderShape::Box);
+	CapsuleRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	CapsuleEntity->AddComponent(CapsuleRigidComponent);
+	// ____________________________________________________
+
+
+	// TERRAIN
+	// ____________________________________________________
+	IEntity* TerrainEntity = new Entity;
+	scene->AddEntity(TerrainEntity);
+	MeshComponent* TerrainMeshComponent = new Terrain;
+	TerrainMeshComponent->SetShader(&PBRShader);
+	TerrainMeshComponent->AddTexture(PlanksAlbedo);
+	TerrainMeshComponent->AddTexture(PlanksNormal);
+	TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
+	TerrainEntity->AddComponent(TerrainMeshComponent);
+	// ____________________________________________________
 
 	//// SPHERES
 	//// Sphere Positions
