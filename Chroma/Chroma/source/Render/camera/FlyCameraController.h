@@ -7,8 +7,8 @@
 class FlyCameraController : public ICameraController
 {
 	// camera controller interface
-	void ProcessMouseInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
-	void processKeyboardInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
+	void ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
+	void processKeyboardInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
 
 	// attrs
 	// camera aim
@@ -25,7 +25,7 @@ class FlyCameraController : public ICameraController
 	float cameraSpeed{ 0.05f };
 	
 public:
-	void ProcessInput(Input* const& input, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
+	void ProcessInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
 	FlyCameraController() {};
 	~FlyCameraController() {};
 };

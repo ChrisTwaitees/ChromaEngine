@@ -7,7 +7,8 @@ void Animator::PlayTake(std::string const& takeName, float const& normalizedTime
 	if (m_Takes.find(takeName) != m_Takes.end())
 	{
 		float frameNum = CalculateFrameNumber(takeName, normalizedTime);
-		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, glm::mat4(1.0), frameNum);
+		glm::mat4 identity(1.0);
+		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, identity, frameNum);
 	}
 	else
 	{
@@ -22,17 +23,20 @@ float Animator::CalculateFrameNumber(std::string const& takeName, float const& n
 	return Chroma::Math::Remap(normalizedTime, 0.0, 1.0, 0.0, m_Takes.at(takeName).m_NumFrames);
 }
 
-void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4 const& parentTransform, float const& frameNum)
+void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4& parentTransform, float const& frameNum)
 {
 	// Get Animated Local Transform
 	glm::mat4 LocalAnimatedTransform =  GetJointMat4AtKeyFrameTime(m_Skeleton->GetJointName(jointID), keyFrames, frameNum);
+	//testOrientation(jointID);
+	glm::mat4 BindJointOrientation = Chroma::Math::GetRotationMat4(m_Skeleton->GetJointPtr(jointID)->GetModelBindTransform());
 	// Convert to Model Space Transform
-	glm::mat4 ModelAnimatedTransform =  parentTransform * LocalAnimatedTransform;
+	glm::mat4 ModelAnimatedTransform =  parentTransform *  LocalAnimatedTransform * BindJointOrientation;
 	// Calculate Accumatively
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->GetChildJointIDs())
 		ApplyAnimJointHierarchy(childJointID, keyFrames, ModelAnimatedTransform, frameNum);
+	
 	// Once child joint transforms have been calculated 
-	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform( ModelAnimatedTransform);
+	m_Skeleton->GetJointPtr(jointID)->SetModelSpaceTransform(ModelAnimatedTransform );
 }
 
 glm::mat4 Animator::GetJointMat4AtKeyFrameTime(std::string const& jointName, KeyFrames& keyFrames, float frameNum)
@@ -89,6 +93,20 @@ glm::mat4 Animator::JointTransformToMat4(JointTransform const& jointTransform)
 	return glm::scale(jointToLocal, jointTransform.m_Scale);
 	
 }
+
+void Animator::testOrientation(int const& jointID)
+{
+
+	std::string jointName = m_Skeleton->GetJointName(jointID);
+	glm::mat4 bindTransform = m_Skeleton->GetJointPtr(jointID)->GetModelBindTransform();
+	bindTransform[3] = glm::vec4(0.0, 0.0, 0.0, bindTransform[3][3]);
+
+	glm::quat orientation = Chroma::Math::GetQuatRotation(bindTransform);
+	glm::vec3 euler = glm::degrees(glm::eulerAngles(orientation));
+
+	std::cout << "nest" << std::endl;
+}
+
 
 JointTransform Animator::InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp)
 {

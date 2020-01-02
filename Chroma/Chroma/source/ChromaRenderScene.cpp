@@ -143,7 +143,7 @@ int main()
 	AnimModelEntity->SetName("AnimationModel");
 	scene->AddEntity(AnimModelEntity);
 	// mesh
-	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking.fbx");
+	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking8.fbx");
 	AnimModelMeshComponent->SetShader(&PBRShader);
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
@@ -333,6 +333,9 @@ int main()
 		//((Model*)AnimModelMeshComponent)->SetRotation(glm::angleAxis(rotationAmount, rotationAxis));
 		// GAME TICK
 		Game.Tick();
+
+		CHROMA_INFO(Chroma::Input::GetControllerEnabled());
+		CHROMA_INFO(Chroma::Input::GetControllerLeftHorizontal());
 
 		// END SCREEN
 		screenManager->EndLoop();

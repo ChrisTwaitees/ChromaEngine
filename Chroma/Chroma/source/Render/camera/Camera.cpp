@@ -6,21 +6,21 @@ void Camera::Initialize()
 	UpdateViewMatrix();
 }
 
-void Camera::ProcessInput(Input* const& input)
+void Camera::ProcessInput()
 {
-	if (input->GetCursorEnabled())
+	if (Chroma::Input::GetCursorEnabled())
 	{
 		switch (m_CamMode)
 		{
 		case(CameraMode::FlyCam):
 		{
-			m_FlyCamController->ProcessInput(input, m_CameraPosition, m_CameraDirection, m_CameraUp);
+			m_FlyCamController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
 			UpdateViewMatrix();
 			break;
 		}
 		case(CameraMode::Maya):
 		{
-			m_MayaCamController->ProcessInput(input, m_CameraPosition, m_CameraDirection, m_CameraUp);
+			m_MayaCamController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
 			UpdateViewMatrix();
 			break;
 		}

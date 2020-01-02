@@ -26,7 +26,7 @@ void ChromaGame::MousePickerCallback()
 {
 	// Ray Interest Test
 	glm::vec3 start = m_Scene->GetRenderCamera()->GetPosition();
-	glm::vec3 end = start + (  m_Input->GetLastRay() * glm::vec3(1000.0));
+	glm::vec3 end = start + ( Chroma::Input::GetLastRay() * glm::vec3(1000.0));
 	IEntity* clickedEntity  = m_Physics->GetEntityRayTest(start, end);
 	if (clickedEntity)
 		m_Screen->setSelectedEntityName(clickedEntity->GetName());
@@ -78,9 +78,9 @@ void ChromaGame::Initialize()
 	CHROMA_INFO("Chroma Time Initialized.");
 
 	// Input
-	m_Input->BindWindow(m_Screen->GetWindow());
-	m_Input->BindCamera(m_Scene->GetRenderCamera());
-	m_Input->BindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
+	Chroma::Input::BindWindow(m_Screen->GetWindow());
+	Chroma::Input::BindCamera(m_Scene->GetRenderCamera());
+	Chroma::Input::BindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
 	CHROMA_INFO("Chroma Input Bound.");
 
 	// Renderer
@@ -101,15 +101,14 @@ void ChromaGame::Initialize()
 void ChromaGame::ProcessInput()
 {
 	// process input
-	m_Input->SetDeltaTime(Chroma::Time::GetDeltaTime());
-	m_Input->Process(); 
+	Chroma::Input::Process();
 
 	// update camera
 	if (m_Screen->cameraSelected == 0)
 		m_Scene->GetRenderCamera()->SetCameraMode(Maya);
 	if (m_Screen->cameraSelected == 1)
 		m_Scene->GetRenderCamera()->SetCameraMode(FlyCam);
-	m_Scene->GetRenderCamera()->ProcessInput(m_Input);
+	m_Scene->GetRenderCamera()->ProcessInput();
 
 	// render physics debug 
 	if (m_Screen->drawPhysicsDebug)

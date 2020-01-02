@@ -7,15 +7,13 @@
 // thirdparty
 #include <GLFW/glfw3.h>
 // chroma
-#include <input/Input.h>
 #include <renderer/Renderer.h>
 #include <scene/Scene.h>
 #include <screenmanager/ScreenManager.h>
-#include <time/Time.h>
 #include <physics/PhysicsEngine.h>
 #include <animation/AnimationEngine.h>
-#include <logging/Log.h>
 #include <worker/IWorker.h>
+#include <core/Core.h>
 
 class ChromaGame
 {
@@ -28,9 +26,6 @@ class ChromaGame
 	Renderer* m_Renderer{ nullptr };
 	PhysicsEngine* m_Physics{ new PhysicsEngine() };
 	AnimationEngine* m_Animation{ new AnimationEngine() };
-
-	// input
-	Input* m_Input{ new Input };
 
 	// game loop functions
 	void ProcessInput();

@@ -35,6 +35,35 @@ namespace Chroma
 		{
 			return (value - inMin)  / (inMax - inMin);
 		}
+
+		static glm::quat GetQuatRotation(const glm::mat4& transform) 
+		{ 
+			glm::vec3 scale;
+			glm::quat rotation;
+			glm::vec3 translation;
+			glm::vec3 skew;
+			glm::vec4 perspective;
+			glm::decompose(transform, scale, rotation, translation, skew, perspective);
+			return glm::conjugate(rotation);
+		}
+
+		static glm::mat4 GetRotationMat4(const glm::mat4& from)
+		{
+			glm::mat4 to;
+			to = from;
+			to[0][3] = 0.0;
+			to[1][3] = 0.0;
+			to[2][3] = 0.0;
+
+			to[3][0] = 0.0;
+			to[3][1] = 0.0;
+			to[3][2] = 0.0;
+			to[3][3] = 1.0;
+		
+			return to;
+			
+		}
+
 	};
 }
 

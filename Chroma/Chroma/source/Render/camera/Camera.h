@@ -12,9 +12,8 @@
 #include <ChromaConfig.h>
 #include <camera/FlyCameraController.h>
 #include <camera/MayaCameraController.h>
-#include <input/Input.h>
+#include <core/Core.h>
 
-class Input;
 enum CameraMode { FlyCam, Maya};
 
 class Camera
@@ -49,7 +48,7 @@ class Camera
 
 public:
 	// Process
-	void ProcessInput(Input* const& input);
+	void ProcessInput();
 
 	// Accessors
 	inline glm::vec3 GetPosition() const { return m_CameraPosition; };

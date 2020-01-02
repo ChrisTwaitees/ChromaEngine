@@ -94,8 +94,9 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			for (unsigned int a = 0; a < aiAnimNode->mNumRotationKeys; a++)
 			{
 				float timeStamp = aiAnimNode->mRotationKeys[a].mTime;
+				//aiQuaternion aiRotation = aiAnimNode->mRotationKeys[a].mValue;
+				//RotateByJointOrient(aiRotation, JointName, scene);
 				glm::quat rotation = AIToGLM(aiAnimNode->mRotationKeys[a].mValue);
-				//RotateByJointOrient(rotation, JointName, scene);
 				// rotation , framenumber
 				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
 				{
@@ -132,14 +133,19 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 	}
 }
 
-void RotateByJointOrient(glm::quat& rotation, const std::string& jointName, const aiScene*& scene)
+void RotateByJointOrient(aiQuaternion& rotation, const std::string& jointName, const aiScene*& scene)
 {
 	aiNode* joint = scene->mRootNode->FindNode((aiString)jointName);
 
 	if (joint != NULL)
 	{
-		glm::mat4 jointTransform = glm::inverse(AIToGLM(((aiBone*)joint)->mOffsetMatrix));
-		rotation = GetRotation(jointTransform) * rotation;
+		aiQuaternion boneOrient;
+		aiVector3D test; 
+		aiVector3D test1;
+		((aiBone*)joint)->mOffsetMatrix.DecomposeNoScaling(boneOrient, test1);
+
+		glm::vec3 euler = glm::degrees(glm::eulerAngles(AIToGLM(boneOrient)));
+		rotation = boneOrient * rotation;
 	}
 	else
 		return;

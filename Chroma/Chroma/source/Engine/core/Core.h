@@ -6,6 +6,12 @@
 // Logging
 #include <logging/Log.h>
 
+// Time
+#include <time/Time.h>
+
+// Input
+#include <input/Input.h>
+
 // Chroma Config
 #include <ChromaConfig.h>
 

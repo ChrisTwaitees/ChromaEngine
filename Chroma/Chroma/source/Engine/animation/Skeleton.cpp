@@ -220,16 +220,17 @@ glm::mat4 Skeleton::BuildRootTransform()
 
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
 {
-	// Debug Draw Skelton
+	// Debug Draw Skeleton
 	glm::mat4 worldJointTransform = GetRootTransform() * currentJoint.GetModelSpaceTransform();
 	// Coordinates
-	debugBuffer->DrawOverlayCoordinates(worldJointTransform, 3.5);
-	// Joint
+	debugBuffer->DrawOverlayCoordinates(worldJointTransform, 4.5);
+	// Joint 
+	glm::vec3 euler = glm::eulerAngles(Chroma::Math::GetQuatRotation(currentJoint.GetModelSpaceTransform())) *3.14159f / 180.f;
 	glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * currentJoint.GetModelSpaceTransform());
-
 	for (int const& childID : currentJoint.GetChildJointIDs())
 	{
 		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJoint(childID).GetModelSpaceTransform());
+
 		if(currentJoint.GetID() == m_RootJointID)
 			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0, glm::vec3(1.0, 0.0, 0.0));
 		else if (childID == GetJointID("mixamorig:Head"))
