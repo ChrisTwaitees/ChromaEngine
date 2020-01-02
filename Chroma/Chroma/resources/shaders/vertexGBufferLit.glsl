@@ -40,9 +40,10 @@ void main()
 	if (isSkinned)
 	{
 		mat4 BoneTransform = mat4(0.0);
+		vec4 JointWeights = normalize(vec4(aJointWeights[0],aJointWeights[1],aJointWeights[2],aJointWeights[3] ));
 		for(int i = 0 ; i < #MAX_VERT_INFLUENCES ; i++)
 		{
-			BoneTransform += aJoints[aJointIDs[i]] * aJointWeights[i];
+			BoneTransform += aJoints[aJointIDs[i]] * JointWeights[i];
 		}
 //		// Local Position
 		LocalPosition = BoneTransform * LocalPosition;

@@ -36,6 +36,7 @@ class Model : public MeshComponent
 	void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton);
 	void GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
 	void GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID);
+	void NormalizeSkinningWeights();
 	// textures
 	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,Texture::TYPE typeName);
 

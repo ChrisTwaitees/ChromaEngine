@@ -302,28 +302,9 @@ std::vector<Texture> Model::LoadMaterialTextures(aiMaterial* mat, aiTextureType 
 
 void Model::SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float> const& jointIDWeight)
 {
-	// check for existing weights
 	for (int i = 0; i < MAX_VERT_INFLUENCES; i++)
 	{
-		// if no weights been set, break loop and set a weight
-		// this is likely when jointindex = 0
-		if (glm::length(vert.m_jointWeights) == 0.0)
-		{
-			break;
-		}
-		// set weight if it's already existing but not if the weight is already 1.0
-		if (jointIDWeight.first == vert.m_jointIDs[i] && glm::length(vert.m_jointWeights) != 1.0)
-		{
-			CHROMA_TRACE("MODEL LOADER :: Setting Joint ID : {0} to Weight : {1}", jointIDWeight.first, jointIDWeight.second);
-			vert.m_jointWeights[i] = jointIDWeight.second;
-			return;
-		}
-	}
-
-	for (int i = 0; i < MAX_VERT_INFLUENCES; i++)
-	{
-		// if ID is 0 it moset likely has not yet been set
-		if (vert.m_jointIDs[i] == 0)
+		if (vert.m_jointWeights[i] < jointIDWeight.second)
 		{
 			vert.m_jointIDs[i] = jointIDWeight.first;
 			vert.m_jointWeights[i] = jointIDWeight.second;
@@ -369,10 +350,7 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 	}
 
 	// Normalize Skinning Weights
-	for (ChromaSkinnedVertex& skinnedVert : m_SkinnedVertices)
-	{
-		skinnedVert.m_jointWeights = glm::normalize(skinnedVert.m_jointWeights);
-	}
+	NormalizeSkinningWeights();
 
 	// Get Root Joint
 	aiNode* rootSceneNode = scene->mRootNode;
@@ -408,6 +386,12 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 
 	// Calculate Local Bind Offset Transforms
 	skeleton.InitializeSkeleton();
+}
+
+void Model::NormalizeSkinningWeights()
+{
+	for (ChromaSkinnedVertex& skinnedVert : m_SkinnedVertices)
+		skinnedVert.m_jointWeights = glm::normalize(skinnedVert.m_jointWeights);
 }
 
 void Model::GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs)
