@@ -1,76 +1,93 @@
 #include "Renderer.h"
 
 
-void Renderer::clearBuffers()
+void Renderer::ClearBuffers()
 {
 	// DEBUG BUFFER
-	m_debugBuffer->ClearBuffer();
+	m_DebugBuffer->ClearBuffer();
 }
 
-void Renderer::renderDefferedComponents()
+void Renderer::RenderDefferedComponents()
 {
 	// DEFFERED BUFFER
 	m_GBuffer->Draw();
 }
 
-void Renderer::renderForwardComponents()
+void Renderer::RenderForwardComponents()
 {
 	// FORWARD BUFFER
-	m_forwardBuffer->Draw();
+	m_ForwardBuffer->Draw();
 }
 
-void Renderer::renderDebug()
+void Renderer::RenderDebug()
 {
 	// DEBUG BUFFER
-	m_debugBuffer->Draw();	
+	m_DebugBuffer->Draw();	
 }
 
-void Renderer::renderPostFX()
+void Renderer::RenderPostFX()
 {
 	// POSTFX BUFFER
-	m_screenManager->useBloom ? ((PostFXBuffer*)m_PostFXBuffer)->Draw(true) : m_PostFXBuffer->Draw();
-	m_PostFXBuffer->setUniform("exposure", m_screenManager->exposure);
-	m_PostFXBuffer->setUniform("gamma", m_screenManager->gamma);
+	m_PostFXBuffer->setUniform("exposure", 1.0);
+	m_PostFXBuffer->setUniform("gamma", 2.2);
 }
 
-void Renderer::Initialize()
+void Renderer::Init()
 {
+	// OpenGL 3
+// glad: load all OpenGL function pointers
+// ---------------------------------------
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		CHROMA_FATAL("Failed to Initialize GLAD");
+	}
+
+	// Enabling Render Features
+	// ---------------------------------------
+	// Enable depth buffer
+	glEnable(GL_DEPTH_TEST);
+	// Enable Face Culling
+	glEnable(GL_CULL_FACE);
+	// Enabling MSAA
+	glEnable(GL_MULTISAMPLE);
+	// Setting Clear Color
+	glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, SCREEN_DEFAULT_COLOR.w);
+
+	// Buffers
 	m_GBuffer = new GBuffer(m_Scene, m_PostFXBuffer);
-	m_debugBuffer = new DebugBuffer(m_Scene->GetRenderCamera(), m_PostFXBuffer);
-	m_forwardBuffer = new ForwardBuffer(m_Scene, m_PostFXBuffer);
+	m_DebugBuffer = new DebugBuffer(m_Scene->GetRenderCamera(), m_PostFXBuffer);
+	m_ForwardBuffer = new ForwardBuffer(m_Scene, m_PostFXBuffer);
 }
 
 void Renderer::RenderScene()
 {
 	// Deferred
-	renderDefferedComponents();
+	RenderDefferedComponents();
 
 	// Forward
-	renderForwardComponents();
+	RenderForwardComponents();
 
 	// Debug
-	renderDebug();
+	RenderDebug();
 
 	// Post FX
-	renderPostFX();
+	RenderPostFX();
 
 	// Clear
-	clearBuffers();
+	ClearBuffers();
 }
 
 
-Renderer::Renderer(Scene*& Scene, const ScreenManager* ScreenManager)
+Renderer::Renderer(Scene*& Scene)
 {
 	m_Scene = Scene;
-	m_screenManager = ScreenManager;
 	Initialize();
 }
 
 Renderer::~Renderer()
 {
 	delete m_Scene;
-	delete m_screenManager;
 	delete m_GBuffer;
-	delete m_debugBuffer;
+	delete m_DebugBuffer;
 	delete m_PostFXBuffer;
 }

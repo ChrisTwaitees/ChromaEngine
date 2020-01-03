@@ -58,13 +58,10 @@ ChromaGame::~ChromaGame()
 {
 }
 
-ChromaGame::ChromaGame(Scene*& Scene, ScreenManager*& ScreenManager)
+ChromaGame::ChromaGame(Scene*& Scene)
 {
 	m_Scene = Scene;
-	m_Screen = ScreenManager;
-
 	Initialize();
-
 }
 
 void ChromaGame::Initialize()
@@ -77,15 +74,18 @@ void ChromaGame::Initialize()
 	Chroma::Time::Init();
 	CHROMA_INFO("Chroma Time Initialized.");
 
+	// Screen
+	Chroma::ScreenManager::Init();
+	CHROMA_INFO("Chroma Screen Initialized.");
+
+	// Renderer
+	m_Renderer = new Renderer(m_Scene);
+	CHROMA_INFO("Chroma Renderer Initialized.");
+
 	// Input
-	Chroma::Input::BindWindow(m_Screen->GetWindow());
 	Chroma::Input::BindCamera(m_Scene->GetRenderCamera());
 	Chroma::Input::BindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
 	CHROMA_INFO("Chroma Input Bound.");
-
-	// Renderer
-	m_Renderer = new Renderer(m_Scene, m_Screen);
-	CHROMA_INFO("Chroma Renderer Initialized.");
 
 	// PhysicsEngine
 	Chroma::Physics::Init();

@@ -167,9 +167,6 @@
     <ClCompile Include="source\Engine\game\ChromaGame.cpp">
       <Filter>Engine\game</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\gui\ChromaGUI.cpp">
-      <Filter>Render\gui</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\shader\Shader.cpp">
       <Filter>Render\shader</Filter>
     </ClCompile>
@@ -317,6 +314,9 @@
     <ClCompile Include="source\Engine\component\CharacterControllerComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\gui\GUI.cpp">
+      <Filter>Render\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -360,9 +360,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\game\ChromaGame.h">
       <Filter>Engine\game</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\gui\ChromaGUI.h">
-      <Filter>Render\gui</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\memory\packed_freelist.h">
       <Filter>Engine\memory</Filter>
@@ -525,6 +522,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\component\CharacterControllerComponent.h">
       <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\gui\GUI.h">
+      <Filter>Render\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

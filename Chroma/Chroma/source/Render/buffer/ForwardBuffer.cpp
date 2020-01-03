@@ -43,7 +43,7 @@ void ForwardBuffer::blitDepthBuffer()
 	);
 }
 
-void ForwardBuffer::renderForwardComponents()
+void ForwardBuffer::RenderForwardComponents()
 {
 	// attach current buffer and copy contents of postfx buffer
 	AttachBuffer();
@@ -116,7 +116,7 @@ void ForwardBuffer::DrawQuad()
 void ForwardBuffer::Draw()
 {
 	// 1. Render Forward Components to FBO
-	renderForwardComponents();
+	RenderForwardComponents();
 
 	// 2. Bind postFX buffer to draw to
 	m_PostFXBuffer->Bind();

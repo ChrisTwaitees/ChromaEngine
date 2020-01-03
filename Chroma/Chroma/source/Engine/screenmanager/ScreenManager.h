@@ -8,8 +8,8 @@
 #include <GLFW/glfw3.h>
 // glm
 #include <glm/glm.hpp>
-// ChromaGUI
-#include <gui/ChromaGUI.h>
+// GUI
+#include <gui/GUI.h>
 // camera
 #include <camera/Camera.h>
 //config
@@ -20,95 +20,48 @@
 // time 
 #include <time/Time.h>
 
-class ScreenManager
+namespace Chroma
 {
-	// window
-	GLFWwindow* window; 
+	class ScreenManager
+	{
+		// window
+		static GLFWwindow* m_Window;
 
-	// gui
-	ChromaGUI gui;
+		// setup
+		static bool ConfigureWindow();
 
-	// time
-	float m_Delta{0.0f};
-	float lastFrame{0.0f};
+		// renderer
+		static void UpdateDimensions(int width, int height);
 
-	// setup
-	bool Initialize();
-	bool configureWindow();
-	bool configureGui();
-	bool configureRenderer();
+		// callbacks
+		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
-	// renderer
-	static void updateRendererViewportDimensions(int width, int height);
-
-	// callbacks
-	static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
-	// draw screen
-	void processTime();
-	void drawGUI();
-
-	// dimensions
-	int width, height;
-
-public:
-	// getters and setters
-	unsigned int getScreenWidth() ;
-	unsigned int getScreenHeight();
-	std::pair<int, int> getWidthHeight();
-	float GetDeltaTime() { return m_Delta; };
-	float getTime() { return glfwGetTime(); };
-
-	GLFWwindow* GetWindow() { return window; };
-	
-	// GUI Attrs
-	// ti,e
-	float timeSpeed{ 1.0f };
-	// debug
-	// render
-	bool useSkybox{ true };
-	float exposure{ 1.0f };
-	float gamma{ 2.2f };
-	bool useBloom{ false };
-	//debugbuffer
-	bool drawDebug{ false };
-	bool drawPhysicsDebug{ false };
-	// anim
-	bool DebugAnim{ false }, drawSkeletonsDebug{false};
-	char AnimClipName[128];
-	float DebugAnimClipPos{ 0.0 };
-	// graphics
-	bool drawGraphicsDebug{ false };
-	const char* GraphicsDebugs[8]{ "Alebdo", "Normals", "Metalness", "Roughness", "AO", "SSAO", "Shadows", "Reflections" };
-	int graphicsDebugSelected{ 0 };
-	// camera
-	const char* cameras[2]{ "Maya", "FlyCam" };
-	int cameraSelected{ 0 };
-	// enities
-	std::string SelectedEntity = "No Entity Selected";
-	void setSelectedEntityName(std::string newEntity) { SelectedEntity = newEntity; };
-	// animation
+	public:
+		static void Init();
+		// getters and setters
+		inline static GLFWwindow*& GetWindow() { return m_Window; };
+		static std::pair<int, int> GetWidthHeight();
 
 
 
-	// status
-	int shouldClose() { return glfwWindowShouldClose(window); };
 
-	// functions
-	void StartLoop();
-	void EndLoop();
-	void Close();
 
-	void ToggleSkybox();
-	void ToggleBloom();
-	void ToggleDebug();
-	void TogglePhysicsDebug();
-	void ToggleAnimationDebug();
-	void ToggleGraphicsDebug();
+		// status
+		static int GetShouldClose() { return glfwWindowShouldClose(m_Window); };
 
-	// construction
-	ScreenManager();
-	~ScreenManager();
-};
+		// functions
+		static void StartLoop();
+		static void EndLoop();
+		static void Close();
+
+
+
+		// construction
+		ScreenManager();
+		~ScreenManager();
+	};
+}
+
+
 
 #endif

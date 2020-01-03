@@ -20,49 +20,46 @@ class Renderer
 {
 private:
 	// Start of Frame
-	void clearBuffers();
+	void ClearBuffers();
 
 	// DEFERRED LIGHTING RENDER
-	void renderDefferedComponents();
+	void RenderDefferedComponents();
 
 	// FORWARD LIGHTING RENDER
-	void renderForwardComponents();
+	void RenderForwardComponents();
 
 	// DEBUG RENDER
-	void renderDebug();
+	void RenderDebug();
 
 	// POST FX
-	void renderPostFX();
+	void RenderPostFX();
 
 protected:
 	// SCENE
-	Scene* m_Scene;
-
-	// SCREENMANAGER
-	const ScreenManager* m_screenManager;
+	Scene* m_Scene{ nullptr };
 
 	// Deffered Buffer
-	Framebuffer* m_GBuffer;
+	Framebuffer* m_GBuffer{ nullptr };
 
 	// Forward Buffer
-	Framebuffer* m_forwardBuffer;
+	Framebuffer* m_ForwardBuffer{ nullptr };
 
 	// Debug Buffer
-	DebugBuffer* m_debugBuffer;
+	DebugBuffer* m_DebugBuffer{ nullptr };
 
 	// Post FX
 	Framebuffer* m_PostFXBuffer{ new PostFXBuffer() };
 
 	// INITIALIZE
-	void Initialize();
 public:
 
+	void Init();
 	void RenderScene();
 
-	Renderer() {};
-	Renderer(Scene*& Scene, const ScreenManager* ScreenManager);
+	DebugBuffer* GetDebugBuffer() { return m_DebugBuffer; };
 
-	DebugBuffer* GetDebugBuffer() { return m_debugBuffer; };
+	Renderer() {};
+	Renderer(Scene*& Scene);
 	~Renderer();
 };
 

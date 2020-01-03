@@ -71,7 +71,7 @@ namespace Chroma
 		UpdateGravity();
 
 		//6 add test shapes to collision world
-		m_World->addCollisionObject(m_CollisionObject);
+		//m_World->addCollisionObject(m_CollisionObject); TODO : Needs shape and user pointer
 	}
 
 

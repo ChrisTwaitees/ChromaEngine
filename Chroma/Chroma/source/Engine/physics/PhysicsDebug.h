@@ -14,10 +14,10 @@
 
 class PhysicsDebug : public btIDebugDraw
 {
-	DebugBuffer* m_debugBuffer;
+	DebugBuffer* m_DebugBuffer;
 	int m_debugMode;
 public:
-	virtual void BindDebugBuffer(DebugBuffer* const& debugBuffer) { m_debugBuffer = debugBuffer; };
+	virtual void BindDebugBuffer(DebugBuffer* const& debugBuffer) { m_DebugBuffer = debugBuffer; };
 	
 	virtual void drawLine(const btVector3& from, const btVector3& to, const btVector3& color) override;
 

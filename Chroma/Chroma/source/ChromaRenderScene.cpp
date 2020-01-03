@@ -32,14 +32,11 @@ int main()
 
 	// INIT CHROMA
 	// ------------------------------------------------------------------------------------------
-	// SCREEN MANAGER
-	ScreenManager* screenManager{ new ScreenManager };
-
 	// SCENE 
 	Scene* scene{ new Scene };
 
 	// GAME
-	ChromaGame Game(scene, screenManager);
+	ChromaGame Game(scene);
 
 	// SCENE CONTENTS
 	// ------------------------------------------------------------------------------------------
@@ -172,7 +169,7 @@ int main()
 	IEntity* CapsuleEntity = new Entity;
 	scene->AddEntity(CapsuleEntity);
 	// mesh
-	MeshComponent* CapsuleMeshComponent = new SpherePrimitive();
+	MeshComponent* CapsuleMeshComponent = new Model("resources/primitives/capsule.fbx");
 	CapsuleMeshComponent->SetShader(&PBRShader);
 	CapsuleMeshComponent->AddTexture(greyAlbedo);
 	CapsuleEntity->AddComponent(CapsuleMeshComponent);
@@ -182,8 +179,10 @@ int main()
 	CapsuleRigidComponent->SetCollisionState(ColliderState::Kinematic);
 	CapsuleEntity->AddComponent(CapsuleRigidComponent);
 	// transform
-	CapsuleEntity->SetPosition(glm::vec3(0,1.0,0.0));
+	CapsuleEntity->SetPosition(glm::vec3(0,1.5,0.0));
 	// character controller
+
+
 	// ____________________________________________________
 
 
@@ -333,10 +332,9 @@ int main()
 
 	// RENDER LOOP
 	// -----------
-	while (!screenManager->shouldClose())
+	while (!Chroma::ScreenManager::GetShouldClose())
 	{
 		// SCREENMANAGER START
-		screenManager->StartLoop();
 		float GameTime = Chroma::Time::GetGameTime();
 		float DeltaTime = Chroma::Time::GetDeltaTime();
 
@@ -356,12 +354,12 @@ int main()
 		Game.Tick();
 
 		// END SCREEN
-		screenManager->EndLoop();
+		Chroma::ScreenManager::EndLoop();
 	}
 
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
-	screenManager->Close();
+	Chroma::ScreenManager::Close();
 	return 0;
 }

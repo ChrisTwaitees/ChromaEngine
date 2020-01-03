@@ -22,7 +22,6 @@ class ChromaGame
 
 	// components
 	Scene* m_Scene{ nullptr };
-	ScreenManager* m_Screen{ nullptr };
 	Renderer* m_Renderer{ nullptr };
 	AnimationEngine* m_Animation{ new AnimationEngine() };
 
@@ -41,7 +40,7 @@ public:
 	// Game Loop
 	void Tick();
 
-	ChromaGame(Scene*& Scene, ScreenManager*& ScreenManager);
+	ChromaGame(Scene*& Scene);
 	~ChromaGame();
 
 };

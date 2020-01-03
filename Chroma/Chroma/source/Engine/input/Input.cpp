@@ -4,7 +4,6 @@
 namespace Chroma
 {
 	// Window and Camera
-	GLFWwindow* Input::m_Window;
 	Camera* Input::m_Camera;
 
 	// Controller
@@ -45,9 +44,9 @@ namespace Chroma
 	void Input::Initialize()
 	{
 		// glfw attach callbacks
-		glfwSetCursorPosCallback(m_Window, mouse_aim_callback);
-		glfwSetScrollCallback(m_Window, mouse_scroll_callback);
-		glfwSetMouseButtonCallback(m_Window, mouse_click_callback);
+		glfwSetCursorPosCallback(Chroma::ScreenManager::GetWindow(), mouse_aim_callback);
+		glfwSetScrollCallback(Chroma::ScreenManager::GetWindow(), mouse_scroll_callback);
+		glfwSetMouseButtonCallback(Chroma::ScreenManager::GetWindow(), mouse_click_callback);
 	}
 
 	void Input::BindMousePickerCallback(std::function<void()> callback)
@@ -60,73 +59,73 @@ namespace Chroma
 	{
 		switch (KeySelection) {
 		case LEFT_SHIFT:
-			return glfwGetKey(m_Window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS;
 			break;
 		case RIGHT_SHIFT:
-			return glfwGetKey(m_Window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS;
 			break;
 		case LEFT_ALT:
-			return glfwGetKey(m_Window, GLFW_KEY_LEFT_ALT) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_LEFT_ALT) == GLFW_PRESS;
 			break;
 		case RIGHT_ALT:
-			return glfwGetKey(m_Window, GLFW_KEY_RIGHT_ALT) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_RIGHT_ALT) == GLFW_PRESS;
 			break;
 		case SPACEBAR:
-			return glfwGetKey(m_Window, GLFW_KEY_SPACE) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_SPACE) == GLFW_PRESS;
 			break;
 		case ESCAPE:
-			return glfwGetKey(m_Window, GLFW_KEY_ESCAPE) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS;
 			break;
 		case LEFT_CTRL:
-			return glfwGetKey(m_Window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS;
 			break;
 		case RIGHT_CTRL:
-			return glfwGetKey(m_Window, GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_RIGHT_CONTROL) == GLFW_PRESS;
 			break;
 		case A:
-			return glfwGetKey(m_Window, GLFW_KEY_A) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_A) == GLFW_PRESS;
 			break;
 		case C:
-			return glfwGetKey(m_Window, GLFW_KEY_C) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_C) == GLFW_PRESS;
 			break;
 		case D:
-			return glfwGetKey(m_Window, GLFW_KEY_D) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_D) == GLFW_PRESS;
 			break;
 		case E:
-			return glfwGetKey(m_Window, GLFW_KEY_E) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_E) == GLFW_PRESS;
 			break;
 		case P:
-			return glfwGetKey(m_Window, GLFW_KEY_P) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_P) == GLFW_PRESS;
 			break;
 		case Q:
-			return glfwGetKey(m_Window, GLFW_KEY_Q) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_Q) == GLFW_PRESS;
 			break;
 		case S:
-			return glfwGetKey(m_Window, GLFW_KEY_S) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_S) == GLFW_PRESS;
 			break;
 		case Y:
-			return glfwGetKey(m_Window, GLFW_KEY_Y) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_Y) == GLFW_PRESS;
 			break;
 		case W:
-			return glfwGetKey(m_Window, GLFW_KEY_W) == GLFW_PRESS;
+			return glfwGetKey(Chroma::ScreenManager::GetWindow(), GLFW_KEY_W) == GLFW_PRESS;
 			break;
 		case LEFT_MOUSE:
-			return glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_1) == GLFW_PRESS;
+			return glfwGetMouseButton(Chroma::ScreenManager::GetWindow(), GLFW_MOUSE_BUTTON_1) == GLFW_PRESS;
 			break;
 		case RIGHT_MOUSE:
-			return glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_2) == GLFW_PRESS;
+			return glfwGetMouseButton(Chroma::ScreenManager::GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_PRESS;
 			break;
 		case MIDDLE_MOUSE:
-			return glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_3) == GLFW_PRESS;
+			return glfwGetMouseButton(Chroma::ScreenManager::GetWindow(), GLFW_MOUSE_BUTTON_3) == GLFW_PRESS;
 			break;
 		case LEFT_MOUSE_RELEASE:
-			return glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE;
+			return glfwGetMouseButton(Chroma::ScreenManager::GetWindow(), GLFW_MOUSE_BUTTON_1) == GLFW_RELEASE;
 			break;
 		case RIGHT_MOUSE_RELEASE:
-			return glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE;
+			return glfwGetMouseButton(Chroma::ScreenManager::GetWindow(), GLFW_MOUSE_BUTTON_2) == GLFW_RELEASE;
 			break;
 		case MIDDLE_MOUSE_RELEASE:
-			return glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_3) == GLFW_RELEASE;
+			return glfwGetMouseButton(Chroma::ScreenManager::GetWindow(), GLFW_MOUSE_BUTTON_3) == GLFW_RELEASE;
 			break;
 		case CROSS:
 			return m_ControllerButtonsMapping[CROSS_MAPPING] == GLFW_RELEASE;
@@ -182,18 +181,18 @@ namespace Chroma
 	{
 		// should close?
 		if (IsPressed(ESCAPE)) {
-			glfwSetWindowShouldClose(m_Window, true);
+			glfwSetWindowShouldClose(Chroma::ScreenManager::GetWindow(), true);
 			return;
 		}
 
 		// capture / release mouse
-		int cursorMode = glfwGetInputMode(m_Window, GLFW_CURSOR);
+		int cursorMode = glfwGetInputMode(Chroma::ScreenManager::GetWindow(), GLFW_CURSOR);
 		if (IsPressed(LEFT_CTRL))
 		{
 			if (cursorMode == GLFW_CURSOR_DISABLED)
-				glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				glfwSetInputMode(Chroma::ScreenManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 			else
-				glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				glfwSetInputMode(Chroma::ScreenManager::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		}
 		m_CursorEnabled = cursorMode == GLFW_CURSOR_DISABLED;
 
@@ -208,12 +207,6 @@ namespace Chroma
 		// CONTROLLER
 		m_ControllerEnabled = (glfwJoystickPresent(GLFW_JOYSTICK_1) > 0) ? true : false;
 		UpdateController();
-	}
-
-	void Input::BindWindow(GLFWwindow* windowVal)
-	{
-		m_Window = windowVal;
-		Initialize();
 	}
 
 	// glfw callbacks
@@ -299,7 +292,7 @@ namespace Chroma
 	glm::vec3 Input::ScreenToWorldRay(float const& mouseX, float const& mouseY)
 	{
 		// get Window dimensions
-		glfwGetWindowSize(m_Window, &m_ScreenWidth, &m_ScreenHeight);
+		glfwGetWindowSize(Chroma::ScreenManager::GetWindow(), &m_ScreenWidth, &m_ScreenHeight);
 
 		//calculate NDC Coordinates
 		float x = (2.0f * mouseX) / m_ScreenWidth - 1.0f;
@@ -330,7 +323,6 @@ namespace Chroma
 
 	Input::Input(GLFWwindow*& windowVal)
 	{
-		m_Window = windowVal;
 		Initialize();
 	}
 

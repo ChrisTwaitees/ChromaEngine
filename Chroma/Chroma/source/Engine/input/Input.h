@@ -13,6 +13,7 @@
 #include <glad/glad.h>
 #include <camera/Camera.h>
 #include <core/Core.h>
+#include <screenManager/ScreenManager.h>
 
 class Camera;
 
@@ -21,7 +22,6 @@ namespace Chroma
 	class Input
 	{
 		// components
-		static GLFWwindow* m_Window;
 		static Camera* m_Camera;
 
 		// attrs
@@ -112,7 +112,6 @@ namespace Chroma
 		inline static float& GetControllerLeftBumper() { return m_ControllerLeftBumper; }
 
 		// bind
-		static void BindWindow(GLFWwindow* windowVal);
 		static void BindCamera(Camera* cam) { m_Camera = cam; };
 
 		// constructors

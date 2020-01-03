@@ -1,242 +1,192 @@
 #include "ScreenManager.h"
 
-bool ScreenManager::Initialize()
+namespace Chroma
 {
-	// Configure Window
-	if (!configureWindow())
+	GLFWwindow* ScreenManager::m_Window;
+
+	void ScreenManager::Init()
 	{
-		CHROMA_FATAL("Failed to Initialize Chroma Window");
-		return false;
+		// Configure Window
+		if (!ConfigureWindow())
+		{
+			CHROMA_FATAL("Failed to Initialize Chroma Window");
+		}
 	}
 
-	// Configure Renderer
-	if (!configureRenderer())
+	bool ScreenManager::ConfigureWindow()
 	{
-		CHROMA_FATAL("Failed to Initialize Chroma Renderer");
-		glfwTerminate();
-		return false;
+		// glfw: initialize and configure
+		// ------------------------------
+		glfwInit();
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_SAMPLES, MSAA_SAMPLES);
+
+		// glfw window creation
+		// --------------------
+		m_Window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "CHROMA", NULL, NULL);
+		if (m_Window == NULL)
+		{
+			CHROMA_FATAL("Failed to Initialize GLFW window");
+			glfwTerminate();
+			return false;
+		}
+		glfwMakeContextCurrent(m_Window);
+
+		return true;
 	}
 
-	// Attach GUI
-	if (!configureGui())
-	{
-		CHROMA_FATAL("Failed to Initialize Chroma GUI");
-		glfwTerminate();
-		return false;
-	}
-}
 
-bool ScreenManager::configureWindow()
-{
-	// glfw: initialize and configure
-	// ------------------------------
-	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	glfwWindowHint(GLFW_SAMPLES, MSAA_SAMPLES);
 
-	// glfw window creation
+	// CHROMA SCREEN MANAGER LOOP
 	// --------------------
-	window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "CHROMA", NULL, NULL);
-	if (window == NULL)
+	void ScreenManager::EndLoop()
 	{
-		CHROMA_FATAL("Failed to Initialize GLFW window");
+		//draw GUI
+		drawGUI();
+		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+		// -------------------------------------------------------------------------------
+		glfwSwapBuffers(m_Window);
+		glfwPollEvents();
+	}
+
+	void ScreenManager::Close()
+	{
+		// glfw: terminate, clearing all previously allocated GLFW resources.
+		// ------------------------------------------------------------------
 		glfwTerminate();
-		return false;
 	}
-	glfwMakeContextCurrent(window);
 
-	return true;
-}
 
-bool ScreenManager::configureGui()
-{
-	gui.attachWindow(*window);
-	return true;
-}
+	// Convenience Methods
+	// --------------------
 
-bool ScreenManager::configureRenderer()
-{
-	// OpenGL 3
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	void ScreenManager::ToggleSkybox()
 	{
-		CHROMA_FATAL("Failed to Initialize GLAD");
-		return false;
+		useSkybox = useSkybox ? false : true;
 	}
 
-	// Enabling Render Features
-	// ---------------------------------------
-	// Enable depth buffer
-	glEnable(GL_DEPTH_TEST);
-	// Enable Face Culling
-	glEnable(GL_CULL_FACE);
-	// Enabling MSAA
-	glEnable(GL_MULTISAMPLE);
-	// Setting Clear Color
-	glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, SCREEN_DEFAULT_COLOR.w);
-	return true;
-}
+	void ScreenManager::ToggleBloom()
+	{
+		useBloom = useBloom ? false : true;
+	}
+
+	void ScreenManager::ToggleDebug()
+	{
+		drawDebug = drawDebug ? false : true;
+	}
+
+	void ScreenManager::TogglePhysicsDebug()
+	{
+		drawPhysicsDebug = drawPhysicsDebug ? false : true;
+	}
+
+	void ScreenManager::ToggleAnimationDebug()
+	{
+		DebugAnim = DebugAnim ? false : true;
+		drawSkeletonsDebug = DebugAnim ? false : true;
+	}
+
+	void ScreenManager::ToggleGraphicsDebug()
+	{
+		drawGraphicsDebug = drawGraphicsDebug ? false : true;
+	}
 
 
-// CHROMA SCREEN MANAGER LOOP
-// --------------------
-
-void ScreenManager::StartLoop()
-{
-	// process
-	processTime();
-	// start gui
-	gui.StartLoop();
-}
-
-void ScreenManager::EndLoop()
-{
-	
-	//draw GUI
-	drawGUI();
-	// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-	// -------------------------------------------------------------------------------
-	glfwSwapBuffers(window);
-	glfwPollEvents();
-}
-
-void ScreenManager::Close()
-{
-	// glfw: terminate, clearing all previously allocated GLFW resources.
-	// ------------------------------------------------------------------
-	glfwTerminate();
-}
+	void ScreenManager::UpdateDimensions(int width, int height)
+	{
+		// make sure the viewport matches the new window dimensions;  
+		glViewport(0, 0, width, height);
+	}
 
 
-// Convenience Methods
-// --------------------
-
-void ScreenManager::ToggleSkybox()
-{
-	useSkybox = useSkybox ? false : true;
-}
-
-void ScreenManager::ToggleBloom()
-{
-	useBloom = useBloom ? false : true;
-}
-
-void ScreenManager::ToggleDebug()
-{
-	drawDebug = drawDebug ? false : true;
-}
-
-void ScreenManager::TogglePhysicsDebug()
-{
-	drawPhysicsDebug = drawPhysicsDebug ? false : true;
-}
-
-void ScreenManager::ToggleAnimationDebug()
-{
-	DebugAnim = DebugAnim ? false : true;
-	drawSkeletonsDebug = DebugAnim ? false : true;
-}
-
-void ScreenManager::ToggleGraphicsDebug()
-{
-	drawGraphicsDebug = drawGraphicsDebug ? false : true;
-}
+	void ScreenManager::processTime()
+	{
+		float GameTime = glfwGetTime();
+		m_Delta = GameTime - lastFrame;
+		lastFrame = GameTime;
+	}
 
 
-void ScreenManager::updateRendererViewportDimensions(int width, int height)
-{
-	// make sure the viewport matches the new window dimensions;  
-	glViewport(0, 0, width, height);
-}
+	void ScreenManager::drawGUI()
+	{
+		// Time
+		ImGui::Text("Deltatime %.3f ms/frame (%.1f FPS)", Chroma::Time::GetDeltaTime(), Chroma::Time::GetFPS);
+		ImGui::SliderFloat("Time Multiply", &timeSpeed, 0.0, 3.0);
+		Chroma::Time::SetSpeed(timeSpeed);
 
+		//// exposure
+		//ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);
+		//ImGui::SliderFloat("Gamma", &gamma, 0.0f, 5.0f);
 
-void ScreenManager::processTime()
-{
-	float GameTime = glfwGetTime();
-	m_Delta = GameTime - lastFrame;
-	lastFrame = GameTime;
-}
+		// bloom
+		if (ImGui::Button("Toggle Bloom"))
+			ToggleBloom();
 
+		//// debug draw
+		if (ImGui::Button("Toggle Physics Debug"))
+			TogglePhysicsDebug();
 
-void ScreenManager::drawGUI()
-{
-	// Time
-	ImGui::Text("Deltatime %.3f ms/frame (%.1f FPS)", Chroma::Time::GetDeltaTime(), Chroma::Time::GetFPS);
-	ImGui::SliderFloat("Time Multiply", &timeSpeed, 0.0, 3.0);
-	Chroma::Time::SetSpeed(timeSpeed);
+		if (ImGui::Button("Toggle Graphics Debug"))
+			ToggleGraphicsDebug();
 
-	//// exposure
-	//ImGui::SliderFloat("Exposure", &exposure, 0.0f, 2.0f);
-	//ImGui::SliderFloat("Gamma", &gamma, 0.0f, 5.0f);
+		// Graphics Debug Dropdowns 
+		ImGui::Combo("Graphics Debug", &graphicsDebugSelected, GraphicsDebugs, IM_ARRAYSIZE(GraphicsDebugs));
 
-	// bloom
-	if (ImGui::Button("Toggle Bloom"))
-		ToggleBloom();
+		// camera dropdowns
+		ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));
 
-	//// debug draw
-	if (ImGui::Button("Toggle Physics Debug"))
-		TogglePhysicsDebug();
+		// Animation 
+		if (ImGui::Button("Toggle Animation Debug"))
+			ToggleAnimationDebug();
+		char test;
+		ImGui::InputText("Animation Clip Name : ", AnimClipName, IM_ARRAYSIZE(AnimClipName));
+		ImGui::Text("Current Animation : %s", AnimClipName);
+		ImGui::SliderFloat("Animation Clip Position", &DebugAnimClipPos, 0.0, 1.0);
+		// Display Selected Entity
+		ImGui::Text("Selected Entity : %s", SelectedEntity.c_str());
+		gui.End();
+	}
 
-	if (ImGui::Button("Toggle Graphics Debug"))
-		ToggleGraphicsDebug();
+	unsigned int ScreenManager::getScreenWidth()
+	{
+		glfwGetWindowSize(window, &width, &height);
+		return width;
+	}
 
-	// Graphics Debug Dropdowns 
-	ImGui::Combo("Graphics Debug", &graphicsDebugSelected, GraphicsDebugs, IM_ARRAYSIZE(GraphicsDebugs));
+	unsigned int ScreenManager::getScreenHeight()
+	{
+		glfwGetWindowSize(window, &width, &height);
+		return height;
+	}
 
-	// camera dropdowns
-	ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));
-
-	// Animation 
-	if (ImGui::Button("Toggle Animation Debug"))
-		ToggleAnimationDebug();
-	char test;
-	ImGui::InputText("Animation Clip Name : ", AnimClipName, IM_ARRAYSIZE(AnimClipName));
-	ImGui::Text("Current Animation : %s", AnimClipName);
-	ImGui::SliderFloat("Animation Clip Position", &DebugAnimClipPos, 0.0, 1.0);
-	// Display Selected Entity
-	ImGui::Text("Selected Entity : %s", SelectedEntity.c_str());
-	gui.End();
-}
-
-unsigned int ScreenManager::getScreenWidth()
-{
-	glfwGetWindowSize(window, &width, &height);
-	return width;
-}
-
-unsigned int ScreenManager::getScreenHeight()
-{
-	glfwGetWindowSize(window, &width, &height);
-	return height;
-}
-
-std::pair<int, int> ScreenManager::getWidthHeight()
-{
-	return std::make_pair(width, height);
-}
+	std::pair<int, int> ScreenManager::GetWidthHeight()
+	{
+		return std::make_pair(width, height);
+	}
 
 
 
-// glfw callbacks
-// --------------------
-void ScreenManager::framebuffer_size_callback(GLFWwindow* window, int width, int height)
-{
-	updateRendererViewportDimensions(width, height);
-}
+	// glfw callbacks
+	// --------------------
+	void ScreenManager::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+	{
+		UpdateDimensions(width, height);
+	}
 
 
 
 
-// structors
-// --------------------
-ScreenManager::ScreenManager()
-{
-	Initialize();
-}
+	// structors
+	// --------------------
+	ScreenManager::ScreenManager()
+	{
+		Initialize();
+	}
 
-ScreenManager::~ScreenManager()
-{
+	ScreenManager::~ScreenManager()
+	{
+	}
+
 }

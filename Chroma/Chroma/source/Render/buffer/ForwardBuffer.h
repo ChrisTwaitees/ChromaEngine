@@ -16,7 +16,7 @@ class ForwardBuffer : public Framebuffer
 	void Initialize() override;
 	void fetchColorAndDepth();
 	void blitDepthBuffer();
-	void renderForwardComponents();
+	void RenderForwardComponents();
 	void renderTransparency();
 	void AttachBuffer();
 	void DrawQuad();

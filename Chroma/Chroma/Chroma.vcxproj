@@ -214,7 +214,7 @@
     <ClCompile Include="source\Render\camera\ICameraController.cpp" />
     <ClCompile Include="source\Render\camera\FlyCameraController.cpp" />
     <ClCompile Include="source\Render\camera\MayaCameraController.cpp" />
-    <ClCompile Include="source\Render\gui\ChromaGUI.cpp" />
+    <ClCompile Include="source\Render\gui\GUI.cpp" />
     <ClCompile Include="source\Render\ibl\IBL.cpp" />
     <ClCompile Include="source\Render\light\Light.cpp" />
     <ClCompile Include="source\Render\model\BoxPrimitive.cpp" />
@@ -282,7 +282,7 @@
     <ClInclude Include="source\Render\camera\ICameraController.h" />
     <ClInclude Include="source\Render\camera\FlyCameraController.h" />
     <ClInclude Include="source\Render\camera\MayaCameraController.h" />
-    <ClInclude Include="source\Render\gui\ChromaGUI.h" />
+    <ClInclude Include="source\Render\gui\GUI.h" />
     <ClInclude Include="source\Render\ibl\IBL.h" />
     <ClInclude Include="source\Render\light\Light.h" />
     <ClInclude Include="source\Render\model\BoxPrimitive.h" />
