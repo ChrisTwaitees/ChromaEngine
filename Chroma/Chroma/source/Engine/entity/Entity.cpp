@@ -2,6 +2,7 @@
 #include <component/MeshComponent.h>
 #include <component/PhysicsComponent.h>
 #include <component/AnimationComponent.h>
+#include <physics/PhysicsEngine.h>
 
 std::vector<ChromaVertex> Entity::GetVertices()
 {
@@ -86,7 +87,7 @@ void Entity::addPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
 	newPhysicsComponent->BuildRigidBody();
 
 	// add rigid body to physics world
-	m_ParentScene->GetPhysics()->addBodyToWorld(newPhysicsComponent);
+	Chroma::Physics::AddBodyToWorld(newPhysicsComponent);
 }
 
 void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
@@ -99,7 +100,6 @@ void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 
 	// add to scene's animated entities
 	GetParentScene()->AddAnimatedEntity(this);
-
 }
 
 void Entity::CalculateBBox()

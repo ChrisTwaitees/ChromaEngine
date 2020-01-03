@@ -13,48 +13,57 @@
 #include <component/PhysicsComponent.h>
 #include <physics/PhysicsDebug.h>
 #include <buffer/DebugBuffer.h>
-#include <time/Time.h>
+#include <core/Core.h>
 
 class IEntity;
 
-class PhysicsEngine
+namespace Chroma
 {
-private:
-	// attrs
-	glm::vec3 m_gravity{ 0.0, -9.8, 0.0 };
+	class Physics
+	{
+	private:
+		// attrs
+		static glm::vec3 m_Gravity;
+		static btCollisionObject* m_CollisionObject;
+		static btSphereShape* m_SphereShape;
 
-	// bullet objects
-	btBroadphaseInterface*			      m_broadphase;
-	btDefaultCollisionConfiguration*      m_collisionConfiguration;
-	btCollisionDispatcher*				  m_dispatcher;
-	btSequentialImpulseConstraintSolver*  m_solver;
-	btDiscreteDynamicsWorld*			  m_world;
+		// bullet objects
+		static btBroadphaseInterface* m_Broadphase;
+		static btDefaultCollisionConfiguration* m_CollisionConfiguration;
+		static btCollisionDispatcher* m_Dispatcher;
+		static btSequentialImpulseConstraintSolver* m_Solver;
+		static btDiscreteDynamicsWorld* m_World;
 
-	// debug
-	PhysicsDebug* m_debug{ new PhysicsDebug()};
+		// debug
+		static PhysicsDebug* m_Debug;
 
-	// functions
-	void init();
-	void initPhysics();
-	void createGround();
-	void updateGravity();
+		// functions
+		static void InitPhysicsWorld();
+		static void InitTerrain();
+		static void UpdateGravity();
 
-public:
-	void addBodyToWorld(PhysicsComponent*& physicsComponent);
-	
-	void Update();
+	public:
 
-	void setGravity(glm::vec3& newGravity) ;
+		static void Init();
+		static void Update();
+		static void DrawDebug();
 
-	void BindDebugBuffer(DebugBuffer* const& DebugRenderer);
-	void drawDebug();
+		static void BindDebugBuffer(DebugBuffer* DebugRenderer);
 
-	// Ray Queries
-	IEntity* GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
-	bool RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
+		static void AddBodyToWorld(PhysicsComponent*& physicsComponent);
 
-	PhysicsEngine();
-	~PhysicsEngine();
-};
+		static void SetGravity(glm::vec3& newGravity);
+
+		// Ray Queries
+		static IEntity* GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
+		static bool RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
+		static bool SphereTest(glm::vec3 const& sphereCenter, float const& sphereRadius);
+
+		Physics();
+		~Physics();
+	};
+}
+
+
 
 #endif

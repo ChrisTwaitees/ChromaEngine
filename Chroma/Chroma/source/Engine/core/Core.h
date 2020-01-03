@@ -1,7 +1,7 @@
 #ifndef _CHROMA_CORE_
 #define _CHROMA_CORE_
 
-// inclusion of all necessary files throughout Chroma
+// all core includes for Chroma
 
 // Logging
 #include <logging/Log.h>
@@ -12,7 +12,7 @@
 // Input
 #include <input/Input.h>
 
-// Chroma Config
+// Config
 #include <ChromaConfig.h>
 
 #endif

@@ -2833,8 +2833,8 @@ bool ImGui::TempInputTextScalar(const ImRect& bb, ImGuiID id, const char* label,
 
     // On the first frame, g.TempInputTextId == 0, then on subsequent frames it becomes == id.
     // We clear ActiveID on the first frame to allow the InputText() taking it back.
-    const bool init = (g.TempInputTextId != id);
-    if (init)
+    const bool Init = (g.TempInputTextId != id);
+    if (Init)
         ClearActiveID();
 
     char fmt_buf[32];
@@ -2847,7 +2847,7 @@ bool ImGui::TempInputTextScalar(const ImRect& bb, ImGuiID id, const char* label,
     ImGuiInputTextFlags flags = ImGuiInputTextFlags_AutoSelectAll | ImGuiInputTextFlags_NoMarkEdited;
     flags |= ((data_type == ImGuiDataType_Float || data_type == ImGuiDataType_Double) ? ImGuiInputTextFlags_CharsScientific : ImGuiInputTextFlags_CharsDecimal);
     bool value_changed = InputTextEx(label, NULL, data_buf, IM_ARRAYSIZE(data_buf), bb.GetSize(), flags);
-    if (init)
+    if (Init)
     {
         // First frame we started displaying the InputText widget, we expect it to take the active id.
         IM_ASSERT(g.ActiveId == id);

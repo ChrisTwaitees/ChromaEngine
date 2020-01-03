@@ -4,7 +4,7 @@
 void ChromaGame::Update()
 {
 	// Physics
-	m_Physics->Update();
+	Chroma::Physics::Update();
 
 	// Animation
 	if (m_Screen->DebugAnim)
@@ -27,7 +27,7 @@ void ChromaGame::MousePickerCallback()
 	// Ray Interest Test
 	glm::vec3 start = m_Scene->GetRenderCamera()->GetPosition();
 	glm::vec3 end = start + ( Chroma::Input::GetLastRay() * glm::vec3(1000.0));
-	IEntity* clickedEntity  = m_Physics->GetEntityRayTest(start, end);
+	IEntity* clickedEntity  = Chroma::Physics::GetEntityRayTest(start, end);
 	if (clickedEntity)
 		m_Screen->setSelectedEntityName(clickedEntity->GetName());
 
@@ -88,8 +88,8 @@ void ChromaGame::Initialize()
 	CHROMA_INFO("Chroma Renderer Initialized.");
 
 	// PhysicsEngine
-	m_Physics->BindDebugBuffer(m_Renderer->GetDebugBuffer());
-	m_Scene->SetPhysics(m_Physics);
+	Chroma::Physics::Init();
+	Chroma::Physics::BindDebugBuffer(m_Renderer->GetDebugBuffer());
 	CHROMA_INFO("Chroma Physics Engine Initialized.");
 
 	// AnimationEngine
@@ -112,7 +112,7 @@ void ChromaGame::ProcessInput()
 
 	// render physics debug 
 	if (m_Screen->drawPhysicsDebug)
-		m_Physics->drawDebug();
+		Chroma::Physics::DrawDebug();
 
 	// animation debug
 	//if (m_Screen->DebugAnim)

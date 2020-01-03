@@ -9,7 +9,6 @@
 //chroma
 #include <camera/Camera.h>
 #include <light/Light.h>
-#include <physics/PhysicsEngine.h>
 #include <model/SkyBox.h>
 #include <ibl/IBL.h>
 // entity component
@@ -29,8 +28,6 @@ class Scene
 	std::set<std::string> m_EntityUIDs;
 	std::set<std::string> m_TransparentEntityUIDs;
 	std::set<std::string> m_AnimatedEntityUIDs;
-
-	PhysicsEngine* m_Physics;
 
 	// render components
 	Camera* m_RenderCamera{ new Camera() };
@@ -59,7 +56,6 @@ public:
 	void SetSkyBox(SkyBox* const& newSkyBox) { m_Skybox = newSkyBox; };
 	void SetRenderCamera(Camera* const& newRenderCamera) { m_RenderCamera = newRenderCamera; };
 	void SetLights(std::vector<Light*> newLights);
-	void SetPhysics(PhysicsEngine*& newPhysics) { m_Physics = newPhysics; };
 
 	// getters
 	IEntity* GetEntity(std::string UID);
@@ -71,7 +67,6 @@ public:
 	Camera* GetRenderCamera() { return m_RenderCamera; };
 	std::vector<Light*> GetLights() { return m_Lights; };
 	Light* GetSunLight() { return m_SunLight; };
-	PhysicsEngine* GetPhysics() { return  m_Physics; };
 	SkyBox* GetSkyBox() { return m_Skybox; };
 	glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
 	IBL* GetIBL() { return m_IBL; };

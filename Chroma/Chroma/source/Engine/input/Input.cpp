@@ -292,7 +292,7 @@ namespace Chroma
 		}
 		else
 		{
-			CHROMA_WARN("INPUT :: No Controller Connected");
+			//CHROMA_WARN("INPUT :: No Controller Connected");
 		}
 	}
 
@@ -323,7 +323,6 @@ namespace Chroma
 		// inverse of the view matrix
 		glm::vec3 ray_world = glm::vec3((glm::inverse(m_Camera->GetViewMatrix()) * ray_eye));
 		ray_world = glm::normalize(ray_world);
-
 
 		return ray_world;
 	}

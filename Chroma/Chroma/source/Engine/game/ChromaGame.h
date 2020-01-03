@@ -24,7 +24,6 @@ class ChromaGame
 	Scene* m_Scene{ nullptr };
 	ScreenManager* m_Screen{ nullptr };
 	Renderer* m_Renderer{ nullptr };
-	PhysicsEngine* m_Physics{ new PhysicsEngine() };
 	AnimationEngine* m_Animation{ new AnimationEngine() };
 
 	// game loop functions
@@ -37,7 +36,7 @@ class ChromaGame
 
 public:
 	// Accessors
-	Renderer* getRenderer() const { return m_Renderer; };
+	Renderer* GetRenderer() const { return m_Renderer; };
 
 	// Game Loop
 	void Tick();

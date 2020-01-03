@@ -139,31 +139,31 @@ int main()
 
 	// ANIMATED MODEL
 	// ____________________________________________________
-	IEntity* AnimModelEntity = new Entity;
-	AnimModelEntity->SetName("AnimationModel");
-	scene->AddEntity(AnimModelEntity);
-	// mesh
-	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking8.fbx");
-	AnimModelMeshComponent->SetShader(&PBRShader);
-	AnimModelMeshComponent->AddTexture(walkingAlbedo);
-	AnimModelMeshComponent->AddTexture(walkingNormal);
-	AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
-	AnimModelEntity->AddComponent(AnimModelMeshComponent);
-	// rigid
-	PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
-	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
-	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	AnimModelEntity->AddComponent(AnimModelRigidComponent);
-	// animation
-	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
-	Animator AnimModelAnimator;
-	AnimModelAnimator.LoadAnimations("resources/animation/walking.fbx");
-	AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
-	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
-	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
-	// transforming entity
-	////((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, 0, -4));
-	((Model*)AnimModelMeshComponent)->SetScale(0.06);
+	//IEntity* AnimModelEntity = new Entity;
+	//AnimModelEntity->SetName("AnimationModel");
+	//scene->AddEntity(AnimModelEntity);
+	//// mesh
+	//MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking8.fbx");
+	//AnimModelMeshComponent->SetShader(&PBRShader);
+	//AnimModelMeshComponent->AddTexture(walkingAlbedo);
+	//AnimModelMeshComponent->AddTexture(walkingNormal);
+	//AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
+	//AnimModelEntity->AddComponent(AnimModelMeshComponent);
+	//// rigid
+	//PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
+	//AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
+	//AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//AnimModelEntity->AddComponent(AnimModelRigidComponent);
+	//// animation
+	//AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
+	//Animator AnimModelAnimator;
+	//AnimModelAnimator.LoadAnimations("resources/animation/walking.fbx");
+	//AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
+	//AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
+	//AnimModelEntity->AddComponent(AnimModelAnimationComponent);
+	//// transforming entity
+	//////((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, 0, -4));
+	//((Model*)AnimModelMeshComponent)->SetScale(0.06);
 	// ____________________________________________________
 
 
@@ -172,7 +172,7 @@ int main()
 	IEntity* CapsuleEntity = new Entity;
 	scene->AddEntity(CapsuleEntity);
 	// mesh
-	MeshComponent* CapsuleMeshComponent = new Model("resources/primitives/capsule.obj");
+	MeshComponent* CapsuleMeshComponent = new SpherePrimitive();
 	CapsuleMeshComponent->SetShader(&PBRShader);
 	CapsuleMeshComponent->AddTexture(greyAlbedo);
 	CapsuleEntity->AddComponent(CapsuleMeshComponent);
@@ -181,6 +181,9 @@ int main()
 	CapsuleRigidComponent->SetColliderShape(ColliderShape::Box);
 	CapsuleRigidComponent->SetCollisionState(ColliderState::Kinematic);
 	CapsuleEntity->AddComponent(CapsuleRigidComponent);
+	// transform
+	CapsuleEntity->SetPosition(glm::vec3(0,1.0,0.0));
+	// character controller
 	// ____________________________________________________
 
 
@@ -343,7 +346,7 @@ int main()
 
 		//CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
 
-		Game.getRenderer()->GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
+		Game.GetRenderer()->GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
 		//Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 		//((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
 		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };
