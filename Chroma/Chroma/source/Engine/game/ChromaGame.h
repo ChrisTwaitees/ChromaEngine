@@ -1,13 +1,10 @@
 #ifndef _CHROMA_GAME_
 #define _CHROMA_GAME_
 
-//stl
-#include <iostream>
-#include <functional>
-// thirdparty
-#include <GLFW/glfw3.h>
 // chroma
-#include <core/Core.h>
+
+#include <screen/Screen.h>
+#include <logging/Log.h>
 #include <scene/Scene.h>
 #include <renderer/Renderer.h>
 #include <gui/GUI.h>
@@ -17,7 +14,7 @@
 class ChromaGame
 {
 	// functions 
-	void Initialize();
+	void Init();
 
 	// components
 	Scene* m_Scene{ nullptr };
@@ -26,7 +23,7 @@ class ChromaGame
 
 	// game loop functions
 	void Update();
-	void Update();
+	void ProcessInput();
 	void Draw();
 
 	// mouse picker callback

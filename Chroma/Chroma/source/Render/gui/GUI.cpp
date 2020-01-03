@@ -22,9 +22,12 @@ namespace Chroma
 	int  GUI::graphicsDebugSelected;
 	// camera
 	int GUI::cameraSelected;
+	// selected entity
+	std::string GUI::SelectedEntity;
+
 	// graphics 
-	static const char* GraphicsDebugs[8]{ "Alebdo", "Normals", "Metalness", "Roughness", "AO", "SSAO", "Shadows", "Reflections" };
-	static const char* cameras[2]{ "Maya", "FlyCam" };
+//	static const char* GraphicsDebugs[8]{ "Alebdo", "Normals", "Metalness", "Roughness", "AO", "SSAO", "Shadows", "Reflections" };
+//	static const char* cameras[2]{ "Maya", "FlyCam" };
 
 	void GUI::Init()
 	{
@@ -76,10 +79,10 @@ namespace Chroma
 			ToggleGraphicsDebug();
 
 		// Graphics Debug Dropdowns 
-		ImGui::Combo("Graphics Debug", &graphicsDebugSelected, GraphicsDebugs, IM_ARRAYSIZE(GraphicsDebugs));
+		//ImGui::Combo("Graphics Debug", &graphicsDebugSelected, GraphicsDebugs, IM_ARRAYSIZE(GraphicsDebugs));
 
 		// camera dropdowns
-		ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));
+		//ImGui::Combo("Cameras", &cameraSelected, cameras, IM_ARRAYSIZE(cameras));
 
 		// Animation 
 		if (ImGui::Button("Toggle Animation Debug"))

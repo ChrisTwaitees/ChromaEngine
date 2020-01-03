@@ -21,4 +21,16 @@
 // Workers
 #include <worker/IWorker.h>
 
+// Glad
+#include <glad/glad.h>
+
+
+namespace Chroma
+{
+	struct Core
+	{
+		static void InitLibs();
+	};
+}
+
 #endif

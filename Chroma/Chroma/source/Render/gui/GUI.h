@@ -9,7 +9,7 @@
 #include <iostream>
 
 // chroma
-#include <screenManager/ScreenManager.h>
+#include <screen/Screen.h>
 
 namespace Chroma
 {
@@ -29,8 +29,8 @@ namespace Chroma
 
 		static void DrawMainMenu();
 
-		static const char* GraphicsDebugs[8];
-		static const char* cameras[2];
+		//static const char* GraphicsDebugs[8];
+		//static const char* cameras[2];
 
 	public:
 		// functions

@@ -34,14 +34,6 @@ void Renderer::RenderPostFX()
 
 void Renderer::Init()
 {
-	// OpenGL 3
-	// glad: load all OpenGL function pointers
-	// ---------------------------------------
-	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-	{
-		CHROMA_FATAL("Failed to Initialize GLAD");
-	}
-
 	// Enabling Render Features
 	// ---------------------------------------
 	// Enable depth buffer

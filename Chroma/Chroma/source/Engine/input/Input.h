@@ -13,7 +13,6 @@
 #include <glad/glad.h>
 #include <camera/Camera.h>
 #include <core/Core.h>
-#include <screenManager/ScreenManager.h>
 
 class Camera;
 

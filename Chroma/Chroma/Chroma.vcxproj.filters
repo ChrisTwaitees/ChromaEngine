@@ -317,6 +317,9 @@
     <ClCompile Include="source\Engine\screen\Screen.cpp">
       <Filter>Engine\screen</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\core\Core.cpp">
+      <Filter>Engine\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">

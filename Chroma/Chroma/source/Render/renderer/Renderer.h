@@ -6,7 +6,7 @@
 #include <vector>
 
 // chroma
-#include <screenmanager/ScreenManager.h>
+#include <screen/Screen.h>
 #include <scene/Scene.h>
 #include <entity/Entity.h>
 #include <buffer/GBuffer.h>

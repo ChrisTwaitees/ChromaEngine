@@ -8,7 +8,7 @@
 #include <glm/glm.hpp>
 
 // chroma
-#include <screenManager/ScreenManager.h>
+#include <core/Core.h>
 #include <animation/AnimationLoader.h>
 #include <component/IComponent.h>
 #include <component/MeshComponent.h>
@@ -33,6 +33,8 @@ int main()
 	// INIT CHROMA
 	// ------------------------------------------------------------------------------------------
 	// SCENE 
+	Chroma::Core::InitLibs();
+
 	Scene* scene{ new Scene };
 
 	// GAME

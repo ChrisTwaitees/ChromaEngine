@@ -189,6 +189,7 @@
     <ClCompile Include="source\Engine\component\IComponent.cpp" />
     <ClCompile Include="source\Engine\component\MeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\PhysicsComponent.cpp" />
+    <ClCompile Include="source\Engine\core\Core.cpp" />
     <ClCompile Include="source\Engine\entity\Entity.cpp" />
     <ClCompile Include="source\Engine\entity\IEntity.cpp" />
     <ClCompile Include="source\Engine\game\ChromaGame.cpp" />

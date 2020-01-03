@@ -40,7 +40,7 @@ void ChromaGame::Tick()
 	Chroma::Time::Update();
 
 	// process input
-	Update();
+	ProcessInput();
 
 	// update while lag is less than framerate cap
 	while (Chroma::Time::GetLag() >= Chroma::Time::GetMSPerFrame())
@@ -62,10 +62,10 @@ ChromaGame::~ChromaGame()
 ChromaGame::ChromaGame(Scene*& Scene)
 {
 	m_Scene = Scene;
-	Initialize();
+	Init();
 }
 
-void ChromaGame::Initialize()
+void ChromaGame::Init()
 {
 	// Logging
 	Chroma::Log::Init();
@@ -103,7 +103,7 @@ void ChromaGame::Initialize()
 
 }
 
-void ChromaGame::Update()
+void ChromaGame::ProcessInput()
 {
 	// update input
 	Chroma::Input::Update();
