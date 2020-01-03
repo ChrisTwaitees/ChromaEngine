@@ -42,6 +42,22 @@ namespace Chroma
 		ImGui_ImplOpenGL3_Init("#version 330");
 
 		// Vars
+		timeSpeed = 1.0f;
+		useSkybox = true;
+		exposure = 1.0f;
+		gamma = 2.2f;
+		bloom = true;
+		//debugbuffer
+		drawDebug = false;
+		drawPhysicsDebug = false;
+		// anim
+		debugAnim = false;
+		DebugAnimClipPos = 0.0f;
+		// graphics
+		drawGraphicsDebug = false;
+		graphicsDebugSelected = 0;
+		// camera
+		cameraSelected = 0;
 	}
 
 	void GUI::Draw()
@@ -59,7 +75,7 @@ namespace Chroma
 		ImGui::Begin("Chroma Debug");
 
 		// Time
-		ImGui::Text("Deltatime %.3f ms/frame (%.1f FPS)", Chroma::Time::GetDeltaTime(), Chroma::Time::GetFPS);
+		ImGui::Text("Deltatime %.3f ms/frame (%.1f FPS)", Chroma::Time::GetDeltaTime(), Chroma::Time::GetFPS());
 		ImGui::SliderFloat("Time Multiply", &timeSpeed, 0.0, 3.0);
 		Chroma::Time::SetSpeed(timeSpeed);
 
@@ -69,14 +85,14 @@ namespace Chroma
 
 		// bloom
 		if (ImGui::Button("Toggle Bloom"))
-			ToggleBloom();
+			ToggleBool(bloom);
 
 		//// debug draw
 		if (ImGui::Button("Toggle Physics Debug"))
-			TogglePhysicsDebug();
+			ToggleBool(drawPhysicsDebug);
 
 		if (ImGui::Button("Toggle Graphics Debug"))
-			ToggleGraphicsDebug();
+			ToggleBool(drawGraphicsDebug);
 
 		// Graphics Debug Dropdowns 
 		//ImGui::Combo("Graphics Debug", &graphicsDebugSelected, GraphicsDebugs, IM_ARRAYSIZE(GraphicsDebugs));
@@ -86,7 +102,7 @@ namespace Chroma
 
 		// Animation 
 		if (ImGui::Button("Toggle Animation Debug"))
-			ToggleAnimationDebug();
+			ToggleBool(debugAnim);
 
 		ImGui::InputText("Animation Clip Name : ", animClipName, IM_ARRAYSIZE(animClipName));
 		ImGui::Text("Current Animation : %s", animClipName);
@@ -111,35 +127,9 @@ namespace Chroma
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	void GUI::ToggleSkybox()
+	void GUI::ToggleBool(bool& toToggle)
 	{
-		useSkybox = useSkybox ? false : true;
+		toToggle = toToggle ? false : true;
 	}
-
-	void GUI::ToggleBloom()
-	{
-		bloom = bloom ? false : true;
-	}
-
-	void GUI::ToggleDebug()
-	{
-		drawDebug = drawDebug ? false : true;
-	}
-
-	void GUI::TogglePhysicsDebug()
-	{
-		drawPhysicsDebug = drawPhysicsDebug ? false : true;
-	}
-
-	void GUI::ToggleAnimationDebug()
-	{
-		debugAnim = debugAnim ? false : true;
-	}
-
-	void GUI::ToggleGraphicsDebug()
-	{
-		drawGraphicsDebug = drawGraphicsDebug ? false : true;
-	}
-
 
 }

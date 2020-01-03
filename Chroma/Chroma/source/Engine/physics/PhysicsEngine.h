@@ -13,7 +13,7 @@
 #include <component/PhysicsComponent.h>
 #include <physics/PhysicsDebug.h>
 #include <buffer/DebugBuffer.h>
-#include <core/Core.h>
+#include <common/CoreCommon.h>
 
 class IEntity;
 

@@ -41,7 +41,7 @@ namespace Chroma
 	int Input::m_ScreenHeight;
 	std::function<void()> Input::m_MousePickerCallback;
 
-	void Input::Initialize()
+	void Input::Init()
 	{
 		// glfw attach callbacks
 		glfwSetCursorPosCallback(Chroma::Screen::GetWindow(), mouse_aim_callback);
@@ -275,13 +275,13 @@ namespace Chroma
 			m_ControllerButtonsMapping = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &m_ControllerButtonsCount);
 
 			// Debugging
-			//for (int i = 0; i < m_ControllerButtonsCount; i++)
-			//{
-			//	if (buttons[i] == GLFW_PRESS)
-			//	{
-			//		CHROMA_INFO("Index : {0}", i);
-			//	}
-			//}
+			for (int i = 0; i < m_ControllerButtonsCount; i++)
+			{
+				if (m_ControllerButtonsMapping[i] == GLFW_PRESS)
+				{
+					CHROMA_INFO("Index : {0}", i);
+				}
+			}
 		}
 		else
 		{
@@ -320,11 +320,6 @@ namespace Chroma
 		return ray_world;
 	}
 
-
-	Input::Input(GLFWwindow*& windowVal)
-	{
-		Initialize();
-	}
 
 	Input::~Input()
 	{

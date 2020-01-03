@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 // chroma 
-//#include <core/Core.h>
+#include <common/CoreCommon.h>
 
 
 class ICameraController

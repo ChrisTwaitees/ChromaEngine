@@ -9,7 +9,7 @@
 //chroma
 #include <math/Math.h>
 #include <buffer/DebugBuffer.h>
-#include <core/Core.h>
+#include <common/CoreCommon.h>
 
 
 class PhysicsDebug : public btIDebugDraw

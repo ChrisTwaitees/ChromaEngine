@@ -10,6 +10,7 @@
 #include <gui/GUI.h>
 #include <physics/PhysicsEngine.h>
 #include <animation/AnimationEngine.h>
+#include <input/Input.h>
 
 class ChromaGame
 {

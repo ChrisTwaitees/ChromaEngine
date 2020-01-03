@@ -12,7 +12,6 @@
 #include <ChromaConfig.h>
 #include <camera/FlyCameraController.h>
 #include <camera/MayaCameraController.h>
-#include <core/Core.h>
 
 enum CameraMode { FlyCam, Maya};
 

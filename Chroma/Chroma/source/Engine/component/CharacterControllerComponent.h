@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 
 // chroma
-#include <core/Core.h>
+#include <common/CoreCommon.h>
 #include <component/IComponent.h>
 
 

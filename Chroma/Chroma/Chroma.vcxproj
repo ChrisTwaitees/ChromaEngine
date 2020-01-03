@@ -251,6 +251,7 @@
     <ClInclude Include="source\Engine\animation\Joint.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
     <ClInclude Include="source\Engine\ChromaConfig.h" />
+    <ClInclude Include="source\Engine\common\CoreCommon.h" />
     <ClInclude Include="source\Engine\component\AnimationComponent.h" />
     <ClInclude Include="source\Engine\component\CharacterControllerComponent.h" />
     <ClInclude Include="source\Engine\component\MeshComponent.h" />

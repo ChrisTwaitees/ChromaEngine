@@ -11,8 +11,7 @@
 #include <camera/Camera.h>
 #include <light/Light.h>
 #include <texture/Texture.h>
-#include <ChromaConfig.h>
-#include <core/Core.h>
+#include <common/CoreCommon.h>
 
 // forward declarations
 class IEntity;

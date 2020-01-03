@@ -9,21 +9,14 @@
 // Logging
 #include <logging/Log.h>
 
-// Time
-#include <time/Time.h>
-
-// Input
-#include <input/Input.h>
-
 // Screen
 #include <screen/Screen.h>
-
-// Workers
-#include <worker/IWorker.h>
 
 // Glad
 #include <glad/glad.h>
 
+// GUI
+#include <gui/GUI.h>
 
 namespace Chroma
 {

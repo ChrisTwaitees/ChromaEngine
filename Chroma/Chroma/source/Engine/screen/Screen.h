@@ -5,7 +5,7 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 // core
-#include <core/Core.h>
+#include <common/CoreCommon.h>
 
 namespace Chroma
 {

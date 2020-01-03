@@ -9,7 +9,8 @@
 #include <iostream>
 
 // chroma
-#include <screen/Screen.h>
+
+#include <common/CoreCommon.h>
 
 namespace Chroma
 {
@@ -18,12 +19,7 @@ namespace Chroma
 		static void Start();
 		static void End();
 
-		static void ToggleSkybox();
-		static void ToggleBloom();
-		static void ToggleDebug();
-		static void TogglePhysicsDebug();
-		static void ToggleAnimationDebug();
-		static void ToggleGraphicsDebug();
+		static void ToggleBool(bool& toToggle);
 
 		static std::string SelectedEntity;
 

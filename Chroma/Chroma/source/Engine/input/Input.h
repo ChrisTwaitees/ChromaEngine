@@ -12,7 +12,7 @@
 // glad
 #include <glad/glad.h>
 #include <camera/Camera.h>
-#include <core/Core.h>
+#include <common/CoreCommon.h>
 
 class Camera;
 
@@ -56,7 +56,6 @@ namespace Chroma
 		static float m_ControllerRightBumper;
 
 		// functions 
-		static void Initialize();
 		static void UpdateMouseCoordinates();
 		static void UpdateMousePicker();
 		static void UpdateController();
@@ -80,6 +79,7 @@ namespace Chroma
 		bool static IsPressed(Key KeySelection);
 
 		//  functions
+		static void Init();
 		static void Update();
 		static void BindMousePickerCallback(std::function<void()> callback);
 
@@ -115,7 +115,6 @@ namespace Chroma
 
 		// constructors
 		Input() {};
-		Input(GLFWwindow*& windowVal);
 		~Input();
 	};
 }

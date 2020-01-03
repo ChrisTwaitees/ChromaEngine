@@ -10,7 +10,7 @@
 #include <model/Vertex.h>
 #include <uid/UID.h>
 #include <component/IComponent.h>
-#include <core/Core.h>
+#include <common/CoreCommon.h>
 
 // forward declarations
 class Scene;

@@ -355,8 +355,6 @@ int main()
 		// GAME TICK
 		Game.Tick();
 
-		// END SCREEN
-		Chroma::Screen::Update();
 	}
 
 

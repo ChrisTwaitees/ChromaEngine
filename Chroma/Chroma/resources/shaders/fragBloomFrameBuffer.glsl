@@ -17,9 +17,9 @@ void main()
         hdrColor += bloomColor; // additive blending
 
     // exposure
-    vec3 result = vec3(1.0) - exp(-hdrColor * exposure);
+    vec3 result = vec3(1.0) - exp(-hdrColor * 1.0);
     // also gamma correct while we're at it       
-    result = pow(result, vec3(1.0 / gamma));
+    //result = pow(result, vec3(1.0 / 2.2));
     FragColor = vec4(hdrColor, 1.0);
 
 }
