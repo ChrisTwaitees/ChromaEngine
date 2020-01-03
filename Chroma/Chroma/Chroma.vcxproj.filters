@@ -314,8 +314,8 @@
     <ClCompile Include="source\Engine\logging\Log.cpp">
       <Filter>Engine\logging</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterControllerComponent.cpp">
-      <Filter>classes\Source Files</Filter>
+    <ClCompile Include="source\Engine\component\CharacterControllerComponent.cpp">
+      <Filter>Engine\component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -523,8 +523,8 @@
     <ClInclude Include="source\Engine\core\Core.h">
       <Filter>Engine\core</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterControllerComponent.h">
-      <Filter>classes\Header Files</Filter>
+    <ClInclude Include="source\Engine\component\CharacterControllerComponent.h">
+      <Filter>Engine\component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

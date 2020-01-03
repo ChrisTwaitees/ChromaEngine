@@ -2,6 +2,11 @@
 
 
 
+void CharacterControllerComponent::ProcessInput()
+{
+	
+}
+
 CharacterControllerComponent::CharacterControllerComponent()
 {
 }
