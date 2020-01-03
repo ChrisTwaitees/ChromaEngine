@@ -2,8 +2,12 @@
 
 namespace Chroma
 {
-	void Core::InitLibs()
+	void Core::Init()
 	{
+		// Logging
+		Chroma::Log::Init();
+		CHROMA_INFO("Chroma Initializing...");
+
 		// OpenGL 3
 		// glad: load all OpenGL function pointers
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))

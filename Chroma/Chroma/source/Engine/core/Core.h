@@ -29,7 +29,7 @@ namespace Chroma
 {
 	struct Core
 	{
-		static void InitLibs();
+		static void Init();
 	};
 }
 

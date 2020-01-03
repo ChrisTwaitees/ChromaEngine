@@ -67,10 +67,6 @@ ChromaGame::ChromaGame(Scene*& Scene)
 
 void ChromaGame::Init()
 {
-	// Logging
-	Chroma::Log::Init();
-	CHROMA_INFO("Chroma Initializing...");
-
 	// Time
 	Chroma::Time::Init();
 	CHROMA_INFO("Chroma Time Initialized.");

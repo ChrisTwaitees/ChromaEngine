@@ -33,7 +33,7 @@ int main()
 	// INIT CHROMA
 	// ------------------------------------------------------------------------------------------
 	// SCENE 
-	Chroma::Core::InitLibs();
+	Chroma::Core::Init();
 
 	Scene* scene{ new Scene };
 
