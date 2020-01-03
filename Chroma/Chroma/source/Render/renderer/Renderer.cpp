@@ -30,6 +30,8 @@ void Renderer::RenderPostFX()
 	// POSTFX BUFFER
 	m_PostFXBuffer->setUniform("exposure", 1.0f);
 	m_PostFXBuffer->setUniform("gamma", 2.2f);
+
+	m_PostFXBuffer->Draw();
 }
 
 void Renderer::Init()

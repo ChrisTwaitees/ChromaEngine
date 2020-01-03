@@ -309,27 +309,27 @@ int main()
 	//SphereMeshComponent->AddTexture(alphaTestAlbedo);
 	//SphereMeshComponent->SetShader(&PBRShader);
 	//SphereMeshComponent->m_IsLit = true;
-	////SphereMeshComponent->m_IsForwardLit = true;
+	//SphereMeshComponent->m_IsForwardLit = true;
 	////SphereMeshComponent->m_IsTransparent = true;
 	//SphereEntityTransparent->SetPosition(glm::vec3(7.5, 1.0, 0.0));
 	//SphereEntityTransparent->AddComponent(SphereMeshComponent);
 	//SphereEntityTransparent->AddComponent(SphereRigidComponent);
 
-	//// UNLIT
-	//IEntity* SphereEntityUnlit = new Entity;
-	//scene->AddEntity(SphereEntityUnlit);
-	//SphereEntityUnlit->SetName("Sphere");
-	//MeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
-	//PhysicsComponent* SphereRigidComponentUnlit = new PhysicsComponent();
-	//SphereRigidComponentUnlit->SetColliderShape(ColliderShape::Convex);
-	//SphereRigidComponentUnlit->SetCollisionState(ColliderState::Kinematic);
-	//SphereMeshComponentUnlit->SetShader(&UnlitShader);
-	//SphereMeshComponentUnlit->m_IsLit = false;
-	//SphereMeshComponentUnlit->m_CastShadows = false;
-	//SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 1.0, 0.0));
-	//SphereEntityUnlit->AddComponent(SphereMeshComponentUnlit);
-	//SphereEntityUnlit->AddComponent(SphereRigidComponentUnlit);
-	//// ____________________________________________________
+	// UNLIT
+	IEntity* SphereEntityUnlit = new Entity;
+	scene->AddEntity(SphereEntityUnlit);
+	SphereEntityUnlit->SetName("Sphere");
+	MeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
+	PhysicsComponent* SphereRigidComponentUnlit = new PhysicsComponent();
+	SphereRigidComponentUnlit->SetColliderShape(ColliderShape::Convex);
+	SphereRigidComponentUnlit->SetCollisionState(ColliderState::Kinematic);
+	SphereMeshComponentUnlit->SetShader(&UnlitShader);
+	SphereMeshComponentUnlit->m_IsLit = false;
+	SphereMeshComponentUnlit->m_CastShadows = false;
+	SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 1.0, 0.0));
+	SphereEntityUnlit->AddComponent(SphereMeshComponentUnlit);
+	SphereEntityUnlit->AddComponent(SphereRigidComponentUnlit);
+	// ____________________________________________________
 
 
 	// RENDER LOOP
