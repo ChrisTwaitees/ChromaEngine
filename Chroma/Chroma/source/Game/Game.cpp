@@ -8,11 +8,13 @@
 #include <glm/glm.hpp>
 
 // chroma
+// engine
 #include <core/Core.h>
 #include <animation/AnimationLoader.h>
 #include <component/IComponent.h>
 #include <component/MeshComponent.h>
 #include <component/AnimationComponent.h>
+#include <component/CharacterControllerComponent.h>
 #include <entity/Entity.h>
 #include <scene/Scene.h>
 #include <model/Model.h>
@@ -23,9 +25,11 @@
 #include <texture/HDRTexture.h>
 #include <light/Light.h>
 #include <terrain/Terrain.h>
-#include <game/ChromaGame.h>
+#include <engine/ChromaEngine.h>
 #include <time/Time.h>
-
+// game
+#include <thirdperson/ThirdPersonCharacterController.h>
+#include <thirdperson/ThirdPersonCameraController.h>
 
 int main()
 {
@@ -38,7 +42,7 @@ int main()
 	Scene* scene{ new Scene };
 
 	// GAME
-	ChromaGame Game(scene);
+	ChromaEngine Engine(scene);
 
 	// SCENE CONTENTS
 	// ------------------------------------------------------------------------------------------
@@ -183,8 +187,13 @@ int main()
 	// transform
 	CapsuleEntity->SetPosition(glm::vec3(0,1.5,0.0));
 	// character controller
-
-
+	CharacterControllerComponent* CapsuleCharacterController = new ThirdPersonCharacterController();
+	// camera controller
+	ICameraController* CapsuleCameraController = new ThirdPersonCameraController();
+	scene->GetRenderCamera()->SetCustomCameraController(CapsuleCameraController);
+	CapsuleCharacterController->SetCustomCameraController(CapsuleCameraController);
+	// adding the component
+	CapsuleEntity->AddComponent(CapsuleCharacterController);
 	// ____________________________________________________
 
 
@@ -346,14 +355,14 @@ int main()
 
 		//CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
 
-		Game.GetRenderer()->GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
+		Engine.GetRenderer()->GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
 		//Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 		//((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
 		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };
 		float rotationAmount = glm::radians(glm::sin(GameTime*0.5) * 90);
 		//((Model*)AnimModelMeshComponent)->SetRotation(glm::angleAxis(rotationAmount, rotationAxis));
 		// GAME TICK
-		Game.Tick();
+		Engine.Tick();
 
 	}
 

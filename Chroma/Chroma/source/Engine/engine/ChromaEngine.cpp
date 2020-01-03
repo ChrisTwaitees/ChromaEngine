@@ -1,7 +1,7 @@
-#include "ChromaGame.h"
+#include "ChromaEngine.h"
 
 
-void ChromaGame::Update()
+void ChromaEngine::Update()
 {
 	// Physics
 	Chroma::Physics::Update();
@@ -12,11 +12,17 @@ void ChromaGame::Update()
 	else
 		m_Animation->Update();
 
+	// Updating Components
+	for (std::string const& ComponentUID : m_Scene->GetUpdatingComponentUIDs())
+	{
+		m_Scene->GetComponent(ComponentUID)->Update();
+	}
+
 	// Workers
 	IWorker::DoWork();
 }
 
-void ChromaGame::Draw()
+void ChromaEngine::Draw()
 {
 
 	m_Renderer->RenderScene();
@@ -25,7 +31,7 @@ void ChromaGame::Draw()
 }
 
 
-void ChromaGame::MousePickerCallback()
+void ChromaEngine::MousePickerCallback()
 {
 	// Ray Interest Test
 	glm::vec3 start = m_Scene->GetRenderCamera()->GetPosition();
@@ -36,7 +42,7 @@ void ChromaGame::MousePickerCallback()
 
 }
 
-void ChromaGame::Tick()
+void ChromaEngine::Tick()
 {
 	// update time
 	Chroma::Time::Update();
@@ -57,17 +63,17 @@ void ChromaGame::Tick()
 }
 
 
-ChromaGame::~ChromaGame()
+ChromaEngine::~ChromaEngine()
 {
 }
 
-ChromaGame::ChromaGame(Scene*& Scene)
+ChromaEngine::ChromaEngine(Scene*& Scene)
 {
 	m_Scene = Scene;
 	Init();
 }
 
-void ChromaGame::Init()
+void ChromaEngine::Init()
 {
 	// Time
 	Chroma::Time::Init();
@@ -80,7 +86,7 @@ void ChromaGame::Init()
 	// Input
 	Chroma::Input::Init();
 	Chroma::Input::BindCamera(m_Scene->GetRenderCamera());
-	Chroma::Input::BindMousePickerCallback(std::bind(&ChromaGame::MousePickerCallback, this));
+	Chroma::Input::BindMousePickerCallback(std::bind(&ChromaEngine::MousePickerCallback, this));
 	CHROMA_INFO("Chroma Input Initialized.");
 
 	// PhysicsEngine
@@ -94,17 +100,20 @@ void ChromaGame::Init()
 
 }
 
-void ChromaGame::ProcessInput()
+void ChromaEngine::ProcessInput()
 {
 	// update input
 	Chroma::Input::Update();
 
 	// update camera
-	if (Chroma::GUI::cameraSelected == 0)
+	if (Chroma::Input::IsPressed(Chroma::Input::NUM1))
 		m_Scene->GetRenderCamera()->SetCameraMode(Maya);
-	if (Chroma::GUI::cameraSelected == 1)
+	if (Chroma::Input::IsPressed(Chroma::Input::NUM2))
 		m_Scene->GetRenderCamera()->SetCameraMode(FlyCam);
-	m_Scene->GetRenderCamera()->ProcessInput();
+	if (Chroma::Input::IsPressed(Chroma::Input::NUM3))
+		m_Scene->GetRenderCamera()->SetCameraMode(Custom);
+
+	m_Scene->GetRenderCamera()->Update();
 
 	// render physics debug 
 	if (Chroma::GUI::drawPhysicsDebug)

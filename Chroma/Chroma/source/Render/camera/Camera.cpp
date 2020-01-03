@@ -7,11 +7,16 @@ void Camera::Initialize()
 	UpdateViewMatrix();
 }
 
-void Camera::ProcessInput()
+void Camera::ProcessCustomCameraController()
+{
+	m_CustomCameraController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
+}
+
+void Camera::Update()
 {
 	if (Chroma::Input::GetCursorEnabled())
 	{
-		switch (m_CamMode)
+		switch (m_CameraMode)
 		{
 		case(CameraMode::FlyCam):
 		{
@@ -22,6 +27,12 @@ void Camera::ProcessInput()
 		case(CameraMode::Maya):
 		{
 			m_MayaCamController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
+			UpdateViewMatrix();
+			break;
+		}
+		case(CameraMode::Custom):
+		{
+			ProcessCustomCameraController();
 			UpdateViewMatrix();
 			break;
 		}
@@ -40,6 +51,12 @@ void Camera::UpdateViewMatrix()
 void Camera::UpdateProjectionMatrix()
 {
 	m_ProjectionMatrix = glm::perspective(glm::radians(m_CamFOV), m_CamAspect, m_CamNear, m_CamFar);
+}
+
+void Camera::SetCustomCameraController(ICameraController*& newCameraController)
+{
+	m_CameraMode = Custom;
+	m_CustomCameraController = newCameraController;
 }
 
 Camera::Camera()

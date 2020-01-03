@@ -11,6 +11,16 @@ IEntity* Scene::GetEntity(std::string UID)
 	{
 		return m_Entities.find(UID)->second;
 	}
+	CHROMA_ERROR("SCENE :: Entity of UID : {0} , could not be found in scene!");
+}
+
+IComponent* Scene::GetComponent(std::string const& UID)
+{
+	if (m_UpdatingComponents.find(UID) != m_UpdatingComponents.end())
+	{
+		return m_UpdatingComponents.find(UID)->second;
+	}
+	CHROMA_ERROR("SCENE :: Component of UID : {0} , could not be found in scene!");
 }
 
 
@@ -26,6 +36,7 @@ void Scene::ProcessNewEntity(IEntity* const& newEntity)
 	// bind parent scene
 	newEntity->bindParentScene(this);
 }
+
 
 void Scene::AddEntity(IEntity* const& newEntity)
 {
@@ -59,6 +70,15 @@ void Scene::AddTransparentEntity(IEntity* const& newTransparentEntity)
 
 void Scene::RemoveEntity(IEntity& RemoveEntity)
 {
+}
+
+void Scene::AddUpdatingComponent(IComponent* const& newUpdatingComponent)
+{
+	// collect component UID
+	m_UpdatingComponentUIDs.insert(newUpdatingComponent->GetUID());
+
+	// add component
+	m_UpdatingComponents[newUpdatingComponent->GetUID()] = newUpdatingComponent;
 }
 
 

@@ -93,7 +93,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -112,7 +112,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -133,7 +133,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -156,7 +156,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -178,7 +178,6 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="source\ChromaRenderScene.cpp" />
     <ClCompile Include="source\Engine\animation\AnimationLoader.cpp" />
     <ClCompile Include="source\Engine\animation\AnimationEngine.cpp" />
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
@@ -190,11 +189,10 @@
     <ClCompile Include="source\Engine\component\MeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\PhysicsComponent.cpp" />
     <ClCompile Include="source\Engine\core\Core.cpp" />
+    <ClCompile Include="source\Engine\engine\ChromaEngine.cpp" />
     <ClCompile Include="source\Engine\entity\Entity.cpp" />
     <ClCompile Include="source\Engine\entity\IEntity.cpp" />
-    <ClCompile Include="source\Engine\game\ChromaGame.cpp" />
     <ClCompile Include="source\Engine\input\Input.cpp" />
-    <ClCompile Include="source\Engine\learnopengl\WorkingIBL.cpp" />
     <ClCompile Include="source\Engine\logging\Log.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp" />
@@ -203,6 +201,9 @@
     <ClCompile Include="source\Engine\time\Time.cpp" />
     <ClCompile Include="source\Engine\uid\UID.cpp" />
     <ClCompile Include="source\Engine\worker\IWorker.cpp" />
+    <ClCompile Include="source\Game\Game.cpp" />
+    <ClCompile Include="source\Game\thirdperson\ThirdPersonCameraController.cpp" />
+    <ClCompile Include="source\Game\thirdperson\ThirdPersonCharacterController.cpp" />
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp" />
@@ -212,7 +213,6 @@
     <ClCompile Include="source\Render\buffer\ShadowBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp" />
     <ClCompile Include="source\Render\camera\Camera.cpp" />
-    <ClCompile Include="source\Render\camera\ICameraController.cpp" />
     <ClCompile Include="source\Render\camera\FlyCameraController.cpp" />
     <ClCompile Include="source\Render\camera\MayaCameraController.cpp" />
     <ClCompile Include="source\Render\gui\GUI.cpp" />
@@ -258,11 +258,10 @@
     <ClInclude Include="source\Engine\component\PhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IComponent.h" />
     <ClInclude Include="source\Engine\core\Core.h" />
+    <ClInclude Include="source\Engine\engine\ChromaEngine.h" />
     <ClInclude Include="source\Engine\entity\Entity.h" />
     <ClInclude Include="source\Engine\entity\IEntity.h" />
-    <ClInclude Include="source\Engine\game\ChromaGame.h" />
     <ClInclude Include="source\Engine\input\Input.h" />
-    <ClInclude Include="source\Engine\learnopengl\TESTCAMERA.h" />
     <ClInclude Include="source\Engine\logging\Log.h" />
     <ClInclude Include="source\Engine\math\Math.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
@@ -273,6 +272,8 @@
     <ClInclude Include="source\Engine\time\Time.h" />
     <ClInclude Include="source\Engine\uid\UID.h" />
     <ClInclude Include="source\Engine\worker\IWorker.h" />
+    <ClInclude Include="source\Game\thirdperson\ThirdPersonCameraController.h" />
+    <ClInclude Include="source\Game\thirdperson\ThirdPersonCharacterController.h" />
     <ClInclude Include="source\Render\buffer\DebugBuffer.h" />
     <ClInclude Include="source\Render\buffer\ForwardBuffer.h" />
     <ClInclude Include="source\Render\buffer\Framebuffer.h" />

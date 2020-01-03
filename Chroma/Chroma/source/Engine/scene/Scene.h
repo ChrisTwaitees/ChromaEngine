@@ -23,11 +23,13 @@ class Scene
 
 	// Entities
 	std::map<std::string, IEntity*> m_Entities;
+	std::map<std::string, IComponent*> m_UpdatingComponents;
 
 	// UIDs
 	std::set<std::string> m_EntityUIDs;
 	std::set<std::string> m_TransparentEntityUIDs;
 	std::set<std::string> m_AnimatedEntityUIDs;
+	std::set<std::string> m_UpdatingComponentUIDs;
 
 	// render components
 	Camera* m_RenderCamera{ new Camera() };
@@ -40,12 +42,16 @@ class Scene
 	void ProcessNewEntity(IEntity* const& newEntity);
 	glm::vec3 CalculateAmbientLightColor();
 
+
 public:
 	// entities
 	void AddEntity(IEntity* const& newEntity);
 	void AddAnimatedEntity(IEntity* const& newAnimatedEntity) ;
 	void AddTransparentEntity(IEntity* const& newTransparentEntity);
 	void RemoveEntity(IEntity& RemoveEntity);
+
+	// updating components
+	void AddUpdatingComponent(IComponent* const& newUpdatingComponent);
 
 	// lights
 	void AddLight(Light* const& newLight) { m_Lights.push_back(newLight); };
@@ -58,10 +64,17 @@ public:
 	void SetLights(std::vector<Light*> newLights);
 
 	// getters
+	// enitities
 	IEntity* GetEntity(std::string UID);
-	std::set<std::string> GetEntityUIDs() const { return m_EntityUIDs; };
-	std::set<std::string> GetTransparentEntityUIDs() const { return m_TransparentEntityUIDs; };
-	std::set<std::string> GetAnimatedEntityUIDs() const { return m_AnimatedEntityUIDs; };
+
+	inline std::set<std::string> GetEntityUIDs() const { return m_EntityUIDs; }
+	inline std::set<std::string> GetTransparentEntityUIDs() const { return m_TransparentEntityUIDs; }
+	inline std::set<std::string> GetAnimatedEntityUIDs() const { return m_AnimatedEntityUIDs; }
+
+	// components
+	IComponent* GetComponent(std::string const& UID);
+
+	inline std::set<std::string> GetUpdatingComponentUIDs() const { return m_UpdatingComponentUIDs; }
 
 
 	Camera* GetRenderCamera() { return m_RenderCamera; };

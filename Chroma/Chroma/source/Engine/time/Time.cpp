@@ -10,10 +10,26 @@ namespace Chroma
 	double Time::m_MaxFrameTime;
 	double Time::m_FPS;
 	float Time::m_Speed;
+	std::vector<float> Time::m_Timers;
 
 	void Time::Sleep(int milliseconds)
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
+	}
+
+	void Time::ProcessTimers()
+	{
+		for (int i = 0; i < m_Timers.size(); i++)
+		{
+			if (m_Timers[i] - m_Delta < 0)
+			{
+				m_Timers[i] = 0.0;
+				m_Timers.erase(m_Timers.begin() + i); // remove from list so no longer calculating unecessary timers
+			}
+			else
+				m_Timers[i] -= m_Delta;
+
+		}
 	}
 
 	void Time::Init()
@@ -38,12 +54,15 @@ namespace Chroma
 
 	void Time::Update()
 	{
-		// updating deltatime and lag
+		// Calculate Time
 		m_Current = GetGameTime();
 		m_Delta = m_Current - m_Previous;
 		m_Previous = m_Current;
 		m_Lag += m_Delta;
 		m_FPS = 1.0 / m_Delta;
+
+		// Process Timers if any exist
+		ProcessTimers();
 	}
 }
 

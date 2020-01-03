@@ -32,8 +32,16 @@ namespace Chroma
 
 		static float m_Speed;
 
+		static std::vector<float> m_Timers;
+
+		// functions
+		static void ProcessTimers();
+
+
 	public:
 		static void Init();
+
+		// get set
 		inline static double& GetLag() { return m_Lag; }
 		inline static void DecreaseLag(double decreaseAmount) { m_Lag -= decreaseAmount; }
 		inline static double& GetMSPerFrame() { return m_MaxFrameTime; }
@@ -41,10 +49,14 @@ namespace Chroma
 		inline static double GetGameTime() { return m_Speed * glfwGetTime(); }
 		inline static double& GetFPS() { return m_FPS; }
 
-		inline static void SetSpeed(const float& newSpeed) { m_Speed = newSpeed; }
-
 		static float GetLoopingTime(float const& loopDuration);
 		static float GetLoopingTimeNormalized(float const& loopDuration);
+
+		inline static void SetSpeed(const float& newSpeed) { m_Speed = newSpeed; }
+
+		// timers
+		inline static void StartTimer(float& Duration) { m_Timers.push_back(Duration); };
+
 		static void Update();
 	};
 

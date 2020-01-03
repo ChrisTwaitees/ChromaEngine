@@ -21,14 +21,8 @@
     <Filter Include="Engine\entity">
       <UniqueIdentifier>{96040ee4-650d-417f-bdb5-b594bf0281d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\main">
-      <UniqueIdentifier>{73a87c27-2220-40d9-93b8-dfb178af8b12}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\scene">
       <UniqueIdentifier>{a115db08-c96b-4cc4-a7ce-a6db6d537335}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\game">
-      <UniqueIdentifier>{0518dd9a-2268-4715-878c-365d837abbfe}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\input">
       <UniqueIdentifier>{f81cc3de-29b7-4eb4-91ab-6b089c9dc619}</UniqueIdentifier>
@@ -102,9 +96,6 @@
     <Filter Include="Render\model\skybox">
       <UniqueIdentifier>{d2af5228-224d-45d4-af53-121e7e8d4cb0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\learnopengl">
-      <UniqueIdentifier>{6f68c941-bc66-4c9c-999a-dcffdcb423b4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\worker">
       <UniqueIdentifier>{715fa53f-0e2f-4d97-8641-fcc9f1463a67}</UniqueIdentifier>
     </Filter>
@@ -131,6 +122,15 @@
     </Filter>
     <Filter Include="Engine\common">
       <UniqueIdentifier>{3b6607b4-e538-4f5a-a1a5-c09133844210}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{5ae7c234-8423-4e26-a3a6-be99ef7e46e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\thirdperson">
+      <UniqueIdentifier>{371cb667-8cf7-4093-be0b-76ec4cd61aaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\engine">
+      <UniqueIdentifier>{0518dd9a-2268-4715-878c-365d837abbfe}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -166,9 +166,6 @@
     </ClCompile>
     <ClCompile Include="source\Render\texture\Texture.cpp">
       <Filter>Render\texture</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\game\ChromaGame.cpp">
-      <Filter>Engine\game</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\shader\Shader.cpp">
       <Filter>Render\shader</Filter>
@@ -206,9 +203,6 @@
     <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
-    <ClCompile Include="source\ChromaRenderScene.cpp">
-      <Filter>Engine\main</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\texture\HDRTexture.cpp">
       <Filter>Render\texture</Filter>
     </ClCompile>
@@ -242,16 +236,10 @@
     <ClCompile Include="source\Render\model\NDCPlanePrimitive.cpp">
       <Filter>Render\model\primitive</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\learnopengl\WorkingIBL.cpp">
-      <Filter>Engine\learnopengl</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\camera\FlyCameraController.cpp">
       <Filter>Render\camera</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\camera\MayaCameraController.cpp">
-      <Filter>Render\camera</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\camera\ICameraController.cpp">
       <Filter>Render\camera</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\animation\Animator.cpp">
@@ -323,6 +311,18 @@
     <ClCompile Include="source\Engine\core\Core.cpp">
       <Filter>Engine\core</Filter>
     </ClCompile>
+    <ClCompile Include="source\Game\thirdperson\ThirdPersonCameraController.cpp">
+      <Filter>Game\thirdperson</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\engine\ChromaEngine.cpp">
+      <Filter>Engine\engine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Game\Game.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Game\thirdperson\ThirdPersonCharacterController.cpp">
+      <Filter>Game\thirdperson</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -363,9 +363,6 @@
     </ClInclude>
     <ClInclude Include="source\Render\texture\Texture.h">
       <Filter>Render\texture</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\game\ChromaGame.h">
-      <Filter>Engine\game</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\memory\packed_freelist.h">
       <Filter>Engine\memory</Filter>
@@ -438,9 +435,6 @@
     </ClInclude>
     <ClInclude Include="source\Render\model\NDCPlanePrimitive.h">
       <Filter>Render\model\primitive</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\learnopengl\TESTCAMERA.h">
-      <Filter>Engine\learnopengl</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\camera\FlyCameraController.h">
       <Filter>Render\camera</Filter>
@@ -534,6 +528,15 @@
     </ClInclude>
     <ClInclude Include="source\Engine\common\CoreCommon.h">
       <Filter>Engine\common</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Game\thirdperson\ThirdPersonCameraController.h">
+      <Filter>Game\thirdperson</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\engine\ChromaEngine.h">
+      <Filter>Engine\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Game\thirdperson\ThirdPersonCharacterController.h">
+      <Filter>Game\thirdperson</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

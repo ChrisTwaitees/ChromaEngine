@@ -27,6 +27,7 @@ protected:
 	IEntity* m_ParentEntity{ nullptr };
 
 public:
+	virtual void Update() {};
 
 	// Acessors
 	std::string GetUID() const { return m_UID; };

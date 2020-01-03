@@ -13,21 +13,22 @@
 #include <camera/FlyCameraController.h>
 #include <camera/MayaCameraController.h>
 
-enum CameraMode { FlyCam, Maya};
+enum CameraMode { FlyCam, Maya, Custom};
 
 class Camera
 {
 	// Camera Attrs
 	glm::vec3 m_CameraPosition{ glm::vec3(0.0, 4.0, 20.0) };
 	glm::vec3 m_CameraUp{ CHROMA_UP };
-	glm::vec3 m_CameraDirection{ CHROMA_BACK };
+	glm::vec3 m_CameraDirection{ CHROMA_RIGHT };
 
 	// Modes
-	CameraMode m_CamMode = Maya;
+	CameraMode m_CameraMode = Maya;
 	
 	// Camera Contollers
 	ICameraController* m_MayaCamController{ new MayaCameraController() };
 	ICameraController* m_FlyCamController{ new FlyCameraController() };
+	ICameraController* m_CustomCameraController{ nullptr };
 
 	// Camera Attributes
 	float m_CamFOV{ 45.0f };
@@ -44,10 +45,11 @@ class Camera
 
 	// Functions
 	void Initialize();
+	void ProcessCustomCameraController();
 
 public:
 	// Process
-	void ProcessInput();
+	void Update();
 
 	// Accessors
 	inline glm::vec3 GetPosition() const { return m_CameraPosition; };
@@ -61,7 +63,9 @@ public:
 	inline void SetASPECT(float newASPECT) { m_CamAspect = newASPECT; UpdateProjectionMatrix(); };
 	inline void SetNEAR(float newNEAR) { m_CamNear = newNEAR; UpdateProjectionMatrix(); };
 	inline void SetFAR(float newFAR) { m_CamFar = newFAR; UpdateProjectionMatrix(); };
-	inline void SetCameraMode(CameraMode newMode) { m_CamMode = newMode; };
+	inline void SetCameraMode(CameraMode newMode) { m_CameraMode = newMode; };
+
+	void SetCustomCameraController(ICameraController*& newCameraController);
 
 	// Structors
 	Camera();

@@ -59,6 +59,9 @@ namespace Chroma
 		static bool RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 		static bool SphereTest(glm::vec3 const& sphereCenter, float const& sphereRadius);
 
+		// utilities
+		static float CalcInertiaToReachHeight(float const& targetHeight, float const& gravityMagnitude);
+
 		Physics();
 		~Physics();
 	};

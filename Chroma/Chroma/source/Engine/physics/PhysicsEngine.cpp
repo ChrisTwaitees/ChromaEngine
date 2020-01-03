@@ -213,6 +213,10 @@ namespace Chroma
 	}
 
 
+	float Physics::CalcInertiaToReachHeight(float const& targetHeight, float const& gravityMagnitude)
+	{
+		return glm::sqrt(targetHeight * (-2.0f * gravityMagnitude));
+	}
 
 	Physics::Physics()
 	{

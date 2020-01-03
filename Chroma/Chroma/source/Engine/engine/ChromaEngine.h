@@ -1,5 +1,5 @@
-#ifndef _CHROMA_GAME_
-#define _CHROMA_GAME_
+#ifndef _CHROMA_ENGINE_
+#define _CHROMA_ENGINE_
 
 // chroma
 
@@ -12,7 +12,7 @@
 #include <animation/AnimationEngine.h>
 #include <input/Input.h>
 
-class ChromaGame
+class ChromaEngine
 {
 	// functions 
 	void Init();
@@ -37,8 +37,8 @@ public:
 	// Game Loop
 	void Tick();
 
-	ChromaGame(Scene*& Scene);
-	~ChromaGame();
+	ChromaEngine(Scene*& Scene);
+	~ChromaEngine();
 
 };
 

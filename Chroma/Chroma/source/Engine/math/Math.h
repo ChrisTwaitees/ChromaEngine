@@ -4,20 +4,22 @@
 #include <bullet/btBulletCollisionCommon.h>
 #include <glm/glm.hpp>
 
-
-
 #include <assimp/Importer.hpp>
 
 #include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
+
+
 // CONSTS
 #define CHROMA_UP glm::vec3(0.0 ,1.0, 0.0)
 #define CHROMA_DOWN glm::vec3(0.0 ,-1.0, 0.0)
-#define CHROMA_FORWARD glm::vec3(0.0 ,0.0, 1.0)
-#define CHROMA_BACK glm::vec3(0.0 ,0.0, -1.0)
-#define CHROMA_RIGHT glm::vec3(1.0 ,0.0, 0.0)
-#define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
+#define CHROMA_FORWARD glm::vec3(1.0 ,0.0, 0.0)
+#define CHROMA_BACK glm::vec3(1.0 ,0.0, 0.0)
+#define CHROMA_RIGHT glm::vec3(0.0, 0.0, -1.0)
+#define CHROMA_LEFT glm::vec3(0.0 ,0.0, 1.0)
 
 
 // UTILITIES
@@ -61,7 +63,14 @@ namespace Chroma
 			to[3][3] = 1.0;
 		
 			return to;
-			
+		}
+
+		static glm::mat4 BuildMat4(glm::vec3 const& translation, glm::quat const& rotation, glm::vec3 const& scale)
+		{
+			glm::mat4 ident(1.0);
+			ident = glm::translate(ident, translation);
+			ident = glm::toMat4(rotation) * ident;
+			return glm::scale(ident, scale);
 		}
 
 	};

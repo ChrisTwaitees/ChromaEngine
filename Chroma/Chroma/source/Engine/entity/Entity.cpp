@@ -111,6 +111,9 @@ void Entity::addCharacterControllerComponent(CharacterControllerComponent*& newC
 	// add animation component
 	m_CharacterControllerComponents.push_back(newCharacterControllerComponent);
 
+	// add to updating components
+	GetParentScene()->AddUpdatingComponent(newCharacterControllerComponent);
+
 }
 
 void Entity::CalculateBBox()

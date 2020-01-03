@@ -7,8 +7,8 @@
 class FlyCameraController : public ICameraController
 {
 	// camera controller interface
-	void ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
-	void processKeyboardInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
+	void ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp);
+	void processKeyboardInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp);
 
 	// attrs
 	// camera aim

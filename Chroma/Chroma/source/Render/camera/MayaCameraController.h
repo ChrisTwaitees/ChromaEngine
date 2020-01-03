@@ -6,8 +6,7 @@
 
 class MayaCameraController : public ICameraController
 {
-	void ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
-	void processKeyboardInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override {};
+	void ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp);
 
 	// attrs
 	const float mouseSensitivity{ 0.1f };
