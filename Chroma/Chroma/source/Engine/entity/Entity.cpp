@@ -2,6 +2,7 @@
 #include <component/MeshComponent.h>
 #include <component/PhysicsComponent.h>
 #include <component/AnimationComponent.h>
+#include <component/CharacterControllerComponent.h>
 #include <physics/PhysicsEngine.h>
 
 std::vector<ChromaVertex> Entity::GetVertices()
@@ -100,6 +101,16 @@ void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 
 	// add to scene's animated entities
 	GetParentScene()->AddAnimatedEntity(this);
+}
+
+void Entity::addCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent)
+{
+	// Prepare for Entity
+	ProcessNewComponent(newCharacterControllerComponent);
+
+	// add animation component
+	m_CharacterControllerComponents.push_back(newCharacterControllerComponent);
+
 }
 
 void Entity::CalculateBBox()

@@ -17,6 +17,7 @@ class Scene;
 class MeshComponent;
 class PhysicsComponent;
 class AnimationComponent;
+class CharacterControllerComponent;
 
 class IEntity
 {
@@ -37,12 +38,13 @@ protected:
 	virtual void addMeshComponent(MeshComponent*& newMeshComponent) = 0;
 	virtual void addPhysicsComponent(PhysicsComponent*& newPhysicsComponent) = 0;
 	virtual void addAnimationComponent(AnimationComponent*& newAnimationComponent) = 0;
+	virtual void addCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) = 0;
 
 	virtual void removeEmptyComponent(IComponent*& newComponent) = 0;
 	virtual void removeMeshComponent(MeshComponent*& newMeshComponent) = 0;
 	virtual void removePhysicsComponent(PhysicsComponent*& newPhysicsComponent) = 0;
 	virtual void removeAnimationComponent(AnimationComponent*& oldAnimationComponent) = 0;
-
+	virtual void removeCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) = 0;
 public:
 	// Name
 	std::string GetUID() const { return m_UID; };
@@ -83,6 +85,7 @@ public:
 	virtual std::vector<IComponent*> getMeshComponents() = 0;
 	virtual std::vector<IComponent*> getPhysicsComponents() = 0;
 	virtual std::vector<IComponent*> getAnimationComponents() = 0;
+	virtual std::vector<IComponent*> getCharacterControllerComponents() = 0;
 
 	// add
 	template<typename component>
@@ -108,6 +111,11 @@ public:
 	template<>
 	void AddComponent<AnimationComponent*>(AnimationComponent* newComponent) {
 		addAnimationComponent(newComponent);
+	};
+
+	template<>
+	void AddComponent<CharacterControllerComponent*>(CharacterControllerComponent* newComponent) {
+		addCharacterControllerComponent(newComponent);
 	};
 
 	// remove

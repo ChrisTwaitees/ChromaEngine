@@ -33,17 +33,20 @@ class Entity : public IEntity
 	std::vector<IComponent*> m_MeshComponents;
 	std::vector<IComponent*> m_PhysicsComponents;
 	std::vector<IComponent*> m_AnimationComponents;
+	std::vector<IComponent*> m_CharacterControllerComponents;
 
 	// Components
 	void addEmptyComponent(IComponent*& newComponent) override;
 	void addMeshComponent(MeshComponent*& newMeshComponent) override;
 	void addPhysicsComponent(PhysicsComponent*& newPhysicsComponent) override;
 	void addAnimationComponent(AnimationComponent*& newAnimationComponent) override;
+	void addCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) override;
 
 	void removeEmptyComponent(IComponent*& newComponent) override;
 	void removeMeshComponent(MeshComponent*& newMeshComponent) override {};
 	void removePhysicsComponent(PhysicsComponent*& newPhysicsComponent) override {};
 	void removeAnimationComponent(AnimationComponent*& oldAnimationComponent) override {};
+	void removeCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) override {};
 
 	// Components functions
 	void UpdatePhysicsComponentsTransforms();
@@ -70,6 +73,7 @@ public:
 	std::vector<IComponent*> getMeshComponents() { return m_MeshComponents; };
 	std::vector<IComponent*> getPhysicsComponents() { return m_PhysicsComponents; };
 	std::vector<IComponent*> getAnimationComponents() { return m_AnimationComponents; };
+	std::vector<IComponent*> getCharacterControllerComponents() { return m_CharacterControllerComponents; };
 
 	// Transformations
 	// additive
