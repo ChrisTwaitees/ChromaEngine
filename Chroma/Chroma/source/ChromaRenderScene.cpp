@@ -138,31 +138,31 @@ int main()
 
 	// ANIMATED MODEL
 	// ____________________________________________________
-	//IEntity* AnimModelEntity = new Entity;
-	//AnimModelEntity->SetName("AnimationModel");
-	//scene->AddEntity(AnimModelEntity);
-	//// mesh
-	//MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking8.fbx");
-	//AnimModelMeshComponent->SetShader(&PBRShader);
-	//AnimModelMeshComponent->AddTexture(walkingAlbedo);
-	//AnimModelMeshComponent->AddTexture(walkingNormal);
-	//AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
-	//AnimModelEntity->AddComponent(AnimModelMeshComponent);
-	//// rigid
-	//PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
-	//AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
-	//AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	//AnimModelEntity->AddComponent(AnimModelRigidComponent);
-	//// animation
-	//AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
-	//Animator AnimModelAnimator;
-	//AnimModelAnimator.LoadAnimations("resources/animation/walking.fbx");
-	//AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
-	//AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
-	//AnimModelEntity->AddComponent(AnimModelAnimationComponent);
-	//// transforming entity
-	//////((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, 0, -4));
-	//((Model*)AnimModelMeshComponent)->SetScale(0.06);
+	IEntity* AnimModelEntity = new Entity;
+	AnimModelEntity->SetName("AnimationModel");
+	scene->AddEntity(AnimModelEntity);
+	// mesh
+	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking8.fbx");
+	AnimModelMeshComponent->SetShader(&PBRShader);
+	AnimModelMeshComponent->AddTexture(walkingAlbedo);
+	AnimModelMeshComponent->AddTexture(walkingNormal);
+	AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
+	AnimModelEntity->AddComponent(AnimModelMeshComponent);
+	// rigid
+	PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
+	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
+	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	AnimModelEntity->AddComponent(AnimModelRigidComponent);
+	// animation
+	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
+	Animator AnimModelAnimator;
+	AnimModelAnimator.LoadAnimations("resources/animation/walking.fbx");
+	AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
+	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
+	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
+	// transforming entity
+	////((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, 0, -4));
+	((Model*)AnimModelMeshComponent)->SetScale(0.06);
 	// ____________________________________________________
 
 

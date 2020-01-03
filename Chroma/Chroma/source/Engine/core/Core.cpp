@@ -21,16 +21,7 @@ namespace Chroma
 		}
 		else
 		{
-			// Enabling Render Features
-			// ---------------------------------------
-			// Enable depth buffer
-			glEnable(GL_DEPTH_TEST);
-			// Enable Face Culling
-			glEnable(GL_CULL_FACE);
-			// Enabling MSAA
-			glEnable(GL_MULTISAMPLE);
-			// Setting Clear Color
-			glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, SCREEN_DEFAULT_COLOR.w);
+
 			CHROMA_INFO("Chroma OpenGL Initialized.");
 		}
 
