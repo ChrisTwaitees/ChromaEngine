@@ -3,13 +3,13 @@
 
 namespace Chroma
 {
-	double Chroma::Time::m_Current;
-	double Chroma::Time::m_Previous;
-	double Chroma::Time::m_Delta;
-	double Chroma::Time::m_Lag;
-	double Chroma::Time::m_MaxMSPerFrame;
-	double Chroma::Time::m_FPS;
-	float Chroma::Time::m_Speed;
+	double Time::m_Current;
+	double Time::m_Previous;
+	double Time::m_Delta;
+	double Time::m_Lag;
+	double Time::m_MaxFrameTime;
+	double Time::m_FPS;
+	float Time::m_Speed;
 
 	void Time::Sleep(int milliseconds)
 	{
@@ -18,7 +18,7 @@ namespace Chroma
 
 	void Time::Init()
 	{
-		m_MaxMSPerFrame = 1.0f / CHROMA_MAX_FRAME_RATE;
+		m_MaxFrameTime = 1.0f / CHROMA_MAX_FRAME_RATE;
 		m_Delta = 0.0f;
 		m_Current = 0.0f;
 		m_Previous = 0.0f;
@@ -36,7 +36,7 @@ namespace Chroma
 		return Chroma::Math::Remap01(GetLoopingTime(loopDuration), 0.0, loopDuration);
 	}
 
-	void Time::Process()
+	void Time::Update()
 	{
 		// updating deltatime and lag
 		m_Current = GetGameTime();

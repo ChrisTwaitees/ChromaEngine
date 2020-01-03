@@ -7,8 +7,8 @@ void ChromaGame::Update()
 	Chroma::Physics::Update();
 
 	// Animation
-	if (m_Screen->DebugAnim)
-		m_Animation->UpdateDebug(m_Screen->AnimClipName, m_Screen->DebugAnimClipPos);
+	if (Chroma::GUI::debugAnim)
+		m_Animation->UpdateDebug(Chroma::GUI::animClipName, Chroma::GUI::DebugAnimClipPos);
 	else
 		m_Animation->Update();
 
@@ -19,6 +19,7 @@ void ChromaGame::Update()
 void ChromaGame::Draw()
 {
 	m_Renderer->RenderScene();
+	Chroma::GUI::Draw();
 }
 
 
@@ -29,17 +30,17 @@ void ChromaGame::MousePickerCallback()
 	glm::vec3 end = start + ( Chroma::Input::GetLastRay() * glm::vec3(1000.0));
 	IEntity* clickedEntity  = Chroma::Physics::GetEntityRayTest(start, end);
 	if (clickedEntity)
-		m_Screen->setSelectedEntityName(clickedEntity->GetName());
+		Chroma::GUI::SetSelectedEntityName(clickedEntity->GetName());
 
 }
 
 void ChromaGame::Tick()
 {
 	// update time
-	Chroma::Time::Process();
+	Chroma::Time::Update();
 
 	// process input
-	ProcessInput();
+	Update();
 
 	// update while lag is less than framerate cap
 	while (Chroma::Time::GetLag() >= Chroma::Time::GetMSPerFrame())
@@ -75,12 +76,16 @@ void ChromaGame::Initialize()
 	CHROMA_INFO("Chroma Time Initialized.");
 
 	// Screen
-	Chroma::ScreenManager::Init();
+	Chroma::Screen::Init();
 	CHROMA_INFO("Chroma Screen Initialized.");
 
 	// Renderer
 	m_Renderer = new Renderer(m_Scene);
 	CHROMA_INFO("Chroma Renderer Initialized.");
+
+	// GUI
+	Chroma::GUI::Init();
+	CHROMA_INFO("Chroma GUI Initialized.");
 
 	// Input
 	Chroma::Input::BindCamera(m_Scene->GetRenderCamera());
@@ -98,24 +103,24 @@ void ChromaGame::Initialize()
 
 }
 
-void ChromaGame::ProcessInput()
+void ChromaGame::Update()
 {
-	// process input
-	Chroma::Input::Process();
+	// update input
+	Chroma::Input::Update();
 
 	// update camera
-	if (m_Screen->cameraSelected == 0)
+	if (Chroma::GUI::cameraSelected == 0)
 		m_Scene->GetRenderCamera()->SetCameraMode(Maya);
-	if (m_Screen->cameraSelected == 1)
+	if (Chroma::GUI::cameraSelected == 1)
 		m_Scene->GetRenderCamera()->SetCameraMode(FlyCam);
 	m_Scene->GetRenderCamera()->ProcessInput();
 
 	// render physics debug 
-	if (m_Screen->drawPhysicsDebug)
+	if (Chroma::GUI::drawPhysicsDebug)
 		Chroma::Physics::DrawDebug();
 
 	// animation debug
-	//if (m_Screen->DebugAnim)
+	//if (Chroma::GUI::DebugAnim)
 	m_Renderer->GetDebugBuffer()->DrawSceneSkeletons(m_Scene);
 
 }

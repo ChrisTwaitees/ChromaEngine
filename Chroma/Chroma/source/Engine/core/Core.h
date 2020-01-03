@@ -3,6 +3,9 @@
 
 // all core includes for Chroma
 
+// Config
+#include <ChromaConfig.h>
+
 // Logging
 #include <logging/Log.h>
 
@@ -12,7 +15,10 @@
 // Input
 #include <input/Input.h>
 
-// Config
-#include <ChromaConfig.h>
+// Screen
+#include <screen/Screen.h>
+
+// Workers
+#include <worker/IWorker.h>
 
 #endif

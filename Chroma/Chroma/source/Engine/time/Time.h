@@ -20,7 +20,7 @@ namespace Chroma
 	private:
 
 		void Sleep(int milliseconds);
-		static double m_MaxMSPerFrame;
+		static double m_MaxFrameTime;
 
 		static double m_Current;
 		static double m_Previous;
@@ -36,7 +36,7 @@ namespace Chroma
 		static void Init();
 		inline static double& GetLag() { return m_Lag; }
 		inline static void DecreaseLag(double decreaseAmount) { m_Lag -= decreaseAmount; }
-		inline static double& GetMSPerFrame() { return m_MaxMSPerFrame; }
+		inline static double& GetMSPerFrame() { return m_MaxFrameTime; }
 		inline static double& GetDeltaTime() { return  m_Delta; }
 		inline static double GetGameTime() { return m_Speed * glfwGetTime(); }
 		inline static double& GetFPS() { return m_FPS; }
@@ -45,7 +45,7 @@ namespace Chroma
 
 		static float GetLoopingTime(float const& loopDuration);
 		static float GetLoopingTimeNormalized(float const& loopDuration);
-		static void Process();
+		static void Update();
 	};
 
 }

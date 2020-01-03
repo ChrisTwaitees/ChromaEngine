@@ -1,64 +1,39 @@
 #ifndef _CHROMA_SCREENMANAGER_H_
 #define _CHROMA_SCREENMANAGER_H_
-// stl
-#include <vector>
-#include <iostream>
+
 // glad and glfw
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-// glm
-#include <glm/glm.hpp>
-// GUI
-#include <gui/GUI.h>
-// camera
-#include <camera/Camera.h>
-//config
-#include <ChromaConfig.h>
-// framebuffer
-#include <buffer/Framebuffer.h>
+// core
 #include <core/Core.h>
-// time 
-#include <time/Time.h>
 
 namespace Chroma
 {
-	class ScreenManager
+	class Screen
 	{
 		// window
 		static GLFWwindow* m_Window;
 
-		// setup
-		static bool ConfigureWindow();
-
-		// renderer
-		static void UpdateDimensions(int width, int height);
+		// dimensions
+		static int m_Width, m_Height;
 
 		// callbacks
 		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 
 	public:
 		static void Init();
+
 		// getters and setters
 		inline static GLFWwindow*& GetWindow() { return m_Window; };
 		static std::pair<int, int> GetWidthHeight();
 
-
-
-
-
+		static void SetDimensions(int const& newWidth, int const& newHeight);
 		// status
 		static int GetShouldClose() { return glfwWindowShouldClose(m_Window); };
 
 		// functions
-		static void StartLoop();
-		static void EndLoop();
+		static void Update();
 		static void Close();
-
-
-
-		// construction
-		ScreenManager();
-		~ScreenManager();
 	};
 }
 

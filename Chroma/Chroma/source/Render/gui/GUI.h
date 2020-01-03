@@ -7,45 +7,16 @@
 
 //stl
 #include <iostream>
+
+// chroma
 #include <screenManager/ScreenManager.h>
 
 namespace Chroma
 {
 	class GUI
 	{
-		void StartLoop();
-		void End();
-	public:
-
-		void Init();
-		void Draw();
-
-		// GUI Attrs
-		// time
-		float timeSpeed{ 1.0f };
-		// debug
-		// render
-		bool useSkybox{ true };
-		float exposure{ 1.0f };
-		float gamma{ 2.2f };
-		bool useBloom{ false };
-		//debugbuffer
-		bool drawDebug{ false };
-		bool drawPhysicsDebug{ false };
-		// anim
-		bool DebugAnim{ false }, drawSkeletonsDebug{ false };
-		char AnimClipName[128];
-		float DebugAnimClipPos{ 0.0 };
-		// graphics
-		bool drawGraphicsDebug{ false };
-		const char* GraphicsDebugs[8]{ "Alebdo", "Normals", "Metalness", "Roughness", "AO", "SSAO", "Shadows", "Reflections" };
-		int graphicsDebugSelected{ 0 };
-		// camera
-		const char* cameras[2]{ "Maya", "FlyCam" };
-		int cameraSelected{ 0 };
-		// enities
-		std::string SelectedEntity = "No Entity Selected";
-		void setSelectedEntityName(std::string newEntity) { SelectedEntity = newEntity; };
+		static void Start();
+		static void End();
 
 		static void ToggleSkybox();
 		static void ToggleBloom();
@@ -54,9 +25,41 @@ namespace Chroma
 		static void ToggleAnimationDebug();
 		static void ToggleGraphicsDebug();
 
+		static std::string SelectedEntity;
 
-		GUI() {};
-		~GUI() {};
+		static void DrawMainMenu();
+
+		static const char* GraphicsDebugs[8];
+		static const char* cameras[2];
+
+	public:
+		// functions
+		static void Init();
+		static void Draw();
+
+		// GUI Attrs
+		// time
+		static float timeSpeed;
+		// debug
+		// render
+		static bool useSkybox;
+		static float exposure;
+		static float gamma;
+		static bool bloom;
+		//debugbuffer
+		static bool drawDebug;
+		static bool drawPhysicsDebug;
+		// anim
+		static bool debugAnim, drawSkeletonsDebug;
+		static char animClipName[128];
+		static float DebugAnimClipPos;
+		// graphics
+		static bool drawGraphicsDebug;
+		static int graphicsDebugSelected;
+		// camera
+		static int cameraSelected;
+		// enities
+		inline static void SetSelectedEntityName(std::string const& newEntity) { SelectedEntity = newEntity; };
 	};
 }
 

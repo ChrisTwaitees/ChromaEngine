@@ -81,7 +81,7 @@ namespace Chroma
 		bool static IsPressed(Key KeySelection);
 
 		//  functions
-		static void Process();
+		static void Update();
 		static void BindMousePickerCallback(std::function<void()> callback);
 
 		// getters and setters

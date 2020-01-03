@@ -21,9 +21,6 @@
     <Filter Include="Engine\entity">
       <UniqueIdentifier>{96040ee4-650d-417f-bdb5-b594bf0281d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\screenmanager">
-      <UniqueIdentifier>{268b4d91-4afb-4e43-a142-9e1c0bc96c1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\main">
       <UniqueIdentifier>{73a87c27-2220-40d9-93b8-dfb178af8b12}</UniqueIdentifier>
     </Filter>
@@ -128,6 +125,9 @@
     </Filter>
     <Filter Include="Resources\shaders\debug">
       <UniqueIdentifier>{daa803d9-806b-421c-b0b7-213daf12d631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\screen">
+      <UniqueIdentifier>{268b4d91-4afb-4e43-a142-9e1c0bc96c1b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -287,9 +287,6 @@
     <ClCompile Include="source\Engine\scene\Scene.cpp">
       <Filter>Engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\screenmanager\ScreenManager.cpp">
-      <Filter>Engine\screenmanager</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\animation\AnimationEngine.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
@@ -316,6 +313,9 @@
     </ClCompile>
     <ClCompile Include="source\Render\gui\GUI.cpp">
       <Filter>Render\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\screen\Screen.cpp">
+      <Filter>Engine\screen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -499,9 +499,6 @@
     <ClInclude Include="source\Engine\scene\Scene.h">
       <Filter>Engine\scene</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\screenmanager\ScreenManager.h">
-      <Filter>Engine\screenmanager</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\animation\AnimationEngine.h">
       <Filter>Engine\animation</Filter>
     </ClInclude>
@@ -525,6 +522,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\gui\GUI.h">
       <Filter>Render\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\screen\Screen.h">
+      <Filter>Engine\screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

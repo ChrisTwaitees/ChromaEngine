@@ -332,7 +332,7 @@ int main()
 
 	// RENDER LOOP
 	// -----------
-	while (!Chroma::ScreenManager::GetShouldClose())
+	while (!Chroma::Screen::GetShouldClose())
 	{
 		// SCREENMANAGER START
 		float GameTime = Chroma::Time::GetGameTime();
@@ -354,12 +354,12 @@ int main()
 		Game.Tick();
 
 		// END SCREEN
-		Chroma::ScreenManager::EndLoop();
+		Chroma::Screen::Update();
 	}
 
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
-	Chroma::ScreenManager::Close();
+	Chroma::Screen::Close();
 	return 0;
 }
