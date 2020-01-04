@@ -15,8 +15,6 @@
 class ShadowBuffer : Framebuffer
 {
 private:
-	// Chroma Scene
-	Scene* m_Scene;
 	// DepthBuffers
 	unsigned int depthMapFBO;
 	// resolution
@@ -44,7 +42,7 @@ public:
 	void calculateShadows();
 
 	// constructors
-	ShadowBuffer(Scene*& Scene);
+	ShadowBuffer();
 	~ShadowBuffer();
 };
 

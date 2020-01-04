@@ -3,8 +3,6 @@
 
 namespace Chroma
 {
-	Scene* Render::m_Scene;
-
 	// Deffered Buffer
 	Framebuffer* Render::m_GBuffer;
 
@@ -50,7 +48,7 @@ namespace Chroma
 		m_PostFXBuffer->Draw();
 	}
 
-	void Render::Init(Scene*& scene)
+	void Render::Init()
 	{
 		// Enabling Render Features
 		// ---------------------------------------
@@ -64,11 +62,10 @@ namespace Chroma
 		glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, SCREEN_DEFAULT_COLOR.w);
 
 		// Buffers
-		m_Scene = scene;
 		m_PostFXBuffer = new PostFXBuffer();
-		m_GBuffer = new GBuffer(m_Scene, m_PostFXBuffer);
-		m_DebugBuffer = new DebugBuffer(m_Scene->GetRenderCamera(), m_PostFXBuffer);
-		m_ForwardBuffer = new ForwardBuffer(m_Scene, m_PostFXBuffer);
+		m_GBuffer = new GBuffer(m_PostFXBuffer);
+		m_DebugBuffer = new DebugBuffer(m_PostFXBuffer);
+		m_ForwardBuffer = new ForwardBuffer(m_PostFXBuffer);
 	}
 
 	void Render::RenderScene()

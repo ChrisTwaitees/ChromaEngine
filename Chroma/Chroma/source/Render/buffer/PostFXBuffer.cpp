@@ -92,7 +92,7 @@ void PostFXBuffer::blurFragments()
 	unBind();
 	horizontal = true, first_iteration = true;
 	blurShader->use();
-	for (unsigned int i = 0; i < blurIterations; i++)
+	for (int i = 0; i < blurIterations; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
 		blurShader->SetInt("horizontal", horizontal);
@@ -132,7 +132,7 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		unBind();
 		bool horizontal = true, first_iteration = true;
 		blurShader->use();
-		for (unsigned int i = 0; i < blurIterations; i++)
+		for (int i = 0; i < blurIterations; i++)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
 			blurShader->SetInt("horizontal", horizontal);

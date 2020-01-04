@@ -68,7 +68,7 @@ void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 	if (newMeshComponent->m_IsTransparent)
 	{
 		m_TransparentComponents.push_back(newMeshComponent);
-		GetParentScene()->AddTransparentEntity(this);
+		Chroma::Scene::AddTransparentEntity(this);
 	}
 	if (newMeshComponent->m_IsLit == false)
 		m_UnLitComponents.push_back(newMeshComponent);
@@ -100,7 +100,7 @@ void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 	m_AnimationComponents.push_back(newAnimationComponent);
 
 	// add to updating components
-	GetParentScene()->AddUpdatingComponent(newAnimationComponent);
+	Chroma::Scene::AddUpdatingComponent(newAnimationComponent);
 }
 
 void Entity::addCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent)
@@ -112,8 +112,7 @@ void Entity::addCharacterControllerComponent(CharacterControllerComponent*& newC
 	m_CharacterControllerComponents.push_back(newCharacterControllerComponent);
 
 	// add to updating components
-	GetParentScene()->AddUpdatingComponent(newCharacterControllerComponent);
-
+	Chroma::Scene::AddUpdatingComponent(newCharacterControllerComponent);
 }
 
 void Entity::CalculateBBox()
@@ -233,7 +232,7 @@ int findIndexInVector(const std::vector<IComponent*>& componentsVector, ICompone
 	auto it = std::find(componentsVector.begin(), componentsVector.end(), component);
 
 	if (it != componentsVector.end())
-		return distance(componentsVector.begin(), it);
+		return (int)distance(componentsVector.begin(), it);
 	else
 	{
 		CHROMA_WARN("ChromaComponent: {0} not found in Chroma Entity", component->GetName());

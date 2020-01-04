@@ -19,9 +19,9 @@
 
 struct JointTransform
 {
-	glm::vec3 m_Translation{ 0 };
+	glm::vec3 m_Translation{ 0.0f };
 	glm::quat m_Rotation{ glm::quat() };
-	glm::vec3 m_Scale{ 1 };
+	glm::vec3 m_Scale{ 1.0f };
 };
 
 
@@ -36,9 +36,9 @@ struct KeyFrame
 struct Take
 {
 	std::string m_Name;
-	int m_NumFrames;
-	float m_FPS;
-	float m_Duration;
+	int m_NumFrames{ 0.0f };
+	float m_FPS{ 0.0f };
+	float m_Duration{ 0.0f };
 	std::map<std::string, KeyFrame> m_KeyFrames;
 };
 

@@ -58,10 +58,6 @@ class Entity : public IEntity
 	}
 
 public:
-	// Scene 
-	Scene* GetParentScene() override { return m_ParentScene; };
-	void SetParentScene(Scene* const& scene) override { m_ParentScene = scene; };
-
 	// components
 	std::vector<IComponent*> getComponents() { return m_Components; };
 	std::vector<IComponent*> getRenderableComponents() { return m_RenderableComponents; };

@@ -64,7 +64,7 @@ public:
 
 	void SetToBindPose();
 
-	int GetNumJoints() const { return m_Joints.size(); };
+	int GetNumJoints() const { return (int)m_Joints.size(); };
 	std::map<std::pair<int, std::string>, Joint> GetIndexedNamedJoints() const { return m_Joints; };
 	std::map<std::string, Joint*> GetNamedJoints();
 	std::map<int, Joint*> GetIndexedJoints();

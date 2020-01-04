@@ -7,9 +7,7 @@
 
 class ForwardBuffer : public Framebuffer
 {
-
 	// scene
-	Scene* m_Scene{ nullptr };
 	Framebuffer* m_PostFXBuffer{ nullptr };
 
 	// functions
@@ -24,7 +22,7 @@ class ForwardBuffer : public Framebuffer
 public:
 	void Draw() override;
 
-	ForwardBuffer(Scene* const& source_scene, Framebuffer* const& postFXBuffer);
+	ForwardBuffer(Framebuffer* const& postFXBuffer);
 	~ForwardBuffer();
 };
 

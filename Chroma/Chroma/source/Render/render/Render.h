@@ -31,9 +31,6 @@ namespace Chroma
 		// POST FX
 		static void RenderPostFX();
 
-		// SCENE
-		static Scene* m_Scene;
-
 		// Deffered Buffer
 		static Framebuffer* m_GBuffer;
 
@@ -49,7 +46,7 @@ namespace Chroma
 		// INITIALIZE
 	public:
 
-		static void Init(Scene*& scene);
+		static void Init();
 		static void RenderScene();
 
 		static DebugBuffer*& GetDebugBuffer() { return m_DebugBuffer; };

@@ -4,7 +4,7 @@
 void ShadowBuffer::calcLightSpaceMatrix()
 {
 	// Fetch sunlight from scene
-	Light* SceneSunLight = m_Scene->GetSunLight();
+	Light* SceneSunLight = Chroma::Scene::GetSunLight();
 	// calculate LightSpaceMatrix
 	float near_plane = 0.1f, far_plane = 35.0f;
 	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
@@ -36,8 +36,8 @@ void ShadowBuffer::Initialize()
 
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
-	for (std::string const& UID : m_Scene->GetEntityUIDs())
-		for (IComponent* component : m_Scene->GetEntity(UID)->getMeshComponents())
+	for (std::string const& UID : Chroma::Scene::GetEntityUIDs())
+		for (IComponent* component : Chroma::Scene::GetEntity(UID)->getMeshComponents())
 		{
 			((MeshComponent*)component)->AddTexture(ShadowMapTexture);
 		}
@@ -76,10 +76,10 @@ void ShadowBuffer::calculateShadows()
 	//glCullFace(GL_FRONT);
 
 	// render scene
-	for (std::string const& UID : m_Scene->GetEntityUIDs())
+	for (std::string const& UID : Chroma::Scene::GetEntityUIDs())
 	{
-		glm::mat4 finalTransformMatrix = m_Scene->GetEntity(UID)->GetTransform();	
-		for (IComponent* component : m_Scene->GetEntity(UID)->getShadowCastingComponents())
+		glm::mat4 finalTransformMatrix = Chroma::Scene::GetEntity(UID)->GetTransform();
+		for (IComponent* component : Chroma::Scene::GetEntity(UID)->getShadowCastingComponents())
 		{
 			finalTransformMatrix *= ((MeshComponent*)component)->GetTransform();
 			depthShader.SetMat4("model", finalTransformMatrix);
@@ -104,14 +104,12 @@ void ShadowBuffer::calculateShadows()
 }
 
 
-ShadowBuffer::ShadowBuffer(Scene*& Scene)
+ShadowBuffer::ShadowBuffer()
 {
-	m_Scene = Scene;
 	Initialize();
 }
 
 
 ShadowBuffer::~ShadowBuffer()
 {
-	Initialize();
 }

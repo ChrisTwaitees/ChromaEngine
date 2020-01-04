@@ -38,7 +38,7 @@ class SSAOBuffer : public Framebuffer
 	void generateSampleKernel();
 
 	// noise texture
-	unsigned int noiseSize{ 16 };
+	float noiseSize{ 16.0f };
 	unsigned int noiseTexture;
 	std::vector<glm::vec3> ssaoNoise;
 	glm::vec2 noiseScale;
@@ -50,7 +50,7 @@ class SSAOBuffer : public Framebuffer
 
 
 public:
-	void Draw(unsigned int& gViewPosition, unsigned int& gNormal, Scene*& scene);
+	void Draw(unsigned int& gViewPosition, unsigned int& gNormal);
 	virtual unsigned int getTexture() override { return ssaoColorBufferBlur; };
 
 	SSAOBuffer();

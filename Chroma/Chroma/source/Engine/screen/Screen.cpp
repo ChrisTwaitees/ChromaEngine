@@ -26,6 +26,7 @@ namespace Chroma
 			glfwTerminate();
 		}
 		glfwMakeContextCurrent(m_Window);
+		CHROMA_INFO("Window Successfuly Initialized.");
 	}
 
 

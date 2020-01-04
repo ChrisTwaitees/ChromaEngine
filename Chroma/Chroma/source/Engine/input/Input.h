@@ -11,8 +11,10 @@
 #include <glm/glm.hpp>
 // glad
 #include <glad/glad.h>
+// chroma
 #include <camera/Camera.h>
 #include <common/CoreCommon.h>
+
 
 class Camera;
 
@@ -27,17 +29,17 @@ namespace Chroma
 		// MOUSE
 		static bool m_CursorEnabled;
 
-		static double m_CaptureMouseX, m_CaptureMouseY;
-		static double m_MouseX, m_MouseY;
+		static float m_CaptureMouseX, m_CaptureMouseY;
+		static float m_MouseX, m_MouseY;
 		static glm::vec2 m_MouseXYOffset;
 
-		static double m_LastMouseX, m_LastMouseY;
+		static float m_LastMouseX, m_LastMouseY;
 		static float m_PickedMouseX;
 		static float m_PickedMouseY;
 		static glm::vec3 m_LastMouseRay;
 
 		static int m_ScreenWidth, m_ScreenHeight;
-		static std::function<void()> m_MousePickerCallback;
+		static void m_MousePickerCallback();
 
 		// CONTROLLER
 		static bool m_ControllerEnabled;
@@ -82,16 +84,9 @@ namespace Chroma
 		//  functions
 		static void Init();
 		static void Update();
-		static void BindMousePickerCallback(std::function<void()> callback);
 
 		// getters and setters
 		// MOUSE
-		// mouse x
-		inline static double GetMouseX() { return m_MouseX; }
-		inline static double GetMouseXOffset() { return m_MouseXYOffset.x; }
-		// mouse y
-		inline static double GetMouseY() { return m_MouseY; }
-		inline static double GetMouseYOffset() { return m_MouseXYOffset.y; }
 		// mouse xy
 		inline static glm::vec2 GetMouseXY() { return glm::vec2(m_MouseX, m_MouseY); }
 		inline static glm::vec2 GetMouseXYOffset() { return m_MouseXYOffset; }

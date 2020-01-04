@@ -125,17 +125,17 @@ void GBuffer::bindAllGBufferTextures()
 	glBindTexture(GL_TEXTURE_2D, m_SSAOBuffer->getTexture());
 	// IBL
 	glActiveTexture(GL_TEXTURE7);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_Scene->GetIBL()->getIrradianceMapID());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->getIrradianceMapID());
 	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_Scene->GetIBL()->getPrefilterMapID());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->getPrefilterMapID());
 	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_2D, m_Scene->GetIBL()->getBRDFLUTID());
+	glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->getBRDFLUTID());
 }
 
 void GBuffer::setLightingUniforms()
 {
-	m_lightingPassShader.setLightingUniforms(m_Scene->GetLights(), *m_Scene->GetRenderCamera());
-	m_lightingPassShader.setUniform("ambient", m_Scene->GetAmbientColor());
+	m_lightingPassShader.setLightingUniforms(Chroma::Scene::GetLights(), *Chroma::Scene::GetRenderCamera());
+	m_lightingPassShader.setUniform("ambient", Chroma::Scene::GetAmbientColor());
 }
 
 void GBuffer::Bind()
@@ -156,15 +156,15 @@ void GBuffer::drawGeometryPass()
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
 	m_geometryPassShader.use();
-	m_geometryPassShader.SetMat4("view", m_Scene->GetRenderCamera()->GetViewMatrix());
-	m_geometryPassShader.SetMat4("projection", m_Scene->GetRenderCamera()->GetProjectionMatrix());
+	m_geometryPassShader.SetMat4("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
+	m_geometryPassShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	m_geometryPassShader.SetMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
 
 	// Render Scene
-	for (std::string const& UID : m_Scene->GetEntityUIDs())
+	for (std::string const& UID : Chroma::Scene::GetEntityUIDs())
 	{
-		glm::mat4 finalTransformMatrix = m_Scene->GetEntity(UID)->GetTransform();
-		for (IComponent* component : m_Scene->GetEntity(UID)->getLitComponents())
+		glm::mat4 finalTransformMatrix = Chroma::Scene::GetEntity(UID)->GetTransform();
+		for (IComponent* component : Chroma::Scene::GetEntity(UID)->getLitComponents())
 		{
 			// transform components by entity transform
 			finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransform();
@@ -233,7 +233,7 @@ void GBuffer::Draw()
 	drawGeometryPass();
 
 	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
-	((SSAOBuffer*)m_SSAOBuffer)->Draw(gViewPosition, gViewNormal, m_Scene);
+	((SSAOBuffer*)m_SSAOBuffer)->Draw(gViewPosition, gViewNormal);
 
 	// 2. Render pass to PostFX buffer
 	m_PostFXBuffer->Bind();
@@ -249,11 +249,10 @@ void GBuffer::Draw()
 	m_PostFXBuffer->unBind();
 }
 
-GBuffer::GBuffer(Scene*& Scene, Framebuffer*& PostFXBuffer)
+GBuffer::GBuffer(Framebuffer*& PostFXBuffer)
 {
 	Initialize();
-	m_Scene = Scene;
-	mShadowbuffer = new ShadowBuffer(m_Scene);
+	mShadowbuffer = new ShadowBuffer();
 	m_PostFXBuffer = PostFXBuffer;
 }
 

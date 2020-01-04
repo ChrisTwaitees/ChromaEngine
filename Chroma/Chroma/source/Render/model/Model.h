@@ -55,7 +55,7 @@ public:
 	// render components
 	Shader* GetShader() override { return m_meshes[0]->GetShader(); };
 	void SetShader(Shader* const& newShader) override;
-	int GetNumTextures() override { return m_Textures.size(); };
+	int GetNumTextures() override { return (int)m_Textures.size(); };
 	// verts
 	std::vector<ChromaVertex> GetVertices() override { return m_vertices; };
 	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_SkinnedVertices; };

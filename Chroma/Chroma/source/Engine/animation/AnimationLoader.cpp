@@ -37,9 +37,9 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 
 		// AnimTake data
 		newTake.m_Name = aiAnim->mName.C_Str();
-		newTake.m_NumFrames = aiAnim->mDuration;
-		newTake.m_FPS = aiAnim->mTicksPerSecond;
-		newTake.m_Duration = 1.0 / newTake.m_FPS * newTake.m_NumFrames;
+		newTake.m_NumFrames = (int)aiAnim->mDuration;
+		newTake.m_FPS = (float)aiAnim->mTicksPerSecond;
+		newTake.m_Duration = 1.0f / newTake.m_FPS * (float)newTake.m_NumFrames;
 
 		// Debug
 		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip Name : {0}", newTake.m_Name);
@@ -75,7 +75,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			// Positions
 			for (unsigned int a = 0; a < aiAnimNode->mNumPositionKeys; a++)
 			{
-				float timeStamp = aiAnimNode->mPositionKeys[a].mTime;
+				float timeStamp = (float)aiAnimNode->mPositionKeys[a].mTime;
 				glm::vec3 translation = AIToGLM(aiAnimNode->mPositionKeys[a].mValue);
 				// position , framenumber
 				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
@@ -93,7 +93,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			// Rotations
 			for (unsigned int a = 0; a < aiAnimNode->mNumRotationKeys; a++)
 			{
-				float timeStamp = aiAnimNode->mRotationKeys[a].mTime;
+				float timeStamp = (float)aiAnimNode->mRotationKeys[a].mTime;
 				//aiQuaternion aiRotation = aiAnimNode->mRotationKeys[a].mValue;
 				//RotateByJointOrient(aiRotation, JointName, scene);
 				glm::quat rotation = AIToGLM(aiAnimNode->mRotationKeys[a].mValue);
@@ -113,7 +113,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			// Scales
 			for (unsigned int a = 0; a < aiAnimNode->mNumScalingKeys; a++)
 			{
-				float timeStamp = aiAnimNode->mScalingKeys[a].mTime;
+				float timeStamp = (float)aiAnimNode->mScalingKeys[a].mTime;
 				glm::vec3 scale = AIToGLM(aiAnimNode->mScalingKeys[a].mValue);
 				// scale , framenumber
 				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
@@ -153,12 +153,12 @@ void RotateByJointOrient(aiQuaternion& rotation, const std::string& jointName, c
 
 std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene)
 {
-	for (int i = 0; i < scene->mNumMeshes; i++)
+	for (unsigned int i = 0; i < scene->mNumMeshes; i++)
 	{	
 		aiMesh* mesh = scene->mMeshes[i];
 		if (mesh->HasBones())
 		{
-			for (int j = 0; j < mesh->mNumBones; j++)
+			for (unsigned int j = 0; j < mesh->mNumBones; j++)
 			{
 				aiBone* bone = mesh->mBones[j];
 				std::string boneName{ bone->mName.C_Str() };

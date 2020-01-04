@@ -294,9 +294,6 @@
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCameraController.cpp">
       <Filter>Game\thirdperson</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\engine\ChromaEngine.cpp">
-      <Filter>Engine\engine</Filter>
-    </ClCompile>
     <ClCompile Include="source\Game\Game.cpp">
       <Filter>Game</Filter>
     </ClCompile>
@@ -305,6 +302,9 @@
     </ClCompile>
     <ClCompile Include="source\Render\render\Render.cpp">
       <Filter>Render\render</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\engine\Engine.cpp">
+      <Filter>Engine\engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -506,14 +506,14 @@
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCameraController.h">
       <Filter>Game\thirdperson</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\engine\ChromaEngine.h">
-      <Filter>Engine\engine</Filter>
-    </ClInclude>
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCharacterController.h">
       <Filter>Game\thirdperson</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\render\Render.h">
       <Filter>Render\render</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\engine\Engine.h">
+      <Filter>Engine\engine</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

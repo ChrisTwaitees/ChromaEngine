@@ -1,5 +1,6 @@
 #include "GUI.h"
-
+#include <physics/PhysicsEngine.h>
+#include <render/Render.h>
 
 namespace Chroma
 {
@@ -109,6 +110,16 @@ namespace Chroma
 		ImGui::SliderFloat("Animation Clip Position", &DebugAnimClipPos, 0.0, 1.0);
 		// Display Selected Entity
 		ImGui::Text("Selected Entity : %s", SelectedEntity.c_str());
+
+
+		// render physics debug 
+		if (drawPhysicsDebug)
+			Chroma::Physics::DrawDebug();
+
+		// animation debug
+		//if (Chroma::GUI::DebugAnim)
+		Chroma::Render::GetDebugBuffer()->DrawSceneSkeletons();
+
 	}
 
 	void GUI::Start()

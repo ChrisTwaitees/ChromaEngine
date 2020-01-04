@@ -29,7 +29,7 @@ namespace Chroma
 
 		static void SetDimensions(int const& newWidth, int const& newHeight);
 		// status
-		static int GetShouldClose() { return glfwWindowShouldClose(m_Window); };
+		inline static bool IsRunning() { return !glfwWindowShouldClose(m_Window); }
 
 		// functions
 		static void Update();

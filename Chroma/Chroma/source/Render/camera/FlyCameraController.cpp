@@ -29,9 +29,9 @@ void FlyCameraController::processKeyboardInput(glm::vec3& camPos, glm::vec3& cam
 {
 	// MOVEMENT
 	if (Chroma::Input::IsPressed(Chroma::Input::LEFT_SHIFT))
-		cameraSpeed = fastSpeed * Chroma::Time::GetDeltaTime();
+		cameraSpeed = fastSpeed * (float)Chroma::Time::GetDeltaTime();
 	else
-		cameraSpeed = slowSpeed * Chroma::Time::GetDeltaTime();
+		cameraSpeed = slowSpeed * (float)Chroma::Time::GetDeltaTime();
 
 	if (Chroma::Input::IsPressed(Chroma::Input::W))
 		move(FORWARD, camPos, camDir, camUp);

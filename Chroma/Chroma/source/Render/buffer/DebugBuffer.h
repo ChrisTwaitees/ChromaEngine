@@ -70,7 +70,6 @@ class DebugBuffer : public Framebuffer
 
 	// attrs
 	unsigned int pointVAO, pointVBO;
-	Camera* m_RenderCamera;
 
 	// shaders
 	const char* FragSource{ "resources/shaders/fragBasic.glsl" };
@@ -143,12 +142,12 @@ public:
 	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size = 1.0, const glm::vec3& color = glm::vec3(1.0));
 
 	// Skeletons
-	void DrawSceneSkeletons(Scene* const &scene);
+	void DrawSceneSkeletons();
 
 	void ClearBuffer() override;
 	void Draw() override;
 
-	DebugBuffer(Camera* const& camera, Framebuffer* const& prevFrameBuffer) : m_RenderCamera(camera), m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
+	DebugBuffer(Framebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
 };
 
 #endif

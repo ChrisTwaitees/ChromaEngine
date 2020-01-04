@@ -317,7 +317,7 @@ void Model::SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>
 void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& skeleton)
 {
 	// Build Skeleton 
-	for (int i = 0; i < mesh->mNumBones; i++)
+	for (unsigned int i = 0; i < mesh->mNumBones; i++)
 	{
 		// fetch assimp bone, copy data to chroma joint
 		aiBone* bone = mesh->mBones[i];
@@ -335,7 +335,7 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 		newJoint.m_ID = i;
 
 		// store joint IDs and Weights to skelton and verts
-		for (int j = 0; j < bone->mNumWeights; j++)
+		for (unsigned int j = 0; j < bone->mNumWeights; j++)
 		{
 			// update joint
 			aiVertexWeight vertexWeight = bone->mWeights[j];
@@ -354,7 +354,7 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 
 	// Get Root Joint
 	aiNode* rootSceneNode = scene->mRootNode;
-	for (int i = 0; i < rootSceneNode->mNumChildren; i++)
+	for (unsigned int i = 0; i < rootSceneNode->mNumChildren; i++)
 	{
 		aiNode* aiChildNode = rootSceneNode->mChildren[i];
 		std::string nodeName{ aiChildNode->mName.C_Str() };

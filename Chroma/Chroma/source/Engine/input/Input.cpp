@@ -1,5 +1,7 @@
 #include "Input.h"
-
+#include <scene/Scene.h>
+#include <physics/PhysicsEngine.h>
+#include <gui/GUI.h>
 
 namespace Chroma
 {
@@ -25,12 +27,12 @@ namespace Chroma
 	// Mouse
 	bool   Input::m_CursorEnabled;
 
-	double Input::m_MouseX;
-	double Input::m_CaptureMouseX;
-	double Input::m_CaptureMouseY;
-	double Input::m_MouseY;
-	double Input::m_LastMouseX;
-	double Input::m_LastMouseY;
+	float Input::m_MouseX;
+	float Input::m_CaptureMouseX;
+	float Input::m_CaptureMouseY;
+	float Input::m_MouseY;
+	float Input::m_LastMouseX;
+	float Input::m_LastMouseY;
 
 	float Input::m_PickedMouseX;
 	float Input::m_PickedMouseY;
@@ -39,7 +41,6 @@ namespace Chroma
 
 	int Input::m_ScreenWidth;
 	int Input::m_ScreenHeight;
-	std::function<void()> Input::m_MousePickerCallback;
 
 	void Input::Init()
 	{
@@ -48,12 +49,6 @@ namespace Chroma
 		glfwSetScrollCallback(Chroma::Screen::GetWindow(), mouse_scroll_callback);
 		glfwSetMouseButtonCallback(Chroma::Screen::GetWindow(), mouse_click_callback);
 	}
-
-	void Input::BindMousePickerCallback(std::function<void()> callback)
-	{
-		m_MousePickerCallback = callback;
-	}
-
 
 	bool Input::IsPressed(Key KeySelection)
 	{
@@ -191,13 +186,13 @@ namespace Chroma
 
 	void Input::Update()
 	{
-		// should close?
+		// Should Close?
 		if (IsPressed(ESCAPE)) {
 			glfwSetWindowShouldClose(Chroma::Screen::GetWindow(), true);
 			return;
 		}
 
-		// capture / release mouse
+		// Capture / release mouse
 		int cursorMode = glfwGetInputMode(Chroma::Screen::GetWindow(), GLFW_CURSOR);
 		if (IsPressed(LEFT_CTRL))
 		{
@@ -208,17 +203,27 @@ namespace Chroma
 		}
 		m_CursorEnabled = cursorMode == GLFW_CURSOR_DISABLED;
 
-		// MOUSE
+		// Mouse Coordinates
 		if (m_CursorEnabled)
 		{
 		}
 		UpdateMouseCoordinates();
-		// mouse picker
+
+		// Mouse Picker
 		UpdateMousePicker();
 
-		// CONTROLLER
+		// Controller
 		m_ControllerEnabled = (glfwJoystickPresent(GLFW_JOYSTICK_1) > 0) ? true : false;
 		UpdateController();
+
+		// Camera
+		if (Chroma::Input::IsPressed(Chroma::Input::NUM1))
+			Chroma::Scene::GetRenderCamera()->SetCameraMode(Maya);
+		if (Chroma::Input::IsPressed(Chroma::Input::NUM2))
+			Chroma::Scene::GetRenderCamera()->SetCameraMode(FlyCam);
+		if (Chroma::Input::IsPressed(Chroma::Input::NUM3))
+			Chroma::Scene::GetRenderCamera()->SetCameraMode(Custom);
+
 	}
 
 	// glfw callbacks
@@ -236,6 +241,16 @@ namespace Chroma
 
 	void Input::mouse_click_callback(GLFWwindow* window, int button, int action, int mods)
 	{
+	}
+
+	void Input::m_MousePickerCallback()
+	{
+		// Ray Interest Test
+		glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
+		glm::vec3 end = start + (Chroma::Input::GetLastRay() * glm::vec3(1000.0));
+		IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
+		if (clickedEntity)
+			Chroma::GUI::SetSelectedEntityName(clickedEntity->GetName());
 	}
 
 	void Input::UpdateMouseCoordinates()

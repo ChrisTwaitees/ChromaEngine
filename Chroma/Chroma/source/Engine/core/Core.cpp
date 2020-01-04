@@ -4,31 +4,14 @@ namespace Chroma
 {
 	void Core::Init()
 	{
-		// Logging
-		Chroma::Log::Init();
-		CHROMA_INFO("Chroma Core Initializing...");
-
 		// Screen / GLFW
 		Chroma::Screen::Init();
-		CHROMA_INFO("Chroma Screen Initialized.");
 
-		// GLAD
-		// OpenGL 3
-		// glad: load all OpenGL function pointers
+		// GLAD OpenGL 3
 		if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
-		{
-			CHROMA_FATAL("Failed to Initialize GLAD");
-		}
+			CHROMA_FATAL("OpenGL Functions Failed to Bind, Check your implementation of GLAD.");
 		else
-		{
-
-			CHROMA_INFO("Chroma OpenGL Initialized.");
-		}
-
-		// GUI
-		Chroma::GUI::Init();
-		CHROMA_INFO("Chroma GUI Initialized.");
-
+			CHROMA_INFO("OpenGL Functions Bound.");
 	}
 
 }

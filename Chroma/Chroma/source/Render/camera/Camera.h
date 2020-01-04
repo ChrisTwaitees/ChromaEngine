@@ -38,10 +38,13 @@ class Camera
 	bool m_FirstMouse{ true };
 
 	// Matrices
-	glm::mat4 m_ViewMatrix{ glm::mat4(1) };
-	glm::mat4 m_ProjectionMatrix{ glm::mat4(1) };
+	glm::mat4 m_ViewMatrix{ 1.0 };
+	glm::mat4 m_ProjectionMatrix{ 1.0 };
+	glm::mat4 m_ViewProjMatrix{ 1.0 };
+
 	void UpdateViewMatrix();
 	void UpdateProjectionMatrix();
+
 
 	// Functions
 	void Initialize();
@@ -57,7 +60,7 @@ public:
 	// matrices
 	inline glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; };
 	inline glm::mat4 GetViewMatrix() const { return m_ViewMatrix; };
-	inline glm::mat4 GetViewProjMatrix() const { return m_ProjectionMatrix * m_ViewMatrix; };
+	inline glm::mat4 GetViewProjMatrix() const { return m_ViewProjMatrix; };
 	
 	inline void SetFOV(float newFOV) { m_CamFOV = newFOV; UpdateProjectionMatrix(); };
 	inline void SetASPECT(float newASPECT) { m_CamAspect = newASPECT; UpdateProjectionMatrix(); };

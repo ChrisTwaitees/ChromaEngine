@@ -46,11 +46,13 @@ void Camera::Update()
 void Camera::UpdateViewMatrix()
 {
 	m_ViewMatrix = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraDirection, m_CameraUp);
+	m_ViewProjMatrix = m_ProjectionMatrix * m_ViewMatrix;
 }
 
 void Camera::UpdateProjectionMatrix()
 {
 	m_ProjectionMatrix = glm::perspective(glm::radians(m_CamFOV), m_CamAspect, m_CamNear, m_CamFar);
+	m_ProjectionMatrix* m_ViewMatrix;
 }
 
 void Camera::SetCustomCameraController(ICameraController*& newCameraController)

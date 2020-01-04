@@ -7,10 +7,10 @@
 // thirdparty
 #include <glm/glm.hpp>
 // chroma
+#include <common/CoreCommon.h>
 #include <model/Vertex.h>
 #include <uid/UID.h>
 #include <component/IComponent.h>
-#include <common/CoreCommon.h>
 
 // forward declarations // 
 class Scene;
@@ -50,10 +50,6 @@ public:
 	std::string GetUID() const { return m_UID; };
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
-
-	// scene
-	virtual Scene* GetParentScene() = 0;
-	virtual void SetParentScene(Scene* const& scene) = 0;
 
 	// Transformations
 	virtual void Scale(glm::vec3 scalefactor) = 0;

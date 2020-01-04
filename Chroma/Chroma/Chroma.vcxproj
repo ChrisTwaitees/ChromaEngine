@@ -187,7 +187,7 @@
     <ClCompile Include="source\Engine\component\MeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\PhysicsComponent.cpp" />
     <ClCompile Include="source\Engine\core\Core.cpp" />
-    <ClCompile Include="source\Engine\engine\ChromaEngine.cpp" />
+    <ClCompile Include="source\Engine\engine\Engine.cpp" />
     <ClCompile Include="source\Engine\entity\Entity.cpp" />
     <ClCompile Include="source\Engine\entity\IEntity.cpp" />
     <ClCompile Include="source\Engine\input\Input.cpp" />
@@ -254,7 +254,7 @@
     <ClInclude Include="source\Engine\component\PhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IComponent.h" />
     <ClInclude Include="source\Engine\core\Core.h" />
-    <ClInclude Include="source\Engine\engine\ChromaEngine.h" />
+    <ClInclude Include="source\Engine\engine\Engine.h" />
     <ClInclude Include="source\Engine\entity\Entity.h" />
     <ClInclude Include="source\Engine\entity\IEntity.h" />
     <ClInclude Include="source\Engine\input\Input.h" />

@@ -118,8 +118,8 @@ void DebugBuffer::renderLine(LineShape line)
 	m_LineShader.use();
 	m_LineShader.setUniform("Start", line.start);
 	m_LineShader.setUniform("End", line.end);
-	m_LineShader.setUniform("view", m_RenderCamera->GetViewMatrix());
-	m_LineShader.setUniform("projection", m_RenderCamera->GetProjectionMatrix());
+	m_LineShader.setUniform("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
+	m_LineShader.setUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	m_LineShader.setUniform("model", glm::mat4(1.0f));
 	m_LineShader.setUniform("color", line.color);
 
@@ -129,7 +129,7 @@ void DebugBuffer::renderLine(LineShape line)
 void DebugBuffer::renderSphere(SphereShape sphere)
 {
 	m_SphereShader.use();
-	m_SphereShader.setUniform("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_SphereShader.setUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 	m_SphereShader.setUniform("model", sphere.transform);
 	m_SphereShader.setUniform("radius", sphere.radius);
 	m_SphereShader.setUniform("color", sphere.color);
@@ -142,7 +142,7 @@ void DebugBuffer::renderBox(BoxShape box)
 	m_BoxShader.use();
 	m_BoxShader.setUniform("BBoxMin", box.bbox_min);
 	m_BoxShader.setUniform("BBoxMax", box.bbox_max);
-	m_BoxShader.setUniform("VPMat" , m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_BoxShader.setUniform("VPMat" , Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 	m_BoxShader.setUniform("model", box.transform);
 	m_BoxShader.setUniform("color", box.color);
 
@@ -155,7 +155,7 @@ void DebugBuffer::renderJoint(JointShape joint)
 	m_JointShader.setUniform("JointPos", joint.jointPos);
 	m_JointShader.setUniform("ChildPos", joint.childPos);
 	m_JointShader.setUniform("Size", joint.size);
-	m_JointShader.setUniform("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_JointShader.setUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 	m_JointShader.setUniform("transform", joint.transform);
 	m_JointShader.setUniform("color", joint.color);
 	BindPointVAO();
@@ -165,7 +165,7 @@ void DebugBuffer::renderCoordinate(CoordinatesShape coordinate)
 {
 	// Coordinate reference 
 	m_CoordinatesShader.use();
-	m_CoordinatesShader.setUniform("VPMat", m_RenderCamera->GetProjectionMatrix() * m_RenderCamera->GetViewMatrix());
+	m_CoordinatesShader.setUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 	m_CoordinatesShader.setUniform("transform", coordinate.transform);
 	m_CoordinatesShader.setUniform("Size", coordinate.size);
 
@@ -271,11 +271,11 @@ void DebugBuffer::DrawOverlayJoint(const glm::vec3& originPosition, const glm::v
 	m_OverlayJoints.push_back(newJoint);
 }
 
-void DebugBuffer::DrawSceneSkeletons(Scene* const& m_Scene)
+void DebugBuffer::DrawSceneSkeletons()
 {
-	for (std::string const& UID : m_Scene->GetAnimatedEntityUIDs())
+	for (std::string const& UID : Chroma::Scene::GetAnimatedEntityUIDs())
 	{
-		for (IComponent* component : m_Scene->GetEntity(UID)->getMeshComponents())
+		for (IComponent* component : Chroma::Scene::GetEntity(UID)->getMeshComponents())
 		{
 			// check if mesh skinned
 			if (((MeshComponent*)component)->m_IsSkinned)

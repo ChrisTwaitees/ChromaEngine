@@ -1,48 +1,23 @@
 // c++ standard libs
-#include <windows.h>
 #include <vector>
-#include <map>
-//// glad and glfw
-#include <glad/glad.h>
+
 // glm
 #include <glm/glm.hpp>
 
 // chroma
-// engine
-#include <core/Core.h>
-#include <animation/AnimationLoader.h>
-#include <component/IComponent.h>
-#include <component/MeshComponent.h>
-#include <component/AnimationComponent.h>
-#include <component/CharacterControllerComponent.h>
+#include <engine/engine.h>
+
 #include <entity/Entity.h>
-#include <scene/Scene.h>
-#include <model/Model.h>
-#include <model/BoxPrimitive.h>
-#include <model/SpherePrimitive.h>
-#include <shader/Shader.h>
-#include <texture/Texture.h>
-#include <texture/HDRTexture.h>
-#include <light/Light.h>
 #include <terrain/Terrain.h>
-#include <engine/ChromaEngine.h>
-#include <time/Time.h>
+
 // game
 #include <thirdperson/ThirdPersonCharacterController.h>
 #include <thirdperson/ThirdPersonCameraController.h>
 
 int main()
 {
-
 	// INIT CHROMA
-	// ------------------------------------------------------------------------------------------
-	// SCENE 
-	Chroma::Core::Init();
-
-	Scene* scene{ new Scene };
-
-	// GAME
-	ChromaEngine Engine(scene);
+	Chroma::Engine::Init();
 
 	// SCENE CONTENTS
 	// ------------------------------------------------------------------------------------------
@@ -77,7 +52,7 @@ int main()
 	Sun->setIntensity(3.0);
 	Lights.push_back(Sun);
 
-	scene->SetLights(Lights);
+	Chroma::Scene::SetLights(Lights);
 	// ____________________________________________________
 
 	// SHADERS
@@ -173,7 +148,7 @@ int main()
 	// CAPSULE
 	// ____________________________________________________
 	IEntity* CapsuleEntity = new Entity;
-	scene->AddEntity(CapsuleEntity);
+	Chroma::Scene::AddEntity(CapsuleEntity);
 	// mesh
 	MeshComponent* CapsuleMeshComponent = new Model("resources/primitives/capsule.fbx");
 	CapsuleMeshComponent->SetShader(&PBRShader);
@@ -190,7 +165,7 @@ int main()
 	CharacterControllerComponent* CapsuleCharacterController = new ThirdPersonCharacterController();
 	// camera controller
 	ICameraController* CapsuleCameraController = new ThirdPersonCameraController();
-	scene->GetRenderCamera()->SetCustomCameraController(CapsuleCameraController);
+	Chroma::Scene::GetRenderCamera()->SetCustomCameraController(CapsuleCameraController);
 	CapsuleCharacterController->SetCustomCameraController(CapsuleCameraController);
 	// adding the component
 	CapsuleEntity->AddComponent(CapsuleCharacterController);
@@ -200,7 +175,7 @@ int main()
 	// TERRAIN
 	// ____________________________________________________
 	IEntity* TerrainEntity = new Entity;
-	scene->AddEntity(TerrainEntity);
+	Chroma::Scene::AddEntity(TerrainEntity);
 	MeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->SetShader(&PBRShader);
 	TerrainMeshComponent->AddTexture(PlanksAlbedo);
@@ -326,7 +301,7 @@ int main()
 
 	// UNLIT
 	IEntity* SphereEntityUnlit = new Entity;
-	scene->AddEntity(SphereEntityUnlit);
+	Chroma::Scene::AddEntity(SphereEntityUnlit);
 	SphereEntityUnlit->SetName("Sphere");
 	MeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
 	PhysicsComponent* SphereRigidComponentUnlit = new PhysicsComponent();
@@ -343,14 +318,14 @@ int main()
 
 	// RENDER LOOP
 	// -----------
-	while (!Chroma::Screen::GetShouldClose())
+	while (Chroma::Screen::IsRunning())
 	{
 		// SCREENMANAGER START
-		float GameTime = Chroma::Time::GetGameTime();
-		float DeltaTime = Chroma::Time::GetDeltaTime();
+		double GameTime = Chroma::Time::GetGameTime();
+		double DeltaTime = Chroma::Time::GetDeltaTime();
 
-		//Sunlight Rotation		
-		Sun->SetPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
+		//Sunlight Rotation	
+		Chroma::Scene::GetSunLight()->SetPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->GetPosition()));
 
 		//CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
@@ -360,8 +335,9 @@ int main()
 		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };
 		float rotationAmount = glm::radians(glm::sin(GameTime*0.5) * 90);
 		//((Model*)AnimModelMeshComponent)->SetRotation(glm::angleAxis(rotationAmount, rotationAxis));
+		
 		// GAME TICK
-		Engine.Tick();
+		Chroma::Engine::Tick();
 
 	}
 
