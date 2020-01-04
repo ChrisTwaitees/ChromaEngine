@@ -315,7 +315,6 @@ int main()
 	SphereEntityUnlit->AddComponent(SphereRigidComponentUnlit);
 	// ____________________________________________________
 
-
 	// RENDER LOOP
 	// -----------
 	while (Chroma::Screen::IsRunning())
@@ -336,6 +335,7 @@ int main()
 		float rotationAmount = glm::radians(glm::sin(GameTime*0.5) * 90);
 		//((Model*)AnimModelMeshComponent)->SetRotation(glm::angleAxis(rotationAmount, rotationAxis));
 		
+
 		// GAME TICK
 		Chroma::Engine::Tick();
 

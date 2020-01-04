@@ -10,25 +10,30 @@ namespace Chroma
 	double Time::m_MaxFrameTime;
 	double Time::m_FPS;
 	float Time::m_Speed;
-	std::vector<float> Time::m_Timers;
+	std::set<std::reference_wrapper<float>> Time::m_Timers;
 
-	void Time::Sleep(int milliseconds)
+
+	void Time::Sleep(unsigned int milliseconds)
 	{
 		std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 	}
 
 	void Time::ProcessTimers()
 	{
-		for (int i = 0; i < m_Timers.size(); i++)
+		std::set<std::reference_wrapper<float>>::iterator it = m_Timers.begin();
+
+		for (float& timer : m_Timers)
 		{
-			if (m_Timers[i] - m_Delta < 0)
+			if (timer - m_Delta < 0.0f)
 			{
-				m_Timers[i] = 0.0;
-				m_Timers.erase(m_Timers.begin() + i); // remove from list so no longer calculating unecessary timers
+				timer = 0.0f;
+				m_Timers.erase(it);
 			}
 			else
-				m_Timers[i] -= m_Delta;
-
+			{
+				timer -= m_Delta;
+				CHROMA_INFO("Number of timers : {0}", m_Timers.size());
+			}
 		}
 	}
 

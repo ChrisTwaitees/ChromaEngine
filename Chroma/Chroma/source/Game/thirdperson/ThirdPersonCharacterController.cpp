@@ -60,9 +60,9 @@ void ThirdPersonCharacterController::ProcessCameraInput()
 	m_CamUp = glm::cross(ref, m_CamDirection);
 
 
-	CHROMA_INFO(glm::degrees(CalculateAimAngle()));
-	CHROMA_INFO("{0}, {1}, {2}", m_CamPosition.x, m_CamPosition.y, m_CamPosition.z);
-	CHROMA_INFO("{0}, {1}, {2}", m_Position.x, m_Position.y, m_Position.z);
+	//CHROMA_INFO(glm::degrees(CalculateAimAngle()));
+	//CHROMA_INFO("{0}, {1}, {2}", m_CamPosition.x, m_CamPosition.y, m_CamPosition.z);
+	//CHROMA_INFO("{0}, {1}, {2}", m_Position.x, m_Position.y, m_Position.z);
 }
 
 void ThirdPersonCharacterController::ProcessMovementInput()

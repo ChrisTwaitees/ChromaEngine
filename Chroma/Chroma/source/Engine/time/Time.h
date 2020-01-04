@@ -3,6 +3,8 @@
 
 #include <chrono>
 #include <thread>
+#include <set>
+#include <memory>
 
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -12,14 +14,13 @@
 #include <core/Core.h>
 
 
-
 namespace Chroma
 {
 	class Time
 	{
 	private:
 
-		void Sleep(int milliseconds);
+		static void Sleep(unsigned int milliseconds);
 		static double m_MaxFrameTime;
 
 		static double m_Current;
@@ -32,7 +33,7 @@ namespace Chroma
 
 		static float m_Speed;
 
-		static std::vector<float> m_Timers;
+		static std::set<std::reference_wrapper<float>> m_Timers;
 
 		// functions
 		static void ProcessTimers();
@@ -55,7 +56,7 @@ namespace Chroma
 		inline static void SetSpeed(const float& newSpeed) { m_Speed = newSpeed; }
 
 		// timers
-		inline static void StartTimer(float& Duration) { m_Timers.push_back(Duration); };
+		inline static void StartTimer(float& Duration) { m_Timers.insert(Duration); };
 
 		static void Update();
 	};
@@ -65,5 +66,5 @@ namespace Chroma
 
 #endif
 
-#define CHROMA_GAMETIME Chroma::Time::GetGameTime()
-#define CHROMA_DELTA_TIME Chroma::Time::GetDeltaTime()
+#define GAMETIME Chroma::Time::GetGameTime()
+#define DELTATIME Chroma::Time::GetDeltaTime()

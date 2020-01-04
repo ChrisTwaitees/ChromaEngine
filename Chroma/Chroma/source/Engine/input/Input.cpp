@@ -134,51 +134,56 @@ namespace Chroma
 		case MIDDLE_MOUSE_RELEASE:
 			return glfwGetMouseButton(Chroma::Screen::GetWindow(), GLFW_MOUSE_BUTTON_3) == GLFW_RELEASE;
 			break;
-		case CROSS:
-			return m_ControllerButtonsMapping[CROSS_MAPPING] == GLFW_PRESS;
-			break;
-		case SQUARE:
-			return m_ControllerButtonsMapping[SQUARE_MAPPING] == GLFW_PRESS;
-			break;
-		case CIRCLE:
-			return m_ControllerButtonsMapping[CIRCLE_MAPPING] == GLFW_PRESS;
-			break;
-		case TRIANGLE:
-			return m_ControllerButtonsMapping[TRIANGLE_MAPPING] == GLFW_PRESS;
-			break;
-		case R1:
-			return m_ControllerButtonsMapping[R1_MAPPING] == GLFW_PRESS;
-			break;
-		case L1:
-			return m_ControllerButtonsMapping[L1_MAPPING] == GLFW_PRESS;
-			break;
-		case R2:
-			return m_ControllerButtonsMapping[R2_MAPPING] == GLFW_PRESS;
-			break;
-		case L2:
-			return m_ControllerButtonsMapping[L2_MAPPING] == GLFW_PRESS;
-			break;
-		case DPADLEFT:
-			return m_ControllerButtonsMapping[DPADLEFT_MAPPING] == GLFW_PRESS;
-			break;
-		case DPADRIGHT:
-			return m_ControllerButtonsMapping[DPADRIGHT_MAPPING] == GLFW_PRESS;
-			break;
-		case DPADUP:
-			return m_ControllerButtonsMapping[DPADUP_MAPPING] == GLFW_PRESS;
-			break;
-		case DPADDOWN:
-			return m_ControllerButtonsMapping[DPADDOWN_MAPPING] == GLFW_PRESS;
-			break;
-		case OPTIONS:
-			return m_ControllerButtonsMapping[OPTIONS_MAPPING] == GLFW_PRESS;
-			break;
-		case SHARE:
-			return m_ControllerButtonsMapping[SHARE_MAPPING] == GLFW_PRESS;
-			break;
-		case TOUCHPAD:
-			return m_ControllerButtonsMapping[TOUCHPAD_MAPPING] == GLFW_PRESS;
-			break;
+		}
+		if (m_ControllerButtonsMapping != nullptr)
+		{
+			switch (KeySelection) {
+			case CROSS:
+				return m_ControllerButtonsMapping[CROSS_MAPPING] == GLFW_PRESS;
+				break;
+			case SQUARE:
+				return m_ControllerButtonsMapping[SQUARE_MAPPING] == GLFW_PRESS;
+				break;
+			case CIRCLE:
+				return m_ControllerButtonsMapping[CIRCLE_MAPPING] == GLFW_PRESS;
+				break;
+			case TRIANGLE:
+				return m_ControllerButtonsMapping[TRIANGLE_MAPPING] == GLFW_PRESS;
+				break;
+			case R1:
+				return m_ControllerButtonsMapping[R1_MAPPING] == GLFW_PRESS;
+				break;
+			case L1:
+				return m_ControllerButtonsMapping[L1_MAPPING] == GLFW_PRESS;
+				break;
+			case R2:
+				return m_ControllerButtonsMapping[R2_MAPPING] == GLFW_PRESS;
+				break;
+			case L2:
+				return m_ControllerButtonsMapping[L2_MAPPING] == GLFW_PRESS;
+				break;
+			case DPADLEFT:
+				return m_ControllerButtonsMapping[DPADLEFT_MAPPING] == GLFW_PRESS;
+				break;
+			case DPADRIGHT:
+				return m_ControllerButtonsMapping[DPADRIGHT_MAPPING] == GLFW_PRESS;
+				break;
+			case DPADUP:
+				return m_ControllerButtonsMapping[DPADUP_MAPPING] == GLFW_PRESS;
+				break;
+			case DPADDOWN:
+				return m_ControllerButtonsMapping[DPADDOWN_MAPPING] == GLFW_PRESS;
+				break;
+			case OPTIONS:
+				return m_ControllerButtonsMapping[OPTIONS_MAPPING] == GLFW_PRESS;
+				break;
+			case SHARE:
+				return m_ControllerButtonsMapping[SHARE_MAPPING] == GLFW_PRESS;
+				break;
+			case TOUCHPAD:
+				return m_ControllerButtonsMapping[TOUCHPAD_MAPPING] == GLFW_PRESS;
+				break;
+			}
 		}
 
 		return false;
