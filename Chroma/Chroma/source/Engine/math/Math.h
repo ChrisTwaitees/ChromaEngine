@@ -73,13 +73,31 @@ namespace Chroma
 			return glm::scale(ident, scale);
 		}
 
-		inline static float CartesianToPolar(float const& x, float const& y) { return glm::atan(y, x); }
+		inline static float CartesianToPolar(float const& x, float const& y) { return -( glm::atan(y, x)); }
 
-		static glm::vec3 RotateAroundPivot(glm::vec3 const& point, glm::vec3 const& pivot, glm::quat rotation)
+		static glm::vec3 RotateAroundPivot(glm::vec3 const& point, glm::vec3 const& pivot, glm::quat const& rotation)
 		{
 			glm::vec3 toPoint = point - pivot; // get vector to point
-			rotation * toPoint; // rotate it
+			toPoint = rotation * toPoint; // rotate it
 			return pivot + toPoint; // shift pivot to new rotated position
+		}
+
+		static float GetFacingAngleEuler(glm::vec3 pivot, glm::vec3 lookAt)
+		{
+			float xa_xb = pivot.x - lookAt.x;
+			float ya_yb = pivot.z - lookAt.z;
+
+			float x = glm::sqrt(glm::pow(xa_xb, 2) + glm::pow(ya_yb, 2));
+
+			// y dist simple
+			float y = pivot.y - lookAt.y;
+
+			return glm::degrees(Chroma::Math::CartesianToPolar(x, y)) * 2.0f;
+		}
+
+		static float GetInertiaForHeight(float const& gravityStrength, float const& desiredHeight)
+		{
+			return glm::sqrt(2.0f * gravityStrength * desiredHeight);
 		}
 
 	};

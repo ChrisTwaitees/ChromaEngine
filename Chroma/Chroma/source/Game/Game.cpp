@@ -152,7 +152,11 @@ int main()
 	// mesh
 	MeshComponent* CapsuleMeshComponent = new Model("resources/primitives/capsule.fbx");
 	CapsuleMeshComponent->SetShader(&PBRShader);
-	CapsuleMeshComponent->AddTexture(greyAlbedo);
+	CapsuleMeshComponent->AddTexture(walkingAlbedo);
+	CapsuleMeshComponent->AddTexture(walkingNormal);
+	CapsuleMeshComponent->AddTexture(walkingMetRoughAO);
+	//CapsuleMeshComponent->SetShader(&PBRShader);
+	//CapsuleMeshComponent->AddTexture(greyAlbedo);
 	CapsuleEntity->AddComponent(CapsuleMeshComponent);
 	// rigid
 	PhysicsComponent* CapsuleRigidComponent = new PhysicsComponent();
@@ -160,7 +164,7 @@ int main()
 	CapsuleRigidComponent->SetCollisionState(ColliderState::Kinematic);
 	CapsuleEntity->AddComponent(CapsuleRigidComponent);
 	// transform
-	CapsuleEntity->SetPosition(glm::vec3(0,1.5,0.0));
+	CapsuleEntity->SetPosition(glm::vec3(0,1.75,0.0));
 	// character controller
 	CharacterControllerComponent* CapsuleCharacterController = new ThirdPersonCharacterController();
 	// camera controller

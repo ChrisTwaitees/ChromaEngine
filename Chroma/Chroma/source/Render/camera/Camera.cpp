@@ -57,7 +57,6 @@ void Camera::UpdateProjectionMatrix()
 
 void Camera::SetCustomCameraController(ICameraController*& newCameraController)
 {
-	m_CameraMode = Custom;
 	m_CustomCameraController = newCameraController;
 }
 
