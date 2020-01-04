@@ -48,9 +48,6 @@
     <Filter Include="Render\camera">
       <UniqueIdentifier>{9310dee5-e75d-4499-8f4b-4510f335af6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Render\renderer">
-      <UniqueIdentifier>{027c84c1-8c2d-4b7a-85f6-a469b7e7f4f7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Render\gui">
       <UniqueIdentifier>{6e50e176-799a-4919-b453-eeb0f12c79c9}</UniqueIdentifier>
     </Filter>
@@ -132,6 +129,9 @@
     <Filter Include="Engine\engine">
       <UniqueIdentifier>{0518dd9a-2268-4715-878c-365d837abbfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\render">
+      <UniqueIdentifier>{027c84c1-8c2d-4b7a-85f6-a469b7e7f4f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -154,9 +154,6 @@
     </ClCompile>
     <ClCompile Include="source\glad.c">
       <Filter>thirdparty</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\renderer\Renderer.cpp">
-      <Filter>Render\renderer</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
       <Filter>Render\terrain</Filter>
@@ -323,6 +320,9 @@
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCharacterController.cpp">
       <Filter>Game\thirdperson</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\render\Render.cpp">
+      <Filter>Render\render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -348,9 +348,6 @@
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h">
       <Filter>Render\gui\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\renderer\Renderer.h">
-      <Filter>Render\renderer</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\terrain\Terrain.h">
       <Filter>Render\terrain</Filter>
@@ -537,6 +534,9 @@
     </ClInclude>
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCharacterController.h">
       <Filter>Game\thirdperson</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\render\Render.h">
+      <Filter>Render\render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

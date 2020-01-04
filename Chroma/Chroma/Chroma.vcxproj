@@ -228,7 +228,7 @@
     <ClCompile Include="source\Render\model\SkyBox.cpp" />
     <ClCompile Include="source\Render\model\SpherePrimitive.cpp" />
     <ClCompile Include="source\Render\model\StaticMesh.cpp" />
-    <ClCompile Include="source\Render\renderer\Renderer.cpp" />
+    <ClCompile Include="source\Render\render\Render.cpp" />
     <ClCompile Include="source\Render\shader\Shader.cpp" />
     <ClCompile Include="source\Render\shader\Uniform.cpp" />
     <ClCompile Include="source\Render\terrain\Terrain.cpp" />
@@ -300,7 +300,7 @@
     <ClInclude Include="source\Render\model\SpherePrimitive.h" />
     <ClInclude Include="source\Render\model\StaticMesh.h" />
     <ClInclude Include="source\Render\model\Vertex.h" />
-    <ClInclude Include="source\Render\renderer\Renderer.h" />
+    <ClInclude Include="source\Render\render\Render.h" />
     <ClInclude Include="source\Render\shader\Shader.h" />
     <ClInclude Include="source\Render\shader\Uniform.h" />
     <ClInclude Include="source\Render\terrain\Terrain.h" />

@@ -3,10 +3,10 @@
 
 // chroma
 
+#include <common/CoreCommon.h>
 #include <screen/Screen.h>
-#include <logging/Log.h>
 #include <scene/Scene.h>
-#include <renderer/Renderer.h>
+#include <render/Render.h>
 #include <gui/GUI.h>
 #include <physics/PhysicsEngine.h>
 #include <animation/AnimationEngine.h>
@@ -19,7 +19,6 @@ class ChromaEngine
 
 	// components
 	Scene* m_Scene{ nullptr };
-	Renderer* m_Renderer{ nullptr };
 	AnimationEngine* m_Animation{ new AnimationEngine() };
 
 	// game loop functions
@@ -31,9 +30,6 @@ class ChromaEngine
 	void MousePickerCallback();
 
 public:
-	// Accessors
-	Renderer* GetRenderer() const { return m_Renderer; };
-
 	// Game Loop
 	void Tick();
 

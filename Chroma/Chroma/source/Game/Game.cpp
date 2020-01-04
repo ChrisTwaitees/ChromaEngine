@@ -354,9 +354,8 @@ int main()
 		Sun->setDirection(-normalize(Sun->GetPosition()));
 
 		//CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
+		Chroma::Render::GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1, 0, 0));		
 
-		Engine.GetRenderer()->GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1,0,0));
-		//Game.getRenderer()->getDebugBuffer()->drawLine(glm::vec3(-3, 3, 3), glm::vec3(-5, 5, 5), glm::vec3(0, 0, 1));
 		//((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
 		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };
 		float rotationAmount = glm::radians(glm::sin(GameTime*0.5) * 90);

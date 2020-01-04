@@ -24,8 +24,7 @@ void ChromaEngine::Update()
 
 void ChromaEngine::Draw()
 {
-
-	m_Renderer->RenderScene();
+	Chroma::Render::RenderScene();
 	Chroma::GUI::Draw();
 	Chroma::Screen::Update();
 }
@@ -80,7 +79,7 @@ void ChromaEngine::Init()
 	CHROMA_INFO("Chroma Time Initialized.");
 
 	// Renderer
-	m_Renderer = new Renderer(m_Scene);
+	Chroma::Render::Init(m_Scene);
 	CHROMA_INFO("Chroma Renderer Initialized.");
 
 	// Input
@@ -91,7 +90,7 @@ void ChromaEngine::Init()
 
 	// PhysicsEngine
 	Chroma::Physics::Init();
-	Chroma::Physics::BindDebugBuffer(m_Renderer->GetDebugBuffer());
+	Chroma::Physics::BindDebugBuffer(Chroma::Render::GetDebugBuffer());
 	CHROMA_INFO("Chroma Physics Engine Initialized.");
 
 	// AnimationEngine
@@ -121,6 +120,6 @@ void ChromaEngine::ProcessInput()
 
 	// animation debug
 	//if (Chroma::GUI::DebugAnim)
-	m_Renderer->GetDebugBuffer()->DrawSceneSkeletons(m_Scene);
+	Chroma::Render::GetDebugBuffer()->DrawSceneSkeletons(m_Scene);
 
 }
