@@ -324,15 +324,15 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 		
 		Joint newJoint;
 		// Joint Name
-		newJoint.SetName(bone->mName.C_Str());
+		newJoint.m_Name = bone->mName.C_Str();
 		// Joint Model Transform, Relative to Model Origin
-		newJoint.SetModelBindTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
+		newJoint.m_ModelBindTransform = glm::inverse(AIToGLM(bone->mOffsetMatrix));
 		// Joint Final Transform intialized to model transform
-		newJoint.SetModelSpaceTransform(glm::inverse(AIToGLM(bone->mOffsetMatrix)));
+		newJoint.m_ModelSpaceTransform = glm::inverse(AIToGLM(bone->mOffsetMatrix));
 		// Joint Inverse Model Transform, Relative from Joint to Origin
-		newJoint.SetModelInverseBindTransform(AIToGLM(bone->mOffsetMatrix));
+		newJoint.m_ModelInverseBindTransform = AIToGLM(bone->mOffsetMatrix);
 		// Joint ID
-		newJoint.SetID(i);
+		newJoint.m_ID = i;
 
 		// store joint IDs and Weights to skelton and verts
 		for (int j = 0; j < bone->mNumWeights; j++)
@@ -376,11 +376,11 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 			// Get Parent ID
 			int parentJointID{ -1 };
 			GetParentJointID(jointNode, skeleton, parentJointID);
-			namedJoint.second->SetParentJointID(parentJointID);
+			namedJoint.second->m_ParentJointID = parentJointID;
 			// Get Child IDs
 			std::vector<int> childJointIDs;
 			GetChildJointIDs(jointNode, skeleton, childJointIDs);
-			namedJoint.second->SetChildJointIDs(childJointIDs);
+			namedJoint.second->m_ChildJointIDs = childJointIDs;
 		}
 	}
 

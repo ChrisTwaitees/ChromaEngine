@@ -181,7 +181,6 @@
     <ClCompile Include="source\Engine\animation\AnimationLoader.cpp" />
     <ClCompile Include="source\Engine\animation\AnimationEngine.cpp" />
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
-    <ClCompile Include="source\Engine\animation\Joint.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
     <ClCompile Include="source\Engine\component\AnimationComponent.cpp" />
     <ClCompile Include="source\Engine\component\CharacterControllerComponent.cpp" />
@@ -248,7 +247,6 @@
     <ClInclude Include="source\Engine\animation\AnimationLoader.h" />
     <ClInclude Include="source\Engine\animation\AnimationEngine.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
-    <ClInclude Include="source\Engine\animation\Joint.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
     <ClInclude Include="source\Engine\ChromaConfig.h" />
     <ClInclude Include="source\Engine\common\CoreCommon.h" />

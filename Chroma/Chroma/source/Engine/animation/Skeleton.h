@@ -10,8 +10,27 @@
 #include <glm/gtx/quaternion.hpp>
 
 // chroma
-#include <animation/Joint.h>
 #include <buffer/DebugBuffer.h>
+
+
+struct Joint
+{
+	// Identifiers
+	int m_ID{ 0 };
+	std::string m_Name;
+
+	// Transforms
+	glm::mat4 m_ModelBindTransform{ 1.0 }; // Model - space bind transform, relative to model root
+	glm::mat4 m_ModelInverseBindTransform{ 1.0 }; // Inverse of Model Bind Transform
+	glm::mat4 m_LocalBindOffsetTransform{ 1.0 }; // Joint - space bind Transform, relative to parent modelBindTransform
+
+	glm::mat4 m_ModelSpaceTransform{ 1.0 }; // Passed to WorldSpace Transform for Shader
+
+	// Parent/ Child Joint IDs
+	std::vector<int> m_ChildJointIDs;
+	int m_ParentJointID{ 0 };
+};
+
 
 
 class Skeleton
@@ -36,7 +55,7 @@ public:
 	// Accessors
 	void AddJoint(Joint& newJoint);
 	void SetGlobalTransform(glm::mat4 const& newGlobalTransform) ;
-	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.GetID(); };
+	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.m_ID; };
 	void SetRootJointID(int const& newRootJointID) { m_RootJointID = newRootJointID; };
 
 	void SetScale(float const& newScale) { m_Scale = newScale; UpdateSkeletonRootTransform(); };
