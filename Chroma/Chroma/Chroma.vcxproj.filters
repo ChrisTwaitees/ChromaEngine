@@ -4,17 +4,6 @@
     <Filter Include="thirdparty">
       <UniqueIdentifier>{ea2418d7-5c1c-4109-91e1-50b17ccd3116}</UniqueIdentifier>
     </Filter>
-    <Filter Include="classes">
-      <UniqueIdentifier>{875ff469-96e2-4101-bb52-f407a066b00c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="classes\Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="classes\Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{cbd6a861-4d6e-4c63-b617-9f926a8df22c}</UniqueIdentifier>
     </Filter>
