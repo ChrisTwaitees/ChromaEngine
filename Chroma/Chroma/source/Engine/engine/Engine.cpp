@@ -76,11 +76,6 @@ namespace Chroma
 		Chroma::Time::Init();
 		CHROMA_INFO("Time Initialized.");
 
-		// PhysicsEngine
-		Chroma::Physics::Init();
-		Chroma::Physics::BindDebugBuffer(Chroma::Render::GetDebugBuffer());
-		CHROMA_INFO("Physics Initialized.");
-
 		// Renderer
 		Chroma::Render::Init();
 		CHROMA_INFO("Renderer Initialized.");
@@ -88,6 +83,11 @@ namespace Chroma
 		// GUI
 		Chroma::GUI::Init();
 		CHROMA_INFO("GUI Initialized.");
+
+		// PhysicsEngine
+		Chroma::Physics::Init();
+		Chroma::Physics::BindDebugBuffer(Chroma::Render::GetDebugBuffer());
+		CHROMA_INFO("Physics Initialized.");
 
 		// Final
 		CHROMA_INFO("------------------------------------------");
