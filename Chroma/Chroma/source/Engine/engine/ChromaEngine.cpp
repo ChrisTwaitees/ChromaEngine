@@ -6,12 +6,6 @@ void ChromaEngine::Update()
 	// Physics
 	Chroma::Physics::Update();
 
-	// Animation
-	if (Chroma::GUI::debugAnim)
-		m_Animation->UpdateDebug(Chroma::GUI::animClipName, Chroma::GUI::DebugAnimClipPos);
-	else
-		m_Animation->Update();
-
 	// Updating Components
 	for (std::string const& ComponentUID : m_Scene->GetUpdatingComponentUIDs())
 	{
@@ -93,9 +87,6 @@ void ChromaEngine::Init()
 	Chroma::Physics::BindDebugBuffer(Chroma::Render::GetDebugBuffer());
 	CHROMA_INFO("Chroma Physics Engine Initialized.");
 
-	// AnimationEngine
-	m_Animation->BindScene(m_Scene);
-	CHROMA_INFO("Chroma Animation Engine Initialized.");
 
 }
 

@@ -12,7 +12,7 @@
 #include <component/IComponent.h>
 #include <common/CoreCommon.h>
 
-// forward declarations
+// forward declarations // 
 class Scene;
 class MeshComponent;
 class PhysicsComponent;

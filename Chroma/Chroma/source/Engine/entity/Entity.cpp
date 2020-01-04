@@ -99,8 +99,8 @@ void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 	// add animation component
 	m_AnimationComponents.push_back(newAnimationComponent);
 
-	// add to scene's animated entities
-	GetParentScene()->AddAnimatedEntity(this);
+	// add to updating components
+	GetParentScene()->AddUpdatingComponent(newAnimationComponent);
 }
 
 void Entity::addCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent)

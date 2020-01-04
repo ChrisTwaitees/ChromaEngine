@@ -11,13 +11,13 @@
 class AnimationComponent : public IComponent
 {
 	std::vector<Animator> m_Animators;
+	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
 
 public:
 
 	void AddAnimator(Animator const& newAnimator) { m_Animators.push_back(newAnimator); };
 
-	void ProcessAnimators();
-	void ProcessAnimatorsDebug(std::string const& debugAnimClipName, float const& debugTime);
+	void Update();
 	AnimationComponent();
 	~AnimationComponent();
 };

@@ -28,7 +28,7 @@ static void* get_proc(const char *namez);
 
 #if defined(_WIN32) || defined(__CYGWIN__)
 #ifndef _WINDOWS_
-#undef APIENTRY
+#undef GLADAPIENTRY
 #endif
 #include <windows.h>
 static HMODULE libGL;

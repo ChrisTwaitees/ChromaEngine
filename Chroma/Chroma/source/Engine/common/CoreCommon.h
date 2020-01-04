@@ -12,5 +12,7 @@
 // Time
 #include <time/Time.h>
 
+// Workers
+#include <worker/IWorker.h>
 
 #endif

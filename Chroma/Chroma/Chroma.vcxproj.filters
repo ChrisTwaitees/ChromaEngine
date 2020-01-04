@@ -272,9 +272,6 @@
     <ClCompile Include="source\Engine\scene\Scene.cpp">
       <Filter>Engine\scene</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\animation\AnimationEngine.cpp">
-      <Filter>Engine\animation</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\uid\UID.cpp">
       <Filter>Engine\uid</Filter>
     </ClCompile>
@@ -489,9 +486,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\scene\Scene.h">
       <Filter>Engine\scene</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\animation\AnimationEngine.h">
-      <Filter>Engine\animation</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\uid\UID.h">
       <Filter>Engine\uid</Filter>

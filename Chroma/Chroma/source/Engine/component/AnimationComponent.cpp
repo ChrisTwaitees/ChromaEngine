@@ -1,19 +1,21 @@
 #include "AnimationComponent.h"
 
 
-void AnimationComponent::ProcessAnimators()
-{
-	for (Animator& animator : m_Animators)
-	{
-		animator.DoAnimation();
-	}
-}
-
-void AnimationComponent::ProcessAnimatorsDebug(std::string const& debugAnimClipName, float const& debugTime)
+void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float const& debugTime)
 {
 	for (Animator& animator : m_Animators)
 	{
 		animator.DebugAnimationTake(debugAnimClipName, debugTime);
+	}
+}
+
+
+void AnimationComponent::Update()
+{
+	{ CHROMA_INFO("Updating Animation Component : {0}", GetUID()); }
+	for (Animator& animator : m_Animators)
+	{
+		animator.DoAnimation();
 	}
 }
 
