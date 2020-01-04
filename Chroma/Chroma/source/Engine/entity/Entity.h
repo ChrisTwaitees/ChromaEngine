@@ -60,7 +60,7 @@ class Entity : public IEntity
 public:
 	// Scene 
 	Scene* GetParentScene() override { return m_ParentScene; };
-	void bindParentScene(Scene* const& scene) override { m_ParentScene = scene; };
+	void SetParentScene(Scene* const& scene) override { m_ParentScene = scene; };
 
 	// components
 	std::vector<IComponent*> getComponents() { return m_Components; };
@@ -77,17 +77,18 @@ public:
 
 	// Transformations
 	// additive
-	void scale(glm::vec3 scalefactor) override;
-	void translate(glm::vec3 translatefactor) override;
-	void rotate(float degrees, glm::vec3 rotationaxis) override;
+	void Scale(glm::vec3 scalefactor) override;
+	void Translate(glm::vec3 translatefactor) override;
+	void Rotate(float degrees, glm::vec3 rotationaxis) override;
 	// set
-	void setTransformMatrix(glm::mat4 newTransformMat) override { m_transformMatrix = newTransformMat; };
-	void setScale(glm::vec3 newscale) override;
-	void SetPosition(glm::vec3 newposition) override;
-	void setRotation(float degrees, glm::vec3 rotationaxis) override;
+	void SetTransform(glm::mat4 const& newTransformMat) override;
+	void setScale(glm::vec3  const&  newscale) override;
+	void SetPosition(glm::vec3 const&  newposition) override;
+	void SetRotation(float const& degrees, glm::vec3 const& rotationaxis) override;
+
 	// get
-	glm::mat4 GetTransformationMatrix() override { return m_transformMatrix; };
-	virtual glm::vec3 GetPosition() override { return glm::vec3(m_transformMatrix[3]); } ;
+	glm::mat4 GetTransform() override { return m_Transform; };
+	virtual glm::vec3 GetPosition() override { return glm::vec3(m_Transform[3]); } ;
 
 	// attrs
 	std::vector<ChromaVertex> GetVertices() override;

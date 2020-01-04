@@ -183,7 +183,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix)
 {
 
-	glm::mat4 finalTransform = GetTransformationMatrix() * modelMatrix;
+	glm::mat4 finalTransform = GetTransform() * modelMatrix;
 	shader->SetMat4("model", finalTransform);
 	shader->SetMat4("view", renderCam.GetViewMatrix());
 	shader->SetMat4("projection", renderCam.GetProjectionMatrix());

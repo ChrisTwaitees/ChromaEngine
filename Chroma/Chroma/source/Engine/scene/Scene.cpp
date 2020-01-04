@@ -34,7 +34,7 @@ void Scene::Initialize()
 void Scene::ProcessNewEntity(IEntity* const& newEntity)
 {
 	// bind parent scene
-	newEntity->bindParentScene(this);
+	newEntity->SetParentScene(this);
 }
 
 

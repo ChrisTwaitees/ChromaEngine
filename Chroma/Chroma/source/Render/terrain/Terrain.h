@@ -18,7 +18,7 @@ public:
 	void setTerrainHeight(double newTerrainHeight);
 	double getTerrainHeight() { return TerrainHeight; };
 	
-	glm::mat4 GetTransformationMatrix() override;
+	glm::mat4 GetTransform() override;
 
 	Terrain();
 	Terrain(Camera* camera_val);

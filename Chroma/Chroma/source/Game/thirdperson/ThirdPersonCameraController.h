@@ -8,11 +8,10 @@
 
 class ThirdPersonCameraController : public ICameraController
 {
-	float m_Sensitivity{ 10.0f };
-	float m_test{ 10.0f };
 
 public:
 	void ProcessInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
+
 
 	ThirdPersonCameraController() {};
 	~ThirdPersonCameraController() {};

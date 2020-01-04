@@ -31,7 +31,7 @@ public:
 	virtual glm::vec3 GetCentroid() = 0;
 	virtual Shader* GetShader() = 0;
 	virtual int GetNumTextures() = 0;
-	virtual glm::mat4 GetTransformationMatrix() = 0;
+	virtual glm::mat4 GetTransform() = 0;
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
 	//virtual Skeleton* GetSkeleton() {};
 

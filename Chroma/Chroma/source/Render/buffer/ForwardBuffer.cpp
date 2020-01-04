@@ -58,7 +58,7 @@ void ForwardBuffer::RenderForwardComponents()
 		// render unlit components
 		if (m_Scene->GetEntity(UID)->getUnlitComponents().size() > 0)
 		{
-			glm::mat4 worldTransform = m_Scene->GetEntity(UID)->GetTransformationMatrix();
+			glm::mat4 worldTransform = m_Scene->GetEntity(UID)->GetTransform();
 			for (IComponent*& component : m_Scene->GetEntity(UID)->getUnlitComponents())
 				((MeshComponent*)component)->DrawUpdateTransforms(*m_Scene->GetRenderCamera(), worldTransform);
 		}
@@ -84,7 +84,7 @@ void ForwardBuffer::renderTransparency()
 	// iterating from furthest to closest
 	for (std::map<float, std::string>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
 	{
-		glm::mat4 worldTransform = m_Scene->GetEntity(it->second)->GetTransformationMatrix();
+		glm::mat4 worldTransform = m_Scene->GetEntity(it->second)->GetTransform();
 		for (IComponent* component : m_Scene->GetEntity(it->second)->GetTransparentComponents())
 		{
 			if (((MeshComponent*)component)->m_IsForwardLit) // draw lit transparent components

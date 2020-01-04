@@ -55,7 +55,7 @@ public:
 	// Getters/Setters
 	virtual Shader* GetShader() { return m_shader; };
 	int GetNumTextures() override { return m_Textures.size(); };
-	virtual glm::mat4 GetTransformationMatrix() override { return m_TransformationMatrix; };
+	virtual glm::mat4 GetTransform() override { return m_TransformationMatrix; };
 	virtual std::vector<ChromaVertex> GetVertices() { return m_vertices; };
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox();
 	virtual glm::vec3 GetCentroid();

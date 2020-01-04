@@ -78,10 +78,10 @@ void ShadowBuffer::calculateShadows()
 	// render scene
 	for (std::string const& UID : m_Scene->GetEntityUIDs())
 	{
-		glm::mat4 finalTransformMatrix = m_Scene->GetEntity(UID)->GetTransformationMatrix();	
+		glm::mat4 finalTransformMatrix = m_Scene->GetEntity(UID)->GetTransform();	
 		for (IComponent* component : m_Scene->GetEntity(UID)->getShadowCastingComponents())
 		{
-			finalTransformMatrix *= ((MeshComponent*)component)->GetTransformationMatrix();
+			finalTransformMatrix *= ((MeshComponent*)component)->GetTransform();
 			depthShader.SetMat4("model", finalTransformMatrix);
 			((MeshComponent*)component)->Draw(depthShader);
 

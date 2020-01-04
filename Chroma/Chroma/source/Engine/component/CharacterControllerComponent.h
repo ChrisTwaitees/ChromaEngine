@@ -9,6 +9,7 @@
 #include <component/IComponent.h>
 #include <camera/ICameraController.h>
 #include <physics/PhysicsEngine.h>
+#include <math/Math.h>
 
 
 class CharacterControllerComponent : public IComponent
@@ -16,11 +17,9 @@ class CharacterControllerComponent : public IComponent
 protected:
 	// camera controller
 	ICameraController* m_CameraController{ nullptr };
-
-	// common attrs
-	glm::vec3 m_Gravity{ 0.0, -9.81, 0.0 };
-	float m_Speed{ 10.0 };
-	float m_JumpHeight{ 2.0 };
+	glm::vec3 m_CamPosition{ glm::vec3(10.0) };
+	glm::vec3 m_CamDirection{ CHROMA_RIGHT };
+	glm::vec3 m_CamUp{ CHROMA_UP };
 
 	// transform
 	glm::vec3 m_Position{ 0.0 };
@@ -35,7 +34,7 @@ protected:
 
 public:
 
-	inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
+	virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
 	virtual void Update() override;
 
 	CharacterControllerComponent();

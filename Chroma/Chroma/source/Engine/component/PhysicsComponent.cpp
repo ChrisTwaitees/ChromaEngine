@@ -39,7 +39,7 @@ glm::mat4 PhysicsComponent::GetWorldTransform() const
 void PhysicsComponent::Transform(btTransform& transform)
 {
 	glm::mat4 transformMat = BulletToGLM(transform);
-	GetParentEntity()->setTransformMatrix(transformMat);
+	GetParentEntity()->SetTransform(transformMat);
 }
 
 void PhysicsComponent::CreateCollisionShape()
@@ -124,7 +124,7 @@ void PhysicsComponent::CreateCollisionShape()
 void PhysicsComponent::CreateRigidBody()
 {
 	// fetch entity position
-	m_ColliderTransform = GLMToBullet(GetParentEntity()->GetTransformationMatrix());
+	m_ColliderTransform = GLMToBullet(GetParentEntity()->GetTransform());
 
 	// default motion state
 	m_MotionState = new btDefaultMotionState(m_ColliderTransform);

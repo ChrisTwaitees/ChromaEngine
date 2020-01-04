@@ -17,7 +17,7 @@ void CharacterControllerComponent::Update()
 {
 	ProcessInput();
 	CalculateTransform();
-	m_ParentEntity->setTransformMatrix(m_Transform);
+	m_ParentEntity->SetTransform(m_Transform);
 }
 
 CharacterControllerComponent::CharacterControllerComponent()

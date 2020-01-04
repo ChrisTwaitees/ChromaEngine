@@ -49,7 +49,7 @@ public:
 	void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 
 	// Accessors	
-	glm::mat4 GetTransformationMatrix() override { return m_TransformationMatrix; };
+	glm::mat4 GetTransform() override { return m_TransformationMatrix; };
 	std::pair<glm::vec3, glm::vec3> GetBBox();
 	glm::vec3 GetCentroid();
 	// render components

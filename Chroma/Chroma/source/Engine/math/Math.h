@@ -73,6 +73,15 @@ namespace Chroma
 			return glm::scale(ident, scale);
 		}
 
+		inline static float CartesianToPolar(float const& x, float const& y) { return glm::atan(y, x); }
+
+		static glm::vec3 RotateAroundPivot(glm::vec3 const& point, glm::vec3 const& pivot, glm::quat rotation)
+		{
+			glm::vec3 toPoint = point - pivot; // get vector to point
+			rotation * toPoint; // rotate it
+			return pivot + toPoint; // shift pivot to new rotated position
+		}
+
 	};
 }
 

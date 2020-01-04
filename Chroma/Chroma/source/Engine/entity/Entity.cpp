@@ -40,13 +40,13 @@ void Entity::Draw(Shader& shader)
 void Entity::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights)
 {
 	for (IComponent* component : m_RenderableComponents)
-		((MeshComponent*)component)->Draw(shader, RenderCamera, Lights, m_transformMatrix);
+		((MeshComponent*)component)->Draw(shader, RenderCamera, Lights, m_Transform);
 }
 
 void Entity::Draw(Camera& RenderCamera, std::vector<Light*> Lights)
 {
 	for (IComponent* component : m_RenderableComponents)
-		((MeshComponent*)component)->Draw(RenderCamera, Lights, m_transformMatrix);
+		((MeshComponent*)component)->Draw(RenderCamera, Lights, m_Transform);
 }
 
 // ADDING/REMOVING COMPONENTS
@@ -132,7 +132,7 @@ void Entity::CalculateBBox()
 	}
 	// re-establishing min and max bboxes
 	// scale by entity's current size
-	glm::vec3 scale = getScale(m_transformMatrix);
+	glm::vec3 scale = getScale(m_Transform);
 	m_BBoxMin = newMinBBox * scale;
 	m_BBoxMax = newMaxBBox * scale;
 }
@@ -169,7 +169,7 @@ void Entity::UpdatePhysicsComponentsTransforms()
 	for (IComponent* physicsComponent : m_PhysicsComponents)
 	{
 		if (((PhysicsComponent*)physicsComponent)->getColliderState() == Kinematic) // check if physics object is kinematic
-			((PhysicsComponent*)physicsComponent)->SetWorldTransform(m_transformMatrix);
+			((PhysicsComponent*)physicsComponent)->SetWorldTransform(m_Transform);
 	}
 }
 
@@ -181,41 +181,47 @@ void Entity::ProcessNewComponent(IComponent* const& newComponent)
 
 
 // TRANSFORMATIONS
-void Entity::scale(glm::vec3 scalefactor)
+void Entity::Scale(glm::vec3 scalefactor)
 {
-	m_transformMatrix = glm::scale(m_transformMatrix, scalefactor);
+	m_Transform = glm::scale(m_Transform, scalefactor);
 	UpdatePhysicsComponentsTransforms();
 }
 
-void Entity::translate(glm::vec3 translatefactor)
+void Entity::Translate(glm::vec3 translatefactor)
 {
-	m_transformMatrix = glm::translate(m_transformMatrix, translatefactor);
+	m_Transform = glm::translate(m_Transform, translatefactor);
 	UpdatePhysicsComponentsTransforms();
 }
 
-void Entity::rotate(float degrees, glm::vec3 rotationaxis)
+void Entity::Rotate(float degrees, glm::vec3 rotationaxis)
 {
-	m_transformMatrix = glm::rotate(m_transformMatrix, glm::radians(degrees), rotationaxis);
+	m_Transform = glm::rotate(m_Transform, glm::radians(degrees), rotationaxis);
 	UpdatePhysicsComponentsTransforms();
 }
 
-void Entity::setScale(glm::vec3 newscale)
+void Entity::SetTransform(glm::mat4 const& newTransformMat)
 {
-	m_transformMatrix = glm::scale(m_transformMatrix, newscale);
+	m_Transform = newTransformMat;
 	UpdatePhysicsComponentsTransforms();
 }
 
-void Entity::SetPosition(glm::vec3 newposition)
+void Entity::setScale(glm::vec3 const& newscale)
 {
-	m_transformMatrix[3] = glm::vec4(newposition, 1);
+	m_Transform = glm::scale(m_Transform, newscale);
 	UpdatePhysicsComponentsTransforms();
 }
 
-void Entity::setRotation(float degrees, glm::vec3 rotationaxis)
+void Entity::SetPosition(glm::vec3 const& newposition)
+{
+	m_Transform[3] = glm::vec4(newposition, 1);
+	UpdatePhysicsComponentsTransforms();
+}
+
+void Entity::SetRotation(float const& degrees, glm::vec3 const& rotationaxis)
 {
 	glm::vec3 existingTranslation = GetPosition();
-	m_transformMatrix = glm::translate(m_transformMatrix, existingTranslation);
-	rotate(degrees, rotationaxis);
+	m_Transform = glm::translate(m_Transform, existingTranslation);
+	Rotate(degrees, rotationaxis);
 	UpdatePhysicsComponentsTransforms();
 }
 

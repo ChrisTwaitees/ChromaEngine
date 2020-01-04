@@ -15,7 +15,7 @@ void Terrain::setTerrainHeight(double newTerrainHeight)
 	TerrainTransformMatrix = glm::translate(TerrainIdentityMatrix, glm::vec3(0.0f, newTerrainHeight, 0.0f));
 }
 
-glm::mat4 Terrain::GetTransformationMatrix()
+glm::mat4 Terrain::GetTransform()
 {
 	return TerrainTransformMatrix;
 }

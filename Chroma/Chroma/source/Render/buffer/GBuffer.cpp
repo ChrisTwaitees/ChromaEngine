@@ -163,11 +163,11 @@ void GBuffer::drawGeometryPass()
 	// Render Scene
 	for (std::string const& UID : m_Scene->GetEntityUIDs())
 	{
-		glm::mat4 finalTransformMatrix = m_Scene->GetEntity(UID)->GetTransformationMatrix();
+		glm::mat4 finalTransformMatrix = m_Scene->GetEntity(UID)->GetTransform();
 		for (IComponent* component : m_Scene->GetEntity(UID)->getLitComponents())
 		{
 			// transform components by entity transform
-			finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransformationMatrix();
+			finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransform();
 			m_geometryPassShader.SetMat4("model", finalTransformMatrix);
 
 			// check if mesh skinned
@@ -184,11 +184,11 @@ void GBuffer::drawGeometryPass()
 
 void GBuffer::RenderWithShader(IEntity* Entity)
 {
-	glm::mat4 finalTransformMatrix = Entity->GetTransformationMatrix();
+	glm::mat4 finalTransformMatrix = Entity->GetTransform();
 	for (IComponent* component : Entity->getLitComponents())
 	{
 		// transform components by entity transform
-		finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransformationMatrix();
+		finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransform();
 		m_geometryPassShader.SetMat4("model", finalTransformMatrix);
 
 		// check if mesh skinned
