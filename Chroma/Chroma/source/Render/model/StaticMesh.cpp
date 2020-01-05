@@ -63,7 +63,7 @@ void StaticMesh::SetupMesh()
 
 void StaticMesh::updateUniforms(const Shader* updateShader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
 {
-	updateTransformUniforms(updateShader, RenderCam, TransformMatrix);
+	UpdateTransformUniforms(updateShader, RenderCam, TransformMatrix);
 	updateMaterialUniforms(updateShader);
 	updateTextureUniforms(updateShader);
 	updateLightingUniforms(updateShader, Lights, RenderCam);
@@ -180,7 +180,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 	glActiveTexture(GL_TEXTURE0);
 }
 
-void StaticMesh::updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix)
+void StaticMesh::UpdateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix)
 {
 
 	glm::mat4 finalTransform = GetTransform() * modelMatrix;
@@ -231,7 +231,7 @@ void StaticMesh::DrawUpdateMaterials(Shader& shader)
 void StaticMesh::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 {
 	m_shader->use();
-	updateTransformUniforms(m_shader, renderCam, modelMatrix);
+	UpdateTransformUniforms(m_shader, renderCam, modelMatrix);
 	BindDrawVAO();
 }
 

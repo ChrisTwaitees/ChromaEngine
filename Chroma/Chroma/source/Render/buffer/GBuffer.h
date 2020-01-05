@@ -2,7 +2,7 @@
 #define _CHROMA_GBUFFER_
 
 
-#include <buffer/Framebuffer.h>
+#include <buffer/IFramebuffer.h>
 #include <buffer/PostFXBuffer.h>
 #include <buffer/ShadowBuffer.h>
 #include <buffer/SSAOBuffer.h>
@@ -13,7 +13,7 @@
 
 
 
-class GBuffer : public Framebuffer
+class GBuffer : public IFramebuffer
 {
 	// shaders
 	const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
@@ -28,11 +28,11 @@ class GBuffer : public Framebuffer
 	// buffers
 	unsigned int m_gBuffer;
 	unsigned int m_gRBO;
-	Framebuffer* m_SSAOBuffer{ new SSAOBuffer };
+	IFramebuffer* m_SSAOBuffer{ new SSAOBuffer };
 
 	// scene
 	ShadowBuffer* mShadowbuffer;
-	Framebuffer* m_PostFXBuffer;
+	IFramebuffer* m_PostFXBuffer;
 
 	// functions
 	void Initialize() override;
@@ -51,7 +51,7 @@ class GBuffer : public Framebuffer
 	// uniforms
 	void configureShaders();
 	void setLightingUniforms();
-	void updateTransformUniforms() override;
+	void UpdateTransformUniforms() override;
 
 	// cubemap TEST
 	CubeMap testCubeMap{ "resources/textures/skybox/blueskywater"};
@@ -62,7 +62,7 @@ public:
 	void Bind() override;
 	void Draw() override;
 	// structors
-	GBuffer(Framebuffer*& m_PostFXBuffer);
+	GBuffer(IFramebuffer*& m_PostFXBuffer);
 	~GBuffer();
 };
 

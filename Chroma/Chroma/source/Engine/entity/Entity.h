@@ -78,7 +78,7 @@ public:
 	void Rotate(float degrees, glm::vec3 rotationaxis) override;
 	// set
 	void SetTransform(glm::mat4 const& newTransformMat) override;
-	void setScale(glm::vec3  const&  newscale) override;
+	void SetScale(glm::vec3  const&  newscale) override;
 	void SetPosition(glm::vec3 const&  newposition) override;
 	void SetRotation(float const& degrees, glm::vec3 const& rotationaxis) override;
 

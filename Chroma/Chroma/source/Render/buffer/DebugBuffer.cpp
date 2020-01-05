@@ -4,21 +4,21 @@
 
 void DebugBuffer::Initialize()
 {
-	glGenFramebuffers(1, &FBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glGenFramebuffers(1, &m_FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 	// create floating point color buffer
-	glGenTextures(1, &FBOTexture);
-	glBindTexture(GL_TEXTURE_2D, FBOTexture);
+	glGenTextures(1, &m_FBOTexture);
+	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBOTexture, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_FBOTexture, 0);
 	// create depth buffer (renderbuffer)
-	glGenRenderbuffers(1, &RBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glGenRenderbuffers(1, &m_RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 	// attach buffers
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, RBO);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		CHROMA_WARN("Framebuffer Not Complete!");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -28,8 +28,8 @@ void DebugBuffer::Initialize()
 
 void DebugBuffer::blitPostFXBuffer()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->getFBO()); // fetch  postFXBuffer
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO); // copy depth and color to current buffer
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->GetFBO()); // fetch  postFXBuffer
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FBO); // copy depth and color to current buffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
 	);
@@ -75,7 +75,7 @@ void DebugBuffer::drawShapes()
 	blitDepthPostFXBuffer();
 	DrawDepthCulledShapes();
 
-	unBind();
+	UnBind();
 }
 
 void DebugBuffer::DrawOverlayShapes()
@@ -116,12 +116,12 @@ void DebugBuffer::DrawDepthCulledShapes()
 void DebugBuffer::renderLine(LineShape line)
 {
 	m_LineShader.use();
-	m_LineShader.setUniform("Start", line.start);
-	m_LineShader.setUniform("End", line.end);
-	m_LineShader.setUniform("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
-	m_LineShader.setUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
-	m_LineShader.setUniform("model", glm::mat4(1.0f));
-	m_LineShader.setUniform("color", line.color);
+	m_LineShader.SetUniform("Start", line.start);
+	m_LineShader.SetUniform("End", line.end);
+	m_LineShader.SetUniform("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
+	m_LineShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
+	m_LineShader.SetUniform("model", glm::mat4(1.0f));
+	m_LineShader.SetUniform("color", line.color);
 
 	BindPointVAO();
 }
@@ -129,10 +129,10 @@ void DebugBuffer::renderLine(LineShape line)
 void DebugBuffer::renderSphere(SphereShape sphere)
 {
 	m_SphereShader.use();
-	m_SphereShader.setUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
-	m_SphereShader.setUniform("model", sphere.transform);
-	m_SphereShader.setUniform("radius", sphere.radius);
-	m_SphereShader.setUniform("color", sphere.color);
+	m_SphereShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+	m_SphereShader.SetUniform("model", sphere.transform);
+	m_SphereShader.SetUniform("radius", sphere.radius);
+	m_SphereShader.SetUniform("color", sphere.color);
 
 	BindPointVAO();
 }
@@ -140,11 +140,11 @@ void DebugBuffer::renderSphere(SphereShape sphere)
 void DebugBuffer::renderBox(BoxShape box)
 {
 	m_BoxShader.use();
-	m_BoxShader.setUniform("BBoxMin", box.bbox_min);
-	m_BoxShader.setUniform("BBoxMax", box.bbox_max);
-	m_BoxShader.setUniform("VPMat" , Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
-	m_BoxShader.setUniform("model", box.transform);
-	m_BoxShader.setUniform("color", box.color);
+	m_BoxShader.SetUniform("BBoxMin", box.bbox_min);
+	m_BoxShader.SetUniform("BBoxMax", box.bbox_max);
+	m_BoxShader.SetUniform("VPMat" , Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+	m_BoxShader.SetUniform("model", box.transform);
+	m_BoxShader.SetUniform("color", box.color);
 
 	BindPointVAO();
 }
@@ -152,12 +152,12 @@ void DebugBuffer::renderBox(BoxShape box)
 void DebugBuffer::renderJoint(JointShape joint)
 {
 	m_JointShader.use();
-	m_JointShader.setUniform("JointPos", joint.jointPos);
-	m_JointShader.setUniform("ChildPos", joint.childPos);
-	m_JointShader.setUniform("Size", joint.size);
-	m_JointShader.setUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
-	m_JointShader.setUniform("transform", joint.transform);
-	m_JointShader.setUniform("color", joint.color);
+	m_JointShader.SetUniform("JointPos", joint.jointPos);
+	m_JointShader.SetUniform("ChildPos", joint.childPos);
+	m_JointShader.SetUniform("Size", joint.size);
+	m_JointShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+	m_JointShader.SetUniform("transform", joint.transform);
+	m_JointShader.SetUniform("color", joint.color);
 	BindPointVAO();
 }
 
@@ -165,9 +165,9 @@ void DebugBuffer::renderCoordinate(CoordinatesShape coordinate)
 {
 	// Coordinate reference 
 	m_CoordinatesShader.use();
-	m_CoordinatesShader.setUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
-	m_CoordinatesShader.setUniform("transform", coordinate.transform);
-	m_CoordinatesShader.setUniform("Size", coordinate.size);
+	m_CoordinatesShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+	m_CoordinatesShader.SetUniform("transform", coordinate.transform);
+	m_CoordinatesShader.SetUniform("Size", coordinate.size);
 
 	BindPointVAO();
 }
@@ -302,7 +302,7 @@ void DebugBuffer::ClearBuffer()
 	m_boxes.clear();
 	m_Coordinates.clear();
 
-	unBind();
+	UnBind();
 }
 
 void DebugBuffer::Draw()
@@ -314,21 +314,21 @@ void DebugBuffer::Draw()
 	m_PostFXBuffer->Bind();
 
 	// use screen shader
-	screenShader->use();
+	m_ScreenShader->use();
 	// draw
 	// using color attachment
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, FBOTexture);
+	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
 	// setting transform uniforms
-	updateTransformUniforms();
-	renderQuad();
+	UpdateTransformUniforms();
+	RenderQuad();
 	// return to default frambuffer
-	m_PostFXBuffer->unBind();
+	m_PostFXBuffer->UnBind();
 }
 
 void DebugBuffer::AttachBuffer()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 	blitPostFXBuffer();
 }
 

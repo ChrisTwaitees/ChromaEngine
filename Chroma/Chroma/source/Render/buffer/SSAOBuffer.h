@@ -7,11 +7,11 @@
 
 #include <glm/glm.hpp>
 
-#include <buffer/Framebuffer.h>
+#include <buffer/IFramebuffer.h>
 #include <scene/Scene.h>
 
 
-class SSAOBuffer : public Framebuffer
+class SSAOBuffer : public IFramebuffer
 {
 	// random generators
 	std::uniform_real_distribution<float> randomFloats{ 0.0, 1.0 };
@@ -51,7 +51,7 @@ class SSAOBuffer : public Framebuffer
 
 public:
 	void Draw(unsigned int& gViewPosition, unsigned int& gNormal);
-	virtual unsigned int getTexture() override { return ssaoColorBufferBlur; };
+	virtual unsigned int GetTexture() override { return ssaoColorBufferBlur; };
 
 	SSAOBuffer();
 	~SSAOBuffer();

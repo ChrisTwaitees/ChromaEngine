@@ -9,10 +9,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 // Chroma
-#include <buffer/Framebuffer.h>
+#include <buffer/IFramebuffer.h>
 #include <scene/Scene.h>
 
-class ShadowBuffer : Framebuffer
+class ShadowBuffer : IFramebuffer
 {
 private:
 	// DepthBuffers
@@ -36,7 +36,7 @@ private:
 public:
 	// getters and setters
 	glm::mat4 getLightSpaceMatrix() { return lightSpaceMatrix; };
-	unsigned int getTexture() override { return ShadowMapTexture.ID; }
+	unsigned int GetTexture() override { return ShadowMapTexture.ID; }
 
 	// calculate shadows
 	void calculateShadows();

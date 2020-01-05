@@ -4,16 +4,16 @@
 namespace Chroma
 {
 	// Deffered Buffer
-	Framebuffer* Render::m_GBuffer;
+	IFramebuffer* Render::m_GBuffer;
 
 	// Forward Buffer
-	Framebuffer* Render::m_ForwardBuffer;
+	IFramebuffer* Render::m_ForwardBuffer;
 
 	// Debug Buffer
 	DebugBuffer* Render::m_DebugBuffer;
 
 	// Post FX
-	Framebuffer* Render::m_PostFXBuffer;
+	IFramebuffer* Render::m_PostFXBuffer;
 
 	void Render::ClearBuffers()
 	{
@@ -42,8 +42,8 @@ namespace Chroma
 	void Render::RenderPostFX()
 	{
 		// POSTFX BUFFER
-		m_PostFXBuffer->setUniform("exposure", 1.0f);
-		m_PostFXBuffer->setUniform("gamma", 2.2f);
+		m_PostFXBuffer->SetUniform("exposure", 1.0f);
+		m_PostFXBuffer->SetUniform("gamma", 2.2f);
 
 		m_PostFXBuffer->Draw();
 	}

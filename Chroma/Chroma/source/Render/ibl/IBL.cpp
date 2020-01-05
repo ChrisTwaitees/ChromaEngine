@@ -188,8 +188,8 @@ void IBL::generateBRDFLUTMap()
 
 	glViewport(0, 0, 512, 512);
 	m_brdfShader.use();
-	m_brdfShader.setUniform("scale", glm::vec2(1.0));
-	m_brdfShader.setUniform("offset", glm::vec2(0.0));
+	m_brdfShader.SetUniform("scale", glm::vec2(1.0));
+	m_brdfShader.SetUniform("offset", glm::vec2(0.0));
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	m_capturePlane.BindDrawVAO();
 

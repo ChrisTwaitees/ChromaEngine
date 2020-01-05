@@ -55,10 +55,10 @@ public:
 	inline unsigned int getBRDFLUTID() { return m_brdfLUTTexture; };
 
 	template <typename UniformType>
-	void setUniform(std::string uniformName, UniformType uniform)
+	void SetUniform(std::string uniformName, UniformType uniform)
 	{
 		m_envMapShader.use();
-		m_envMapShader.setUniform(uniformName, uniform);
+		m_envMapShader.SetUniform(uniformName, uniform);
 	}
 	IBL();
 	~IBL() {};

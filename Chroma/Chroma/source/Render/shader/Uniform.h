@@ -79,46 +79,46 @@ public:
 	// Setting existing Uniforms
 
 	template<typename T>
-	void setUniform(std::string name, T uniformValue) {
+	void SetUniform(std::string name, T uniformValue) {
 		CHROMA_WARN("Not supported Uniform Type!");
 	};
 
 	template<>
-	void setUniform<int>(std::string uniformName, int uniformValue) {
+	void SetUniform<int>(std::string uniformName, int uniformValue) {
 		SetInt(uniformName, uniformValue);
 	};
 
 	template<>
-	void setUniform<unsigned int>(std::string uniformName, unsigned int uniformValue) {
+	void SetUniform<unsigned int>(std::string uniformName, unsigned int uniformValue) {
 		SetInt(uniformName, uniformValue);
 	};
 
 	template<>
-	void setUniform<float>(std::string uniformName, float uniformValue)
+	void SetUniform<float>(std::string uniformName, float uniformValue)
 	{
 		SetFloat(uniformName, uniformValue);
 	};
 
 	template<>
-	void setUniform<glm::vec2>(std::string uniformName, glm::vec2 uniformValue)
+	void SetUniform<glm::vec2>(std::string uniformName, glm::vec2 uniformValue)
 	{
 		setVec2(uniformName, uniformValue);
 	};
 
 	template<>
-	void setUniform<glm::vec3>(std::string uniformName, glm::vec3 uniformValue)
+	void SetUniform<glm::vec3>(std::string uniformName, glm::vec3 uniformValue)
 	{
 		setVec3(uniformName, uniformValue);
 	};
 
 	template<>
-	void setUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
+	void SetUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
 	{
 		SetMat4(uniformName, uniformValue);
 	};
 
 	template<>
-	void setUniform<bool>(std::string uniformName, bool uniformValue)
+	void SetUniform<bool>(std::string uniformName, bool uniformValue)
 	{
 		SetBool(uniformName, uniformValue);
 	};

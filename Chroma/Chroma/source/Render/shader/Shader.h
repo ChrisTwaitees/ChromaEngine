@@ -53,8 +53,8 @@ public:
 	};
 
 	template<typename UniformType>
-	void setUniform(std::string uniformName, UniformType uniformValue) {
-		Uniforms.setUniform(uniformName, uniformValue);
+	void SetUniform(std::string uniformName, UniformType uniformValue) {
+		Uniforms.SetUniform(uniformName, uniformValue);
 	};
 
 	void SetBool(const std::string& name, bool value) const;

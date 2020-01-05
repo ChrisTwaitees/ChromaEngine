@@ -4,7 +4,7 @@
 
 void Skeleton::InitializeSkeleton()
 {
-	// calculate local bind offset relative to parent joint
+	// calculate local bind m_Offset relative to parent joint
 	CalculateJointLocalBindOffsetTransforms();
 }
 
@@ -260,7 +260,7 @@ void Skeleton::SetJointUniforms(Shader& skinnedShader)
 	{
 		glm::mat4 WorldSpaceOffset = GetRootTransform() * IDNameJoint.second.m_ModelSpaceTransform * IDNameJoint.second.m_ModelInverseBindTransform;
 		std::string jntUniformName = "aJoints[" + std::to_string(IDNameJoint.first.first) + "]";
-		skinnedShader.setUniform(jntUniformName, WorldSpaceOffset);
+		skinnedShader.SetUniform(jntUniformName, WorldSpaceOffset);
 	}
 }
 
@@ -272,7 +272,7 @@ void Skeleton::UpdateSkeletonRootTransform()
 
 void Skeleton::TransformJointAndChildren(int const& jointID, glm::mat4 const& transform)
 {
-	// Recursive applying offset from Model Bind Transform
+	// Recursive applying m_Offset from Model Bind Transform
 	glm::mat4 updatedTransform{ transform * GetJointPtr(jointID)->m_ModelBindTransform };
 	GetJointPtr(jointID)->m_ModelSpaceTransform = updatedTransform;
 
@@ -284,7 +284,7 @@ void Skeleton::TransformJointAndChildren(int const& jointID, glm::mat4 const& tr
 
 void Skeleton::CalculateJointLocalBindOffsetTransforms()
 {
-	// Init Skeleton, calculating local joint offset to parent
+	// Init Skeleton, calculating local joint m_Offset to parent
 	for (auto& IDNameJoint : m_Joints)
 	{
 		if (IDNameJoint.second.m_ParentJointID != -1) // root joint has no parent

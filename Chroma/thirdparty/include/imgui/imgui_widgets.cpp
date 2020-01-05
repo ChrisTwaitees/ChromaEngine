@@ -2393,7 +2393,7 @@ bool ImGui::SliderBehaviorT(const ImRect& bb, ImGuiID id, ImGuiDataType data_typ
             TYPE v_new;
             if (is_power)
             {
-                // Account for power curve scale on both sides of the zero
+                // Account for power curve m_Scale on both sides of the zero
                 if (clicked_t < linear_zero_pos)
                 {
                     // Negative: rescale to the negative range before powering
@@ -5717,7 +5717,7 @@ void ImGui::PlotEx(ImGuiPlotType plot_type, const char* label, float (*values_ge
         return;
     const bool hovered = ItemHoverable(frame_bb, id);
 
-    // Determine scale from values if not specified
+    // Determine m_Scale from values if not specified
     if (scale_min == FLT_MAX || scale_max == FLT_MAX)
     {
         float v_min = FLT_MAX;
@@ -6104,7 +6104,7 @@ bool ImGui::BeginMenu(const char* label, bool enabled)
         ImGuiWindow* child_menu_window = (g.BeginPopupStack.Size < g.OpenPopupStack.Size && g.OpenPopupStack[g.BeginPopupStack.Size].SourceWindow == window) ? g.OpenPopupStack[g.BeginPopupStack.Size].Window : NULL;
         if (g.HoveredWindow == window && child_menu_window != NULL && !(window->Flags & ImGuiWindowFlags_MenuBar))
         {
-            // FIXME-DPI: Values should be derived from a master "scale" factor.
+            // FIXME-DPI: Values should be derived from a master "m_Scale" factor.
             ImRect next_window_rect = child_menu_window->Rect();
             ImVec2 ta = g.IO.MousePos - g.IO.MouseDelta;
             ImVec2 tb = (window->Pos.x < child_menu_window->Pos.x) ? next_window_rect.GetTL() : next_window_rect.GetTR();

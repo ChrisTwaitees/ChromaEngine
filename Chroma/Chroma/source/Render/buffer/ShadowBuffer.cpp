@@ -47,7 +47,7 @@ void ShadowBuffer::bindShadowMapToBuffer()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ShadowMapTexture.ID, 0);
-	// RBO are not complete without a color buffer
+	// m_RBO are not complete without a color buffer
 	// setting the following to NONE mitigates this
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
@@ -86,7 +86,7 @@ void ShadowBuffer::calculateShadows()
 			((MeshComponent*)component)->Draw(depthShader);
 
 			// check if mesh skinned
-			depthShader.setUniform("isSkinned", ((MeshComponent*)component)->m_IsSkinned);
+			depthShader.SetUniform("isSkinned", ((MeshComponent*)component)->m_IsSkinned);
 			if (((MeshComponent*)component)->m_IsSkinned)
 				((MeshComponent*)component)->SetJointUniforms(depthShader);
 
@@ -95,7 +95,7 @@ void ShadowBuffer::calculateShadows()
 		}
 	}
 
-	unBind();
+	UnBind();
 
 	//glCullFace(GL_BACK); // reset to original culling mode
 

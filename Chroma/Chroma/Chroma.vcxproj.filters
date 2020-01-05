@@ -159,9 +159,6 @@
     <ClCompile Include="source\Render\shader\Uniform.cpp">
       <Filter>Render\shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\buffer\Framebuffer.cpp">
-      <Filter>Render\buffer</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\buffer\GBuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
@@ -306,6 +303,9 @@
     <ClCompile Include="source\Engine\engine\Engine.cpp">
       <Filter>Engine\engine</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\buffer\IFramebuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -352,9 +352,6 @@
     </ClInclude>
     <ClInclude Include="source\Render\shader\Uniform.h">
       <Filter>Render\shader</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\buffer\Framebuffer.h">
-      <Filter>Render\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\buffer\GBuffer.h">
       <Filter>Render\buffer</Filter>
@@ -514,6 +511,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\engine\Engine.h">
       <Filter>Engine\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\IFramebuffer.h">
+      <Filter>Render\buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

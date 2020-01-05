@@ -205,7 +205,7 @@
     <ClCompile Include="source\glad.c" />
     <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp" />
-    <ClCompile Include="source\Render\buffer\Framebuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\IFramebuffer.cpp" />
     <ClCompile Include="source\Render\buffer\GBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\ShadowBuffer.cpp" />
@@ -272,7 +272,7 @@
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCharacterController.h" />
     <ClInclude Include="source\Render\buffer\DebugBuffer.h" />
     <ClInclude Include="source\Render\buffer\ForwardBuffer.h" />
-    <ClInclude Include="source\Render\buffer\Framebuffer.h" />
+    <ClInclude Include="source\Render\buffer\IFramebuffer.h" />
     <ClInclude Include="source\Render\buffer\GBuffer.h" />
     <ClInclude Include="source\Render\buffer\PostFXBuffer.h" />
     <ClInclude Include="source\Render\buffer\ShadowBuffer.h" />

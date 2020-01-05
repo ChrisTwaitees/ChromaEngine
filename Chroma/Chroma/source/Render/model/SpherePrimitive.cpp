@@ -75,7 +75,7 @@ void SpherePrimitive::SetupMesh()
 		GL_STATIC_DRAW);                   // usage
 
 
-	// set attrib arrays with stride and offset
+	// set attrib arrays with stride and m_Offset
 	int stride = getInterleavedStride();     // should be 32 bytes
 	// vertex positions
 	glEnableVertexAttribArray(0);

@@ -264,7 +264,7 @@ namespace Chroma
 		m_MouseX = m_CaptureMouseX;
 		m_MouseY = m_CaptureMouseY;
 
-		// offset
+		// m_Offset
 		m_MouseXYOffset.x = m_MouseX - m_LastMouseX;
 		m_MouseXYOffset.y = m_LastMouseY - m_MouseY;
 

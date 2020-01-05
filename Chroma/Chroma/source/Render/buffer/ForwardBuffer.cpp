@@ -2,21 +2,21 @@
 
 void ForwardBuffer::Initialize()
 {
-	glGenFramebuffers(1, &FBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glGenFramebuffers(1, &m_FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 	// create floating point color buffer
-	glGenTextures(1, &FBOTexture);
-	glBindTexture(GL_TEXTURE_2D, FBOTexture);
+	glGenTextures(1, &m_FBOTexture);
+	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, FBOTexture, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_FBOTexture, 0);
 	// create depth buffer (renderbuffer)
-	glGenRenderbuffers(1, &RBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, RBO);
+	glGenRenderbuffers(1, &m_RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 	// attach buffers
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, RBO);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		CHROMA_WARN("Framebuffer not complete!");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -24,8 +24,8 @@ void ForwardBuffer::Initialize()
 
 void ForwardBuffer::FetchColorAndDepth()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->getFBO()); // fetch  postFXBuffer
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO); // copy depth and color to current buffer
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->GetFBO()); // fetch  postFXBuffer
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FBO); // copy depth and color to current buffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
@@ -36,8 +36,8 @@ void ForwardBuffer::FetchColorAndDepth()
 
 void ForwardBuffer::BlitDepthBuffer()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->getFBO());// write to default HDR Framebuffer
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_FBO);
+	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->GetFBO());// write to default HDR IFramebuffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
@@ -47,7 +47,7 @@ void ForwardBuffer::RenderForwardComponents()
 {
 	// attach current buffer and copy contents of postfx buffer
 	AttachBuffer();
-	FetchColorAndDepth();
+	CopyDepthAndColor(m_PostFXBuffer->GetFBO(), m_FBO);
 
 	// Render Skybox first for Transparent Entities
 	Chroma::Scene::GetSkyBox()->Draw();
@@ -101,40 +101,35 @@ void ForwardBuffer::RenderTransparency()
 
 void ForwardBuffer::AttachBuffer()
 {
-	glBindFramebuffer(GL_FRAMEBUFFER, FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 }
 
 void ForwardBuffer::DrawQuad()
 {
 	// use screen shader
-	screenShader->use();
+	m_ScreenShader->use();
 	// using color attachment
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, FBOTexture);
+	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
 	// setting transform uniforms
-	updateTransformUniforms();
-	renderQuad();
+	UpdateTransformUniforms();
+	RenderQuad();
 }
 
 void ForwardBuffer::Draw()
 {
-	// 1. Render Forward Components to FBO
+	// 1. Render Forward Components to m_FBO
 	RenderForwardComponents();
 
-	// 2. Bind postFX buffer to draw to
-	m_PostFXBuffer->Bind();
+	// 2. Copy Color and Depth from Forward Buffer to 
+	// Post FX Buffer
+	CopyDepthAndColor(m_FBO, m_PostFXBuffer->GetFBO());
 
-	// 3. Draw Quad
-	DrawQuad();
-
-	// 4. copy content of depth buffer to Post FX Buffer
-	BlitDepthBuffer();
-
-	// 5. Unbind postFX buffer
-	m_PostFXBuffer->unBind();
+	// 3. Set back top default buffer
+	UnBind();
 }
 
-ForwardBuffer::ForwardBuffer(Framebuffer* const& postFXBuffer)
+ForwardBuffer::ForwardBuffer(IFramebuffer* const& postFXBuffer)
 {
 	m_PostFXBuffer = postFXBuffer;
 

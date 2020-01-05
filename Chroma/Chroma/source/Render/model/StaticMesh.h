@@ -33,7 +33,7 @@ protected:
 	virtual void SetupMesh();
 	// render functions
 	virtual void updateUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
-	virtual void updateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix);
+	virtual void UpdateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix);
 	virtual void updateMaterialUniforms(const Shader* shader);
 	virtual void updateLightingUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& renderCam);
 	virtual void updateTextureUniforms(const Shader* shader);

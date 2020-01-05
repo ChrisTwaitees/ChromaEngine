@@ -7,7 +7,7 @@ float lerp(float a, float b, float f)
 
 void SSAOBuffer::generateBuffers()
 {
-	// generate ssaoFBO Framebuffer Object
+	// generate ssaoFBO IFramebuffer Object
 	glGenFramebuffers(1, &ssaoFBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
 	// generate ssao ColorBuffer Texture Object
@@ -69,7 +69,7 @@ void SSAOBuffer::generateNoiseTexture()
 			0.0f);
 		ssaoNoise.push_back(noise);
 	}
-	// set noise scale for uniform
+	// set noise m_Scale for uniform
 	noiseScale = glm::vec2(float(SCREEN_WIDTH) / std::sqrtf(noiseSize), float(SCREEN_HEIGHT) / std::sqrtf(noiseSize));
 	// generating texture
 	glGenTextures(1, &noiseTexture);
@@ -100,14 +100,14 @@ void SSAOBuffer::configureShaders()
 	SSAOShader.SetInt("gViewNormal", 1);
 	SSAOShader.SetInt("texNoise", 2);
 
-	SSAOShader.setVec2("scale", scale);
-	SSAOShader.setVec2("offset", offset);
+	SSAOShader.setVec2("scale", m_Scale);
+	SSAOShader.setVec2("offset", m_Offset);
 
 	SSAOBlurShader.use();
 	SSAOBlurShader.SetInt("ssaoInput", 0);
 
-	SSAOBlurShader.setVec2("scale", scale);
-	SSAOBlurShader.setVec2("offset", offset);
+	SSAOBlurShader.setVec2("scale", m_Scale);
+	SSAOBlurShader.setVec2("offset", m_Offset);
 }
 
 void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
@@ -126,8 +126,8 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
 	glBindTexture(GL_TEXTURE_2D, gNormal);
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, noiseTexture);
-	renderQuad();
-	unBind();
+	RenderQuad();
+	UnBind();
 
 	// binding frame buffer and clearing color buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFBO);
@@ -137,8 +137,8 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
 	// sending textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);
-	renderQuad();
-	unBind();
+	RenderQuad();
+	UnBind();
 
 }
 

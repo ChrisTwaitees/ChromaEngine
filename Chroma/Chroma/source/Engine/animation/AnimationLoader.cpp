@@ -115,7 +115,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			{
 				float timeStamp = (float)aiAnimNode->mScalingKeys[a].mTime;
 				glm::vec3 scale = AIToGLM(aiAnimNode->mScalingKeys[a].mValue);
-				// scale , framenumber
+				// m_Scale , framenumber
 				if (newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp) != newTake.m_KeyFrames.at(JointName).m_JointTransforms.end())
 				{
 					newTake.m_KeyFrames.at(JointName).m_JointTransforms.find(timeStamp)->second.m_Scale = scale;

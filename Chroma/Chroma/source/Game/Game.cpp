@@ -250,7 +250,7 @@ int main()
 	//SphereLookDevMeshComponent->AddTexture(lookdevNormal);
 	//SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
 	//SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
-	//SphereEntityLookDev->setScale(glm::vec3(0.25));
+	//SphereEntityLookDev->SetScale(glm::vec3(0.25));
 	//SphereEntityLookDev->AddComponent(SphereLookDevMeshComponent);
 	//SphereEntityLookDev->AddComponent(SphereLookDevRigidComponent);
 
@@ -268,7 +268,7 @@ int main()
 	SphereRustedIronMeshComponent->AddTexture(rustedIronMetRoughAO);
 	SphereRustedIronMeshComponent->SetShader(&PBRShader);
 	SphereEntityRustedIron->SetPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
-	SphereEntityRustedIron->setScale(glm::vec3(0.15));
+	SphereEntityRustedIron->SetScale(glm::vec3(0.15));
 	SphereEntityRustedIron->AddComponent(SphereRustedIronMeshComponent);
 	SphereEntityRustedIron->AddComponent(SphereRustedIronRigidComponent);
 
@@ -285,7 +285,7 @@ int main()
 	//SphereWoodplanksMeshComponent->AddTexture(agedPlanksMetRoughAO);
 	//SphereWoodplanksMeshComponent->SetShader(&PBRShader);
 	//SphereEntityWoodplanks->SetPosition(glm::vec3(-5.f, 1.0f, 0.0f));
-	//SphereEntityWoodplanks->setScale(glm::vec3(0.15));
+	//SphereEntityWoodplanks->SetScale(glm::vec3(0.15));
 	//SphereEntityWoodplanks->AddComponent(SphereWoodplanksMeshComponent);
 	//SphereEntityWoodplanks->AddComponent(SpherewoodRigidComponent);
 

@@ -1,8 +1,9 @@
 #ifndef _CHROMA_HDR_BUFFER_
 #define _CHROMA_HDR_BUFFER_
-#include "Framebuffer.h"
 
-class PostFXBuffer : public Framebuffer
+#include <buffer/IFramebuffer.h>
+
+class PostFXBuffer : public IFramebuffer
 {
 protected:
 	// default HDR shader
@@ -15,7 +16,7 @@ protected:
 	// Textures
 	unsigned int colorBuffersTextures[2];
 
-	// Bloom FBO and Textures
+	// Bloom m_FBO and Textures
 	void genBlurBuffer();
 	unsigned int blurFBOs[2];
 	unsigned int blurColorBuffers[2];
@@ -31,12 +32,12 @@ protected:
 
 	// Functions
 	void Initialize() override;
-	void updateTransformUniforms() override;
+	void UpdateTransformUniforms() override;
 	void configure_shaders();
 
 public:
 
-	unsigned int getFBO() override { return hdrFBO; };
+	unsigned int GetFBO() override { return hdrFBO; };
 
 	void Draw() override;
 	void Draw(const bool& useBloom);

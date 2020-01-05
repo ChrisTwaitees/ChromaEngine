@@ -7,7 +7,7 @@
 // thirdparty
 #include <glm/glm.hpp>
 // chroma
-#include <buffer/Framebuffer.h>
+#include <buffer/IFramebuffer.h>
 #include <camera/Camera.h>
 #include <model/Vertex.h>
 #include <model/SpherePrimitive.h>
@@ -51,7 +51,7 @@ struct CoordinatesShape
 	float size{ 1.0 };
 };
 
-class DebugBuffer : public Framebuffer
+class DebugBuffer : public IFramebuffer
 {
 	// shapes
 	std::vector<LineShape> m_lines;
@@ -100,7 +100,7 @@ class DebugBuffer : public Framebuffer
 	void generatePointVAO();
 
 	// previous framebuffer to call from
-	Framebuffer* m_PostFXBuffer;
+	IFramebuffer* m_PostFXBuffer;
 
 	// functions
 	void drawShapes();
@@ -147,7 +147,7 @@ public:
 	void ClearBuffer() override;
 	void Draw() override;
 
-	DebugBuffer(Framebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
+	DebugBuffer(IFramebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
 };
 
 #endif

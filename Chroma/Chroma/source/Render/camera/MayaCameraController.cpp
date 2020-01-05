@@ -4,7 +4,7 @@
 
 void MayaCameraController::ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
-	// mouse offset
+	// mouse m_Offset
 	mouseXYOffset =  Chroma::Input::GetMouseXYOffset();
 	mouseXYOffset *= glm::vec2(mouseSensitivity);
 

@@ -130,7 +130,7 @@ void Entity::CalculateBBox()
 		newMaxBBox = glm::max(newMaxBBox, MinMaxBBoxes.second);
 	}
 	// re-establishing min and max bboxes
-	// scale by entity's current size
+	// m_Scale by entity's current size
 	glm::vec3 scale = getScale(m_Transform);
 	m_BBoxMin = newMinBBox * scale;
 	m_BBoxMax = newMaxBBox * scale;
@@ -204,7 +204,7 @@ void Entity::SetTransform(glm::mat4 const& newTransformMat)
 	UpdatePhysicsComponentsTransforms();
 }
 
-void Entity::setScale(glm::vec3 const& newscale)
+void Entity::SetScale(glm::vec3 const& newscale)
 {
 	m_Transform = glm::scale(m_Transform, newscale);
 	UpdatePhysicsComponentsTransforms();
