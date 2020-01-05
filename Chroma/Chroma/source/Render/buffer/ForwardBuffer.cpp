@@ -22,7 +22,7 @@ void ForwardBuffer::Initialize()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }	
 
-void ForwardBuffer::fetchColorAndDepth()
+void ForwardBuffer::FetchColorAndDepth()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->getFBO()); // fetch  postFXBuffer
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FBO); // copy depth and color to current buffer
@@ -34,7 +34,7 @@ void ForwardBuffer::fetchColorAndDepth()
 	);
 }
 
-void ForwardBuffer::blitDepthBuffer()
+void ForwardBuffer::BlitDepthBuffer()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, FBO);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->getFBO());// write to default HDR Framebuffer
@@ -47,7 +47,7 @@ void ForwardBuffer::RenderForwardComponents()
 {
 	// attach current buffer and copy contents of postfx buffer
 	AttachBuffer();
-	fetchColorAndDepth();
+	FetchColorAndDepth();
 
 	// Render Skybox first for Transparent Entities
 	Chroma::Scene::GetSkyBox()->Draw();
@@ -67,10 +67,10 @@ void ForwardBuffer::RenderForwardComponents()
 	// Render Transparent Entities
 	if (Chroma::Scene::GetTransparentEntityUIDs().size() > 0)
 		CHROMA_WARN("Transparency Not Implemented!");
-		//renderTransparency();
+		//RenderTransparency();
 }
 
-void ForwardBuffer::renderTransparency()
+void ForwardBuffer::RenderTransparency()
 {
 	// set blend function before rendering any forward elements
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -128,7 +128,7 @@ void ForwardBuffer::Draw()
 	DrawQuad();
 
 	// 4. copy content of depth buffer to Post FX Buffer
-	blitDepthBuffer();
+	BlitDepthBuffer();
 
 	// 5. Unbind postFX buffer
 	m_PostFXBuffer->unBind();

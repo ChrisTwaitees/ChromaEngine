@@ -62,6 +62,8 @@ namespace Chroma
 		glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, SCREEN_DEFAULT_COLOR.w);
 		// Enable Blending
 		glEnable(GL_BLEND);
+		// enabled srgb framebuffers
+		//glEnable(GL_FRAMEBUFFER_SRGB);
 
 		// Buffers
 		m_PostFXBuffer = new PostFXBuffer();

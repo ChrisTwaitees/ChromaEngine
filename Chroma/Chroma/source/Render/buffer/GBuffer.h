@@ -46,7 +46,7 @@ class GBuffer : public Framebuffer
 	void calculateShadows();
 	void drawGeometryPass();
 	void drawLightingPass();
-	void blitDepthBuffer();
+	void BlitDepthBuffer();
 
 	// uniforms
 	void configureShaders();

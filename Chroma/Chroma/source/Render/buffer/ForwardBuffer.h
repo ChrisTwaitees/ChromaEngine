@@ -10,12 +10,14 @@ class ForwardBuffer : public Framebuffer
 	// scene
 	Framebuffer* m_PostFXBuffer{ nullptr };
 
+	unsigned int FBO_Transparent{ 0 };
+	unsigned int FBO_Transparent_Depth{ 0 };
 	// functions
 	void Initialize() override;
-	void fetchColorAndDepth();
-	void blitDepthBuffer();
+	void FetchColorAndDepth();
+	void BlitDepthBuffer();
 	void RenderForwardComponents();
-	void renderTransparency();
+	void RenderTransparency();
 	void AttachBuffer();
 	void DrawQuad();
 

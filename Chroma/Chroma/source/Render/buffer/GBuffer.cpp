@@ -215,7 +215,7 @@ void GBuffer::drawLightingPass()
 	setLightingUniforms();
 }
 
-void GBuffer::blitDepthBuffer()
+void GBuffer::BlitDepthBuffer()
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_gBuffer);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->getFBO());// write to default HDR Framebuffer
@@ -243,7 +243,7 @@ void GBuffer::Draw()
 	renderQuad();
 
 	// 4. copy content of geometry's depth buffer to HDR buffer
-	blitDepthBuffer();
+	BlitDepthBuffer();
 
 	// 5. Unbind postFX buffer
 	m_PostFXBuffer->unBind();
