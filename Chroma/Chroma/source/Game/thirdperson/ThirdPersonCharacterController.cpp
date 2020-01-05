@@ -29,10 +29,10 @@ void ThirdPersonCharacterController::GroundCollisionCheck()
 	glm::vec3 checkPos = m_Position + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
 	m_HitGround = Chroma::Physics::RayTest(m_Position, checkPos);
 	// debug
-	if(m_HitGround)
-		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(1.0,0.0,0.0));
-	else
-		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(0.0, 1.0, 0.0));
+if (m_HitGround)
+Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(1.0, 0.0, 0.0));
+else
+Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(0.0, 1.0, 0.0));
 }
 
 
@@ -100,20 +100,20 @@ void ThirdPersonCharacterController::CalculateGravity()
 	// JUMPING
 	// calculate jump vector
 	glm::vec3 rotateJumpVectorAxis = glm::normalize(glm::cross(CHROMA_UP, m_PlayerHeading));
-	glm::quat rotateJumpVector = glm::angleAxis(m_CurrentSpeed * m_JumpHeadingBias, rotateJumpVectorAxis) ;
+	glm::quat rotateJumpVector = glm::angleAxis(m_CurrentSpeed * m_JumpHeadingBias, rotateJumpVectorAxis);
 	m_JumpVector = rotateJumpVector * m_JumpVectorStationary;
 
 	// Jump : if on ground and button pressed
 	if (m_HitGround && Chroma::Input::IsPressed(Chroma::Input::CROSS))
 	{
 		CHROMA_INFO("Jump triggered!");
-		float jumpIntertia = Chroma::Math::GetInertiaForHeight(m_GravityMax, m_JumpHeight) * DELTATIME;
+		float jumpIntertia = Chroma::Math::InertiaForHeight(m_GravityMax, m_JumpHeight) * DELTATIME;
 		m_Force += m_JumpVector * glm::vec3(jumpIntertia);
 	}
 
 	// JumpVector
 	glm::vec3 checkPos = m_Position + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
-	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(checkPos, checkPos + (m_JumpVector * glm::vec3(m_JumpHeight)) + glm::vec3(0.1,0.0,0.0), glm::vec3(1.0, 1.0, 0.0));
+	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(checkPos, checkPos + (m_JumpVector * glm::vec3(m_JumpHeight)) + glm::vec3(0.1, 0.0, 0.0), glm::vec3(1.0, 1.0, 0.0));
 }
 
 void ThirdPersonCharacterController::ProcessMovement()
@@ -127,17 +127,23 @@ void ThirdPersonCharacterController::ProcessMovement()
 	toPlayer = normalize(toPlayer);
 	sidePlayer = normalize(sidePlayer);
 
-	glm::vec3 playerHeadingUnClamped = (sidePlayer * Chroma::Input::GetControllerLeftHorizontal()) + (toPlayer * -Chroma::Input::GetControllerLeftVertical());
-	m_PlayerHeading = glm::normalize(playerHeadingUnClamped) * glm::min(glm::length(playerHeadingUnClamped), 0.75f);
-
-	// add heading
-	m_Position += m_PlayerHeading * m_MovementSpeed * glm::vec3(DELTATIME);
+	// Set Heading
+	if (glm::abs(Chroma::Input::GetControllerLeftHorizontal()) > m_ControllerMin || glm::abs(Chroma::Input::GetControllerLeftVertical()) > m_ControllerMin)
+	{
+		glm::vec3 playerHeadingUnClamped = (sidePlayer * Chroma::Input::GetControllerLeftHorizontal()) + (toPlayer * -Chroma::Input::GetControllerLeftVertical());
+		m_PlayerHeading = glm::normalize(playerHeadingUnClamped); 
+		m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_MovementSpeed * glm::vec3(DELTATIME);
+	}
 
 	// add force
 	m_Position += m_Force;
 
 	// prevent falling into the abyss
 	m_Position.y = glm::max(m_Position.y, 1.5f);
+
+	// player rotation
+	float degreesRotated = Chroma::Math::DegreesBetweenVectors2D(CHROMA_FORWARD, m_PlayerHeading);
+	m_Rotation = glm::angleAxis(-degreesRotated, CHROMA_UP);
 
 	// DEBUG
 	// Force

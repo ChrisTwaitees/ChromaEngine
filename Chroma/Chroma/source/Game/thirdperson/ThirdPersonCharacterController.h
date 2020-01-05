@@ -15,15 +15,15 @@ class ThirdPersonCharacterController : public CharacterControllerComponent
 	float m_CamFacingAngle{ 0.0f };
 
 	// Controls
-	const float m_ControllerMin{ 0.02f };
+	const float m_ControllerMin{ 0.22f };
 
 	// Camera Attrs
 	const float m_CamDrag{ 0.5f };
 	const float m_CamRotationSpeed{ 2.0f };
 	const float m_CamSensitivity{ 1.0f };
 	
-	const float m_FollowDistMin{ 8.0f };
-	const float m_FollowDistMax{ 15.0f };
+	const float m_FollowDistMin{ 10.0f };
+	const float m_FollowDistMax{ 20.0f };
 
 	const float m_FacingAngleMax{ 75.0f };
 

@@ -95,9 +95,23 @@ namespace Chroma
 			return glm::degrees(Chroma::Math::CartesianToPolar(x, y)) * 2.0f;
 		}
 
-		static float GetInertiaForHeight(float const& gravityStrength, float const& desiredHeight)
+		static float InertiaForHeight(float const& gravityStrength, float const& desiredHeight)
 		{
 			return glm::sqrt(2.0f * gravityStrength * desiredHeight);
+		}
+
+		static float DegreesBetweenVectors(glm::vec3 const& vec1, glm::vec3 const& vec2)
+		{
+			return glm::acos(glm::dot(vec1, vec2));
+		}
+
+		static float DegreesBetweenVectors2D(glm::vec3 const& vec1, glm::vec3 const& vec2)
+		{
+			float degreesRotated = -glm::acos(glm::dot(vec1, vec2));
+			if (glm::dot(glm::cross(vec2, CHROMA_UP), vec1) < 0.0f)
+				degreesRotated *= -1.0;
+			return degreesRotated;
+			
 		}
 
 	};

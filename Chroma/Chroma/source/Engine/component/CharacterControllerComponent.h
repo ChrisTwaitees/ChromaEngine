@@ -24,7 +24,7 @@ protected:
 	// transform
 	glm::vec3 m_Position{ 0.0 };
 	glm::quat m_Rotation{ glm::quat() };
-	glm::vec4 m_Scale{ 1.0 };
+	glm::vec3 m_Scale{ 1.0 };
 
 	glm::mat4 m_Transform{ 1.0 };
 
