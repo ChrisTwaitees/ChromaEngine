@@ -15,7 +15,7 @@ namespace Chroma
 	// Post FX
 	IFramebuffer* Render::m_PostFXBuffer;
 
-	void Render::ClearBuffers()
+	void Render::CleanUp()
 	{
 		// DEBUG BUFFER
 		m_DebugBuffer->ClearBuffer();
@@ -64,6 +64,7 @@ namespace Chroma
 		glEnable(GL_BLEND);
 		// enabled srgb framebuffers
 		//glEnable(GL_FRAMEBUFFER_SRGB);
+		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
 		// Buffers
 		m_PostFXBuffer = new PostFXBuffer();
@@ -87,7 +88,7 @@ namespace Chroma
 		RenderPostFX();
 
 		// Clear
-		ClearBuffers();
+		CleanUp();
 	}
 
 }

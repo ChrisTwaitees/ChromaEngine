@@ -17,7 +17,7 @@ namespace Chroma
 	class Render
 	{
 		// Start of Frame
-		static void ClearBuffers();
+		static void CleanUp();
 
 		// DEFERRED LIGHTING RENDER
 		static void RenderDefferedComponents();
