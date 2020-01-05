@@ -286,35 +286,38 @@ int main()
 	//SphereEntityWoodplanks->AddComponent(SphereWoodplanksMeshComponent);
 	//SphereEntityWoodplanks->AddComponent(SpherewoodRigidComponent);
 
-	//// SEMI TRANSPARENT
-	//IEntity* SphereEntityTransparent = new Entity;
-	//scene->AddEntity(SphereEntityTransparent);
-	//SphereEntityTransparent->SetName("Sphere");
-	//MeshComponent* SphereMeshComponent = new SpherePrimitive;
-	//PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
-	//SphereRigidComponent->SetColliderShape(ColliderShape::Sphere);
-	//SphereRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	//SphereMeshComponent->AddTexture(alphaTestAlbedo);
-	//SphereMeshComponent->SetShader(&PBRShader);
-	//SphereMeshComponent->m_IsLit = true;
+	// SEMI TRANSPARENT
+	IEntity* SphereEntityTransparent = new Entity;
+	SphereEntityTransparent->SetPosition(glm::vec3(7.5, 20.0, 0.0));
+	//Chroma::Scene::AddEntity(SphereEntityTransparent);
+	SphereEntityTransparent->SetName("Sphere Semi Transparent");
+	MeshComponent* SphereMeshComponent = new SpherePrimitive;
+	PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
+	SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
+	SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
+	SphereRigidComponent->SetMass(1.0f);
+	SphereMeshComponent->AddTexture(alphaTestAlbedo);
+	SphereMeshComponent->SetShader(&SemiTransparentShader);
+	SphereMeshComponent->m_IsLit = false;
 	//SphereMeshComponent->m_IsForwardLit = true;
-	////SphereMeshComponent->m_IsTransparent = true;
-	//SphereEntityTransparent->SetPosition(glm::vec3(7.5, 1.0, 0.0));
-	//SphereEntityTransparent->AddComponent(SphereMeshComponent);
-	//SphereEntityTransparent->AddComponent(SphereRigidComponent);
+	SphereMeshComponent->m_IsTransparent = true;
+	SphereEntityTransparent->AddComponent(SphereMeshComponent);
+	SphereEntityTransparent->AddComponent(SphereRigidComponent);
 
 	// UNLIT
 	IEntity* SphereEntityUnlit = new Entity;
+	SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 20.0, 0.0));
 	Chroma::Scene::AddEntity(SphereEntityUnlit);
 	SphereEntityUnlit->SetName("Sphere");
 	MeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
 	PhysicsComponent* SphereRigidComponentUnlit = new PhysicsComponent();
 	SphereRigidComponentUnlit->SetColliderShape(ColliderShape::Convex);
-	SphereRigidComponentUnlit->SetCollisionState(ColliderState::Kinematic);
+	SphereRigidComponentUnlit->SetCollisionState(ColliderState::Dynamic);
+	SphereRigidComponentUnlit->SetMass(1.0f);
+	SphereRigidComponentUnlit->SetFriction(3.0f);
 	SphereMeshComponentUnlit->SetShader(&UnlitShader);
 	SphereMeshComponentUnlit->m_IsLit = false;
 	SphereMeshComponentUnlit->m_CastShadows = false;
-	SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 1.0, 0.0));
 	SphereEntityUnlit->AddComponent(SphereMeshComponentUnlit);
 	SphereEntityUnlit->AddComponent(SphereRigidComponentUnlit);
 	// ____________________________________________________

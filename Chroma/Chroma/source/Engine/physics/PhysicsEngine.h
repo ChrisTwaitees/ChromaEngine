@@ -24,6 +24,7 @@ namespace Chroma
 	private:
 		// attrs
 		static glm::vec3 m_Gravity;
+		static float m_TerrainFriction;
 		static btCollisionObject* m_CollisionObject;
 		static btSphereShape* m_SphereShape;
 

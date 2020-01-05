@@ -161,7 +161,10 @@ void PhysicsComponent::SetCollisionFlags()
 		m_RigidBody->setActivationState(DISABLE_DEACTIVATION);
 	}
 	else if (m_Mass > 0)
+	{
 		SetCollisionState(Dynamic);
+		//m_RigidBody->setMotionState();
+	}
 }
 
 

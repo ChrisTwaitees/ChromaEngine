@@ -112,7 +112,7 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	FragColor = vec4(vec3(color), 1.0);
+	FragColor = vec4(vec3(1.0,0.0,1.0), 0.25);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));

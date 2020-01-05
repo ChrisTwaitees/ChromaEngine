@@ -66,14 +66,19 @@ void ForwardBuffer::RenderForwardComponents()
 
 	// Render Transparent Entities
 	if (Chroma::Scene::GetTransparentEntityUIDs().size() > 0)
-		renderTransparency();
+		CHROMA_WARN("Transparency Not Implemented");
+		//renderTransparency();
 }
 
 void ForwardBuffer::renderTransparency()
 {
 	// Enable Blending
 	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 	// Sorting for Transparency Shading
 	std::map<float, std::string> alpha_sorted;
 	for (std::string const& UID : Chroma::Scene::GetTransparentEntityUIDs())
@@ -93,7 +98,7 @@ void ForwardBuffer::renderTransparency()
 				((MeshComponent*)component)->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera(), worldTransform);
 		}
 	}
-	glDisable(GL_BLEND);
+	//glDisable(GL_BLEND);
 }
 
 void ForwardBuffer::AttachBuffer()

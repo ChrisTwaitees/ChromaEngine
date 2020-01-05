@@ -21,6 +21,7 @@ struct myContactResultCallback : public btCollisionWorld::ContactResultCallback
 
 namespace Chroma
 {
+	float Physics::m_TerrainFriction;
 	glm::vec3 Physics::m_Gravity;
 	btCollisionObject* Physics::m_CollisionObject;
 	btSphereShape* Physics::m_SphereShape;
@@ -52,7 +53,7 @@ namespace Chroma
 		// attrs
 		m_CollisionObject = new btCollisionObject;
 		m_SphereShape = new btSphereShape(1.0);
-		m_Gravity = glm::vec3(0.0, 9.81, 0.0);
+		m_Gravity = glm::vec3(0.0, -9.81, 0.0);
 
 		//1
 		m_Broadphase = new btDbvtBroadphase();
@@ -77,6 +78,8 @@ namespace Chroma
 
 	void Physics::InitTerrain()
 	{
+		m_TerrainFriction = 10.0f;
+
 		btCollisionShape* groundShape = new btBoxShape(btVector3(btScalar(50.), btScalar(10.), btScalar(50.)));
 
 		btTransform groundTransform;
@@ -89,6 +92,7 @@ namespace Chroma
 		//using motionstate is optional, it provides interpolation capabilities, and only synchronizes 'active' objects
 		btDefaultMotionState* myMotionState = new btDefaultMotionState(groundTransform);
 		btRigidBody::btRigidBodyConstructionInfo rbInfo(mass, myMotionState, groundShape, localInertia);
+		rbInfo.m_friction = m_TerrainFriction;
 		btRigidBody* body = new btRigidBody(rbInfo);
 
 		//add the body to the dynamics world

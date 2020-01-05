@@ -44,7 +44,7 @@ public:
 
 	// Accessors
 	float GetMass() const { return m_Mass; };
-	void setMass(float const& newMass) { m_Mass = newMass; };
+	void SetMass(float const& newMass) { m_Mass = newMass; };
 
 	float GetRestitution() const { return m_Restitution; };
 	void SetRestitution(float const& newRestitution) { m_Restitution = newRestitution; };

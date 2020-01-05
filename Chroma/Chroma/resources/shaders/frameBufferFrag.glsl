@@ -11,7 +11,7 @@ void main()
 	vec4 screenTexture = texture(screenTexture, TexCoords.st);
 
 	// OUT
-	FragColor = screenTexture;
+	FragColor = vec4(screenTexture.rgb, 0.5);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
