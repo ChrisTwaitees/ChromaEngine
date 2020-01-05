@@ -112,7 +112,13 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	FragColor = vec4(vec3(1.0,0.0,1.0), 0.25);
+	//float alpha = 0.5;
+	if(fs_in.TexCoords.x < 0.5)
+	{
+		FragColor = vec4(vec3(fs_in.TexCoords.xyx), 1.0 - fs_in.TexCoords.x);
+	}
+	else
+		discard;
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));

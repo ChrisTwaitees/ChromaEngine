@@ -37,11 +37,11 @@ void main()
     gPosition = fs_in.FragWorldPos;
 	gViewPosition = fs_in.FragViewPos;
     // albedo
-    gAlbedo = UseAlbedoMap? vec3(texture(material.texture_albedo1, fs_in.TexCoords)) : color;
+    gAlbedo = UseAlbedoMap? vec3(texture(material.texture_albedo1, fs_in.TexCoords).rgb) : color;
 	// normals
 	if (UseNormalMap  && length(fs_in.ViewTBN[1]) >= 0.5)
 	{
-		vec3 normalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords));
+		vec3 normalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords).rgb);
 		gNormal = normalize(fs_in.WorldTBN * normalMap);
 		gViewNormal = normalize(fs_in.ViewTBN * normalMap);
 	}

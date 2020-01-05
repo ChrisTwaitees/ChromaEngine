@@ -61,7 +61,7 @@ void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 	// TODO: Consider std::map<UID, Component> for look up instead of duplication
 	if (newMeshComponent->m_IsRenderable)
 		m_RenderableComponents.push_back(newMeshComponent);
-	if (newMeshComponent->m_IsLit)
+	if (newMeshComponent->m_IsLit && newMeshComponent->m_IsTransparent == false)
 		m_LitComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_CastShadows)
 		m_ShadowCastingComponents.push_back(newMeshComponent);
@@ -70,9 +70,9 @@ void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 		m_TransparentComponents.push_back(newMeshComponent);
 		Chroma::Scene::AddTransparentEntity(this);
 	}
-	if (newMeshComponent->m_IsLit == false)
+	if (newMeshComponent->m_IsLit == false && newMeshComponent->m_IsTransparent == false)
 		m_UnLitComponents.push_back(newMeshComponent);
-	if (newMeshComponent->m_IsTransparent || newMeshComponent->m_IsLit == false)
+	if (newMeshComponent->m_IsTransparent)
 		m_TransparentComponents.push_back(newMeshComponent);
 }
 

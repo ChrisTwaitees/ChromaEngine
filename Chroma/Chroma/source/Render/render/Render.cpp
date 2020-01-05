@@ -60,6 +60,8 @@ namespace Chroma
 		glEnable(GL_MULTISAMPLE);
 		// Setting Clear Color
 		glClearColor(SCREEN_DEFAULT_COLOR.x, SCREEN_DEFAULT_COLOR.y, SCREEN_DEFAULT_COLOR.z, SCREEN_DEFAULT_COLOR.w);
+		// Enable Blending
+		glEnable(GL_BLEND);
 
 		// Buffers
 		m_PostFXBuffer = new PostFXBuffer();

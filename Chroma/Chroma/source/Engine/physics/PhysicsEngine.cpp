@@ -127,15 +127,15 @@ namespace Chroma
 			{
 				// collect physics component
 				PhysicsComponent* physicsComponent = static_cast<PhysicsComponent*>(body->getUserPointer());
-				btTransform trans;
+				btTransform currentWorldTransform;
 				// collect transform
 				if (body && body->getMotionState())
-					body->getMotionState()->getWorldTransform(trans);
+					body->getMotionState()->getWorldTransform(currentWorldTransform);
 				else
-					trans = obj->getWorldTransform();
+					currentWorldTransform = obj->getWorldTransform();
 				// apply transform
 				if (physicsComponent->getColliderState() == Dynamic)
-					physicsComponent->Transform(trans);
+					physicsComponent->Transform(currentWorldTransform);
 			}
 		}
 

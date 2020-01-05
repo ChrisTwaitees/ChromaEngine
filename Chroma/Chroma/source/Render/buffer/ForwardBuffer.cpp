@@ -66,24 +66,21 @@ void ForwardBuffer::RenderForwardComponents()
 
 	// Render Transparent Entities
 	if (Chroma::Scene::GetTransparentEntityUIDs().size() > 0)
-		CHROMA_WARN("Transparency Not Implemented");
+		CHROMA_WARN("Transparency Not Implemented!");
 		//renderTransparency();
 }
 
 void ForwardBuffer::renderTransparency()
 {
-	// Enable Blending
-	glEnable(GL_BLEND);
-	//glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	// set blend function before rendering any forward elements
 	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	//glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-	//glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	// Disable Back Face Culling to allow interior of transparent objects to be seen
+	glDisable(GL_CULL_FACE);
 	// Sorting for Transparency Shading
 	std::map<float, std::string> alpha_sorted;
 	for (std::string const& UID : Chroma::Scene::GetTransparentEntityUIDs())
 	{
-		float distance = glm::length(Chroma::Scene::GetEntity(UID)->GetPosition() - Chroma::Scene::GetRenderCamera()->GetPosition());
+		float distance = Chroma::Scene::GetEntityDistanceToCamera(UID);
 		alpha_sorted[distance] = UID;
 	}
 	// iterating from furthest to closest
@@ -98,7 +95,8 @@ void ForwardBuffer::renderTransparency()
 				((MeshComponent*)component)->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera(), worldTransform);
 		}
 	}
-	//glDisable(GL_BLEND);
+	// Re enable backface culling for preventing unecessary rendering
+	glEnable(GL_CULL_FACE);
 }
 
 void ForwardBuffer::AttachBuffer()

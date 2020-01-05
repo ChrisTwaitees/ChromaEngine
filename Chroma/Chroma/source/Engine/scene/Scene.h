@@ -47,6 +47,7 @@ namespace Chroma
 		static void AddAnimatedEntity(IEntity* const& newAnimatedEntity);
 		static void AddTransparentEntity(IEntity* const& newTransparentEntity);
 		static void RemoveEntity(IEntity& RemoveEntity);
+		static float GetEntityDistanceToCamera(std::string const& UID);
 
 		// updating components
 		static void AddUpdatingComponent(IComponent* const& newUpdatingComponent);

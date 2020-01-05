@@ -83,6 +83,11 @@ namespace Chroma
 	{
 	}
 
+	float Scene::GetEntityDistanceToCamera(std::string const& UID)
+	{
+		return glm::length(GetEntity(UID)->GetPosition() - m_RenderCamera->GetPosition());
+	}
+
 	void Scene::AddUpdatingComponent(IComponent* const& newUpdatingComponent)
 	{
 		// collect component UID
