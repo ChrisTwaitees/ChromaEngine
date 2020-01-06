@@ -7,7 +7,7 @@ void ForwardBuffer::Initialize()
 	// create floating point color buffer
 	glGenTextures(1, &m_FBOTexture);
 	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_FBOTexture, 0);
@@ -22,32 +22,12 @@ void ForwardBuffer::Initialize()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }	
 
-void ForwardBuffer::FetchColorAndDepth()
-{
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->GetFBO()); // fetch  postFXBuffer
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FBO); // copy depth and color to current buffer
-	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
-	);
-	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
-	);
-}
-
-void ForwardBuffer::BlitDepthBuffer()
-{
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_FBO);
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->GetFBO());// write to default HDR IFramebuffer
-	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
-	);
-}
 
 void ForwardBuffer::RenderForwardComponents()
 {
 	// attach current buffer and copy contents of postfx buffer
-	AttachBuffer();
-	CopyDepthAndColor(m_PostFXBuffer->GetFBO(), m_FBO);
+	Bind();
+	CopyColorAndDepth(m_PostFXBuffer->GetFBO(), m_FBO);
 
 	// Render Skybox first for Transparent Entities
 	Chroma::Scene::GetSkyBox()->Draw();
@@ -66,14 +46,13 @@ void ForwardBuffer::RenderForwardComponents()
 
 	// Render Transparent Entities
 	if (Chroma::Scene::GetTransparentEntityUIDs().size() > 0)
-		CHROMA_WARN("Transparency Not Implemented!");
-		//RenderTransparency();
+		RenderTransparency();
 }
 
 void ForwardBuffer::RenderTransparency()
 {
-	// set blend function before rendering any forward elements
-	glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+	// Set to alpha blending
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Disable Back Face Culling to allow interior of transparent objects to be seen
 	glDisable(GL_CULL_FACE);
 	// Sorting for Transparency Shading
@@ -95,14 +74,12 @@ void ForwardBuffer::RenderTransparency()
 				((MeshComponent*)component)->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera(), worldTransform);
 		}
 	}
+	// set to default blending
+	glBlendFunc(GL_ONE, GL_ZERO);
 	// Re enable backface culling for preventing unecessary rendering
 	glEnable(GL_CULL_FACE);
 }
 
-void ForwardBuffer::AttachBuffer()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-}
 
 void ForwardBuffer::DrawQuad()
 {
@@ -123,7 +100,7 @@ void ForwardBuffer::Draw()
 
 	// 2. Copy Color and Depth from Forward Buffer to 
 	// Post FX Buffer
-	CopyDepthAndColor(m_FBO, m_PostFXBuffer->GetFBO());
+	CopyColorAndDepth(m_FBO, m_PostFXBuffer->GetFBO());
 
 	// 3. Set back top default buffer
 	UnBind();
@@ -132,7 +109,6 @@ void ForwardBuffer::Draw()
 ForwardBuffer::ForwardBuffer(IFramebuffer* const& postFXBuffer)
 {
 	m_PostFXBuffer = postFXBuffer;
-
 }
 
 ForwardBuffer::~ForwardBuffer()

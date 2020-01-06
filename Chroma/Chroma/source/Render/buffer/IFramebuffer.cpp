@@ -21,7 +21,7 @@ void IFramebuffer::UpdateTransformUniforms()
 	m_ScreenShader->setVec2("offset", m_Offset);
 }
 
-void IFramebuffer::CopyDepthAndColor(unsigned int const& sourceFBO, unsigned int const& targetFBO)
+void IFramebuffer::CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO)
 {
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, sourceFBO); // fetch
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO); // copy 
@@ -89,7 +89,6 @@ void IFramebuffer::Bind()
 {
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
 }
 
 

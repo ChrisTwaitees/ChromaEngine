@@ -49,7 +49,7 @@ protected:
 public:
 
 	// static
-	static void CopyDepthAndColor(unsigned int const& sourceFBO, unsigned int const& targetFBO);
+	static void CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
 	static void CopyDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
 	static void CopyColor(unsigned int const& sourceFBO, unsigned int const& targetFBO);
 	// draw
