@@ -53,7 +53,7 @@ void IFramebuffer::CopyColor(unsigned int const& sourceFBO, unsigned int const& 
 
 void IFramebuffer::RenderQuad()
 {
-	quad.BindDrawVAO();
+	m_Quad.BindDrawVAO();
 }
 
 

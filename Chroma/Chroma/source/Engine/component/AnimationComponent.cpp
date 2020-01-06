@@ -12,7 +12,6 @@ void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float
 
 void AnimationComponent::Update()
 {
-	{ CHROMA_INFO("Updating Animation Component : {0}", GetUID()); }
 	for (Animator& animator : m_Animators)
 	{
 		animator.DoAnimation();

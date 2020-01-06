@@ -236,57 +236,57 @@ int main()
 	//
 	//// ____________________________________________________
 
-	//LOOKDEV
-	IEntity* SphereEntityLookDev = new Entity;
-	Chroma::Scene::AddEntity(SphereEntityLookDev);
-	SphereEntityLookDev->SetName("LookDev");
-	MeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
-	PhysicsComponent* SphereLookDevRigidComponent = new PhysicsComponent();
-	SphereLookDevRigidComponent->SetColliderShape(ColliderShape::Box);
-	SphereLookDevRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	SphereLookDevMeshComponent->SetShader(&PBRShader);
-	SphereLookDevMeshComponent->AddTexture(lookdevAlbedo);
-	SphereLookDevMeshComponent->AddTexture(lookdevNormal);
-	SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
-	SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
-	SphereEntityLookDev->SetScale(glm::vec3(0.25));
-	SphereEntityLookDev->AddComponent(SphereLookDevMeshComponent);
-	SphereEntityLookDev->AddComponent(SphereLookDevRigidComponent);
+	////LOOKDEV
+	//IEntity* SphereEntityLookDev = new Entity;
+	//Chroma::Scene::AddEntity(SphereEntityLookDev);
+	//SphereEntityLookDev->SetName("LookDev");
+	//MeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	//PhysicsComponent* SphereLookDevRigidComponent = new PhysicsComponent();
+	//SphereLookDevRigidComponent->SetColliderShape(ColliderShape::Box);
+	//SphereLookDevRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//SphereLookDevMeshComponent->SetShader(&PBRShader);
+	//SphereLookDevMeshComponent->AddTexture(lookdevAlbedo);
+	//SphereLookDevMeshComponent->AddTexture(lookdevNormal);
+	//SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
+	//SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
+	//SphereEntityLookDev->SetScale(glm::vec3(0.25));
+	//SphereEntityLookDev->AddComponent(SphereLookDevMeshComponent);
+	//SphereEntityLookDev->AddComponent(SphereLookDevRigidComponent);
 
-	 //RUSTED IRON
-	IEntity* SphereEntityRustedIron = new Entity;
-	Chroma::Scene::AddEntity(SphereEntityRustedIron);
-	SphereEntityRustedIron->SetName("Rusted Iron");
-	MeshComponent* SphereRustedIronMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
-	PhysicsComponent* SphereRustedIronRigidComponent = new PhysicsComponent();
-	SphereRustedIronRigidComponent->SetColliderShape(ColliderShape::Sphere);
-	SphereRustedIronRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	//SphereRustedIronRigidComponent->SetMass(1.0f);
-	SphereRustedIronMeshComponent->AddTexture(rustedIronAlbedo);
-	SphereRustedIronMeshComponent->AddTexture(rustedIronNormal);
-	SphereRustedIronMeshComponent->AddTexture(rustedIronMetRoughAO);
-	SphereRustedIronMeshComponent->SetShader(&PBRShader);
-	SphereEntityRustedIron->SetPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
-	SphereEntityRustedIron->SetScale(glm::vec3(0.15));
-	SphereEntityRustedIron->AddComponent(SphereRustedIronMeshComponent);
-	SphereEntityRustedIron->AddComponent(SphereRustedIronRigidComponent);
+	// //RUSTED IRON
+	//IEntity* SphereEntityRustedIron = new Entity;
+	//Chroma::Scene::AddEntity(SphereEntityRustedIron);
+	//SphereEntityRustedIron->SetName("Rusted Iron");
+	//MeshComponent* SphereRustedIronMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	//PhysicsComponent* SphereRustedIronRigidComponent = new PhysicsComponent();
+	//SphereRustedIronRigidComponent->SetColliderShape(ColliderShape::Sphere);
+	//SphereRustedIronRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	////SphereRustedIronRigidComponent->SetMass(1.0f);
+	//SphereRustedIronMeshComponent->AddTexture(rustedIronAlbedo);
+	//SphereRustedIronMeshComponent->AddTexture(rustedIronNormal);
+	//SphereRustedIronMeshComponent->AddTexture(rustedIronMetRoughAO);
+	//SphereRustedIronMeshComponent->SetShader(&PBRShader);
+	//SphereEntityRustedIron->SetPosition(glm::vec3(-2.5f, 1.0f, 0.0f));
+	//SphereEntityRustedIron->SetScale(glm::vec3(0.15));
+	//SphereEntityRustedIron->AddComponent(SphereRustedIronMeshComponent);
+	//SphereEntityRustedIron->AddComponent(SphereRustedIronRigidComponent);
 
-	// WOOD PLANKS
-	IEntity* SphereEntityWoodplanks = new Entity;
-	Chroma::Scene::AddEntity(SphereEntityWoodplanks);
-	SphereEntityWoodplanks->SetName("Wood Planks");
-	MeshComponent* SphereWoodplanksMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
-	PhysicsComponent* SpherewoodRigidComponent = new PhysicsComponent();
-	SpherewoodRigidComponent->SetColliderShape(ColliderShape::Sphere);
-	SpherewoodRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	SphereWoodplanksMeshComponent->AddTexture(agedPlanksAlbedo);
-	SphereWoodplanksMeshComponent->AddTexture(agedPlanksNormal);
-	SphereWoodplanksMeshComponent->AddTexture(agedPlanksMetRoughAO);
-	SphereWoodplanksMeshComponent->SetShader(&PBRShader);
-	SphereEntityWoodplanks->SetPosition(glm::vec3(-5.f, 1.0f, 0.0f));
-	SphereEntityWoodplanks->SetScale(glm::vec3(0.15));
-	SphereEntityWoodplanks->AddComponent(SphereWoodplanksMeshComponent);
-	SphereEntityWoodplanks->AddComponent(SpherewoodRigidComponent);
+	//// WOOD PLANKS
+	//IEntity* SphereEntityWoodplanks = new Entity;
+	//Chroma::Scene::AddEntity(SphereEntityWoodplanks);
+	//SphereEntityWoodplanks->SetName("Wood Planks");
+	//MeshComponent* SphereWoodplanksMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	//PhysicsComponent* SpherewoodRigidComponent = new PhysicsComponent();
+	//SpherewoodRigidComponent->SetColliderShape(ColliderShape::Sphere);
+	//SpherewoodRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//SphereWoodplanksMeshComponent->AddTexture(agedPlanksAlbedo);
+	//SphereWoodplanksMeshComponent->AddTexture(agedPlanksNormal);
+	//SphereWoodplanksMeshComponent->AddTexture(agedPlanksMetRoughAO);
+	//SphereWoodplanksMeshComponent->SetShader(&PBRShader);
+	//SphereEntityWoodplanks->SetPosition(glm::vec3(-5.f, 1.0f, 0.0f));
+	//SphereEntityWoodplanks->SetScale(glm::vec3(0.15));
+	//SphereEntityWoodplanks->AddComponent(SphereWoodplanksMeshComponent);
+	//SphereEntityWoodplanks->AddComponent(SpherewoodRigidComponent);
 
 	// SEMI TRANSPARENT
 	IEntity* GrassPlanesEntity = new Entity;

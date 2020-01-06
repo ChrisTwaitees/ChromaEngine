@@ -19,19 +19,18 @@ protected:
 	const char* vtxSource{ "resources/shaders/frameBufferVertex.glsl" };
 	const char* fragSource{ "resources/shaders/frameBufferFrag.glsl" };
 
-	unsigned int resolutionFactor{ 1 };
-
 	// framebuffer / renderbuffer
 	unsigned int m_FBO;
 	unsigned int m_RBO;
 
 	// vertex array / vertex buffer
-	NDCPlanePrimitive quad;
+	NDCPlanePrimitive m_Quad;
 
 	// position on screen
 	glm::vec2 m_Offset{ glm::vec2(0) };
 	glm::vec2 m_Scale{ glm::vec2(1) };
 
+	// shader
 	Shader* m_ScreenShader{ new Shader(fragSource, vtxSource) };
 
 	// texture
@@ -44,10 +43,7 @@ protected:
 	virtual void GenTexture();
 	virtual void SetTextureParameters();
 	virtual void UpdateTransformUniforms();
-
-
 public:
-
 	// static
 	static void CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
 	static void CopyDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);

@@ -18,8 +18,8 @@ private:
 	// DepthBuffers
 	unsigned int depthMapFBO;
 	// resolution
-	unsigned int width{ SHADOW_WIDTH};
-	unsigned int height{ SHADOW_HEIGHT};
+	unsigned int width{ SHADOW_WIDTH };
+	unsigned int height{ SHADOW_HEIGHT };
 	// shaders
 	std::string depthVtxSource = "resources/shaders/vertexDepthMap.glsl";
 	std::string depthFragSource = "resources/shaders/fragEmpty.glsl";
