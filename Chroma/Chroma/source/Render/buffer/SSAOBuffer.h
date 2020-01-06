@@ -46,7 +46,7 @@ class SSAOBuffer : public IFramebuffer
 
 	// functions
 	void sendKernelSamplesToShader();
-	void configureShaders();
+	void ConfigureShaders();
 
 
 public:

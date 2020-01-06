@@ -72,7 +72,7 @@ public:
 
 	virtual void Bind();
 	virtual void UnBind();
-	virtual void ClearBuffer();
+	virtual void ClearColorAndDepth();
 	virtual void Draw();
 
 	IFramebuffer();

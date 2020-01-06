@@ -4,8 +4,8 @@
 void GBuffer::Initialize()
 {
 	// create the buffer
-	glGenFramebuffers(1, &m_gBuffer);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_gBuffer);
+	glGenFramebuffers(1, &m_FBO);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 
 	// SCENE DATA
 	// - position color buffer
@@ -69,45 +69,45 @@ void GBuffer::Initialize()
 	unsigned int attachments[7] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6 };
 	glDrawBuffers(7, attachments);
 	// create and attach depth buffer (renderbuffer)
-	glGenRenderbuffers(1, &m_gRBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_gRBO);
+	glGenRenderbuffers(1, &m_RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_gRBO);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 	// finally check if framebuffer is complete
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		CHROMA_WARN("GBUFFER:: Framebuffer not complete!");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// configure shaders
-	configureShaders();
+	ConfigureShaders();
 }
 
 void GBuffer::UpdateTransformUniforms()
 {
 	m_lightingPassShader.use();
-	m_lightingPassShader.setVec2("scale", m_Scale);
-	m_lightingPassShader.setVec2("offset", m_Offset);
+	m_lightingPassShader.SetUniform("scale", m_Scale);
+	m_lightingPassShader.SetUniform("offset", m_Offset);
 }
 
-void GBuffer::configureShaders()
+void GBuffer::ConfigureShaders()
 {
 	// Geometry Buffer
 	m_lightingPassShader.use();
-	m_lightingPassShader.SetInt("gPosition", 0);
-	m_lightingPassShader.SetInt("gNormal", 1);
-	m_lightingPassShader.SetInt("gAlbedo", 2);
-	m_lightingPassShader.SetInt("gMetRoughAO", 3);
-	m_lightingPassShader.SetInt("gFragPosLightSpace", 4);
-	m_lightingPassShader.SetInt("gShadowmap", 5);
-	m_lightingPassShader.SetInt("SSAO", 6);
-
-	// IBL
-	m_lightingPassShader.SetInt("irradianceMap", 7);
-	m_lightingPassShader.SetInt("prefilterMap", 8);
-	m_lightingPassShader.SetInt("brdfLUT", 9);
+	m_lightingPassShader.SetUniform("gPosition", 0);
+	m_lightingPassShader.SetUniform("gNormal", 1);
+	m_lightingPassShader.SetUniform("gAlbedo", 2);
+	m_lightingPassShader.SetUniform("gMetRoughAO", 3);
+	m_lightingPassShader.SetUniform("gFragPosLightSpace", 4);
+	m_lightingPassShader.SetUniform("gShadowmap", 5);
+	m_lightingPassShader.SetUniform("SSAO", 6);
+						 
+	// IBL				 
+	m_lightingPassShader.SetUniform("irradianceMap", 7);
+	m_lightingPassShader.SetUniform("prefilterMap", 8);
+	m_lightingPassShader.SetUniform("brdfLUT", 9);
 }
 
-void GBuffer::bindAllGBufferTextures()
+void GBuffer::BindGBufferTextures()
 {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
@@ -120,51 +120,44 @@ void GBuffer::bindAllGBufferTextures()
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, gFragPosLightSpace);
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, mShadowbuffer->GetTexture());
+	glBindTexture(GL_TEXTURE_2D, m_Shadowbuffer->GetTexture());
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, m_SSAOBuffer->GetTexture());
 	// IBL
 	glActiveTexture(GL_TEXTURE7);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->getIrradianceMapID());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetIrradianceMapID());
 	glActiveTexture(GL_TEXTURE8);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->getPrefilterMapID());
+	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetPrefilterMapID());
 	glActiveTexture(GL_TEXTURE9);
-	glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->getBRDFLUTID());
+	glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->GetBRDFLUTID());
 }
 
-void GBuffer::setLightingUniforms()
+void GBuffer::SetLightingUniforms()
 {
-	m_lightingPassShader.setLightingUniforms(Chroma::Scene::GetLights(), *Chroma::Scene::GetRenderCamera());
+	m_lightingPassShader.SetLightingUniforms(Chroma::Scene::GetLights(), *Chroma::Scene::GetRenderCamera());
 	m_lightingPassShader.SetUniform("ambient", Chroma::Scene::GetAmbientColor());
 }
 
-void GBuffer::Bind()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, m_gBuffer);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-}
-
-void GBuffer::calculateShadows()
+void GBuffer::DrawShadowMaps()
 {
 	// 1. calculate shadows
-	mShadowbuffer->calculateShadows();
+	m_Shadowbuffer->DrawShadowMaps();
 }
 
-
-void GBuffer::drawGeometryPass()
+void GBuffer::DrawGeometryPass()
 {
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
 	m_geometryPassShader.use();
 	m_geometryPassShader.SetMat4("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
 	m_geometryPassShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
-	m_geometryPassShader.SetMat4("lightSpaceMatrix", mShadowbuffer->getLightSpaceMatrix());
+	m_geometryPassShader.SetMat4("lightSpaceMatrix", m_Shadowbuffer->getLightSpaceMatrix());
 
 	// Render Scene
 	for (std::string const& UID : Chroma::Scene::GetEntityUIDs())
 	{
 		glm::mat4 finalTransformMatrix = Chroma::Scene::GetEntity(UID)->GetTransform();
-		for (IComponent* component : Chroma::Scene::GetEntity(UID)->getLitComponents())
+		for (IComponent* component : Chroma::Scene::GetEntity(UID)->GetLitComponents())
 		{
 			// transform components by entity transform
 			finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransform();
@@ -182,42 +175,22 @@ void GBuffer::drawGeometryPass()
 	UnBind();
 }
 
-void GBuffer::RenderWithShader(IEntity* Entity)
-{
-	glm::mat4 finalTransformMatrix = Entity->GetTransform();
-	for (IComponent* component : Entity->getLitComponents())
-	{
-		// transform components by entity transform
-		finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransform();
-		m_geometryPassShader.SetMat4("model", finalTransformMatrix);
-
-		// check if mesh skinned
-		m_geometryPassShader.SetUniform("isSkinned", ((MeshComponent*)component)->m_IsSkinned);
-		if (((MeshComponent*)component)->m_IsSkinned)
-			((MeshComponent*)component)->SetJointUniforms(m_geometryPassShader);
-
-		// Draw Update Materials
-		((MeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
-	}
-}
 
 void GBuffer::drawLightingPass()
 {
-	// clear color buffer
-	glClear(GL_COLOR_BUFFER_BIT);
 	// use the lighting pass shader
 	m_lightingPassShader.use();
 	// updating transforms
 	UpdateTransformUniforms();
 	// activating textures
-	bindAllGBufferTextures();
+	BindGBufferTextures();
 	// set lighting uniforms
-	setLightingUniforms();
+	SetLightingUniforms();
 }
 
 void GBuffer::BlitDepthBuffer()
 {
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_gBuffer);
+	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_FBO);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->GetFBO());// write to default HDR IFramebuffer
 	glBlitFramebuffer(
 		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
@@ -226,11 +199,11 @@ void GBuffer::BlitDepthBuffer()
 
 void GBuffer::Draw()
 {
-	// 0. calculate shadow textures
-	calculateShadows();
+	// 0. draw shadow textures
+	DrawShadowMaps();
 
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
-	drawGeometryPass();
+	DrawGeometryPass();
 
 	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
 	((SSAOBuffer*)m_SSAOBuffer)->Draw(gViewPosition, gViewNormal);
@@ -243,7 +216,7 @@ void GBuffer::Draw()
 	RenderQuad();
 
 	// 4. copy content of geometry's depth buffer to HDR buffer
-	BlitDepthBuffer();
+	CopyDepth(m_FBO, m_PostFXBuffer->GetFBO());
 
 	// 5. Unbind postFX buffer
 	m_PostFXBuffer->UnBind();
@@ -252,7 +225,7 @@ void GBuffer::Draw()
 GBuffer::GBuffer(IFramebuffer*& PostFXBuffer)
 {
 	Initialize();
-	mShadowbuffer = new ShadowBuffer();
+	m_Shadowbuffer = new ShadowBuffer();
 	m_PostFXBuffer = PostFXBuffer;
 }
 

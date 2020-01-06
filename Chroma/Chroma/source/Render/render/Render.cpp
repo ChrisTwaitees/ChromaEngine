@@ -18,7 +18,7 @@ namespace Chroma
 	void Render::CleanUp()
 	{
 		// DEBUG BUFFER
-		m_DebugBuffer->ClearBuffer();
+		m_DebugBuffer->ClearColorAndDepth();
 	}
 
 	void Render::RenderDefferedComponents()

@@ -54,7 +54,7 @@ void ShadowBuffer::bindShadowMapToBuffer()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void ShadowBuffer::calculateShadows()
+void ShadowBuffer::DrawShadowMaps()
 {
 
 

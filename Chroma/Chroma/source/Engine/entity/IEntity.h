@@ -73,7 +73,7 @@ public:
 	// Components
 	virtual std::vector<IComponent*> getComponents() = 0;
 	virtual std::vector<IComponent*> getRenderableComponents() = 0;
-	virtual std::vector<IComponent*> getLitComponents() = 0;
+	virtual std::vector<IComponent*> GetLitComponents() = 0;
 	virtual std::vector<IComponent*> getShadowCastingComponents() = 0;
 	virtual std::vector<IComponent*> GetTransparentComponents() = 0;
 	virtual std::vector<IComponent*> getUnlitComponents() = 0;

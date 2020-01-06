@@ -35,7 +35,7 @@ void SSAOBuffer::Initialize()
 	generateSampleKernel();
 	generateNoiseTexture();
 	generateBuffers();
-	configureShaders();
+	ConfigureShaders();
 }
 
 void SSAOBuffer::generateSampleKernel()
@@ -88,7 +88,7 @@ void SSAOBuffer::sendKernelSamplesToShader()
 		SSAOShader.setVec3("samples[" + std::to_string(i) + "]", ssaoKernel[i]);
 }
 
-void SSAOBuffer::configureShaders()
+void SSAOBuffer::ConfigureShaders()
 {
 	SSAOShader.use();
 	SSAOShader.SetInt("kernelSize", kernelSamples);

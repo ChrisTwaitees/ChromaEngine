@@ -26,40 +26,33 @@ class GBuffer : public IFramebuffer
 
 
 	// buffers
-	unsigned int m_gBuffer;
-	unsigned int m_gRBO;
 	IFramebuffer* m_SSAOBuffer{ new SSAOBuffer };
 
 	// scene
-	ShadowBuffer* mShadowbuffer;
+	ShadowBuffer* m_Shadowbuffer;
 	IFramebuffer* m_PostFXBuffer;
 
 	// functions
 	void Initialize() override;
-	void bindAllGBufferTextures();
+	void BindGBufferTextures();
 
 	// gbuffer textures
 	unsigned int gPosition, gViewPosition, gViewNormal, gFragPosLightSpace;
 	unsigned int gAlbedo, gNormal, gMetRoughAO;
 
 	// passes
-	void calculateShadows();
-	void drawGeometryPass();
+	void DrawShadowMaps();
+	void DrawGeometryPass();
 	void drawLightingPass();
 	void BlitDepthBuffer();
 
 	// uniforms
-	void configureShaders();
-	void setLightingUniforms();
+	void ConfigureShaders();
+	void SetLightingUniforms();
 	void UpdateTransformUniforms() override;
 
-	// cubemap TEST
-	CubeMap testCubeMap{ "resources/textures/skybox/blueskywater"};
-
-	void RenderWithShader(IEntity* Entity);
 public:
 	// functions
-	void Bind() override;
 	void Draw() override;
 	// structors
 	GBuffer(IFramebuffer*& m_PostFXBuffer);

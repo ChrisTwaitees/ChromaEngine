@@ -49,10 +49,10 @@ public:
 	void setIBLTexture(HDRTexture newHDRTexture);
 
 	inline unsigned int getEnvCubeMapID() { return m_envCubeMap; };
-	inline unsigned int getIrradianceMapID() { return m_irradianceMap; };
-	inline unsigned int getPrefilterMapID() { return m_prefilterMap; };
+	inline unsigned int GetIrradianceMapID() { return m_irradianceMap; };
+	inline unsigned int GetPrefilterMapID() { return m_prefilterMap; };
 	inline unsigned int getHDRTextureID() { return m_HDRtexture.ID; };
-	inline unsigned int getBRDFLUTID() { return m_brdfLUTTexture; };
+	inline unsigned int GetBRDFLUTID() { return m_brdfLUTTexture; };
 
 	template <typename UniformType>
 	void SetUniform(std::string uniformName, UniformType uniform)

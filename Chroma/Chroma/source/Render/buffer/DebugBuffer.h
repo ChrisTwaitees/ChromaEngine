@@ -97,27 +97,24 @@ class DebugBuffer : public IFramebuffer
 	Shader m_CoordinatesShader{ coordinatesFragSource, coordinatesVtxSource, coordinatesGeomSource };
 
 	// point VAO
-	void generatePointVAO();
+	void GeneratePointVAO();
 
 	// previous framebuffer to call from
 	IFramebuffer* m_PostFXBuffer;
 
 	// functions
-	void drawShapes();
+	void DrawShapes();
 	void DrawOverlayShapes();
 	void DrawDepthCulledShapes();
-	void renderLine(LineShape line);
-	void renderSphere(SphereShape sphere);
-	void renderBox(BoxShape box);
-	void renderJoint(JointShape joint);
-	void renderCoordinate(CoordinatesShape coordinate);
+	void RenderLine(LineShape line);
+	void RenderSphere(SphereShape sphere);
+	void RenderBox(BoxShape box);
+	void RenderJoint(JointShape joint);
+	void RenderCoordinate(CoordinatesShape coordinate);
 
 	void BindPointVAO();
 	// blitting depth buffer before rendering
 	void Initialize() override;
-	void AttachBuffer();
-	void blitPostFXBuffer();
-	void blitDepthPostFXBuffer();
 	
 
 public:
@@ -144,7 +141,7 @@ public:
 	// Skeletons
 	void DrawSceneSkeletons();
 
-	void ClearBuffer() override;
+	void ClearColorAndDepth() override;
 	void Draw() override;
 
 	DebugBuffer(IFramebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Initialize(); };

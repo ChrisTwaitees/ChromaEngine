@@ -139,7 +139,7 @@ void Shader::use() const
 }
 
 
-void Shader::setLightingUniforms(std::vector<Light*> Lights, Camera& renderCam)
+void Shader::SetLightingUniforms(std::vector<Light*> Lights, Camera& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };

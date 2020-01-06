@@ -23,28 +23,12 @@ void DebugBuffer::Initialize()
 		CHROMA_WARN("Framebuffer Not Complete!");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// build Line VAO
-	generatePointVAO();
-}
-
-void DebugBuffer::blitPostFXBuffer()
-{
-	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_PostFXBuffer->GetFBO()); // fetch  postFXBuffer
-	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_FBO); // copy depth and color to current buffer
-	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
-	);
-
-}
-
-void DebugBuffer::blitDepthPostFXBuffer()
-{
-	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
-	);
+	GeneratePointVAO();
 }
 
 
-void DebugBuffer::generatePointVAO()
+
+void DebugBuffer::GeneratePointVAO()
 {
 	ChromaVertex singleVert;
 
@@ -65,14 +49,15 @@ void DebugBuffer::generatePointVAO()
 
 }
 
-void DebugBuffer::drawShapes()
+void DebugBuffer::DrawShapes()
 {
+	Bind();
 	// OVERLAY 
-	AttachBuffer();
+	CopyColor(m_PostFXBuffer->GetFBO(), m_FBO);
 	DrawOverlayShapes();
 
 	// DEPTH RESPECTING
-	blitDepthPostFXBuffer();
+	CopyDepth(m_PostFXBuffer->GetFBO(), m_FBO);
 	DrawDepthCulledShapes();
 
 	UnBind();
@@ -82,38 +67,38 @@ void DebugBuffer::DrawOverlayShapes()
 {
 	// lines
 	for (LineShape line : m_OverlayLines)
-		renderLine(line);
+		RenderLine(line);
 	// spheres
 	for (SphereShape sphere : m_OverlaySpheres)
-		renderSphere(sphere);
+		RenderSphere(sphere);
 	// boxes
 	for (BoxShape box : m_OverlayBoxes)
-		renderBox(box);
+		RenderBox(box);
 	// joints
 	for (JointShape joint : m_OverlayJoints)
-		renderJoint(joint);
+		RenderJoint(joint);
 	// coordinates
 	for (CoordinatesShape coordinate : m_OverlayCoordinates)
-		renderCoordinate(coordinate);
+		RenderCoordinate(coordinate);
 }
 
 void DebugBuffer::DrawDepthCulledShapes()
 {
 	// lines
 	for (LineShape line : m_lines)
-		renderLine(line);
+		RenderLine(line);
 	// spheres
 	for (SphereShape sphere : m_spheres)
-		renderSphere(sphere);
+		RenderSphere(sphere);
 	// boxes
 	for (BoxShape box : m_boxes)
-		renderBox(box);
+		RenderBox(box);
 	// coordinates
 	for (CoordinatesShape coordinate : m_Coordinates)
-		renderCoordinate(coordinate);
+		RenderCoordinate(coordinate);
 }
 
-void DebugBuffer::renderLine(LineShape line)
+void DebugBuffer::RenderLine(LineShape line)
 {
 	m_LineShader.use();
 	m_LineShader.SetUniform("Start", line.start);
@@ -126,7 +111,7 @@ void DebugBuffer::renderLine(LineShape line)
 	BindPointVAO();
 }
 
-void DebugBuffer::renderSphere(SphereShape sphere)
+void DebugBuffer::RenderSphere(SphereShape sphere)
 {
 	m_SphereShader.use();
 	m_SphereShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
@@ -137,7 +122,7 @@ void DebugBuffer::renderSphere(SphereShape sphere)
 	BindPointVAO();
 }
 
-void DebugBuffer::renderBox(BoxShape box)
+void DebugBuffer::RenderBox(BoxShape box)
 {
 	m_BoxShader.use();
 	m_BoxShader.SetUniform("BBoxMin", box.bbox_min);
@@ -149,7 +134,7 @@ void DebugBuffer::renderBox(BoxShape box)
 	BindPointVAO();
 }
 
-void DebugBuffer::renderJoint(JointShape joint)
+void DebugBuffer::RenderJoint(JointShape joint)
 {
 	m_JointShader.use();
 	m_JointShader.SetUniform("JointPos", joint.jointPos);
@@ -161,7 +146,7 @@ void DebugBuffer::renderJoint(JointShape joint)
 	BindPointVAO();
 }
 
-void DebugBuffer::renderCoordinate(CoordinatesShape coordinate)
+void DebugBuffer::RenderCoordinate(CoordinatesShape coordinate)
 {
 	// Coordinate reference 
 	m_CoordinatesShader.use();
@@ -287,10 +272,8 @@ void DebugBuffer::DrawSceneSkeletons()
 }
 
 
-void DebugBuffer::ClearBuffer()
+void DebugBuffer::ClearColorAndDepth()
 {
-	Bind();
-
 	m_OverlayLines.clear();
 	m_OverlayBoxes.clear();
 	m_OverlaySpheres.clear();
@@ -301,37 +284,16 @@ void DebugBuffer::ClearBuffer()
 	m_spheres.clear();
 	m_boxes.clear();
 	m_Coordinates.clear();
-
-	UnBind();
 }
 
 void DebugBuffer::Draw()
 {
 	// 1. Draw shapes to debugbuffer after fetching postFX color and depth
-	drawShapes();
+	DrawShapes();
 
-	// 2. Bind postFX buffer to draw to
-	m_PostFXBuffer->Bind();
-
-	// use screen shader
-	m_ScreenShader->use();
-	// draw
-	// using color attachment
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
-	// setting transform uniforms
-	UpdateTransformUniforms();
-	RenderQuad();
-	// return to default frambuffer
-	m_PostFXBuffer->UnBind();
+	// 2. Copy New Color and Depth back to postFX Buffer
+	CopyColorAndDepth(m_FBO, m_PostFXBuffer->GetFBO());
 }
-
-void DebugBuffer::AttachBuffer()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-	blitPostFXBuffer();
-}
-
 
 
 

@@ -39,7 +39,7 @@ public:
 	unsigned int GetTexture() override { return ShadowMapTexture.ID; }
 
 	// calculate shadows
-	void calculateShadows();
+	void DrawShadowMaps();
 
 	// constructors
 	ShadowBuffer();
