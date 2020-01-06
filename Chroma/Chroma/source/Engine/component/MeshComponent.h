@@ -33,8 +33,6 @@ public:
 	virtual int GetNumTextures() = 0;
 	virtual glm::mat4 GetTransform() = 0;
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
-	//virtual Skeleton* GetSkeleton() {};
-
 
 	virtual void SetShader(Shader* const& newShader) = 0;
 	virtual void SetTextures(std::vector<Texture> textures_val) = 0;

@@ -113,9 +113,9 @@ void main()
 	// OUT
 	//------------------------------------------------------------------------
 	//float alpha = 0.5;
-	if(fs_in.TexCoords.x < 0.5)
+	if(Alpha > 0.1)
 	{
-		FragColor = vec4(vec3(fs_in.TexCoords.xyx), 0.1);
+		FragColor = vec4(vec3(Albedo), Alpha);
 	}
 	else
 		discard;

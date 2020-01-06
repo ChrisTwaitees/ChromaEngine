@@ -32,7 +32,13 @@ void ShadowBuffer::Initialize()
 	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
 
 	// bindShadowMapToBuffer the texture to the framebuffer
-	bindShadowMapToBuffer();
+	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ShadowMapTexture.ID, 0);
+	// m_RBO are not complete without a color buffer
+	// setting the following to NONE mitigates this
+	glDrawBuffer(GL_NONE);
+	glReadBuffer(GL_NONE);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
@@ -43,21 +49,9 @@ void ShadowBuffer::Initialize()
 		}
 }
 
-void ShadowBuffer::bindShadowMapToBuffer()
-{
-	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, ShadowMapTexture.ID, 0);
-	// m_RBO are not complete without a color buffer
-	// setting the following to NONE mitigates this
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-}
 
 void ShadowBuffer::DrawShadowMaps()
 {
-
-
 	// Calculate LightSpace matrix
 	calcLightSpaceMatrix();
 

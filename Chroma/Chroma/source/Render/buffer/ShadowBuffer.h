@@ -30,7 +30,6 @@ private:
 	void calcLightSpaceMatrix();
 	// setup 
 	void Initialize();
-	void bindShadowMapToBuffer();
 	glm::mat4 lightSpaceMatrix;
 
 public:
