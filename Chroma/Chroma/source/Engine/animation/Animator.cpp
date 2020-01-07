@@ -30,7 +30,7 @@ void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames,
 	//testOrientation(jointID);
 	glm::mat4 BindJointOrientation = Chroma::Math::GetRotationMat4(m_Skeleton->GetJointPtr(jointID)->m_ModelBindTransform);
 	// Convert to Model Space Transform
-	glm::mat4 ModelAnimatedTransform =  parentTransform *  LocalAnimatedTransform * BindJointOrientation;
+	glm::mat4 ModelAnimatedTransform = parentTransform * LocalAnimatedTransform;///* BindJointOrientation;
 	// Calculate Accumatively
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->m_ChildJointIDs)
 		ApplyAnimJointHierarchy(childJointID, keyFrames, ModelAnimatedTransform, frameNum);

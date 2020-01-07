@@ -144,34 +144,34 @@ int main()
 	// ____________________________________________________
 
 
-	// CAPSULE
-	// ____________________________________________________
-	IEntity* CapsuleEntity = new Entity;
-	Chroma::Scene::AddEntity(CapsuleEntity);
-	// mesh
-	MeshComponent* CapsuleMeshComponent = new Model("resources/primitives/capsule.fbx");
-	CapsuleMeshComponent->SetShader(&PBRShader);
-	CapsuleMeshComponent->AddTexture(walkingAlbedo);
-	CapsuleMeshComponent->AddTexture(walkingNormal);
-	CapsuleMeshComponent->AddTexture(walkingMetRoughAO);
+	//// CAPSULE
+	//// ____________________________________________________
+	//IEntity* CapsuleEntity = new Entity;
+	//Chroma::Scene::AddEntity(CapsuleEntity);
+	//// mesh
+	//MeshComponent* CapsuleMeshComponent = new Model("resources/primitives/capsule.fbx");
 	//CapsuleMeshComponent->SetShader(&PBRShader);
-	//CapsuleMeshComponent->AddTexture(greyAlbedo);
-	CapsuleEntity->AddComponent(CapsuleMeshComponent);
-	// rigid
-	PhysicsComponent* CapsuleRigidComponent = new PhysicsComponent();
-	CapsuleRigidComponent->SetColliderShape(ColliderShape::Box);
-	CapsuleRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	CapsuleEntity->AddComponent(CapsuleRigidComponent);
-	// transform
-	CapsuleEntity->SetPosition(glm::vec3(0,1.75,0.0));
-	// character controller
-	CharacterControllerComponent* CapsuleCharacterController = new ThirdPersonCharacterController();
-	// camera controller
-	ICameraController* CapsuleCameraController = new ThirdPersonCameraController();
-	Chroma::Scene::GetRenderCamera()->SetCustomCameraController(CapsuleCameraController);
-	CapsuleCharacterController->SetCustomCameraController(CapsuleCameraController);
-	// adding the component
-	CapsuleEntity->AddComponent(CapsuleCharacterController);
+	//CapsuleMeshComponent->AddTexture(walkingAlbedo);
+	//CapsuleMeshComponent->AddTexture(walkingNormal);
+	//CapsuleMeshComponent->AddTexture(walkingMetRoughAO);
+	////CapsuleMeshComponent->SetShader(&PBRShader);
+	////CapsuleMeshComponent->AddTexture(greyAlbedo);
+	//CapsuleEntity->AddComponent(CapsuleMeshComponent);
+	//// rigid
+	//PhysicsComponent* CapsuleRigidComponent = new PhysicsComponent();
+	//CapsuleRigidComponent->SetColliderShape(ColliderShape::Box);
+	//CapsuleRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	//CapsuleEntity->AddComponent(CapsuleRigidComponent);
+	//// transform
+	//CapsuleEntity->SetPosition(glm::vec3(0,1.75,0.0));
+	//// character controller
+	//CharacterControllerComponent* CapsuleCharacterController = new ThirdPersonCharacterController();
+	//// camera controller
+	//ICameraController* CapsuleCameraController = new ThirdPersonCameraController();
+	//Chroma::Scene::GetRenderCamera()->SetCustomCameraController(CapsuleCameraController);
+	//CapsuleCharacterController->SetCustomCameraController(CapsuleCameraController);
+	//// adding the component
+	//CapsuleEntity->AddComponent(CapsuleCharacterController);
 	// ____________________________________________________
 
 
@@ -187,33 +187,33 @@ int main()
 	TerrainEntity->AddComponent(TerrainMeshComponent);
 	// ____________________________________________________
 
-	// SPHERES
-	// Sphere Positions
-	glm::vec3 spherePositions[] = {
-		glm::vec3(0.f,  1.0f,  0.0f),
-		glm::vec3(2.5f,  1.0f,  0.0f),
-		glm::vec3(5.0f,  1.0f,  0.0f)
-	};
+	//// SPHERES
+	//// Sphere Positions
+	//glm::vec3 spherePositions[] = {
+	//	glm::vec3(0.f,  1.0f,  0.0f),
+	//	glm::vec3(2.5f,  1.0f,  0.0f),
+	//	glm::vec3(5.0f,  1.0f,  0.0f)
+	//};
 
-	
-	for (int i =0; i < 3; i++ )
-	{
-		IEntity* SphereEntity = new Entity;
-		Chroma::Scene::AddEntity(SphereEntity);
-		SphereEntity->SetName("Sphere");
-		MeshComponent* SphereMeshComponent = new SpherePrimitive();
-		PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
-		SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
-		SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
-		SphereRigidComponent->SetMass(1.0f);
-		SphereRigidComponent->SetFriction(3.0f);
-		//SphereMeshComponent->AddTexture(sandyNormal);
-		SphereMeshComponent->AddTexture(greyAlbedo);
-		SphereMeshComponent->SetShader(&PBRShader);
-		SphereEntity->SetPosition(spherePositions[i]);
-		SphereEntity->AddComponent(SphereMeshComponent);
-		SphereEntity->AddComponent(SphereRigidComponent);
-	}
+	//
+	//for (int i =0; i < 3; i++ )
+	//{
+	//	IEntity* SphereEntity = new Entity;
+	//	Chroma::Scene::AddEntity(SphereEntity);
+	//	SphereEntity->SetName("Sphere");
+	//	MeshComponent* SphereMeshComponent = new SpherePrimitive();
+	//	PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
+	//	SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
+	//	SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
+	//	SphereRigidComponent->SetMass(1.0f);
+	//	SphereRigidComponent->SetFriction(3.0f);
+	//	//SphereMeshComponent->AddTexture(sandyNormal);
+	//	SphereMeshComponent->AddTexture(greyAlbedo);
+	//	SphereMeshComponent->SetShader(&PBRShader);
+	//	SphereEntity->SetPosition(spherePositions[i]);
+	//	SphereEntity->AddComponent(SphereMeshComponent);
+	//	SphereEntity->AddComponent(SphereRigidComponent);
+	//}
 	//// ____________________________________________________
 	//
 	//// CUBES
@@ -288,53 +288,53 @@ int main()
 	//SphereEntityWoodplanks->AddComponent(SphereWoodplanksMeshComponent);
 	//SphereEntityWoodplanks->AddComponent(SpherewoodRigidComponent);
 
-	// SEMI TRANSPARENT
-	IEntity* GrassPlanesEntity = new Entity;
-	GrassPlanesEntity->SetPosition(glm::vec3(0.0,0.0,-3.0));
-	GrassPlanesEntity->SetScale(glm::vec3(1.5));
-	Chroma::Scene::AddEntity(GrassPlanesEntity);
-	GrassPlanesEntity->SetName("Semi Transparent");
-	MeshComponent* GrassPlanesMeshComponent = new Model("resources/primitives/grassPlanes.fbx");
-	GrassPlanesMeshComponent->AddTexture(alphaTestAlbedo);
-	GrassPlanesMeshComponent->SetShader(&SemiTransparentShader);
-	GrassPlanesMeshComponent->m_IsLit = false;
-	GrassPlanesMeshComponent->m_IsForwardLit = true;
-	GrassPlanesMeshComponent->m_IsTransparent = true;
-	GrassPlanesEntity->AddComponent(GrassPlanesMeshComponent);
+	//// SEMI TRANSPARENT
+	//IEntity* GrassPlanesEntity = new Entity;
+	//GrassPlanesEntity->SetPosition(glm::vec3(0.0,0.0,-3.0));
+	//GrassPlanesEntity->SetScale(glm::vec3(1.5));
+	//Chroma::Scene::AddEntity(GrassPlanesEntity);
+	//GrassPlanesEntity->SetName("Semi Transparent");
+	//MeshComponent* GrassPlanesMeshComponent = new Model("resources/primitives/grassPlanes.fbx");
+	//GrassPlanesMeshComponent->AddTexture(alphaTestAlbedo);
+	//GrassPlanesMeshComponent->SetShader(&SemiTransparentShader);
+	//GrassPlanesMeshComponent->m_IsLit = false;
+	//GrassPlanesMeshComponent->m_IsForwardLit = true;
+	//GrassPlanesMeshComponent->m_IsTransparent = true;
+	//GrassPlanesEntity->AddComponent(GrassPlanesMeshComponent);
 
-	// SEMI TRANSPARENT
-	IEntity* SphereEntityTransparent2 = new Entity;
-	SphereEntityTransparent2->SetPosition(glm::vec3(3.5, 20.0, 0.0));
-	Chroma::Scene::AddEntity(SphereEntityTransparent2);
-	SphereEntityTransparent2->SetName("Sphere Semi Transparent2");
-	MeshComponent* SphereMeshComponent2 = new SpherePrimitive;
-	PhysicsComponent* SphereRigidComponent2 = new PhysicsComponent();
-	SphereRigidComponent2->SetColliderShape(ColliderShape::Convex);
-	SphereRigidComponent2->SetCollisionState(ColliderState::Dynamic);
-	SphereRigidComponent2->SetMass(1.0f);
-	SphereMeshComponent2->AddTexture(alphaTestAlbedo);
-	SphereMeshComponent2->SetShader(&SemiTransparentShader);
-	SphereMeshComponent2->m_IsLit = false;
-	SphereMeshComponent2->m_IsTransparent = true;
-	SphereEntityTransparent2->AddComponent(SphereMeshComponent2);
-	SphereEntityTransparent2->AddComponent(SphereRigidComponent2);
+	//// SEMI TRANSPARENT
+	//IEntity* SphereEntityTransparent2 = new Entity;
+	//SphereEntityTransparent2->SetPosition(glm::vec3(3.5, 20.0, 0.0));
+	//Chroma::Scene::AddEntity(SphereEntityTransparent2);
+	//SphereEntityTransparent2->SetName("Sphere Semi Transparent2");
+	//MeshComponent* SphereMeshComponent2 = new SpherePrimitive;
+	//PhysicsComponent* SphereRigidComponent2 = new PhysicsComponent();
+	//SphereRigidComponent2->SetColliderShape(ColliderShape::Convex);
+	//SphereRigidComponent2->SetCollisionState(ColliderState::Dynamic);
+	//SphereRigidComponent2->SetMass(1.0f);
+	//SphereMeshComponent2->AddTexture(alphaTestAlbedo);
+	//SphereMeshComponent2->SetShader(&SemiTransparentShader);
+	//SphereMeshComponent2->m_IsLit = false;
+	//SphereMeshComponent2->m_IsTransparent = true;
+	//SphereEntityTransparent2->AddComponent(SphereMeshComponent2);
+	//SphereEntityTransparent2->AddComponent(SphereRigidComponent2);
 
-	// UNLIT
-	IEntity* SphereEntityUnlit = new Entity;
-	SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 0.0, 0.0));
-	Chroma::Scene::AddEntity(SphereEntityUnlit);
-	SphereEntityUnlit->SetName("Sphere");
-	MeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
-	PhysicsComponent* SphereRigidComponentUnlit = new PhysicsComponent();
-	SphereRigidComponentUnlit->SetColliderShape(ColliderShape::Convex);
-	SphereRigidComponentUnlit->SetCollisionState(ColliderState::Kinematic);
-	//SphereRigidComponentUnlit->SetMass(1.0f);
-	SphereRigidComponentUnlit->SetFriction(3.0f);
-	SphereMeshComponentUnlit->SetShader(&UnlitShader);
-	SphereMeshComponentUnlit->m_IsLit = false;
-	SphereMeshComponentUnlit->m_CastShadows = false;
-	SphereEntityUnlit->AddComponent(SphereMeshComponentUnlit);
-	SphereEntityUnlit->AddComponent(SphereRigidComponentUnlit);
+	//// UNLIT
+	//IEntity* SphereEntityUnlit = new Entity;
+	//SphereEntityUnlit->SetPosition(glm::vec3(-7.5, 0.0, 0.0));
+	//Chroma::Scene::AddEntity(SphereEntityUnlit);
+	//SphereEntityUnlit->SetName("Sphere");
+	//MeshComponent* SphereMeshComponentUnlit = new SpherePrimitive;
+	//PhysicsComponent* SphereRigidComponentUnlit = new PhysicsComponent();
+	//SphereRigidComponentUnlit->SetColliderShape(ColliderShape::Convex);
+	//SphereRigidComponentUnlit->SetCollisionState(ColliderState::Kinematic);
+	////SphereRigidComponentUnlit->SetMass(1.0f);
+	//SphereRigidComponentUnlit->SetFriction(3.0f);
+	//SphereMeshComponentUnlit->SetShader(&UnlitShader);
+	//SphereMeshComponentUnlit->m_IsLit = false;
+	//SphereMeshComponentUnlit->m_CastShadows = false;
+	//SphereEntityUnlit->AddComponent(SphereMeshComponentUnlit);
+	//SphereEntityUnlit->AddComponent(SphereRigidComponentUnlit);
 	 //____________________________________________________
 
 	// RENDER LOOP
@@ -347,10 +347,7 @@ int main()
 
 		//Sunlight Rotation	
 		Chroma::Scene::GetSunLight()->SetPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
-		Sun->setDirection(-normalize(Sun->GetPosition()));
-
-		//CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
-		Chroma::Render::GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1, 0, 0));		
+		Sun->setDirection(-normalize(Sun->GetPosition()));	
 
 		//((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
 		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };
