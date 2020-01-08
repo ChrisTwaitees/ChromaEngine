@@ -104,6 +104,9 @@ void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 
 	// add to updating components
 	Chroma::Scene::AddUpdatingComponent(newAnimationComponent);
+
+	// add to self to animated entities
+	Chroma::Scene::AddAnimatedEntity(this);
 }
 
 void Entity::addCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent)
