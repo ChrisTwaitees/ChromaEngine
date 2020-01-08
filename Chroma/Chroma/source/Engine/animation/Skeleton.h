@@ -54,7 +54,6 @@ class Skeleton
 public:
 	// Accessors
 	void AddJoint(Joint& newJoint);
-	void SetGlobalTransform(glm::mat4 const& newGlobalTransform) ;
 	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.m_ID; };
 	void SetRootJointID(int const& newRootJointID) { m_RootJointID = newRootJointID; };
 
@@ -91,7 +90,7 @@ public:
 
 	// Functions
 	void SetJointUniforms(Shader& skinnedShader);
-	void CalculateJointLocalBindOffsetTransforms();
+	void CalculateLocalBindOffset(int const& jointID, glm::mat4 const& parentTransform);
 	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
 	void DebugDraw(DebugBuffer* debugBuffer);
 	void InitializeSkeleton();

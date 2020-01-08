@@ -5,7 +5,7 @@
 void Skeleton::InitializeSkeleton()
 {
 	// calculate local bind m_Offset relative to parent joint
-	CalculateJointLocalBindOffsetTransforms();
+	CalculateLocalBindOffset(GetRootJointID(), glm::mat4{ 1.0 });
 }
 
 void Skeleton::AddJoint(Joint& newJoint)
@@ -224,8 +224,6 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 {
 	// Debug Draw Skeleton
 	glm::mat4 worldJointTransform = GetRootTransform() * currentJoint.m_ModelSpaceTransform;
-
-	debugBuffer->DrawOverlayCoordinates(GetRootTransform() * currentJoint.m_LocalBindOffsetTransform, 4.5);
 	// Coordinates
 	debugBuffer->DrawOverlayCoordinates(worldJointTransform, 4.5);
 	// Joint 
@@ -273,22 +271,15 @@ void Skeleton::TransformJointAndChildren(int const& jointID, glm::mat4 const& tr
 	}
 }
 
-void Skeleton::CalculateJointLocalBindOffsetTransforms()
+void Skeleton::CalculateLocalBindOffset(int const& jointID, glm::mat4 const& parentTransform)
 {
 	// Init Skeleton, calculating local joint m_Offset to parent
-	for (auto& IDNameJoint : m_Joints)
+	glm::mat4 modelBindTransform = GetJointPtr(jointID)->m_ModelBindTransform;
+	GetJointPtr(jointID)->m_LocalBindOffsetTransform = glm::inverse(parentTransform * GetJointPtr(jointID)->m_ModelInverseBindTransform);
+
+	for (int const& childJointID : GetJointPtr(jointID)->m_ChildJointIDs)
 	{
-		if (IDNameJoint.second.m_ParentJointID != -1) // root joint has no parent
-		{
-			glm::mat4 parentModelBindTransform = GetJointPtr(IDNameJoint.second.m_ParentJointID)->m_ModelBindTransform;
-			glm::mat4 currentInverseModelBindTransform = IDNameJoint.second.m_ModelInverseBindTransform;
-			glm::mat4 localModelBindTransform = glm::inverse(parentModelBindTransform * currentInverseModelBindTransform);
-			IDNameJoint.second.m_LocalBindOffsetTransform = localModelBindTransform;
-		}
-		else
-		{
-			GetJointPtr(IDNameJoint.first.first)->m_LocalBindOffsetTransform = glm::mat4(1.0);
-		}
+		CalculateLocalBindOffset(childJointID, modelBindTransform);
 	}
 }
 

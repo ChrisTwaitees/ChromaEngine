@@ -49,19 +49,10 @@ namespace Chroma
 			return glm::conjugate(rotation);
 		}
 
-		static glm::mat4 GetRotationMat4(const glm::mat4& from)
+		static glm::mat4 GetRotationMat4(glm::mat4 const& from)
 		{
-			glm::mat4 to;
-			to = from;
-			to[0][3] = 0.0;
-			to[1][3] = 0.0;
-			to[2][3] = 0.0;
-
-			to[3][0] = 0.0;
-			to[3][1] = 0.0;
-			to[3][2] = 0.0;
-			to[3][3] = 1.0;
-		
+			glm::mat4 to = from;
+			to[3] = glm::vec4(0.0,0.0,0.0,1.0);
 			return to;
 		}
 
@@ -72,6 +63,43 @@ namespace Chroma
 			ident = glm::toMat4(rotation) * ident;
 			return glm::scale(ident, scale);
 		}
+
+		static glm::quat ToQuaternion(glm::mat4 const& transform)
+		{
+			float w, x, y, z;
+			float diagonal = transform[0][0] + transform[1][1] + transform[2][2];
+			if (diagonal > 0) {
+				float w4 = (float)(glm::sqrt(diagonal + 1.0f) * 2.0f);
+				w = w4 / 4.0f;
+				x = (transform[2][1] - transform[1][2]) / w4;
+				y = (transform[0][2] - transform[2][0]) / w4;
+				z = (transform[1][0] - transform[0][1]) / w4;
+			}
+			else if ((transform[0][0] > transform[1][1]) && (transform[0][0] > transform[2][2])) {
+				float x4 = (float)(glm::sqrt(1.0f + transform[0][0] - transform[1][1] - transform[2][2]) * 2.0f);
+				w = (transform[2][1] - transform[1][2]) / x4;
+				x = x4 / 4.0f;
+				y = (transform[0][1] + transform[1][0]) / x4;
+				z = (transform[0][2] + transform[2][0]) / x4;
+			}
+			else if (transform[1][1] > transform[2][2]) {
+				float y4 = (float)(glm::sqrt(1.0f + transform[1][1] - transform[0][0] - transform[2][2]) * 2.0f);
+				w = (transform[0][2] - transform[2][0]) / y4;
+				x = (transform[0][1] + transform[1][0]) / y4;
+				y = y4 / 4.0f;
+				z = (transform[1][2] + transform[2][1]) / y4;
+			}
+			else {
+				float z4 = (float)(glm::sqrt(1.0f + transform[2][2] - transform[0][0] - transform[1][1]) * 2.0f);
+				w = (transform[1][0] - transform[0][1]) / z4;
+				x = (transform[0][2] + transform[2][0]) / z4;
+				y = (transform[1][2] + transform[2][1]) / z4;
+				z = z4 / 4.0f;
+			}
+			return glm::quat(x, y, z, w);
+		}
+
+
 
 		inline static float CartesianToPolar(float const& x, float const& y) { return -( glm::atan(y, x)); }
 
