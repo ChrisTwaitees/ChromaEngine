@@ -178,7 +178,6 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="source\Engine\animation\AnimationLoader.cpp" />
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
     <ClCompile Include="source\Engine\component\AnimationComponent.cpp" />
@@ -186,6 +185,8 @@
     <ClCompile Include="source\Engine\component\IComponent.cpp" />
     <ClCompile Include="source\Engine\component\MeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\PhysicsComponent.cpp" />
+    <ClCompile Include="source\Engine\content\AnimationLoader.cpp" />
+    <ClCompile Include="source\Engine\content\ModelLoader.cpp" />
     <ClCompile Include="source\Engine\core\Core.cpp" />
     <ClCompile Include="source\Engine\engine\Engine.cpp" />
     <ClCompile Include="source\Engine\entity\Entity.cpp" />
@@ -243,7 +244,6 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
-    <ClInclude Include="source\Engine\animation\AnimationLoader.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
     <ClInclude Include="source\Engine\ChromaConfig.h" />
@@ -253,6 +253,8 @@
     <ClInclude Include="source\Engine\component\MeshComponent.h" />
     <ClInclude Include="source\Engine\component\PhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IComponent.h" />
+    <ClInclude Include="source\Engine\content\AnimationLoader.h" />
+    <ClInclude Include="source\Engine\content\ModelLoader.h" />
     <ClInclude Include="source\Engine\core\Core.h" />
     <ClInclude Include="source\Engine\engine\Engine.h" />
     <ClInclude Include="source\Engine\entity\Entity.h" />

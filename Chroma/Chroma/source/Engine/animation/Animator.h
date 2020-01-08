@@ -7,7 +7,7 @@
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 // chroma
-#include <animation/AnimationLoader.h>
+#include <content/AnimationLoader.h>
 #include <animation/Skeleton.h>
 #include <time/Time.h>
 #include <worker/IWorker.h>

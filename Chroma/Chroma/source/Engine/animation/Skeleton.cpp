@@ -13,12 +13,6 @@ void Skeleton::AddJoint(Joint& newJoint)
 	m_Joints[make_pair(newJoint.m_ID, newJoint.m_Name)] = newJoint;
 }
 
-void Skeleton::SetGlobalTransform(glm::mat4 const& newGlobalTransform)
-{
-	m_WorldTransform = newGlobalTransform;
-	m_WorldTransformInverse = glm::inverse(newGlobalTransform);
-}
-
 void Skeleton::SetToBindPose()
 {
 	for (auto& IDNameJoint : m_Joints)
@@ -233,7 +227,6 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 	// Coordinates
 	debugBuffer->DrawOverlayCoordinates(worldJointTransform, 4.5);
 	// Joint 
-	glm::vec3 euler = glm::eulerAngles(Chroma::Math::GetQuatRotation(currentJoint.m_ModelSpaceTransform)) *3.14159f / 180.f;
 	glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * currentJoint.m_ModelSpaceTransform);
 	for (int const& childID : currentJoint.m_ChildJointIDs)
 	{

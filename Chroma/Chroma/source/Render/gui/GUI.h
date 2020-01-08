@@ -25,8 +25,10 @@ namespace Chroma
 
 		static void DrawMainMenu();
 
-		//static const char* GraphicsDebugs[8];
-		//static const char* cameras[2];
+		static void DrawGraphicsMenu();
+
+		static void DrawAnimationMenu();
+
 
 	public:
 		// functions
@@ -46,14 +48,12 @@ namespace Chroma
 		static bool drawDebug;
 		static bool drawPhysicsDebug;
 		// anim
-		static bool debugAnim, drawSkeletonsDebug;
+		static bool drawAnimMenu, debugAnim, drawSkeletonsDebug;
 		static char animClipName[128];
 		static float DebugAnimClipPos;
 		// graphics
-		static bool drawGraphicsDebug;
+		static bool drawGraphicsMenu;
 		static int graphicsDebugSelected;
-		// camera
-		static int cameraSelected;
 		// enities
 		inline static void SetSelectedEntityName(std::string const& newEntity) { SelectedEntity = newEntity; };
 	};
