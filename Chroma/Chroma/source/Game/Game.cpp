@@ -347,10 +347,7 @@ int main()
 
 		//Sunlight Rotation	
 		Chroma::Scene::GetSunLight()->SetPosition(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
-		Sun->setDirection(-normalize(Sun->GetPosition()));
-
-		//CubeEntity->SetPosition(glm::vec3(-5.0f, glm::sin(GameTime) * 3.0, 0.0f));
-		Chroma::Render::GetDebugBuffer()->DrawBox(glm::vec3(3), glm::vec3(5), glm::vec3(1, 0, 0));		
+		Sun->setDirection(-normalize(Sun->GetPosition()));		
 
 		//((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
 		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };

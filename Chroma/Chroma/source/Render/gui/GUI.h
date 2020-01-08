@@ -29,12 +29,6 @@ namespace Chroma
 
 		static void DrawAnimationMenu();
 
-
-	public:
-		// functions
-		static void Init();
-		static void Draw();
-
 		// GUI Attrs
 		// time
 		static float timeSpeed;
@@ -55,6 +49,12 @@ namespace Chroma
 		static bool drawGraphicsMenu;
 		static int graphicsDebugSelected;
 		// enities
+
+	public:
+		// functions
+		static void Init();
+		static void Draw();
+
 		inline static void SetSelectedEntityName(std::string const& newEntity) { SelectedEntity = newEntity; };
 	};
 }

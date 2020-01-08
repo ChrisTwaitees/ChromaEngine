@@ -49,7 +49,7 @@ namespace Chroma
 		drawPhysicsDebug = false;
 		// ANIMATION
 		// anim
-		drawAnimMenu = false;
+		drawAnimMenu = true;
 		debugAnim = false;
 		DebugAnimClipPos = 0.0f;
 	}

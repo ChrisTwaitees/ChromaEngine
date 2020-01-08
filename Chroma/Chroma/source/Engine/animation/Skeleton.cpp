@@ -224,6 +224,8 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 {
 	// Debug Draw Skeleton
 	glm::mat4 worldJointTransform = GetRootTransform() * currentJoint.m_ModelSpaceTransform;
+
+	debugBuffer->DrawOverlayCoordinates(GetRootTransform() * currentJoint.m_LocalBindOffsetTransform, 4.5);
 	// Coordinates
 	debugBuffer->DrawOverlayCoordinates(worldJointTransform, 4.5);
 	// Joint 
@@ -245,10 +247,6 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 
 void Skeleton::SetJointUniforms(Shader& skinnedShader)
 {
-	/*std::vector<glm::mat4> Transforms;
-	boneTransform((float)currentTime, Transforms);
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "gBones"), (GLsizei)Transforms.size(), GL_FALSE, glm::value_ptr(Transforms[0]));*/
-	// Render Pipeline Entry point, setting shader's Joint Matrices
 	for (auto const& IDNameJoint : m_Joints)
 	{
 		glm::mat4 WorldSpaceOffset = GetRootTransform() * IDNameJoint.second.m_ModelSpaceTransform * IDNameJoint.second.m_ModelInverseBindTransform;
