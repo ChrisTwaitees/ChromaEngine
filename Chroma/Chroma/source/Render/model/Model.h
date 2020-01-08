@@ -19,7 +19,7 @@ class Model : public MeshComponent
 
 	// Model Data
 	std::string m_directory;
-	std::vector<MeshComponent*> m_meshes;
+	std::vector<MeshComponent*> m_Meshes;
 	// verts
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
@@ -53,7 +53,7 @@ public:
 	std::pair<glm::vec3, glm::vec3> GetBBox();
 	glm::vec3 GetCentroid();
 	// render components
-	Shader* GetShader() override { return m_meshes[0]->GetShader(); };
+	Shader* GetShader() override { return m_Meshes[0]->GetShader(); };
 	void SetShader(Shader* const& newShader) override;
 	int GetNumTextures() override { return (int)m_Textures.size(); };
 	// verts

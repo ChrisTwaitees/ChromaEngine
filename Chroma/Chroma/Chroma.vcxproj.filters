@@ -121,6 +121,9 @@
     <Filter Include="Render\render">
       <UniqueIdentifier>{027c84c1-8c2d-4b7a-85f6-a469b7e7f4f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\content">
+      <UniqueIdentifier>{3fb27a9d-cbc6-4326-88a4-e587d6baaa6f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -270,9 +273,6 @@
     <ClCompile Include="source\Engine\time\Time.cpp">
       <Filter>Engine\time</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\animation\AnimationLoader.cpp">
-      <Filter>Engine\animation</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\logging\Log.cpp">
       <Filter>Engine\logging</Filter>
     </ClCompile>
@@ -305,6 +305,12 @@
     </ClCompile>
     <ClCompile Include="source\Render\buffer\IFramebuffer.cpp">
       <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\content\AnimationLoader.cpp">
+      <Filter>Engine\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\content\ModelLoader.cpp">
+      <Filter>Engine\content</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -479,9 +485,6 @@
     <ClInclude Include="source\Engine\time\Time.h">
       <Filter>Engine\time</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\animation\AnimationLoader.h">
-      <Filter>Engine\animation</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\logging\Log.h">
       <Filter>Engine\logging</Filter>
     </ClInclude>
@@ -514,6 +517,12 @@
     </ClInclude>
     <ClInclude Include="source\Render\buffer\IFramebuffer.h">
       <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\content\AnimationLoader.h">
+      <Filter>Engine\content</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\content\ModelLoader.h">
+      <Filter>Engine\content</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,37 +5,37 @@
 // DRAW
 void Model::Draw(Shader &shader)
 {
-	for (MeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_Meshes)
 		mesh->Draw(shader);
 }
 
 void Model::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	for (MeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_Meshes)
 			mesh->Draw(RenderCamera, Lights, transformMatrix);
 }
 
 void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
 {
-	for (MeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_Meshes)
 		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
 }
 
 void Model::DrawUpdateMaterials(Shader& shader)
 {
-	for (MeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_Meshes)
 		mesh->DrawUpdateMaterials(shader);
 }
 
 void Model::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
 {
-	for (MeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_Meshes)
 		mesh->DrawUpdateTransforms(renderCam, modelMatrix);
 }
 
 void Model::SetShader(Shader* const& newShader)
 {
-	for (MeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_Meshes)
 		mesh->SetShader(newShader);
 }
 
@@ -55,32 +55,32 @@ glm::vec3 Model::GetCentroid()
 // TEXTURES
 void Model::AddTexture(Texture texture_val)
 {
-	for (MeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_Meshes)
 		mesh->AddTexture(texture_val);
 }
 
 // UNIFORMS
 void Model::SetMat4(std::string name, glm::mat4 value)
 {
-	for (MeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_Meshes)
 		mesh->SetMat4(name, value);
 }
 
 void Model::SetInt(std::string name, int value)
 {
-	for (MeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_Meshes)
 		mesh->SetInt(name, value);
 }
 
 void Model::SetFloat(std::string name, float value)
 {
-	for (MeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_Meshes)
 		mesh->SetFloat(name, value);
 }
 
 void Model::SetJointUniforms(Shader& skinnedShader)
 {
-	for (MeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_Meshes)
 	{
 		((SkinnedMesh*)mesh)->SetJointUniforms(skinnedShader);
 	}	
@@ -88,29 +88,29 @@ void Model::SetJointUniforms(Shader& skinnedShader)
 
 Skeleton* Model::GetSkeleton()
 {
-	return ((SkinnedMesh*)m_meshes[0])->GetSkeleton();
+	return ((SkinnedMesh*)m_Meshes[0])->GetSkeleton();
 }
 
 void Model::SetScale(float const& newScale)
 {
-	((SkinnedMesh*)m_meshes[0])->SetScale(newScale);
+	((SkinnedMesh*)m_Meshes[0])->SetScale(newScale);
 }
 
 void Model::SetTranslation(glm::vec3 const& newPosition)
 {
-	((SkinnedMesh*)m_meshes[0])->SetTranslation(newPosition);
+	((SkinnedMesh*)m_Meshes[0])->SetTranslation(newPosition);
 }
 
 void Model::SetRotation(glm::quat const& newRotation)
 {
-	((SkinnedMesh*)m_meshes[0])->SetRotation(newRotation);
+	((SkinnedMesh*)m_Meshes[0])->SetRotation(newRotation);
 }
 
 void Model::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (MeshComponent*& mesh : m_meshes)
+	for (MeshComponent*& mesh : m_Meshes)
 		bboxes.push_back(mesh->GetBBox());
 
 	// once collected, calculate new min and max bbox
@@ -153,7 +153,7 @@ void Model::GetChildMeshNodes(aiNode* node, const aiScene* scene)
 	for (unsigned int i = 0; i < node->mNumMeshes; i++)
 	{
 		aiMesh* mesh = scene->mMeshes[node->mMeshes[i]];
-		m_meshes.push_back(ProcessMesh(mesh, scene));
+		m_Meshes.push_back(ProcessMesh(mesh, scene));
 	}
 	// check if node has children, if so recursively search for meshes
 	for (unsigned int i = 0; i< node->mNumChildren; i++)
@@ -261,7 +261,6 @@ MeshComponent* Model::ProcessMesh(aiMesh* mesh, const aiScene* scene)
 	{
 		// Process Skeleton
 		Skeleton skeleton;
-		skeleton.SetGlobalTransform(AIToGLM(scene->mRootNode->mTransformation));
 		// Process Joint Hierarchy
 		ProcessSkeleton(scene, mesh, skeleton);
 		// Skinned Mesh Constructor
@@ -348,10 +347,8 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 		// Add new joint
 		skeleton.AddJoint(newJoint);
 	}
-
 	// Normalize Skinning Weights
 	NormalizeSkinningWeights();
-
 	// Get Root Joint
 	aiNode* rootSceneNode = scene->mRootNode;
 	for (unsigned int i = 0; i < rootSceneNode->mNumChildren; i++)
@@ -383,7 +380,6 @@ void Model::ProcessSkeleton(const aiScene* scene,const aiMesh* mesh, Skeleton& s
 			namedJoint.second->m_ChildJointIDs = childJointIDs;
 		}
 	}
-
 	// Calculate Local Bind Offset Transforms
 	skeleton.InitializeSkeleton();
 }
@@ -437,6 +433,6 @@ void Model::GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parent
 
 Model::~Model()
 {
-	for (MeshComponent* mesh : m_meshes)
+	for (MeshComponent* mesh : m_Meshes)
 		delete mesh;
 }

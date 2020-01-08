@@ -13,12 +13,6 @@ void Skeleton::AddJoint(Joint& newJoint)
 	m_Joints[make_pair(newJoint.m_ID, newJoint.m_Name)] = newJoint;
 }
 
-void Skeleton::SetGlobalTransform(glm::mat4 const& newGlobalTransform)
-{
-	m_WorldTransform = newGlobalTransform;
-	m_WorldTransformInverse = glm::inverse(newGlobalTransform);
-}
-
 void Skeleton::SetToBindPose()
 {
 	for (auto& IDNameJoint : m_Joints)
@@ -230,10 +224,11 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 {
 	// Debug Draw Skeleton
 	glm::mat4 worldJointTransform = GetRootTransform() * currentJoint.m_ModelSpaceTransform;
+
+	debugBuffer->DrawOverlayCoordinates(GetRootTransform() * currentJoint.m_LocalBindOffsetTransform, 4.5);
 	// Coordinates
 	debugBuffer->DrawOverlayCoordinates(worldJointTransform, 4.5);
 	// Joint 
-	glm::vec3 euler = glm::eulerAngles(Chroma::Math::GetQuatRotation(currentJoint.m_ModelSpaceTransform)) *3.14159f / 180.f;
 	glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * currentJoint.m_ModelSpaceTransform);
 	for (int const& childID : currentJoint.m_ChildJointIDs)
 	{
@@ -252,10 +247,6 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 
 void Skeleton::SetJointUniforms(Shader& skinnedShader)
 {
-	/*std::vector<glm::mat4> Transforms;
-	boneTransform((float)currentTime, Transforms);
-	glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "gBones"), (GLsizei)Transforms.size(), GL_FALSE, glm::value_ptr(Transforms[0]));*/
-	// Render Pipeline Entry point, setting shader's Joint Matrices
 	for (auto const& IDNameJoint : m_Joints)
 	{
 		glm::mat4 WorldSpaceOffset = GetRootTransform() * IDNameJoint.second.m_ModelSpaceTransform * IDNameJoint.second.m_ModelInverseBindTransform;
