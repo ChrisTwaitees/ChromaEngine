@@ -234,8 +234,6 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 
 		if(currentJoint.m_ID == m_RootJointID)
 			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0, glm::vec3(1.0, 0.0, 0.0));
-		else if (childID == GetJointID("mixamorig:Head"))
-			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0, glm::vec3(1.0, 1.0, 0.0));
 		else
 			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0);
 

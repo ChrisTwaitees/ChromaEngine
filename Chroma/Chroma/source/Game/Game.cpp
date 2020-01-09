@@ -120,7 +120,7 @@ int main()
 	AnimModelEntity->SetName("AnimationModel");
 	Chroma::Scene::AddEntity(AnimModelEntity);
 	// mesh
-	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/walking2.fbx");
+	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/vampire.fbx");
 	AnimModelMeshComponent->SetShader(&PBRShader);
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
@@ -134,8 +134,9 @@ int main()
 	// animation
 	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
 	Animator AnimModelAnimator;
-	AnimModelAnimator.LoadAnimations("resources/animation/walking6.fbx");
 	AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
+	AnimModelAnimator.LoadAnimations("resources/animation/vampire_walk.fbx");
+	AnimModelAnimator.CompressAnimations();
 	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 	// transforming entity

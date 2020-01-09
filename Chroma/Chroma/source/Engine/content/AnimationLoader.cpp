@@ -6,14 +6,14 @@ void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(sourcePath, NULL);
 
-	if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+	if (!scene || !scene->mRootNode)
 	{
 		CHROMA_WARN("ERROR::ASSIMP::{0}", importer.GetErrorString() );
 		return;
 	}
-	else if (!scene->HasAnimations())
+	else if (scene->mAnimations == 0)
 	{
-		CHROMA_WARN("ERROR::ASSIMP::{0}", importer.GetErrorString());
+		CHROMA_WARN("ANIMATION LOADER:: No Animations Found in : {0}", sourcePath);
 		return;
 	}
 	else
@@ -58,11 +58,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 			// they name however often does not match the joint so we do a simple search 
 			// to find the correct joint 
 			std::string JointName = GetJointName(aiAnimNode, scene);
-			if (JointName.empty())
-			{
-				CHROMA_TRACE("ANIMATION LOADER:: Could not find correlating joint for channel : {0}", aiAnimNode->mNodeName.C_Str());
-				continue;
-			}
+
 			// if Keyframe for joint does not exist yet, create one
 			std::map<std::string, KeyFrame>::iterator it = newTake.m_KeyFrames.find(JointName);
 			if (it == newTake.m_KeyFrames.end())
@@ -133,24 +129,6 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 	}
 }
 
-void RotateByJointOrient(aiQuaternion& rotation, const std::string& jointName, const aiScene*& scene)
-{
-	aiNode* joint = scene->mRootNode->FindNode((aiString)jointName);
-
-	if (joint != NULL)
-	{
-		aiQuaternion boneOrient;
-		aiVector3D test; 
-		aiVector3D test1;
-		((aiBone*)joint)->mOffsetMatrix.DecomposeNoScaling(boneOrient, test1);
-
-		glm::vec3 euler = glm::degrees(glm::eulerAngles(AIToGLM(boneOrient)));
-		rotation = boneOrient * rotation;
-	}
-	else
-		return;
-}
-
 std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene)
 {
 	std::string animNodeChannelName{ animNode->mNodeName.C_Str() };
@@ -161,25 +139,8 @@ std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene)
 		std::string::size_type pos = animNodeChannelName.find('_');
 		animNodeChannelName = animNodeChannelName.substr(0, pos);
 	}
-	// iterate over meshes and if the mesh has bones, ensure the bone exists first
-	for (unsigned int i = 0; i < scene->mNumMeshes; i++)
-	{
-		aiMesh* mesh = scene->mMeshes[i];
-		if (mesh->HasBones())
-		{
-			for (unsigned int j = 0; j < mesh->mNumBones; j++)
-			{
-				aiBone* bone = mesh->mBones[j];
-				std::string boneName{ bone->mName.C_Str() };
 
-				if (animNodeChannelName == boneName)
-				{
-					return boneName;
-				}
-			}
-		}
-	}
-	return std::string();
+	return animNodeChannelName;
 }
 
 

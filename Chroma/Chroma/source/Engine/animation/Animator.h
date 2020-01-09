@@ -8,9 +8,9 @@
 #include <glm/glm.hpp>
 // chroma
 #include <content/AnimationLoader.h>
+#include <content/AnimationCompression.h>
 #include <animation/Skeleton.h>
 #include <time/Time.h>
-#include <worker/IWorker.h>
 #include <glm/gtc/quaternion.hpp> 
 #include <glm/gtx/quaternion.hpp>
 
@@ -51,6 +51,8 @@ public:
 	void DoAnimation();
 
 	void DebugAnimationTake(std::string const& takeName, float const& debugTime);
+
+	void CompressAnimations();
 
 	Animator();
 	~Animator();

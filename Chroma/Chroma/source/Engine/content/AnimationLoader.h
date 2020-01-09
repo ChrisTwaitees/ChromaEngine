@@ -44,7 +44,6 @@ struct Take
 
 void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes);
 void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& takes);
-void RotateByJointOrient(aiQuaternion& rotation, const std::string& jointName, const aiScene*& scene);
 
 std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene);
 

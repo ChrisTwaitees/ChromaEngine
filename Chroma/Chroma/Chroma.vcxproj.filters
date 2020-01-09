@@ -312,6 +312,9 @@
     <ClCompile Include="source\Engine\content\ModelLoader.cpp">
       <Filter>Engine\content</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\content\AnimationCompression.cpp">
+      <Filter>Engine\content</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -522,6 +525,9 @@
       <Filter>Engine\content</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\content\ModelLoader.h">
+      <Filter>Engine\content</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\content\AnimationCompression.h">
       <Filter>Engine\content</Filter>
     </ClInclude>
   </ItemGroup>

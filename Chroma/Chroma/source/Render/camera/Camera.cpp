@@ -9,7 +9,8 @@ void Camera::Initialize()
 
 void Camera::ProcessCustomCameraController()
 {
-	m_CustomCameraController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
+	if (m_CustomCameraController != nullptr)
+		m_CustomCameraController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
 }
 
 void Camera::Update()

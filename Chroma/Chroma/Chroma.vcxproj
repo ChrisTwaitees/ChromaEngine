@@ -185,6 +185,7 @@
     <ClCompile Include="source\Engine\component\IComponent.cpp" />
     <ClCompile Include="source\Engine\component\MeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\PhysicsComponent.cpp" />
+    <ClCompile Include="source\Engine\content\AnimationCompression.cpp" />
     <ClCompile Include="source\Engine\content\AnimationLoader.cpp" />
     <ClCompile Include="source\Engine\content\ModelLoader.cpp" />
     <ClCompile Include="source\Engine\core\Core.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="source\Engine\component\MeshComponent.h" />
     <ClInclude Include="source\Engine\component\PhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IComponent.h" />
+    <ClInclude Include="source\Engine\content\AnimationCompression.h" />
     <ClInclude Include="source\Engine\content\AnimationLoader.h" />
     <ClInclude Include="source\Engine\content\ModelLoader.h" />
     <ClInclude Include="source\Engine\core\Core.h" />

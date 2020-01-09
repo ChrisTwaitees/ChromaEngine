@@ -3,7 +3,6 @@
 
 void Animator::PlayTake(std::string const& takeName, float const& normalizedTime)
 {
-
 	if (m_Takes.find(takeName) != m_Takes.end())
 	{
 		float frameNum = CalculateFrameNumber(takeName, normalizedTime);
@@ -30,7 +29,7 @@ void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames,
 	//testOrientation(jointID);
 	glm::mat4 BindJointOrientation = Chroma::Math::GetRotationMat4(m_Skeleton->GetJointPtr(jointID)->m_LocalBindOffsetTransform);
 	// Convert to Model Space Transform
-	glm::mat4 ModelAnimatedTransform = parentTransform * BindJointOrientation * LocalAnimatedTransform;
+	glm::mat4 ModelAnimatedTransform = parentTransform * LocalAnimatedTransform;
 	// Calculate Accumatively
 	for (int const& childJointID : m_Skeleton->GetJointPtr(jointID)->m_ChildJointIDs)
 		ApplyAnimJointHierarchy(childJointID, keyFrames, ModelAnimatedTransform, frameNum);
@@ -121,7 +120,8 @@ JointTransform Animator::InterpolateJointTransforms(JointTransform const& from, 
 
 void Animator::LoadAnimations(std::string const& sourcePath)
 {
-	for (Take const& take : AnimationLoader::LoadAnimations(sourcePath))
+	// Load takes from source file
+	for (Take& take : AnimationLoader::LoadAnimations(sourcePath))
 	{
 		AddTake(take);
 		m_CurrentTake = take.m_Name;
@@ -154,6 +154,15 @@ void Animator::DebugAnimationTake(std::string const& takeName, float const& debu
 	}
 
 	PlayTake(takeName, debugTime);
+}
+
+void Animator::CompressAnimations()
+{
+	// Filter out unneeded joints
+	for (std::pair<std::string, Take> take : m_Takes)
+	{
+		Chroma::AnimationCompress::RemoveKeysNotInSkeleton(take.second, m_Skeleton);
+	}
 }
 
 
