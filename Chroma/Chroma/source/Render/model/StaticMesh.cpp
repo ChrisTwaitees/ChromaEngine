@@ -341,6 +341,16 @@ StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsig
 	SetupMesh();
 }
 
+StaticMesh::StaticMesh(MeshData const& newMeshData)
+{
+	m_IsRenderable = true;
+	m_vertices = newMeshData.verts;
+	m_Indices = newMeshData.indices;
+	m_Textures = newMeshData.textures;
+
+	SetupMesh();
+}
+
 StaticMesh::StaticMesh()
 {
 	m_IsRenderable = true;

@@ -90,6 +90,22 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 	SetupMesh();
 }
 
+SkinnedMesh::SkinnedMesh(MeshData const& newMeshData)
+{
+	// Renderables
+	m_IsRenderable = true;
+	m_IsSkinned = true;
+	// Skeleton
+	m_Skeleton = newMeshData.skeleton;
+	// Verts
+	m_SkinnedVertices = newMeshData.skinnedVerts;
+	m_Indices = newMeshData.indices;
+	// Textures
+	m_Textures = newMeshData.textures;
+	// Build Mesh
+	SetupMesh();
+}
+
 
 SkinnedMesh::~SkinnedMesh()
 {

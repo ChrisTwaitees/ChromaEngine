@@ -9,6 +9,16 @@
 #include <light/Light.h>
 
 
+struct MeshData
+{
+	bool isSkinned{ false };
+	std::vector<ChromaSkinnedVertex> skinnedVerts;
+	std::vector<ChromaVertex> verts;
+	std::vector<unsigned int> indices;
+	std::vector<Texture> textures;
+	Skeleton skeleton;
+};
+
 class MeshComponent : public IComponent
 {
 protected:

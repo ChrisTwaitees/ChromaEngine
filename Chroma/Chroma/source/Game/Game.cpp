@@ -106,11 +106,11 @@ int main()
 	rustedIronMetRoughAO.type = Texture::METROUGHAO;
 
 	// Animated Model
-	Texture walkingAlbedo("resources/animation/walking_textures/albedo.jpg");
+	Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
 	walkingAlbedo.type = Texture::ALBEDO;
-	Texture walkingNormal("resources/animation/walking_textures/normal.jpg");
+	Texture walkingNormal("resources/animation/vampire_textures/normal.jpg");
 	walkingNormal.type = Texture::NORMAL;
-	Texture walkingMetRoughAO("resources/animation/walking_textures/MetRoughAO.jpg");
+	Texture walkingMetRoughAO("resources/animation/vampire_textures/MetRoughAO.jpg");
 	walkingMetRoughAO.type = Texture::METROUGHAO;
 	// ____________________________________________________
 
