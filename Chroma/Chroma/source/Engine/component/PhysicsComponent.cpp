@@ -66,9 +66,9 @@ void PhysicsComponent::CreateCollisionShape()
 		m_CollisionShape = new btConvexHullShape();
 		for (ChromaVertex vert : m_vertices)
 		{
-			btVector3 btv = btVector3(vert.GetPosition().x,
-				vert.GetPosition().y,
-				vert.GetPosition().z);
+			btVector3 btv = btVector3(vert.m_position.x,
+				vert.m_position.y,
+				vert.m_position.z);
 			((btConvexHullShape*)m_CollisionShape)->addPoint(btv);
 		}
 		break;
@@ -84,15 +84,15 @@ void PhysicsComponent::CreateCollisionShape()
 			ChromaVertex v2 = m_vertices[i + 1];
 			ChromaVertex v3 = m_vertices[i + 2];
 
-			btVector3 btv1 = btVector3(v1.GetPosition().x,
-				v1.GetPosition().y,
-				v1.GetPosition().z);
-			btVector3 btv2 = btVector3(v2.GetPosition().x,
-				v2.GetPosition().y,
-				v2.GetPosition().z);
-			btVector3 btv3 = btVector3(v3.GetPosition().x,
-				v3.GetPosition().y,
-				v3.GetPosition().z);
+			btVector3 btv1 = btVector3(v1.m_position.x,
+				v1.m_position.y,
+				v1.m_position.z);
+			btVector3 btv2 = btVector3(v2.m_position.x,
+				v2.m_position.y,
+				v2.m_position.z);
+			btVector3 btv3 = btVector3(v3.m_position.x,
+				v3.m_position.y,
+				v3.m_position.z);
 
 			mesh->addTriangle(btv1, btv2, btv3);
 		}

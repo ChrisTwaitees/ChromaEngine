@@ -249,16 +249,16 @@ void SpherePrimitive::buildInterleavedVertices()
 		interleavedVertices.push_back(m_verts[i]);
 		interleavedVertices.push_back(m_verts[i + 1]);
 		interleavedVertices.push_back(m_verts[i + 2]);
-		newVert.SetPosition(glm::vec3(m_verts[i], m_verts[i+1], m_verts[i+2]));
+		newVert.m_position = (glm::vec3(m_verts[i], m_verts[i+1], m_verts[i+2]));
 
 		interleavedVertices.push_back(normals[i]);
 		interleavedVertices.push_back(normals[i + 1]);
 		interleavedVertices.push_back(normals[i + 2]);
-		newVert.SetNormal(glm::vec3(normals[i], normals[i + 1], normals[i + 2]));
+		newVert.m_normal = (glm::vec3(normals[i], normals[i + 1], normals[i + 2]));
 
 		interleavedVertices.push_back(texCoords[j]);
 		interleavedVertices.push_back(texCoords[j + 1]);
-		newVert.SetTexCoords(glm::vec2(texCoords[j], texCoords[j + 1]));
+		newVert.m_texCoords = (glm::vec2(texCoords[j], texCoords[j + 1]));
 
 		verts.push_back(newVert);
 	}

@@ -8,8 +8,8 @@ void SkinnedMesh::CalculateBBox()
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
 	for (ChromaSkinnedVertex& vert : m_SkinnedVertices)
 	{
-		newMinBBox = glm::min(newMinBBox, vert.GetPosition());
-		newMaxBBox = glm::max(newMaxBBox, vert.GetPosition());
+		newMinBBox = glm::min(newMinBBox, vert.m_position);
+		newMaxBBox = glm::max(newMaxBBox, vert.m_position);
 	}
 	// re-establishing min and max bboxes
 	m_BBoxMin = newMinBBox;

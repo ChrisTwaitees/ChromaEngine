@@ -94,21 +94,21 @@ namespace Chroma
 			if (newMeshData.isSkinned)
 			{
 				ChromaSkinnedVertex vertex;
-				vertex.SetPosition(position);
-				vertex.SetNormal(normal);
-				vertex.SetTangent(tangent);
-				vertex.SetBitangent(bitangent);
-				vertex.SetTexCoords(UV1);
+				vertex.m_position = position;
+				vertex.m_normal = normal;
+				vertex.m_tangent = tangent;
+				vertex.m_bitangent = bitangent;
+				vertex.m_texCoords = UV1;
 				newMeshData.skinnedVerts.push_back(vertex);
 			}
 			else
 			{
 				ChromaVertex vertex;
-				vertex.SetPosition(position);
-				vertex.SetNormal(normal);
-				vertex.SetTangent(tangent);
-				vertex.SetBitangent(bitangent);
-				vertex.SetTexCoords(UV1);
+				vertex.m_position = position;
+				vertex.m_normal = normal;
+				vertex.m_tangent = tangent;
+				vertex.m_bitangent = bitangent;
+				vertex.m_texCoords = UV1;
 				newMeshData.verts.push_back(vertex);
 			}
 		}

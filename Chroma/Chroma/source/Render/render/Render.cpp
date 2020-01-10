@@ -1,5 +1,5 @@
 #include "Render.h"
-
+#include <gui/GUI.h>
 
 namespace Chroma
 {
@@ -14,6 +14,9 @@ namespace Chroma
 
 	// Post FX
 	IFramebuffer* Render::m_PostFXBuffer;
+
+	// Graphics Debug
+	IFramebuffer* Render::m_GraphicsDebugBuffer;
 
 	void Render::CleanUp()
 	{
@@ -45,7 +48,39 @@ namespace Chroma
 		m_PostFXBuffer->SetUniform("exposure", 1.0f);
 		m_PostFXBuffer->SetUniform("gamma", 2.2f);
 
-		m_PostFXBuffer->Draw();
+		((PostFXBuffer*)m_PostFXBuffer)->Draw(Chroma::GUI::m_Bloom);
+	}
+
+	void Render::RenderGraphicsDebug()
+	{
+		if (Chroma::GUI::m_DrawGraphicsDebug)
+		{
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			// Albedo
+			if (Chroma::GUI::m_GraphicsDebugSelected == 0)
+			{
+				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetAlbedoTexture());
+				m_GraphicsDebugBuffer->Draw();
+			}
+			// Normals
+			if (Chroma::GUI::m_GraphicsDebugSelected == 1)
+			{
+				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetNormalTexture());
+				m_GraphicsDebugBuffer->Draw();
+			}
+			// MetRough
+			if (Chroma::GUI::m_GraphicsDebugSelected == 2)
+			{
+				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetMetalRoughnessAO());
+				m_GraphicsDebugBuffer->Draw();
+			}
+			// SSAO
+			if (Chroma::GUI::m_GraphicsDebugSelected == 3)
+			{
+				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetSSAOTexture());
+				m_GraphicsDebugBuffer->Draw();
+			}
+		}
 	}
 
 	void Render::Init()
@@ -71,6 +106,7 @@ namespace Chroma
 		m_GBuffer = new GBuffer(m_PostFXBuffer);
 		m_DebugBuffer = new DebugBuffer(m_PostFXBuffer);
 		m_ForwardBuffer = new ForwardBuffer(m_PostFXBuffer);
+		m_GraphicsDebugBuffer = new IFramebuffer();
 	}
 
 	void Render::RenderScene()
@@ -86,6 +122,9 @@ namespace Chroma
 
 		// Post FX
 		RenderPostFX();
+
+		// Graphics Debug
+		RenderGraphicsDebug();
 
 		// Clear
 		CleanUp();

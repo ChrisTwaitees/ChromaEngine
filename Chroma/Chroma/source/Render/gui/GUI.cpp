@@ -11,7 +11,7 @@ namespace Chroma
 	bool  GUI::useSkybox;
 	float GUI::exposure;
 	float GUI::gamma;
-	bool  GUI::bloom;
+	bool  GUI::m_Bloom;
 	// debug
 	bool GUI::drawPhysicsDebug;
 	// anim
@@ -21,9 +21,9 @@ namespace Chroma
 	float GUI::DebugAnimClipPos;
 	// graphics
 	bool GUI::drawGraphicsMenu;
-	int  GUI::graphicsDebugSelected;
-	static const char* GraphicsDebugs[8]{ "Alebdo", "Normals", "Metalness", "Roughness", "AO", "SSAO", "Shadows", "Reflections" };
-
+	int  GUI::m_GraphicsDebugSelected;
+	static const char* GraphicsDebugs[4]{ "Alebdo", "Normals", "MetRoughAO", "SSAO"};
+	bool GUI::m_DrawGraphicsDebug;
 	void GUI::Init()
 	{
 		// context
@@ -40,13 +40,15 @@ namespace Chroma
 		timeSpeed = 1.0f;
 		// GRAPHICS
 		drawGraphicsMenu = false;
-		graphicsDebugSelected = 0;
+		m_GraphicsDebugSelected = 0;
 		exposure = 1.0f;
 		gamma = 2.2f;
-		bloom = true;
+		m_Bloom = false;
 		useSkybox = true;
 		// GRAPHICS - DEBUG
 		drawPhysicsDebug = false;
+		m_DrawGraphicsDebug = false;
+
 		// ANIMATION
 		// anim
 		drawAnimMenu = true;
@@ -97,13 +99,18 @@ namespace Chroma
 		ImGui::Begin("Chroma Graphics");
 
 		// bloom
-		ImGui::Checkbox("Bloom", &bloom);
+		ImGui::Checkbox("Bloom", &m_Bloom);
 
 		// debug 
 		ImGui::Checkbox("Draw Physics", &drawPhysicsDebug);
 		if (drawPhysicsDebug)
 			Chroma::Physics::DrawDebug();
 
+		ImGui::Checkbox("Graphics Debug", &m_DrawGraphicsDebug);
+		if (m_DrawGraphicsDebug)
+		{
+			ImGui::ListBox("Graphics Debug Mode", &m_GraphicsDebugSelected, GraphicsDebugs, IM_ARRAYSIZE(GraphicsDebugs));
+		}
 
 		ImGui::End();
 	}

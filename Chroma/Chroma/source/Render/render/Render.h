@@ -31,6 +31,9 @@ namespace Chroma
 		// POST FX
 		static void RenderPostFX();
 
+		// GRAPHICS DEBUG RENDER
+		static void RenderGraphicsDebug();
+
 		// Deffered Buffer
 		static IFramebuffer* m_GBuffer;
 
@@ -42,6 +45,9 @@ namespace Chroma
 
 		// Post FX
 		static IFramebuffer* m_PostFXBuffer;
+
+		// Graphics Debug Buffer
+		static IFramebuffer* m_GraphicsDebugBuffer;
 
 		// INITIALIZE
 	public:

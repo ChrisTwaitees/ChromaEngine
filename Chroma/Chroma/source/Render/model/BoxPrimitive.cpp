@@ -51,7 +51,7 @@ std::vector<ChromaVertex> BoxPrimitive::GetVertices()
 			position[j] = boxData[vertDataIndex];
 			vertDataIndex++;
 		}
-		newVert.SetPosition(position);
+		newVert.m_position = position;
 		vertDataIndex++;
 		// normals
 		for (int j = 0; j < 3; j++)
@@ -59,7 +59,7 @@ std::vector<ChromaVertex> BoxPrimitive::GetVertices()
 			normal[j] = boxData[vertDataIndex];
 			vertDataIndex++;
 		}
-		newVert.SetNormal(normal);
+		newVert.m_normal = normal;
 		vertDataIndex++;
 		// texcoords
 		for (int j = 0; j < 2; j++)
@@ -67,7 +67,7 @@ std::vector<ChromaVertex> BoxPrimitive::GetVertices()
 			texcoords[j] = boxData[vertDataIndex];
 			vertDataIndex++;
 		}
-		newVert.SetTexCoords(texcoords);
+		newVert.m_texCoords = (texcoords);
 
 		m_vertices.push_back(newVert);
 	}

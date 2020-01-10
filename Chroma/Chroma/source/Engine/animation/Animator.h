@@ -41,8 +41,6 @@ class Animator
 	JointTransform InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp);
 	glm::mat4 JointTransformToMat4(JointTransform const& jointTransform);
 
-	void testOrientation(int const& jointID);
-
 public:
 	void LoadAnimations(std::string const& sourcePath);
 

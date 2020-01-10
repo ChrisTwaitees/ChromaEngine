@@ -37,7 +37,6 @@ namespace Chroma
 		static bool useSkybox;
 		static float exposure;
 		static float gamma;
-		static bool bloom;
 		//debugbuffer
 		static bool drawDebug;
 		static bool drawPhysicsDebug;
@@ -47,13 +46,17 @@ namespace Chroma
 		static float DebugAnimClipPos;
 		// graphics
 		static bool drawGraphicsMenu;
-		static int graphicsDebugSelected;
 		// enities
 
 	public:
 		// functions
 		static void Init();
 		static void Draw();
+
+		// graphics
+		static bool m_Bloom;
+		static bool m_DrawGraphicsDebug;
+		static int m_GraphicsDebugSelected;
 
 		inline static void SetSelectedEntityName(std::string const& newEntity) { SelectedEntity = newEntity; };
 	};

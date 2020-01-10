@@ -26,8 +26,6 @@ void DebugBuffer::Initialize()
 	GeneratePointVAO();
 }
 
-
-
 void DebugBuffer::GeneratePointVAO()
 {
 	ChromaVertex singleVert;

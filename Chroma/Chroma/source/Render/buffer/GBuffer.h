@@ -54,6 +54,13 @@ class GBuffer : public IFramebuffer
 public:
 	// functions
 	void Draw() override;
+
+	inline unsigned int GetPositionTexture() const { return gPosition; }
+	inline unsigned int GetAlbedoTexture() const { return gAlbedo; }
+	inline unsigned int GetNormalTexture() const { return gNormal; }
+	inline unsigned int GetMetalRoughnessAO() const { return gMetRoughAO; }
+	inline unsigned int GetSSAOTexture() const { return m_SSAOBuffer->GetTexture(); }
+
 	// structors
 	GBuffer(IFramebuffer*& m_PostFXBuffer);
 	~GBuffer();

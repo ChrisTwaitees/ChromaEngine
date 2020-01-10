@@ -75,7 +75,6 @@ void IFramebuffer::Initialize()
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		CHROMA_WARN("Framebuffer not complete!");
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 }
 
 
@@ -105,6 +104,7 @@ void IFramebuffer::ClearColorAndDepth()
 void IFramebuffer::Draw()
 {
 	m_ScreenShader->use();
+	//m_ScreenShader->SetUniform("screenTexture", m_FBOTexture);
 	// draw
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// using color attachment
