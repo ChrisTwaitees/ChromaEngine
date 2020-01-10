@@ -265,7 +265,7 @@ void DebugBuffer::DrawSceneSkeletons()
 			// check if mesh skinned
 			if (((MeshComponent*)component)->m_IsSkinned)
 			{
-				((Model*)component)->GetSkeleton()->DebugDraw(this);
+				((Model*)component)->GetSkeleton()->DebugDraw();
 			}
 		}
 	}

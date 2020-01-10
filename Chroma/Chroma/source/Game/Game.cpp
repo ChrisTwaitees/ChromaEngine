@@ -237,22 +237,22 @@ int main()
 	//
 	//// ____________________________________________________
 
-	////LOOKDEV
-	//IEntity* SphereEntityLookDev = new Entity;
-	//Chroma::Scene::AddEntity(SphereEntityLookDev);
-	//SphereEntityLookDev->SetName("LookDev");
-	//MeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
-	//PhysicsComponent* SphereLookDevRigidComponent = new PhysicsComponent();
-	//SphereLookDevRigidComponent->SetColliderShape(ColliderShape::Box);
-	//SphereLookDevRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	//SphereLookDevMeshComponent->SetShader(&PBRShader);
-	//SphereLookDevMeshComponent->AddTexture(lookdevAlbedo);
-	//SphereLookDevMeshComponent->AddTexture(lookdevNormal);
-	//SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
-	//SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
-	//SphereEntityLookDev->SetScale(glm::vec3(0.25));
-	//SphereEntityLookDev->AddComponent(SphereLookDevMeshComponent);
-	//SphereEntityLookDev->AddComponent(SphereLookDevRigidComponent);
+	//LOOKDEV
+	IEntity* SphereEntityLookDev = new Entity;
+	Chroma::Scene::AddEntity(SphereEntityLookDev);
+	SphereEntityLookDev->SetName("LookDev");
+	MeshComponent* SphereLookDevMeshComponent = new Model("resources/assets/lookdev/sphere.obj");
+	PhysicsComponent* SphereLookDevRigidComponent = new PhysicsComponent();
+	SphereLookDevRigidComponent->SetColliderShape(ColliderShape::Box);
+	SphereLookDevRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	SphereLookDevMeshComponent->SetShader(&PBRShader);
+	SphereLookDevMeshComponent->AddTexture(lookdevAlbedo);
+	SphereLookDevMeshComponent->AddTexture(lookdevNormal);
+	SphereLookDevMeshComponent->AddTexture(lookdevMetRoughAO);
+	SphereEntityLookDev->SetPosition(glm::vec3(2.0f, 2.0f, -4.0f));
+	SphereEntityLookDev->SetScale(glm::vec3(0.25));
+	SphereEntityLookDev->AddComponent(SphereLookDevMeshComponent);
+	SphereEntityLookDev->AddComponent(SphereLookDevRigidComponent);
 
 	// //RUSTED IRON
 	//IEntity* SphereEntityRustedIron = new Entity;

@@ -3,15 +3,9 @@
 
 //stl
 #include <string>
-#include <typeinfo>
 
 // chroma
 #include <uid/UID.h>
-#include <shader/Shader.h>
-#include <camera/Camera.h>
-#include <light/Light.h>
-#include <texture/Texture.h>
-#include <common/CoreCommon.h>
 
 // forward declarations
 class IEntity;

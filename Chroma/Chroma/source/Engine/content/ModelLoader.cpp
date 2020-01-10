@@ -1,27 +1,37 @@
 #include "ModelLoader.h"
 
-
 namespace Chroma 
 {
+	std::string ModelLoader::m_SourceDir;
 
 	// LOADING
-	std::vector<MeshComponent*> ModelLoader::Load(std::string const& sourcePath)
+	std::vector<MeshData> ModelLoader::Load(std::string const& sourcePath)
 	{
+		// set source directory
+		m_SourceDir = sourcePath.substr(0, sourcePath.find_last_of('/'));
+
+		// vector of collected mesh datas
+		std::vector<MeshData> meshDatas;
+		
+		// assimp importer
 		Assimp::Importer importer;
 		const aiScene* scene = importer.ReadFile(sourcePath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
-
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
 			CHROMA_WARN("ERROR::ASSIMP:: {0}", importer.GetErrorString());
-			return;
+			return meshDatas;
 		}
 
-		std::vector<MeshComponent*> meshComponents;
-		GetChildMeshNodes(scene->mRootNode, scene, meshComponents);
-		return meshComponents;
+		// iterate through the scenes meshes
+		GetChildMeshNodes(scene->mRootNode, scene, meshDatas);
+		// set the source path on all discovered mesh datas
+		for(MeshData& meshData : meshDatas)
+			meshData.sourceDirectory = m_SourceDir;
+		// return 
+		return meshDatas;
 	}
 
-	void ModelLoader::GetChildMeshNodes(aiNode* node, const aiScene*& scene, std::vector<MeshComponent*>& meshList)
+	void ModelLoader::GetChildMeshNodes(aiNode* node, const aiScene*& scene, std::vector<MeshData>& meshList)
 	{
 		// process node's meshes (if it has any)
 		for (unsigned int i = 0; i < node->mNumMeshes; i++)
@@ -36,12 +46,9 @@ namespace Chroma
 		}
 	}
 
-	MeshComponent* ModelLoader::ProcessMesh(aiMesh* mesh, const aiScene* scene)
+	MeshData ModelLoader::ProcessMesh(aiMesh* mesh, const aiScene*& scene)
 	{
 		MeshData newMeshData;
-
-		std::vector<unsigned int> m_Indices;
-		std::vector<Texture> m_Textures;
 
 		// check if mesh is skinned
 		newMeshData.isSkinned = mesh->HasBones();
@@ -111,7 +118,7 @@ namespace Chroma
 		{
 			aiFace face = mesh->mFaces[i];
 			for (unsigned int j = 0; j < face.mNumIndices; j++)
-				m_Indices.push_back(face.mIndices[j]);
+				newMeshData.indices.push_back(face.mIndices[j]);
 		}
 
 		// process material, fetching textures
@@ -119,46 +126,40 @@ namespace Chroma
 		{
 			aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
 			// diffuse textures
-			std::vector<Texture> diffuseMaps = LoadMaterialTextures(material,
-				aiTextureType_DIFFUSE, Texture::ALBEDO);
-			m_Textures.insert(m_Textures.end(), diffuseMaps.begin(), diffuseMaps.end());
-			// specular textures
-			std::vector<Texture> specularMaps = LoadMaterialTextures(material,
-				aiTextureType_SPECULAR, Texture::METALNESS);
-			m_Textures.insert(m_Textures.end(), specularMaps.begin(), specularMaps.end());
+			GetTexturesFromMaterial(material, aiTextureType_DIFFUSE, Texture::ALBEDO, newMeshData);
+			// metalness textures
+			GetTexturesFromMaterial(material, aiTextureType_SPECULAR, Texture::METALNESS, newMeshData);
 			// normal textures
-			std::vector<Texture> normalMaps = LoadMaterialTextures(material,
-				aiTextureType_HEIGHT, Texture::NORMAL);
-			m_Textures.insert(m_Textures.end(), normalMaps.begin(), normalMaps.end());
+			GetTexturesFromMaterial(material,	aiTextureType_HEIGHT, Texture::NORMAL, newMeshData);
 		}
 
 		// build Mesh
 		if (newMeshData.isSkinned)
 		{
 			// Process Skeleton
-			Skeleton skeleton;
+			Skeleton skeleton;			
 			// Process Joint Hierarchy
-			ProcessSkeleton(scene, mesh, skeleton);
-			// Skinned Mesh Constructor
-			return new SkinnedMesh(newMeshData);
+			ProcessSkeleton(scene, mesh, skeleton, newMeshData);
+			// Set MeshData's Skeleton
+			newMeshData.skeleton = skeleton;
 		}
-		else
-			return new StaticMesh(newMeshData);
+
+		return newMeshData;
 	}
 
-	std::vector<Texture> ModelLoader::LoadMaterialTextures(aiMaterial * mat, aiTextureType type, Texture::TYPE typeName)
+	void ModelLoader::GetTexturesFromMaterial(aiMaterial * mat, aiTextureType type, Texture::TYPE typeName, MeshData& meshData)
 	{
-		std::vector<Texture> m_Textures;
+		// iterate through meshes textures
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
 		{
-			aiString str;
-			mat->GetTexture(type, i, &str);
+			aiString textureName;
+			mat->GetTexture(type, i, &textureName);
 			bool skip{ false };
-			for (unsigned int j = 0; j < m_Textures.size(); j++)
+			for (unsigned int j = 0; j < meshData.textures.size(); j++)
 			{
-				if (std::strcmp(m_Textures[j].path.data(), str.C_Str()) == 0)
+				if (std::strcmp(meshData.textures[j].path.data(), textureName.C_Str()) == 0)
 				{
-					m_Textures.push_back(m_Textures[j]);
+					meshData.textures.push_back(meshData.textures[j]);
 					skip = true;
 					break;
 				}
@@ -166,13 +167,12 @@ namespace Chroma
 			if (!skip)
 			{
 				Texture texture;
-				texture.loadFromFile(str.C_Str(), m_directory);
+				texture.loadFromFile(textureName.C_Str(), m_SourceDir);
 				texture.type = typeName;
-				m_Textures.push_back(texture);
-				m_Textures.push_back(texture);
+				meshData.textures.push_back(texture);
+				meshData.textures.push_back(texture);
 			}
 		}
-		return m_Textures;
 	}
 
 	void ModelLoader::SetVertSkinningData(ChromaSkinnedVertex & vert, std::pair<int, float> const& jointIDWeight)
@@ -186,17 +186,15 @@ namespace Chroma
 				return;
 			}
 		}
-
 	}
 
-	void ModelLoader::ProcessSkeleton(const aiScene * scene, const aiMesh * mesh, Skeleton & skeleton)
+	void ModelLoader::ProcessSkeleton(const aiScene * scene, const aiMesh * mesh, Skeleton & skeleton, MeshData& meshData)
 	{
 		// Build Skeleton 
 		for (unsigned int i = 0; i < mesh->mNumBones; i++)
 		{
 			// fetch assimp bone, copy data to chroma joint
 			aiBone* bone = mesh->mBones[i];
-
 			Joint newJoint;
 			// Joint Name
 			newJoint.m_Name = bone->mName.C_Str();
@@ -218,13 +216,13 @@ namespace Chroma
 				std::pair<unsigned int, float> skinningData;
 				skinningData.first = i;
 				skinningData.second = vertexWeight.mWeight;
-				SetVertSkinningData(m_SkinnedVertices[vertexWeight.mVertexId], skinningData);
+				SetVertSkinningData(meshData.skinnedVerts[vertexWeight.mVertexId], skinningData);
 			}
 			// Add new joint
 			skeleton.AddJoint(newJoint);
 		}
 		// Normalize Skinning Weights
-		NormalizeSkinningWeights();
+		NormalizeSkinningWeights(meshData);
 		// Get Root Joint
 		aiNode* rootSceneNode = scene->mRootNode;
 		for (unsigned int i = 0; i < rootSceneNode->mNumChildren; i++)
@@ -260,13 +258,13 @@ namespace Chroma
 		skeleton.InitializeSkeleton();
 	}
 
-	void ModelLoader::NormalizeSkinningWeights()
+	void ModelLoader::NormalizeSkinningWeights(MeshData& meshData)
 	{
-		for (ChromaSkinnedVertex& skinnedVert : m_SkinnedVertices)
+		for (ChromaSkinnedVertex& skinnedVert : meshData.skinnedVerts)
 			skinnedVert.m_jointWeights = glm::normalize(skinnedVert.m_jointWeights);
 	}
 
-	void ModelLoader::GetChildJointIDs(aiNode * node, Skeleton & skeleton, std::vector<int> & childJointIDs)
+	void ModelLoader::GetChildJointIDs(const aiNode* node, Skeleton& skeleton, std::vector<int> & childJointIDs)
 	{
 		for (unsigned int i = 0; i < node->mNumChildren; i++)
 		{
@@ -305,7 +303,4 @@ namespace Chroma
 			parentJointID = -1;
 		}
 	}
-
-
-
 }

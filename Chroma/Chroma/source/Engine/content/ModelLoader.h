@@ -9,25 +9,26 @@
 
 // chroma
 #include <math/Math.h>
-#include <model/Model.h>
+#include <model/MeshData.h>
 
 namespace Chroma {
 	class ModelLoader
 	{
-		static void GetChildMeshNodes(aiNode* node,const aiScene*& scene, std::vector<MeshComponent*>& meshList);
-		static MeshComponent* ProcessMesh(aiMesh* mesh, const aiScene* scene);
+		// sourceDir of last import
+		static std::string m_SourceDir;
+		// mesh
+		static MeshData ProcessMesh(aiMesh* mesh, const aiScene*& scene);
+		static void GetChildMeshNodes(aiNode* node,const aiScene*& scene, std::vector<MeshData>& meshDatas);
 		// skinning and skeletons
 		static void SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
-		static void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton);
-		static void GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
+		static void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData);
+		static void GetChildJointIDs(const aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
 		static void GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID);
-		static void NormalizeSkinningWeights();
+		static void NormalizeSkinningWeights(MeshData& meshData);
 		// textures
-		static std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName);
-
+		static void GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName, MeshData& meshData);
 	public:
-		static std::vector<MeshComponent*> Load(std::string const& sourcePath);
-
+		static std::vector<MeshData> Load(std::string const& sourcePath);
 	};
 }
 

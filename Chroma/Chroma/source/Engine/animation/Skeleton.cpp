@@ -1,6 +1,6 @@
 #include "Skeleton.h"
 #include <entity/IEntity.h>
-
+#include <render/Render.h>
 
 void Skeleton::InitializeSkeleton()
 {
@@ -206,10 +206,10 @@ bool Skeleton::GetJointExists(std::string const& jointName) const
 	return false;
 }
 
-void Skeleton::DebugDraw(DebugBuffer* debugBuffer)
+void Skeleton::DebugDraw()
 {
 	// Loop through Skeleton drawing to debug buffer
-	DebugWalkChildJoints(GetRootJoint(), debugBuffer);
+	DebugWalkChildJoints(GetRootJoint());
 }
 
 glm::mat4 Skeleton::BuildRootTransform()
@@ -220,12 +220,12 @@ glm::mat4 Skeleton::BuildRootTransform()
 	return glm::scale(rootTransform, glm::vec3(m_Scale));
 }
 
-void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const &debugBuffer)
+void Skeleton::DebugWalkChildJoints(Joint const& currentJoint)
 {
 	// Debug Draw Skeleton
 	glm::mat4 worldJointTransform = GetRootTransform() * currentJoint.m_ModelSpaceTransform;
 	// Coordinates
-	debugBuffer->DrawOverlayCoordinates(worldJointTransform, 4.5);
+	Chroma::Render::GetDebugBuffer()->DrawOverlayCoordinates(worldJointTransform, 4.5);
 	// Joint 
 	glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * currentJoint.m_ModelSpaceTransform);
 	for (int const& childID : currentJoint.m_ChildJointIDs)
@@ -233,11 +233,11 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* cons
 		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJoint(childID).m_ModelSpaceTransform);
 
 		if(currentJoint.m_ID == m_RootJointID)
-			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0, glm::vec3(1.0, 0.0, 0.0));
+			Chroma::Render::GetDebugBuffer()->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0, glm::vec3(1.0, 0.0, 0.0));
 		else
-			debugBuffer->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0);
+			Chroma::Render::GetDebugBuffer()->DrawOverlayJoint(startPos, endPos, worldJointTransform, 1.0);
 
-		DebugWalkChildJoints(GetJoint(childID), debugBuffer);
+		DebugWalkChildJoints(GetJoint(childID));
 	}
 }
 

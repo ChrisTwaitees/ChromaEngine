@@ -6,12 +6,8 @@
 #include <string>
 
 // chroma
-#include <shader/Shader.h>
-#include <texture/Texture.h>
 #include <camera/Camera.h>
-#include <light/Light.h>
 #include <component/MeshComponent.h>
-#include <model/Vertex.h>
 
 
 class StaticMesh : public MeshComponent

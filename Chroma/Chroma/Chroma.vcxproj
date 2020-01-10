@@ -291,6 +291,7 @@
     <ClInclude Include="source\Render\model\BoxPrimitive.h" />
     <ClInclude Include="source\Render\model\CapsulePrimitive.h" />
     <ClInclude Include="source\Render\model\LinePrimitive.h" />
+    <ClInclude Include="source\Render\model\MeshData.h" />
     <ClInclude Include="source\Render\model\Model.h" />
     <ClInclude Include="source\Render\model\NDCPlanePrimitive.h" />
     <ClInclude Include="source\Render\model\PlanePrimitive.h" />

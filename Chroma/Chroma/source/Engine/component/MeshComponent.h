@@ -3,21 +3,11 @@
 
 // Chroma
 #include <component/IComponent.h>
-#include <model/Vertex.h>
-#include <texture/Texture.h>
 #include <camera/Camera.h>
 #include <light/Light.h>
+#include <shader/Shader.h>
 
-
-struct MeshData
-{
-	bool isSkinned{ false };
-	std::vector<ChromaSkinnedVertex> skinnedVerts;
-	std::vector<ChromaVertex> verts;
-	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
-	Skeleton skeleton;
-};
+#include <model/MeshData.h>
 
 class MeshComponent : public IComponent
 {

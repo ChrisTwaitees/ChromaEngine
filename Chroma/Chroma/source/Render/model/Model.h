@@ -8,8 +8,9 @@
 
 // chroma
 #include <math/Math.h>
-#include <model/StaticMesh.h>
-#include <model/SkinnedMesh.h>
+#include <component/MeshComponent.h>
+#include <content/ModelLoader.h>
+
 
 class Model : public MeshComponent
 {
@@ -18,27 +19,14 @@ class Model : public MeshComponent
 	virtual void CalculateCentroid();
 
 	// Model Data
-	std::string m_directory;
 	std::vector<MeshComponent*> m_Meshes;
 	// verts
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
 	//textures
 	std::vector<Texture> m_Textures;
-
 	// Functions
-	// meshes
 	void LoadModel(std::string path);
-	void GetChildMeshNodes(aiNode* node, const aiScene* scene);
-	MeshComponent* ProcessMesh(aiMesh* mesh, const aiScene* scene);
-	// skinning and skeletons
-	void SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
-	void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton);
-	void GetChildJointIDs(aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
-	void GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID);
-	void NormalizeSkinningWeights();
-	// textures
-	std::vector<Texture> LoadMaterialTextures(aiMaterial* mat, aiTextureType type,Texture::TYPE typeName);
 
 public:
 	// Draw

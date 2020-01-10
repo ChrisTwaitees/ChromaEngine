@@ -10,7 +10,7 @@
 #include <glm/gtx/quaternion.hpp>
 
 // chroma
-#include <buffer/DebugBuffer.h>
+#include <shader/Shader.h>
 
 
 struct Joint
@@ -48,7 +48,7 @@ class Skeleton
 
 	// Functions
 	glm::mat4 BuildRootTransform();
-	void DebugWalkChildJoints(Joint const& currentJoint, DebugBuffer* const& debugBuffer);
+	void DebugWalkChildJoints(Joint const& currentJoint);
 	void UpdateSkeletonRootTransform();
 
 public:
@@ -92,7 +92,7 @@ public:
 	void SetJointUniforms(Shader& skinnedShader);
 	void CalculateLocalBindOffset(int const& jointID, glm::mat4 const& parentTransform);
 	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
-	void DebugDraw(DebugBuffer* debugBuffer);
+	void DebugDraw();
 	void InitializeSkeleton();
 
 	Skeleton();

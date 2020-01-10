@@ -530,6 +530,9 @@
     <ClInclude Include="source\Engine\content\AnimationCompression.h">
       <Filter>Engine\content</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\model\MeshData.h">
+      <Filter>Render\model\mesh</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">

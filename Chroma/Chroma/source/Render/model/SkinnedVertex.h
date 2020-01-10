@@ -3,7 +3,6 @@
 
 #include <glm/glm.hpp>
 #include <vector>
-#include <ChromaConfig.h>
 
 struct ChromaSkinnedVertex
 {
@@ -29,8 +28,6 @@ struct ChromaSkinnedVertex
 	void SetBitangent(glm::vec3 newBitangent) { m_bitangent = newBitangent; };
 	void SetTexCoords(glm::vec2 newTexCoords) { m_texCoords = newTexCoords; };
 };
-
-
 
 
 #endif
