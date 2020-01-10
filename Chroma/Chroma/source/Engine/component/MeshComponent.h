@@ -25,6 +25,7 @@ public:
 	bool m_IsForwardLit{ false };
 	bool m_CastShadows{ true };
 	bool m_IsSkinned{ false };
+	bool m_IsDoubleSided{ false };
 
 	// Accessors
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;

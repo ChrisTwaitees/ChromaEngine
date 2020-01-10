@@ -125,6 +125,7 @@ int main()
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
 	AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
+	AnimModelMeshComponent->m_IsDoubleSided = true;
 	AnimModelEntity->AddComponent(AnimModelMeshComponent);
 	// rigid
 	//PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();

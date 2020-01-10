@@ -21,9 +21,6 @@ namespace Chroma
 		static void ProcessInput();
 		static void Draw();
 
-		// mouse picker callback
-		static void MousePickerCallback();
-
 	public:
 		static void Init();
 		// Game Loop

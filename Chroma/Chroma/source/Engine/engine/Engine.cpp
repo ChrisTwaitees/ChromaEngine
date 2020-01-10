@@ -25,13 +25,6 @@ namespace Chroma
 		Chroma::Screen::Update();
 	}
 
-
-	void Engine::MousePickerCallback()
-	{
-
-
-	}
-
 	void Engine::Tick()
 	{
 		// update time

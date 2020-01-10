@@ -84,7 +84,7 @@ JointTransform Animator::GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, flo
 glm::mat4 Animator::JointTransformToMat4(JointTransform const& jointTransform)
 {
 	glm::mat4 jointToLocal = glm::translate(glm::mat4(1.0), jointTransform.m_Translation);
-	jointToLocal = glm::toMat4(jointTransform.m_Rotation) * jointToLocal;
+	jointToLocal = jointToLocal * glm::toMat4(jointTransform.m_Rotation);
 	return glm::scale(jointToLocal, jointTransform.m_Scale);
 	
 }

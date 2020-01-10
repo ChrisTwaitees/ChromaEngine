@@ -169,7 +169,14 @@ void GBuffer::DrawGeometryPass()
 				((MeshComponent*)component)->SetJointUniforms(m_geometryPassShader);
 
 			// Draw Update Materials
-			((MeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
+			if (((MeshComponent*)component)->m_IsDoubleSided)
+			{
+				glDisable(GL_CULL_FACE);
+				((MeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
+				glEnable(GL_CULL_FACE);
+			}
+			else
+				((MeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
 		}
 	}
 	UnBind();
