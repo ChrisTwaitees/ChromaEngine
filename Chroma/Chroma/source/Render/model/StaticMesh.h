@@ -14,7 +14,7 @@ class StaticMesh : public MeshComponent
 {
 protected:
 	// mesh data
-	unsigned int VAO, VBO, EBO;
+	unsigned int VAO{ 0 }, VBO{ 0 }, EBO{ 0 };
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<unsigned int> m_Indices;
 	std::vector<Texture> m_Textures;

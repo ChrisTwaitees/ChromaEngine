@@ -54,6 +54,9 @@ void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 	// Prepare for Entity
 	ProcessNewComponent(newMeshComponent);
 
+	// add to scene 
+	Chroma::Scene::AddMeshComponent(newMeshComponent);
+
 	// add mesh component
 	m_MeshComponents.push_back(newMeshComponent);
 
@@ -73,6 +76,8 @@ void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 		m_UnLitComponents.push_back(newMeshComponent);
 	if (newMeshComponent->m_IsTransparent)
 		m_TransparentComponents.push_back(newMeshComponent);
+
+
 }
 
 void Entity::addPhysicsComponent(PhysicsComponent*& newPhysicsComponent)

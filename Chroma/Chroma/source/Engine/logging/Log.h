@@ -25,13 +25,15 @@ namespace Chroma {
 #endif
 
 #if defined(RELEASE)
-
 // Core log macros
-#define CHROMA_TRACE(...)         ::Chroma::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define CHROMA_INFO(...)          ::Chroma::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define CHROMA_WARN(...)          ::Chroma::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define CHROMA_ERROR(...)         ::Chroma::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define CHROMA_FATAL(...)         ::Chroma::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define CHROMA_TRACE(...)      ::Chroma::Log::GetCoreLogger()->trace(__VA_ARGS__)
+#define CHROMA_TRACE_UNDERLINE ::Chroma::Log::GetCoreLogger()->trace("------------------------------------------")
+#define CHROMA_INFO(...)       ::Chroma::Log::GetCoreLogger()->info(__VA_ARGS__)
+#define CHROMA_INFO_UNDERLINE  ::Chroma::Log::GetCoreLogger()->info("------------------------------------------")
+#define CHROMA_WARN(...)       ::Chroma::Log::GetCoreLogger()->warn(__VA_ARGS__)
+#define CHROMA_WARN_UNDERLINE  ::Chroma::Log::GetCoreLogger()->warn("------------------------------------------")
+#define CHROMA_ERROR(...)      ::Chroma::Log::GetCoreLogger()->error(__VA_ARGS__)
+#define CHROMA_FATAL(...) 	   ::Chroma::Log::GetCoreLogger()->error(__VA_ARGS__)
 
 
 #elif defined(DEBUG)

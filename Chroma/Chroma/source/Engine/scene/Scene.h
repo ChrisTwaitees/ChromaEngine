@@ -22,13 +22,16 @@ namespace Chroma
 
 		// Entities
 		static std::map<std::string, IEntity*> m_Entities;
-		static std::map<std::string, IComponent*> m_UpdatingComponents;
+#
+		// Components
+		static std::map<std::string, IComponent*> m_Components;
 
 		// UIDs
 		static std::set<std::string> m_EntityUIDs;
 		static std::set<std::string> m_TransparentEntityUIDs;
 		static std::set<std::string> m_AnimatedEntityUIDs;
 		static std::set<std::string> m_UpdatingComponentUIDs;
+		static std::set<std::string> m_MeshComponentUIDs;
 
 		// render components
 		static Camera* m_RenderCamera;
@@ -51,6 +54,7 @@ namespace Chroma
 
 		// updating components
 		static void AddUpdatingComponent(IComponent* const& newUpdatingComponent);
+		static void AddMeshComponent(IComponent* const& newMeshComponent);
 
 		// lights
 		static void AddLight(Light* const& newLight) { m_Lights.push_back(newLight); };

@@ -1,5 +1,5 @@
 #include "SkinnedMesh.h"
-
+#include <entity/IEntity.h>
 
 
 void SkinnedMesh::CalculateBBox()
@@ -59,6 +59,11 @@ void SkinnedMesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
+glm::mat4 SkinnedMesh::GetTransform()
+{
+	return GetParentEntity()->GetTransform();
+}
+
 std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
 {
 	CalculateBBox();
@@ -79,6 +84,7 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 	m_IsSkinned = true;
 	// Skeleton
 	m_Skeleton = skeleton_val;
+	m_Skeleton.SetParentComponentUID(m_UID);
 	// Verts
 	m_SkinnedVertices = vertices_val;
 	m_Indices = indices_val;
@@ -98,6 +104,7 @@ SkinnedMesh::SkinnedMesh(MeshData const& newMeshData)
 	m_IsSkinned = true;
 	// Skeleton
 	m_Skeleton = newMeshData.skeleton;
+	m_Skeleton.SetParentComponentUID(m_UID);
 	// Verts
 	m_SkinnedVertices = newMeshData.skinnedVerts;
 	m_Indices = newMeshData.indices;

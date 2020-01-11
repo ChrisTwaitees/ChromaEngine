@@ -18,19 +18,20 @@ protected:
 	std::string m_Name;
 
 	// parent
-	IEntity* m_ParentEntity{ nullptr };
+	std::string m_ParentEntityUID;
 
 public:
 	virtual void Update() {};
-
 	// Acessors
 	std::string GetUID() const { return m_UID; };
 
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
 
-	IEntity* GetParentEntity() const {   return m_ParentEntity;	}
-	virtual void SetParentEntity(IEntity* const& parentEntity) { m_ParentEntity = parentEntity; }
+	IEntity* GetParentEntity() const;
+	virtual void SetParentEntityUID(std::string const& newParentEntityUID) { m_ParentEntityUID = newParentEntityUID; }
+
+	virtual glm::mat4 GetTransform() { return glm::mat4(1); };
 
 	IComponent();
 	virtual ~IComponent() {};

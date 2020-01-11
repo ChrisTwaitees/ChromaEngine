@@ -13,13 +13,14 @@ namespace Chroma
 
 	// Entities Components
 	std::map<std::string, IEntity*>    Scene::m_Entities;
-	std::map<std::string, IComponent*> Scene::m_UpdatingComponents;
+	std::map<std::string, IComponent*> Scene::m_Components;
 
 	// UIDs
 	std::set<std::string> Scene::m_EntityUIDs;
 	std::set<std::string> Scene::m_TransparentEntityUIDs;
 	std::set<std::string> Scene::m_AnimatedEntityUIDs;
 	std::set<std::string> Scene::m_UpdatingComponentUIDs;
+	std::set<std::string> Scene::m_MeshComponentUIDs;
 
 	glm::vec3 Scene::CalculateAmbientLightColor()
 	{
@@ -37,9 +38,9 @@ namespace Chroma
 
 	IComponent* Scene::GetComponent(std::string const& UID)
 	{
-		if (m_UpdatingComponents.find(UID) != m_UpdatingComponents.end())
+		if (m_Components.find(UID) != m_Components.end())
 		{
-			return m_UpdatingComponents.find(UID)->second;
+			return m_Components.find(UID)->second;
 		}
 		CHROMA_ERROR("SCENE :: Component of UID : {0} , could not be found in scene!");
 	}
@@ -103,7 +104,16 @@ namespace Chroma
 		m_UpdatingComponentUIDs.insert(newUpdatingComponent->GetUID());
 
 		// add component
-		m_UpdatingComponents[newUpdatingComponent->GetUID()] = newUpdatingComponent;
+		m_Components[newUpdatingComponent->GetUID()] = newUpdatingComponent;
+	}
+
+	void Scene::AddMeshComponent(IComponent* const& newMeshComponent)
+	{
+		// collect component UID
+		m_MeshComponentUIDs.insert(newMeshComponent->GetUID());
+
+		// add component
+		m_Components[newMeshComponent->GetUID()] = newMeshComponent;
 	}
 
 	void Scene::RemoveLight(Light& RemoveLight)

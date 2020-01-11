@@ -1,7 +1,7 @@
 #include "Model.h"
-#include <texture/stb_image.h>
 #include <model/StaticMesh.h>
 #include <model/SkinnedMesh.h>
+#include <scene/Scene.h>
 
 
 // DRAW
@@ -143,10 +143,17 @@ void Model::LoadModel(std::string path)
 		if (meshData.isSkinned)
 		{
 			m_IsSkinned = true;
-			m_Meshes.push_back(new SkinnedMesh(meshData));
+			SkinnedMesh* newSkinnedMesh = new SkinnedMesh(meshData);
+			Chroma::Scene::AddMeshComponent(newSkinnedMesh);
+			m_Meshes.push_back(newSkinnedMesh);
 		}
 		else
-			m_Meshes.push_back(new StaticMesh(meshData));
+		{
+			StaticMesh* newStaticMesh = new StaticMesh(meshData);
+			Chroma::Scene::AddMeshComponent(newStaticMesh);
+			m_Meshes.push_back(newStaticMesh);
+
+		}
 	}
 
 }

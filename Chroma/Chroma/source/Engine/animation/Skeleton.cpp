@@ -214,7 +214,7 @@ void Skeleton::DebugDraw()
 
 glm::mat4 Skeleton::BuildRootTransform()
 {
-	return Chroma::Math::BuildMat4(m_Translation, m_Rotation, m_Scale);
+	return Chroma::Scene::GetComponent(m_ParentComponentUID)->GetTransform();
 }
 
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint)

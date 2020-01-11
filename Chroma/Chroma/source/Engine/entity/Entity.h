@@ -54,7 +54,7 @@ class Entity : public IEntity
 
 	template<class ComponentClass>
 	void SetParentEntity(ComponentClass component) {
-		component->SetParentEntity(this);
+		component->SetParentEntityUID(m_UID);
 	}
 
 public:

@@ -171,7 +171,7 @@ void ThirdPersonCharacterController::Update()
 	// Calculate and apply transform to parent entity
 	CalculateTransform();
 	Chroma::Render::GetDebugBuffer()->DrawOverlayCoordinates(m_Transform);
-	m_ParentEntity->SetTransform(m_Transform);
+	GetParentEntity()->SetTransform(m_Transform);
 	// Apply transforms to camera controller
 	m_CameraController->m_CamPos = m_CamPosition;
 	m_CameraController->m_CamDir = m_CamDirection;

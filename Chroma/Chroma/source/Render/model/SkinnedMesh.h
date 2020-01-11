@@ -26,6 +26,8 @@ class SkinnedMesh : public StaticMesh
 	void SetupMesh() override;
 
 public:
+	glm::mat4 GetTransform() override;
+
 	// Accessors
 	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() { return m_SkinnedVertices; };
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() override;
@@ -33,9 +35,6 @@ public:
 
 	// Functions
 	void SetJointUniforms(Shader& skinnedShader) override;
-	void SetScale(glm::vec3 const& newScale) override { m_Skeleton.SetScale(newScale); };
-	void SetTranslation(glm::vec3 const& newTranslation) { m_Skeleton.SetTranslation(newTranslation); };
-	void SetRotation(glm::quat const& newRotation) { m_Skeleton.SetRotation(newRotation); };
 
 	SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val);
 	SkinnedMesh(MeshData const& newMeshData);

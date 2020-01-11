@@ -144,8 +144,7 @@ int main()
 	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 	// transforming entity
-	((Model*)AnimModelMeshComponent)->SetScale(glm::vec3(0.06));
-	((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(0.0,-0.1,0.0));
+	//((Model*)AnimModelMeshComponent)->SetScale(glm::vec3(0.06));
 	AnimModelEntity->SetScale(glm::vec3(0.06));
 	//// character controller
 	CharacterControllerComponent* CapsuleCharacterController = new ThirdPersonCharacterController();

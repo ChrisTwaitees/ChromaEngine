@@ -32,18 +32,12 @@ struct Joint
 };
 
 
-
 class Skeleton
 {
-	glm::mat4 m_IdentityMatrix{ 1.0 };
-	glm::mat4 m_WorldTransform{ 1.0 };
-	glm::mat4 m_WorldTransformInverse{ 1.0 };
 	int m_RootJointID{ 0 };
+	std::string m_ParentComponentUID;
 	std::map<std::pair<int, std::string>, Joint> m_Joints;
 
-	glm::vec3 m_Scale{ 1.0f };
-	glm::vec3 m_Translation{ 1.0f };
-	glm::quat m_Rotation{ glm::quat() };
 	glm::mat4 m_RootTransform{ glm::mat4(1.0) };
 
 	// Functions
@@ -56,10 +50,6 @@ public:
 	void AddJoint(Joint& newJoint);
 	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.m_ID; };
 	void SetRootJointID(int const& newRootJointID) { m_RootJointID = newRootJointID; };
-
-	void SetScale(glm::vec3 const& newScale) { m_Scale = newScale; UpdateSkeletonRootTransform(); };
-	void SetTranslation(glm::vec3 const& newTranslation) { m_Translation = newTranslation; UpdateSkeletonRootTransform(); };
-	void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; UpdateSkeletonRootTransform(); };
 
 	void SetToBindPose();
 
@@ -74,7 +64,7 @@ public:
 
 	glm::mat4 GetJointTransform(std::string const& jointName) const;
 	glm::mat4 GetJointTransform(int const& jointID) const;
-	glm::mat4 GetRootTransform() const { return m_RootTransform; };
+	glm::mat4 GetRootTransform() { return BuildRootTransform(); };
 	unsigned int GetRootJointID() const { return m_RootJointID; };
 
 	Joint GetJoint(int const& index);
@@ -89,6 +79,7 @@ public:
 	bool GetJointExists(std::string const& jointName) const;
 
 	// Functions
+	void SetParentComponentUID(std::string const& parentComponentUID) { m_ParentComponentUID = parentComponentUID; };
 	void SetJointUniforms(Shader& skinnedShader);
 	void CalculateLocalBindOffset(int const& jointID, glm::mat4 const& parentTransform);
 	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
