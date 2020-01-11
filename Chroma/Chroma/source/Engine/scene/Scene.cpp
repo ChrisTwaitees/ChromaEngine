@@ -23,7 +23,7 @@ namespace Chroma
 
 	glm::vec3 Scene::CalculateAmbientLightColor()
 	{
-		return m_SunLight->getDiffuse() * m_SunLight->getIntensity() * glm::vec3(.1f);
+		return m_SunLight->getDiffuse() * m_SunLight->getIntensity() * glm::vec3(.5f);
 	}
 
 	IEntity* Scene::GetEntity(std::string UID)
@@ -58,6 +58,15 @@ namespace Chroma
 		m_Skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
 	}
 
+	void Scene::PostSceneBuild()
+	{
+		// entities
+		for (std::string const& UID : m_EntityUIDs)
+		{
+			GetEntity(UID)->Init();
+		}
+	}
+
 	void Scene::AddEntity(IEntity* const& newEntity)
 	{
 		// collect UID
@@ -85,7 +94,7 @@ namespace Chroma
 
 	float Scene::GetEntityDistanceToCamera(std::string const& UID)
 	{
-		return glm::length(GetEntity(UID)->GetPosition() - m_RenderCamera->GetPosition());
+		return glm::length(GetEntity(UID)->GetTranslation() - m_RenderCamera->GetPosition());
 	}
 
 	void Scene::AddUpdatingComponent(IComponent* const& newUpdatingComponent)

@@ -159,8 +159,14 @@ namespace Chroma
 			case R2:
 				return m_ControllerButtonsMapping[R2_MAPPING] == GLFW_PRESS;
 				break;
+			case R3:
+				return m_ControllerButtonsMapping[R3_MAPPING] == GLFW_PRESS;
+				break;
 			case L2:
 				return m_ControllerButtonsMapping[L2_MAPPING] == GLFW_PRESS;
+				break;
+			case L3:
+				return m_ControllerButtonsMapping[L3_MAPPING] == GLFW_PRESS;
 				break;
 			case DPADLEFT:
 				return m_ControllerButtonsMapping[DPADLEFT_MAPPING] == GLFW_PRESS;

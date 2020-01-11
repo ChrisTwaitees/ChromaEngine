@@ -12,7 +12,12 @@
 class MeshComponent : public IComponent
 {
 protected:
-	glm::mat4 m_TransformationMatrix{ 1.0 };
+	// Transforms
+	glm::mat4 m_Transform{ glm::mat4(1.0f) };
+	glm::vec3 m_Translation{ glm::vec3(0.0f) };
+	glm::quat m_Rotation{ glm::quat() };
+	glm::vec3 m_Scale{ glm::vec3(1.0f) };
+	virtual void RebuildTransform();
 	glm::vec3 m_BBoxMin{ 0.0 }, m_BBoxMax{ 0.0 };
 	glm::vec3 m_Centroid{ 0.0 };
 	// calculate attrs
@@ -26,6 +31,14 @@ public:
 	bool m_CastShadows{ true };
 	bool m_IsSkinned{ false };
 	bool m_IsDoubleSided{ false };
+	glm::vec2 m_UVMultiply{ 1.0 };
+
+	// transforms
+	// set
+	virtual void SetTransform(glm::mat4 const& newTransformMat);
+	virtual inline void SetScale(glm::vec3 const& newscale) { m_Scale = newscale; RebuildTransform(); }
+	virtual inline void SetTranslation(glm::vec3 const& newposition) { m_Translation = newposition; RebuildTransform(); }
+	virtual void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; RebuildTransform(); }
 
 	// Accessors
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;

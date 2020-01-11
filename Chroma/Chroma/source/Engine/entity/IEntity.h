@@ -23,8 +23,15 @@ class IEntity
 {
 protected:
 	// Transforms
-	glm::mat4 m_Transform = glm::mat4(1);
-	glm::mat4 m_identityMatrix = glm::mat4(1);
+	glm::mat4 m_Transform{ glm::mat4(1.0f) };
+	glm::vec3 m_Translation{ glm::vec3(0.0f) };
+	glm::quat m_Rotation{ glm::quat() };
+	glm::vec3 m_Scale{ glm::vec3(1.0f) };
+	virtual void RebuildTransform();
+	// calculate attrs
+	virtual void CalculateBBox() {};
+	virtual void CalculateCentroid() {};
+	// BBOX
 	glm::vec3 m_BBoxMin, m_BBoxMax;
 	glm::vec3 m_Centroid;
 	// UID
@@ -46,6 +53,9 @@ protected:
 	virtual void removeAnimationComponent(AnimationComponent*& oldAnimationComponent) = 0;
 	virtual void removeCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) = 0;
 public:
+	// Init
+	virtual void Init();
+
 	// Name
 	std::string GetUID() const { return m_UID; };
 	std::string GetName() const { return m_Name; };
@@ -57,14 +67,17 @@ public:
 	virtual void Rotate(float degrees, glm::vec3 rotationaxis) = 0;
 
 	// set
-	virtual void SetTransform(glm::mat4 const& newTransformMat) = 0;
-	virtual void SetScale(glm::vec3 const& newscale) = 0;
-	virtual void SetPosition(glm::vec3 const& newposition) = 0;
-	virtual void SetRotation(float const& degrees, glm::vec3 const& rotationaxis) = 0;
+	virtual void SetTransform(glm::mat4 const& newTransformMat);
+	virtual inline void SetScale(glm::vec3 const& newscale) { m_Scale = newscale; RebuildTransform();}
+	virtual inline void SetTranslation(glm::vec3 const& newposition) { m_Translation = newposition; RebuildTransform(); }
+	virtual void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; RebuildTransform(); }
 	
 	// get
-	virtual glm::mat4 GetTransform() = 0;
-	virtual glm::vec3 GetPosition() = 0 ;
+	virtual inline glm::mat4 GetTransform() const { return m_Transform; };
+	virtual glm::vec3 GetTranslation() const { return m_Translation; };
+	virtual glm::vec3 GetScale() const { return m_Scale; };
+	virtual glm::quat GetRotation() const { return m_Rotation; };
+
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
 	virtual glm::vec3 GetCentroid() = 0;

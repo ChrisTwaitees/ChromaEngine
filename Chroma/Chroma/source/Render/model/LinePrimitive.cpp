@@ -30,8 +30,8 @@ void LinePrimitive::SetupMesh()
 void LinePrimitive::BindDrawVAO()
 {
 	m_shader->use();
-	m_shader->setVec3("start", start);
-	m_shader->setVec3("end", end);
+	m_shader->SetVec3("start", start);
+	m_shader->SetVec3("end", end);
 	m_shader->SetFloat("thickness", thickness);
 
 	glDisable(GL_CULL_FACE);

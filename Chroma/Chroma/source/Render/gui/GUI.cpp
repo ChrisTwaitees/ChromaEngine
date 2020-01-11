@@ -51,7 +51,7 @@ namespace Chroma
 
 		// ANIMATION
 		// anim
-		drawAnimMenu = true;
+		drawAnimMenu = false;
 		debugAnim = false;
 		DebugAnimClipPos = 0.0f;
 	}

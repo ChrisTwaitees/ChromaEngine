@@ -21,8 +21,7 @@ std::vector<ChromaVertex> Entity::GetVertices()
 
 std::pair<glm::vec3, glm::vec3> Entity::GetBBox()
 {
-	CalculateBBox();
-	return std::make_pair(m_BBoxMin, m_BBoxMax);
+	return std::make_pair(m_BBoxMin * m_Scale, m_BBoxMax * m_Scale);
 }
 
 glm::vec3 Entity::GetCentroid()
@@ -207,26 +206,30 @@ void Entity::Rotate(float degrees, glm::vec3 rotationaxis)
 void Entity::SetTransform(glm::mat4 const& newTransformMat)
 {
 	m_Transform = newTransformMat;
+	m_Translation = Chroma::Math::GetTranslation(newTransformMat);
+	m_Scale = Chroma::Math::GetScale(newTransformMat);
+	m_Rotation = Chroma::Math::GetQuatRotation(newTransformMat);
 	UpdatePhysicsComponentsTransforms();
 }
 
 void Entity::SetScale(glm::vec3 const& newscale)
 {
-	m_Transform = glm::scale(m_Transform, newscale);
+	m_Scale = newscale;
+	RebuildTransform();
 	UpdatePhysicsComponentsTransforms();
 }
 
-void Entity::SetPosition(glm::vec3 const& newposition)
+void Entity::SetTranslation(glm::vec3 const& newposition)
 {
-	m_Transform[3] = glm::vec4(newposition, 1);
+	m_Translation = newposition;
+	RebuildTransform();
 	UpdatePhysicsComponentsTransforms();
 }
 
-void Entity::SetRotation(float const& degrees, glm::vec3 const& rotationaxis)
+void Entity::SetRotation(glm::quat const& newRotation)
 {
-	glm::vec3 existingTranslation = GetPosition();
-	m_Transform = glm::translate(m_Transform, existingTranslation);
-	Rotate(degrees, rotationaxis);
+	m_Rotation = newRotation;
+	RebuildTransform();
 	UpdatePhysicsComponentsTransforms();
 }
 

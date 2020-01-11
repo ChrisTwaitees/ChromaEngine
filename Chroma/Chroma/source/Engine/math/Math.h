@@ -16,10 +16,10 @@
 // CONSTS
 #define CHROMA_UP glm::vec3(0.0 ,1.0, 0.0)
 #define CHROMA_DOWN glm::vec3(0.0 ,-1.0, 0.0)
-#define CHROMA_FORWARD glm::vec3(1.0 ,0.0, 0.0)
-#define CHROMA_BACK glm::vec3(1.0 ,0.0, 0.0)
-#define CHROMA_RIGHT glm::vec3(0.0, 0.0, -1.0)
-#define CHROMA_LEFT glm::vec3(0.0 ,0.0, 1.0)
+#define CHROMA_FORWARD glm::vec3(0.0 ,0.0, 1.0)
+#define CHROMA_BACK glm::vec3(0.0 ,0.0, -1.0)
+#define CHROMA_RIGHT glm::vec3(1.0, 0.0, 0.0)
+#define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
 
 
 // UTILITIES
@@ -60,7 +60,7 @@ namespace Chroma
 		{
 			glm::mat4 ident(1.0);
 			ident = glm::translate(ident, translation);
-			ident = glm::toMat4(rotation) * ident;
+			ident = ident * glm::toMat4(rotation);
 			return glm::scale(ident, scale);
 		}
 
@@ -99,6 +99,16 @@ namespace Chroma
 			return glm::quat(x, y, z, w);
 		}
 
+		static glm::vec3 GetScale(glm::mat4 const& transform)
+		{
+			float scaleX = glm::length(glm::vec3(transform[0][0], transform[0][1], transform[0][2]));
+			float scaleY = glm::length(glm::vec3(transform[1][0], transform[1][1], transform[1][2]));
+			float scaleZ = glm::length(glm::vec3(transform[2][0], transform[2][1], transform[2][2]));
+
+			return glm::vec3(scaleX, scaleY, scaleZ);
+		}
+
+		inline static glm::vec3 GetTranslation(glm::mat4 const& transform) { return glm::vec3(transform[3]); }
 
 
 		inline static float CartesianToPolar(float const& x, float const& y) { return -( glm::atan(y, x)); }

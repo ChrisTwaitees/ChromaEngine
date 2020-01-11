@@ -30,6 +30,7 @@ uniform bool UseMetRoughAOMap;
 uniform vec3 color;
 uniform float roughness;
 uniform float metalness;
+uniform vec2 UVMultiply;
 
 void main()
 {             
@@ -37,11 +38,11 @@ void main()
     gPosition = fs_in.FragWorldPos;
 	gViewPosition = fs_in.FragViewPos;
     // albedo
-    gAlbedo = UseAlbedoMap? vec3(texture(material.texture_albedo1, fs_in.TexCoords).rgb) : color;
+    gAlbedo = UseAlbedoMap? vec3(texture(material.texture_albedo1, fs_in.TexCoords * UVMultiply).rgb) : color;
 	// normals
 	if (UseNormalMap  && length(fs_in.ViewTBN[1]) >= 0.5)
 	{
-		vec3 normalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords).rgb);
+		vec3 normalMap = vec3(texture(material.texture_normal1, fs_in.TexCoords * UVMultiply).rgb);
 		gNormal = normalize(fs_in.WorldTBN * normalMap);
 		gViewNormal = normalize(fs_in.ViewTBN * normalMap);
 	}
@@ -50,9 +51,10 @@ void main()
 		gNormal = fs_in.WorldNormal;
 		gViewNormal = fs_in.ViewNormal;
 	}
+
 	// metalness roughness ao
 	if(UseMetRoughAOMap){
-		gMetRoughAO = texture(material.texture_MetRoughAO1, fs_in.TexCoords).rgb;
+		gMetRoughAO = texture(material.texture_MetRoughAO1, fs_in.TexCoords * UVMultiply).rgb;
 	}
 	else{
 		gMetRoughAO = vec3(metalness, roughness, 1.0);

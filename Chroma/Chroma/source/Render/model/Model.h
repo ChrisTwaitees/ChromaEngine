@@ -37,7 +37,7 @@ public:
 	void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
 
 	// Accessors	
-	glm::mat4 GetTransform() override { return m_TransformationMatrix; };
+	glm::mat4 GetTransform() override { return m_Transform; };
 	std::pair<glm::vec3, glm::vec3> GetBBox();
 	glm::vec3 GetCentroid();
 	// render components
@@ -49,7 +49,7 @@ public:
 	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_SkinnedVertices; };
 	// animation/ skinning
 	Skeleton* GetSkeleton();
-	void SetScale(float const& newScale);
+	void SetScale(glm::vec3 const& newScale);
 	void SetTranslation(glm::vec3 const& newPosition);
 	void SetRotation(glm::quat const& newRotation);
 

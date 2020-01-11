@@ -57,7 +57,7 @@ public:
 	virtual unsigned int GetFBO() { return m_FBO; };
 
 	void SetScale(glm::vec2 newScale) { m_Scale = newScale; };
-	void SetPosition(glm::vec2 newPosition) { m_Offset = newPosition; };
+	void SetTranslation(glm::vec2 newPosition) { m_Offset = newPosition; };
 
 
 

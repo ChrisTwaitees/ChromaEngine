@@ -93,7 +93,7 @@ Skeleton* Model::GetSkeleton()
 	return ((SkinnedMesh*)m_Meshes[0])->GetSkeleton();
 }
 
-void Model::SetScale(float const& newScale)
+void Model::SetScale(glm::vec3 const& newScale)
 {
 	((SkinnedMesh*)m_Meshes[0])->SetScale(newScale);
 }

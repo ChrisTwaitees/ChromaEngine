@@ -214,10 +214,7 @@ void Skeleton::DebugDraw()
 
 glm::mat4 Skeleton::BuildRootTransform()
 {
-	// Build rootTransform Matrix
-	glm::mat4 rootTransform = glm::translate(m_IdentityMatrix, m_Translation);
-	rootTransform = glm::toMat4(m_Rotation) * rootTransform;
-	return glm::scale(rootTransform, glm::vec3(m_Scale));
+	return Chroma::Math::BuildMat4(m_Translation, m_Rotation, m_Scale);
 }
 
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint)

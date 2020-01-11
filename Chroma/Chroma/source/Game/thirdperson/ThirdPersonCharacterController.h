@@ -7,8 +7,6 @@
 #include <thirdperson/ThirdPersonCameraController.h>
 
 
-
-
 class ThirdPersonCharacterController : public CharacterControllerComponent
 {
 	// Attrs
@@ -25,12 +23,14 @@ class ThirdPersonCharacterController : public CharacterControllerComponent
 	const float m_FollowDistMin{ 10.0f };
 	const float m_FollowDistMax{ 20.0f };
 
-	const float m_FacingAngleMax{ 75.0f };
+	float m_CamRotX{ 0.0f }, m_CamRotY{0.0f};
+	float const m_CamRotMax{ 75.0f };
 
 	// Movement
 	glm::vec3 m_PlayerHeading{ 0.0f };
 
 	const float m_MovementSpeed{ 10.0f };
+	const float m_SprintSpeedMultiplier{ 2.5f };
 	float m_CurrentSpeed{ 0.0f };
 
 	glm::vec3 m_Velocity{ 0.0f };
@@ -51,7 +51,7 @@ class ThirdPersonCharacterController : public CharacterControllerComponent
 
 	// Collisions
 	bool m_HitGround{ true };
-	float m_CollisionCheckDist{ 3.0f };
+	float m_CollisionCheckDist{0.5f };
 
 	// Functions
 	void ProcessCurrentFrame();

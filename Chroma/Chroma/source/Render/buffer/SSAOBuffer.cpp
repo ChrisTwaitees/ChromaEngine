@@ -85,7 +85,7 @@ void SSAOBuffer::generateNoiseTexture()
 void SSAOBuffer::sendKernelSamplesToShader()
 {
 	for (unsigned int i = 0; i < kernelSamples; i++)
-		SSAOShader.setVec3("samples[" + std::to_string(i) + "]", ssaoKernel[i]);
+		SSAOShader.SetVec3("samples[" + std::to_string(i) + "]", ssaoKernel[i]);
 }
 
 void SSAOBuffer::ConfigureShaders()
@@ -94,20 +94,20 @@ void SSAOBuffer::ConfigureShaders()
 	SSAOShader.SetInt("kernelSize", kernelSamples);
 	SSAOShader.SetFloat("radius", 0.5f);
 	SSAOShader.SetFloat("bias", 0.025f);
-	SSAOShader.setVec2("noiseScale", noiseScale);
+	SSAOShader.SetVec2("noiseScale", noiseScale);
 
 	SSAOShader.SetInt("gViewPosition", 0);
 	SSAOShader.SetInt("gViewNormal", 1);
 	SSAOShader.SetInt("texNoise", 2);
 
-	SSAOShader.setVec2("scale", m_Scale);
-	SSAOShader.setVec2("offset", m_Offset);
+	SSAOShader.SetVec2("scale", m_Scale);
+	SSAOShader.SetVec2("offset", m_Offset);
 
 	SSAOBlurShader.use();
 	SSAOBlurShader.SetInt("ssaoInput", 0);
 
-	SSAOBlurShader.setVec2("scale", m_Scale);
-	SSAOBlurShader.setVec2("offset", m_Offset);
+	SSAOBlurShader.SetVec2("scale", m_Scale);
+	SSAOBlurShader.SetVec2("offset", m_Offset);
 }
 
 void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)

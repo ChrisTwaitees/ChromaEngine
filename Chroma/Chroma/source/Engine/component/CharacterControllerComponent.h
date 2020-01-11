@@ -22,7 +22,7 @@ protected:
 	glm::vec3 m_CamUp{ CHROMA_UP };
 
 	// transform
-	glm::vec3 m_Position{ 0.0 };
+	glm::vec3 m_Position{ 0.0f };
 	glm::quat m_Rotation{ glm::quat() };
 	glm::vec3 m_Scale{ 1.0 };
 

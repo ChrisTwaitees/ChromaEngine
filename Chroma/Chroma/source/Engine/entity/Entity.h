@@ -19,8 +19,8 @@ int findIndexInVector(const std::vector<IComponent*>& vector, IComponent*& eleme
 class Entity : public IEntity
 {
 	// calculate attrs
-	void CalculateBBox();
-	void CalculateCentroid();
+	void CalculateBBox() override;
+	void CalculateCentroid() override;
 
 	// Components
 	std::vector<IComponent*> m_Components;
@@ -72,19 +72,17 @@ public:
 	std::vector<IComponent*> getCharacterControllerComponents() { return m_CharacterControllerComponents; };
 
 	// Transformations
+	// setting
+		// set
+	void SetTransform(glm::mat4 const& newTransformMat);
+	void SetScale(glm::vec3 const& newscale);
+	void SetTranslation(glm::vec3 const& newposition);
+	void SetRotation(glm::quat const& newRotation);
+
 	// additive
 	void Scale(glm::vec3 scalefactor) override;
 	void Translate(glm::vec3 translatefactor) override;
 	void Rotate(float degrees, glm::vec3 rotationaxis) override;
-	// set
-	void SetTransform(glm::mat4 const& newTransformMat) override;
-	void SetScale(glm::vec3  const&  newscale) override;
-	void SetPosition(glm::vec3 const&  newposition) override;
-	void SetRotation(float const& degrees, glm::vec3 const& rotationaxis) override;
-
-	// get
-	glm::mat4 GetTransform() override { return m_Transform; };
-	virtual glm::vec3 GetPosition() override { return glm::vec3(m_Transform[3]); } ;
 
 	// attrs
 	std::vector<ChromaVertex> GetVertices() override;

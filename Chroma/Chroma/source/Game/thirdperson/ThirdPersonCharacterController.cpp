@@ -25,14 +25,14 @@ void ThirdPersonCharacterController::ProcessCurrentFrame()
 
 void ThirdPersonCharacterController::GroundCollisionCheck()
 {
-	m_CollisionCheckDist = glm::length(GetParentEntity()->GetBBox().first) * 0.8;
-	glm::vec3 checkPos = m_Position + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
+	//m_CollisionCheckDist = glm::length(GetParentEntity()->GetBBox().first) * 0.8;
+	glm::vec3 checkPos = m_Position + glm::vec3(0.0, 3.0, 0.0) + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
 	m_HitGround = Chroma::Physics::RayTest(m_Position, checkPos);
 	// debug
-if (m_HitGround)
-Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(1.0, 0.0, 0.0));
-else
-Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(0.0, 1.0, 0.0));
+	if (m_HitGround)
+		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(1.0, 0.0, 0.0));
+	else
+		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(0.0, 1.0, 0.0));
 }
 
 
@@ -65,7 +65,7 @@ void ThirdPersonCharacterController::ProcessCamera()
 	glm::vec3 verticalAxis = glm::normalize(glm::cross(toCam, horizontalAxis));
 	glm::quat verticalRotation = glm::angleAxis((float)(Chroma::Input::GetControllerRightVertical() * m_CamRotationSpeed * Chroma::Time::GetDeltaTime()), verticalAxis);
 	glm::vec3 nextVerticalPosition = Chroma::Math::RotateAroundPivot(m_CamPosition, m_Position, verticalRotation);
-	if (glm::abs(Chroma::Math::GetFacingAngleEuler(m_Position, nextVerticalPosition)) < m_FacingAngleMax)
+	if (glm::abs(Chroma::Math::GetFacingAngleEuler(m_Position, nextVerticalPosition)) < m_CamRotMax)
 		m_CamPosition = nextVerticalPosition;
 
 	// DIRECTION - Aim At Player
@@ -132,7 +132,10 @@ void ThirdPersonCharacterController::ProcessMovement()
 	{
 		glm::vec3 playerHeadingUnClamped = (sidePlayer * Chroma::Input::GetControllerLeftHorizontal()) + (toPlayer * -Chroma::Input::GetControllerLeftVertical());
 		m_PlayerHeading = glm::normalize(playerHeadingUnClamped); 
-		m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_MovementSpeed * glm::vec3(DELTATIME);
+		if (Chroma::Input::IsPressed(Chroma::Input::L3))
+			m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_MovementSpeed * m_SprintSpeedMultiplier * glm::vec3(DELTATIME);
+		else
+			m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_MovementSpeed * glm::vec3(DELTATIME);
 	}
 
 	// add force

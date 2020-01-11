@@ -18,9 +18,9 @@ enum CameraMode { FlyCam, Maya, Custom};
 class Camera
 {
 	// Camera Attrs
-	glm::vec3 m_CameraPosition{ glm::vec3(0.0, 4.0, 20.0) };
+	glm::vec3 m_CameraPosition{ glm::vec3(0.0, 10.0, 30.0) };
 	glm::vec3 m_CameraUp{ CHROMA_UP };
-	glm::vec3 m_CameraDirection{ CHROMA_RIGHT };
+	glm::vec3 m_CameraDirection{ CHROMA_BACK };
 
 	// Modes
 	CameraMode m_CameraMode = Maya;
@@ -34,7 +34,7 @@ class Camera
 	float m_CamFOV{ 45.0f };
 	float m_CamAspect{ SCREEN_WIDTH / SCREEN_HEIGHT };
 	float m_CamNear{ 0.1f };
-	float m_CamFar{ 100.0f };
+	float m_CamFar{ 200.0f };
 	bool m_FirstMouse{ true };
 
 	// Matrices
@@ -44,7 +44,6 @@ class Camera
 
 	void UpdateViewMatrix();
 	void UpdateProjectionMatrix();
-
 
 	// Functions
 	void Initialize();

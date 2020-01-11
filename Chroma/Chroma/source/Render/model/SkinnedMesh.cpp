@@ -71,6 +71,7 @@ void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 	m_Skeleton.SetJointUniforms(skinnedShader);
 }
 
+
 SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val)
 {
 	// Renderables

@@ -96,9 +96,9 @@ void StaticMesh::UpdateLightingUniforms(const Shader*& shader, std::vector<Light
 			break;
 		}
 		// lights directional
-		shader->setVec3(lightIndex + ".direction", Lights[i]->GetDirection());
-		shader->setVec3(lightIndex + ".position", Lights[i]->GetPosition());
-		shader->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
+		shader->SetVec3(lightIndex + ".direction", Lights[i]->GetDirection());
+		shader->SetVec3(lightIndex + ".position", Lights[i]->GetPosition());
+		shader->SetVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
 		shader->SetFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
 		////// lights spotlight
 		//shader->SetFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
@@ -109,12 +109,15 @@ void StaticMesh::UpdateLightingUniforms(const Shader*& shader, std::vector<Light
 		//shader->SetFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
 		//shader->SetFloat(lightIndex + ".radius", Lights[i]->getRadius());
 		// lights view pos
-		shader->setVec3("viewPos", renderCam.GetPosition());
+		shader->SetVec3("viewPos", renderCam.GetPosition());
 	}
 }
 
 void StaticMesh::updateTextureUniforms(const Shader* shader)
 {
+	// UV Modifiers
+	shader->SetVec2("UVMultiply", m_UVMultiply);
+
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
 	unsigned int shadowmapNr{ 1 };
@@ -182,6 +185,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		UpdatePBRLightingTextureUniforms(shader);
 
 	glActiveTexture(GL_TEXTURE0);
+
 }
 
 void StaticMesh::UpdatePBRLightingTextureUniforms(const Shader*& shader)
@@ -208,7 +212,7 @@ void StaticMesh::UpdateTransformUniforms(const Shader* shader, Camera& renderCam
 void StaticMesh::UpdateMaterialUniforms(const Shader* shader)
 {
 	shader->SetFloat("roughness", 0.4f);
-	shader->setVec3("color", glm::vec4(1, 0, 0, 0.5));
+	shader->SetVec3("color", glm::vec4(1, 0, 0, 0.5));
 	shader->SetFloat("metalness", 0.0f);
 	shader->SetBool("UseAlbedoMap", false);
 	shader->SetBool("UseNormalMap", false);

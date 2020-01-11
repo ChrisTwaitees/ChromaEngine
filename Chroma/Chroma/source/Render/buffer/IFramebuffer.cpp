@@ -17,8 +17,8 @@ void IFramebuffer::SetTextureParameters()
 
 void IFramebuffer::UpdateTransformUniforms()
 {
-	m_ScreenShader->setVec2("scale", m_Scale);
-	m_ScreenShader->setVec2("offset", m_Offset);
+	m_ScreenShader->SetVec2("scale", m_Scale);
+	m_ScreenShader->SetVec2("offset", m_Offset);
 }
 
 void IFramebuffer::CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO)

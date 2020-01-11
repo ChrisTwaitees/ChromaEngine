@@ -46,11 +46,11 @@ void PostFXBuffer::Initialize()
 void PostFXBuffer::UpdateTransformUniforms()
 {
 	blurShader->use();
-	blurShader->setVec2("scale", m_Scale);
-	blurShader->setVec2("offset", m_Offset);
+	blurShader->SetVec2("scale", m_Scale);
+	blurShader->SetVec2("offset", m_Offset);
 	m_ScreenShader->use();
-	m_ScreenShader->setVec2("scale", m_Scale);
-	m_ScreenShader->setVec2("offset", m_Offset);
+	m_ScreenShader->SetVec2("scale", m_Scale);
+	m_ScreenShader->SetVec2("offset", m_Offset);
 }
 
 void PostFXBuffer::configure_shaders()

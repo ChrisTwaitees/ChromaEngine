@@ -41,7 +41,7 @@ namespace Chroma
 
 	public:
 		static void Init();
-
+		static void PostSceneBuild();
 		// entities
 		static void AddEntity(IEntity* const& newEntity);
 		static void AddAnimatedEntity(IEntity* const& newAnimatedEntity);

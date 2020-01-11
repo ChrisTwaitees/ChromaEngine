@@ -10,11 +10,7 @@ void CharacterControllerComponent::ProcessInput()
 
 void CharacterControllerComponent::CalculateTransform()
 {
-	glm::mat4 ident(1.0);
-	ident = glm::translate(ident, m_Position);
-	ident = ident * glm::toMat4(m_Rotation);
-	glm::scale(ident, m_Scale);
-	m_Transform = ident;
+	m_Transform = Chroma::Math::BuildMat4(m_Position, m_Rotation, m_Scale);
 }
 
 void CharacterControllerComponent::Update()

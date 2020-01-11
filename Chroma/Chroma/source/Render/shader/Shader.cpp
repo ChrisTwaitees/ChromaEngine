@@ -163,7 +163,7 @@ void Shader::SetLightingUniforms(std::vector<Light*> Lights, Camera& renderCam)
 			dirlights++;
 			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
 			//// lights directional
-			this->setVec3(lightIndex + ".direction", Lights[i]->GetDirection());
+			this->SetVec3(lightIndex + ".direction", Lights[i]->GetDirection());
 			break;
 		case Light::SPOT:
 			spotlights++;
@@ -177,10 +177,10 @@ void Shader::SetLightingUniforms(std::vector<Light*> Lights, Camera& renderCam)
 		}
 		// lights all
 		this->SetFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
-		this->setVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
-		this->setVec3(lightIndex + ".position", Lights[i]->GetPosition());
+		this->SetVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
+		this->SetVec3(lightIndex + ".position", Lights[i]->GetPosition());
 		// lights view pos
-		this->setVec3("viewPos", renderCam.GetPosition());
+		this->SetVec3("viewPos", renderCam.GetPosition());
 	}
 }
 
@@ -231,12 +231,12 @@ void Shader::SetFloat(const std::string& name, float value) const
 	Uniforms.SetFloat(name, value);
 }
 
-void Shader::setVec2(const std::string& name, glm::vec2 value) const
+void Shader::SetVec2(const std::string& name, glm::vec2 value) const
 {
 	Uniforms.setVec2(name, value);
 }
 
-void Shader::setVec3(const std::string& name, glm::vec3 value) const
+void Shader::SetVec3(const std::string& name, glm::vec3 value) const
 {
 	Uniforms.setVec3(name, value);
 }

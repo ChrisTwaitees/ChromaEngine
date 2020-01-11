@@ -41,7 +41,7 @@ class Skeleton
 	int m_RootJointID{ 0 };
 	std::map<std::pair<int, std::string>, Joint> m_Joints;
 
-	float m_Scale{ 1.0f };
+	glm::vec3 m_Scale{ 1.0f };
 	glm::vec3 m_Translation{ 1.0f };
 	glm::quat m_Rotation{ glm::quat() };
 	glm::mat4 m_RootTransform{ glm::mat4(1.0) };
@@ -57,7 +57,7 @@ public:
 	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.m_ID; };
 	void SetRootJointID(int const& newRootJointID) { m_RootJointID = newRootJointID; };
 
-	void SetScale(float const& newScale) { m_Scale = newScale; UpdateSkeletonRootTransform(); };
+	void SetScale(glm::vec3 const& newScale) { m_Scale = newScale; UpdateSkeletonRootTransform(); };
 	void SetTranslation(glm::vec3 const& newTranslation) { m_Translation = newTranslation; UpdateSkeletonRootTransform(); };
 	void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; UpdateSkeletonRootTransform(); };
 

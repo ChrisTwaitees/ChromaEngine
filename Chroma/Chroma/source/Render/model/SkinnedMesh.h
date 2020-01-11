@@ -33,7 +33,7 @@ public:
 
 	// Functions
 	void SetJointUniforms(Shader& skinnedShader) override;
-	void SetScale(float const& newScale) { m_Skeleton.SetScale(newScale); };
+	void SetScale(glm::vec3 const& newScale) override { m_Skeleton.SetScale(newScale); };
 	void SetTranslation(glm::vec3 const& newTranslation) { m_Skeleton.SetTranslation(newTranslation); };
 	void SetRotation(glm::quat const& newRotation) { m_Skeleton.SetRotation(newRotation); };
 
