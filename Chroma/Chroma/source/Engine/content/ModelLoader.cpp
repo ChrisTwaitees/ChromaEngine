@@ -7,6 +7,10 @@ namespace Chroma
 	// LOADING
 	std::vector<MeshData> ModelLoader::Load(std::string const& sourcePath)
 	{
+		// Debug
+		CHROMA_TRACE_UNDERLINE;
+		CHROMA_TRACE("MODEL LOADER :: Loading MeshData from: {}", sourcePath);
+
 		// set source directory
 		m_SourceDir = sourcePath.substr(0, sourcePath.find_last_of('/'));
 
@@ -28,6 +32,11 @@ namespace Chroma
 		// set the source path on all discovered mesh datas
 		for(MeshData& meshData : meshDatas)
 			meshData.sourceDirectory = m_SourceDir;
+
+		// Debug
+		CHROMA_TRACE("MODEL LOADER :: MeshData Loaded");
+		CHROMA_TRACE_UNDERLINE;
+
 		// return 
 		return meshDatas;
 	}

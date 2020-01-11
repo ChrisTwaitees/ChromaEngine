@@ -121,7 +121,7 @@ void Animator::BindSkeleton(IComponent* const& meshComponent)
 	m_Skeleton = ((SkinnedMesh*)meshComponent)->GetSkeleton();
 }
 
-void Animator::DoAnimation()
+void Animator::Update()
 {
 	if (m_Skeleton == nullptr)
 	{

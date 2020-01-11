@@ -5,14 +5,16 @@
 #include <vector>
 // thirdparty
 #include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
 // chroma
+#include <math/Math.h>
+#include <common/CoreCommon.h>
+
 #include <content/AnimationLoader.h>
 #include <content/AnimationCompression.h>
+
+#include <animation/IStateMachine.h>
 #include <animation/Skeleton.h>
-#include <time/Time.h>
-#include <glm/gtc/quaternion.hpp> 
-#include <glm/gtx/quaternion.hpp>
+
 
 class IComponent;
 
@@ -22,6 +24,13 @@ class Animator
 {
 	// skeleton
 	Skeleton* m_Skeleton{ nullptr };
+
+	// state machine
+	IStateMachine* m_StateMachine{ nullptr };
+
+	// UIDs to Existing Components
+	UID m_CharacterControllerComponentUID;
+	UID m_AnimationComponentUID;
 
 	// takes
 	std::map<std::string, Take> m_Takes;
@@ -49,11 +58,15 @@ public:
 
 	void BindSkeleton(IComponent* const& meshComponent);
 
-	void DoAnimation();
+	void Update();
 
 	void DebugAnimationTake(std::string const& takeName, float const& debugTime);
 
 	void CompressAnimations();
+
+	inline void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID) { m_CharacterControllerComponentUID = newCharacterControllerComponentUID; }
+
+	inline void SetAnimationComponentUID(UID const& newAnimationComponentUID) { m_AnimationComponentUID = newAnimationComponentUID; }
 
 	Animator();
 	~Animator();

@@ -19,13 +19,30 @@ void AnimationComponent::Update()
 {
 	for (Animator& animator : m_Animators)
 	{
-		animator.DoAnimation();
+		animator.Update();
 	}
 }
 
 void AnimationComponent::Destroy()
 {
 	CHROMA_TRACE("AnimationComponent : {0} Destroyed.", m_UID.data);
+}
+
+void AnimationComponent::AddAnimator(Animator& newAnimator)
+{
+	// Set UID
+	newAnimator.SetAnimationComponentUID(m_UID);
+	// Add to existing animators
+	m_Animators.push_back(newAnimator);
+
+}
+
+void AnimationComponent::SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID)
+{
+	for (Animator& animator : m_Animators)
+	{
+		animator.SetCharacterControllerComponentUID(newCharacterControllerComponentUID);
+	}
 }
 
 AnimationComponent::AnimationComponent()

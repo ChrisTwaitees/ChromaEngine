@@ -45,20 +45,13 @@ namespace Chroma
 
 	IEntity* Scene::GetEntity(UID const& UID)
 	{
-		if (m_Entities.find(UID) != m_Entities.end())
-		{
-			return m_Entities.find(UID)->second;
-		}
-		CHROMA_ERROR("SCENE :: Entity of UID : {0} , could not be found in scene!");
+
+		return m_Entities.find(UID)->second;
 	}
 
 	IComponent* Scene::GetComponent(UID const& UID)
 	{
-		if (m_Components.find(UID) != m_Components.end())
-		{
-			return m_Components.find(UID)->second;
-		}
-		CHROMA_ERROR("SCENE :: Component of UID : {0} , could not be found in scene!");
+		return m_Components.find(UID)->second;
 	}
 
 	void Scene::Init()
@@ -82,6 +75,10 @@ namespace Chroma
 		// components
 		for (UID const& componentUID : m_ComponentUIDs)
 			GetComponent(componentUID)->Init();
+		// Debug
+		CHROMA_INFO_UNDERLINE;
+		CHROMA_INFO("CHROMA SCENE:: Scene Successfully Loaded.");
+		CHROMA_INFO_UNDERLINE;
 	}
 
 	void Scene::AddEntity(IEntity* const& newEntity)

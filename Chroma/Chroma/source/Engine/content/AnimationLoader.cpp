@@ -3,17 +3,21 @@
 
 void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes)
 {
+	// Debug
+	CHROMA_TRACE_UNDERLINE;
+	CHROMA_TRACE("ANIMATION LOADER:: Loading Animations from : {0}", sourcePath);
+	
 	Assimp::Importer importer;
 	const aiScene* scene = importer.ReadFile(sourcePath, NULL);
 
 	if (!scene || !scene->mRootNode)
 	{
-		CHROMA_WARN("ERROR::ASSIMP::{0}", importer.GetErrorString() );
+		CHROMA_ERROR("ERROR::ASSIMP::{0}", importer.GetErrorString() );
 		return;
 	}
 	else if (scene->mAnimations == 0)
 	{
-		CHROMA_WARN("ANIMATION LOADER:: No Animations Found in : {0}", sourcePath);
+		CHROMA_ERROR("ANIMATION LOADER:: No Animations Found in : {0}", sourcePath);
 		return;
 	}
 	else
@@ -21,6 +25,9 @@ void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes
 		// process animation
 		ProcessTakes(scene, scene->mRootNode, takes);
 	}
+
+	CHROMA_TRACE("ANIMATION LOADER:: Animations Loaded.");
+	CHROMA_TRACE_UNDERLINE;
 }
 
 void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& takes)
@@ -29,8 +36,7 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 	for (unsigned int i = 0; i < scene->mNumAnimations ; i++)
 	{
 		// Loading animation
-		CHROMA_TRACE("-----------------------------------------");
-		CHROMA_TRACE("ANIMATION LOADER:: Loading New Animation");
+
 		// storing each animation as a "take"
 		Take newTake;
 		aiAnimation* aiAnim = scene->mAnimations[i];
@@ -42,11 +48,12 @@ void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& tak
 		newTake.m_Duration = 1.0f / newTake.m_FPS * (float)newTake.m_NumFrames;
 
 		// Debug
+		CHROMA_TRACE_UNDERLINE;
 		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip Name : {0}", newTake.m_Name);
 		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip Number Frames : {0}", newTake.m_NumFrames);
 		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip FPS : {0}", newTake.m_FPS);
 		CHROMA_TRACE("ANIMATION LOADER:: Animation Clip Duration : {0}", newTake.m_Duration);
-		CHROMA_TRACE("-----------------------------------------");
+		CHROMA_TRACE_UNDERLINE;
 
 		// storing keyframes in take
 		for (unsigned int j = 0; j < aiAnim->mNumChannels; j++)

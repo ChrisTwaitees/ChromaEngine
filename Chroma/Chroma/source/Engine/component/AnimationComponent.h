@@ -18,7 +18,8 @@ public:
 	virtual void Update()override;
 	virtual void Destroy() override;
 
-	void AddAnimator(Animator const& newAnimator) { m_Animators.push_back(newAnimator); };
+	void AddAnimator(Animator& newAnimator);
+	void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID);
 
 	AnimationComponent();
 	~AnimationComponent();
