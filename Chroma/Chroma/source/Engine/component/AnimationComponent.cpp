@@ -17,7 +17,6 @@ void AnimationComponent::Init()
 
 void AnimationComponent::Update()
 {
-	CHROMA_TRACE("AnimationComponent : {0} Updating.", m_UID.data);
 	for (Animator& animator : m_Animators)
 	{
 		animator.DoAnimation();

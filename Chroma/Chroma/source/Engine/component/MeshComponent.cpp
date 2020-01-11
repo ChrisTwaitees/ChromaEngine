@@ -26,7 +26,6 @@ void MeshComponent::Init()
 
 void MeshComponent::Update()
 {
-	CHROMA_TRACE("Mesh Component : {0} Updating.", m_UID.data);
 }
 
 void MeshComponent::Destroy()

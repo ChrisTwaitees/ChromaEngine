@@ -80,6 +80,12 @@ namespace Chroma
 				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetSSAOTexture());
 				m_GraphicsDebugBuffer->Draw();
 			}
+			// Shadows
+			if (Chroma::GUI::m_GraphicsDebugSelected == 4)
+			{
+				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetShadowBufferTexture());
+				m_GraphicsDebugBuffer->Draw();
+			}
 		}
 	}
 

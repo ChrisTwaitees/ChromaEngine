@@ -14,6 +14,7 @@
 #include <glm/gtc/quaternion.hpp> 
 #include <glm/gtx/quaternion.hpp>
 
+class IComponent;
 
 typedef std::map<std::string, KeyFrame> KeyFrames;
 
@@ -45,6 +46,8 @@ public:
 	void LoadAnimations(std::string const& sourcePath);
 
 	void BindSkeleton(Skeleton* newSkeleton) { m_Skeleton = newSkeleton; };
+
+	void BindSkeleton(IComponent* const& meshComponent);
 
 	void DoAnimation();
 

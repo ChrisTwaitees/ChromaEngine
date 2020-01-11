@@ -3,12 +3,10 @@
 
 void ShadowBuffer::calcLightSpaceMatrix()
 {
-	// Fetch sunlight from scene
-	Light* SceneSunLight = Chroma::Scene::GetSunLight();
 	// calculate LightSpaceMatrix
-	float near_plane = 0.1f, far_plane = 35.0f;
+	float near_plane = 0.01f, far_plane = 50.0f;
 	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
-	glm::mat4 lightView = glm::lookAt(SceneSunLight->GetDirection() * -10.0f,
+	glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetSunLight()->GetDirection() * -10.0f,
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	lightSpaceMatrix = lightProjection * lightView;
@@ -72,15 +70,15 @@ void ShadowBuffer::DrawShadowMaps()
 	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
 	{
 		depthShader.SetMat4("model", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetWorldTransform());
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(depthShader);
-
+		
 		// check if mesh skinned
 		depthShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned);
 		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned)
 			((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(depthShader);
 
-		// Draw Update Materials
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(depthShader);
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(depthShader);
+
+		
 	}
 
 	UnBind();

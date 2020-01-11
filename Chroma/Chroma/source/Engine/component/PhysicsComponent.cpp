@@ -180,7 +180,6 @@ void PhysicsComponent::Init()
 
 void PhysicsComponent::Update()
 {
-	CHROMA_TRACE("PhysicsComponent : {0} Updating.", m_UID.data);
 }
 
 void PhysicsComponent::Destroy()

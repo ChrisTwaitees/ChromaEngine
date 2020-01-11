@@ -22,7 +22,6 @@ void CharacterControllerComponent::Init()
 
 void CharacterControllerComponent::Update()
 {
-	CHROMA_TRACE("CharacterController Component : {0} Updating.", m_UID.data);
 	ProcessInput();
 	CalculateTransform();
 	GetParentEntity()->SetTransform(m_Transform);

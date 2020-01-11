@@ -1,5 +1,5 @@
 #include "Animator.h"
-
+#include <model/SkinnedMesh.h>
 
 void Animator::PlayTake(std::string const& takeName, float const& normalizedTime)
 {
@@ -115,6 +115,11 @@ void Animator::AddTake(Take const& newTake)
 	m_Takes[newTake.m_Name] = newTake;
 }
 
+
+void Animator::BindSkeleton(IComponent* const& meshComponent)
+{
+	m_Skeleton = ((SkinnedMesh*)meshComponent)->GetSkeleton();
+}
 
 void Animator::DoAnimation()
 {

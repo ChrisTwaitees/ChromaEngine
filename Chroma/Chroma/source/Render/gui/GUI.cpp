@@ -22,7 +22,7 @@ namespace Chroma
 	// graphics
 	bool GUI::drawGraphicsMenu;
 	int  GUI::m_GraphicsDebugSelected;
-	static const char* GraphicsDebugs[4]{ "Alebdo", "Normals", "MetRoughAO", "SSAO"};
+	static const char* GraphicsDebugs[5]{ "Alebdo", "Normals", "MetRoughAO", "SSAO", "Shadows"};
 	bool GUI::m_DrawGraphicsDebug;
 	void GUI::Init()
 	{
@@ -51,7 +51,7 @@ namespace Chroma
 
 		// ANIMATION
 		// anim
-		drawAnimMenu = false;
+		drawAnimMenu = true;
 		debugAnim = false;
 		DebugAnimClipPos = 0.0f;
 	}

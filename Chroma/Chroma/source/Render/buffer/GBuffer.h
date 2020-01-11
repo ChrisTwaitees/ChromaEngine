@@ -60,6 +60,7 @@ public:
 	inline unsigned int GetNormalTexture() const { return gNormal; }
 	inline unsigned int GetMetalRoughnessAO() const { return gMetRoughAO; }
 	inline unsigned int GetSSAOTexture() const { return m_SSAOBuffer->GetTexture(); }
+	inline unsigned int GetShadowBufferTexture() const { return m_Shadowbuffer->GetTexture(); }
 
 	// structors
 	GBuffer(IFramebuffer*& m_PostFXBuffer);
