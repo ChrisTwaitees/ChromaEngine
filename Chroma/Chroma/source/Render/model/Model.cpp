@@ -7,38 +7,44 @@
 // DRAW
 void Model::Draw(Shader &shader)
 {
-	for (MeshComponent*& mesh : m_Meshes)
-		mesh->Draw(shader);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(shader);
 }
 
-void Model::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
+void Model::Draw(Camera& RenderCamera)
 {
-	for (MeshComponent*& mesh : m_Meshes)
-			mesh->Draw(RenderCamera, Lights, transformMatrix);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(RenderCamera);
 }
 
-void Model::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
+void Model::Draw(Shader& shader, Camera& RenderCamera)
 {
-	for (MeshComponent*& mesh : m_Meshes)
-		mesh->Draw(shader, RenderCamera, Lights, transformMatrix);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(shader, RenderCamera);
 }
 
 void Model::DrawUpdateMaterials(Shader& shader)
 {
-	for (MeshComponent*& mesh : m_Meshes)
-		mesh->DrawUpdateMaterials(shader);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(shader);
 }
 
-void Model::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
+void Model::DrawUpdateTransforms(Camera& renderCam)
 {
-	for (MeshComponent* mesh : m_Meshes)
-		mesh->DrawUpdateTransforms(renderCam, modelMatrix);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(renderCam);
+}
+
+Shader* Model::GetShader()
+{
+	for (UID const& uid : m_MeshUIDs)
+		return ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetShader();
 }
 
 void Model::SetShader(Shader* const& newShader)
 {
-	for (MeshComponent* mesh : m_Meshes)
-		mesh->SetShader(newShader);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetShader(newShader);
 }
 
 // BBOX
@@ -57,63 +63,47 @@ glm::vec3 Model::GetCentroid()
 // TEXTURES
 void Model::AddTexture(Texture texture_val)
 {
-	for (MeshComponent* mesh : m_Meshes)
-		mesh->AddTexture(texture_val);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->AddTexture(texture_val);
 }
 
 // UNIFORMS
 void Model::SetMat4(std::string name, glm::mat4 value)
 {
-	for (MeshComponent* mesh : m_Meshes)
-		mesh->SetMat4(name, value);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetMat4(name, value);
 }
 
 void Model::SetInt(std::string name, int value)
 {
-	for (MeshComponent* mesh : m_Meshes)
-		mesh->SetInt(name, value);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetInt(name, value);
 }
 
 void Model::SetFloat(std::string name, float value)
 {
-	for (MeshComponent* mesh : m_Meshes)
-		mesh->SetFloat(name, value);
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetFloat(name, value);
 }
 
 void Model::SetJointUniforms(Shader& skinnedShader)
 {
-	for (MeshComponent* mesh : m_Meshes)
-	{
-		((SkinnedMesh*)mesh)->SetJointUniforms(skinnedShader);
-	}	
+	for (UID const& uid : m_MeshUIDs)
+		((SkinnedMesh*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(skinnedShader);
 }
 
-Skeleton* Model::GetSkeleton()
-{
-	return ((SkinnedMesh*)m_Meshes[0])->GetSkeleton();
-}
+//Skeleton* Model::GetSkeleton()
+//{
+//	return ((SkinnedMesh*)m_Meshes[0])->GetSkeleton();
+//}
 
-void Model::SetScale(glm::vec3 const& newScale)
-{
-	((SkinnedMesh*)m_Meshes[0])->SetScale(newScale);
-}
-
-void Model::SetTranslation(glm::vec3 const& newPosition)
-{
-	((SkinnedMesh*)m_Meshes[0])->SetTranslation(newPosition);
-}
-
-void Model::SetRotation(glm::quat const& newRotation)
-{
-	((SkinnedMesh*)m_Meshes[0])->SetRotation(newRotation);
-}
 
 void Model::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (MeshComponent*& mesh : m_Meshes)
-		bboxes.push_back(mesh->GetBBox());
+	for (UID const& uid : m_MeshUIDs)
+		bboxes.push_back(((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetBBox());
 
 	// once collected, calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
@@ -145,13 +135,13 @@ void Model::LoadModel(std::string path)
 			m_IsSkinned = true;
 			SkinnedMesh* newSkinnedMesh = new SkinnedMesh(meshData);
 			Chroma::Scene::AddMeshComponent(newSkinnedMesh);
-			m_Meshes.push_back(newSkinnedMesh);
+			m_MeshUIDs.push_back(newSkinnedMesh->GetUID());
 		}
 		else
 		{
 			StaticMesh* newStaticMesh = new StaticMesh(meshData);
 			Chroma::Scene::AddMeshComponent(newStaticMesh);
-			m_Meshes.push_back(newStaticMesh);
+			m_MeshUIDs.push_back(newStaticMesh->GetUID());
 
 		}
 	}
@@ -161,6 +151,4 @@ void Model::LoadModel(std::string path)
 
 Model::~Model()
 {
-	for (MeshComponent* mesh : m_Meshes)
-		delete mesh;
 }

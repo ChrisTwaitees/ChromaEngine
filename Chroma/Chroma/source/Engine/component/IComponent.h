@@ -14,24 +14,22 @@ class IComponent
 {
 protected:
 	// name
-	std::string m_UID;
+	UID m_UID;
 	std::string m_Name;
 
 	// parent
-	std::string m_ParentEntityUID;
+	UID m_ParentEntityUID;
 
 public:
 	virtual void Update() {};
 	// Acessors
-	std::string GetUID() const { return m_UID; };
+	UID GetUID() const { return m_UID; };
 
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
 
 	IEntity* GetParentEntity() const;
-	virtual void SetParentEntityUID(std::string const& newParentEntityUID) { m_ParentEntityUID = newParentEntityUID; }
-
-	virtual glm::mat4 GetTransform() { return glm::mat4(1); };
+	virtual void SetParentEntityUID(UID const& newParentEntityUID) { m_ParentEntityUID = newParentEntityUID; }
 
 	IComponent();
 	virtual ~IComponent() {};

@@ -11,6 +11,7 @@
 #include <entity/Entity.h>
 #include <terrain/Terrain.h>
 #include <component/AnimationComponent.h>
+#include <model/SkinnedMesh.h>
 
 // game
 #include <thirdperson/ThirdPersonCharacterController.h>
@@ -123,7 +124,7 @@ int main()
 	AnimModelEntity->SetName("AnimationModel");
 	Chroma::Scene::AddEntity(AnimModelEntity);
 	// mesh
-	MeshComponent* AnimModelMeshComponent = new Model("resources/animation/vampire.fbx");
+	MeshComponent* AnimModelMeshComponent = new SkinnedMesh("resources/animation/vampire.fbx");
 	AnimModelMeshComponent->SetShader(&PBRShader);
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
@@ -138,7 +139,7 @@ int main()
 	// animation
 	AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
 	Animator AnimModelAnimator;
-	AnimModelAnimator.BindSkeleton(((Model*)AnimModelMeshComponent)->GetSkeleton());
+	AnimModelAnimator.BindSkeleton(((SkinnedMesh*)AnimModelMeshComponent)->GetSkeleton());
 	AnimModelAnimator.LoadAnimations("resources/animation/vampire_idle.fbx");
 	AnimModelAnimator.CompressAnimations();
 	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);

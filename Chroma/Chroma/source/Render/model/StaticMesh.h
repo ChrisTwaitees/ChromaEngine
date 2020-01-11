@@ -28,20 +28,20 @@ protected:
 	virtual void CalculateCentroid();
 	virtual void SetupMesh();
 	// render functions
-	virtual void UpdateUniforms(const Shader* shader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix);
-	virtual void UpdateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix);
+	virtual void UpdateUniforms(const Shader* shader, Camera& RenderCam);
+	virtual void UpdateTransformUniforms(const Shader* shader, Camera& renderCam);
 	virtual void UpdateMaterialUniforms(const Shader* shader);
-	virtual void UpdateLightingUniforms(const Shader*& shader, std::vector<Light*> Lights, Camera& renderCam);
+	virtual void UpdateLightingUniforms(const Shader*& shader, Camera& renderCam);
 	virtual void updateTextureUniforms(const Shader* shader);
 	void UpdatePBRLightingTextureUniforms(const Shader*& shader);
 
 public:
 	// Functions
 	virtual void Draw(Shader &shader) override;
-	virtual void Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
-	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
+	virtual void Draw(Camera& RenderCamera) override;
+	virtual void Draw(Shader& shader, Camera& RenderCamera) override;
 	virtual void DrawUpdateMaterials(Shader& shader) override;
-	virtual void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
+	virtual void DrawUpdateTransforms(Camera& renderCam) override;
 	virtual void BindDrawVAO();
 
 	// Bindings

@@ -1,6 +1,6 @@
 #include "DebugBuffer.h"
 #include <scene/Scene.h>
-#include <model/Model.h>
+#include <model/SkinnedMesh.h>
 
 void DebugBuffer::Initialize()
 {
@@ -256,14 +256,14 @@ void DebugBuffer::DrawOverlayJoint(const glm::vec3& originPosition, const glm::v
 
 void DebugBuffer::DrawSceneSkeletons()
 {
-	for (std::string const& UID : Chroma::Scene::GetAnimatedEntityUIDs())
+	for (UID const& uid : Chroma::Scene::GetAnimatedEntityUIDs())
 	{
-		for (IComponent* component : Chroma::Scene::GetEntity(UID)->getMeshComponents())
+		for (UID const& component : Chroma::Scene::GetEntity(uid)->getMeshComponentUIDs())
 		{
 			// check if mesh skinned
-			if (((MeshComponent*)component)->m_IsSkinned)
+			if (((MeshComponent*)Chroma::Scene::GetComponent(component))->m_IsSkinned)
 			{
-				((Model*)component)->GetSkeleton()->DebugDraw();
+				((SkinnedMesh*)Chroma::Scene::GetComponent(component))->GetSkeleton()->DebugDraw();
 			}
 		}
 	}

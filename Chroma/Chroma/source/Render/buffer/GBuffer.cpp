@@ -153,31 +153,26 @@ void GBuffer::DrawGeometryPass()
 	m_geometryPassShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	m_geometryPassShader.SetMat4("lightSpaceMatrix", m_Shadowbuffer->getLightSpaceMatrix());
 
-	// Render Scene
-	for (std::string const& UID : Chroma::Scene::GetEntityUIDs())
+	// Render Lit COmponents
+	for (UID const& uid : Chroma::Scene::GetLitComponentUIDs())
 	{
-		glm::mat4 finalTransformMatrix = Chroma::Scene::GetEntity(UID)->GetTransform();
-		for (IComponent* component : Chroma::Scene::GetEntity(UID)->GetLitComponents())
+		// transform components by entity transform
+		m_geometryPassShader.SetMat4("model", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetWorldTransform());
+
+		// check if mesh skinned
+		m_geometryPassShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned);
+		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned)
+			((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(m_geometryPassShader);
+
+		// Draw Update Materials
+		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsDoubleSided)
 		{
-			// transform components by entity transform
-			finalTransformMatrix = finalTransformMatrix * ((MeshComponent*)component)->GetTransform();
-			m_geometryPassShader.SetMat4("model", finalTransformMatrix);
-
-			// check if mesh skinned
-			m_geometryPassShader.SetUniform("isSkinned", ((MeshComponent*)component)->m_IsSkinned);
-			if (((MeshComponent*)component)->m_IsSkinned)
-				((MeshComponent*)component)->SetJointUniforms(m_geometryPassShader);
-
-			// Draw Update Materials
-			if (((MeshComponent*)component)->m_IsDoubleSided)
-			{
-				glDisable(GL_CULL_FACE);
-				((MeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
-				glEnable(GL_CULL_FACE);
-			}
-			else
-				((MeshComponent*)component)->DrawUpdateMaterials(m_geometryPassShader);
+			glDisable(GL_CULL_FACE);
+			((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
+			glEnable(GL_CULL_FACE);
 		}
+		else
+			((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
 	}
 	UnBind();
 }

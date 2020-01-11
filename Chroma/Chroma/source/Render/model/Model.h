@@ -15,11 +15,11 @@
 class Model : public MeshComponent
 {
 	// calculate dimensions
-	virtual void CalculateBBox();
-	virtual void CalculateCentroid();
+	virtual void CalculateBBox() override;
+	virtual void CalculateCentroid() override;
 
 	// Model Data
-	std::vector<MeshComponent*> m_Meshes;
+	std::vector<UID> m_MeshUIDs;
 	// verts
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
@@ -31,27 +31,22 @@ class Model : public MeshComponent
 public:
 	// Draw
 	void Draw(Shader& shader) override;
-	void Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
-	void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) override;
+	void Draw(Camera& RenderCamera) override;
+	void Draw(Shader& shader, Camera& RenderCamera) override;
 	void DrawUpdateMaterials(Shader& shader) override;
-	void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) override;
+	void DrawUpdateTransforms(Camera& renderCam) override;
 
 	// Accessors	
-	glm::mat4 GetTransform() override { return m_Transform; };
-	std::pair<glm::vec3, glm::vec3> GetBBox();
+	std::pair<glm::vec3, glm::vec3> GetBBox() override;
 	glm::vec3 GetCentroid();
 	// render components
-	Shader* GetShader() override { return m_Meshes[0]->GetShader(); };
+	Shader* GetShader();
 	void SetShader(Shader* const& newShader) override;
 	int GetNumTextures() override { return (int)m_Textures.size(); };
 	// verts
 	std::vector<ChromaVertex> GetVertices() override { return m_vertices; };
 	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_SkinnedVertices; };
 	// animation/ skinning
-	Skeleton* GetSkeleton();
-	void SetScale(glm::vec3 const& newScale);
-	void SetTranslation(glm::vec3 const& newPosition);
-	void SetRotation(glm::quat const& newRotation);
 
 	// Component requirement 
 	void SetTextures(std::vector<Texture> textures_val) override {};

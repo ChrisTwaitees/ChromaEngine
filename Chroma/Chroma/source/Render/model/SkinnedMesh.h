@@ -26,7 +26,7 @@ class SkinnedMesh : public StaticMesh
 	void SetupMesh() override;
 
 public:
-	glm::mat4 GetTransform() override;
+	glm::mat4 GetWorldTransform() override;
 
 	// Accessors
 	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() { return m_SkinnedVertices; };
@@ -38,6 +38,7 @@ public:
 
 	SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val);
 	SkinnedMesh(MeshData const& newMeshData);
+	SkinnedMesh(std::string const& sourcePath);
 	SkinnedMesh() { m_IsRenderable = true; };
 	~SkinnedMesh();
 };

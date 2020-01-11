@@ -61,24 +61,24 @@ void StaticMesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-void StaticMesh::UpdateUniforms(const Shader* updateShader, std::vector<Light*> Lights, Camera& RenderCam, glm::mat4& TransformMatrix)
+void StaticMesh::UpdateUniforms(const Shader* updateShader, Camera& RenderCam)
 {
-	UpdateTransformUniforms(updateShader, RenderCam, TransformMatrix);
+	UpdateTransformUniforms(updateShader, RenderCam);
 	UpdateMaterialUniforms(updateShader);
 	updateTextureUniforms(updateShader);
-	UpdateLightingUniforms(updateShader, Lights, RenderCam);
+	UpdateLightingUniforms(updateShader, RenderCam);
 }
 
-void StaticMesh::UpdateLightingUniforms(const Shader*& shader, std::vector<Light*> Lights, Camera& renderCam)
+void StaticMesh::UpdateLightingUniforms(const Shader*& shader, Camera& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
 	int spotlights{ 0 };
-	for (int i = 0; i < Lights.size(); i++)
+	for (int i = 0; i < Chroma::Scene::GetLights().size(); i++)
 	{
 		std::string lightIndex;
 		// set uniforms
-		switch (Lights[i]->type) {
+		switch (Chroma::Scene::GetLights()[i]->type) {
 		case Light::POINT:
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
@@ -96,10 +96,10 @@ void StaticMesh::UpdateLightingUniforms(const Shader*& shader, std::vector<Light
 			break;
 		}
 		// lights directional
-		shader->SetVec3(lightIndex + ".direction", Lights[i]->GetDirection());
-		shader->SetVec3(lightIndex + ".position", Lights[i]->GetPosition());
-		shader->SetVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
-		shader->SetFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
+		shader->SetVec3(lightIndex + ".direction", Chroma::Scene::GetLights()[i]->GetDirection());
+		shader->SetVec3(lightIndex + ".position", Chroma::Scene::GetLights()[i]->GetPosition());
+		shader->SetVec3(lightIndex + ".diffuse", Chroma::Scene::GetLights()[i]->getDiffuse());
+		shader->SetFloat(lightIndex + ".intensity", Chroma::Scene::GetLights()[i]->getIntensity());
 		////// lights spotlight
 		//shader->SetFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
 		//shader->SetFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
@@ -201,10 +201,9 @@ void StaticMesh::UpdatePBRLightingTextureUniforms(const Shader*& shader)
 	glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->GetBRDFLUTID());
 }
 
-void StaticMesh::UpdateTransformUniforms(const Shader* shader, Camera& renderCam, glm::mat4& modelMatrix)
+void StaticMesh::UpdateTransformUniforms(const Shader* shader, Camera& renderCam)
 {
-	glm::mat4 finalTransform = GetTransform() * modelMatrix;
-	shader->SetMat4("model", finalTransform);
+	shader->SetMat4("model", GetWorldTransform());
 	shader->SetMat4("view", renderCam.GetViewMatrix());
 	shader->SetMat4("projection", renderCam.GetProjectionMatrix());
 }
@@ -226,17 +225,17 @@ void StaticMesh::Draw(Shader &shader)
 	BindDrawVAO();
 }
 
-void StaticMesh::Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
+void StaticMesh::Draw(Camera& RenderCamera)
 {
 	m_shader->use();
-	UpdateUniforms(m_shader, Lights, RenderCamera, transformMatrix);
+	UpdateUniforms(m_shader, RenderCamera);
 	BindDrawVAO();
 }
 
-void StaticMesh::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix)
+void StaticMesh::Draw(Shader& shader, Camera& RenderCamera)
 {
 	shader.use();
-	UpdateUniforms(&shader, Lights, RenderCamera, transformMatrix);
+	UpdateUniforms(&shader, RenderCamera);
 	BindDrawVAO();
 }
 
@@ -248,10 +247,10 @@ void StaticMesh::DrawUpdateMaterials(Shader& shader)
 	BindDrawVAO();
 }
 
-void StaticMesh::DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix)
+void StaticMesh::DrawUpdateTransforms(Camera& renderCam)
 {
 	m_shader->use();
-	UpdateTransformUniforms(m_shader, renderCam, modelMatrix);
+	UpdateTransformUniforms(m_shader, renderCam);
 	BindDrawVAO();
 }
 

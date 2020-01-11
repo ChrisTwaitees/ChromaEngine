@@ -1,5 +1,6 @@
 #include "Skeleton.h"
 #include <entity/IEntity.h>
+#include <component/MeshComponent.h>
 #include <render/Render.h>
 
 void Skeleton::InitializeSkeleton()
@@ -214,7 +215,7 @@ void Skeleton::DebugDraw()
 
 glm::mat4 Skeleton::BuildRootTransform()
 {
-	return Chroma::Scene::GetComponent(m_ParentComponentUID)->GetTransform();
+	return ((MeshComponent*)Chroma::Scene::GetComponent(m_ParentComponentUID))->GetWorldTransform();
 }
 
 void Skeleton::DebugWalkChildJoints(Joint const& currentJoint)

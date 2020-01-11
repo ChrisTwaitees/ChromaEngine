@@ -2,14 +2,13 @@
 
 IEntity::IEntity()
 {
-	m_UID = UID::GenerateNewUID();
+	m_UID = UID();
 }
 
 void IEntity::RebuildTransform()
 {
 	m_Transform = Chroma::Math::BuildMat4(m_Translation, m_Rotation, m_Scale);
 }
-
 
 void IEntity::SetTransform(glm::mat4 const& newTransformMat)
 {
@@ -22,5 +21,5 @@ void IEntity::SetTransform(glm::mat4 const& newTransformMat)
 void IEntity::Init()
 {
 	CalculateBBox();
-	CHROMA_TRACE("Entity : {0} Initialized.", m_UID);
+	CHROMA_TRACE("Entity : {0} Initialized.", m_UID.data);
 }

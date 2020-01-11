@@ -8,5 +8,5 @@ IEntity* IComponent::GetParentEntity() const
 
 IComponent::IComponent()
 {
-	m_UID = UID::GenerateNewUID();
+	m_UID = UID();
 }

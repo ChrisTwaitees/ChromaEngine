@@ -42,11 +42,10 @@ void ShadowBuffer::Initialize()
 
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
-	for (std::string const& UID : Chroma::Scene::GetEntityUIDs())
-		for (IComponent* component : Chroma::Scene::GetEntity(UID)->getMeshComponents())
-		{
-			((MeshComponent*)component)->AddTexture(ShadowMapTexture);
-		}
+	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
+	{
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->AddTexture(ShadowMapTexture);
+	}
 }
 
 
@@ -70,23 +69,18 @@ void ShadowBuffer::DrawShadowMaps()
 	//glCullFace(GL_FRONT);
 
 	// render scene
-	for (std::string const& UID : Chroma::Scene::GetEntityUIDs())
+	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
 	{
-		glm::mat4 finalTransformMatrix = Chroma::Scene::GetEntity(UID)->GetTransform();
-		for (IComponent* component : Chroma::Scene::GetEntity(UID)->getShadowCastingComponents())
-		{
-			finalTransformMatrix *= ((MeshComponent*)component)->GetTransform();
-			depthShader.SetMat4("model", finalTransformMatrix);
-			((MeshComponent*)component)->Draw(depthShader);
+		depthShader.SetMat4("model", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetWorldTransform());
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(depthShader);
 
-			// check if mesh skinned
-			depthShader.SetUniform("isSkinned", ((MeshComponent*)component)->m_IsSkinned);
-			if (((MeshComponent*)component)->m_IsSkinned)
-				((MeshComponent*)component)->SetJointUniforms(depthShader);
+		// check if mesh skinned
+		depthShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned);
+		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned)
+			((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(depthShader);
 
-			// Draw Update Materials
-			((MeshComponent*)component)->DrawUpdateMaterials(depthShader);
-		}
+		// Draw Update Materials
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(depthShader);
 	}
 
 	UnBind();

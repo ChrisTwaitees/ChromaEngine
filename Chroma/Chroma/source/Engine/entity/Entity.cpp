@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <scene/Scene.h>
 #include <component/MeshComponent.h>
 #include <component/PhysicsComponent.h>
 #include <component/AnimationComponent.h>
@@ -9,9 +10,9 @@ std::vector<ChromaVertex> Entity::GetVertices()
 {
 	// collecting all vertices within mesh components of entity
 	std::vector<ChromaVertex> verts;
-	for (IComponent* meshComponent : m_MeshComponents)
+	for (UID const& meshUID : m_MeshComponentUIDs)
 	{
-		std::vector<ChromaVertex> m_vertices = ((MeshComponent*)meshComponent)->GetVertices();
+		std::vector<ChromaVertex> m_vertices = ((MeshComponent*)Chroma::Scene::GetComponent(meshUID))->GetVertices();
 		for (ChromaVertex vert : m_vertices)
 			verts.push_back(vert);
 	}
@@ -32,24 +33,24 @@ glm::vec3 Entity::GetCentroid()
 
 void Entity::Draw(Shader& shader)
 {
-	for (IComponent* component : m_RenderableComponents)
-		((MeshComponent*)component)->Draw(shader);
+	for (UID const& uid : Chroma::Scene::GetRenderableComponentUIDs())
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(shader);
 }
 
-void Entity::Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights)
+void Entity::Draw(Shader& shader, Camera& RenderCamera)
 {
-	for (IComponent* component : m_RenderableComponents)
-		((MeshComponent*)component)->Draw(shader, RenderCamera, Lights, m_Transform);
+	for (UID const& uid : Chroma::Scene::GetRenderableComponentUIDs())
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(shader, RenderCamera);
 }
 
-void Entity::Draw(Camera& RenderCamera, std::vector<Light*> Lights)
+void Entity::Draw(Camera& RenderCamera)
 {
-	for (IComponent* component : m_RenderableComponents)
-		((MeshComponent*)component)->Draw(RenderCamera, Lights, m_Transform);
+	for (UID const& uid : Chroma::Scene::GetRenderableComponentUIDs())
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(RenderCamera);
 }
 
 // ADDING/REMOVING COMPONENTS
-void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
+void Entity::AddMeshComponent(MeshComponent*& newMeshComponent)
 {
 	// Prepare for Entity
 	ProcessNewComponent(newMeshComponent);
@@ -58,35 +59,19 @@ void Entity::addMeshComponent(MeshComponent*& newMeshComponent)
 	Chroma::Scene::AddMeshComponent(newMeshComponent);
 
 	// add mesh component
-	m_MeshComponents.push_back(newMeshComponent);
-
-	// TODO: Consider std::map<UID, Component> for look up instead of duplication
-	if (newMeshComponent->m_IsRenderable)
-		m_RenderableComponents.push_back(newMeshComponent);
-	if (newMeshComponent->m_IsLit && newMeshComponent->m_IsTransparent == false)
-		m_LitComponents.push_back(newMeshComponent);
-	if (newMeshComponent->m_CastShadows)
-		m_ShadowCastingComponents.push_back(newMeshComponent);
-	if (newMeshComponent->m_IsTransparent)
-	{
-		m_TransparentComponents.push_back(newMeshComponent);
-		Chroma::Scene::AddTransparentEntity(this);
-	}
-	if (newMeshComponent->m_IsLit == false && newMeshComponent->m_IsTransparent == false)
-		m_UnLitComponents.push_back(newMeshComponent);
-	if (newMeshComponent->m_IsTransparent)
-		m_TransparentComponents.push_back(newMeshComponent);
-
-
+	m_MeshComponentUIDs.push_back(newMeshComponent->GetUID());
 }
 
-void Entity::addPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
+void Entity::AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
 {
 	// Prepare for Entity
 	ProcessNewComponent(newPhysicsComponent);
 
+	// add to scene 
+	Chroma::Scene::AddPhysicsComponent(newPhysicsComponent);
+
 	// add physics component
-	m_PhysicsComponents.push_back(newPhysicsComponent);
+	m_PhysicsComponentUIDs.push_back(newPhysicsComponent->GetUID());
 
 	// build rigidBody
 	newPhysicsComponent->BuildRigidBody();
@@ -95,16 +80,13 @@ void Entity::addPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
 	Chroma::Physics::AddBodyToWorld(newPhysicsComponent);
 }
 
-void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
+void Entity::AddAnimationComponent(AnimationComponent*& newAnimationComponent)
 {
 	// Prepare for Entity
 	ProcessNewComponent(newAnimationComponent);
 
 	// add animation component
-	m_AnimationComponents.push_back(newAnimationComponent);
-
-	// self to scene as animated entity
-	Chroma::Scene::AddAnimatedEntity(this);
+	m_AnimationComponentUIDs.push_back(newAnimationComponent->GetUID());
 
 	// add to updating components
 	Chroma::Scene::AddUpdatingComponent(newAnimationComponent);
@@ -113,13 +95,13 @@ void Entity::addAnimationComponent(AnimationComponent*& newAnimationComponent)
 	Chroma::Scene::AddAnimatedEntity(this);
 }
 
-void Entity::addCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent)
+void Entity::AddCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent)
 {
 	// Prepare for Entity
 	ProcessNewComponent(newCharacterControllerComponent);
 
 	// add animation component
-	m_CharacterControllerComponents.push_back(newCharacterControllerComponent);
+	m_CharacterControllerComponentUIDs.push_back(newCharacterControllerComponent->GetUID());
 
 	// add to updating components
 	Chroma::Scene::AddUpdatingComponent(newCharacterControllerComponent);
@@ -129,8 +111,8 @@ void Entity::CalculateBBox()
 {
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (IComponent* meshComponent : m_MeshComponents)
-		bboxes.push_back(((MeshComponent*)meshComponent)->GetBBox());
+	for (UID const& meshComponentUID : m_MeshComponentUIDs)
+		bboxes.push_back(((MeshComponent*)Chroma::Scene::GetComponent(meshComponentUID))->GetBBox());
 	// once collected, calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
@@ -151,34 +133,22 @@ void Entity::CalculateCentroid()
 	m_Centroid = (m_BBoxMin - m_BBoxMax) * glm::vec3(0.5);
 }
 
-void Entity::addEmptyComponent(IComponent*& newComponent)
+void Entity::AddComponent(IComponent*& newComponent)
 {
 	// Prepare for Entity
 	ProcessNewComponent(newComponent);
 
 	// TODO: Consider shared_ptr to prevent memory duplication
-	m_Components.push_back(newComponent);
+	m_ComponentUIDs.push_back(newComponent->GetUID());
 }
 
-void Entity::removeEmptyComponent(IComponent*& removeMe)
-{
-	// all components 
-	int componentIndex = findIndexInVector(m_Components, removeMe);
-	if (componentIndex > 0)
-		m_Components.erase(m_Components.begin() + componentIndex);	
-	// renderable components
-	// TODO: Consider using shared_ptr to better manage memory
-	componentIndex = findIndexInVector(m_RenderableComponents, removeMe);
-	if (componentIndex)
-		m_RenderableComponents.erase(m_RenderableComponents.begin() + componentIndex);
-}
 
 void Entity::UpdatePhysicsComponentsTransforms()
 {
-	for (IComponent* physicsComponent : m_PhysicsComponents)
+	for (UID const& uid : m_PhysicsComponentUIDs)
 	{
-		if (((PhysicsComponent*)physicsComponent)->getColliderState() == Kinematic) // check if physics object is kinematic
-			((PhysicsComponent*)physicsComponent)->SetWorldTransform(m_Transform);
+		if (((PhysicsComponent*)Chroma::Scene::GetComponent(uid))->getColliderState() == Kinematic) // check if physics object is kinematic
+			((PhysicsComponent*)Chroma::Scene::GetComponent(uid))->SetWorldTransform(m_Transform);
 	}
 }
 

@@ -12,22 +12,32 @@ namespace Chroma
 	IBL*				Scene::m_IBL;
 
 	// Entities Components
-	std::map<std::string, IEntity*>    Scene::m_Entities;
-	std::map<std::string, IComponent*> Scene::m_Components;
+	std::map<UID, IEntity*>    Scene::m_Entities;
+	std::map<UID, IComponent*> Scene::m_Components;
 
 	// UIDs
-	std::set<std::string> Scene::m_EntityUIDs;
-	std::set<std::string> Scene::m_TransparentEntityUIDs;
-	std::set<std::string> Scene::m_AnimatedEntityUIDs;
-	std::set<std::string> Scene::m_UpdatingComponentUIDs;
-	std::set<std::string> Scene::m_MeshComponentUIDs;
+	std::set<UID> Scene::m_EntityUIDs;
+	std::set<UID> Scene::m_TransparentEntityUIDs;
+	std::set<UID> Scene::m_AnimatedEntityUIDs;
+	std::set<UID> Scene::m_UpdatingComponentUIDs;
+
+	std::set<UID> Scene::m_MeshComponentUIDs;
+	std::set<UID> Scene::m_SkinnedMeshComponentUIDs;
+
+	std::set<UID> Scene::m_RenderableComponentUIDs;
+	std::set<UID> Scene::m_LitComponentUIDs;
+	std::set<UID> Scene::m_ShadowCastingComponentUIDs;
+	std::set<UID> Scene::m_TransparentComponentUIDs;
+	std::set<UID> Scene::m_UnLitComponentUIDs;
+
+	std::set<UID> Scene::m_PhysicsComponentUIDs;
 
 	glm::vec3 Scene::CalculateAmbientLightColor()
 	{
 		return m_SunLight->getDiffuse() * m_SunLight->getIntensity() * glm::vec3(.5f);
 	}
 
-	IEntity* Scene::GetEntity(std::string UID)
+	IEntity* Scene::GetEntity(UID const& UID)
 	{
 		if (m_Entities.find(UID) != m_Entities.end())
 		{
@@ -36,7 +46,7 @@ namespace Chroma
 		CHROMA_ERROR("SCENE :: Entity of UID : {0} , could not be found in scene!");
 	}
 
-	IComponent* Scene::GetComponent(std::string const& UID)
+	IComponent* Scene::GetComponent(UID const& UID)
 	{
 		if (m_Components.find(UID) != m_Components.end())
 		{
@@ -62,9 +72,9 @@ namespace Chroma
 	void Scene::PostSceneBuild()
 	{
 		// entities
-		for (std::string const& UID : m_EntityUIDs)
+		for (UID const& uid : m_EntityUIDs)
 		{
-			GetEntity(UID)->Init();
+			GetEntity(uid)->Init();
 		}
 	}
 
@@ -93,7 +103,7 @@ namespace Chroma
 	{
 	}
 
-	float Scene::GetEntityDistanceToCamera(std::string const& UID)
+	float Scene::GetEntityDistanceToCamera(UID const& UID)
 	{
 		return glm::length(GetEntity(UID)->GetTranslation() - m_RenderCamera->GetPosition());
 	}
@@ -114,6 +124,31 @@ namespace Chroma
 
 		// add component
 		m_Components[newMeshComponent->GetUID()] = newMeshComponent;
+
+		// check for rendering features
+		if (((MeshComponent*)newMeshComponent)->m_IsRenderable)
+			m_RenderableComponentUIDs.insert(newMeshComponent->GetUID());
+		if (((MeshComponent*)newMeshComponent)->m_IsLit && ((MeshComponent*)newMeshComponent)->m_IsTransparent == false)
+			m_LitComponentUIDs.insert(newMeshComponent->GetUID());
+		if (((MeshComponent*)newMeshComponent)->m_CastShadows)
+			m_ShadowCastingComponentUIDs.insert(newMeshComponent->GetUID());
+		if (((MeshComponent*)newMeshComponent)->m_IsTransparent)
+			m_TransparentComponentUIDs.insert(newMeshComponent->GetUID());
+		if (((MeshComponent*)newMeshComponent)->m_IsLit == false && ((MeshComponent*)newMeshComponent)->m_IsTransparent == false)
+			m_UnLitComponentUIDs.insert(newMeshComponent->GetUID());
+		if (((MeshComponent*)newMeshComponent)->m_IsTransparent)
+			m_TransparentComponentUIDs.insert(newMeshComponent->GetUID());
+		if (((MeshComponent*)newMeshComponent)->m_IsSkinned)
+			m_SkinnedMeshComponentUIDs.insert(newMeshComponent->GetUID());
+	}
+
+	void Scene::AddPhysicsComponent(IComponent* const& newPhysicsComponent)
+	{
+		// collect component UID
+		m_PhysicsComponentUIDs.insert(newPhysicsComponent->GetUID());
+
+		// add component
+		m_Components[newPhysicsComponent->GetUID()] = newPhysicsComponent;
 	}
 
 	void Scene::RemoveLight(Light& RemoveLight)

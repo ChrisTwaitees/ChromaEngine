@@ -11,6 +11,7 @@
 
 // chroma
 #include <shader/Shader.h>
+#include <uid/UID.h>
 
 
 struct Joint
@@ -35,7 +36,7 @@ struct Joint
 class Skeleton
 {
 	int m_RootJointID{ 0 };
-	std::string m_ParentComponentUID;
+	UID m_ParentComponentUID;
 	std::map<std::pair<int, std::string>, Joint> m_Joints;
 
 	glm::mat4 m_RootTransform{ glm::mat4(1.0) };
@@ -79,7 +80,7 @@ public:
 	bool GetJointExists(std::string const& jointName) const;
 
 	// Functions
-	void SetParentComponentUID(std::string const& parentComponentUID) { m_ParentComponentUID = parentComponentUID; };
+	void SetParentComponentUID(UID const& parentComponentUID) { m_ParentComponentUID = parentComponentUID; };
 	void SetJointUniforms(Shader& skinnedShader);
 	void CalculateLocalBindOffset(int const& jointID, glm::mat4 const& parentTransform);
 	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);

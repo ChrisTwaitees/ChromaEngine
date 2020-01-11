@@ -21,17 +21,28 @@ namespace Chroma
 		static std::vector<Light*> m_Lights;
 
 		// Entities
-		static std::map<std::string, IEntity*> m_Entities;
+		static std::map<UID, IEntity*> m_Entities;
 #
 		// Components
-		static std::map<std::string, IComponent*> m_Components;
+		static std::map<UID, IComponent*> m_Components;
 
 		// UIDs
-		static std::set<std::string> m_EntityUIDs;
-		static std::set<std::string> m_TransparentEntityUIDs;
-		static std::set<std::string> m_AnimatedEntityUIDs;
-		static std::set<std::string> m_UpdatingComponentUIDs;
-		static std::set<std::string> m_MeshComponentUIDs;
+		// entities
+		static std::set<UID> m_EntityUIDs;
+		static std::set<UID> m_TransparentEntityUIDs;
+		static std::set<UID> m_AnimatedEntityUIDs;
+		// components
+		static std::set<UID> m_UpdatingComponentUIDs;
+		static std::set<UID> m_PhysicsComponentUIDs;
+
+		static std::set<UID> m_MeshComponentUIDs;
+		static std::set<UID> m_SkinnedMeshComponentUIDs;
+
+		static std::set<UID> m_RenderableComponentUIDs;
+		static std::set<UID> m_LitComponentUIDs;
+		static std::set<UID> m_ShadowCastingComponentUIDs;
+		static std::set<UID> m_TransparentComponentUIDs;
+		static std::set<UID> m_UnLitComponentUIDs;
 
 		// render components
 		static Camera* m_RenderCamera;
@@ -50,11 +61,12 @@ namespace Chroma
 		static void AddAnimatedEntity(IEntity* const& newAnimatedEntity);
 		static void AddTransparentEntity(IEntity* const& newTransparentEntity);
 		static void RemoveEntity(IEntity& RemoveEntity);
-		static float GetEntityDistanceToCamera(std::string const& UID);
+		static float GetEntityDistanceToCamera(UID const& UID);
 
 		// updating components
 		static void AddUpdatingComponent(IComponent* const& newUpdatingComponent);
 		static void AddMeshComponent(IComponent* const& newMeshComponent);
+		static void AddPhysicsComponent(IComponent* const& newPhysicsComponent);
 
 		// lights
 		static void AddLight(Light* const& newLight) { m_Lights.push_back(newLight); };
@@ -68,17 +80,27 @@ namespace Chroma
 
 		// getters
 		// enitities
-		static IEntity* GetEntity(std::string UID);
+		static IEntity* GetEntity(UID const& UID);
 
-		static inline std::set<std::string>& GetEntityUIDs() { return m_EntityUIDs; }
-		static inline std::set<std::string>& GetTransparentEntityUIDs() { return m_TransparentEntityUIDs; }
-		static inline std::set<std::string>& GetAnimatedEntityUIDs() { return m_AnimatedEntityUIDs; }
+		static inline std::set<UID>& GetEntityUIDs() { return m_EntityUIDs; }
+		static inline std::set<UID>& GetTransparentEntityUIDs() { return m_TransparentEntityUIDs; }
+		static inline std::set<UID>& GetAnimatedEntityUIDs() { return m_AnimatedEntityUIDs; }
 
 		// components
-		static IComponent* GetComponent(std::string const& UID);
+		static IComponent* GetComponent(UID const& UID);
 
-		static inline std::set<std::string>& GetUpdatingComponentUIDs() {return m_UpdatingComponentUIDs; }
+		static inline std::set<UID>& GetUpdatingComponentUIDs() {return m_UpdatingComponentUIDs; }
 
+		static inline std::set<UID>& GetMeshComponentUIDs() { return m_MeshComponentUIDs; }
+		static inline std::set<UID>& GetSkinnedMeshComponentUIDs() { return m_SkinnedMeshComponentUIDs; }
+
+		static inline std::set<UID>& GetRenderableComponentUIDs() { return m_RenderableComponentUIDs; }
+		static inline std::set<UID>& GetLitComponentUIDs() { return m_LitComponentUIDs; }
+		static inline std::set<UID>& GetShadowCastingComponentUIDs() { return m_ShadowCastingComponentUIDs; }
+		static inline std::set<UID>& GetTransparentComponentUIDs() { return m_TransparentComponentUIDs; }
+		static inline std::set<UID>& GetUnlitComponentUIDs() { return m_UnLitComponentUIDs; }
+
+		static inline std::set<UID>& GetPhysicsComponentUIDs() { return m_PhysicsComponentUIDs; }
 		// Attrs
 		static Camera*& GetRenderCamera() { return m_RenderCamera; };
 		static std::vector<Light*>& GetLights() { return m_Lights; };

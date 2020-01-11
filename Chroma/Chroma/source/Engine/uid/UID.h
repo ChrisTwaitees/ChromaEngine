@@ -7,10 +7,16 @@
 #include <string>
 #include <ChromaConfig.h>
 
-namespace UID
+struct UID
 {
 	std::string GenerateNewUID();
-}
+public:
+	std::string data;
+	bool operator <(const UID& rhs) const;
+	UID();
+	~UID() {};
+};
+
 
 
 #endif

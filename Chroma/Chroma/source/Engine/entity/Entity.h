@@ -23,30 +23,11 @@ class Entity : public IEntity
 	void CalculateCentroid() override;
 
 	// Components
-	std::vector<IComponent*> m_Components;
-	std::vector<IComponent*> m_RenderableComponents;
-	std::vector<IComponent*> m_LitComponents;
-	std::vector<IComponent*> m_ShadowCastingComponents;
-	std::vector<IComponent*> m_TransparentComponents;
-	std::vector<IComponent*> m_UnLitComponents;
-
-	std::vector<IComponent*> m_MeshComponents;
-	std::vector<IComponent*> m_PhysicsComponents;
-	std::vector<IComponent*> m_AnimationComponents;
-	std::vector<IComponent*> m_CharacterControllerComponents;
-
-	// Components
-	void addEmptyComponent(IComponent*& newComponent) override;
-	void addMeshComponent(MeshComponent*& newMeshComponent) override;
-	void addPhysicsComponent(PhysicsComponent*& newPhysicsComponent) override;
-	void addAnimationComponent(AnimationComponent*& newAnimationComponent) override;
-	void addCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) override;
-
-	void removeEmptyComponent(IComponent*& newComponent) override;
-	void removeMeshComponent(MeshComponent*& newMeshComponent) override {};
-	void removePhysicsComponent(PhysicsComponent*& newPhysicsComponent) override {};
-	void removeAnimationComponent(AnimationComponent*& oldAnimationComponent) override {};
-	void removeCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) override {};
+	void AddComponent(IComponent*& newComponent) override;
+	void AddMeshComponent(MeshComponent*& newMeshComponent) override;
+	void AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent) override;
+	void AddAnimationComponent(AnimationComponent*& newAnimationComponent) override;
+	void AddCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) override;
 
 	// Components functions
 	void UpdatePhysicsComponentsTransforms();
@@ -58,22 +39,8 @@ class Entity : public IEntity
 	}
 
 public:
-	// components
-	std::vector<IComponent*> getComponents() { return m_Components; };
-	std::vector<IComponent*> getRenderableComponents() { return m_RenderableComponents; };
-	std::vector<IComponent*> GetLitComponents() { return m_LitComponents; };
-	std::vector<IComponent*> getShadowCastingComponents() { return m_ShadowCastingComponents; };
-	std::vector<IComponent*> GetTransparentComponents() { return m_TransparentComponents; };
-	std::vector<IComponent*> getUnlitComponents() { return m_UnLitComponents; };
-
-	std::vector<IComponent*> getMeshComponents() { return m_MeshComponents; };
-	std::vector<IComponent*> getPhysicsComponents() { return m_PhysicsComponents; };
-	std::vector<IComponent*> getAnimationComponents() { return m_AnimationComponents; };
-	std::vector<IComponent*> getCharacterControllerComponents() { return m_CharacterControllerComponents; };
-
 	// Transformations
 	// setting
-		// set
 	void SetTransform(glm::mat4 const& newTransformMat);
 	void SetScale(glm::vec3 const& newscale);
 	void SetTranslation(glm::vec3 const& newposition);
@@ -91,8 +58,8 @@ public:
 
 	// Draw
 	virtual void Draw(Shader& shader);
-	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights);
-	virtual void Draw(Camera& RenderCamera, std::vector<Light*> Lights);
+	virtual void Draw(Shader& shader, Camera& RenderCamera);
+	virtual void Draw(Camera& RenderCamera);
 
 	Entity();
 	~Entity();

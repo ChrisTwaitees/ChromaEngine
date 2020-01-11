@@ -9,7 +9,7 @@ namespace Chroma
 		Chroma::Physics::Update();
 
 		// Updating Components
-		for (std::string const& ComponentUID : Chroma::Scene::GetUpdatingComponentUIDs())
+		for (UID const& ComponentUID : Chroma::Scene::GetUpdatingComponentUIDs())
 		{
 			Chroma::Scene::GetComponent(ComponentUID)->Update();
 		}

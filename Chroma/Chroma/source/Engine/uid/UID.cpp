@@ -29,3 +29,13 @@ std::string UID::GenerateNewUID()
 {
 	return UIDNewUID();
 }
+
+bool UID::operator<(const UID& rhs) const
+{
+	return data < rhs.data;
+}
+
+UID::UID()
+{
+	data = GenerateNewUID();
+}

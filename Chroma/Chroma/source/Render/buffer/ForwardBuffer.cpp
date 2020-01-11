@@ -22,7 +22,6 @@ void ForwardBuffer::Initialize()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }	
 
-
 void ForwardBuffer::RenderForwardComponents()
 {
 	// attach current buffer and copy contents of postfx buffer
@@ -33,20 +32,14 @@ void ForwardBuffer::RenderForwardComponents()
 	Chroma::Scene::GetSkyBox()->Draw();
 
 	// Render Unlit Components
-	for (std::string const& UID : Chroma::Scene::GetEntityUIDs())
+	for (UID const& uid : Chroma::Scene::GetUnlitComponentUIDs())
 	{
 		// render unlit components
-		if (Chroma::Scene::GetEntity(UID)->getUnlitComponents().size() > 0)
-		{
-			glm::mat4 worldTransform = Chroma::Scene::GetEntity(UID)->GetTransform();
-			for (IComponent*& component : Chroma::Scene::GetEntity(UID)->getUnlitComponents())
-				((MeshComponent*)component)->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera(), worldTransform);
-		}
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
 	}
 
-	// Render Transparent Entities
-	if (Chroma::Scene::GetTransparentEntityUIDs().size() > 0)
-		RenderTransparency();
+	// Render Transparent Components
+	RenderTransparency();
 }
 
 void ForwardBuffer::RenderTransparency()
@@ -56,22 +49,21 @@ void ForwardBuffer::RenderTransparency()
 	// Disable Back Face Culling to allow interior of transparent objects to be seen
 	glDisable(GL_CULL_FACE);
 	// Sorting for Transparency Shading
-	std::map<float, std::string> alpha_sorted;
-	for (std::string const& UID : Chroma::Scene::GetTransparentEntityUIDs())
+	std::map<float, UID> alpha_sorted;
+	for (UID const& uid : Chroma::Scene::GetTransparentEntityUIDs())
 	{
-		float distance = Chroma::Scene::GetEntityDistanceToCamera(UID);
-		alpha_sorted[distance] = UID;
+		float distance = Chroma::Scene::GetEntityDistanceToCamera(uid);
+		alpha_sorted[distance] = uid;
 	}
 	// iterating from furthest to closest
-	for (std::map<float, std::string>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
+	for (std::map<float, UID>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
 	{
-		glm::mat4 worldTransform = Chroma::Scene::GetEntity(it->second)->GetTransform();
-		for (IComponent* component : Chroma::Scene::GetEntity(it->second)->GetTransparentComponents())
+		for (UID const& uid : Chroma::Scene::GetTransparentComponentUIDs())
 		{
-			if (((MeshComponent*)component)->m_IsForwardLit) // draw lit transparent components
-				((MeshComponent*)component)->Draw(*Chroma::Scene::GetRenderCamera(), Chroma::Scene::GetLights(), worldTransform);
+			if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsForwardLit) // draw lit transparent components
+				((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
 			else // draw unlit transparent components
-				((MeshComponent*)component)->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera(), worldTransform);
+				((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
 		}
 	}
 	// set to default blending

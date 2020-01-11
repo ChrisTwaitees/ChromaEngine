@@ -1,5 +1,5 @@
 #include "MeshComponent.h"
-
+#include <entity/IEntity.h>
 
 MeshComponent::MeshComponent()
 {
@@ -25,4 +25,9 @@ void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)
 	m_Scale = Chroma::Math::GetScale(newTransformMat);
 	m_Translation = Chroma::Math::GetTranslation(newTransformMat);
 	m_Rotation = Chroma::Math::GetQuatRotation(newTransformMat);
+}
+
+glm::mat4 MeshComponent::GetWorldTransform()
+{
+	return GetParentEntity()->GetTransform()* m_Transform;
 }

@@ -17,7 +17,7 @@ protected:
 	glm::vec3 m_Translation{ glm::vec3(0.0f) };
 	glm::quat m_Rotation{ glm::quat() };
 	glm::vec3 m_Scale{ glm::vec3(1.0f) };
-	virtual void RebuildTransform();
+	void RebuildTransform();
 	glm::vec3 m_BBoxMin{ 0.0 }, m_BBoxMax{ 0.0 };
 	glm::vec3 m_Centroid{ 0.0 };
 	// calculate attrs
@@ -35,6 +35,7 @@ public:
 
 	// transforms
 	// set
+	virtual glm::mat4 GetWorldTransform();
 	virtual void SetTransform(glm::mat4 const& newTransformMat);
 	virtual inline void SetScale(glm::vec3 const& newscale) { m_Scale = newscale; RebuildTransform(); }
 	virtual inline void SetTranslation(glm::vec3 const& newposition) { m_Translation = newposition; RebuildTransform(); }
@@ -45,7 +46,7 @@ public:
 	virtual glm::vec3 GetCentroid() = 0;
 	virtual Shader* GetShader() = 0;
 	virtual int GetNumTextures() = 0;
-	virtual glm::mat4 GetTransform() override { return m_Transform; };
+	virtual glm::mat4 GetTransform() { return m_Transform; };
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
 
 	virtual void SetShader(Shader* const& newShader) = 0;
@@ -54,10 +55,10 @@ public:
 
 	// Draw
 	virtual void Draw(Shader& shader) = 0;
-	virtual void Draw(Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) = 0;
-	virtual void Draw(Shader& shader, Camera& RenderCamera, std::vector<Light*> Lights, glm::mat4& transformMatrix) = 0;
+	virtual void Draw(Camera& RenderCamera) = 0;
+	virtual void Draw(Shader& shader, Camera& RenderCamera) = 0;
 	virtual void DrawUpdateMaterials(Shader& shader) = 0;
-	virtual void DrawUpdateTransforms(Camera& renderCam, glm::mat4& modelMatrix) = 0;
+	virtual void DrawUpdateTransforms(Camera& renderCam) = 0;
 
 	// Shader Uniforms
 	virtual void SetMat4(std::string name, glm::mat4 value) = 0;

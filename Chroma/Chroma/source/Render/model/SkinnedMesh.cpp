@@ -1,5 +1,6 @@
 #include "SkinnedMesh.h"
 #include <entity/IEntity.h>
+#include <content/ModelLoader.h>
 
 
 void SkinnedMesh::CalculateBBox()
@@ -59,10 +60,11 @@ void SkinnedMesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-glm::mat4 SkinnedMesh::GetTransform()
+glm::mat4 SkinnedMesh::GetWorldTransform()
 {
 	return GetParentEntity()->GetTransform();
 }
+
 
 std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
 {
@@ -112,6 +114,25 @@ SkinnedMesh::SkinnedMesh(MeshData const& newMeshData)
 	m_Textures = newMeshData.textures;
 	// Build Mesh
 	SetupMesh();
+}
+
+SkinnedMesh::SkinnedMesh(std::string const& sourcePath)
+{
+	MeshData newMeshData = Chroma::ModelLoader::Load(sourcePath)[0];
+	// Renderables
+	m_IsRenderable = true;
+	m_IsSkinned = true;
+	// Skeleton
+	m_Skeleton = newMeshData.skeleton;
+	m_Skeleton.SetParentComponentUID(m_UID);
+	// Verts
+	m_SkinnedVertices = newMeshData.skinnedVerts;
+	m_Indices = newMeshData.indices;
+	// Textures
+	m_Textures = newMeshData.textures;
+	// Build Mesh
+	SetupMesh();
+
 }
 
 
