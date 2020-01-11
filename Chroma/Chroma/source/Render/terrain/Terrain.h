@@ -18,6 +18,7 @@ public:
 	void setTerrainHeight(double newTerrainHeight);
 	double getTerrainHeight() { return TerrainHeight; };
 	
+	glm::mat4 GetWorldTransform() override;
 	glm::mat4 GetTransform() override;
 
 	Terrain();

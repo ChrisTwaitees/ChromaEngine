@@ -14,10 +14,12 @@ class AnimationComponent : public IComponent
 	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
 
 public:
+	virtual void Init() override;
+	virtual void Update()override;
+	virtual void Destroy() override;
 
 	void AddAnimator(Animator const& newAnimator) { m_Animators.push_back(newAnimator); };
 
-	void Update();
 	AnimationComponent();
 	~AnimationComponent();
 };

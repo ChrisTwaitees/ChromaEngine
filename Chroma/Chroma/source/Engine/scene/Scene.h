@@ -32,11 +32,14 @@ namespace Chroma
 		static std::set<UID> m_TransparentEntityUIDs;
 		static std::set<UID> m_AnimatedEntityUIDs;
 		// components
-		static std::set<UID> m_UpdatingComponentUIDs;
+		static std::set<UID> m_ComponentUIDs;
 		static std::set<UID> m_PhysicsComponentUIDs;
 
 		static std::set<UID> m_MeshComponentUIDs;
 		static std::set<UID> m_SkinnedMeshComponentUIDs;
+
+		static std::set<UID> m_AnimationComponentUIDs;
+		static std::set<UID> m_CharacterControllerUIDs;
 
 		static std::set<UID> m_RenderableComponentUIDs;
 		static std::set<UID> m_LitComponentUIDs;
@@ -64,7 +67,8 @@ namespace Chroma
 		static float GetEntityDistanceToCamera(UID const& UID);
 
 		// updating components
-		static void AddUpdatingComponent(IComponent* const& newUpdatingComponent);
+		static void AddAnimationComponent(IComponent* const& newAnimationComponent);
+		static void AddCharacterControllerComponent(IComponent* const& newCharacterControllerComponent);
 		static void AddMeshComponent(IComponent* const& newMeshComponent);
 		static void AddPhysicsComponent(IComponent* const& newPhysicsComponent);
 
@@ -89,10 +93,11 @@ namespace Chroma
 		// components
 		static IComponent* GetComponent(UID const& UID);
 
-		static inline std::set<UID>& GetUpdatingComponentUIDs() {return m_UpdatingComponentUIDs; }
-
 		static inline std::set<UID>& GetMeshComponentUIDs() { return m_MeshComponentUIDs; }
 		static inline std::set<UID>& GetSkinnedMeshComponentUIDs() { return m_SkinnedMeshComponentUIDs; }
+
+		static inline std::set<UID>& GetAnimationComponentUIDs() { return m_AnimationComponentUIDs; }
+		static inline std::set<UID>& GetCharacterControllerUIDs() { return m_CharacterControllerUIDs; }
 
 		static inline std::set<UID>& GetRenderableComponentUIDs() { return m_RenderableComponentUIDs; }
 		static inline std::set<UID>& GetLitComponentUIDs() { return m_LitComponentUIDs; }

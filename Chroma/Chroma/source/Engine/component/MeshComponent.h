@@ -24,6 +24,12 @@ protected:
 	virtual void CalculateBBox() = 0;
 	virtual void CalculateCentroid() = 0;
 public:
+	// Functions
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Destroy() override;
+
+	// attrs
 	bool m_IsRenderable{ false };
 	bool m_IsTransparent{ false };
 	bool m_IsLit{ true };

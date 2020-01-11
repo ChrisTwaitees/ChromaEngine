@@ -33,9 +33,12 @@ protected:
 	void CalculateTransform();
 
 public:
+	// Functions
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Destroy() override;
 
 	virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
-	virtual void Update() override;
 
 	CharacterControllerComponent();
 	virtual ~CharacterControllerComponent();

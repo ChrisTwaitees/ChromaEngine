@@ -73,11 +73,6 @@ void Entity::AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
 	// add physics component
 	m_PhysicsComponentUIDs.push_back(newPhysicsComponent->GetUID());
 
-	// build rigidBody
-	newPhysicsComponent->BuildRigidBody();
-
-	// add rigid body to physics world
-	Chroma::Physics::AddBodyToWorld(newPhysicsComponent);
 }
 
 void Entity::AddAnimationComponent(AnimationComponent*& newAnimationComponent)
@@ -89,7 +84,7 @@ void Entity::AddAnimationComponent(AnimationComponent*& newAnimationComponent)
 	m_AnimationComponentUIDs.push_back(newAnimationComponent->GetUID());
 
 	// add to updating components
-	Chroma::Scene::AddUpdatingComponent(newAnimationComponent);
+	Chroma::Scene::AddAnimationComponent(newAnimationComponent);
 
 	// add to self to animated entities
 	Chroma::Scene::AddAnimatedEntity(this);
@@ -104,7 +99,7 @@ void Entity::AddCharacterControllerComponent(CharacterControllerComponent*& newC
 	m_CharacterControllerComponentUIDs.push_back(newCharacterControllerComponent->GetUID());
 
 	// add to updating components
-	Chroma::Scene::AddUpdatingComponent(newCharacterControllerComponent);
+	Chroma::Scene::AddCharacterControllerComponent(newCharacterControllerComponent);
 }
 
 void Entity::CalculateBBox()
@@ -176,6 +171,22 @@ void Entity::Rotate(float degrees, glm::vec3 rotationaxis)
 {
 	m_Transform = glm::rotate(m_Transform, glm::radians(degrees), rotationaxis);
 	UpdatePhysicsComponentsTransforms();
+}
+
+void Entity::Update()
+{
+	CHROMA_TRACE("Entity : {0} Updating.", m_UID.data);
+}
+
+void Entity::Destroy()
+{
+	CHROMA_TRACE("Entity : {0} Destroyed.", m_UID.data);
+}
+
+void Entity::Init()
+{
+	CalculateBBox();
+	CHROMA_TRACE("Entity : {0} Initialized.", m_UID.data);
 }
 
 void Entity::SetTransform(glm::mat4 const& newTransformMat)

@@ -148,6 +148,15 @@ void Model::LoadModel(std::string path)
 
 }
 
+void Model::Init()
+{
+	// set entity UID to all meshes under model
+	for (UID const& uid : m_MeshUIDs)
+	{
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetParentEntityUID(GetParentEntityUID());
+	}
+}
+
 
 Model::~Model()
 {

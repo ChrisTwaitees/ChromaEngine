@@ -21,7 +21,10 @@ protected:
 	UID m_ParentEntityUID;
 
 public:
-	virtual void Update() {};
+	// Functions
+	virtual void Init() = 0;
+	virtual void Update() = 0;
+	virtual void Destroy() = 0;
 	// Acessors
 	UID GetUID() const { return m_UID; };
 
@@ -29,6 +32,7 @@ public:
 	void SetName(std::string newName) { m_Name = newName; };
 
 	IEntity* GetParentEntity() const;
+	UID GetParentEntityUID() const;
 	virtual void SetParentEntityUID(UID const& newParentEntityUID) { m_ParentEntityUID = newParentEntityUID; }
 
 	IComponent();

@@ -16,13 +16,19 @@ namespace Chroma
 	std::map<UID, IComponent*> Scene::m_Components;
 
 	// UIDs
+	//entities
 	std::set<UID> Scene::m_EntityUIDs;
 	std::set<UID> Scene::m_TransparentEntityUIDs;
 	std::set<UID> Scene::m_AnimatedEntityUIDs;
-	std::set<UID> Scene::m_UpdatingComponentUIDs;
+
+	//components
+	std::set<UID> Scene::m_ComponentUIDs;
 
 	std::set<UID> Scene::m_MeshComponentUIDs;
 	std::set<UID> Scene::m_SkinnedMeshComponentUIDs;
+
+	std::set<UID> Scene::m_AnimationComponentUIDs;
+	std::set<UID> Scene::m_CharacterControllerUIDs;
 
 	std::set<UID> Scene::m_RenderableComponentUIDs;
 	std::set<UID> Scene::m_LitComponentUIDs;
@@ -55,7 +61,6 @@ namespace Chroma
 		CHROMA_ERROR("SCENE :: Component of UID : {0} , could not be found in scene!");
 	}
 
-
 	void Scene::Init()
 	{
 		// init members
@@ -72,10 +77,11 @@ namespace Chroma
 	void Scene::PostSceneBuild()
 	{
 		// entities
-		for (UID const& uid : m_EntityUIDs)
-		{
-			GetEntity(uid)->Init();
-		}
+		for (UID const& entityUID : m_EntityUIDs)
+			GetEntity(entityUID)->Init();
+		// components
+		for (UID const& componentUID : m_ComponentUIDs)
+			GetComponent(componentUID)->Init();
 	}
 
 	void Scene::AddEntity(IEntity* const& newEntity)
@@ -108,17 +114,36 @@ namespace Chroma
 		return glm::length(GetEntity(UID)->GetTranslation() - m_RenderCamera->GetPosition());
 	}
 
-	void Scene::AddUpdatingComponent(IComponent* const& newUpdatingComponent)
+
+	void Scene::AddAnimationComponent(IComponent* const& newAnimationComponent)
 	{
+		// add to global component UIDs
+		m_ComponentUIDs.insert(newAnimationComponent->GetUID());
+
 		// collect component UID
-		m_UpdatingComponentUIDs.insert(newUpdatingComponent->GetUID());
+		m_AnimationComponentUIDs.insert(newAnimationComponent->GetUID());
 
 		// add component
-		m_Components[newUpdatingComponent->GetUID()] = newUpdatingComponent;
+		m_Components[newAnimationComponent->GetUID()] = newAnimationComponent;
+	}
+
+	void Scene::AddCharacterControllerComponent(IComponent* const& newCharacterControllerComponent)
+	{
+		// add to global component UIDs
+		m_ComponentUIDs.insert(newCharacterControllerComponent->GetUID());
+
+		// collect component UID
+		m_CharacterControllerUIDs.insert(newCharacterControllerComponent->GetUID());
+
+		// add component
+		m_Components[newCharacterControllerComponent->GetUID()] = newCharacterControllerComponent;
 	}
 
 	void Scene::AddMeshComponent(IComponent* const& newMeshComponent)
 	{
+		// add to global component UIDs
+		m_ComponentUIDs.insert(newMeshComponent->GetUID());
+
 		// collect component UID
 		m_MeshComponentUIDs.insert(newMeshComponent->GetUID());
 
@@ -144,6 +169,9 @@ namespace Chroma
 
 	void Scene::AddPhysicsComponent(IComponent* const& newPhysicsComponent)
 	{
+		// add to global component UIDs
+		m_ComponentUIDs.insert(newPhysicsComponent->GetUID());
+
 		// collect component UID
 		m_PhysicsComponentUIDs.insert(newPhysicsComponent->GetUID());
 

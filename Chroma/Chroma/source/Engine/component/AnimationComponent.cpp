@@ -10,12 +10,23 @@ void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float
 }
 
 
+void AnimationComponent::Init()
+{
+	CHROMA_TRACE("AnimationComponent : {0} Initialized.", m_UID.data);
+}
+
 void AnimationComponent::Update()
 {
+	CHROMA_TRACE("AnimationComponent : {0} Updating.", m_UID.data);
 	for (Animator& animator : m_Animators)
 	{
 		animator.DoAnimation();
 	}
+}
+
+void AnimationComponent::Destroy()
+{
+	CHROMA_TRACE("AnimationComponent : {0} Destroyed.", m_UID.data);
 }
 
 AnimationComponent::AnimationComponent()

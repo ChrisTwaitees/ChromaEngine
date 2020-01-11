@@ -19,6 +19,21 @@ void MeshComponent::RebuildTransform()
 	m_Transform = Chroma::Math::BuildMat4(m_Translation, m_Rotation, m_Scale);
 }
 
+void MeshComponent::Init()
+{
+	CHROMA_TRACE("Mesh Component : {0} Initialized.", m_UID.data);
+}
+
+void MeshComponent::Update()
+{
+	CHROMA_TRACE("Mesh Component : {0} Updating.", m_UID.data);
+}
+
+void MeshComponent::Destroy()
+{
+	CHROMA_TRACE("Mesh Component : {0} Destroyed.", m_UID.data);
+}
+
 void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)
 {
 	m_Transform = newTransformMat;
@@ -29,5 +44,5 @@ void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)
 
 glm::mat4 MeshComponent::GetWorldTransform()
 {
-	return GetParentEntity()->GetTransform()* m_Transform;
+	return GetParentEntity()->GetTransform() * GetTransform();
 }

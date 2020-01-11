@@ -39,6 +39,10 @@ class Entity : public IEntity
 	}
 
 public:
+	// Functions
+	virtual void Init();
+	virtual void Update();
+	virtual void Destroy();
 	// Transformations
 	// setting
 	void SetTransform(glm::mat4 const& newTransformMat);

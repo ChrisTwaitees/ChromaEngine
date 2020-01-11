@@ -17,9 +17,3 @@ void IEntity::SetTransform(glm::mat4 const& newTransformMat)
 	m_Translation = Chroma::Math::GetTranslation(newTransformMat);
 	m_Rotation = Chroma::Math::GetQuatRotation(newTransformMat);
 }
-
-void IEntity::Init()
-{
-	CalculateBBox();
-	CHROMA_TRACE("Entity : {0} Initialized.", m_UID.data);
-}

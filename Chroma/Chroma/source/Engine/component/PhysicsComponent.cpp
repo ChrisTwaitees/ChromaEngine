@@ -1,4 +1,5 @@
 #include "PhysicsComponent.h"
+#include <physics/PhysicsEngine.h>
 #include <entity/IEntity.h>
 #include <math/Math.h>
 
@@ -165,6 +166,26 @@ void PhysicsComponent::SetCollisionFlags()
 		SetCollisionState(Dynamic);
 		//m_RigidBody->setMotionState();
 	}
+}
+
+void PhysicsComponent::Init()
+{
+	// build rigidBody
+	BuildRigidBody();
+
+   // add rigid body to physics world
+	Chroma::Physics::AddBodyToWorld(m_RigidBody);
+	CHROMA_TRACE("PhysicsComponent : {0} Initialized.", m_UID.data);
+}
+
+void PhysicsComponent::Update()
+{
+	CHROMA_TRACE("PhysicsComponent : {0} Updating.", m_UID.data);
+}
+
+void PhysicsComponent::Destroy()
+{
+	CHROMA_TRACE("PhysicsComponent : {0} Destroyed.", m_UID.data);
 }
 
 

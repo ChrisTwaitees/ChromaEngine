@@ -105,9 +105,9 @@ namespace Chroma
 		m_World->setGravity(btVector3(m_Gravity.x, m_Gravity.y, m_Gravity.z));
 	}
 
-	void Physics::AddBodyToWorld(PhysicsComponent*& physicsComponent)
+	void Physics::AddBodyToWorld(btRigidBody*& rigidBody)
 	{
-		m_World->addRigidBody(physicsComponent->GetRigidBody());
+		m_World->addRigidBody(rigidBody);
 	}
 
 

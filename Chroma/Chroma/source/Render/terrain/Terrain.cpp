@@ -1,4 +1,5 @@
 #include "Terrain.h"
+#include <entity/IEntity.h>
 
 void Terrain::Initialize()
 {
@@ -13,6 +14,11 @@ void Terrain::Initialize()
 void Terrain::setTerrainHeight(double newTerrainHeight)
 {
 	TerrainTransformMatrix = glm::translate(TerrainIdentityMatrix, glm::vec3(0.0f, newTerrainHeight, 0.0f));
+}
+
+glm::mat4 Terrain::GetWorldTransform()
+{
+	return GetParentEntity()->GetTransform() * TerrainTransformMatrix;
 }
 
 glm::mat4 Terrain::GetTransform()

@@ -29,6 +29,8 @@ class Model : public MeshComponent
 	void LoadModel(std::string path);
 
 public:
+	virtual void Init() override;
+
 	// Draw
 	void Draw(Shader& shader) override;
 	void Draw(Camera& RenderCamera) override;

@@ -243,7 +243,7 @@ void Skeleton::SetJointUniforms(Shader& skinnedShader)
 {
 	for (auto const& IDNameJoint : m_Joints)
 	{
-		glm::mat4 WorldSpaceOffset = GetRootTransform() * IDNameJoint.second.m_ModelSpaceTransform * IDNameJoint.second.m_ModelInverseBindTransform;
+		glm::mat4 WorldSpaceOffset =  IDNameJoint.second.m_ModelSpaceTransform * IDNameJoint.second.m_ModelInverseBindTransform;
 		std::string jntUniformName = "aJoints[" + std::to_string(IDNameJoint.first.first) + "]";
 		skinnedShader.SetUniform(jntUniformName, WorldSpaceOffset);
 	}

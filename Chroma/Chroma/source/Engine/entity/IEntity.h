@@ -57,8 +57,9 @@ protected:
 
 public:
 	// Init
-	virtual void Init();
-
+	virtual void Update() = 0;
+	virtual void Init() = 0;
+	virtual void Destroy() = 0;
 	// Name
 	UID GetUID() const { return m_UID; };
 	std::string GetName() const { return m_Name; };

@@ -38,6 +38,10 @@ class PhysicsComponent :	public IComponent
 	void SetCollisionFlags();
 
 public:
+	// Functions
+	void Init() override;
+	void Update() override;
+	void Destroy() override;
 
 	void BuildRigidBody();
 	void Transform(btTransform& transform);
