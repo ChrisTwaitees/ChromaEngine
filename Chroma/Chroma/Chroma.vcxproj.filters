@@ -315,6 +315,9 @@
     <ClCompile Include="source\Engine\content\AnimationCompression.cpp">
       <Filter>Engine\content</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\animation\IStateMachine.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -532,6 +535,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\model\MeshData.h">
       <Filter>Render\model\mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\IStateMachine.h">
+      <Filter>Engine\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

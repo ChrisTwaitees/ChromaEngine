@@ -150,7 +150,7 @@ void Entity::UpdatePhysicsComponentsTransforms()
 void Entity::ProcessNewComponent(IComponent* const& newComponent)
 {
 	// bind parent entity
-	SetParentEntity(newComponent);
+	SetParentEntityUID(newComponent);
 }
 
 

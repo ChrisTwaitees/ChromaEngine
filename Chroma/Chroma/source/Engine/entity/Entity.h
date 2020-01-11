@@ -34,7 +34,7 @@ class Entity : public IEntity
 	void ProcessNewComponent(IComponent* const& newComponent);
 
 	template<class ComponentClass>
-	void SetParentEntity(ComponentClass component) {
+	void SetParentEntityUID(ComponentClass component) {
 		component->SetParentEntityUID(m_UID);
 	}
 

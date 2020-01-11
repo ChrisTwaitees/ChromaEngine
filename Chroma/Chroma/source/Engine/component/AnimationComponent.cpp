@@ -1,5 +1,5 @@
 #include "AnimationComponent.h"
-
+#include <entity/IEntity.h>
 
 void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float const& debugTime)
 {
@@ -13,6 +13,10 @@ void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float
 void AnimationComponent::Init()
 {
 	CHROMA_TRACE("AnimationComponent : {0} Initialized.", m_UID.data);
+	for (UID const& uid : GetParentEntity()->getCharacterControllerComponentUIDs())
+	{
+		SetCharacterControllerComponentUID(uid);
+	}
 }
 
 void AnimationComponent::Update()

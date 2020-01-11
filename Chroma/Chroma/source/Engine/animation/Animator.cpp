@@ -1,5 +1,7 @@
 #include "Animator.h"
 #include <model/SkinnedMesh.h>
+#include <scene/Scene.h>
+#include <component/CharacterControllerComponent.h>
 
 void Animator::PlayTake(std::string const& takeName, float const& normalizedTime)
 {
@@ -125,11 +127,13 @@ void Animator::Update()
 {
 	if (m_Skeleton == nullptr)
 	{
-		CHROMA_WARN("ANIMATOR ERROR:: No Skeleton Found, cannot perform animation!");
+		CHROMA_ERROR("ANIMATOR ERROR:: No Skeleton Found, cannot perform animation!");
 		return;
 	}
 
 	PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
+
+	//CHROMA_INFO(((CharacterControllerComponent*)Chroma::Scene::GetComponent(m_CharacterControllerComponentUID))->GetPlayerPosition().x);
 }
 
 void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)

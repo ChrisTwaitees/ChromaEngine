@@ -18,13 +18,11 @@ void CharacterControllerComponent::Init()
 {
 	m_Scale = GetParentEntity()->GetScale();
 	m_Position = GetParentEntity()->GetTranslation();
-	// attach to any animators found
-	for (UID const& animUID : GetParentEntity()->getAnimationComponentUIDs())
-	{
-		((AnimationComponent*)Chroma::Scene::GetComponent(animUID))->SetCharacterControllerComponentUID(m_UID);
-		CHROMA_TRACE("Character Controller Setting Animator CharacterController Component to UID : {0}.", m_UID.data);
-	}
-	CHROMA_TRACE("CharacterController Component : {0} Initialized.", m_UID.data);
+	//// attach to any animators found
+	//for (UID const& animUID : GetParentEntity()->getAnimationComponentUIDs())
+	//{
+	//	((AnimationComponent*)Chroma::Scene::GetComponent(animUID))->SetCharacterControllerComponentUID(m_UID);
+	//}
 }
 
 void CharacterControllerComponent::Update()
