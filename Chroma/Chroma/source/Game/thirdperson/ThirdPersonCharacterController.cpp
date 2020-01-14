@@ -142,7 +142,8 @@ void ThirdPersonCharacterController::ProcessMovement()
 	m_Position += m_Force;
 
 	// prevent falling into the abyss
-	m_Position.y = glm::max(m_Position.y, 1.5f);
+	m_Position.y = glm::max(m_Position.y, 1.0f);
+	m_Position.y -= 1.05f;
 
 	// player rotation
 	float degreesRotated = Chroma::Math::DegreesBetweenVectors2D(CHROMA_FORWARD, m_PlayerHeading);

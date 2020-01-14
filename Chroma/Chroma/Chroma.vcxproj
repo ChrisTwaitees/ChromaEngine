@@ -193,6 +193,7 @@
     <ClCompile Include="source\Engine\engine\Engine.cpp" />
     <ClCompile Include="source\Engine\entity\Entity.cpp" />
     <ClCompile Include="source\Engine\entity\IEntity.cpp" />
+    <ClCompile Include="source\Engine\event\EventSystem.cpp" />
     <ClCompile Include="source\Engine\input\Input.cpp" />
     <ClCompile Include="source\Engine\logging\Log.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp" />
@@ -263,6 +264,7 @@
     <ClInclude Include="source\Engine\engine\Engine.h" />
     <ClInclude Include="source\Engine\entity\Entity.h" />
     <ClInclude Include="source\Engine\entity\IEntity.h" />
+    <ClInclude Include="source\Engine\event\EventSystem.h" />
     <ClInclude Include="source\Engine\input\Input.h" />
     <ClInclude Include="source\Engine\logging\Log.h" />
     <ClInclude Include="source\Engine\math\Math.h" />

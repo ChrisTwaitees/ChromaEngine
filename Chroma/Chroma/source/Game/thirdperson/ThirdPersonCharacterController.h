@@ -51,7 +51,7 @@ class ThirdPersonCharacterController : public CharacterControllerComponent
 
 	// Collisions
 	bool m_HitGround{ true };
-	float m_CollisionCheckDist{0.5f };
+	float m_CollisionCheckDist{0.1f };
 
 	// Functions
 	void ProcessCurrentFrame();

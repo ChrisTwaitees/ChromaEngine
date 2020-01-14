@@ -124,6 +124,7 @@ int main()
 	AnimModelEntity->SetName("AnimationModel");
 	Chroma::Scene::AddEntity(AnimModelEntity);
 	AnimModelEntity->SetScale(glm::vec3(0.06));
+	AnimModelEntity->SetTranslation(glm::vec3(0.0, 10.0,0.0));
 	// mesh
 	MeshComponent* AnimModelMeshComponent = new SkinnedMesh("resources/animation/vampire.fbx");
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
@@ -205,32 +206,34 @@ int main()
 
 	// SPHERES
 	// Sphere Positions
-	//glm::vec3 spherePositions[] = {
-	//	glm::vec3(0.f,  1.0f,  0.0f),
-	//	glm::vec3(2.5f,  1.0f,  0.0f),
-	//	glm::vec3(5.0f,  1.0f,  0.0f)
-	//};
+	glm::vec3 spherePositions[] = {
+		glm::vec3(0.f,  1.0f,  0.0f),
+		glm::vec3(2.5f,  1.0f,  0.0f),
+		glm::vec3(5.0f,  1.0f,  0.0f),
+		glm::vec3(-2.5f,  1.0f,  0.0f),
+		glm::vec3(-5.0f,  1.0f,  0.0f),
+	};
 
-	//
-	//for (int i =0; i < 3; i++ )
-	//{
-	//	IEntity* SphereEntity = new Entity;
-	//	Chroma::Scene::AddEntity(SphereEntity);
-	//	SphereEntity->SetName("Sphere");
-	//	MeshComponent* SphereMeshComponent = new SpherePrimitive();
-	//	PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
-	//	SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
-	//	SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
-	//	SphereRigidComponent->SetMass(1.0f);
-	//	SphereRigidComponent->SetFriction(3.0f);
-	//	//SphereMeshComponent->AddTexture(sandyNormal);
-	//	SphereMeshComponent->AddTexture(greyAlbedo);
-	//	SphereMeshComponent->SetShader(&PBRShader);
-	//	SphereEntity->SetTranslation(spherePositions[i]);
-	//	SphereEntity->AddComponent(SphereMeshComponent);
-	//	SphereEntity->AddComponent(SphereRigidComponent);
-	//}
-	//// ____________________________________________________
+	
+	for (int i =0; i < 5; i++ )
+	{
+		IEntity* SphereEntity = new Entity;
+		Chroma::Scene::AddEntity(SphereEntity);
+		SphereEntity->SetName("Sphere");
+		MeshComponent* SphereMeshComponent = new SpherePrimitive();
+		PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
+		SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
+		SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
+		SphereRigidComponent->SetMass(1.0f);
+		SphereRigidComponent->SetFriction(3.0f);
+		//SphereMeshComponent->AddTexture(sandyNormal);
+		SphereMeshComponent->AddTexture(greyAlbedo);
+		SphereMeshComponent->SetShader(&PBRShader);
+		SphereEntity->SetTranslation(spherePositions[i]);
+		SphereEntity->AddComponent(SphereMeshComponent);
+		SphereEntity->AddComponent(SphereRigidComponent);
+	}
+	// ____________________________________________________
 	//
 	//// CUBES
 	//// ____________________________________________________

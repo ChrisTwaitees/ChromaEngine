@@ -124,6 +124,9 @@
     <Filter Include="Engine\content">
       <UniqueIdentifier>{3fb27a9d-cbc6-4326-88a4-e587d6baaa6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\event">
+      <UniqueIdentifier>{3a7332c2-e8d4-4bd8-b586-ec133dd234ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -317,6 +320,9 @@
     </ClCompile>
     <ClCompile Include="source\Engine\animation\IStateMachine.cpp">
       <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\event\EventSystem.cpp">
+      <Filter>Engine\event</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -538,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\animation\IStateMachine.h">
       <Filter>Engine\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\event\EventSystem.h">
+      <Filter>Engine\event</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
