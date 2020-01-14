@@ -8,7 +8,7 @@
 namespace Chroma
 {
 	class EventSystem
-	{
+	{ 
 	};
 }
 
