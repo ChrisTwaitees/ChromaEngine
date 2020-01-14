@@ -14,6 +14,7 @@
 // chroma
 #include <camera/Camera.h>
 #include <common/CoreCommon.h>
+#include <input/MouseCodes.h>
 
 
 class Camera;

@@ -15,4 +15,7 @@
 // Workers
 #include <worker/IWorker.h>
 
+// bit shifting
+#define BIT(x) (1 << x)
+
 #endif

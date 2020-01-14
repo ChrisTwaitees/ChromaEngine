@@ -321,9 +321,6 @@
     <ClCompile Include="source\Engine\animation\IStateMachine.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\event\EventSystem.cpp">
-      <Filter>Engine\event</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -545,7 +542,19 @@
     <ClInclude Include="source\Engine\animation\IStateMachine.h">
       <Filter>Engine\animation</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\event\EventSystem.h">
+    <ClInclude Include="source\Engine\event\Event.h">
+      <Filter>Engine\event</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\event\ApplicationEvent.h">
+      <Filter>Engine\event</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\event\KeyEvent.h">
+      <Filter>Engine\event</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\input\MouseCodes.h">
+      <Filter>Engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\event\MouseEvent.h">
       <Filter>Engine\event</Filter>
     </ClInclude>
   </ItemGroup>
