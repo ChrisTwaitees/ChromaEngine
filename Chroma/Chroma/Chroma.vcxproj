@@ -194,6 +194,7 @@
     <ClCompile Include="source\Engine\entity\Entity.cpp" />
     <ClCompile Include="source\Engine\entity\IEntity.cpp" />
     <ClCompile Include="source\Engine\input\Input.cpp" />
+    <ClCompile Include="source\Engine\jobsystem\JobSystem.cpp" />
     <ClCompile Include="source\Engine\logging\Log.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp" />
@@ -201,7 +202,6 @@
     <ClCompile Include="source\Engine\screen\Screen.cpp" />
     <ClCompile Include="source\Engine\time\Time.cpp" />
     <ClCompile Include="source\Engine\uid\UID.cpp" />
-    <ClCompile Include="source\Engine\worker\IWorker.cpp" />
     <ClCompile Include="source\Game\Game.cpp" />
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCameraController.cpp" />
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCharacterController.cpp" />
@@ -269,6 +269,7 @@
     <ClInclude Include="source\Engine\event\MouseEvent.h" />
     <ClInclude Include="source\Engine\input\Input.h" />
     <ClInclude Include="source\Engine\input\MouseCodes.h" />
+    <ClInclude Include="source\Engine\jobsystem\JobSystem.h" />
     <ClInclude Include="source\Engine\logging\Log.h" />
     <ClInclude Include="source\Engine\math\Math.h" />
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
@@ -278,7 +279,6 @@
     <ClInclude Include="source\Engine\screen\Screen.h" />
     <ClInclude Include="source\Engine\time\Time.h" />
     <ClInclude Include="source\Engine\uid\UID.h" />
-    <ClInclude Include="source\Engine\worker\IWorker.h" />
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCameraController.h" />
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCharacterController.h" />
     <ClInclude Include="source\Render\buffer\DebugBuffer.h" />

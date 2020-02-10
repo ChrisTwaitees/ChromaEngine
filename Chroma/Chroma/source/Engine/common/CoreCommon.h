@@ -13,7 +13,7 @@
 #include <time/Time.h>
 
 // Workers
-#include <worker/IWorker.h>
+#include <jobSystem/JobSystem.h>
 
 // bit shifting
 #define BIT(x) (1 << x)

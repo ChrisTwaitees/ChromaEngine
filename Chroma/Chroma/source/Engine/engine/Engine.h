@@ -10,6 +10,7 @@
 #include <gui/GUI.h>
 #include <physics/PhysicsEngine.h>
 #include <input/Input.h>
+#include <jobSystem/JobSystem.h>
 
 
 namespace Chroma
@@ -18,6 +19,7 @@ namespace Chroma
 	{
 		// game loop functions
 		static void Update();
+		static void UpdateComponents();
 		static void ProcessInput();
 		static void Draw();
 

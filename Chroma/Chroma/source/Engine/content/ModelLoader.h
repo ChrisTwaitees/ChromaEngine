@@ -10,6 +10,7 @@
 // chroma
 #include <math/Math.h>
 #include <model/MeshData.h>
+#include <jobSystem/JobSystem.h>
 
 namespace Chroma {
 	class ModelLoader

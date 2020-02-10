@@ -11,6 +11,7 @@
 #include <buffer/PostFXBuffer.h>
 #include <buffer/DebugBuffer.h>
 #include <buffer/ForwardBuffer.h>
+#include <jobsystem/JobSystem.h>
 
 namespace Chroma
 {

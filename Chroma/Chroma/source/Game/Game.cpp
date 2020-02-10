@@ -7,7 +7,6 @@
 // chroma
 #include <engine/engine.h>
 
-
 #include <entity/Entity.h>
 #include <terrain/Terrain.h>
 #include <component/AnimationComponent.h>

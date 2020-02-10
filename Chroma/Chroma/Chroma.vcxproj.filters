@@ -82,14 +82,8 @@
     <Filter Include="Render\model\skybox">
       <UniqueIdentifier>{d2af5228-224d-45d4-af53-121e7e8d4cb0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\worker">
-      <UniqueIdentifier>{715fa53f-0e2f-4d97-8641-fcc9f1463a67}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Render\model\mesh">
       <UniqueIdentifier>{1e30206c-bb5f-4af6-8418-7a1b233dd0d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Engine\memory">
-      <UniqueIdentifier>{e1388c38-c673-4d55-9ee4-767c39ff7017}</UniqueIdentifier>
     </Filter>
     <Filter Include="Engine\uid">
       <UniqueIdentifier>{2d2902b3-1bbc-49e8-8323-3955b516950a}</UniqueIdentifier>
@@ -126,6 +120,12 @@
     </Filter>
     <Filter Include="Engine\event">
       <UniqueIdentifier>{3a7332c2-e8d4-4bd8-b586-ec133dd234ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\jobsystem">
+      <UniqueIdentifier>{715fa53f-0e2f-4d97-8641-fcc9f1463a67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\memory">
+      <UniqueIdentifier>{e1388c38-c673-4d55-9ee4-767c39ff7017}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -258,9 +258,6 @@
     <ClCompile Include="source\Engine\component\AnimationComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\worker\IWorker.cpp">
-      <Filter>Engine\worker</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\scene\Scene.cpp">
       <Filter>Engine\scene</Filter>
     </ClCompile>
@@ -320,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="source\Engine\animation\IStateMachine.cpp">
       <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\jobsystem\JobSystem.cpp">
+      <Filter>Engine\jobsystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -482,9 +482,6 @@
     <ClInclude Include="source\Engine\component\AnimationComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\worker\IWorker.h">
-      <Filter>Engine\worker</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\scene\Scene.h">
       <Filter>Engine\scene</Filter>
     </ClInclude>
@@ -556,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\event\MouseEvent.h">
       <Filter>Engine\event</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\jobsystem\JobSystem.h">
+      <Filter>Engine\jobsystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

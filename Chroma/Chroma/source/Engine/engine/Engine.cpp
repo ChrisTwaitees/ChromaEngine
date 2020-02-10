@@ -8,19 +8,26 @@ namespace Chroma
 		// Physics
 		Chroma::Physics::Update();
 
-		// Updating Components
-		for (UID const& ComponentUID : Chroma::Scene::GetAnimationComponentUIDs())
-		{
-			Chroma::Scene::GetComponent(ComponentUID)->Update();
-		}
+		// Update Components
+		UpdateComponents();
 
-		for (UID const& ComponentUID : Chroma::Scene::GetCharacterControllerUIDs())
-		{
-			Chroma::Scene::GetComponent(ComponentUID)->Update();
-		}
+	}
 
-		// Workers
-		IWorker::DoWork();
+	void Engine::UpdateComponents()
+	{
+		// Animation Components
+		Chroma::JobSystem::Execute([] {
+			for (UID const& ComponentUID : Chroma::Scene::GetAnimationComponentUIDs()) 
+			{
+				Chroma::Scene::GetComponent(ComponentUID)->Update();
+			}});
+
+		// Character Controller Components
+		Chroma::JobSystem::Execute([] {
+			for (UID const& ComponentUID : Chroma::Scene::GetCharacterControllerUIDs())
+			{
+				Chroma::Scene::GetComponent(ComponentUID)->Update();
+			}});
 	}
 
 	void Engine::Draw()
@@ -47,13 +54,14 @@ namespace Chroma
 		// consider Sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
 
 		// Render Scene
+		Chroma::JobSystem::Wait();
 		Draw();
 	}
 
 	void Engine::Init()
 	{
+		// Logging
 		Chroma::Log::Init();
-
 		CHROMA_INFO("------------------------------------------");
 		CHROMA_INFO("Chroma Engine Initializing...");
 		CHROMA_INFO("------------------------------------------");
@@ -61,17 +69,21 @@ namespace Chroma
 		// Core
 		Chroma::Core::Init();
 
+
+		// Job System
+		Chroma::JobSystem::Initialize();
+
 		// Scene
 		Chroma::Scene::Init();
 		CHROMA_INFO("Scene Initialized.");
 
 		// Input
-		Chroma::Input::Init();
+		Chroma::JobSystem::Execute(Chroma::Input::Init);
 		Chroma::Input::BindCamera(Chroma::Scene::GetRenderCamera());
 		CHROMA_INFO("Input Initialized.");
 
 		// Time
-		Chroma::Time::Init();
+		Chroma::JobSystem::Execute(Chroma::Time::Init);
 		CHROMA_INFO("Time Initialized.");
 
 		// Renderer
@@ -79,11 +91,12 @@ namespace Chroma
 		CHROMA_INFO("Renderer Initialized.");
 
 		// GUI
-		Chroma::GUI::Init();
+		Chroma::JobSystem::Execute(Chroma::GUI::Init);
 		CHROMA_INFO("GUI Initialized.");
 
 		// PhysicsEngine
-		Chroma::Physics::Init();
+		Chroma::JobSystem::Execute(Chroma::Physics::Init);
+		Chroma::JobSystem::Wait();
 		Chroma::Physics::BindDebugBuffer(Chroma::Render::GetDebugBuffer());
 		CHROMA_INFO("Physics Initialized.");
 
