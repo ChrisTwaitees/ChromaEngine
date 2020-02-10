@@ -32,7 +32,6 @@ namespace Chroma
 			else
 			{
 				timer -= m_Delta;
-				CHROMA_INFO("Number of timers : {0}", m_Timers.size());
 			}
 		}
 	}
