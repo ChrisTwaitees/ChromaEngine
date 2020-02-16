@@ -122,15 +122,13 @@ int main()
 	HeadMeshComponent->AddTexture(headTranslucency);
 	HumanEntity->AddComponent(HeadMeshComponent);
 
-	//// Eyelashes 
-	//MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
-	//EyelashesMeshComponent->SetShader(&PBRShader);
-	//HumanEntity->AddComponent(EyelashesMeshComponent);
+	// Eyelashes 
+	MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
+	HumanEntity->AddComponent(EyelashesMeshComponent);
 
-	//// Eyebrows
-	//MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
-	//EyebrowsMeshComponent->SetShader(&PBRShader);
-	//HumanEntity->AddComponent(EyebrowsMeshComponent);
+	// Eyebrows
+	MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
+	HumanEntity->AddComponent(EyebrowsMeshComponent);
 
 	HumanEntity->SetScale(glm::vec3(100.0f));
 
