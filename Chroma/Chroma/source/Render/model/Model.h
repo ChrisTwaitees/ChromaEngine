@@ -19,10 +19,10 @@ public:
 	virtual void Init() override;
 
 	// Draw
-	void Draw(Shader& shader) override;
+	void Draw(Shader const& shader) override;
 	void Draw(Camera& RenderCamera) override;
-	void Draw(Shader& shader, Camera& RenderCamera) override;
-	void DrawUpdateMaterials(Shader& shader) override;
+	void Draw(Shader const& shader, Camera& RenderCamera) override;
+	void DrawUpdateMaterials(Shader const& shader) override;
 	void DrawUpdateTransforms(Camera& renderCam) override;
 
 	// Accessors	
@@ -30,8 +30,8 @@ public:
 	glm::vec3 GetCentroid();
 
 	// render components
-	Shader* GetShader();
-	void SetShader(Shader* const& newShader) override;
+	Shader& GetShader();
+	void SetShader(Shader const& shader) override;
 	int GetNumTextures() override { return (int)m_Textures.size(); };
 	std::vector<UID>& GetMeshUIDs() { return m_MeshUIDs; }
 	// verts

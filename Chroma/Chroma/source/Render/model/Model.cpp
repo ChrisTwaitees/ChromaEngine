@@ -5,7 +5,7 @@
 
 
 // DRAW
-void Model::Draw(Shader &shader)
+void Model::Draw(Shader const& shader)
 {
 	for (UID const& uid : m_MeshUIDs)
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(shader);
@@ -17,13 +17,13 @@ void Model::Draw(Camera& RenderCamera)
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(RenderCamera);
 }
 
-void Model::Draw(Shader& shader, Camera& RenderCamera)
+void Model::Draw(Shader const& shader, Camera& RenderCamera)
 {
 	for (UID const& uid : m_MeshUIDs)
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(shader, RenderCamera);
 }
 
-void Model::DrawUpdateMaterials(Shader& shader)
+void Model::DrawUpdateMaterials(Shader const& shader)
 {
 	for (UID const& uid : m_MeshUIDs)
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(shader);
@@ -35,16 +35,16 @@ void Model::DrawUpdateTransforms(Camera& renderCam)
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(renderCam);
 }
 
-Shader* Model::GetShader()
+Shader& Model::GetShader()
 {
 	for (UID const& uid : m_MeshUIDs)
 		return ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetShader();
 }
 
-void Model::SetShader(Shader* const& newShader)
+void Model::SetShader(Shader const& shader)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetShader(newShader);
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetShader(shader);
 }
 
 // BBOX

@@ -105,7 +105,7 @@ int main()
 
 	// Jacket
 	MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
-	JacketMeshComponent->SetShader(&PBRShader);
+	JacketMeshComponent->SetShader(PBRShader);
 	JacketMeshComponent->AddTexture(jacketAlbedo);
 	JacketMeshComponent->AddTexture(jacketNormal);
 	JacketMeshComponent->AddTexture(jacketMetRoughAO);
@@ -115,7 +115,7 @@ int main()
 	MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");
 	HeadMeshComponent->SetIsForwardLit(true);
 	HeadMeshComponent->SetIsLit(false);
-	HeadMeshComponent->SetShader(&PBRShader);
+	HeadMeshComponent->SetShader(PBRShader);
 	HeadMeshComponent->AddTexture(headAlbedo);
 	HeadMeshComponent->AddTexture(headNormal);
 	HeadMeshComponent->AddTexture(headMetRoughAO);

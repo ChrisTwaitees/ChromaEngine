@@ -46,20 +46,20 @@ public:
 	// Accessors
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
 	virtual glm::vec3 GetCentroid() = 0;
-	virtual Shader* GetShader() = 0;
+	virtual Shader& GetShader() = 0;
 	virtual int GetNumTextures() = 0;
 	virtual glm::mat4 GetTransform() { return m_Transform; };
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
 
-	virtual void SetShader(Shader* const& newShader) = 0;
+	virtual void SetShader(Shader const& shader) = 0;
 	virtual void SetTextures(std::vector<Texture> textures_val) = 0;
 	virtual void AddTexture(Texture texture_val) = 0;
 
 	// Draw
-	virtual void Draw(Shader& shader) = 0;
+	virtual void Draw(Shader const& shader) = 0;
 	virtual void Draw(Camera& RenderCamera) = 0;
-	virtual void Draw(Shader& shader, Camera& RenderCamera) = 0;
-	virtual void DrawUpdateMaterials(Shader& shader) = 0;
+	virtual void Draw(Shader const& shader, Camera& RenderCamera) = 0;
+	virtual void DrawUpdateMaterials(Shader const& shader) = 0;
 	virtual void DrawUpdateTransforms(Camera& renderCam) = 0;
 
 	// Shader Uniforms

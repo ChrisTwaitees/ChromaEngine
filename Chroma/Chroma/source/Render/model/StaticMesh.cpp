@@ -61,15 +61,15 @@ void StaticMesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-void StaticMesh::UpdateUniforms(const Shader* updateShader, Camera& RenderCam)
+void StaticMesh::UpdateUniforms(Shader const& shader, Camera& RenderCam)
 {
-	UpdateTransformUniforms(updateShader, RenderCam);
-	UpdateMaterialUniforms(updateShader);
-	updateTextureUniforms(updateShader);
-	UpdateLightingUniforms(updateShader, RenderCam);
+	UpdateTransformUniforms(shader, RenderCam);
+	UpdateMaterialUniforms(shader);
+	updateTextureUniforms(shader);
+	UpdateLightingUniforms(shader, RenderCam);
 }
 
-void StaticMesh::UpdateLightingUniforms(const Shader*& shader, Camera& renderCam)
+void StaticMesh::UpdateLightingUniforms(Shader const& shader, Camera& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
@@ -96,10 +96,10 @@ void StaticMesh::UpdateLightingUniforms(const Shader*& shader, Camera& renderCam
 			break;
 		}
 		// lights directional
-		shader->SetVec3(lightIndex + ".direction", Chroma::Scene::GetLights()[i]->GetDirection());
-		shader->SetVec3(lightIndex + ".position", Chroma::Scene::GetLights()[i]->GetPosition());
-		shader->SetVec3(lightIndex + ".diffuse", Chroma::Scene::GetLights()[i]->getDiffuse());
-		shader->SetFloat(lightIndex + ".intensity", Chroma::Scene::GetLights()[i]->getIntensity());
+		shader.SetVec3(lightIndex + ".direction", Chroma::Scene::GetLights()[i]->GetDirection());
+		shader.SetVec3(lightIndex + ".position", Chroma::Scene::GetLights()[i]->GetPosition());
+		shader.SetVec3(lightIndex + ".diffuse", Chroma::Scene::GetLights()[i]->getDiffuse());
+		shader.SetFloat(lightIndex + ".intensity", Chroma::Scene::GetLights()[i]->getIntensity());
 		////// lights spotlight
 		//shader->SetFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
 		//shader->SetFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
@@ -109,14 +109,14 @@ void StaticMesh::UpdateLightingUniforms(const Shader*& shader, Camera& renderCam
 		//shader->SetFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
 		//shader->SetFloat(lightIndex + ".radius", Lights[i]->getRadius());
 		// lights view pos
-		shader->SetVec3("viewPos", renderCam.GetPosition());
+		shader.SetVec3("viewPos", renderCam.GetPosition());
 	}
 }
 
-void StaticMesh::updateTextureUniforms(const Shader* shader)
+void StaticMesh::updateTextureUniforms(Shader const& shader)
 {
 	// UV Modifiers
-	shader->SetVec2("UVMultiply", m_UVMultiply);
+	shader.SetVec2("UVMultiply", m_UVMultiply);
 
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
@@ -140,7 +140,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 				name = "material.texture_albedo";
 				texturenum = std::to_string(diffuseNr++);
 				// set use texture albedo
-				shader->SetBool("UseAlbedoMap", true);
+				shader.SetBool("UseAlbedoMap", true);
 				break;
 			}
 		case Texture::NORMAL:
@@ -148,7 +148,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 				name = "material.texture_normal";
 				texturenum = std::to_string(normalNr++);
 				// set use texture normals
-				shader->SetBool("UseNormalMap", true);
+				shader.SetBool("UseNormalMap", true);
 				break;
 			}
 		case Texture::METROUGHAO:
@@ -156,7 +156,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 				name = "material.texture_MetRoughAO";
 				texturenum = std::to_string(metroughaoNr++);
 				// set use texture metroughao
-				shader->SetBool("UseMetRoughAOMap", true);
+				shader.SetBool("UseMetRoughAOMap", true);
 				break;
 			}
 		case Texture::METALNESS:
@@ -190,7 +190,7 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		// Bind Texture
 		glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID);
 		// Set Unitform
-		shader->SetInt(( name + texturenum).c_str(), i);
+		shader.SetInt(( name + texturenum).c_str(), i);
 	}
 
 	if (m_IsForwardLit)
@@ -200,40 +200,40 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 
 }
 
-void StaticMesh::UpdatePBRLightingTextureUniforms(const Shader*& shader)
+void StaticMesh::UpdatePBRLightingTextureUniforms(Shader const& shader)
 {
 	// Irradiance
 	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 1);
-	shader->SetInt("irradianceMap", m_Textures.size() + 1);
+	shader.SetInt("irradianceMap", m_Textures.size() + 1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetIrradianceMapID());
 	// Prefilter Map
 	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 2);
-	shader->SetInt("prefilterMap", m_Textures.size() + 2);
+	shader.SetInt("prefilterMap", m_Textures.size() + 2);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetPrefilterMapID());
 	// BRDF LUT
 	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 3);
-	shader->SetInt("brdfLUT", m_Textures.size() + 3);
+	shader.SetInt("brdfLUT", m_Textures.size() + 3);
 	glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->GetBRDFLUTID());
 }
 
-void StaticMesh::UpdateTransformUniforms(const Shader* shader, Camera& renderCam)
+void StaticMesh::UpdateTransformUniforms(Shader const& shader, Camera& renderCam)
 {
-	shader->SetMat4("model", GetWorldTransform());
-	shader->SetMat4("view", renderCam.GetViewMatrix());
-	shader->SetMat4("projection", renderCam.GetProjectionMatrix());
+	shader.SetMat4("model", GetWorldTransform());
+	shader.SetMat4("view", renderCam.GetViewMatrix());
+	shader.SetMat4("projection", renderCam.GetProjectionMatrix());
 }
 
-void StaticMesh::UpdateMaterialUniforms(const Shader* shader)
+void StaticMesh::UpdateMaterialUniforms(Shader const& shader)
 {
-	shader->SetFloat("roughness", 0.4f);
-	shader->SetVec3("color", glm::vec4(1, 0, 0, 0.5));
-	shader->SetFloat("metalness", 0.0f);
-	shader->SetBool("UseAlbedoMap", false);
-	shader->SetBool("UseNormalMap", false);
-	shader->SetBool("UseMetRoughAOMap", false);
+	shader.SetFloat("roughness", 0.4f);
+	shader.SetVec3("color", glm::vec4(1, 0, 0, 0.5));
+	shader.SetFloat("metalness", 0.0f);
+	shader.SetBool("UseAlbedoMap", false);
+	shader.SetBool("UseNormalMap", false);
+	shader.SetBool("UseMetRoughAOMap", false);
 }
 
-void StaticMesh::Draw(Shader &shader)
+void StaticMesh::Draw(Shader const& shader)
 {
 	shader.Use();
 	// draw mesh
@@ -242,29 +242,29 @@ void StaticMesh::Draw(Shader &shader)
 
 void StaticMesh::Draw(Camera& RenderCamera)
 {
-	m_shader->Use();
+	m_shader.Use();
 	UpdateUniforms(m_shader, RenderCamera);
 	BindDrawVAO();
 }
 
-void StaticMesh::Draw(Shader& shader, Camera& RenderCamera)
+void StaticMesh::Draw(Shader const& shader, Camera& RenderCamera)
 {
 	shader.Use();
-	UpdateUniforms(&shader, RenderCamera);
+	UpdateUniforms(shader, RenderCamera);
 	BindDrawVAO();
 }
 
-void StaticMesh::DrawUpdateMaterials(Shader& shader)
+void StaticMesh::DrawUpdateMaterials(Shader const& shader)
 {
 	shader.Use();
-	UpdateMaterialUniforms(&shader);
-	updateTextureUniforms(&shader);
+	UpdateMaterialUniforms(shader);
+	updateTextureUniforms(shader);
 	BindDrawVAO();
 }
 
 void StaticMesh::DrawUpdateTransforms(Camera& renderCam)
 {
-	m_shader->Use();
+	m_shader.Use();
 	UpdateTransformUniforms(m_shader, renderCam);
 	BindDrawVAO();
 }
@@ -276,11 +276,6 @@ void StaticMesh::BindDrawVAO()
 	glBindVertexArray(0); // reset to default
 }
 
-
-void StaticMesh::SetShader(Shader* const& newShader)
-{
-	m_shader = newShader;
-}
 
 void StaticMesh::SetTextures(std::vector<Texture> textures_val)
 {
@@ -333,20 +328,20 @@ glm::vec3 StaticMesh::GetCentroid()
 
 void StaticMesh::SetMat4(std::string name, glm::mat4 value)
 {
-	m_shader->Use();
-	m_shader->SetMat4(name, value);
+	m_shader.Use();
+	m_shader.SetMat4(name, value);
 }
 
 void StaticMesh::SetInt(std::string name, int value)
 {
-	m_shader->Use();
-	m_shader->SetInt(name, value);
+	m_shader.Use();
+	m_shader.SetInt(name, value);
 }
 
 void StaticMesh::SetFloat(std::string name, float value)
 {
-	m_shader->Use();
-	m_shader->SetFloat(name, value);
+	m_shader.Use();
+	m_shader.SetFloat(name, value);
 }
 
 StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
@@ -376,5 +371,4 @@ StaticMesh::StaticMesh()
 
 StaticMesh::~StaticMesh()
 {
-	delete m_shader;
 }

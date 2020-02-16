@@ -196,7 +196,7 @@ int main2()
 	IEntity* TerrainEntity = new Entity;
 	Chroma::Scene::AddEntity(TerrainEntity);
 	MeshComponent* TerrainMeshComponent = new Terrain;
-	TerrainMeshComponent->SetShader(&PBRShader);
+	TerrainMeshComponent->SetShader(PBRShader);
 	TerrainMeshComponent->AddTexture(gridAlbedo);
 	TerrainMeshComponent->AddTexture(flatNormal);
 	TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
@@ -230,7 +230,7 @@ int main2()
 		SphereRigidComponent->SetFriction(3.0f);
 		//SphereMeshComponent->AddTexture(sandyNormal);
 		SphereMeshComponent->AddTexture(greyAlbedo);
-		SphereMeshComponent->SetShader(&PBRShader);
+		SphereMeshComponent->SetShader(PBRShader);
 		SphereEntity->SetTranslation(spherePositions[i]);
 		SphereEntity->AddComponent(SphereMeshComponent);
 		SphereEntity->AddComponent(SphereRigidComponent);
