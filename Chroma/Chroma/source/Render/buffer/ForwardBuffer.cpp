@@ -1,4 +1,5 @@
 #include "ForwardBuffer.h"
+#include <render/Render.h>
 
 void ForwardBuffer::Initialize()
 {
@@ -41,8 +42,11 @@ void ForwardBuffer::RenderForwardComponents()
 	// Render Forward Lit Components
 	for (UID const& uid : Chroma::Scene::GetForwardLitComponentUIDs())
 	{
+		// update the light view matrix
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetMat4("lightSpaceMatrix", Chroma::Render::GetLightSpaceMatrix());
 		// render forward lit components
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
+
 	}
 
 	// Render Transparent Components

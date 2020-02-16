@@ -7,14 +7,13 @@
 // chroma
 #include <engine/engine.h>
 #include <resources/ResourceManager.h>
+#include <terrain/Terrain.h>
 
 #include <entity/Entity.h>
 #include <model/SkinnedMesh.h>
 
 
-// CONSTS
-const float SUNLIGHT_SPIN_SPEED = .8f;
-const float SUNLIGHT_DISTANCE = 15.0f;
+
 
 
 int main()
@@ -30,6 +29,9 @@ int main()
 	// LIGHTS
 	// ____________________________________________________
 
+	// CONSTS
+	const float SUNLIGHT_SPIN_SPEED = .8f;
+	const float SUNLIGHT_DISTANCE = 15.0f;
 	// POINT LIGHTS
 	std::vector<Light*> Lights;
 
@@ -63,6 +65,7 @@ int main()
 	IEntity* HumanEntity = new Entity;
 	HumanEntity->SetName("Human Model");
 	Chroma::Scene::AddEntity(HumanEntity);
+	HumanEntity->SetScale(glm::vec3(40.0f));
 
 	// ____________________________________________________
 	// SHADERS
@@ -76,10 +79,10 @@ int main()
 	// ____________________________________________________
 
 	//// Default
-	//Texture greyAlbedo("resources/textures/colors/grey.jpg");
-	//Texture whiteAlbedo("resources/textures/colors/white.jpg");
-	//Texture flatNormal("resources/textures/test/flat_normal.jpg");
-	//flatNormal.type = Texture::NORMAL;
+	// Generic
+	Texture greyAlbedo("resources/textures/colors/grey.jpg");
+	Texture gridAlbedo("resources/animation/textures/grid.jpg");
+	Texture flatNormal("resources/textures/test/flat_normal.jpg");
 
 	// Jacket
 	Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
@@ -89,7 +92,7 @@ int main()
 	Texture jacketMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/jacket/MetRoughAO.jpg");
 	jacketMetRoughAO.type = Texture::METROUGHAO;
 
-	//// Head
+	// Head
 	Texture headAlbedo = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_albedo.jpg");
 	headAlbedo.type = Texture::ALBEDO;
 	Texture headNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_normal.jpg");
@@ -98,6 +101,7 @@ int main()
 	headMetRoughAO.type = Texture::METROUGHAO;
 	Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
 	headTranslucency.type = Texture::TRANSLUCENCY;
+
 
 
 	// ____________________________________________________
@@ -123,6 +127,20 @@ int main()
 	HeadMeshComponent->AddTexture(headTranslucency);
 	HumanEntity->AddComponent(HeadMeshComponent);
 
+	// TERRAIN
+	// ____________________________________________________
+	IEntity* TerrainEntity = new Entity;
+	Chroma::Scene::AddEntity(TerrainEntity);
+	MeshComponent* TerrainMeshComponent = new Terrain;
+	TerrainMeshComponent->SetShader(PBRShader);
+	TerrainMeshComponent->AddTexture(gridAlbedo);
+	TerrainMeshComponent->AddTexture(flatNormal);
+	TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
+	TerrainEntity->AddComponent(TerrainMeshComponent);
+	TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));
+	// ____________________________________________________
+
+
 	// Eyelashes 
 	Chroma::JobSystem::Wait();
 	MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
@@ -132,7 +150,7 @@ int main()
 	MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
 	HumanEntity->AddComponent(EyebrowsMeshComponent);
 
-	HumanEntity->SetScale(glm::vec3(100.0f));
+
 
 	Chroma::Scene::PostSceneBuild();
 

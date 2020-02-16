@@ -12,11 +12,24 @@
 #include <buffer/DebugBuffer.h>
 #include <buffer/ForwardBuffer.h>
 #include <jobsystem/JobSystem.h>
+#include <glm/glm.hpp>
 
 namespace Chroma
 {
 	class Render
 	{
+	public:
+
+		// INITIALIZE
+		static void Init();
+		static void RenderScene();
+
+		static DebugBuffer*& GetDebugBuffer() { return m_DebugBuffer; };
+		static glm::mat4 GetLightSpaceMatrix();
+
+		static void BindShadowMaps();
+	private:
+
 		// Start of Frame
 		static void CleanUp();
 
@@ -50,13 +63,7 @@ namespace Chroma
 		// Graphics Debug Buffer
 		static IFramebuffer* m_GraphicsDebugBuffer;
 
-		// INITIALIZE
-	public:
 
-		static void Init();
-		static void RenderScene();
-
-		static DebugBuffer*& GetDebugBuffer() { return m_DebugBuffer; };
 
 	};
 }

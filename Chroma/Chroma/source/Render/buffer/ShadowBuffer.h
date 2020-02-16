@@ -39,6 +39,7 @@ public:
 
 	// calculate shadows
 	void DrawShadowMaps();
+	void BindShadowMaps();
 
 	// constructors
 	ShadowBuffer();

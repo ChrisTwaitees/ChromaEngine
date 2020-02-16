@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include <model/Model.h>
+#include <render/Render.h>
 
 namespace Chroma
 {
@@ -147,6 +148,9 @@ namespace Chroma
 		// timing
 		m_SceneBuildEndTime = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(m_SceneBuildEndTime - m_SceneBuildStartTime);
+
+		// shadowmap attachment
+		Chroma::Render::BindShadowMaps();
 
 		// Debug
 		CHROMA_INFO_UNDERLINE;

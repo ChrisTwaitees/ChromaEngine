@@ -225,6 +225,16 @@ void GBuffer::Draw()
 	m_PostFXBuffer->UnBind();
 }
 
+void GBuffer::BindShadownMaps()
+{
+	m_Shadowbuffer->BindShadowMaps();
+}
+
+glm::mat4 GBuffer::GetLightSpaceMatrix()
+{
+	return m_Shadowbuffer->getLightSpaceMatrix(); 
+}
+
 GBuffer::GBuffer(IFramebuffer*& PostFXBuffer)
 {
 	Initialize();

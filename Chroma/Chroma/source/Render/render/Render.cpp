@@ -136,6 +136,16 @@ namespace Chroma
 		CleanUp();
 	}
 
+	glm::mat4 Render::GetLightSpaceMatrix()
+	{
+		return ((GBuffer*)m_GBuffer)->GetLightSpaceMatrix();
+	}
+
+	void Render::BindShadowMaps()
+	{
+		((GBuffer*)m_GBuffer)->BindShadownMaps();
+	}
+
 }
 
 

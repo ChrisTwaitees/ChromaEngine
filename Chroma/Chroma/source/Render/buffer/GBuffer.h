@@ -55,6 +55,9 @@ public:
 	// functions
 	void Draw() override;
 
+	void BindShadownMaps();
+	glm::mat4 GetLightSpaceMatrix();
+
 	inline unsigned int GetPositionTexture() const { return gPosition; }
 	inline unsigned int GetAlbedoTexture() const { return gAlbedo; }
 	inline unsigned int GetNormalTexture() const { return gNormal; }

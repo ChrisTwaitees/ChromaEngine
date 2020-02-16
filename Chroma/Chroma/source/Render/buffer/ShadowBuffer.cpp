@@ -6,7 +6,7 @@ void ShadowBuffer::calcLightSpaceMatrix()
 	// calculate LightSpaceMatrix
 	float near_plane = 0.01f, far_plane = 50.0f;
 	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
-	glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetSunLight()->GetDirection() * -10.0f,
+	glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetSunLight()->GetDirection() * -20.0f,
 		glm::vec3(0.0f, 0.0f, 0.0f),
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	lightSpaceMatrix = lightProjection * lightView;
@@ -40,10 +40,9 @@ void ShadowBuffer::Initialize()
 
 	// shadow map texture type
 	ShadowMapTexture.type = Texture::SHADOWMAP;
-	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
-	{
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->AddTexture(ShadowMapTexture);
-	}
+
+	// Attach shadowmap to all shadowcasting elements in scene
+	BindShadowMaps();
 }
 
 
@@ -85,6 +84,14 @@ void ShadowBuffer::DrawShadowMaps()
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+}
+
+void ShadowBuffer::BindShadowMaps()
+{
+	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
+	{
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->AddTexture(ShadowMapTexture);
+	}
 }
 
 

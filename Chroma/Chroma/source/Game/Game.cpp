@@ -55,8 +55,8 @@ int main2()
 	Sun->setDiffuse(glm::vec3(1.0));
 	Sun->setIntensity(3.0);
 	Lights.push_back(Sun);
-
 	Chroma::Scene::SetLights(Lights);
+
 	// ____________________________________________________
 	// SHADERS
 	// ____________________________________________________

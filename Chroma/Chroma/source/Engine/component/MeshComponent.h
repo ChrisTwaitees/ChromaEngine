@@ -32,8 +32,8 @@ public:
 	inline bool& GetIsSkinned() { return m_IsSkinned; }
 	virtual void SetIsDoubleSided(bool const& check) { m_IsDoubleSided = check; };
 	inline bool& GetIsDoubleSided() { return m_IsDoubleSided; }
-	virtual void SetCastsShadows(bool const& check) { m_IsDoubleSided = check; };
-	inline bool& GetCastsShadows() { return m_IsDoubleSided; }
+	virtual void SetCastsShadows(bool const& check) { m_CastShadows = check; };
+	inline bool& GetCastsShadows() { return m_CastShadows; }
 
 	glm::vec2 m_UVMultiply{ 1.0 };
 
