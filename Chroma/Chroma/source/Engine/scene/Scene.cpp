@@ -39,6 +39,10 @@ namespace Chroma
 
 	std::set<UID> Scene::m_PhysicsComponentUIDs;
 
+	// timing
+	std::chrono::steady_clock::time_point Scene::m_SceneBuildStartTime;
+	std::chrono::steady_clock::time_point Scene::m_SceneBuildEndTime;
+
 	void Scene::ProcessMeshComponentRenderFlags(IComponent* const& newMeshComponent)
 	{
 		// check for rendering features
@@ -121,6 +125,17 @@ namespace Chroma
 		m_Skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
 	}
 
+	void Scene::PreSceneBuild()
+	{
+		// Debug
+		CHROMA_INFO_UNDERLINE;
+		CHROMA_INFO("CHROMA SCENE:: Scene Loading...");
+		CHROMA_INFO_UNDERLINE;
+
+		// timing
+		m_SceneBuildStartTime = std::chrono::high_resolution_clock::now();
+	}
+
 	void Scene::PostSceneBuild()
 	{
 		// entities
@@ -129,9 +144,14 @@ namespace Chroma
 		// components
 		for (UID const& componentUID : m_ComponentUIDs)
 			GetComponent(componentUID)->Init();
+		// timing
+		m_SceneBuildEndTime = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(m_SceneBuildEndTime - m_SceneBuildStartTime);
+
 		// Debug
 		CHROMA_INFO_UNDERLINE;
 		CHROMA_INFO("CHROMA SCENE:: Scene Successfully Loaded.");
+		CHROMA_INFO("CHROMA SCENE:: Scene Load Took : {0} seconds", (float)duration.count()/1000.0f);
 		CHROMA_INFO_UNDERLINE;
 	}
 
@@ -204,7 +224,6 @@ namespace Chroma
 		// process renderflags
 		if (Model* modelMeshComponent = dynamic_cast<Model*>(newMeshComponent))
 		{
-			std::cout << "found Model Component" << std::endl;
 			for (UID const& uid : modelMeshComponent->GetMeshUIDs())
 			{
 				ProcessMeshComponentRenderFlags(GetComponent(uid));
@@ -231,6 +250,7 @@ namespace Chroma
 
 	void Scene::RemoveLight(Light& RemoveLight)
 	{
+	
 	}
 
 	void Scene::SetLights(std::vector<Light*> newLights)

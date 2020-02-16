@@ -10,17 +10,26 @@
 #include <entity/Entity.h>
 #include <model/SkinnedMesh.h>
 
+
+// CONSTS
+const float SUNLIGHT_SPIN_SPEED = .8f;
+const float SUNLIGHT_DISTANCE = 15.0f;
+
+
+
+
 int main()
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();
 
-	// SCENE CONTENTS
+	// Initialize Scene
+	Chroma::Scene::PreSceneBuild();
+
+	// POPULATE SCENE CONTENTS
 	// ------------------------------------------------------------------------------------------
 	// LIGHTS
 	// ____________________________________________________
-	const float SUNLIGHT_SPIN_SPEED = .8f;
-	const float SUNLIGHT_DISTANCE = 15.0f;
 
 	// POINT LIGHTS
 	std::vector<Light*> Lights;
@@ -31,7 +40,7 @@ int main()
 		glm::vec3(0.5f,  0.2f,  -2.0f),
 		glm::vec3(-3.5f,  1.2f,  4.0f),
 	};
-	// dancing point lights
+	// point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		Light* pointLight = new Light(pos, Light::POINT);
@@ -46,16 +55,15 @@ int main()
 	Sun->setDiffuse(glm::vec3(1.0));
 	Sun->setIntensity(3.0);
 	Lights.push_back(Sun);
-
 	Chroma::Scene::SetLights(Lights);
 
 	// ____________________________________________________
 	// ENTITIES
 	// ____________________________________________________
 
-	IEntity* LookDevEntity = new Entity;
-	LookDevEntity->SetName("AnimationModel");
-	Chroma::Scene::AddEntity(LookDevEntity);
+	IEntity* HumanEntity = new Entity;
+	HumanEntity->SetName("Human Model");
+	Chroma::Scene::AddEntity(HumanEntity);
 
 	// ____________________________________________________
 	// SHADERS
@@ -73,7 +81,7 @@ int main()
 	Texture whiteAlbedo("resources/textures/colors/white.jpg");
 	Texture flatNormal("resources/textures/test/flat_normal.jpg");
 	flatNormal.type = Texture::NORMAL;
-	
+
 	// Jacket
 	Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
 	jacketAlbedo.type = Texture::ALBEDO;
@@ -103,8 +111,8 @@ int main()
 	JacketMeshComponent->AddTexture(jacketAlbedo);
 	JacketMeshComponent->AddTexture(jacketNormal);
 	JacketMeshComponent->AddTexture(jacketMetRoughAO);
-	LookDevEntity->AddComponent(JacketMeshComponent);
-	
+	HumanEntity->AddComponent(JacketMeshComponent);
+
 	// Head
 	MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");
 	HeadMeshComponent->SetIsForwardLit(true);
@@ -113,19 +121,20 @@ int main()
 	HeadMeshComponent->AddTexture(headAlbedo);
 	HeadMeshComponent->AddTexture(headNormal);
 	HeadMeshComponent->AddTexture(headMetRoughAO);
-	LookDevEntity->AddComponent(HeadMeshComponent);
+	HumanEntity->AddComponent(HeadMeshComponent);
 
 	// Eyelashes 
 	MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
 	EyelashesMeshComponent->SetShader(&PBRShader);
-	LookDevEntity->AddComponent(EyelashesMeshComponent);
+	HumanEntity->AddComponent(EyelashesMeshComponent);
 
 	// Eyebrows
 	MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
 	EyebrowsMeshComponent->SetShader(&PBRShader);
-	LookDevEntity->AddComponent(EyebrowsMeshComponent);
+	HumanEntity->AddComponent(EyebrowsMeshComponent);
 
-	LookDevEntity->SetScale(glm::vec3(100.0f));
+	HumanEntity->SetScale(glm::vec3(100.0f));
+
 	Chroma::Scene::PostSceneBuild();
 
 	// RENDER LOOP

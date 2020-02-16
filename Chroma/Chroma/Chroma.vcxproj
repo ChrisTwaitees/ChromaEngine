@@ -186,9 +186,6 @@
     <ClCompile Include="source\Engine\component\IComponent.cpp" />
     <ClCompile Include="source\Engine\component\MeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\PhysicsComponent.cpp" />
-    <ClCompile Include="source\Engine\content\AnimationCompression.cpp" />
-    <ClCompile Include="source\Engine\content\AnimationLoader.cpp" />
-    <ClCompile Include="source\Engine\content\ModelLoader.cpp" />
     <ClCompile Include="source\Engine\core\Core.cpp" />
     <ClCompile Include="source\Engine\engine\Engine.cpp" />
     <ClCompile Include="source\Engine\entity\Entity.cpp" />
@@ -198,6 +195,10 @@
     <ClCompile Include="source\Engine\logging\Log.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsEngine.cpp" />
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp" />
+    <ClCompile Include="source\Engine\resources\AnimationCompression.cpp" />
+    <ClCompile Include="source\Engine\resources\AnimationLoader.cpp" />
+    <ClCompile Include="source\Engine\resources\ModelLoader.cpp" />
+    <ClCompile Include="source\Engine\resources\TexureLoader.cpp" />
     <ClCompile Include="source\Engine\scene\Scene.cpp" />
     <ClCompile Include="source\Engine\screen\Screen.cpp" />
     <ClCompile Include="source\Engine\time\Time.cpp" />
@@ -257,9 +258,6 @@
     <ClInclude Include="source\Engine\component\MeshComponent.h" />
     <ClInclude Include="source\Engine\component\PhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IComponent.h" />
-    <ClInclude Include="source\Engine\content\AnimationCompression.h" />
-    <ClInclude Include="source\Engine\content\AnimationLoader.h" />
-    <ClInclude Include="source\Engine\content\ModelLoader.h" />
     <ClInclude Include="source\Engine\core\Core.h" />
     <ClInclude Include="source\Engine\engine\Engine.h" />
     <ClInclude Include="source\Engine\entity\Entity.h" />
@@ -276,6 +274,10 @@
     <ClInclude Include="source\Engine\memory\packed_freelist.h" />
     <ClInclude Include="source\Engine\physics\PhysicsEngine.h" />
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h" />
+    <ClInclude Include="source\Engine\resources\AnimationCompression.h" />
+    <ClInclude Include="source\Engine\resources\AnimationLoader.h" />
+    <ClInclude Include="source\Engine\resources\ModelLoader.h" />
+    <ClInclude Include="source\Engine\resources\TexureLoader.h" />
     <ClInclude Include="source\Engine\scene\Scene.h" />
     <ClInclude Include="source\Engine\screen\Screen.h" />
     <ClInclude Include="source\Engine\time\Time.h" />

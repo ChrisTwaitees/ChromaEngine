@@ -115,9 +115,6 @@
     <Filter Include="Render\render">
       <UniqueIdentifier>{027c84c1-8c2d-4b7a-85f6-a469b7e7f4f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\content">
-      <UniqueIdentifier>{3fb27a9d-cbc6-4326-88a4-e587d6baaa6f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\event">
       <UniqueIdentifier>{3a7332c2-e8d4-4bd8-b586-ec133dd234ab}</UniqueIdentifier>
     </Filter>
@@ -126,6 +123,12 @@
     </Filter>
     <Filter Include="Engine\memory">
       <UniqueIdentifier>{e1388c38-c673-4d55-9ee4-767c39ff7017}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scenes">
+      <UniqueIdentifier>{70328e1c-6f3f-4e69-a4a7-7ded12e31d6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\resources">
+      <UniqueIdentifier>{3fb27a9d-cbc6-4326-88a4-e587d6baaa6f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -306,20 +309,26 @@
     <ClCompile Include="source\Render\buffer\IFramebuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\content\AnimationLoader.cpp">
-      <Filter>Engine\content</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\content\ModelLoader.cpp">
-      <Filter>Engine\content</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\content\AnimationCompression.cpp">
-      <Filter>Engine\content</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\animation\IStateMachine.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\jobsystem\JobSystem.cpp">
       <Filter>Engine\jobsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Scenes\Human.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\AnimationCompression.cpp">
+      <Filter>Engine\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\AnimationLoader.cpp">
+      <Filter>Engine\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\ModelLoader.cpp">
+      <Filter>Engine\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\TexureLoader.cpp">
+      <Filter>Engine\resources</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -524,15 +533,6 @@
     <ClInclude Include="source\Render\buffer\IFramebuffer.h">
       <Filter>Render\buffer</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\content\AnimationLoader.h">
-      <Filter>Engine\content</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\content\ModelLoader.h">
-      <Filter>Engine\content</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\content\AnimationCompression.h">
-      <Filter>Engine\content</Filter>
-    </ClInclude>
     <ClInclude Include="source\Render\model\MeshData.h">
       <Filter>Render\model\mesh</Filter>
     </ClInclude>
@@ -556,6 +556,18 @@
     </ClInclude>
     <ClInclude Include="source\Engine\jobsystem\JobSystem.h">
       <Filter>Engine\jobsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\AnimationCompression.h">
+      <Filter>Engine\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\AnimationLoader.h">
+      <Filter>Engine\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\ModelLoader.h">
+      <Filter>Engine\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\TexureLoader.h">
+      <Filter>Engine\resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

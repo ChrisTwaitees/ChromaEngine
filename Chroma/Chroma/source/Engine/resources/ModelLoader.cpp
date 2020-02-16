@@ -79,7 +79,7 @@ namespace Chroma
 			normal.z = mesh->mNormals[i].z;
 
 			// tangents
-			glm::vec3 tangent;
+			glm::vec3 tangent{ 0.0f};
 			if ( mesh->mTangents != NULL)
 			{
 				tangent.x = mesh->mTangents[i].x;
@@ -88,7 +88,7 @@ namespace Chroma
 			}
 
 			// bitangents 
-			glm::vec3 bitangent;
+			glm::vec3 bitangent{ 0.0f };
 			if ( mesh->mBitangents != NULL)
 			{
 				bitangent.x = mesh->mBitangents[i].x;

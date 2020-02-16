@@ -5,6 +5,7 @@
 #include <vector>
 #include <set>
 #include <functional>
+#include <chrono>
 //chroma
 #include <camera/Camera.h>
 #include <light/Light.h>
@@ -20,6 +21,7 @@ namespace Chroma
 	public:
 		static void Init();
 		static void PostSceneBuild();
+		static void PreSceneBuild();
 		// entities
 		static void AddEntity(IEntity* const& newEntity);
 		static void AddAnimatedEntity(IEntity* const& newAnimatedEntity);
@@ -119,6 +121,10 @@ namespace Chroma
 
 		// functions
 		static glm::vec3 CalculateAmbientLightColor();
+
+		// timing
+		static std::chrono::steady_clock::time_point m_SceneBuildStartTime;
+		static std::chrono::steady_clock::time_point m_SceneBuildEndTime;
 	};
 }
 

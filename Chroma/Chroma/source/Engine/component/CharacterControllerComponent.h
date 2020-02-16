@@ -14,6 +14,20 @@
 
 class CharacterControllerComponent : public IComponent
 {
+public:
+	// Functions
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Destroy() override;
+
+	virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
+
+	inline virtual glm::vec3& GetPlayerPosition() { return m_Position; };
+	inline virtual glm::vec3& GetCamPosition() { return m_CamPosition; };
+
+	CharacterControllerComponent();
+	virtual ~CharacterControllerComponent();
+
 protected:
 	// camera controller
 	ICameraController* m_CameraController{ nullptr };
@@ -31,20 +45,6 @@ protected:
 	// functions
 	virtual void ProcessInput();
 	void CalculateTransform();
-
-public:
-	// Functions
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Destroy() override;
-
-	virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
-
-	inline virtual glm::vec3& GetPlayerPosition() { return m_Position; };
-	inline virtual glm::vec3& GetCamPosition() { return m_CamPosition; };
-
-	CharacterControllerComponent();
-	virtual ~CharacterControllerComponent();
 };
 
 #endif

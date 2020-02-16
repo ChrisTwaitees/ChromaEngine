@@ -1,6 +1,6 @@
 #include "SkinnedMesh.h"
 #include <entity/IEntity.h>
-#include <content/ModelLoader.h>
+#include <resources/ModelLoader.h>
 
 
 void SkinnedMesh::CalculateBBox()

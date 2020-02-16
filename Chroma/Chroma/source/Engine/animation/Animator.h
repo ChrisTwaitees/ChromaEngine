@@ -9,8 +9,8 @@
 #include <math/Math.h>
 #include <common/CoreCommon.h>
 
-#include <content/AnimationLoader.h>
-#include <content/AnimationCompression.h>
+#include <resources/AnimationLoader.h>
+#include <resources/AnimationCompression.h>
 
 #include <animation/IStateMachine.h>
 #include <animation/Skeleton.h>

@@ -18,27 +18,6 @@ namespace Chroma
 {
 	class Time
 	{
-	private:
-
-		static void Sleep(unsigned int milliseconds);
-		static double m_MaxFrameTime;
-
-		static double m_Current;
-		static double m_Previous;
-
-		static double m_Delta;
-		static double m_FPS;
-
-		static double m_Lag;
-
-		static float m_Speed;
-
-		static std::set<std::reference_wrapper<float>> m_Timers;
-
-		// functions
-		static void ProcessTimers();
-
-
 	public:
 		static void Init();
 
@@ -59,12 +38,32 @@ namespace Chroma
 		inline static void StartTimer(float& Duration) { m_Timers.insert(Duration); };
 
 		static void Update();
+
+	private:
+
+		static void Sleep(unsigned int milliseconds);
+		static double m_MaxFrameTime;
+
+		static double m_Current;
+		static double m_Previous;
+
+		static double m_Delta;
+		static double m_FPS;
+
+		static double m_Lag;
+
+		static float m_Speed;
+
+		static std::set<std::reference_wrapper<float>> m_Timers;
+
+		// functions
+		static void ProcessTimers();
 	};
 
 }
 
+#define GAMETIME Chroma::Time::GetGameTime()
+#define DELTATIME Chroma::Time::GetDeltaTime()
 
 #endif
 
-#define GAMETIME Chroma::Time::GetGameTime()
-#define DELTATIME Chroma::Time::GetDeltaTime()
