@@ -38,6 +38,13 @@ void ForwardBuffer::RenderForwardComponents()
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
 	}
 
+	// Render Forward Lit Components
+	for (UID const& uid : Chroma::Scene::GetForwardLitComponentUIDs())
+	{
+		// render forward lit components
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
+	}
+
 	// Render Transparent Components
 	RenderTransparency();
 }
@@ -60,7 +67,7 @@ void ForwardBuffer::RenderTransparency()
 	{
 		for (UID const& uid : Chroma::Scene::GetTransparentComponentUIDs())
 		{
-			if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsForwardLit) // draw lit transparent components
+			if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsForwardLit()) // draw lit transparent components
 				((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
 			else // draw unlit transparent components
 				((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());

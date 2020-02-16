@@ -153,25 +153,26 @@ void GBuffer::DrawGeometryPass()
 	m_geometryPassShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	m_geometryPassShader.SetMat4("lightSpaceMatrix", m_Shadowbuffer->getLightSpaceMatrix());
 
-	// Render Lit COmponents
+	// Render Lit Components
 	for (UID const& uid : Chroma::Scene::GetLitComponentUIDs())
 	{
 		// transform components by entity transform
 		m_geometryPassShader.SetMat4("model", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetWorldTransform());
 
 		// check if mesh skinned
-		m_geometryPassShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned);
-		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned)
+		m_geometryPassShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsSkinned());
+		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsSkinned())
 			((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(m_geometryPassShader);
 
 		// Draw Update Materials
-		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsDoubleSided)
+		// Check if Mesh is double sided
+		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsDoubleSided())
 		{
 			glDisable(GL_CULL_FACE);
 			((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
 			glEnable(GL_CULL_FACE);
 		}
-		else
+		else // if not render one front facing
 			((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
 	}
 	UnBind();

@@ -80,15 +80,21 @@ namespace Chroma
 
 			// tangents
 			glm::vec3 tangent;
-			tangent.x = mesh->mTangents[i].x;
-			tangent.y = mesh->mTangents[i].y;
-			tangent.z = mesh->mTangents[i].z;
+			if ( mesh->mTangents != NULL)
+			{
+				tangent.x = mesh->mTangents[i].x;
+				tangent.y = mesh->mTangents[i].y;
+				tangent.z = mesh->mTangents[i].z;
+			}
 
 			// bitangents 
 			glm::vec3 bitangent;
-			bitangent.x = mesh->mBitangents[i].x;
-			bitangent.y = mesh->mBitangents[i].y;
-			bitangent.z = mesh->mBitangents[i].z;
+			if ( mesh->mBitangents != NULL)
+			{
+				bitangent.x = mesh->mBitangents[i].x;
+				bitangent.y = mesh->mBitangents[i].y;
+				bitangent.z = mesh->mBitangents[i].z;
+			}
 
 			// texture coords
 			glm::vec2 UV1;

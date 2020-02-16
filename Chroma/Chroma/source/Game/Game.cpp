@@ -16,7 +16,7 @@
 #include <thirdperson/ThirdPersonCharacterController.h>
 #include <thirdperson/ThirdPersonCameraController.h>
 
-int main()
+int main2()
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();
@@ -129,7 +129,7 @@ int main()
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
 	AnimModelMeshComponent->AddTexture(walkingNormal);
 	AnimModelMeshComponent->AddTexture(walkingMetRoughAO);
-	AnimModelMeshComponent->m_IsDoubleSided = true;
+	AnimModelMeshComponent->SetIsDoubleSided(true);
 	AnimModelEntity->AddComponent(AnimModelMeshComponent);
 	// rigid
 	PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();

@@ -261,7 +261,7 @@ void DebugBuffer::DrawSceneSkeletons()
 		for (UID const& component : Chroma::Scene::GetEntity(uid)->getMeshComponentUIDs())
 		{
 			// check if mesh skinned
-			if (((MeshComponent*)Chroma::Scene::GetComponent(component))->m_IsSkinned)
+			if (((MeshComponent*)Chroma::Scene::GetComponent(component))->GetIsSkinned())
 			{
 				((SkinnedMesh*)Chroma::Scene::GetComponent(component))->GetSkeleton()->DebugDraw();
 			}

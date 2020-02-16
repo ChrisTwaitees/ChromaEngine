@@ -1,5 +1,5 @@
 #include "Scene.h"
-
+#include <model/Model.h>
 
 namespace Chroma
 {
@@ -35,8 +35,49 @@ namespace Chroma
 	std::set<UID> Scene::m_ShadowCastingComponentUIDs;
 	std::set<UID> Scene::m_TransparentComponentUIDs;
 	std::set<UID> Scene::m_UnLitComponentUIDs;
+	std::set<UID> Scene::m_ForwardLitComponentUIDs;
 
 	std::set<UID> Scene::m_PhysicsComponentUIDs;
+
+	void Scene::ProcessMeshComponentRenderFlags(IComponent* const& newMeshComponent)
+	{
+		// check for rendering features
+		// renderable
+		if (((MeshComponent*)newMeshComponent)->GetIsRenderable())
+			m_RenderableComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_RenderableComponentUIDs, newMeshComponent->GetUID());
+		// islit
+		if (((MeshComponent*)newMeshComponent)->GetIsLit())
+			m_LitComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_LitComponentUIDs, newMeshComponent->GetUID());
+		// casts shadows
+		if (((MeshComponent*)newMeshComponent)->GetCastsShadows())
+			m_ShadowCastingComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_ShadowCastingComponentUIDs, newMeshComponent->GetUID());
+		// un lit
+		if (((MeshComponent*)newMeshComponent)->GetIsLit() == false && ((MeshComponent*)newMeshComponent)->GetIsTransparent() == false)
+			m_UnLitComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_UnLitComponentUIDs, newMeshComponent->GetUID());
+		// transparent
+		if (((MeshComponent*)newMeshComponent)->GetIsTransparent())
+			m_TransparentComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_TransparentComponentUIDs, newMeshComponent->GetUID());
+		// is skinned
+		if (((MeshComponent*)newMeshComponent)->GetIsSkinned())
+			m_SkinnedMeshComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_SkinnedMeshComponentUIDs, newMeshComponent->GetUID());
+		// forward lit
+		if (((MeshComponent*)newMeshComponent)->GetIsForwardLit())
+			m_ForwardLitComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_ForwardLitComponentUIDs, newMeshComponent->GetUID());
+	}
 
 	glm::vec3 Scene::CalculateAmbientLightColor()
 	{
@@ -52,6 +93,19 @@ namespace Chroma
 	IComponent* Scene::GetComponent(UID const& UID)
 	{
 		return m_Components.find(UID)->second;
+	}
+
+	void Scene::SafeRemoveComponentUID(std::set<UID>& componentUIDList, UID const& removeUID)
+	{
+		// Search for element 
+		std::set<UID>::iterator it = componentUIDList.find(removeUID);
+
+		// Check if Iterator is valid
+		if (it != componentUIDList.end())
+		{
+			// Deletes the element pointing by iterator it
+			componentUIDList.erase(it);
+		}
 	}
 
 	void Scene::Init()
@@ -147,21 +201,20 @@ namespace Chroma
 		// add component
 		m_Components[newMeshComponent->GetUID()] = newMeshComponent;
 
-		// check for rendering features
-		if (((MeshComponent*)newMeshComponent)->m_IsRenderable)
-			m_RenderableComponentUIDs.insert(newMeshComponent->GetUID());
-		if (((MeshComponent*)newMeshComponent)->m_IsLit && ((MeshComponent*)newMeshComponent)->m_IsTransparent == false)
-			m_LitComponentUIDs.insert(newMeshComponent->GetUID());
-		if (((MeshComponent*)newMeshComponent)->m_CastShadows)
-			m_ShadowCastingComponentUIDs.insert(newMeshComponent->GetUID());
-		if (((MeshComponent*)newMeshComponent)->m_IsTransparent)
-			m_TransparentComponentUIDs.insert(newMeshComponent->GetUID());
-		if (((MeshComponent*)newMeshComponent)->m_IsLit == false && ((MeshComponent*)newMeshComponent)->m_IsTransparent == false)
-			m_UnLitComponentUIDs.insert(newMeshComponent->GetUID());
-		if (((MeshComponent*)newMeshComponent)->m_IsTransparent)
-			m_TransparentComponentUIDs.insert(newMeshComponent->GetUID());
-		if (((MeshComponent*)newMeshComponent)->m_IsSkinned)
-			m_SkinnedMeshComponentUIDs.insert(newMeshComponent->GetUID());
+		// process renderflags
+		if (Model* modelMeshComponent = dynamic_cast<Model*>(newMeshComponent))
+		{
+			std::cout << "found Model Component" << std::endl;
+			for (UID const& uid : modelMeshComponent->GetMeshUIDs())
+			{
+				ProcessMeshComponentRenderFlags(GetComponent(uid));
+			}
+		}
+		else
+		{
+			ProcessMeshComponentRenderFlags(newMeshComponent);
+		}
+
 	}
 
 	void Scene::AddPhysicsComponent(IComponent* const& newPhysicsComponent)

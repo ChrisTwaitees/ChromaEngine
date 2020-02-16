@@ -17,45 +17,6 @@ namespace Chroma
 {
 	class Scene
 	{
-		// scene components
-		static std::vector<Light*> m_Lights;
-
-		// Entities
-		static std::map<UID, IEntity*> m_Entities;
-#
-		// Components
-		static std::map<UID, IComponent*> m_Components;
-
-		// UIDs
-		// entities
-		static std::set<UID> m_EntityUIDs;
-		static std::set<UID> m_TransparentEntityUIDs;
-		static std::set<UID> m_AnimatedEntityUIDs;
-		// components
-		static std::set<UID> m_ComponentUIDs;
-		static std::set<UID> m_PhysicsComponentUIDs;
-
-		static std::set<UID> m_MeshComponentUIDs;
-		static std::set<UID> m_SkinnedMeshComponentUIDs;
-
-		static std::set<UID> m_AnimationComponentUIDs;
-		static std::set<UID> m_CharacterControllerUIDs;
-
-		static std::set<UID> m_RenderableComponentUIDs;
-		static std::set<UID> m_LitComponentUIDs;
-		static std::set<UID> m_ShadowCastingComponentUIDs;
-		static std::set<UID> m_TransparentComponentUIDs;
-		static std::set<UID> m_UnLitComponentUIDs;
-
-		// render components
-		static Camera* m_RenderCamera;
-		static Light* m_SunLight;
-		static SkyBox* m_Skybox;
-		static IBL* m_IBL; // image based lighting
-
-		// functions
-		static glm::vec3 CalculateAmbientLightColor();
-
 	public:
 		static void Init();
 		static void PostSceneBuild();
@@ -92,6 +53,7 @@ namespace Chroma
 
 		// components
 		static IComponent* GetComponent(UID const& UID);
+		static void SafeRemoveComponentUID(std::set<UID>& componentUIDList, UID const& removeUID);
 
 		static inline std::set<UID>& GetMeshComponentUIDs() { return m_MeshComponentUIDs; }
 		static inline std::set<UID>& GetSkinnedMeshComponentUIDs() { return m_SkinnedMeshComponentUIDs; }
@@ -104,6 +66,7 @@ namespace Chroma
 		static inline std::set<UID>& GetShadowCastingComponentUIDs() { return m_ShadowCastingComponentUIDs; }
 		static inline std::set<UID>& GetTransparentComponentUIDs() { return m_TransparentComponentUIDs; }
 		static inline std::set<UID>& GetUnlitComponentUIDs() { return m_UnLitComponentUIDs; }
+		static inline std::set<UID>& GetForwardLitComponentUIDs() { return m_ForwardLitComponentUIDs; }
 
 		static inline std::set<UID>& GetPhysicsComponentUIDs() { return m_PhysicsComponentUIDs; }
 		// Attrs
@@ -113,6 +76,49 @@ namespace Chroma
 		static SkyBox*& GetSkyBox() { return m_Skybox; };
 		static glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
 		static IBL*& GetIBL() { return m_IBL; };
+
+	private:
+
+		// scene components
+		static std::vector<Light*> m_Lights;
+
+		// Entities
+		static std::map<UID, IEntity*> m_Entities;
+
+		// Components
+		static std::map<UID, IComponent*> m_Components;
+
+		// UIDs
+		// entities
+		static std::set<UID> m_EntityUIDs;
+		static std::set<UID> m_TransparentEntityUIDs;
+		static std::set<UID> m_AnimatedEntityUIDs;
+		// components
+		static std::set<UID> m_ComponentUIDs;
+		static std::set<UID> m_PhysicsComponentUIDs;
+
+		static std::set<UID> m_MeshComponentUIDs;
+		static void ProcessMeshComponentRenderFlags(IComponent* const& newMeshComponent);
+		static std::set<UID> m_SkinnedMeshComponentUIDs;
+
+		static std::set<UID> m_AnimationComponentUIDs;
+		static std::set<UID> m_CharacterControllerUIDs;
+
+		static std::set<UID> m_RenderableComponentUIDs;
+		static std::set<UID> m_LitComponentUIDs;
+		static std::set<UID> m_ForwardLitComponentUIDs;
+		static std::set<UID> m_ShadowCastingComponentUIDs;
+		static std::set<UID> m_TransparentComponentUIDs;
+		static std::set<UID> m_UnLitComponentUIDs;
+
+		// render components
+		static Camera* m_RenderCamera;
+		static Light* m_SunLight;
+		static SkyBox* m_Skybox;
+		static IBL* m_IBL; // image based lighting
+
+		// functions
+		static glm::vec3 CalculateAmbientLightColor();
 	};
 }
 

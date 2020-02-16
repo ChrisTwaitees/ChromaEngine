@@ -72,13 +72,11 @@ void ShadowBuffer::DrawShadowMaps()
 		depthShader.SetMat4("model", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetWorldTransform());
 		
 		// check if mesh skinned
-		depthShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned);
-		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->m_IsSkinned)
+		depthShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsSkinned());
+		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsSkinned())
 			((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(depthShader);
 
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(depthShader);
-
-		
 	}
 
 	UnBind();

@@ -75,21 +75,21 @@ int main()
 	flatNormal.type = Texture::NORMAL;
 	
 	// Jacket
-	Texture jacketAlbedo("resources/textures/human/jacket/Jacket_Colour.jpg");
+	Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
 	jacketAlbedo.type = Texture::ALBEDO;
-	Texture jacketNormal("resources/textures/human/jacket/Jacket_Normal.jpg");
+	Texture jacketNormal("resources/human/textures/jacket/Jacket_Normal.jpg");
 	jacketNormal.type = Texture::NORMAL;
-	Texture jacketMetRoughAO("resources/textures/human/jacket/MetRoughAO.jpg");
+	Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
 	jacketMetRoughAO.type = Texture::METROUGHAO;
 
 	// Head
-	Texture headAlbedo("resources/textures/human/head/head_albedo.jpg");
+	Texture headAlbedo("resources/human/textures/head/head_albedo.jpg");
 	headAlbedo.type = Texture::ALBEDO;
-	Texture headNormal("resources/textures/human/head/head_normal.jpg");
+	Texture headNormal("resources/human/textures/head/head_normal.jpg");
 	headNormal.type = Texture::NORMAL;
-	Texture headMetRoughAO("resources/textures/human/head/head_metroughao.jpg");
+	Texture headMetRoughAO("resources/human/textures/head/head_metroughao.jpg");
 	headMetRoughAO.type = Texture::METROUGHAO;
-	Texture headTranslucency("resources/textures/human/head/head_translucency.jpg");
+	Texture headTranslucency("resources/human/textures/head/head_translucency.jpg");
 	headTranslucency.type = Texture::TRANSLUCENCY;
 
 
@@ -98,7 +98,7 @@ int main()
 	// ____________________________________________________
 
 	// Jacket
-	MeshComponent* JacketMeshComponent = new Model("resources/lookdev/human/jacket/Jacket.fbx");
+	MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
 	JacketMeshComponent->SetShader(&PBRShader);
 	JacketMeshComponent->AddTexture(jacketAlbedo);
 	JacketMeshComponent->AddTexture(jacketNormal);
@@ -106,7 +106,7 @@ int main()
 	LookDevEntity->AddComponent(JacketMeshComponent);
 	
 	// Head
-	MeshComponent* HeadMeshComponent = new Model("resources/lookdev/human/head/Head.fbx");
+	MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");
 	HeadMeshComponent->SetIsForwardLit(true);
 	HeadMeshComponent->SetIsLit(false);
 	HeadMeshComponent->SetShader(&PBRShader);
@@ -116,12 +116,12 @@ int main()
 	LookDevEntity->AddComponent(HeadMeshComponent);
 
 	// Eyelashes 
-	MeshComponent* EyelashesMeshComponent = new Model("resources/lookdev/human/head/Eyelashes.fbx");
+	MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
 	EyelashesMeshComponent->SetShader(&PBRShader);
 	LookDevEntity->AddComponent(EyelashesMeshComponent);
 
 	// Eyebrows
-	MeshComponent* EyebrowsMeshComponent = new Model("resources/lookdev/human/head/Eyebrows.fbx");
+	MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
 	EyebrowsMeshComponent->SetShader(&PBRShader);
 	LookDevEntity->AddComponent(EyebrowsMeshComponent);
 
