@@ -24,7 +24,7 @@ private:
 public:
 	unsigned int m_textureID{ 0 };
 	void generateCubeMap();
-	void bind();
+	void Bind();
 
 	CubeMap(std::string cubeMapsDirectory);
 	CubeMap() {};

@@ -8,7 +8,7 @@ void HDRTexture::generateTexture()
 	type = TYPE::HDR;
 	glGenTextures(1, &ID);
 	stbi_set_flip_vertically_on_load(true);
-	float* data = stbi_loadf(path.c_str(), &width, &height, &nrComponents, 0);
+	float* data = stbi_loadf(m_SourcePath.c_str(), &width, &height, &nrComponents, 0);
 	if (data)
 	{
 		glBindTexture(GL_TEXTURE_2D, ID);
@@ -22,13 +22,13 @@ void HDRTexture::generateTexture()
 		stbi_image_free(data);
 	}
 	else
-		CHROMA_WARN("TEXTURE :: Failed to Load HDR Texture : {0}", path);
+		CHROMA_WARN("TEXTURE :: Failed to Load HDR Texture : {0}", m_SourcePath);
 
 }
 
 HDRTexture::HDRTexture(std::string sourcepath)
 {
-	path = sourcepath;
+	m_SourcePath = sourcepath;
 	generateTexture();
 }
 

@@ -286,7 +286,7 @@ void StaticMesh::SetTextures(std::vector<Texture> textures_val)
 		bool skip{ false };
 		for (unsigned int j = 0; j < m_Textures.size(); j++)
 		{
-			if (std::strcmp(m_Textures[j].path.data(), textures_val[j].path.data()) == 0)
+			if (std::strcmp(m_Textures[j].GetSourcePath().data(), textures_val[j].GetSourcePath().data()) == 0)
 			{
 				skip = true;
 				break;
@@ -303,7 +303,7 @@ void StaticMesh::AddTexture(Texture texture_val)
 	for (unsigned int i = 0; i < m_Textures.size(); i++)
 	{
 		skip = false;
-		if (std::strcmp(m_Textures[i].path.data(), texture_val.path.data()) == 0)
+		if (std::strcmp(m_Textures[i].GetSourcePath().data(), texture_val.GetSourcePath().data()) == 0)
 		{
 			skip = true;
 			break;

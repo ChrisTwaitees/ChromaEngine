@@ -1,5 +1,5 @@
-#ifndef _CHROMA_ANIMATION_
-#define _CHROMA_ANIMATION_
+#ifndef _CHROMA_ANIMATION_LOADER_H
+#define _CHROMA_ANIMATION_LOADER_H
 
 // stl
 #include <vector>
@@ -42,15 +42,21 @@ struct Take
 	std::map<std::string, KeyFrame> m_KeyFrames;
 };
 
-void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes);
-void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& takes);
-
-std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene);
-
-namespace AnimationLoader
+namespace Chroma
 {
-	std::vector<Take> LoadAnimations(std::string sourcePath);
+	class AnimationLoader
+	{
+	public:
+		static std::vector<Take> LoadAnimations(std::string sourcePath);
+
+	private:
+		static void AssimpLoadAnimation(std::string const& sourcePath, std::vector<Take>& takes);
+		static void ProcessTakes(const aiScene* scene, aiNode* rootNode, std::vector<Take>& takes);
+		static std::string GetJointName(const aiNodeAnim* animNode, const aiScene* scene);
+
+	};
 }
+
 
 
 #endif

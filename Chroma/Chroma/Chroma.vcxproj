@@ -198,7 +198,8 @@
     <ClCompile Include="source\Engine\resources\AnimationCompression.cpp" />
     <ClCompile Include="source\Engine\resources\AnimationLoader.cpp" />
     <ClCompile Include="source\Engine\resources\ModelLoader.cpp" />
-    <ClCompile Include="source\Engine\resources\TexureLoader.cpp" />
+    <ClCompile Include="source\Engine\resources\ResourceManager.cpp" />
+    <ClCompile Include="source\Engine\resources\TextureLoader.cpp" />
     <ClCompile Include="source\Engine\scene\Scene.cpp" />
     <ClCompile Include="source\Engine\screen\Screen.cpp" />
     <ClCompile Include="source\Engine\time\Time.cpp" />
@@ -277,7 +278,8 @@
     <ClInclude Include="source\Engine\resources\AnimationCompression.h" />
     <ClInclude Include="source\Engine\resources\AnimationLoader.h" />
     <ClInclude Include="source\Engine\resources\ModelLoader.h" />
-    <ClInclude Include="source\Engine\resources\TexureLoader.h" />
+    <ClInclude Include="source\Engine\resources\ResourceManager.h" />
+    <ClInclude Include="source\Engine\resources\TextureLoader.h" />
     <ClInclude Include="source\Engine\scene\Scene.h" />
     <ClInclude Include="source\Engine\screen\Screen.h" />
     <ClInclude Include="source\Engine\time\Time.h" />

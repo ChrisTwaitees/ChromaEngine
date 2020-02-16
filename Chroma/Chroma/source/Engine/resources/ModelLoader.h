@@ -10,11 +10,17 @@
 // chroma
 #include <math/Math.h>
 #include <model/MeshData.h>
+#include <resources/TextureLoader.h>
 #include <jobSystem/JobSystem.h>
 
 namespace Chroma {
 	class ModelLoader
 	{
+	public:
+		static std::vector<MeshData> Load(std::string const& sourcePath);
+		static void LoadThreadSafe(std::string const& sourcePath, std::vector<MeshData>& meshList);
+
+	private:
 		// sourceDir of last import
 		static std::string m_SourceDir;
 		// mesh
@@ -28,8 +34,6 @@ namespace Chroma {
 		static void NormalizeSkinningWeights(MeshData& meshData);
 		// textures
 		static void GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName, MeshData& meshData);
-	public:
-		static std::vector<MeshData> Load(std::string const& sourcePath);
 	};
 }
 

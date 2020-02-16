@@ -41,6 +41,36 @@ namespace Chroma
 		return meshDatas;
 	}
 
+	void ModelLoader::LoadThreadSafe(std::string const& sourcePath, std::vector<MeshData>& meshList)
+	{
+		// Debug
+		CHROMA_TRACE_UNDERLINE;
+		CHROMA_TRACE("MODEL LOADER :: Loading MeshData from: {}", sourcePath);
+
+		// set source directory
+		m_SourceDir = sourcePath.substr(0, sourcePath.find_last_of('/'));
+
+		// assimp importer
+		Assimp::Importer importer;
+		//const aiScene* scene = importer.ReadFile(sourcePath, aiProcess_Triangulate | aiProcess_FlipUVs |aiProcess_GenSmoothNormals  | aiProcess_CalcTangentSpace);
+		const aiScene* scene = importer.ReadFile(sourcePath, aiProcess_Triangulate | aiProcess_GenSmoothNormals | aiProcess_CalcTangentSpace);
+		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
+		{
+			CHROMA_WARN("ERROR::ASSIMP:: {0}", importer.GetErrorString());
+			return;
+		}
+
+		// iterate through the scenes meshes
+		GetChildMeshNodes(scene->mRootNode, scene, meshList);
+		// set the source path on all discovered mesh datas
+		for (MeshData& meshData : meshList)
+			meshData.sourceDirectory = m_SourceDir;
+
+		// Debug
+		CHROMA_TRACE("MODEL LOADER :: MeshData Loaded");
+		CHROMA_TRACE_UNDERLINE;
+	}
+
 	void ModelLoader::GetChildMeshNodes(aiNode* node, const aiScene*& scene, std::vector<MeshData>& meshList)
 	{
 		// process node's meshes (if it has any)
@@ -173,7 +203,7 @@ namespace Chroma
 			bool skip{ false };
 			for (unsigned int j = 0; j < meshData.textures.size(); j++)
 			{
-				if (std::strcmp(meshData.textures[j].path.data(), textureName.C_Str()) == 0)
+				if (std::strcmp(meshData.textures[j].GetSourcePath().data(), textureName.C_Str()) == 0)
 				{
 					meshData.textures.push_back(meshData.textures[j]);
 					skip = true;
@@ -182,8 +212,7 @@ namespace Chroma
 			}
 			if (!skip)
 			{
-				Texture texture;
-				texture.loadFromFile(textureName.C_Str(), m_SourceDir);
+				Texture texture = Chroma::TexureLoader::LoadTexture(textureName.C_Str(), m_SourceDir);
 				texture.type = typeName;
 				meshData.textures.push_back(texture);
 				meshData.textures.push_back(texture);

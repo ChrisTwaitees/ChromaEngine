@@ -51,7 +51,7 @@ void CubeMap::generateCubeMap()
 	}
 }
 
-void CubeMap::bind()
+void CubeMap::Bind()
 {
 	glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureID);
 }

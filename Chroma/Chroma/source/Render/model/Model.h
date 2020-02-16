@@ -9,7 +9,7 @@
 // chroma
 #include <math/Math.h>
 #include <component/MeshComponent.h>
-#include <resources/ModelLoader.h>
+#include <resources/ResourceManager.h>
 
 
 class Model : public MeshComponent

@@ -105,7 +105,7 @@ JointTransform Animator::InterpolateJointTransforms(JointTransform const& from, 
 void Animator::LoadAnimations(std::string const& sourcePath)
 {
 	// Load takes from source file
-	for (Take& take : AnimationLoader::LoadAnimations(sourcePath))
+	for (Take& take : Chroma::AnimationLoader::LoadAnimations(sourcePath))
 	{
 		AddTake(take);
 		m_CurrentTake = take.m_Name;

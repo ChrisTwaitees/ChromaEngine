@@ -5,33 +5,40 @@
 #include <iostream>
 #include <core/Core.h>
 
+struct TextureData
+{
+	unsigned int ID, width, height, nrComponents;
+	std::string sourcePath;
+
+};
+
+
 class Texture
 {
-protected:
-	int width, height, nrComponents;
-	virtual void generateTexture();
+
 public:
 	/*  Texture Data  */
-	unsigned int ID;
+	unsigned int ID {0} ;
 
-	enum TYPE { ALBEDO, NORMAL, METROUGHAO, METALNESS, ROUGHNESS, AO, SHADOWMAP, HDR, TRANSLUCENCY
-	};
-	TYPE type = TYPE::ALBEDO;
+	enum TYPE { ALBEDO, NORMAL, METROUGHAO, METALNESS, ROUGHNESS, AO, SHADOWMAP, HDR, TRANSLUCENCY};
+	TYPE type {TYPE::ALBEDO};
 
-	// paths
-	std::string filename;
-	std::string directory;
-	std::string path;
+	std::string& GetSourcePath() { return m_SourcePath; }
 
-	/*   Functions   */
-	int loadFromFile(std::string filename ="", std::string dir ="");
-	int loadFromFile(std::string sourcepath);
-
-	void bind();
+	void Bind();
 	/* Constructors */
 	Texture(unsigned int newID);
 	Texture(std::string sourcePath);
 	Texture();
 	~Texture();
+
+protected:
+	// paths
+	/*   Functions   */
+	int loadFromFile(std::string m_SourcePath = "", std::string dir = "");
+	int loadFromFile(std::string sourcepath);
+	std::string m_SourcePath;
+	int width, height, nrComponents;
+	virtual void generateTexture();
 };
 #endif

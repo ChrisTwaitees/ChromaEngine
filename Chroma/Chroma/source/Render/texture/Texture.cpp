@@ -6,16 +6,16 @@
 
 
 
-int Texture::loadFromFile(std::string filename, std::string dir)
+int Texture::loadFromFile(std::string m_SourcePath, std::string dir)
 {
-	path = dir + '/' + filename;
+	m_SourcePath = dir + '/' + m_SourcePath;
 	generateTexture();
 	return ID;
 }
 
 int Texture::loadFromFile(std::string sourcepath)
 {
-	path = sourcepath;
+	m_SourcePath = sourcepath;
 	generateTexture();
 	return ID;
 }
@@ -23,7 +23,7 @@ int Texture::loadFromFile(std::string sourcepath)
 void Texture::generateTexture()
 {
 	glGenTextures(1, &ID);
-	unsigned char* data = stbi_load(path.c_str(), &width, &height, &nrComponents, 0);
+	unsigned char* data = stbi_load(m_SourcePath.c_str(), &width, &height, &nrComponents, 0);
 	if (data)
 	{
 		GLenum format;
@@ -53,10 +53,10 @@ void Texture::generateTexture()
 		stbi_image_free(data);
 	}
 	else
-		CHROMA_WARN("TEXTURE :: Failed to load from path : {0}", path );
+		CHROMA_WARN("TEXTURE :: Failed to load from path : {0}", m_SourcePath );
 }
 
-void Texture::bind()
+void Texture::Bind()
 {
 	glBindTexture(GL_TEXTURE_2D, ID);
 }
@@ -68,7 +68,7 @@ Texture::Texture(unsigned int newID)
 
 Texture::Texture(std::string sourcepath)
 {
-	path = sourcepath;
+	m_SourcePath = sourcepath;
 	generateTexture();
 }
 

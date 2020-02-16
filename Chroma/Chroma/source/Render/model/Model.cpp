@@ -134,7 +134,7 @@ void Model::CalculateCentroid()
 void Model::LoadModel(std::string path)
 {
 
-	for (MeshData& meshData : Chroma::ModelLoader::Load(path))
+	for (MeshData& meshData : Chroma::ResourceManager::LoadModels(path))
 	{
 		if (meshData.isSkinned)
 		{

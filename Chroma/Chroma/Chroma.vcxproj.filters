@@ -330,7 +330,10 @@
     <ClCompile Include="source\Engine\resources\ModelLoader.cpp">
       <Filter>Engine\resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\resources\TexureLoader.cpp">
+    <ClCompile Include="source\Engine\resources\TextureLoader.cpp">
+      <Filter>Engine\resources</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\ResourceManager.cpp">
       <Filter>Engine\resources</Filter>
     </ClCompile>
   </ItemGroup>
@@ -569,7 +572,10 @@
     <ClInclude Include="source\Engine\resources\ModelLoader.h">
       <Filter>Engine\resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\resources\TexureLoader.h">
+    <ClInclude Include="source\Engine\resources\TextureLoader.h">
+      <Filter>Engine\resources</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\ResourceManager.h">
       <Filter>Engine\resources</Filter>
     </ClInclude>
   </ItemGroup>

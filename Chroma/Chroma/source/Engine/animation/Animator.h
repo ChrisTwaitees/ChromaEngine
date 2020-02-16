@@ -22,6 +22,27 @@ typedef std::map<std::string, KeyFrame> KeyFrames;
 
 class Animator
 {
+public:
+	void LoadAnimations(std::string const& sourcePath);
+
+	void BindSkeleton(Skeleton* newSkeleton) { m_Skeleton = newSkeleton; };
+
+	void BindSkeleton(IComponent* const& meshComponent);
+
+	void Update();
+
+	void DebugAnimationTake(std::string const& takeName, float const& debugTime);
+
+	void CompressAnimations();
+
+	inline void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID) { m_CharacterControllerComponentUID = newCharacterControllerComponentUID; }
+
+	inline void SetAnimationComponentUID(UID const& newAnimationComponentUID) { m_AnimationComponentUID = newAnimationComponentUID; }
+
+	Animator();
+	~Animator();
+
+private:
 	// skeleton
 	Skeleton* m_Skeleton{ nullptr };
 
@@ -51,25 +72,6 @@ class Animator
 	JointTransform InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp);
 	glm::mat4 JointTransformToMat4(JointTransform const& jointTransform);
 
-public:
-	void LoadAnimations(std::string const& sourcePath);
-
-	void BindSkeleton(Skeleton* newSkeleton) { m_Skeleton = newSkeleton; };
-
-	void BindSkeleton(IComponent* const& meshComponent);
-
-	void Update();
-
-	void DebugAnimationTake(std::string const& takeName, float const& debugTime);
-
-	void CompressAnimations();
-
-	inline void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID) { m_CharacterControllerComponentUID = newCharacterControllerComponentUID; }
-
-	inline void SetAnimationComponentUID(UID const& newAnimationComponentUID) { m_AnimationComponentUID = newAnimationComponentUID; }
-
-	Animator();
-	~Animator();
 };
 
 #endif 

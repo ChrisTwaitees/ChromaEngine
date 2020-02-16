@@ -6,6 +6,7 @@
 
 // chroma
 #include <engine/engine.h>
+#include <resources/ResourceManager.h>
 
 #include <entity/Entity.h>
 #include <model/SkinnedMesh.h>
@@ -88,7 +89,7 @@ int main()
 	Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
 	jacketMetRoughAO.type = Texture::METROUGHAO;
 
-	// Head
+	//// Head
 	Texture headAlbedo("resources/human/textures/head/head_albedo.jpg");
 	headAlbedo.type = Texture::ALBEDO;
 	Texture headNormal("resources/human/textures/head/head_normal.jpg");
@@ -103,7 +104,7 @@ int main()
 	// MODELS
 	// ____________________________________________________
 
-	// Jacket
+	//Jacket
 	MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
 	JacketMeshComponent->SetShader(PBRShader);
 	JacketMeshComponent->AddTexture(jacketAlbedo);
@@ -123,6 +124,7 @@ int main()
 	HumanEntity->AddComponent(HeadMeshComponent);
 
 	// Eyelashes 
+	Chroma::JobSystem::Wait();
 	MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
 	HumanEntity->AddComponent(EyelashesMeshComponent);
 

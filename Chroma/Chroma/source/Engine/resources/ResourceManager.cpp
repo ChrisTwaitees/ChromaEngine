@@ -1,0 +1,62 @@
+#include "ResourceManager.h"
+
+
+namespace Chroma
+{
+	std::vector<Texture> ResourceManager::LoadTextures(std::string const& sourcePath)
+	{
+		return std::vector<Texture>();
+	}
+	Texture ResourceManager::LoadTexture(std::string const& sourcePath)
+	{
+		return Texture();
+	}
+	std::vector<MeshData> ResourceManager::LoadModels(std::string const& sourcePath)
+	{
+		CHROMA_TRACE_UNDERLINE;
+		CHROMA_TRACE("RESOURCE MANAGER :: Loading Models from: {}", sourcePath);
+		std::vector<MeshData> meshList;
+		//std::reference_wrapper<std::vector<MeshData>> refMeshList = std::ref(meshList);
+		//Chroma::JobSystem::Execute([sourcePath, refMeshList] { ModelLoader::LoadThreadSafe(sourcePath, refMeshList); });
+		//Chroma::JobSystem::Wait();
+		ModelLoader::LoadThreadSafe(sourcePath, meshList);
+		if (meshList.size() > 0)
+		{
+			return meshList;
+		}
+		else
+		{
+			CHROMA_ERROR("RESOURCE MANAGER :: LoadModel :: Cannot find model at : {}", sourcePath);
+			return meshList;
+		}
+	}
+	MeshData ResourceManager::LoadModel(std::string const& sourcePath)
+	{
+		CHROMA_TRACE_UNDERLINE;
+		CHROMA_TRACE("RESOURCE MANAGER :: Loading Model from: {}", sourcePath);
+		std::vector<MeshData> meshList;
+		//std::reference_wrapper<std::vector<MeshData>> refMeshList = std::ref(meshList);
+		//Chroma::JobSystem::Execute([sourcePath, refMeshList] { ModelLoader::LoadThreadSafe(sourcePath, refMeshList); });
+		//Chroma::JobSystem::Wait();
+		ModelLoader::LoadThreadSafe(sourcePath, meshList);
+		if (meshList.size() > 0)
+		{
+			return meshList[0];
+		}
+		else
+		{
+			CHROMA_ERROR("RESOURCE MANAGER :: LoadModel :: Cannot find model at : {}", sourcePath);
+			return MeshData();
+		}
+	}
+	std::vector<Take> ResourceManager::LoadAnimations(std::string const& sourcePath)
+	{
+		return std::vector<Take>();
+	}
+	Take ResourceManager::LoadAnimation(std::string const& sourcePath)
+	{
+		return Take();
+	}
+}
+
+
