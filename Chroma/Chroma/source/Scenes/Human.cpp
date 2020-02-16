@@ -16,8 +16,6 @@ const float SUNLIGHT_SPIN_SPEED = .8f;
 const float SUNLIGHT_DISTANCE = 15.0f;
 
 
-
-
 int main()
 {
 	// INIT CHROMA
@@ -76,19 +74,19 @@ int main()
 	// TEXTURES
 	// ____________________________________________________
 
-	// Default
-	Texture greyAlbedo("resources/textures/colors/grey.jpg");
-	Texture whiteAlbedo("resources/textures/colors/white.jpg");
-	Texture flatNormal("resources/textures/test/flat_normal.jpg");
-	flatNormal.type = Texture::NORMAL;
+	//// Default
+	//Texture greyAlbedo("resources/textures/colors/grey.jpg");
+	//Texture whiteAlbedo("resources/textures/colors/white.jpg");
+	//Texture flatNormal("resources/textures/test/flat_normal.jpg");
+	//flatNormal.type = Texture::NORMAL;
 
-	// Jacket
-	Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
-	jacketAlbedo.type = Texture::ALBEDO;
-	Texture jacketNormal("resources/human/textures/jacket/Jacket_Normal.jpg");
-	jacketNormal.type = Texture::NORMAL;
-	Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
-	jacketMetRoughAO.type = Texture::METROUGHAO;
+	//// Jacket
+	//Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
+	//jacketAlbedo.type = Texture::ALBEDO;
+	//Texture jacketNormal("resources/human/textures/jacket/Jacket_Normal.jpg");
+	//jacketNormal.type = Texture::NORMAL;
+	//Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
+	//jacketMetRoughAO.type = Texture::METROUGHAO;
 
 	// Head
 	Texture headAlbedo("resources/human/textures/head/head_albedo.jpg");
@@ -105,13 +103,13 @@ int main()
 	// MODELS
 	// ____________________________________________________
 
-	// Jacket
-	MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
-	JacketMeshComponent->SetShader(&PBRShader);
-	JacketMeshComponent->AddTexture(jacketAlbedo);
-	JacketMeshComponent->AddTexture(jacketNormal);
-	JacketMeshComponent->AddTexture(jacketMetRoughAO);
-	HumanEntity->AddComponent(JacketMeshComponent);
+	//// Jacket
+	//MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
+	//JacketMeshComponent->SetShader(&PBRShader);
+	//JacketMeshComponent->AddTexture(jacketAlbedo);
+	//JacketMeshComponent->AddTexture(jacketNormal);
+	//JacketMeshComponent->AddTexture(jacketMetRoughAO);
+	//HumanEntity->AddComponent(JacketMeshComponent);
 
 	// Head
 	MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");
@@ -123,15 +121,15 @@ int main()
 	HeadMeshComponent->AddTexture(headMetRoughAO);
 	HumanEntity->AddComponent(HeadMeshComponent);
 
-	// Eyelashes 
-	MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
-	EyelashesMeshComponent->SetShader(&PBRShader);
-	HumanEntity->AddComponent(EyelashesMeshComponent);
+	//// Eyelashes 
+	//MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
+	//EyelashesMeshComponent->SetShader(&PBRShader);
+	//HumanEntity->AddComponent(EyelashesMeshComponent);
 
-	// Eyebrows
-	MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
-	EyebrowsMeshComponent->SetShader(&PBRShader);
-	HumanEntity->AddComponent(EyebrowsMeshComponent);
+	//// Eyebrows
+	//MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
+	//EyebrowsMeshComponent->SetShader(&PBRShader);
+	//HumanEntity->AddComponent(EyebrowsMeshComponent);
 
 	HumanEntity->SetScale(glm::vec3(100.0f));
 

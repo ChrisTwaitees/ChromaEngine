@@ -21,6 +21,9 @@ int main2()
 	// INIT CHROMA
 	Chroma::Engine::Init();
 
+	// Initialize Scene
+	Chroma::Scene::PreSceneBuild();
+
 	// SCENE CONTENTS
 	// ------------------------------------------------------------------------------------------
 	// LIGHTS
