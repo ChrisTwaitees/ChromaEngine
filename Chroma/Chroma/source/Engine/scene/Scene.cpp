@@ -56,16 +56,16 @@ namespace Chroma
 			m_LitComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_LitComponentUIDs, newMeshComponent->GetUID());
+		// unlit
+		if (((MeshComponent*)newMeshComponent)->GetIsUnlit())
+			m_UnLitComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_UnLitComponentUIDs, newMeshComponent->GetUID());
 		// casts shadows
 		if (((MeshComponent*)newMeshComponent)->GetCastsShadows())
 			m_ShadowCastingComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_ShadowCastingComponentUIDs, newMeshComponent->GetUID());
-		// un lit
-		if (((MeshComponent*)newMeshComponent)->GetIsLit() == false && ((MeshComponent*)newMeshComponent)->GetIsTransparent() == false)
-			m_UnLitComponentUIDs.insert(newMeshComponent->GetUID());
-		else
-			SafeRemoveComponentUID(m_UnLitComponentUIDs, newMeshComponent->GetUID());
 		// transparent
 		if (((MeshComponent*)newMeshComponent)->GetIsTransparent())
 			m_TransparentComponentUIDs.insert(newMeshComponent->GetUID());

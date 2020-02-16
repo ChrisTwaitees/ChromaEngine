@@ -24,6 +24,8 @@ public:
 	inline bool& GetIsTransparent() { return m_IsTransparent; }
 	virtual void SetIsLit(bool const& check) { m_IsLit = check; };
 	inline bool& GetIsLit() { return m_IsLit; }
+	virtual void SetIsUnlit(bool const& check) { m_IsUnlit = check; };
+	inline bool& GetIsUnlit() { return m_IsUnlit; }
 	virtual void SetIsForwardLit(bool const& check) { m_IsForwardLit = check; };
 	inline bool& GetIsForwardLit() { return m_IsForwardLit; }
 	virtual void SetIsSkinned(bool const& check) { m_IsSkinned = check; };
@@ -88,6 +90,7 @@ protected:
 	bool m_IsRenderable{ false };
 	bool m_IsTransparent{ false };
 	bool m_IsLit{ true };
+	bool m_IsUnlit{ false };
 	bool m_IsForwardLit{ false };
 	bool m_CastShadows{ true };
 	bool m_IsSkinned{ false };
