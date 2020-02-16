@@ -1,38 +1,19 @@
-
-#include "stb_image.h"
 #include "HDRTexture.h"
+#include <resources/TextureLoader.h>
 
-
-void HDRTexture::generateTexture()
+HDRTexture::HDRTexture(TextureData const& textData)
 {
-	type = TYPE::HDR;
-	glGenTextures(1, &ID);
-	stbi_set_flip_vertically_on_load(true);
-	float* data = stbi_loadf(m_SourcePath.c_str(), &width, &height, &nrComponents, 0);
-	if (data)
-	{
-		glBindTexture(GL_TEXTURE_2D, ID);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, width, height, 0, GL_RGB, GL_FLOAT, data);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		stbi_image_free(data);
-	}
-	else
-		CHROMA_WARN("TEXTURE :: Failed to Load HDR Texture : {0}", m_SourcePath);
-
+	InitTextureData(textData);
 }
 
 HDRTexture::HDRTexture(std::string sourcepath)
 {
-	m_SourcePath = sourcepath;
-	generateTexture();
+	TextureData newTex = Chroma::TexureLoader::LoadHDRTextureData(sourcepath);
+	InitTextureData(newTex);
 }
 
 
 HDRTexture::~HDRTexture()
 {
+	glDeleteTextures(1, &ID);
 }

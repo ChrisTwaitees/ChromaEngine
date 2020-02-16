@@ -5,9 +5,10 @@
 
 class HDRTexture :	public Texture
 {
-	void generateTexture() override;
 public:
+	HDRTexture(TextureData const& textData);
 	HDRTexture(std::string sourcepath);
+	HDRTexture() {};
 	~HDRTexture();
 };
 

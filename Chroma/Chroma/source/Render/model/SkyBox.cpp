@@ -1,4 +1,5 @@
 #include "SkyBox.h"
+#include <scene/Scene.h>
 
 void SkyBox::Initialize()
 {
@@ -26,7 +27,7 @@ void SkyBox::Initialize()
 void SkyBox::Draw()
 {
 	// set view and projection matrix
-	glm::mat4 view = glm::mat4(glm::mat3(m_RenderCamera->GetViewMatrix()));
+	glm::mat4 view = glm::mat4(glm::mat3(Chroma::Scene::GetRenderCamera()->GetViewMatrix()));
 	// shader
 	switch (m_colorSpace)
 	{
@@ -34,14 +35,14 @@ void SkyBox::Draw()
 	{
 		m_linearShader.Use();
 		m_linearShader.SetMat4("view", view);
-		m_linearShader.SetMat4("projection", m_RenderCamera->GetProjectionMatrix());
+		m_linearShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 		break;
 	}
 	case(HDR):
 	{
 		m_HDRShader.Use();
 		m_HDRShader.SetMat4("view", view);
-		m_HDRShader.SetMat4("projection", m_RenderCamera->GetProjectionMatrix());
+		m_HDRShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 		break;
 	}
 	}
@@ -58,12 +59,10 @@ void SkyBox::Draw()
 	glDepthFunc(GL_LESS); 
 }
 
-SkyBox::SkyBox(Camera* const& renderCamera)
+SkyBox::SkyBox()
 {
-
 	m_cubeMap = CubeMap(defaultImageDir);
-	m_cubeMapID = m_cubeMap.m_textureID;
-	m_RenderCamera = renderCamera;
+	m_cubeMapID = m_cubeMap.ID;
 	Initialize();
 }
 

@@ -84,19 +84,19 @@ int main()
 	// Jacket
 	Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
 	jacketAlbedo.type = Texture::ALBEDO;
-	Texture jacketNormal("resources/human/textures/jacket/Jacket_Normal.jpg");
+	Texture jacketNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/jacket/Jacket_Normal.jpg");
 	jacketNormal.type = Texture::NORMAL;
-	Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
+	Texture jacketMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/jacket/MetRoughAO.jpg");
 	jacketMetRoughAO.type = Texture::METROUGHAO;
 
 	//// Head
-	Texture headAlbedo("resources/human/textures/head/head_albedo.jpg");
+	Texture headAlbedo = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_albedo.jpg");
 	headAlbedo.type = Texture::ALBEDO;
-	Texture headNormal("resources/human/textures/head/head_normal.jpg");
+	Texture headNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_normal.jpg");
 	headNormal.type = Texture::NORMAL;
-	Texture headMetRoughAO("resources/human/textures/head/head_metroughao.jpg");
+	Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
 	headMetRoughAO.type = Texture::METROUGHAO;
-	Texture headTranslucency("resources/human/textures/head/head_translucency.jpg");
+	Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
 	headTranslucency.type = Texture::TRANSLUCENCY;
 
 

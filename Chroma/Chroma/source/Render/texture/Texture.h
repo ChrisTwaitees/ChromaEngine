@@ -2,14 +2,14 @@
 #define _TEXTURE_H_
 
 #include <glad/glad.h>
-#include <iostream>
-#include <core/Core.h>
+#include <common/CoreCommon.h>
+
 
 struct TextureData
 {
-	unsigned int ID, width, height, nrComponents;
+	unsigned int ID;
+	int width, height, nrComponents;
 	std::string sourcePath;
-
 };
 
 
@@ -29,16 +29,14 @@ public:
 	/* Constructors */
 	Texture(unsigned int newID);
 	Texture(std::string sourcePath);
-	Texture();
+	Texture(TextureData textData);
+	Texture() {};
 	~Texture();
 
 protected:
 	// paths
-	/*   Functions   */
-	int loadFromFile(std::string m_SourcePath = "", std::string dir = "");
-	int loadFromFile(std::string sourcepath);
 	std::string m_SourcePath;
-	int width, height, nrComponents;
-	virtual void generateTexture();
+	int width{ 0 }, height{ 0 }, nrComponents{ 0 };
+	void InitTextureData(TextureData const& textData);
 };
 #endif

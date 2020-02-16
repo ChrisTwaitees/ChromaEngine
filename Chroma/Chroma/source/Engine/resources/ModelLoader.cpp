@@ -212,7 +212,7 @@ namespace Chroma
 			}
 			if (!skip)
 			{
-				Texture texture = Chroma::TexureLoader::LoadTexture(textureName.C_Str(), m_SourceDir);
+				Texture texture = Chroma::TexureLoader::Load2DTexture(textureName.C_Str(), m_SourceDir);
 				texture.type = typeName;
 				meshData.textures.push_back(texture);
 				meshData.textures.push_back(texture);

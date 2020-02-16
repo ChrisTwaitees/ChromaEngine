@@ -117,7 +117,7 @@ namespace Chroma
 		// init members
 		m_RenderCamera = new Camera();
 		m_SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
-		m_Skybox = new SkyBox(m_RenderCamera);
+		m_Skybox = new SkyBox();
 		m_IBL =  new IBL(); // image based lighting
 
 		// setting skybox to IBL environment map
