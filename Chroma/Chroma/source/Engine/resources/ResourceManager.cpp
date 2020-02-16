@@ -1,6 +1,5 @@
 #include "ResourceManager.h"
-#include <texture/HDRTexture.h>
-#include <texture/CubeMap.h>
+
 
 namespace Chroma
 {
@@ -38,7 +37,7 @@ namespace Chroma
 	MeshData ResourceManager::LoadModel(std::string const& sourcePath)
 	{
 		CHROMA_TRACE_UNDERLINE;
-		CHROMA_TRACE("RESOURCE MANAGER :: Loading Model from: {0}", sourcePath);
+		CHROMA_TRACE("RESOURCE MANAGER :: Loading Model from: {}", sourcePath);
 		std::vector<MeshData> meshList;
 		//std::reference_wrapper<std::vector<MeshData>> refMeshList = std::ref(meshList);
 		//Chroma::JobSystem::Execute([sourcePath, refMeshList] { ModelLoader::LoadThreadSafe(sourcePath, refMeshList); });
@@ -50,7 +49,7 @@ namespace Chroma
 		}
 		else
 		{
-			CHROMA_ERROR("RESOURCE MANAGER :: LoadModel :: Cannot find model at : {0}", sourcePath);
+			CHROMA_ERROR("RESOURCE MANAGER :: LoadModel :: Cannot find model at : {}", sourcePath);
 			return MeshData();
 		}
 	}
