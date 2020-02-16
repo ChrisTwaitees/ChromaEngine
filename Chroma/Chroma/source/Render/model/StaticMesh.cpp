@@ -77,37 +77,39 @@ void StaticMesh::UpdateLightingUniforms(Shader const& shader, Camera& renderCam)
 	for (int i = 0; i < Chroma::Scene::GetLights().size(); i++)
 	{
 		std::string lightIndex;
+		Light* currentLight = Chroma::Scene::GetLights()[i];
 		// set uniforms
-		switch (Chroma::Scene::GetLights()[i]->type) {
+		switch (currentLight->type) {
 		case Light::POINT:
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
+			//// lights point light falloff
+			shader.SetFloat(lightIndex + ".constant", currentLight->constant);
+			shader.SetFloat(lightIndex + ".linear", currentLight->linear);
+			shader.SetFloat(lightIndex + ".quadratic", currentLight->quadratic);
+			shader.SetFloat(lightIndex + ".radius", currentLight->getRadius());
 			break;
-		case Light::SUNLIGHT :
-		case Light::DIRECTIONAL :
+		case Light::SUNLIGHT:
+		case Light::DIRECTIONAL:
 			dirlights++;
 			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
+			//// lights directional
+			shader.SetVec3(lightIndex + ".direction", currentLight->GetDirection());
 			break;
 		case Light::SPOT:
 			spotlights++;
 			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
+			//// lights spotlight
+			shader.SetFloat(lightIndex + ".spotSize", currentLight->getSpotSize());
+			shader.SetFloat(lightIndex + ".penumbraSize", currentLight->getPenumbraSize());
 			break;
 		default:
 			break;
 		}
-		// lights directional
-		shader.SetVec3(lightIndex + ".direction", Chroma::Scene::GetLights()[i]->GetDirection());
-		shader.SetVec3(lightIndex + ".position", Chroma::Scene::GetLights()[i]->GetPosition());
-		shader.SetVec3(lightIndex + ".diffuse", Chroma::Scene::GetLights()[i]->getDiffuse());
-		shader.SetFloat(lightIndex + ".intensity", Chroma::Scene::GetLights()[i]->getIntensity());
-		////// lights spotlight
-		//shader->SetFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
-		//shader->SetFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
-		////// lights point light falloff
-		//shader->SetFloat(lightIndex + ".constant", Lights[i]->constant);
-		//shader->SetFloat(lightIndex + ".linear", Lights[i]->linear);
-		//shader->SetFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
-		//shader->SetFloat(lightIndex + ".radius", Lights[i]->getRadius());
+		// lights all
+		shader.SetFloat(lightIndex + ".intensity", currentLight->getIntensity());
+		shader.SetVec3(lightIndex + ".diffuse", currentLight->getDiffuse());
+		shader.SetVec3(lightIndex + ".position", currentLight->GetPosition());
 		// lights view pos
 		shader.SetVec3("viewPos", renderCam.GetPosition());
 	}
@@ -126,7 +128,6 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 	unsigned int metalnessNr{ 1 };
 	unsigned int metroughaoNr{ 1 };
 	unsigned int aoNr{ 1 };
-	unsigned int translucencyNr{ 1 };
 	for (int i = 0; i < m_Textures.size(); i++)
 	{
 		// building the uniform name
@@ -178,14 +179,6 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 				texturenum = std::to_string(aoNr++);
 				break;
 			}
-		case Texture::TRANSLUCENCY:
-		{
-			name = "material.texture_translucency";
-			texturenum = std::to_string(translucencyNr++);
-			// set use texture translucency
-			shader.SetBool("UseTranslucencyMap", true);
-			break;
-		}
 		case Texture::SHADOWMAP:
 			{	
 				name = "shadowmaps.shadowmap";

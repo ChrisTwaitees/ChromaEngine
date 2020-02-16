@@ -91,7 +91,7 @@ void main()
 	}
 	
 	// TODO : fetch SSAO from GBuffer
-	float SSAO = 0.1;
+	float SSAO = 1.0;
 
 	// LIGHTING
 	//------------------------------------------------------------------------
@@ -116,7 +116,7 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	FragColor = vec4(vec3(Translucency), 1.0);
+	FragColor = vec4(color, 1.0);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
