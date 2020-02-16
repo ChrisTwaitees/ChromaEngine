@@ -61,7 +61,7 @@ int main2()
 	// SHADERS
 	// ____________________________________________________
 	Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-	UnlitShader.use();
+	UnlitShader.Use();
 	UnlitShader.SetVec3("color", glm::vec3(1, 1, 0));
 	Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");

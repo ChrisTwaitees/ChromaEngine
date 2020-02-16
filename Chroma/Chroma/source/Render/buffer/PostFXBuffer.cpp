@@ -45,19 +45,19 @@ void PostFXBuffer::Initialize()
 
 void PostFXBuffer::UpdateTransformUniforms()
 {
-	blurShader->use();
+	blurShader->Use();
 	blurShader->SetVec2("scale", m_Scale);
 	blurShader->SetVec2("offset", m_Offset);
-	m_ScreenShader->use();
+	m_ScreenShader->Use();
 	m_ScreenShader->SetVec2("scale", m_Scale);
 	m_ScreenShader->SetVec2("offset", m_Offset);
 }
 
 void PostFXBuffer::configure_shaders()
 {
-	blurShader->use();
+	blurShader->Use();
 	blurShader->SetInt("image", 0);
-	m_ScreenShader->use();
+	m_ScreenShader->Use();
 	m_ScreenShader->SetInt("scene", 0);
 	m_ScreenShader->SetInt("bloomBlur", 1);
 }
@@ -91,7 +91,7 @@ void PostFXBuffer::blurFragments()
 {
 	UnBind();
 	horizontal = true, first_iteration = true;
-	blurShader->use();
+	blurShader->Use();
 	for (int i = 0; i < blurIterations; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
@@ -113,7 +113,7 @@ void PostFXBuffer::Draw()
 {
 	UnBind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	m_ScreenShader->use();
+	m_ScreenShader->Use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
 	m_ScreenShader->SetInt("bloom", 0);
@@ -131,7 +131,7 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		// blur BrightFragments
 		UnBind();
 		bool horizontal = true, first_iteration = true;
-		blurShader->use();
+		blurShader->Use();
 		for (int i = 0; i < blurIterations; i++)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
@@ -148,7 +148,7 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		UnBind();
 		// Composite blur and HDR and tone
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		m_ScreenShader->use();
+		m_ScreenShader->Use();
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
 		glActiveTexture(GL_TEXTURE1);

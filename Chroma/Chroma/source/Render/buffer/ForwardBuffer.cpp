@@ -83,7 +83,7 @@ void ForwardBuffer::RenderTransparency()
 void ForwardBuffer::DrawQuad()
 {
 	// use screen shader
-	m_ScreenShader->use();
+	m_ScreenShader->Use();
 	// using color attachment
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);

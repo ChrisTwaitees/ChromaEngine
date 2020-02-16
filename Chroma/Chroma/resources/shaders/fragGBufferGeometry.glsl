@@ -22,6 +22,7 @@ in VS_OUT {
 // MATERIALS
 #include "util/materialStruct.glsl"
 uniform Material material;
+
 // Texture Checks
 uniform bool UseAlbedoMap;
 uniform bool UseNormalMap;

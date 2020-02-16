@@ -98,7 +98,7 @@ void DebugBuffer::DrawDepthCulledShapes()
 
 void DebugBuffer::RenderLine(LineShape line)
 {
-	m_LineShader.use();
+	m_LineShader.Use();
 	m_LineShader.SetUniform("Start", line.start);
 	m_LineShader.SetUniform("End", line.end);
 	m_LineShader.SetUniform("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
@@ -111,7 +111,7 @@ void DebugBuffer::RenderLine(LineShape line)
 
 void DebugBuffer::RenderSphere(SphereShape sphere)
 {
-	m_SphereShader.use();
+	m_SphereShader.Use();
 	m_SphereShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 	m_SphereShader.SetUniform("model", sphere.transform);
 	m_SphereShader.SetUniform("radius", sphere.radius);
@@ -122,7 +122,7 @@ void DebugBuffer::RenderSphere(SphereShape sphere)
 
 void DebugBuffer::RenderBox(BoxShape box)
 {
-	m_BoxShader.use();
+	m_BoxShader.Use();
 	m_BoxShader.SetUniform("BBoxMin", box.bbox_min);
 	m_BoxShader.SetUniform("BBoxMax", box.bbox_max);
 	m_BoxShader.SetUniform("VPMat" , Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
@@ -134,7 +134,7 @@ void DebugBuffer::RenderBox(BoxShape box)
 
 void DebugBuffer::RenderJoint(JointShape joint)
 {
-	m_JointShader.use();
+	m_JointShader.Use();
 	m_JointShader.SetUniform("JointPos", joint.jointPos);
 	m_JointShader.SetUniform("ChildPos", joint.childPos);
 	m_JointShader.SetUniform("Size", joint.size);
@@ -147,7 +147,7 @@ void DebugBuffer::RenderJoint(JointShape joint)
 void DebugBuffer::RenderCoordinate(CoordinatesShape coordinate)
 {
 	// Coordinate reference 
-	m_CoordinatesShader.use();
+	m_CoordinatesShader.Use();
 	m_CoordinatesShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 	m_CoordinatesShader.SetUniform("transform", coordinate.transform);
 	m_CoordinatesShader.SetUniform("Size", coordinate.size);

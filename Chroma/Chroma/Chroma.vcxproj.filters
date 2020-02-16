@@ -130,6 +130,9 @@
     <Filter Include="Engine\resources">
       <UniqueIdentifier>{3fb27a9d-cbc6-4326-88a4-e587d6baaa6f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\shaders\ssss">
+      <UniqueIdentifier>{80327f3e-ade1-400a-b720-1124abde4948}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -714,6 +717,9 @@
     </None>
     <None Include="resources\shaders\vertexSphereDebug.glsl">
       <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\fragSSSS.glsl">
+      <Filter>Resources\shaders\ssss</Filter>
     </None>
   </ItemGroup>
 </Project>

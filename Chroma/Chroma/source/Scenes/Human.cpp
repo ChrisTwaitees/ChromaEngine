@@ -68,7 +68,7 @@ int main()
 	// ____________________________________________________
 
 	Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-	Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+	Shader PBRShader("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
 	// ____________________________________________________
 	// TEXTURES
@@ -80,13 +80,13 @@ int main()
 	//Texture flatNormal("resources/textures/test/flat_normal.jpg");
 	//flatNormal.type = Texture::NORMAL;
 
-	//// Jacket
-	//Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
-	//jacketAlbedo.type = Texture::ALBEDO;
-	//Texture jacketNormal("resources/human/textures/jacket/Jacket_Normal.jpg");
-	//jacketNormal.type = Texture::NORMAL;
-	//Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
-	//jacketMetRoughAO.type = Texture::METROUGHAO;
+	// Jacket
+	Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
+	jacketAlbedo.type = Texture::ALBEDO;
+	Texture jacketNormal("resources/human/textures/jacket/Jacket_Normal.jpg");
+	jacketNormal.type = Texture::NORMAL;
+	Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
+	jacketMetRoughAO.type = Texture::METROUGHAO;
 
 	// Head
 	Texture headAlbedo("resources/human/textures/head/head_albedo.jpg");
@@ -103,13 +103,13 @@ int main()
 	// MODELS
 	// ____________________________________________________
 
-	//// Jacket
-	//MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
-	//JacketMeshComponent->SetShader(&PBRShader);
-	//JacketMeshComponent->AddTexture(jacketAlbedo);
-	//JacketMeshComponent->AddTexture(jacketNormal);
-	//JacketMeshComponent->AddTexture(jacketMetRoughAO);
-	//HumanEntity->AddComponent(JacketMeshComponent);
+	// Jacket
+	MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
+	JacketMeshComponent->SetShader(&PBRShader);
+	JacketMeshComponent->AddTexture(jacketAlbedo);
+	JacketMeshComponent->AddTexture(jacketNormal);
+	JacketMeshComponent->AddTexture(jacketMetRoughAO);
+	HumanEntity->AddComponent(JacketMeshComponent);
 
 	// Head
 	MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");

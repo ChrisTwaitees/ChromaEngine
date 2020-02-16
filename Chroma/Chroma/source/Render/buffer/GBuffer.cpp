@@ -84,7 +84,7 @@ void GBuffer::Initialize()
 
 void GBuffer::UpdateTransformUniforms()
 {
-	m_lightingPassShader.use();
+	m_lightingPassShader.Use();
 	m_lightingPassShader.SetUniform("scale", m_Scale);
 	m_lightingPassShader.SetUniform("offset", m_Offset);
 }
@@ -92,7 +92,7 @@ void GBuffer::UpdateTransformUniforms()
 void GBuffer::ConfigureShaders()
 {
 	// Geometry Buffer
-	m_lightingPassShader.use();
+	m_lightingPassShader.Use();
 	m_lightingPassShader.SetUniform("gPosition", 0);
 	m_lightingPassShader.SetUniform("gNormal", 1);
 	m_lightingPassShader.SetUniform("gAlbedo", 2);
@@ -148,7 +148,7 @@ void GBuffer::DrawGeometryPass()
 {
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
-	m_geometryPassShader.use();
+	m_geometryPassShader.Use();
 	m_geometryPassShader.SetMat4("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
 	m_geometryPassShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	m_geometryPassShader.SetMat4("lightSpaceMatrix", m_Shadowbuffer->getLightSpaceMatrix());
@@ -182,7 +182,7 @@ void GBuffer::DrawGeometryPass()
 void GBuffer::drawLightingPass()
 {
 	// use the lighting pass shader
-	m_lightingPassShader.use();
+	m_lightingPassShader.Use();
 	// updating transforms
 	UpdateTransformUniforms();
 	// activating textures

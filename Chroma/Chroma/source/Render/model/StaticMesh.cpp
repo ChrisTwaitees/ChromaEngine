@@ -131,46 +131,58 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		if (m_Textures[i].type == Texture::ALBEDO)
+		Texture::TYPE textureType = m_Textures[i].type;
+
+		switch(textureType)
 		{
-			name = "material.texture_albedo";
-			texturenum = std::to_string(diffuseNr++);
-			// set use texture albedo
-			shader->SetBool("UseAlbedoMap", true);
-		}
-		if (m_Textures[i].type == Texture::NORMAL)
-		{
-			name = "material.texture_normal";
-			texturenum = std::to_string(normalNr++);
-			// set use texture normals
-			shader->SetBool("UseNormalMap", true);
-		}
-		if (m_Textures[i].type == Texture::METROUGHAO)
-		{
-			name = "material.texture_MetRoughAO";
-			texturenum = std::to_string(metroughaoNr++);
-			// set use texture metroughao
-			shader->SetBool("UseMetRoughAOMap", true);
-		}
-		if (m_Textures[i].type == Texture::METALNESS)
-		{
-			name = "material.texture_metalness";
-			texturenum = std::to_string(metalnessNr++);
-		}
-		if (m_Textures[i].type == Texture::ROUGHNESS)
-		{
-			name = "material.texture_roughness";
-			texturenum = std::to_string(roughnessNr++);
-		}
-		if (m_Textures[i].type == Texture::AO)
-		{
-			name = "material.texture_ao";
-			texturenum = std::to_string(aoNr++);
-		}
-		if (m_Textures[i].type == Texture::SHADOWMAP)
-		{
-			name = "shadowmaps.shadowmap";
-			texturenum = std::to_string(shadowmapNr++);
+		case Texture::ALBEDO :
+			{
+				name = "material.texture_albedo";
+				texturenum = std::to_string(diffuseNr++);
+				// set use texture albedo
+				shader->SetBool("UseAlbedoMap", true);
+				break;
+			}
+		case Texture::NORMAL:
+			{
+				name = "material.texture_normal";
+				texturenum = std::to_string(normalNr++);
+				// set use texture normals
+				shader->SetBool("UseNormalMap", true);
+				break;
+			}
+		case Texture::METROUGHAO:
+			{
+				name = "material.texture_MetRoughAO";
+				texturenum = std::to_string(metroughaoNr++);
+				// set use texture metroughao
+				shader->SetBool("UseMetRoughAOMap", true);
+				break;
+			}
+		case Texture::METALNESS:
+			{
+				name = "material.texture_metalness";
+				texturenum = std::to_string(metalnessNr++);
+				break;
+			}
+		case Texture::ROUGHNESS:
+			{
+				name = "material.texture_roughness";
+				texturenum = std::to_string(roughnessNr++);
+				break;
+			}
+		case Texture::AO:
+			{
+				name = "material.texture_ao";
+				texturenum = std::to_string(aoNr++);
+				break;
+			}
+		case Texture::SHADOWMAP:
+			{	
+				name = "shadowmaps.shadowmap";
+				texturenum = std::to_string(shadowmapNr++);
+				break;
+			}
 		}
 
 		// Activate Texture before binding
@@ -190,12 +202,15 @@ void StaticMesh::updateTextureUniforms(const Shader* shader)
 
 void StaticMesh::UpdatePBRLightingTextureUniforms(const Shader*& shader)
 {
+	// Irradiance
 	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 1);
 	shader->SetInt("irradianceMap", m_Textures.size() + 1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetIrradianceMapID());
+	// Prefilter Map
 	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 2);
 	shader->SetInt("prefilterMap", m_Textures.size() + 2);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetPrefilterMapID());
+	// BRDF LUT
 	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 3);
 	shader->SetInt("brdfLUT", m_Textures.size() + 3);
 	glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->GetBRDFLUTID());
@@ -220,28 +235,28 @@ void StaticMesh::UpdateMaterialUniforms(const Shader* shader)
 
 void StaticMesh::Draw(Shader &shader)
 {
-	shader.use();
+	shader.Use();
 	// draw mesh
 	BindDrawVAO();
 }
 
 void StaticMesh::Draw(Camera& RenderCamera)
 {
-	m_shader->use();
+	m_shader->Use();
 	UpdateUniforms(m_shader, RenderCamera);
 	BindDrawVAO();
 }
 
 void StaticMesh::Draw(Shader& shader, Camera& RenderCamera)
 {
-	shader.use();
+	shader.Use();
 	UpdateUniforms(&shader, RenderCamera);
 	BindDrawVAO();
 }
 
 void StaticMesh::DrawUpdateMaterials(Shader& shader)
 {
-	shader.use();
+	shader.Use();
 	UpdateMaterialUniforms(&shader);
 	updateTextureUniforms(&shader);
 	BindDrawVAO();
@@ -249,7 +264,7 @@ void StaticMesh::DrawUpdateMaterials(Shader& shader)
 
 void StaticMesh::DrawUpdateTransforms(Camera& renderCam)
 {
-	m_shader->use();
+	m_shader->Use();
 	UpdateTransformUniforms(m_shader, renderCam);
 	BindDrawVAO();
 }
@@ -318,19 +333,19 @@ glm::vec3 StaticMesh::GetCentroid()
 
 void StaticMesh::SetMat4(std::string name, glm::mat4 value)
 {
-	m_shader->use();
+	m_shader->Use();
 	m_shader->SetMat4(name, value);
 }
 
 void StaticMesh::SetInt(std::string name, int value)
 {
-	m_shader->use();
+	m_shader->Use();
 	m_shader->SetInt(name, value);
 }
 
 void StaticMesh::SetFloat(std::string name, float value)
 {
-	m_shader->use();
+	m_shader->Use();
 	m_shader->SetFloat(name, value);
 }
 

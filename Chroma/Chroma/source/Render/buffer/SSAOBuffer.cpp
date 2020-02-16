@@ -90,7 +90,7 @@ void SSAOBuffer::sendKernelSamplesToShader()
 
 void SSAOBuffer::ConfigureShaders()
 {
-	SSAOShader.use();
+	SSAOShader.Use();
 	SSAOShader.SetInt("kernelSize", kernelSamples);
 	SSAOShader.SetFloat("radius", 0.5f);
 	SSAOShader.SetFloat("bias", 0.025f);
@@ -103,7 +103,7 @@ void SSAOBuffer::ConfigureShaders()
 	SSAOShader.SetVec2("scale", m_Scale);
 	SSAOShader.SetVec2("offset", m_Offset);
 
-	SSAOBlurShader.use();
+	SSAOBlurShader.Use();
 	SSAOBlurShader.SetInt("ssaoInput", 0);
 
 	SSAOBlurShader.SetVec2("scale", m_Scale);
@@ -116,7 +116,7 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
 	glClear(GL_COLOR_BUFFER_BIT);
 	// updating shader uniforms
-	SSAOShader.use();
+	SSAOShader.Use();
 	sendKernelSamplesToShader();
 	SSAOShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	//sending textures
@@ -133,7 +133,7 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoBlurFBO);
 	glClear(GL_COLOR_BUFFER_BIT);
 	// updating shader uniforms
-	SSAOBlurShader.use();
+	SSAOBlurShader.Use();
 	// sending textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);

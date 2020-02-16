@@ -133,7 +133,7 @@ Shader::~Shader()
 	ShaderID = glCreateProgram();
 }
 
-void Shader::use() const
+void Shader::Use() const
 {
 	glUseProgram(ShaderID);
 }

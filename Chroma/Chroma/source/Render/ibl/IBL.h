@@ -57,7 +57,7 @@ public:
 	template <typename UniformType>
 	void SetUniform(std::string uniformName, UniformType uniform)
 	{
-		m_envMapShader.use();
+		m_envMapShader.Use();
 		m_envMapShader.SetUniform(uniformName, uniform);
 	}
 	IBL();

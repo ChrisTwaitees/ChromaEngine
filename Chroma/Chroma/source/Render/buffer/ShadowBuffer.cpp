@@ -53,7 +53,7 @@ void ShadowBuffer::DrawShadowMaps()
 	calcLightSpaceMatrix();
 
 	// Set uniforms on shader
-	depthShader.use();
+	depthShader.Use();
 	depthShader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
 
 	// Set map resolution

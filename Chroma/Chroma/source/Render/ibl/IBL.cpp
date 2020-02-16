@@ -47,7 +47,7 @@ void IBL::generateEnvCubeMap()
 	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
 	// convert HDR equirectangular environment map to cubemap equivalent
-	m_envMapShader.use();
+	m_envMapShader.Use();
 	m_envMapShader.SetInt("equirectangularMap", 0);
 	m_envMapShader.SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
@@ -90,7 +90,7 @@ void IBL::generateIrradianceMap()
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 32, 32);
 
 	// convolute the irradiance cubemap
-	m_irradienceMapShader.use();
+	m_irradienceMapShader.Use();
 	m_irradienceMapShader.SetInt("environmentMap", 0);
 	m_irradienceMapShader.SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
@@ -134,7 +134,7 @@ void IBL::generatePrefilterMap()
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, 128, 128);
 
 	// convolute the prefilter cubemap
-	m_prefilterMapShader.use();
+	m_prefilterMapShader.Use();
 	m_prefilterMapShader.SetInt("environmentMap", 0);
 	m_prefilterMapShader.SetMat4("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
@@ -187,7 +187,7 @@ void IBL::generateBRDFLUTMap()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_brdfLUTTexture, 0);
 
 	glViewport(0, 0, 512, 512);
-	m_brdfShader.use();
+	m_brdfShader.Use();
 	m_brdfShader.SetUniform("scale", glm::vec2(1.0));
 	m_brdfShader.SetUniform("offset", glm::vec2(0.0));
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

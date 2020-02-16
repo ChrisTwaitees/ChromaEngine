@@ -32,14 +32,14 @@ void SkyBox::Draw()
 	{
 	case(LINEAR) :
 	{
-		m_linearShader.use();
+		m_linearShader.Use();
 		m_linearShader.SetMat4("view", view);
 		m_linearShader.SetMat4("projection", m_RenderCamera->GetProjectionMatrix());
 		break;
 	}
 	case(HDR):
 	{
-		m_HDRShader.use();
+		m_HDRShader.Use();
 		m_HDRShader.SetMat4("view", view);
 		m_HDRShader.SetMat4("projection", m_RenderCamera->GetProjectionMatrix());
 		break;

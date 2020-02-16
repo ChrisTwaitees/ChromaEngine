@@ -14,6 +14,37 @@
 
 class IFramebuffer
 {
+public:
+	// static
+	static void CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
+	static void CopyDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
+	static void CopyColor(unsigned int const& sourceFBO, unsigned int const& targetFBO);
+
+	// draw
+	void RenderQuad();
+	// Getters/Setters
+	void SetTexture(unsigned int newFBOTexture);
+	virtual unsigned int GetTexture() { return m_FBOTexture; };
+
+	virtual unsigned int GetFBO() { return m_FBO; };
+
+	void SetScale(glm::vec2 newScale) { m_Scale = newScale; };
+	void SetTranslation(glm::vec2 newPosition) { m_Offset = newPosition; };
+
+
+	template<typename UniformType>
+	void SetUniform(std::string uniformName, UniformType uniformValue) {
+		m_ScreenShader->SetUniform(uniformName, uniformValue);
+	};
+
+	virtual void Bind();
+	virtual void UnBind();
+	virtual void ClearColorAndDepth();
+	virtual void Draw();
+
+	IFramebuffer();
+	virtual ~IFramebuffer();
+
 protected:
 	// consts
 	const char* vtxSource{ "resources/shaders/frameBufferVertex.glsl" };
@@ -43,36 +74,6 @@ protected:
 	virtual void GenTexture();
 	virtual void SetTextureParameters();
 	virtual void UpdateTransformUniforms();
-public:
-	// static
-	static void CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
-	static void CopyDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
-	static void CopyColor(unsigned int const& sourceFBO, unsigned int const& targetFBO);
-	// draw
-	void RenderQuad();
-	// Getters/Setters
-	void SetTexture(unsigned int newFBOTexture);
-	virtual unsigned int GetTexture() { return m_FBOTexture; };
-
-	virtual unsigned int GetFBO() { return m_FBO; };
-
-	void SetScale(glm::vec2 newScale) { m_Scale = newScale; };
-	void SetTranslation(glm::vec2 newPosition) { m_Offset = newPosition; };
-
-
-
-	template<typename UniformType>
-	void SetUniform(std::string uniformName, UniformType uniformValue) {
-		m_ScreenShader->SetUniform(uniformName, uniformValue);
-	};
-
-	virtual void Bind();
-	virtual void UnBind();
-	virtual void ClearColorAndDepth();
-	virtual void Draw();
-
-	IFramebuffer();
-	virtual ~IFramebuffer();
 };
 
 

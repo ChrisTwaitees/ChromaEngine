@@ -342,6 +342,7 @@
     <None Include="resources\shaders\fragSkyBox.glsl" />
     <None Include="resources\shaders\fragSSAO.glsl" />
     <None Include="resources\shaders\fragSSAOBlur.glsl" />
+    <None Include="resources\shaders\fragSSSS.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\geometryBoxDebug.glsl" />
