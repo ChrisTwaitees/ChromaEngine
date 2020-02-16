@@ -81,12 +81,12 @@ int main()
 	//flatNormal.type = Texture::NORMAL;
 
 	// Jacket
-	Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
-	jacketAlbedo.type = Texture::ALBEDO;
-	Texture jacketNormal("resources/human/textures/jacket/Jacket_Normal.jpg");
-	jacketNormal.type = Texture::NORMAL;
-	Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
-	jacketMetRoughAO.type = Texture::METROUGHAO;
+	//Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
+	//jacketAlbedo.type = Texture::ALBEDO;
+	//Texture jacketNormal("resources/human/textures/jacket/Jacket_Normal.jpg");
+	//jacketNormal.type = Texture::NORMAL;
+	//Texture jacketMetRoughAO("resources/human/textures/jacket/MetRoughAO.jpg");
+	//jacketMetRoughAO.type = Texture::METROUGHAO;
 
 	// Head
 	Texture headAlbedo("resources/human/textures/head/head_albedo.jpg");
@@ -106,9 +106,9 @@ int main()
 	// Jacket
 	MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
 	JacketMeshComponent->SetShader(PBRShader);
-	JacketMeshComponent->AddTexture(jacketAlbedo);
+	/*JacketMeshComponent->AddTexture(jacketAlbedo);
 	JacketMeshComponent->AddTexture(jacketNormal);
-	JacketMeshComponent->AddTexture(jacketMetRoughAO);
+	JacketMeshComponent->AddTexture(jacketMetRoughAO);*/
 	HumanEntity->AddComponent(JacketMeshComponent);
 
 	// Head
@@ -119,6 +119,7 @@ int main()
 	HeadMeshComponent->AddTexture(headAlbedo);
 	HeadMeshComponent->AddTexture(headNormal);
 	HeadMeshComponent->AddTexture(headMetRoughAO);
+	HeadMeshComponent->AddTexture(headTranslucency);
 	HumanEntity->AddComponent(HeadMeshComponent);
 
 	//// Eyelashes 

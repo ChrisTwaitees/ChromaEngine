@@ -11,4 +11,6 @@ struct Material {
 	sampler2D texture_roughness1;
 	// ao
 	sampler2D texture_ao1;
+	// translucency
+	sampler2D texture_translucency1;
 };

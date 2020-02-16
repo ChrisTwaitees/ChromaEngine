@@ -12,29 +12,6 @@
 
 class StaticMesh : public MeshComponent
 {
-protected:
-	// mesh data
-	unsigned int VAO{ 0 }, VBO{ 0 }, EBO{ 0 };
-	std::vector<ChromaVertex> m_vertices;
-	std::vector<unsigned int> m_Indices;
-	std::vector<Texture> m_Textures;
-	// default shader
-	std::string fragShaderSource = "resources/shaders/fragPBR.glsl";
-	std::string vtxShaderSource = "resources/shaders/vertexLitShadowsNormals.glsl";
-	Shader m_shader{ fragShaderSource, vtxShaderSource };
-
-	// functions
-	virtual void CalculateBBox();
-	virtual void CalculateCentroid();
-	virtual void SetupMesh();
-	// render functions
-	virtual void UpdateUniforms(Shader const& shader, Camera& RenderCam);
-	virtual void UpdateTransformUniforms(Shader const& shader, Camera& renderCam);
-	virtual void UpdateMaterialUniforms(Shader const& shader);
-	virtual void UpdateLightingUniforms(Shader const& shader, Camera& renderCam);
-	virtual void updateTextureUniforms(Shader const& shader);
-	void UpdatePBRLightingTextureUniforms(Shader const& shader);
-
 public:
 	// Functions
 	virtual void Draw(Shader const& shader) override;
@@ -66,6 +43,29 @@ public:
 	StaticMesh(MeshData const& newMeshData);
 	StaticMesh();
 	virtual ~StaticMesh();
+
+protected:
+	// mesh data
+	unsigned int VAO{ 0 }, VBO{ 0 }, EBO{ 0 };
+	std::vector<ChromaVertex> m_vertices;
+	std::vector<unsigned int> m_Indices;
+	std::vector<Texture> m_Textures;
+	// default shader
+	std::string fragShaderSource = "resources/shaders/fragPBR.glsl";
+	std::string vtxShaderSource = "resources/shaders/vertexLitShadowsNormals.glsl";
+	Shader m_shader{ fragShaderSource, vtxShaderSource };
+
+	// functions
+	virtual void CalculateBBox();
+	virtual void CalculateCentroid();
+	virtual void SetupMesh();
+	// render functions
+	virtual void UpdateUniforms(Shader const& shader, Camera& RenderCam);
+	virtual void UpdateTransformUniforms(Shader const& shader, Camera& renderCam);
+	virtual void UpdateMaterialUniforms(Shader const& shader);
+	virtual void UpdateLightingUniforms(Shader const& shader, Camera& renderCam);
+	virtual void updateTextureUniforms(Shader const& shader);
+	void UpdatePBRLightingTextureUniforms(Shader const& shader);
 };
 
 #endif

@@ -32,6 +32,7 @@ uniform Material material;
 uniform bool UseAlbedoMap;
 uniform bool UseNormalMap;
 uniform bool UseMetRoughAOMap;
+uniform bool UseTranslucencyMap;
 // Material overrides if no maps provided
 uniform vec3 color;
 uniform float roughness;
@@ -45,7 +46,8 @@ uniform vec3 viewPos;
 //IBL
 uniform samplerCube irradianceMap;
 uniform samplerCube prefilterMap;
-uniform sampler2D   brdfLUT; 
+uniform sampler2D   brdfLUT;
+
 // Lights
 uniform PointLight pointLights[NR_POINT_LIGHTS];
 uniform DirLight dirLights[NR_DIR_LIGHTS];
@@ -60,9 +62,12 @@ void main()
 {
 	// MATERIAL PROPERTIES
 	vec3 Albedo, Normal;
-	float Metalness, Roughness, AO;
+	float Metalness, Roughness, AO, Translucency;
 	// albedo
 	Albedo = UseAlbedoMap? vec3(texture(material.texture_albedo1, fs_in.TexCoords * UVMultiply).rgb) : color;
+	// translucency
+	Translucency = UseTranslucencyMap ? texture(material.texture_translucency1, fs_in.TexCoords * UVMultiply).r : 0.0;
+
 	// normals
 	if (UseNormalMap){
 		Normal = vec3(texture(material.texture_normal1, fs_in.TexCoords));
@@ -111,7 +116,7 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	FragColor = vec4(vec3(texture(material.texture_normal1, fs_in.TexCoords)), 1.0);
+	FragColor = vec4(vec3(Translucency), 1.0);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
