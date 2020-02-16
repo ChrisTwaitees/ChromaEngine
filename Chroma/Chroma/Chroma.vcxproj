@@ -236,6 +236,7 @@
     <ClCompile Include="source\Render\texture\CubeMap.cpp" />
     <ClCompile Include="source\Render\texture\Texture.cpp" />
     <ClCompile Include="source\Render\texture\HDRTexture.cpp" />
+    <ClCompile Include="source\Scenes\Human.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h" />

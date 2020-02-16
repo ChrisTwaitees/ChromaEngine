@@ -60,6 +60,18 @@ glm::vec3 Model::GetCentroid()
 	return m_Centroid;
 }
 
+void Model::SetIsLit(bool const& check)
+{
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetIsLit(check);
+}
+
+void Model::SetIsForwardLit(bool const& check)
+{
+	for (UID const& uid : m_MeshUIDs)
+		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetIsForwardLit(check);
+}
+
 // TEXTURES
 void Model::AddTexture(Texture texture_val)
 {
