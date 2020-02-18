@@ -7,7 +7,7 @@
 #include <screen/Screen.h>
 #include <scene/Scene.h>
 #include <render/Render.h>
-#include <gui/GUI.h>
+#include <gui/core/GUI.h>
 #include <physics/PhysicsEngine.h>
 #include <input/Input.h>
 #include <jobSystem/JobSystem.h>

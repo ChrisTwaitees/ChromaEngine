@@ -186,6 +186,7 @@
     <ClCompile Include="source\Engine\component\IComponent.cpp" />
     <ClCompile Include="source\Engine\component\MeshComponent.cpp" />
     <ClCompile Include="source\Engine\component\PhysicsComponent.cpp" />
+    <ClCompile Include="source\Engine\component\UIComponent.cpp" />
     <ClCompile Include="source\Engine\core\Core.cpp" />
     <ClCompile Include="source\Engine\engine\Engine.cpp" />
     <ClCompile Include="source\Engine\entity\Entity.cpp" />
@@ -218,7 +219,8 @@
     <ClCompile Include="source\Render\camera\Camera.cpp" />
     <ClCompile Include="source\Render\camera\FlyCameraController.cpp" />
     <ClCompile Include="source\Render\camera\MayaCameraController.cpp" />
-    <ClCompile Include="source\Render\gui\GUI.cpp" />
+    <ClCompile Include="source\Render\gui\core\GUI.cpp" />
+    <ClCompile Include="source\Render\gui\icon\Icon.cpp" />
     <ClCompile Include="source\Render\ibl\IBL.cpp" />
     <ClCompile Include="source\Render\light\Light.cpp" />
     <ClCompile Include="source\Render\model\BoxPrimitive.cpp" />
@@ -259,6 +261,7 @@
     <ClInclude Include="source\Engine\component\MeshComponent.h" />
     <ClInclude Include="source\Engine\component\PhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\IComponent.h" />
+    <ClInclude Include="source\Engine\component\UIComponent.h" />
     <ClInclude Include="source\Engine\core\Core.h" />
     <ClInclude Include="source\Engine\engine\Engine.h" />
     <ClInclude Include="source\Engine\entity\Entity.h" />
@@ -297,7 +300,8 @@
     <ClInclude Include="source\Render\camera\ICameraController.h" />
     <ClInclude Include="source\Render\camera\FlyCameraController.h" />
     <ClInclude Include="source\Render\camera\MayaCameraController.h" />
-    <ClInclude Include="source\Render\gui\GUI.h" />
+    <ClInclude Include="source\Render\gui\core\GUI.h" />
+    <ClInclude Include="source\Render\gui\icon\Icon.h" />
     <ClInclude Include="source\Render\ibl\IBL.h" />
     <ClInclude Include="source\Render\light\Light.h" />
     <ClInclude Include="source\Render\model\BoxPrimitive.h" />
@@ -353,6 +357,8 @@
     <None Include="resources\shaders\geometryJointDebug.glsl" />
     <None Include="resources\shaders\geometryLineDebug.glsl" />
     <None Include="resources\shaders\geometrySphereDebug.glsl" />
+    <None Include="resources\shaders\ui\icon\frgIcon.glsl" />
+    <None Include="resources\shaders\ui\icon\vtxIcon.glsl" />
     <None Include="resources\shaders\vertexCoordinatesDebug.glsl" />
     <None Include="resources\shaders\vertexCubeMap.glsl" />
     <None Include="resources\shaders\vertexJointDebug.glsl" />

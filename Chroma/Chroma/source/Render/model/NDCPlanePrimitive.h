@@ -10,6 +10,14 @@
 
 class NDCPlanePrimitive
 {
+public:
+	// draw
+	void BindDrawVAO();
+
+	NDCPlanePrimitive();
+	~NDCPlanePrimitive();
+
+protected:
 	// quad data
 	float quadData[20] = {
 		// positions        // texture Coords
@@ -21,13 +29,7 @@ class NDCPlanePrimitive
 	// vertex array / vertex buffer
 	unsigned int VAO, VBO;
 
-	void setupQuad();
-public:
-	// draw
-	void BindDrawVAO();
-
-	NDCPlanePrimitive();
-	~NDCPlanePrimitive();
+	void SetupQuad();
 };
 
 #endif

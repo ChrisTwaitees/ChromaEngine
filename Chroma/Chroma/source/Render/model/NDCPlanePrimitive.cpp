@@ -1,6 +1,6 @@
 #include "NDCPlanePrimitive.h"
 
-void NDCPlanePrimitive::setupQuad()
+void NDCPlanePrimitive::SetupQuad()
 {
 
 	// setup plane VAO
@@ -23,7 +23,7 @@ void NDCPlanePrimitive::BindDrawVAO()
 
 NDCPlanePrimitive::NDCPlanePrimitive()
 {
-	setupQuad();
+	SetupQuad();
 }
 
 NDCPlanePrimitive::~NDCPlanePrimitive()

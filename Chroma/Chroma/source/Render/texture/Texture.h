@@ -26,6 +26,7 @@ public:
 	std::string& GetSourcePath() { return m_SourcePath; }
 
 	void Bind();
+	void Destroy();
 	/* Constructors */
 	Texture(unsigned int newID);
 	Texture(std::string sourcePath);

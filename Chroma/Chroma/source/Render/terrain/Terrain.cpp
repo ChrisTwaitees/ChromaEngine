@@ -29,7 +29,7 @@ glm::mat4 Terrain::GetTransform()
 Terrain::Terrain()
 {
 	Initialize();
-	setupQuad();
+	SetupQuad();
 }
 
 

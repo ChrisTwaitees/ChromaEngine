@@ -2,7 +2,7 @@
 
 PlanePrimitive::PlanePrimitive()
 {
-	setupQuad();
+	SetupQuad();
 }
 
 PlanePrimitive::~PlanePrimitive()
@@ -10,7 +10,7 @@ PlanePrimitive::~PlanePrimitive()
 
 }
 
-void PlanePrimitive::setupQuad()
+void PlanePrimitive::SetupQuad()
 {
 	// positions
 	glm::vec3 pos1(-1.0f, 1.0f, 0.0f);

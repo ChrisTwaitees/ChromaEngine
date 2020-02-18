@@ -40,6 +40,8 @@ namespace Chroma
 
 	std::set<UID> Scene::m_PhysicsComponentUIDs;
 
+	std::set<UID> Scene::m_UIComponentUIDs;
+
 	// timing
 	std::chrono::steady_clock::time_point Scene::m_SceneBuildStartTime;
 	std::chrono::steady_clock::time_point Scene::m_SceneBuildEndTime;
@@ -250,6 +252,18 @@ namespace Chroma
 
 		// add component
 		m_Components[newPhysicsComponent->GetUID()] = newPhysicsComponent;
+	}
+
+	void Scene::AddUIComponent(IComponent* const& newUIComponent)
+	{
+		// add to global component UIDs
+		m_ComponentUIDs.insert(newUIComponent->GetUID());
+
+		// collect component UID
+		m_UIComponentUIDs.insert(newUIComponent->GetUID());
+
+		// add component
+		m_Components[newUIComponent->GetUID()] = newUIComponent;
 	}
 
 	void Scene::RemoveLight(Light& RemoveLight)

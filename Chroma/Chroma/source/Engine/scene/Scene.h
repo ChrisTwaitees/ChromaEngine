@@ -22,18 +22,19 @@ namespace Chroma
 		static void Init();
 		static void PostSceneBuild();
 		static void PreSceneBuild();
-		// entities
+		// adding entities
 		static void AddEntity(IEntity* const& newEntity);
 		static void AddAnimatedEntity(IEntity* const& newAnimatedEntity);
 		static void AddTransparentEntity(IEntity* const& newTransparentEntity);
 		static void RemoveEntity(IEntity& RemoveEntity);
 		static float GetEntityDistanceToCamera(UID const& UID);
 
-		// updating components
+		// adding components
 		static void AddAnimationComponent(IComponent* const& newAnimationComponent);
 		static void AddCharacterControllerComponent(IComponent* const& newCharacterControllerComponent);
 		static void AddMeshComponent(IComponent* const& newMeshComponent);
 		static void AddPhysicsComponent(IComponent* const& newPhysicsComponent);
+		static void AddUIComponent(IComponent* const& newUIComponent);
 
 		// lights
 		static void AddLight(Light* const& newLight) { m_Lights.push_back(newLight); };
@@ -96,22 +97,26 @@ namespace Chroma
 		static std::set<UID> m_TransparentEntityUIDs;
 		static std::set<UID> m_AnimatedEntityUIDs;
 		// components
+		// all components
 		static std::set<UID> m_ComponentUIDs;
+		// physics components
 		static std::set<UID> m_PhysicsComponentUIDs;
-
+		// mesh components
 		static std::set<UID> m_MeshComponentUIDs;
 		static void ProcessMeshComponentRenderFlags(IComponent* const& newMeshComponent);
 		static std::set<UID> m_SkinnedMeshComponentUIDs;
-
+		// animation components
 		static std::set<UID> m_AnimationComponentUIDs;
 		static std::set<UID> m_CharacterControllerUIDs;
-
+		// render flagged components
 		static std::set<UID> m_RenderableComponentUIDs;
 		static std::set<UID> m_LitComponentUIDs;
 		static std::set<UID> m_ForwardLitComponentUIDs;
 		static std::set<UID> m_ShadowCastingComponentUIDs;
 		static std::set<UID> m_TransparentComponentUIDs;
 		static std::set<UID> m_UnLitComponentUIDs;
+		// ui components
+		static std::set<UID> m_UIComponentUIDs;
 
 		// render components
 		static Camera* m_RenderCamera;

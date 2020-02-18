@@ -6,7 +6,7 @@ class PlanePrimitive : public StaticMesh
 {
 protected:
 	std::vector<float> quadVertices;
-	void setupQuad();
+	void SetupQuad();
 public :
 	// Functions
 	void BindDrawVAO() override;

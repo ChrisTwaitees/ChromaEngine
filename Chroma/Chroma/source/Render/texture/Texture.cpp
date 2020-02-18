@@ -15,6 +15,12 @@ void Texture::Bind()
 	glBindTexture(GL_TEXTURE_2D, ID);
 }
 
+void Texture::Destroy()
+{
+	CHROMA_TRACE("Removing Texture : {0}", ID);
+	glDeleteTextures(1, &ID);
+}
+
 Texture::Texture(unsigned int newID)
 {
 	ID = newID;
@@ -22,6 +28,7 @@ Texture::Texture(unsigned int newID)
 
 Texture::Texture(std::string sourcepath)
 {
+	m_SourcePath = sourcepath;
 	TextureData newTex = Chroma::TexureLoader::Load2DTextureData(sourcepath);
 	InitTextureData(newTex);
 }

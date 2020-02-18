@@ -6,6 +6,7 @@
 
 // chroma
 #include <uid/UID.h>
+#include <common/CoreCommon.h>
 
 // forward declarations
 class IEntity;

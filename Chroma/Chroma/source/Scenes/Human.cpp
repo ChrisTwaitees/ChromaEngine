@@ -8,6 +8,7 @@
 #include <engine/engine.h>
 #include <resources/ResourceManager.h>
 #include <terrain/Terrain.h>
+#include <gui/icon/Icon.h>
 
 #include <entity/Entity.h>
 #include <model/SkinnedMesh.h>
@@ -78,19 +79,19 @@ int main()
 	// TEXTURES
 	// ____________________________________________________
 
-	//// Default
-	// Generic
-	Texture greyAlbedo("resources/textures/colors/grey.jpg");
-	Texture gridAlbedo("resources/animation/textures/grid.jpg");
-	Texture flatNormal("resources/textures/test/flat_normal.jpg");
+	////// Default
+	//// Generic
+	//Texture greyAlbedo("resources/textures/colors/grey.jpg");
+	//Texture gridAlbedo("resources/animation/textures/grid.jpg");
+	//Texture flatNormal("resources/textures/test/flat_normal.jpg");
 
-	// Jacket
-	Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
-	jacketAlbedo.type = Texture::ALBEDO;
-	Texture jacketNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/jacket/Jacket_Normal.jpg");
-	jacketNormal.type = Texture::NORMAL;
-	Texture jacketMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/jacket/MetRoughAO.jpg");
-	jacketMetRoughAO.type = Texture::METROUGHAO;
+	//// Jacket
+	//Texture jacketAlbedo("resources/human/textures/jacket/Jacket_Colour.jpg");
+	//jacketAlbedo.type = Texture::ALBEDO;
+	//Texture jacketNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/jacket/Jacket_Normal.jpg");
+	//jacketNormal.type = Texture::NORMAL;
+	//Texture jacketMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/jacket/MetRoughAO.jpg");
+	//jacketMetRoughAO.type = Texture::METROUGHAO;
 
 	// Head
 	Texture headAlbedo = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_albedo.jpg");
@@ -104,17 +105,17 @@ int main()
 
 
 
-	// ____________________________________________________
-	// MODELS
-	// ____________________________________________________
+	//// ____________________________________________________
+	//// MODELS
+	//// ____________________________________________________
 
-	//Jacket
-	MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
-	JacketMeshComponent->SetShader(PBRShader);
-	JacketMeshComponent->AddTexture(jacketAlbedo);
-	JacketMeshComponent->AddTexture(jacketNormal);
-	JacketMeshComponent->AddTexture(jacketMetRoughAO);
-	HumanEntity->AddComponent(JacketMeshComponent);
+	////Jacket
+	//MeshComponent* JacketMeshComponent = new Model("resources/human/Jacket/Jacket.fbx");
+	//JacketMeshComponent->SetShader(PBRShader);
+	//JacketMeshComponent->AddTexture(jacketAlbedo);
+	//JacketMeshComponent->AddTexture(jacketNormal);
+	//JacketMeshComponent->AddTexture(jacketMetRoughAO);
+	//HumanEntity->AddComponent(JacketMeshComponent);
 
 	// Head
 	MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");
@@ -129,7 +130,7 @@ int main()
 
 	// TERRAIN
 	// ____________________________________________________
-	IEntity* TerrainEntity = new Entity;
+	/*IEntity* TerrainEntity = new Entity;
 	Chroma::Scene::AddEntity(TerrainEntity);
 	MeshComponent* TerrainMeshComponent = new Terrain;
 	TerrainMeshComponent->SetShader(PBRShader);
@@ -137,12 +138,11 @@ int main()
 	TerrainMeshComponent->AddTexture(flatNormal);
 	TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
 	TerrainEntity->AddComponent(TerrainMeshComponent);
-	TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));
+	TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));*/
 	// ____________________________________________________
 
 
 	// Eyelashes 
-	Chroma::JobSystem::Wait();
 	MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
 	HumanEntity->AddComponent(EyelashesMeshComponent);
 
@@ -150,6 +150,9 @@ int main()
 	MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
 	HumanEntity->AddComponent(EyebrowsMeshComponent);
 
+	// Icon
+	UIComponent* testIconComponent = new Icon();
+	Chroma::Scene::AddUIComponent(testIconComponent);
 
 
 	Chroma::Scene::PostSceneBuild();

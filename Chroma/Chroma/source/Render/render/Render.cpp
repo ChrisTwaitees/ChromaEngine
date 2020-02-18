@@ -1,5 +1,5 @@
 #include "Render.h"
-#include <gui/GUI.h>
+#include <gui/core/GUI.h>
 
 namespace Chroma
 {

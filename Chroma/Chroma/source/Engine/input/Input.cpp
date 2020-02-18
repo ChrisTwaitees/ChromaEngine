@@ -1,7 +1,7 @@
 #include "Input.h"
 #include <scene/Scene.h>
 #include <physics/PhysicsEngine.h>
-#include <gui/GUI.h>
+#include <gui/core/GUI.h>
 
 namespace Chroma
 {
