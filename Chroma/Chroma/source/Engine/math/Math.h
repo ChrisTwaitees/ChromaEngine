@@ -152,6 +152,28 @@ namespace Chroma
 			
 		}
 
+		static void TransposeViewToModelMatrixParticles(glm::mat4& modelMatrix, glm::mat4 const& viewMatrix)
+		{
+			// negates rotation on the model matrix from the view matrix by replacing the rotation portion of the 
+			// model matrix with the transpose of the rotation of the view matrix as explained here : 
+			// https://www.mathsisfun.com/algebra/matrix-introduction.html
+			//https://www.youtube.com/watch?v=6PkjU9LaDTQ
+			modelMatrix[0][0] = viewMatrix[0][0]; 
+			modelMatrix[0][1] = viewMatrix[1][0];
+			modelMatrix[0][2] = viewMatrix[2][0];
+
+			modelMatrix[1][0] = viewMatrix[0][1];
+			modelMatrix[1][1] = viewMatrix[1][1];
+			modelMatrix[1][2] = viewMatrix[2][1];
+
+			modelMatrix[2][0] = viewMatrix[0][2];
+			modelMatrix[2][1] = viewMatrix[1][2];
+			modelMatrix[2][2] = viewMatrix[2][2];
+
+		}
+
+
+
 	};
 }
 

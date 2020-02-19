@@ -115,7 +115,7 @@ class DebugBuffer : public IFramebuffer
 	void BindPointVAO();
 	// blitting depth buffer before rendering
 	void Initialize() override;
-	
+
 
 public:
 	// Coordinates

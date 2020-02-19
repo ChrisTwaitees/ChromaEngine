@@ -72,6 +72,7 @@ namespace Chroma
 		static inline std::set<UID>& GetForwardLitComponentUIDs() { return m_ForwardLitComponentUIDs; }
 
 		static inline std::set<UID>& GetPhysicsComponentUIDs() { return m_PhysicsComponentUIDs; }
+		static inline std::set<UID>& GetUIComponentUIDs() { return m_UIComponentUIDs; }
 		// Attrs
 		static Camera*& GetRenderCamera() { return m_RenderCamera; };
 		static std::vector<Light*>& GetLights() { return m_Lights; };

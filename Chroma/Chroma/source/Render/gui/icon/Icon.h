@@ -1,16 +1,19 @@
 #ifndef _CHROMA_ICON_H
 #define _CHROMA_ICON_H
 
-#include <model/NDCPlanePrimitive.h>
 #include <math/Math.h>
 #include <component/UIComponent.h>
+#include <shader/Shader.h>
+#include <texture/Texture.h>
 
-class Icon : public NDCPlanePrimitive, public UIComponent
+
+class Icon : public UIComponent
 {
 public:
 	inline float& GetScale() { return m_Scale; }
 	inline void SetScale(float const& newScale) {
-		m_Scale = newScale; UpdateTransform();
+		m_Scale = newScale; 
+		UpdateTransform();
 	}
 
 	inline glm::vec3& GetPosition() { return m_Position; }
@@ -28,14 +31,18 @@ public:
 	Icon();
 	~Icon();
 
+	void BindDrawVAO();
 private :
 	void Initialize();
 	void UpdateTransform();
 
+	void SetupQuad();
+	// vertex array / vertex buffer
+	unsigned int VAO, VBO;
 	glm::mat4 m_ModelMatrix;
-	std::string m_IconDirectory;
+	std::string m_IconSourcePath;
 	float m_Scale{ 1.0f };
-	glm::vec3 m_Position{0.0f};
+	glm::vec3 m_Position{1.0f};
 	Shader m_IconShader{ "resources/shaders/ui/icon/frgIcon.glsl", "resources/shaders/ui/icon/vtxIcon.glsl" };
 	Texture m_IconTexture{ "resources/icons/light_icon.png" };
 	bool m_IgnoreDepth{ false };

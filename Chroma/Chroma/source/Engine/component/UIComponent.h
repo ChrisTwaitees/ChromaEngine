@@ -8,7 +8,7 @@ class UIComponent :	public IComponent
 public:
 	// Functions
 	virtual void Init();
-	virtual void Update();
+	virtual void Update() {};
 	virtual void Destroy();
 
 	virtual void Draw() {};

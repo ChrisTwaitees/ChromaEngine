@@ -1,6 +1,8 @@
 #include "DebugBuffer.h"
 #include <scene/Scene.h>
 #include <model/SkinnedMesh.h>
+#include <component/UIComponent.h>
+
 
 void DebugBuffer::Initialize()
 {
@@ -25,6 +27,7 @@ void DebugBuffer::Initialize()
 	// build Line VAO
 	GeneratePointVAO();
 }
+
 
 void DebugBuffer::GeneratePointVAO()
 {
@@ -53,6 +56,19 @@ void DebugBuffer::DrawShapes()
 	// OVERLAY 
 	CopyColor(m_PostFXBuffer->GetFBO(), m_FBO);
 	DrawOverlayShapes();
+
+	// Set to alpha blending
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// Disable Back Face Culling to allow interior of transparent objects to be seen
+	glDisable(GL_CULL_FACE);
+	for (UID const& componentUID : Chroma::Scene::GetUIComponentUIDs())
+	{
+		((UIComponent*)Chroma::Scene::GetComponent(componentUID))->Draw();
+	}
+	// set to default blending
+	glBlendFunc(GL_ONE, GL_ZERO);
+	// Re enable backface culling for preventing unecessary rendering
+	glEnable(GL_CULL_FACE);
 
 	// DEPTH RESPECTING
 	CopyDepth(m_PostFXBuffer->GetFBO(), m_FBO);

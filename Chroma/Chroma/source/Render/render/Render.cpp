@@ -53,40 +53,48 @@ namespace Chroma
 
 	void Render::RenderGraphicsDebug()
 	{
-		if (Chroma::GUI::m_DrawGraphicsDebug)
+
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		switch (Chroma::GUI::m_GraphicsDebugSelected)
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		case (0):
+		{
 			// Albedo
-			if (Chroma::GUI::m_GraphicsDebugSelected == 0)
-			{
-				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetAlbedoTexture());
-				m_GraphicsDebugBuffer->Draw();
-			}
-			// Normals
-			if (Chroma::GUI::m_GraphicsDebugSelected == 1)
-			{
-				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetNormalTexture());
-				m_GraphicsDebugBuffer->Draw();
-			}
-			// MetRough
-			if (Chroma::GUI::m_GraphicsDebugSelected == 2)
-			{
-				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetMetalRoughnessAO());
-				m_GraphicsDebugBuffer->Draw();
-			}
-			// SSAO
-			if (Chroma::GUI::m_GraphicsDebugSelected == 3)
-			{
-				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetSSAOTexture());
-				m_GraphicsDebugBuffer->Draw();
-			}
-			// Shadows
-			if (Chroma::GUI::m_GraphicsDebugSelected == 4)
-			{
-				m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetShadowBufferTexture());
-				m_GraphicsDebugBuffer->Draw();
-			}
+			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetAlbedoTexture());
+			m_GraphicsDebugBuffer->Draw();
+			break;
 		}
+		case (1):
+		{
+			// Normals
+			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetNormalTexture());
+			m_GraphicsDebugBuffer->Draw();
+			break;
+		}
+		case (2):
+		{
+			// Met Rough AO 
+			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetMetalRoughnessAO());
+			m_GraphicsDebugBuffer->Draw();
+			break;
+		}
+		case (3):
+		{
+			// SSAO
+			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetSSAOTexture());
+			m_GraphicsDebugBuffer->Draw();
+			break;
+		}
+		case (4) :
+		{
+			// Shadow depth buffer
+			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetShadowBufferTexture());
+			m_GraphicsDebugBuffer->Draw();
+			break;
+		}
+		}
+
+
 	}
 
 	void Render::Init()
@@ -110,8 +118,8 @@ namespace Chroma
 		// Buffers
 		m_PostFXBuffer = new PostFXBuffer();
 		m_GBuffer = new GBuffer(m_PostFXBuffer);
-		m_DebugBuffer = new DebugBuffer(m_PostFXBuffer);
 		m_ForwardBuffer = new ForwardBuffer(m_PostFXBuffer);
+		m_DebugBuffer = new DebugBuffer(m_PostFXBuffer);
 		m_GraphicsDebugBuffer = new IFramebuffer();
 	}
 
@@ -130,7 +138,8 @@ namespace Chroma
 		RenderPostFX();
 
 		// Graphics Debug
-		RenderGraphicsDebug();
+		if (Chroma::GUI::m_DrawGraphicsDebug)
+			RenderGraphicsDebug();
 
 		// Clear
 		CleanUp();

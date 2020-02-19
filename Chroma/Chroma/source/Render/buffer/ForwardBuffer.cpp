@@ -1,5 +1,6 @@
 #include "ForwardBuffer.h"
 #include <render/Render.h>
+#include <component/UIComponent.h>
 
 void ForwardBuffer::Initialize()
 {

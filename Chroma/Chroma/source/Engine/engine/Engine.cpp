@@ -28,6 +28,13 @@ namespace Chroma
 			{
 				Chroma::Scene::GetComponent(ComponentUID)->Update();
 			}});
+
+		// UI Components
+		Chroma::JobSystem::Execute([] {
+			for (UID const& ComponentUID : Chroma::Scene::GetUIComponentUIDs())
+			{
+				Chroma::Scene::GetComponent(ComponentUID)->Update();
+			}});
 	}
 
 	void Engine::Draw()
@@ -68,7 +75,6 @@ namespace Chroma
 
 		// Core
 		Chroma::Core::Init();
-
 
 		// Job System
 		Chroma::JobSystem::Initialize();
@@ -114,7 +120,6 @@ namespace Chroma
 
 		// Camera
 		Chroma::Scene::GetRenderCamera()->Update();
-
 	}
 }
 
