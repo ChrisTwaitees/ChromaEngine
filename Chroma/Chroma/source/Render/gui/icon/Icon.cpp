@@ -18,8 +18,10 @@ void Icon::SetIconTexture(Texture& newTexture)
 
 void Icon::Draw()
 {
-	CHROMA_INFO("Drawing Icon : {0}", m_UID.data);
+	// use shader
 	m_IconShader.Use();
+
+	// use icons texture
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_IconTexture.ID);
 	m_IconShader.SetUniform("Texture", 0);
