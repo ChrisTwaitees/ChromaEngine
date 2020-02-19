@@ -24,7 +24,10 @@ void Icon::Draw()
 	// use icons texture
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_IconTexture.ID);
+
+	// Uniforms
 	m_IconShader.SetUniform("Texture", 0);
+	m_IconShader.SetUniform("scale", m_Scale);
 
 	// Transforms
 	m_IconShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
@@ -61,7 +64,6 @@ void Icon::Initialize()
 void Icon::UpdateTransform()
 {
 	m_ModelMatrix = glm::mat4(1.0f);
-	m_ModelMatrix = glm::scale(m_ModelMatrix, glm::vec3(m_Scale));
 	m_ModelMatrix = glm::translate(m_ModelMatrix, m_Position);
 }
 

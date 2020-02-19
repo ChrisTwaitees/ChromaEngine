@@ -5,6 +5,14 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Editor|Win32">
+      <Configuration>Editor</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Editor|x64">
+      <Configuration>Editor</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -31,6 +39,12 @@
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
@@ -39,6 +53,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
@@ -61,10 +82,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Editor|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -72,6 +99,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)thirdparty\include;</IncludePath>
+    <LibraryPath>$(SolutionDir)thirdparty\libs\;$(LibraryPath)</LibraryPath>
+    <ReferencePath>$(VC_ReferencesPath_x64;</ReferencePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)thirdparty\include;</IncludePath>
     <LibraryPath>$(SolutionDir)thirdparty\libs\;$(LibraryPath)</LibraryPath>
     <ReferencePath>$(VC_ReferencesPath_x64;</ReferencePath>
@@ -84,6 +116,9 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(SolutionDir)thirdparty\libs\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Editor|Win32'">
+    <LibraryPath>$(SolutionDir)thirdparty\libs\;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(SolutionDir)thirdparty\libs\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
@@ -93,8 +128,27 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\libs;$(SolutionDir)thirdparty\libs\bullet;</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib; glfw3.lib; assimp-vc140-mt.lib;BulletCollision.lib; BulletDynamics.lib; LinearMath.lib; %(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Editor|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG; EDITOR</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -112,8 +166,27 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <AdditionalDependencies>opengl32.lib; glfw3.lib; assimp-vc140-mt.lib;BulletCollision.lib; BulletDynamics.lib; LinearMath.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)thirdparty\libs;$(SolutionDir)thirdparty\libs\bullet;</AdditionalLibraryDirectories>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG; EDITOR</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -133,7 +206,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -156,7 +229,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
     </ClCompile>
@@ -178,6 +251,8 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="source\Editor\ChromaEditor.cpp" />
+    <ClCompile Include="source\Editor\editor\Editor.cpp" />
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
     <ClCompile Include="source\Engine\animation\IStateMachine.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
@@ -203,6 +278,7 @@
     <ClCompile Include="source\Engine\resources\TextureLoader.cpp" />
     <ClCompile Include="source\Engine\scene\Scene.cpp" />
     <ClCompile Include="source\Engine\screen\Screen.cpp" />
+    <ClCompile Include="source\Engine\serialization\Json.cpp" />
     <ClCompile Include="source\Engine\time\Time.cpp" />
     <ClCompile Include="source\Engine\uid\UID.cpp" />
     <ClCompile Include="source\Game\Game.cpp" />
@@ -251,6 +327,7 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
+    <ClInclude Include="source\Editor\editor\Editor.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
     <ClInclude Include="source\Engine\animation\IStateMachine.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
@@ -285,6 +362,7 @@
     <ClInclude Include="source\Engine\resources\TextureLoader.h" />
     <ClInclude Include="source\Engine\scene\Scene.h" />
     <ClInclude Include="source\Engine\screen\Screen.h" />
+    <ClInclude Include="source\Engine\serialization\Json.h" />
     <ClInclude Include="source\Engine\time\Time.h" />
     <ClInclude Include="source\Engine\uid\UID.h" />
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCameraController.h" />

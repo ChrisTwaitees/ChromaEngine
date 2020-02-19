@@ -8,10 +8,13 @@ uniform mat4 modelView;
 uniform mat4 projection;
 uniform mat4 view;
 
+// uniforms
+uniform float scale;
+
 out vec2 TexCoords;
 
 void main()
 {
-	gl_Position = projection * modelView * aPos;
+	gl_Position = projection * modelView * (aPos * scale);
 	TexCoords = aTexCoords;
 }

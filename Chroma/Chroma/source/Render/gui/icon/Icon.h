@@ -11,10 +11,7 @@ class Icon : public UIComponent
 {
 public:
 	inline float& GetScale() { return m_Scale; }
-	inline void SetScale(float const& newScale) {
-		m_Scale = newScale; 
-		UpdateTransform();
-	}
+	inline void SetScale(float const& newScale) {m_Scale = newScale; }
 
 	inline glm::vec3& GetPosition() { return m_Position; }
 	inline void SetPosition(glm::vec3 const& newPosition) { 

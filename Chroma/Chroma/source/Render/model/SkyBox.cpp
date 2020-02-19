@@ -61,8 +61,8 @@ void SkyBox::Draw()
 
 SkyBox::SkyBox()
 {
-	m_cubeMap = CubeMap(defaultImageDir);
-	m_cubeMapID = m_cubeMap.ID;
+	//m_cubeMap = CubeMap(defaultImageDir);
+	//m_cubeMapID = m_cubeMap.ID;
 	Initialize();
 }
 

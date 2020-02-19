@@ -1,3 +1,5 @@
+#if not defined(EDITOR)
+
 // c++ standard libs
 #include <vector>
 
@@ -180,3 +182,5 @@ int main()
 	Chroma::Screen::Close();
 	return 0;
 }
+
+#endif

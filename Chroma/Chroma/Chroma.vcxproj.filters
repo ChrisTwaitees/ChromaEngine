@@ -145,6 +145,15 @@
     <Filter Include="Resources\shaders\gui\icon">
       <UniqueIdentifier>{91597210-08e4-4284-a8a3-13d1df766f12}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\serialization">
+      <UniqueIdentifier>{35249f0e-54e9-4075-bb9c-eecadeb8d321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{5a68e827-5abc-41a3-90df-73a9175b4e22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\editor">
+      <UniqueIdentifier>{b3e62853-737e-4249-8673-734cdec32a3b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -353,6 +362,15 @@
     </ClCompile>
     <ClCompile Include="source\Engine\component\UIComponent.cpp">
       <Filter>Engine\component</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\serialization\Json.cpp">
+      <Filter>Engine\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\ChromaEditor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\editor\Editor.cpp">
+      <Filter>Editor\editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -601,6 +619,12 @@
     </ClInclude>
     <ClInclude Include="source\Engine\component\UIComponent.h">
       <Filter>Engine\component</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\serialization\Json.h">
+      <Filter>Engine\serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\editor\Editor.h">
+      <Filter>Editor\editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
