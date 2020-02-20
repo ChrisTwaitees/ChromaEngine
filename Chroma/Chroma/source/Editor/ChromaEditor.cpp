@@ -27,8 +27,10 @@ int main()
 	Chroma::Scene::PostSceneBuild();
 
 	// TEST 
-	Json testJson("C:/Users/cthwaites/Desktop/temp/testytest.json");
+	JSON testJson("resources/levels/testLevel.json");
+	testJson.Write("resources/levels/testLevel2.json");
 
+	std::cout << testJson << std::endl;
 	// RENDER LOOP
 	// -----------
 	while (Chroma::Screen::IsRunning())

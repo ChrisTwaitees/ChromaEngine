@@ -94,8 +94,8 @@ void Icon::SetupQuad()
 	};
 	// configure plane VAO
 	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
 	glBindVertexArray(VAO);
+	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
