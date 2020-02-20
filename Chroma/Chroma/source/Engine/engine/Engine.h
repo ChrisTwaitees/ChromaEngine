@@ -6,6 +6,7 @@
 #include <core/Core.h>
 #include <screen/Screen.h>
 #include <scene/Scene.h>
+#include <scene/SceneManager.h>
 #include <render/Render.h>
 #include <gui/core/GUI.h>
 #include <physics/PhysicsEngine.h>

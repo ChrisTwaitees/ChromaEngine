@@ -7,6 +7,7 @@
 // chroma
 #include <uid/UID.h>
 #include <common/CoreCommon.h>
+#include <serialization/ISerializer.h>
 
 // forward declarations
 class IEntity;
@@ -26,6 +27,7 @@ public:
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Destroy() = 0;
+	virtual void Serialize(ISerializer*& serializer) = 0;
 	// Acessors
 	UID GetUID() const { return m_UID; };
 

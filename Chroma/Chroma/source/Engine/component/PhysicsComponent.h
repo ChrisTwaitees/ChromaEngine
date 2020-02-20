@@ -16,32 +16,12 @@ enum ColliderState {Static, Kinematic, Dynamic};
 
 class PhysicsComponent :	public IComponent
 {
-	// attrs
-	float m_Mass{ 0.0f };
-	// collision shape
-	ColliderShape m_ColliderShape = ColliderShape::Box;
-	ColliderState m_CollisionState = ColliderState::Kinematic;
-
-	// physical settings
-	float m_Restitution{ 1.0f };
-	float m_Friction{ 0.5f };
-
-	// members
-	btRigidBody* m_RigidBody;
-	btCollisionShape* m_CollisionShape;
-	btMotionState* m_MotionState;
-	btTransform m_ColliderTransform;
-
-	// functions
-	void CreateCollisionShape();
-	void CreateRigidBody();
-	void SetCollisionFlags();
-
 public:
 	// Functions
 	void Init() override;
 	void Update() override;
 	void Destroy() override;
+	void Serialize(ISerializer*& serializer) override;
 
 	void BuildRigidBody();
 	void Transform(btTransform& transform);
@@ -74,6 +54,28 @@ public:
 
 	PhysicsComponent();
 	~PhysicsComponent();
+
+private:
+	// attrs
+	float m_Mass{ 0.0f };
+	// collision shape
+	ColliderShape m_ColliderShape = ColliderShape::Box;
+	ColliderState m_CollisionState = ColliderState::Kinematic;
+
+	// physical settings
+	float m_Restitution{ 1.0f };
+	float m_Friction{ 0.5f };
+
+	// members
+	btRigidBody* m_RigidBody;
+	btCollisionShape* m_CollisionShape;
+	btMotionState* m_MotionState;
+	btTransform m_ColliderTransform;
+
+	// functions
+	void CreateCollisionShape();
+	void CreateRigidBody();
+	void SetCollisionFlags();
 };
 
 #endif

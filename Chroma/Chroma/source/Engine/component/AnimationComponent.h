@@ -10,19 +10,21 @@
 
 class AnimationComponent : public IComponent
 {
-	std::vector<Animator> m_Animators;
-	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
-
 public:
-	virtual void Init() override;
-	virtual void Update()override;
-	virtual void Destroy() override;
+	void Init() override;
+	void Update()override;
+	void Destroy() override;
+	void Serialize(ISerializer*& serializer ) override;
 
 	void AddAnimator(Animator& newAnimator);
 	void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID);
 
 	AnimationComponent();
 	~AnimationComponent();
+
+private:
+	std::vector<Animator> m_Animators;
+	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
 };
 
 #endif

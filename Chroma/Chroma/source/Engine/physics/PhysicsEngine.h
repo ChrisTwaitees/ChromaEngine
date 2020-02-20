@@ -21,28 +21,6 @@ namespace Chroma
 {
 	class Physics
 	{
-	private:
-		// attrs
-		static glm::vec3 m_Gravity;
-		static float m_TerrainFriction;
-		static btCollisionObject* m_CollisionObject;
-		static btSphereShape* m_SphereShape;
-
-		// bullet objects
-		static btBroadphaseInterface* m_Broadphase;
-		static btDefaultCollisionConfiguration* m_CollisionConfiguration;
-		static btCollisionDispatcher* m_Dispatcher;
-		static btSequentialImpulseConstraintSolver* m_Solver;
-		static btDiscreteDynamicsWorld* m_World;
-
-		// debug
-		static PhysicsDebug* m_Debug;
-
-		// functions
-		static void InitPhysicsWorld();
-		static void InitTerrain();
-		static void UpdateGravity();
-
 	public:
 
 		static void Init();
@@ -65,6 +43,28 @@ namespace Chroma
 
 		Physics();
 		~Physics();
+
+	private:
+		// attrs
+		static glm::vec3 m_Gravity;
+		static float m_TerrainFriction;
+		static btCollisionObject* m_CollisionObject;
+		static btSphereShape* m_SphereShape;
+
+		// bullet objects
+		static btBroadphaseInterface* m_Broadphase;
+		static btDefaultCollisionConfiguration* m_CollisionConfiguration;
+		static btCollisionDispatcher* m_Dispatcher;
+		static btSequentialImpulseConstraintSolver* m_Solver;
+		static btDiscreteDynamicsWorld* m_World;
+
+		// debug
+		static PhysicsDebug* m_Debug;
+
+		// functions
+		static void InitPhysicsWorld();
+		static void InitTerrain();
+		static void UpdateGravity();
 	};
 }
 

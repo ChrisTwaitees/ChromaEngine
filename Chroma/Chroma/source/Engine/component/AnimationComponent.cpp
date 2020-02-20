@@ -32,6 +32,12 @@ void AnimationComponent::Destroy()
 	CHROMA_TRACE("AnimationComponent : {0} Destroyed.", m_UID.data);
 }
 
+void AnimationComponent::Serialize(ISerializer*& serializer)
+{
+	CHROMA_INFO("Serializing Animation Component : {0}", m_UID.data);
+	serializer->StartObject("AnimationComponent", m_UID.data.c_str());
+}
+
 void AnimationComponent::AddAnimator(Animator& newAnimator)
 {
 	// Set UID

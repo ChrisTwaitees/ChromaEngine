@@ -154,6 +154,9 @@
     <Filter Include="Editor\editor">
       <UniqueIdentifier>{b3e62853-737e-4249-8673-734cdec32a3b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\serialization\formats">
+      <UniqueIdentifier>{d7cd9599-8f58-4d89-8e82-80c51e2ca7be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -363,14 +366,23 @@
     <ClCompile Include="source\Engine\component\UIComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\serialization\Json.cpp">
-      <Filter>Engine\serialization</Filter>
-    </ClCompile>
     <ClCompile Include="source\Editor\ChromaEditor.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\editor\Editor.cpp">
       <Filter>Editor\editor</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\serialization\FactorySerializer.cpp">
+      <Filter>Engine\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\serialization\JSONSerializer.cpp">
+      <Filter>Engine\serialization</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\serialization\formats\Json.cpp">
+      <Filter>Engine\serialization\formats</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\scene\SceneManager.cpp">
+      <Filter>Engine\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -620,11 +632,23 @@
     <ClInclude Include="source\Engine\component\UIComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\serialization\Json.h">
-      <Filter>Engine\serialization</Filter>
-    </ClInclude>
     <ClInclude Include="source\Editor\editor\Editor.h">
       <Filter>Editor\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\serialization\ISerializer.h">
+      <Filter>Engine\serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\serialization\FactorySerializer.h">
+      <Filter>Engine\serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\serialization\JSONSerializer.h">
+      <Filter>Engine\serialization</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\serialization\formats\Json.h">
+      <Filter>Engine\serialization\formats</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\scene\SceneManager.h">
+      <Filter>Engine\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -277,8 +277,11 @@
     <ClCompile Include="source\Engine\resources\ResourceManager.cpp" />
     <ClCompile Include="source\Engine\resources\TextureLoader.cpp" />
     <ClCompile Include="source\Engine\scene\Scene.cpp" />
+    <ClCompile Include="source\Engine\scene\SceneManager.cpp" />
     <ClCompile Include="source\Engine\screen\Screen.cpp" />
-    <ClCompile Include="source\Engine\serialization\Json.cpp" />
+    <ClCompile Include="source\Engine\serialization\FactorySerializer.cpp" />
+    <ClCompile Include="source\Engine\serialization\formats\Json.cpp" />
+    <ClCompile Include="source\Engine\serialization\JSONSerializer.cpp" />
     <ClCompile Include="source\Engine\time\Time.cpp" />
     <ClCompile Include="source\Engine\uid\UID.cpp" />
     <ClCompile Include="source\Game\Game.cpp" />
@@ -361,8 +364,12 @@
     <ClInclude Include="source\Engine\resources\ResourceManager.h" />
     <ClInclude Include="source\Engine\resources\TextureLoader.h" />
     <ClInclude Include="source\Engine\scene\Scene.h" />
+    <ClInclude Include="source\Engine\scene\SceneManager.h" />
     <ClInclude Include="source\Engine\screen\Screen.h" />
-    <ClInclude Include="source\Engine\serialization\Json.h" />
+    <ClInclude Include="source\Engine\serialization\FactorySerializer.h" />
+    <ClInclude Include="source\Engine\serialization\formats\Json.h" />
+    <ClInclude Include="source\Engine\serialization\ISerializer.h" />
+    <ClInclude Include="source\Engine\serialization\JSONSerializer.h" />
     <ClInclude Include="source\Engine\time\Time.h" />
     <ClInclude Include="source\Engine\uid\UID.h" />
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCameraController.h" />

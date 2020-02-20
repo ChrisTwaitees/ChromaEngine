@@ -14,6 +14,9 @@
 // entity component
 #include <entity/IEntity.h>
 
+// serialization
+#include <serialization/FactorySerializer.h>
+
 namespace Chroma
 {
 	class Scene
@@ -55,6 +58,7 @@ namespace Chroma
 		static inline std::set<UID>& GetAnimatedEntityUIDs() { return m_AnimatedEntityUIDs; }
 
 		// components
+		static std::map<UID, IComponent*>& GetAllComponents() { return m_Components; }
 		static IComponent* GetComponent(UID const& UID);
 		static void SafeRemoveComponentUID(std::set<UID>& componentUIDList, UID const& removeUID);
 

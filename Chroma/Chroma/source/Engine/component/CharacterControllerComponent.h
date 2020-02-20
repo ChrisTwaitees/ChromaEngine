@@ -16,9 +16,10 @@ class CharacterControllerComponent : public IComponent
 {
 public:
 	// Functions
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Destroy() override;
+	void Init() override;
+	void Update() override;
+	void Destroy() override;
+	void Serialize(ISerializer*& serializer) override;
 
 	virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
 

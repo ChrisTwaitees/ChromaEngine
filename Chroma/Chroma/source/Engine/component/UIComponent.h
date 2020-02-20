@@ -7,9 +7,10 @@ class UIComponent :	public IComponent
 {
 public:
 	// Functions
-	virtual void Init();
-	virtual void Update() {};
-	virtual void Destroy();
+	void Init();
+	void Update() {};
+	void Destroy();
+	void Serialize(ISerializer*& serializer) override;
 
 	virtual void Draw() {};
 

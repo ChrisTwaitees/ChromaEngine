@@ -13,9 +13,10 @@ class MeshComponent : public IComponent
 {
 public:
 	// Functions
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Destroy() override;
+	void Init() override;
+	void Update() override;
+	void Destroy() override;
+	void Serialize(ISerializer*& serializer) override;
 
 	// attrs
 	virtual void SetIsRenderable(bool const& check) { m_IsRenderable = check; };

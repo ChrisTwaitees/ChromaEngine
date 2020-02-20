@@ -83,6 +83,10 @@ namespace Chroma
 		Chroma::Scene::Init();
 		CHROMA_INFO("Scene Initialized.");
 
+		// Scene Manager
+		Chroma::SceneManager::Init();
+		CHROMA_INFO("Scene Manager Initialized.");
+
 		// Input
 		Chroma::JobSystem::Execute(Chroma::Input::Init);
 		Chroma::Input::BindCamera(Chroma::Scene::GetRenderCamera());
