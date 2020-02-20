@@ -26,6 +26,9 @@ int main()
 
 	Chroma::Scene::PostSceneBuild();
 
+	// TEST 
+	Json testJson("C:/Users/cthwaites/Desktop/temp/testytest.json");
+
 	// RENDER LOOP
 	// -----------
 	while (Chroma::Screen::IsRunning())
