@@ -30,6 +30,7 @@ namespace Chroma
 		static void BindDebugBuffer(DebugBuffer* DebugRenderer);
 
 		static void AddBodyToWorld(btRigidBody*& rigidBody);
+		static void RemoveBodyFromWorld(btRigidBody*& rigidBody);
 
 		static void SetGravity(glm::vec3& newGravity);
 

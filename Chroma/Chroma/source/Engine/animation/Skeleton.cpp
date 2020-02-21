@@ -9,6 +9,12 @@ void Skeleton::InitializeSkeleton()
 	CalculateLocalBindOffset(GetRootJointID(), glm::mat4{ 1.0 });
 }
 
+void Skeleton::Destroy()
+{
+	m_Joints.clear();
+	CHROMA_INFO("Skeleton Destroyed.");
+}
+
 void Skeleton::AddJoint(Joint& newJoint)
 {
 	m_Joints[make_pair(newJoint.m_ID, newJoint.m_Name)] = newJoint;

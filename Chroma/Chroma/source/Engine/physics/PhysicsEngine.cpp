@@ -110,6 +110,11 @@ namespace Chroma
 		m_World->addRigidBody(rigidBody);
 	}
 
+	void Physics::RemoveBodyFromWorld(btRigidBody*& rigidBody)
+	{
+		m_World->removeRigidBody(rigidBody);
+	}
+
 
 	void Physics::Update()
 	{

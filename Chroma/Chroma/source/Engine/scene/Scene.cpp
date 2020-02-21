@@ -102,6 +102,17 @@ namespace Chroma
 		return m_Components.find(UID)->second;
 	}
 
+	void Scene::RemoveComponent(UID const& UID)
+	{
+		m_AnimationComponentUIDs.erase(UID);
+		m_PhysicsComponentUIDs.erase(UID);
+		m_ComponentUIDs.erase(UID);
+		m_CharacterControllerUIDs.erase(UID);
+		m_PhysicsComponentUIDs.erase(UID);
+		m_UIComponentUIDs.erase(UID);
+		//m_Components.erase(UID);
+	}
+
 	void Scene::SafeRemoveComponentUID(std::set<UID>& componentUIDList, UID const& removeUID)
 	{
 		// Search for element 
@@ -147,9 +158,6 @@ namespace Chroma
 		// components
 		for (UID const& componentUID : m_ComponentUIDs)
 			GetComponent(componentUID)->Init();
-		// timing
-		m_SceneBuildEndTime = std::chrono::high_resolution_clock::now();
-		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(m_SceneBuildEndTime - m_SceneBuildStartTime);
 
 		// shadowmap attachment
 		Chroma::Render::BindShadowMaps();
@@ -157,6 +165,9 @@ namespace Chroma
 		// Debug
 		CHROMA_INFO_UNDERLINE;
 		CHROMA_INFO("CHROMA SCENE:: Scene Successfully Loaded.");
+		// timing
+		m_SceneBuildEndTime = std::chrono::high_resolution_clock::now();
+		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(m_SceneBuildEndTime - m_SceneBuildStartTime);
 		CHROMA_INFO("CHROMA SCENE:: Scene Load Took : {0} seconds", (float)duration.count()/1000.0f);
 		CHROMA_INFO_UNDERLINE;
 	}
@@ -184,6 +195,7 @@ namespace Chroma
 
 	void Scene::RemoveEntity(IEntity& RemoveEntity)
 	{
+		m_Entities.erase(RemoveEntity.GetUID());
 	}
 
 	float Scene::GetEntityDistanceToCamera(UID const& UID)

@@ -17,6 +17,7 @@ class Model : public MeshComponent
 public:
 	// Init
 	virtual void Init() override;
+	void Destroy() override;
 
 	// Draw
 	void Draw(Shader const& shader) override;

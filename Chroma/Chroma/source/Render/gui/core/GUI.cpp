@@ -1,6 +1,7 @@
 #include "GUI.h"
 #include <physics/PhysicsEngine.h>
 #include <render/Render.h>
+#include <scene/SceneManager.h>
 
 namespace Chroma
 {
@@ -24,6 +25,9 @@ namespace Chroma
 	int  GUI::m_GraphicsDebugSelected;
 	static const char* GraphicsDebugs[5]{ "Alebdo", "Normals", "MetRoughAO", "SSAO", "Shadows"};
 	bool GUI::m_DrawGraphicsDebug;
+	// scene manager
+	bool GUI::drawSceneManager;
+	char GUI::sceneName[128];
 	void GUI::Init()
 	{
 		// context
@@ -54,6 +58,10 @@ namespace Chroma
 		drawAnimMenu = true;
 		debugAnim = false;
 		DebugAnimClipPos = 0.0f;
+
+		// SCENEMANAGER
+		drawSceneManager = true;
+
 	}
 
 	void GUI::Draw()
@@ -86,6 +94,12 @@ namespace Chroma
 			ToggleBool(drawAnimMenu);
 		if (drawAnimMenu)
 			DrawAnimationMenu();
+
+		// Animation 
+		if (ImGui::Button("Open Scene Manager Menu"))
+			ToggleBool(drawSceneManager);
+		if (drawSceneManager)
+			DrawSceneManagerMenu();
 
 		// Display Selected Entity
 		ImGui::Text("Selected Entity : %s", SelectedEntity.c_str());
@@ -130,6 +144,19 @@ namespace Chroma
 		Chroma::Render::GetDebugBuffer()->DrawSceneSkeletons();
 
 		ImGui::End();
+	}
+
+	void GUI::DrawSceneManagerMenu()
+	{
+		ImGui::Begin("Chroma Scene Manager");
+
+		ImGui::InputText("Load Scene Path: ", sceneName, IM_ARRAYSIZE(sceneName));
+		// Debug
+		if (ImGui::Button("Load Scene"))
+			Chroma::SceneManager::LoadScene(sceneName);
+
+		ImGui::End();
+
 	}
 
 	void GUI::Start()

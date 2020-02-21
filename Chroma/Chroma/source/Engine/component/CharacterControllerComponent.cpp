@@ -35,6 +35,7 @@ void CharacterControllerComponent::Update()
 void CharacterControllerComponent::Destroy()
 {
 	CHROMA_TRACE("CharacterController Component : {0} Destroyed.", m_UID.data);
+	delete m_CameraController;
 }
 
 void CharacterControllerComponent::Serialize(ISerializer*& serializer)

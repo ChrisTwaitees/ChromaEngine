@@ -278,6 +278,25 @@ void StaticMesh::BindDrawVAO()
 	glBindVertexArray(0); // reset to default
 }
 
+void StaticMesh::Destroy()
+{
+	// textures
+	for (Texture& texture : m_Textures)
+	{
+		texture.Destroy();
+	}
+	m_Textures.clear();
+	// verts
+	m_vertices.clear();
+	// vao
+	glDeleteVertexArrays(1, &VAO);
+	// buffers
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+
+	CHROMA_INFO("Static Mesh : {0} Destroyed.", m_UID.data);
+}
+
 
 void StaticMesh::SetTextures(std::vector<Texture> textures_val)
 {

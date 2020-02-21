@@ -20,6 +20,7 @@ public:
 	virtual void DrawUpdateMaterials(Shader const& shader) override;
 	virtual void DrawUpdateTransforms(Camera& renderCam) override;
 	virtual void BindDrawVAO();
+	virtual void Destroy() override;
 
 	// Bindings
 	virtual void SetShader(Shader const& shader) override { m_shader = shader; } ;

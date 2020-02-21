@@ -185,6 +185,10 @@ void PhysicsComponent::Update()
 void PhysicsComponent::Destroy()
 {
 	CHROMA_TRACE("PhysicsComponent : {0} Destroyed.", m_UID.data);
+	Chroma::Physics::RemoveBodyFromWorld(m_RigidBody);
+	delete m_RigidBody;
+	delete m_CollisionShape;
+	delete m_MotionState;
 }
 
 void PhysicsComponent::Serialize(ISerializer*& serializer)

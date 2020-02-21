@@ -5,18 +5,11 @@
 
 void Animator::PlayTake(std::string const& takeName, float const& normalizedTime)
 {
-	if (m_Takes.find(takeName) != m_Takes.end())
-	{
-		float frameNum = CalculateFrameNumber(takeName, normalizedTime);
-		glm::mat4 identity(1.0);
-		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, identity, frameNum);
-	}
-	else
-	{
-		CHROMA_WARN("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", takeName);
-		m_Skeleton->SetToBindPose();
-		return;
-	}
+	
+	float frameNum = CalculateFrameNumber(takeName, normalizedTime);
+	glm::mat4 identity(1.0);
+	ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, identity, frameNum);
+
 }
 
 float Animator::CalculateFrameNumber(std::string const& takeName, float const& normalizedTime)
@@ -131,9 +124,16 @@ void Animator::Update()
 		return;
 	}
 
-	PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
-
-	//CHROMA_INFO(((CharacterControllerComponent*)Chroma::Scene::GetComponent(m_CharacterControllerComponentUID))->GetPlayerPosition().x);
+	if (m_Takes.find(m_CurrentTake) != m_Takes.end())
+	{
+		PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
+	}
+	else
+	{
+		CHROMA_WARN("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", m_CurrentTake);
+		m_Skeleton->SetToBindPose();
+		return;
+	}
 }
 
 void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)
@@ -156,6 +156,12 @@ void Animator::CompressAnimations()
 	}
 }
 
+
+void Animator::Destroy()
+{
+	m_CurrentTake = "";
+	m_Takes.clear();
+}
 
 Animator::Animator()
 {

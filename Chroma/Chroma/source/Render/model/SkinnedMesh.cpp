@@ -78,6 +78,27 @@ void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 	m_Skeleton.SetJointUniforms(skinnedShader);
 }
 
+void SkinnedMesh::Destroy()
+{
+	// textures
+	for (Texture& texture : m_Textures)
+	{
+		texture.Destroy();
+	}
+	m_Textures.clear();
+	// verts
+	m_SkinnedVertices.clear();
+	// Skeleton
+	m_Skeleton.Destroy();
+	// vao
+	glDeleteVertexArrays(1, &VAO);
+	// buffers
+	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &EBO);
+
+	CHROMA_INFO("Skinned Mesh : {0} Destroyed.", m_UID.data);
+}
+
 
 SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val)
 {

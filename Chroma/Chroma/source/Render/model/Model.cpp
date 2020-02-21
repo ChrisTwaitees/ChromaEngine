@@ -163,6 +163,21 @@ void Model::Init()
 	}
 }
 
+void Model::Destroy()
+{
+	CHROMA_INFO("Destroying Model");
+
+	// textures
+	for (Texture& texture : m_Textures)
+	{
+		texture.Destroy();
+	}
+	m_Textures.clear();
+
+	// verts
+	m_IsSkinned ? m_SkinnedVertices.clear() : m_vertices.clear();
+}
+
 
 Model::~Model()
 {

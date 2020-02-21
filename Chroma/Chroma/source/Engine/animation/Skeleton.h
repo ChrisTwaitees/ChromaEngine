@@ -86,6 +86,7 @@ public:
 	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
 	void DebugDraw();
 	void InitializeSkeleton();
+	void Destroy();
 
 	Skeleton();
 	~Skeleton();

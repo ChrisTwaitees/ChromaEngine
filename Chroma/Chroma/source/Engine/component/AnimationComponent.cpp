@@ -29,6 +29,13 @@ void AnimationComponent::Update()
 
 void AnimationComponent::Destroy()
 {
+	// remove animators
+	for (Animator& animator : m_Animators)
+	{
+		animator.Destroy();
+	}
+	m_Animators.clear();
+
 	CHROMA_TRACE("AnimationComponent : {0} Destroyed.", m_UID.data);
 }
 

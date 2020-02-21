@@ -29,6 +29,8 @@ namespace Chroma
 
 		static void DrawAnimationMenu();
 
+		static void DrawSceneManagerMenu();
+
 		// GUI Attrs
 		// time
 		static float timeSpeed;
@@ -41,12 +43,15 @@ namespace Chroma
 		static bool drawDebug;
 		static bool drawPhysicsDebug;
 		// anim
-		static bool drawAnimMenu, debugAnim, drawSkeletonsDebug;
+		static bool drawAnimMenu, debugAnim, drawSkeletonsDebug, drawSceneManager;
 		static char animClipName[128];
 		static float DebugAnimClipPos;
 		// graphics
 		static bool drawGraphicsMenu;
 		// enities
+
+		// scenes
+		static char sceneName[128];
 
 	public:
 		// functions

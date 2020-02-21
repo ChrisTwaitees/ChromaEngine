@@ -60,6 +60,7 @@ namespace Chroma
 		// components
 		static std::map<UID, IComponent*>& GetAllComponents() { return m_Components; }
 		static IComponent* GetComponent(UID const& UID);
+		static void RemoveComponent(UID const& UID);
 		static void SafeRemoveComponentUID(std::set<UID>& componentUIDList, UID const& removeUID);
 
 		static inline std::set<UID>& GetMeshComponentUIDs() { return m_MeshComponentUIDs; }

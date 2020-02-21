@@ -18,5 +18,16 @@ namespace Chroma
 
 	void SceneManager::LoadScene(const char* destinationScenePath)
 	{
+		CHROMA_INFO("SCENE MANAGER :: Loading Scene from : {0}", destinationScenePath);
+		ClearScene();
+	}
+	void SceneManager::ClearScene()
+	{
+		// Destroy Components
+		for (std::pair<UID, IComponent*> const& uidcomponent : Chroma::Scene::GetAllComponents())
+		{
+			uidcomponent.second->Destroy();
+			Chroma::Scene::RemoveComponent(uidcomponent.first);
+		}
 	}
 }

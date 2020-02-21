@@ -13,6 +13,9 @@ namespace Chroma
 
 		static void SaveScene(const char* sourceScenePath);
 		static void LoadScene(const char* destinationScenePath);
+
+	private:
+		static void ClearScene();
 	};
 
 }

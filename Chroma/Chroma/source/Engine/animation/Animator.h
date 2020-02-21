@@ -39,6 +39,8 @@ public:
 
 	inline void SetAnimationComponentUID(UID const& newAnimationComponentUID) { m_AnimationComponentUID = newAnimationComponentUID; }
 
+	void Destroy();
+
 	Animator();
 	~Animator();
 
