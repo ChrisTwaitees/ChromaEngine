@@ -97,6 +97,16 @@ namespace Chroma
 		return m_Entities.find(UID)->second;
 	}
 
+	void Scene::RemoveEntity(UID const& UID)
+	{
+		m_AnimatedEntityUIDs.erase(UID);
+		m_TransparentEntityUIDs.erase(UID);
+		m_EntityUIDs.erase(UID);
+
+		// root entity list
+		m_Entities.erase(UID);
+	}
+
 	IComponent* Scene::GetComponent(UID const& UID)
 	{
 		return m_Components.find(UID)->second;
@@ -104,13 +114,30 @@ namespace Chroma
 
 	void Scene::RemoveComponent(UID const& UID)
 	{
-		m_AnimationComponentUIDs.erase(UID);
-		m_PhysicsComponentUIDs.erase(UID);
 		m_ComponentUIDs.erase(UID);
-		m_CharacterControllerUIDs.erase(UID);
+
+		m_AnimationComponentUIDs.erase(UID);
+		m_AnimatedEntityUIDs.erase(UID);
+
 		m_PhysicsComponentUIDs.erase(UID);
+
+		m_CharacterControllerUIDs.erase(UID);
+
+		m_PhysicsComponentUIDs.erase(UID);
+
 		m_UIComponentUIDs.erase(UID);
-		//m_Components.erase(UID);
+		// render flags
+		m_MeshComponentUIDs.erase(UID);
+		m_SkinnedMeshComponentUIDs.erase(UID);
+		m_ShadowCastingComponentUIDs.erase(UID);
+		m_TransparentComponentUIDs.erase(UID);
+		m_RenderableComponentUIDs.erase(UID);
+		m_ForwardLitComponentUIDs.erase(UID);
+		m_LitComponentUIDs.erase(UID);
+		m_UnLitComponentUIDs.erase(UID);
+
+		// root component list
+		m_Components.erase(UID);
 	}
 
 	void Scene::SafeRemoveComponentUID(std::set<UID>& componentUIDList, UID const& removeUID)
@@ -124,6 +151,13 @@ namespace Chroma
 			// Deletes the element pointing by iterator it
 			componentUIDList.erase(it);
 		}
+	}
+
+	void Scene::LoadIBL(std::string const& sourcePath)
+	{
+		m_IBL->LoadIBL(sourcePath); // image based lighting
+		m_Skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
+
 	}
 
 	void Scene::Init()

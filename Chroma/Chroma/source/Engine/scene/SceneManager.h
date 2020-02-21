@@ -2,7 +2,7 @@
 #define _CHROMA_SCENE_MANAGER_H_
 
 #include <scene/Scene.h>
-
+#include <memory>
 
 namespace Chroma
 {

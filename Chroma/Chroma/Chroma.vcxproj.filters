@@ -384,6 +384,9 @@
     <ClCompile Include="source\Engine\scene\SceneManager.cpp">
       <Filter>Engine\scene</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
+      <Filter>Engine\common</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
@@ -649,6 +652,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\scene\SceneManager.h">
       <Filter>Engine\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\common\PrecompiledHeader.h">
+      <Filter>Engine\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

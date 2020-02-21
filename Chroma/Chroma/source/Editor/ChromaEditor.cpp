@@ -1,6 +1,3 @@
-// c++ standard libs
-#include <vector>
-
 // glm
 #include <glm/glm.hpp>
 

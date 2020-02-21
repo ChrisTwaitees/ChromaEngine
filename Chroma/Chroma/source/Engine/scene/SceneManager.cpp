@@ -11,6 +11,7 @@ namespace Chroma
 	{
 		for (std::pair<UID, IComponent*> const& uidcomponent : Chroma::Scene::GetAllComponents())
 		{
+			// TODO implement unique ptr for scope memory management
 			ISerializer* serializer = FactorySerializer::GetSerializer(Serialization::FORMAT::JSON);
 			uidcomponent.second->Serialize(serializer);
 		}
@@ -21,9 +22,18 @@ namespace Chroma
 		CHROMA_INFO("SCENE MANAGER :: Loading Scene from : {0}", destinationScenePath);
 		ClearScene();
 	}
+
+
 	void SceneManager::ClearScene()
 	{
-		// Destroy Components
+		// Remove and Destroy Entities
+		for (std::pair<UID, IEntity*> const& uidentity : Chroma::Scene::GetAllEntities())
+		{
+			uidentity.second->Destroy();
+			Chroma::Scene::RemoveEntity(uidentity.first);
+		}
+
+		// Remove and Destroy Components
 		for (std::pair<UID, IComponent*> const& uidcomponent : Chroma::Scene::GetAllComponents())
 		{
 			uidcomponent.second->Destroy();

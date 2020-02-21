@@ -129,8 +129,14 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -148,8 +154,14 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG; EDITOR</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG; EDITOR</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,8 +179,14 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -186,8 +204,14 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG; EDITOR</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG; EDITOR</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -207,8 +231,14 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -230,8 +260,14 @@
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>PrecompiledHeader.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>PrecompiledHeader.h</ForcedIncludeFiles>
+      <CompileAs>Default</CompileAs>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -256,6 +292,20 @@
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
     <ClCompile Include="source\Engine\animation\IStateMachine.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
+    <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">PrecompiledHeader.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Editor|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Editor|Win32'">PrecompiledHeader.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">PrecompiledHeader.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">PrecompiledHeader.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">PrecompiledHeader.h</PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">PrecompiledHeader.h</PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="source\Engine\component\AnimationComponent.cpp" />
     <ClCompile Include="source\Engine\component\CharacterControllerComponent.cpp" />
     <ClCompile Include="source\Engine\component\IComponent.cpp" />
@@ -287,7 +337,26 @@
     <ClCompile Include="source\Game\Game.cpp" />
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCameraController.cpp" />
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCharacterController.cpp" />
-    <ClCompile Include="source\glad.c" />
+    <ClCompile Include="source\glad.c">
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Editor|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Editor|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\IFramebuffer.cpp" />
@@ -336,6 +405,7 @@
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
     <ClInclude Include="source\Engine\ChromaConfig.h" />
     <ClInclude Include="source\Engine\common\CoreCommon.h" />
+    <ClInclude Include="source\Engine\common\PrecompiledHeader.h" />
     <ClInclude Include="source\Engine\component\AnimationComponent.h" />
     <ClInclude Include="source\Engine\component\CharacterControllerComponent.h" />
     <ClInclude Include="source\Engine\component\MeshComponent.h" />

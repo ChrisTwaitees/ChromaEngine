@@ -21,6 +21,12 @@ void Texture::Destroy()
 	glDeleteTextures(1, &ID);
 }
 
+void Texture::ClearTexureMemory(unsigned int const& TextureID)
+{
+	CHROMA_TRACE("Removing Texture : {0}", TextureID);
+	glDeleteTextures(1, &TextureID);
+}
+
 Texture::Texture(unsigned int newID)
 {
 	ID = newID;

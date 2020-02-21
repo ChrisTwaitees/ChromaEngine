@@ -11,9 +11,32 @@
 
 class IBL
 {
+public:
+
+	void Draw();
+
+	void SetIBLTexture(HDRTexture newHDRTexture);
+	void LoadIBL(std::string const& newHDRTexturePath);
+
+	inline unsigned int getEnvCubeMapID() { return m_envCubeMap; };
+	inline unsigned int GetIrradianceMapID() { return m_irradianceMap; };
+	inline unsigned int GetPrefilterMapID() { return m_prefilterMap; };
+	inline unsigned int getHDRTextureID() { return m_HDRtexture.ID; };
+	inline unsigned int GetBRDFLUTID() { return m_brdfLUTTexture; };
+
+	template <typename UniformType>
+	void SetUniform(std::string uniformName, UniformType uniform)
+	{
+		m_envMapShader.Use();
+		m_envMapShader.SetUniform(uniformName, uniform);
+	}
+	IBL();
+	~IBL() {};
+
+private:
 
 	glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
-	glm::mat4 captureViews[6] =	{
+	glm::mat4 captureViews[6] = {
 	   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
 	   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(-1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),
 	   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  1.0f,  0.0f), glm::vec3(0.0f,  0.0f,  1.0f)),
@@ -38,30 +61,11 @@ class IBL
 
 	// functions
 	void Initialize();
-	void generateEnvCubeMap();
-	void generateIrradianceMap();
-	void generatePrefilterMap();
-	void generateBRDFLUTMap();
-public:
-
-	void Draw();
-
-	void setIBLTexture(HDRTexture newHDRTexture);
-
-	inline unsigned int getEnvCubeMapID() { return m_envCubeMap; };
-	inline unsigned int GetIrradianceMapID() { return m_irradianceMap; };
-	inline unsigned int GetPrefilterMapID() { return m_prefilterMap; };
-	inline unsigned int getHDRTextureID() { return m_HDRtexture.ID; };
-	inline unsigned int GetBRDFLUTID() { return m_brdfLUTTexture; };
-
-	template <typename UniformType>
-	void SetUniform(std::string uniformName, UniformType uniform)
-	{
-		m_envMapShader.Use();
-		m_envMapShader.SetUniform(uniformName, uniform);
-	}
-	IBL();
-	~IBL() {};
+	void ClearTextureBuffers();
+	void GenerateEnvCubeMap();
+	void GenerateIrradianceMap();
+	void GeneratePrefilterMap();
+	void GenerateBRDFLUTMap();
 };
 
 #endif

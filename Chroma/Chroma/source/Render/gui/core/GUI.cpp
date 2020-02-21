@@ -155,6 +155,10 @@ namespace Chroma
 		if (ImGui::Button("Load Scene"))
 			Chroma::SceneManager::LoadScene(sceneName);
 
+		if (ImGui::Button("Load HDR"))
+			Chroma::Scene::LoadIBL("resources/textures/ibl/ditchriver_ibl/river_sharp.hdr");
+
+
 		ImGui::End();
 
 	}

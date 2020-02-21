@@ -38,7 +38,6 @@ Index of this file:
 //-----------------------------------------------------------------------------
 // Header mess
 //-----------------------------------------------------------------------------
-
 #include <float.h>                  // FLT_MAX
 #include <stdarg.h>                 // va_list
 #include <stddef.h>                 // ptrdiff_t, NULL

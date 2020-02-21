@@ -1,16 +1,5 @@
 #include "JobSystem.h"    // include our interface
 
-#include <algorithm>    // std::max
-#include <atomic>    // to use std::atomic<uint64_t>
-#include <thread>    // to use std::thread
-#include <condition_variable>    // to use std::condition_variable
-#include <sstream>
-#include <assert.h>
-
-#ifdef _WIN32
-#define NOMINMAX
-#include <Windows.h>
-#endif
 
 // Fixed size very simple thread safe ring buffer
 template <typename T, size_t capacity>
@@ -107,26 +96,6 @@ namespace Chroma
 					}
 
 					});
-
-#ifdef _WIN32
-				// Do Windows-specific thread setup:
-				HANDLE handle = (HANDLE)worker.native_handle();
-
-				// Put each thread on to dedicated core
-				DWORD_PTR affinityMask = 1ull << threadID;
-				DWORD_PTR affinity_result = SetThreadAffinityMask(handle, affinityMask);
-				assert(affinity_result > 0);
-
-				//// Increase thread priority:
-				//BOOL priority_result = SetThreadPriority(handle, THREAD_PRIORITY_HIGHEST);
-				//assert(priority_result != 0);
-
-				// Name the thread:
-				std::wstringstream wss;
-				wss << "JobSystem_" << threadID;
-				HRESULT hr = SetThreadDescription(handle, wss.str().c_str());
-				assert(SUCCEEDED(hr));
-#endif // _WIN32
 
 				worker.detach(); // forget about this thread, let it do it's job in the infinite loop that we created above
 			}

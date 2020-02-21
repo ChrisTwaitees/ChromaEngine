@@ -15,5 +15,4 @@ HDRTexture::HDRTexture(std::string sourcepath)
 
 HDRTexture::~HDRTexture()
 {
-	glDeleteTextures(1, &ID);
 }

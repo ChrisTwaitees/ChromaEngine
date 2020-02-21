@@ -51,7 +51,9 @@ namespace Chroma
 
 		// getters
 		// enitities
+		static std::map<UID, IEntity*>& GetAllEntities() { return m_Entities; }
 		static IEntity* GetEntity(UID const& UID);
+		static void RemoveEntity(UID const& UID);
 
 		static inline std::set<UID>& GetEntityUIDs() { return m_EntityUIDs; }
 		static inline std::set<UID>& GetTransparentEntityUIDs() { return m_TransparentEntityUIDs; }
@@ -85,6 +87,7 @@ namespace Chroma
 		static SkyBox*& GetSkyBox() { return m_Skybox; };
 		static glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
 		static IBL*& GetIBL() { return m_IBL; };
+		static void LoadIBL(std::string const& sourcePath);
 
 	private:
 

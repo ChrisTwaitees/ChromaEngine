@@ -27,6 +27,8 @@ public:
 
 	void Bind();
 	void Destroy();
+
+	static void ClearTexureMemory(unsigned int const& TextureID);
 	/* Constructors */
 	Texture(unsigned int newID);
 	Texture(std::string sourcePath);

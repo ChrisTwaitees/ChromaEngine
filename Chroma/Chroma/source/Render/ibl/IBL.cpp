@@ -6,22 +6,30 @@ void IBL::Initialize()
 	glDepthFunc(GL_LEQUAL);
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	// env cube map
-	generateEnvCubeMap();
+	GenerateEnvCubeMap();
 
 	// irradiance map
-	generateIrradianceMap();
+	GenerateIrradianceMap();
 
 	// prefilter importance map
-	generatePrefilterMap();
+	GeneratePrefilterMap();
 
 	// brdf LUT map
-	generateBRDFLUTMap();
+	GenerateBRDFLUTMap();
 
 	glEnable(GL_CULL_FACE);
 	glDisable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 }
 
-void IBL::generateEnvCubeMap()
+void IBL::ClearTextureBuffers()
+{
+	Texture::ClearTexureMemory(m_brdfLUTTexture);
+	Texture::ClearTexureMemory(m_envCubeMap);
+	Texture::ClearTexureMemory(m_prefilterMap);
+	Texture::ClearTexureMemory(m_irradianceMap);
+}
+
+void IBL::GenerateEnvCubeMap()
 {
 	// init capture buffers
 	glGenFramebuffers(1, &m_captureFBO);
@@ -68,7 +76,7 @@ void IBL::generateEnvCubeMap()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void IBL::generateIrradianceMap()
+void IBL::GenerateIrradianceMap()
 {
 	// generate Texture
 	glGenTextures(1, &m_irradianceMap);
@@ -111,7 +119,7 @@ void IBL::generateIrradianceMap()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void IBL::generatePrefilterMap()
+void IBL::GeneratePrefilterMap()
 {
 	// generate texture
 	glGenTextures(1, &m_prefilterMap);
@@ -167,7 +175,7 @@ void IBL::generatePrefilterMap()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
-void IBL::generateBRDFLUTMap()
+void IBL::GenerateBRDFLUTMap()
 {
 	glGenTextures(1, &m_brdfLUTTexture);
 
@@ -206,9 +214,24 @@ void IBL::Draw()
 	m_captureCube.Draw(m_envMapShader);
 }
 
-void IBL::setIBLTexture(HDRTexture newHDRTexture)
+void IBL::SetIBLTexture(HDRTexture newHDRTexture)
 {
 	m_HDRtexture = newHDRTexture;
+	Initialize();
+}
+
+void IBL::LoadIBL(std::string const& newHDRTexturePath)
+{
+	// clear old texture
+	m_HDRtexture.Destroy();
+
+	// new texture
+	m_HDRtexture = HDRTexture(newHDRTexturePath);
+
+	// clear existing texture buffers
+	ClearTextureBuffers();
+
+	// initialize
 	Initialize();
 }
 
