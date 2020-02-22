@@ -105,13 +105,6 @@ void main()
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 		Lo += CalcPointLight(pointLights[i], Normal, viewDir, fs_in.FragPos, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmaps.shadowmap1);
 
-	// TEST
-//	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-//	{
-//		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmaps.shadowmap1);
-//	}
-		
-
 	// AMBIENT
 	//------------------------------------------------------------------------
 	// Adding ambient and SSAO
@@ -123,7 +116,7 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	FragColor = vec4(vec3(Translucency), 1.0);
+	FragColor = vec4(color, 1.0);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));

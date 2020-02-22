@@ -6,7 +6,7 @@
 #include <imgui/examples/imgui_impl_opengl3.h>
 
 // chroma
-#define IMGUI_IMPL_OPENGL_LOADER_GLAD
+//#define IMGUI_IMPL_OPENGL_LOADER_GLAD
 #include <common/CoreCommon.h>
 
 namespace Chroma
@@ -18,44 +18,22 @@ namespace Chroma
 		static void Init();
 		static void Draw();
 
+		static void AddUICall(void (*UICall)());
+
 		// graphics
 		static bool m_Bloom;
 		static bool m_DrawGraphicsDebug;
 		static int m_GraphicsDebugSelected;
 
-		inline static void SetSelectedEntityName(std::string const& newEntity) { SelectedEntity = newEntity; };
+		inline static void SetSelectedEntityName(std::string const& newEntity) { };
 
 	protected:
 		static void Start();
 		static void End();
+		static void DrawUICalls();
 
-		static void ToggleBool(bool& toToggle);
+		static std::vector<void(*)() > m_UICalls;
 
-		static std::string SelectedEntity;
-
-		static void DrawMainMenu();
-
-		static void DrawGraphicsMenu();
-
-		static void DrawAnimationMenu();
-
-		// GUI Attrs
-		// time
-		static float timeSpeed;
-		// debug
-		// render
-		static bool useSkybox;
-		static float exposure;
-		static float gamma;
-		//debugbuffer
-		static bool drawDebug;
-		static bool drawPhysicsDebug;
-		// anim
-		static bool drawAnimMenu, debugAnim, drawSkeletonsDebug;
-		static char animClipName[128];
-		static float DebugAnimClipPos;
-		// graphics
-		static bool drawGraphicsMenu;
 
 
 	};

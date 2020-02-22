@@ -15,8 +15,6 @@
 
 
 
-
-
 int main()
 {
 	// INIT CHROMA
@@ -150,10 +148,6 @@ int main()
 	MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
 	HumanEntity->AddComponent(EyebrowsMeshComponent);
 
-	// Icon
-	UIComponent* testIconComponent = new Icon();
-	Chroma::Scene::AddUIComponent(testIconComponent);
-
 
 	Chroma::Scene::PostSceneBuild();
 
@@ -166,9 +160,6 @@ int main()
 		//Sunlight Rotation	
 		Chroma::Scene::GetSunLight()->SetTranslation(glm::vec3(std::sin(GAMETIME * SUNLIGHT_SPIN_SPEED) * SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GAMETIME * SUNLIGHT_SPIN_SPEED) * SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->GetPosition()));
-
-		((Icon*)testIconComponent)->SetPosition(glm::vec3(0.0f, std::sin(GAMETIME* 3.0f)* 0.5f , 0));
-		((Icon*)testIconComponent)->SetScale(std::sin(GAMETIME* 3.0f));
 
 		// GAME TICK
 		Chroma::Engine::Tick();

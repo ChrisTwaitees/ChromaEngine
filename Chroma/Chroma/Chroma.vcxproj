@@ -313,13 +313,14 @@
       <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
       </ForcedIncludeFiles>
     </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="ImGuiBuild.cpp" />
     <ClCompile Include="source\Editor\ChromaEditor.cpp" />
     <ClCompile Include="source\Editor\editor\Editor.cpp" />
-    <ClCompile Include="source\Editor\editor\EditorUI.cpp" />
+    <ClCompile Include="source\Editor\editor\ui\EditorUI.cpp" />
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
     <ClCompile Include="source\Engine\animation\IStateMachine.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
@@ -404,7 +405,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Editor\editor\Editor.h" />
-    <ClInclude Include="source\Editor\editor\EditorUI.h" />
+    <ClInclude Include="source\Editor\editor\ui\EditorUI.h" />
+    <ClInclude Include="source\Editor\editor\ui\EditorUIWidgets.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
     <ClInclude Include="source\Engine\animation\IStateMachine.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />

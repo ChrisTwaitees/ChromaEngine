@@ -381,12 +381,6 @@
     <ClCompile Include="..\thirdparty\include\glad\glad.c">
       <Filter>Render\core</Filter>
     </ClCompile>
-    <ClCompile Include="source\Editor\editor\EditorUI.cpp">
-      <Filter>Editor\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="ImGuiBuild.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
       <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
@@ -395,6 +389,15 @@
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
       <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_glfw.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_opengl3.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\editor\ui\EditorUI.cpp">
+      <Filter>Editor\ui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -644,7 +647,10 @@
     <ClInclude Include="source\Render\ui\core\UI.h">
       <Filter>Render\ui\core</Filter>
     </ClInclude>
-    <ClInclude Include="source\Editor\editor\EditorUI.h">
+    <ClInclude Include="source\Editor\editor\ui\EditorUI.h">
+      <Filter>Editor\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\editor\ui\EditorUIWidgets.h">
       <Filter>Editor\ui</Filter>
     </ClInclude>
   </ItemGroup>

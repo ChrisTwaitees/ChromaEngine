@@ -2,7 +2,7 @@
 #define _CHROMA_EDITOR_H_
 
 #include <common/CoreCommon.h>
-#include <editor/EditorUI.h>
+#include <editor/ui/EditorUI.h>
 
 namespace Chroma
 {

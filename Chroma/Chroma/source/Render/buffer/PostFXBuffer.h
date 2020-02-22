@@ -5,6 +5,18 @@
 
 class PostFXBuffer : public IFramebuffer
 {
+public:
+	unsigned int GetTexture() override { return colorBuffersTextures[0]; }
+	unsigned int GetFBO() override { return hdrFBO; };
+
+	void Draw() override;
+	void Draw(const bool& useBloom);
+	void Bind() override;
+
+
+	PostFXBuffer();
+	~PostFXBuffer();
+
 protected:
 	// default HDR shader
 	unsigned int hdrFBO;
@@ -35,18 +47,6 @@ protected:
 	void UpdateTransformUniforms() override;
 	void ConfigureShaders();
 	void ResizeBuffers() override;
-
-public:
-
-	unsigned int GetFBO() override { return hdrFBO; };
-
-	void Draw() override;
-	void Draw(const bool& useBloom);
-	void Bind() override;
-
-
-	PostFXBuffer();
-	~PostFXBuffer();
 };
 
 

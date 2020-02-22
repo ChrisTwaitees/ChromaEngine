@@ -128,6 +128,7 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 	unsigned int metalnessNr{ 1 };
 	unsigned int metroughaoNr{ 1 };
 	unsigned int aoNr{ 1 };
+	unsigned int translucencyNr{ 1 };
 	for (int i = 0; i < m_Textures.size(); i++)
 	{
 		// building the uniform name
@@ -185,6 +186,13 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 				texturenum = std::to_string(shadowmapNr++);
 				break;
 			}
+		case Texture::TRANSLUCENCY:
+		{
+			name = "material.texture_translucency";
+			texturenum = std::to_string(translucencyNr++);
+			shader.SetBool("UseTranslucencyMap", true);
+			break;
+		}
 		}
 
 		// Activate Texture before binding

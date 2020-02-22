@@ -1,5 +1,5 @@
 #include "PostFXBuffer.h"
-
+#include <screen/Screen.h>
 
 void PostFXBuffer::Initialize()
 {

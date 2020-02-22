@@ -1,6 +1,6 @@
 #include "Render.h"
-#include <UI/core/UI.h>
 #include <screen/Screen.h>
+#include <Editor/ui/EditorUI.h>
 
 namespace Chroma
 {
@@ -49,7 +49,7 @@ namespace Chroma
 		m_PostFXBuffer->SetUniform("exposure", 1.0f);
 		m_PostFXBuffer->SetUniform("gamma", 2.2f);
 
-		((PostFXBuffer*)m_PostFXBuffer)->Draw(Chroma::UI::m_Bloom);
+		((PostFXBuffer*)m_PostFXBuffer)->Draw(Chroma::EditorUI::m_Bloom);
 	}
 
 	void Render::RenderGraphicsDebug()

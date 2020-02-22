@@ -45,7 +45,6 @@ int main()
 		// EDITOR TICK
 		Chroma::Editor::Tick();
 
-		
 	}
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.
