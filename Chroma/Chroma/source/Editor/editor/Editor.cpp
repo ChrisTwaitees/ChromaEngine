@@ -17,8 +17,8 @@ namespace Chroma
 {
 	void Editor::Init()
 	{
-		CHROMA_INFO("Editor Initialized.");
 		Chroma::EditorUI::Init();
+		CHROMA_INFO("CHROMA EDITOR :: Editor Initialized.");
 	}
 
 	void Editor::PopulateTestScene()
@@ -185,7 +185,7 @@ namespace Chroma
 	void Editor::Tick()
 	{
 		// UI
-		//DrawUI();
+		DrawUI();
 	}
 
 	void Editor::DrawUI()

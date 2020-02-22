@@ -8,7 +8,7 @@ namespace Chroma
 	void EditorUI::Draw()
 	{
 		// start frame
-		Start();
+		//Start();
 
 		// Properties
 		DrawPropertiesWindow();
@@ -17,14 +17,15 @@ namespace Chroma
 		DrawResourceBrowser();
 
 		// SceneManager
-		DrawSceneManager();
+		//DrawSceneManager();
 
 		// end frame
-		End();
+		//End();
 	}
 	void EditorUI::Init()
 	{
 		CHROMA_INFO("CHROMA EDITOR :: UI Initialized");
+
 	}
 	void EditorUI::DrawPropertiesWindow()
 	{

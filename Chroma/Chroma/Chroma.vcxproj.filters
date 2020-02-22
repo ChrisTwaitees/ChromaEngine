@@ -37,9 +37,6 @@
     <Filter Include="Render\camera">
       <UniqueIdentifier>{9310dee5-e75d-4499-8f4b-4510f335af6f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Render\gui">
-      <UniqueIdentifier>{6e50e176-799a-4919-b453-eeb0f12c79c9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\component">
       <UniqueIdentifier>{da340fb6-62a6-4a13-bf58-fd07ff41a6ea}</UniqueIdentifier>
     </Filter>
@@ -130,15 +127,6 @@
     <Filter Include="Resources\shaders\ssss">
       <UniqueIdentifier>{80327f3e-ade1-400a-b720-1124abde4948}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Render\gui\core">
-      <UniqueIdentifier>{ece9381b-7af1-4d1e-98de-632b6ed14eb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Render\gui\core\imgui">
-      <UniqueIdentifier>{375a26e7-3cbb-441f-97b6-2ccb56ef7a59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Render\gui\icon">
-      <UniqueIdentifier>{f02fbd02-d3ed-4485-acde-584ab2e95c27}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Resources\shaders\gui">
       <UniqueIdentifier>{30a3212d-284c-449c-ade7-3878b0842b81}</UniqueIdentifier>
     </Filter>
@@ -163,25 +151,37 @@
     <Filter Include="Engine\resources\compressors">
       <UniqueIdentifier>{c40ea372-68c1-4de5-9732-d5b495ec3963}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\ui">
+      <UniqueIdentifier>{6e50e176-799a-4919-b453-eeb0f12c79c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\ui\core">
+      <UniqueIdentifier>{ece9381b-7af1-4d1e-98de-632b6ed14eb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\ui\core\imgui">
+      <UniqueIdentifier>{375a26e7-3cbb-441f-97b6-2ccb56ef7a59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\ui\icon">
+      <UniqueIdentifier>{f02fbd02-d3ed-4485-acde-584ab2e95c27}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
     <ClCompile Include="source\glad.c">
       <Filter>thirdparty</Filter>
@@ -352,10 +352,10 @@
       <Filter>Engine\resources</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\gui\core\GUI.cpp">
-      <Filter>Render\gui\core</Filter>
+      <Filter>Render\ui\core</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\gui\icon\Icon.cpp">
-      <Filter>Render\gui\icon</Filter>
+      <Filter>Render\ui\icon</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\component\UIComponent.cpp">
       <Filter>Engine\component</Filter>
@@ -402,28 +402,28 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui.h">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_glfw.h">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_opengl3.h">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imgui_internal.h">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClInclude>
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h">
-      <Filter>Render\gui\core\imgui</Filter>
+      <Filter>Render\ui\core\imgui</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\terrain\Terrain.h">
       <Filter>Render\terrain</Filter>
@@ -627,10 +627,10 @@
       <Filter>Engine\resources</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\gui\core\GUI.h">
-      <Filter>Render\gui\core</Filter>
+      <Filter>Render\ui\core</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\gui\icon\Icon.h">
-      <Filter>Render\gui\icon</Filter>
+      <Filter>Render\ui\icon</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\component\UIComponent.h">
       <Filter>Engine\component</Filter>

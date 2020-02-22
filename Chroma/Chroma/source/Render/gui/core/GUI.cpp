@@ -32,6 +32,13 @@ namespace Chroma
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
+
+		// config
+		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+
 		// style
 		ImGui::StyleColorsClassic();
 		// Setup Platform/Renderer bindings
@@ -146,6 +153,9 @@ namespace Chroma
 
 	void GUI::End()
 	{
+
+		ImGuiIO& io = ImGui::GetIO();
+		io.DisplaySize = ImVec2(Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 
 		// Rendering
 		ImGui::RenderScene();
