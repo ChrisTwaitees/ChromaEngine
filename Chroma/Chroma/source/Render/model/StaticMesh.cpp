@@ -1,6 +1,7 @@
 #include "StaticMesh.h"
 #include <scene/Scene.h>
 
+
 void StaticMesh::CalculateBBox()
 {
 	m_vertices = GetVertices();
@@ -201,6 +202,8 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 		glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID);
 		// Set Unitform
 		shader.SetInt(( name + texturenum).c_str(), i);
+
+
 	}
 
 	if (m_IsForwardLit)

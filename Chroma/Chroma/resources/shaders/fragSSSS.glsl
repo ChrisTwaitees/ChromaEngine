@@ -42,6 +42,11 @@ uniform vec2 UVMultiply;
 uniform ShadowMap shadowmaps;
 
 // UNIFORMS
+// backscatter
+//uniform float bckScttrScale;
+//uniform float bckScttrPow;
+//uniform float bckScttrDistortion;
+
 uniform vec3 viewPos;
 //IBL
 uniform samplerCube irradianceMap;
@@ -105,11 +110,19 @@ void main()
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 		Lo += CalcPointLight(pointLights[i], Normal, viewDir, fs_in.FragPos, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmaps.shadowmap1);
 
-	// TEST
-//	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-//	{
-//		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmaps.shadowmap1);
-//	}
+	// BACK SCATTER
+	float bckScttrAmount;
+	float bckScttrScale      = 1.1;
+	float bckScttrPow        = 0.695;
+	float bckScttrDistortion = 0.695;
+
+	// Directional Lights
+	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
+	{
+		vec3 HlfWaySSDistortion = normalize(-dirLights[i].direction + Normal * bckScttrDistortion );
+		bckScttrAmount += pow(clamp(dot(viewDir, -HlfWaySSDistortion), 0.0, 1.0), bckScttrPow ) * bckScttrScale * Translucency ; 
+		Lo += vec4(dirLights[i].diffuse.rgb, 1.0) * vec4(Albedo, 1.0) * bckScttrAmount;
+	}
 		
 
 	// AMBIENT
@@ -123,7 +136,7 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	FragColor = vec4(vec3(Translucency), 1.0);
+	FragColor = vec4(vec3(color), 1.0);
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));
