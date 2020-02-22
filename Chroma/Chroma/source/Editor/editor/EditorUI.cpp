@@ -11,10 +11,10 @@ namespace Chroma
 		//Start();
 
 		// Properties
-		DrawPropertiesWindow();
+		//DrawPropertiesWindow();
 
 		// ResourceBrowser
-		DrawResourceBrowser();
+		//DrawResourceBrowser();
 
 		// SceneManager
 		//DrawSceneManager();

@@ -6,7 +6,7 @@
 #include <imgui/examples/imgui_impl_opengl3.h>
 
 // chroma
-
+#define IMGUI_IMPL_OPENGL_LOADER_GLAD
 #include <common/CoreCommon.h>
 
 namespace Chroma

@@ -8,7 +8,7 @@
 #include <engine/engine.h>
 #include <resources/ResourceManager.h>
 #include <terrain/Terrain.h>
-#include <gui/icon/Icon.h>
+#include <ui/uicomponents/Icon.h>
 
 #include <entity/Entity.h>
 #include <model/SkinnedMesh.h>

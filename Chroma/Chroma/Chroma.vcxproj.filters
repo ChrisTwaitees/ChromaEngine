@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="thirdparty">
-      <UniqueIdentifier>{ea2418d7-5c1c-4109-91e1-50b17ccd3116}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine">
       <UniqueIdentifier>{cbd6a861-4d6e-4c63-b617-9f926a8df22c}</UniqueIdentifier>
     </Filter>
@@ -160,11 +157,17 @@
     <Filter Include="Render\ui\uicomponents">
       <UniqueIdentifier>{52b27e38-5777-474e-9e42-a69502d1397d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\ui\core\imgui">
+      <UniqueIdentifier>{16543137-6157-44a6-9286-8b3f80cfff28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\core">
+      <UniqueIdentifier>{f2bd4ce8-29c7-4006-a2e3-d1efe2bb84e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\ui">
+      <UniqueIdentifier>{33436909-f5a1-43f5-b5d5-e55815feee6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="source\glad.c">
-      <Filter>thirdparty</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
       <Filter>Render\terrain</Filter>
     </ClCompile>
@@ -369,29 +372,32 @@
     <ClCompile Include="source\Engine\resources\FileHelper.cpp">
       <Filter>Engine\resources\loaders</Filter>
     </ClCompile>
-    <ClCompile Include="source\Editor\editor\EditorUI.cpp">
-      <Filter>Editor\editor</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
-      <Filter>Render\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_glfw.cpp">
-      <Filter>Render\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_opengl3.cpp">
-      <Filter>Render\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp">
-      <Filter>Render\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
-      <Filter>Render\ui</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\ui\uicomponents\Icon.cpp">
       <Filter>Render\ui\uicomponents</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\ui\core\UI.cpp">
       <Filter>Render\ui\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_glfw.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_opengl3.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\glad\glad.c">
+      <Filter>Render\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\editor\EditorUI.cpp">
+      <Filter>Editor\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -635,14 +641,14 @@
     <ClInclude Include="source\Engine\resources\FileHelper.h">
       <Filter>Engine\resources\loaders</Filter>
     </ClInclude>
-    <ClInclude Include="source\Editor\editor\EditorUI.h">
-      <Filter>Editor\editor</Filter>
-    </ClInclude>
     <ClInclude Include="source\Render\ui\uicomponents\Icon.h">
       <Filter>Render\ui\uicomponents</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\ui\core\UI.h">
       <Filter>Render\ui\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\editor\EditorUI.h">
+      <Filter>Editor\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
