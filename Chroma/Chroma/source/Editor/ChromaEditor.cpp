@@ -1,7 +1,7 @@
-// glm
-#include <glm/glm.hpp>
+
 
 // chroma
+#include <common/PrecompiledHeader.h>
 #include <engine/Engine.h>
 #include <editor/Editor.h>
 #include <resources/FileHelper.h>
@@ -38,7 +38,6 @@ int main()
 
 	while (Chroma::Screen::IsRunning())
 	{
-		//Chroma::Scene::GetRenderCamera()->SetASPECT(std::sin(GAMETIME));
 
 		// GAME TICK
 		Chroma::Engine::Tick();

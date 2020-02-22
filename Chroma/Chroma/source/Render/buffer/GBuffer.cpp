@@ -11,7 +11,7 @@ void GBuffer::Initialize()
 	// - position color buffer
 	glGenTextures(1, &gPosition);
 	glBindTexture(GL_TEXTURE_2D, gPosition);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, gPosition, 0);
@@ -19,7 +19,7 @@ void GBuffer::Initialize()
 	// - gViewPosition for SSAO viewspace position 
 	glGenTextures(1, &gViewPosition);
 	glBindTexture(GL_TEXTURE_2D, gViewPosition);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);	
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, gViewPosition, 0);
@@ -27,7 +27,7 @@ void GBuffer::Initialize()
 	// - fragposLightSpace color buffer for shadowmapping
 	glGenTextures(1, &gFragPosLightSpace);
 	glBindTexture(GL_TEXTURE_2D, gFragPosLightSpace);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, gFragPosLightSpace, 0);
@@ -36,7 +36,7 @@ void GBuffer::Initialize()
 	// - albebo buffer
 	glGenTextures(1, &gAlbedo);
 	glBindTexture(GL_TEXTURE_2D, gAlbedo);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, gAlbedo, 0);
@@ -44,7 +44,7 @@ void GBuffer::Initialize()
 	// - normal buffer
 	glGenTextures(1, &gNormal);
 	glBindTexture(GL_TEXTURE_2D, gNormal);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT4, GL_TEXTURE_2D, gNormal, 0);
@@ -52,7 +52,7 @@ void GBuffer::Initialize()
 	// - gViewPosition for SSAO viewspace position 
 	glGenTextures(1, &gViewNormal);
 	glBindTexture(GL_TEXTURE_2D, gViewNormal);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT5, GL_TEXTURE_2D, gViewNormal, 0);
@@ -60,7 +60,7 @@ void GBuffer::Initialize()
 	// - metalness/rougness/ambient occlusion buffer
 	glGenTextures(1, &gMetRoughAO);
 	glBindTexture(GL_TEXTURE_2D, gMetRoughAO);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT6, GL_TEXTURE_2D, gMetRoughAO, 0);
@@ -71,7 +71,7 @@ void GBuffer::Initialize()
 	// create and attach depth buffer (renderbuffer)
 	glGenRenderbuffers(1, &m_RBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 	// finally check if framebuffer is complete
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
@@ -151,7 +151,7 @@ void GBuffer::DrawGeometryPass()
 	m_geometryPassShader.Use();
 	m_geometryPassShader.SetMat4("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
 	m_geometryPassShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
-	m_geometryPassShader.SetMat4("lightSpaceMatrix", m_Shadowbuffer->getLightSpaceMatrix());
+	m_geometryPassShader.SetMat4("lightSpaceMatrix", m_Shadowbuffer->GetLightSpaceMatrix());
 
 	// Render Lit Components
 	for (UID const& uid : Chroma::Scene::GetLitComponentUIDs())
@@ -179,7 +179,7 @@ void GBuffer::DrawGeometryPass()
 }
 
 
-void GBuffer::drawLightingPass()
+void GBuffer::DrawLightingPass()
 {
 	// use the lighting pass shader
 	m_lightingPassShader.Use();
@@ -215,7 +215,7 @@ void GBuffer::Draw()
 	m_PostFXBuffer->Bind();
 
 	// 3. lighting pass: calculate lighting using gbuffer textures
-	drawLightingPass();
+	DrawLightingPass();
 	RenderQuad();
 
 	// 4. copy content of geometry's depth buffer to HDR buffer
@@ -227,7 +227,13 @@ void GBuffer::Draw()
 
 void GBuffer::ResizeBuffers()
 {
-	// textures
+	// resize shadow maps
+	m_Shadowbuffer->ResizeBuffers();
+
+	// resize SSAO
+	m_SSAOBuffer->ScreenResizeCallback(m_Width, m_Height);
+
+	// gbuffer textures
 	// - position color buffer
 	glBindTexture(GL_TEXTURE_2D, gPosition);
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
@@ -261,6 +267,8 @@ void GBuffer::ResizeBuffers()
 	// rbo
 	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+
+	
 }
 
 
@@ -271,7 +279,7 @@ void GBuffer::BindShadownMaps()
 
 glm::mat4 GBuffer::GetLightSpaceMatrix()
 {
-	return m_Shadowbuffer->getLightSpaceMatrix(); 
+	return m_Shadowbuffer->GetLightSpaceMatrix(); 
 }
 
 GBuffer::GBuffer(IFramebuffer*& PostFXBuffer)

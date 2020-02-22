@@ -2,7 +2,7 @@
 #define _CHROMA_ANIMATOR_H_
 
 // stl
-#include <vector>
+#include <common/CoreCommon.h>
 // thirdparty
 #include <GLFW/glfw3.h>
 // chroma

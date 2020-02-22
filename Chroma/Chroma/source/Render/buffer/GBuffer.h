@@ -14,6 +14,26 @@
 
 class GBuffer : public IFramebuffer
 {
+public:
+	// functions
+	void Draw() override;
+	void ResizeBuffers() override;
+
+	void BindShadownMaps();
+	glm::mat4 GetLightSpaceMatrix();
+
+	inline unsigned int GetPositionTexture() const { return gPosition; }
+	inline unsigned int GetAlbedoTexture() const { return gAlbedo; }
+	inline unsigned int GetNormalTexture() const { return gNormal; }
+	inline unsigned int GetMetalRoughnessAO() const { return gMetRoughAO; }
+	inline unsigned int GetSSAOTexture() const { return m_SSAOBuffer->GetTexture(); }
+	inline unsigned int GetShadowBufferTexture() const { return m_Shadowbuffer->GetTexture(); }
+
+	// structors
+	GBuffer(IFramebuffer*& m_PostFXBuffer);
+	~GBuffer();
+
+private:
 	// shaders
 	const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
 	const char* vtxLightingSoure{ "resources/shaders/frameBufferVertex.glsl" };
@@ -42,7 +62,7 @@ class GBuffer : public IFramebuffer
 	// passes
 	void DrawShadowMaps();
 	void DrawGeometryPass();
-	void drawLightingPass();
+	void DrawLightingPass();
 	void BlitDepthBuffer();
 
 	// uniforms
@@ -50,24 +70,7 @@ class GBuffer : public IFramebuffer
 	void SetLightingUniforms();
 	void UpdateTransformUniforms() override;
 
-public:
-	// functions
-	void Draw() override;
-	void ResizeBuffers() override;
 
-	void BindShadownMaps();
-	glm::mat4 GetLightSpaceMatrix();
-
-	inline unsigned int GetPositionTexture() const { return gPosition; }
-	inline unsigned int GetAlbedoTexture() const { return gAlbedo; }
-	inline unsigned int GetNormalTexture() const { return gNormal; }
-	inline unsigned int GetMetalRoughnessAO() const { return gMetRoughAO; }
-	inline unsigned int GetSSAOTexture() const { return m_SSAOBuffer->GetTexture(); }
-	inline unsigned int GetShadowBufferTexture() const { return m_Shadowbuffer->GetTexture(); }
-
-	// structors
-	GBuffer(IFramebuffer*& m_PostFXBuffer);
-	~GBuffer();
 };
 
 #endif

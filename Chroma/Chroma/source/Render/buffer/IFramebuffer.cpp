@@ -132,6 +132,7 @@ void IFramebuffer::ScreenResizeCallback(int const& width, int const& height)
 	m_Width = width;
 	m_Height = height;
 	ResizeBuffers();
+	
 }
 
 

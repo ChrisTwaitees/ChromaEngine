@@ -13,6 +13,17 @@
 
 class SSAOBuffer : public IFramebuffer
 {
+
+public:
+	void Draw(unsigned int& gViewPosition, unsigned int& gNormal);
+	void ResizeBuffers() override;
+
+	virtual unsigned int GetTexture() override { return ssaoColorBufferBlur; };
+
+	SSAOBuffer();
+	~SSAOBuffer();
+
+private :
 	// random generators
 	std::uniform_real_distribution<float> randomFloats{ 0.0, 1.0 };
 	std::default_random_engine generator;
@@ -48,15 +59,6 @@ class SSAOBuffer : public IFramebuffer
 	void sendKernelSamplesToShader();
 	void ConfigureShaders();
 
-
-public:
-	void Draw(unsigned int& gViewPosition, unsigned int& gNormal);
-	void ResizeBuffers() override;
-
-	virtual unsigned int GetTexture() override { return ssaoColorBufferBlur; };
-
-	SSAOBuffer();
-	~SSAOBuffer();
 };
 
 #endif

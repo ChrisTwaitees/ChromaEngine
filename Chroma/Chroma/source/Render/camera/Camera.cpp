@@ -1,8 +1,10 @@
 #include "Camera.h"
 #include <input/Input.h>
+#include <screen/Screen.h>
 
 void Camera::Initialize()
 {
+	m_CamAspect = (float)Chroma::Screen::GetWidthHeight().first / (float)Chroma::Screen::GetWidthHeight().second;
 	UpdateProjectionMatrix();
 	UpdateViewMatrix();
 }

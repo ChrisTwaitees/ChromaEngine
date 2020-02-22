@@ -17,16 +17,16 @@
 
 // RENDER
 // Screen
-#define SCREEN_WIDTH 1500
-#define SCREEN_HEIGHT 1500 
+#define SCREEN_WIDTH 1024
+#define SCREEN_HEIGHT 768 
 #define MSAA_SAMPLES 4 
 
 // Background Color
 #define SCREEN_DEFAULT_COLOR glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
 
 // SHADOWS
-#define SHADOW_WIDTH SCREEN_WIDTH
-#define SHADOW_HEIGHT SCREEN_HEIGHT 
+#define SHADOW_WIDTH SCREEN_WIDTH / 2
+#define SHADOW_HEIGHT SCREEN_HEIGHT / 2
 
 // OPENGL CONFIG
 #define OPENGL_VERSION std::string( "330 core" )

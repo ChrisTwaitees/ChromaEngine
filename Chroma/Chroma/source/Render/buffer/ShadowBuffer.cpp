@@ -20,9 +20,7 @@ void ShadowBuffer::Initialize()
 	// create texture to write shadow map to
 	glGenTextures(1, &ShadowMapTexture.ID);
 	glBindTexture(GL_TEXTURE_2D, ShadowMapTexture.ID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 
-		width, height, 0,
-		GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 	width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -48,14 +46,14 @@ void ShadowBuffer::Initialize()
 
 void ShadowBuffer::ResizeBuffers()
 {
-	// textures
-	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+	// Resize to half the screen resolution
+	width = Chroma::Screen::GetWidthHeight().first / 2;
+	height = Chroma::Screen::GetWidthHeight().second / 2;
 
-	// rbo
-	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
-	// attach buffers
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+	// textures
+	glBindTexture(GL_TEXTURE_2D, ShadowMapTexture.ID);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
 }
 
 

@@ -13,7 +13,7 @@ void SSAOBuffer::generateBuffers()
 	// generate ssao ColorBuffer Texture Object
 	glGenTextures(1, &ssaoColorBuffer);
 	glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ssaoColorBuffer, 0);
@@ -24,7 +24,7 @@ void SSAOBuffer::generateBuffers()
 	// generate and bind blur texture
 	glGenTextures(1, &ssaoColorBufferBlur);
 	glBindTexture(GL_TEXTURE_2D, ssaoColorBufferBlur);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, ssaoColorBufferBlur, 0);
@@ -70,7 +70,7 @@ void SSAOBuffer::generateNoiseTexture()
 		ssaoNoise.push_back(noise);
 	}
 	// set noise m_Scale for uniform
-	noiseScale = glm::vec2(float(SCREEN_WIDTH) / std::sqrtf(noiseSize), float(SCREEN_HEIGHT) / std::sqrtf(noiseSize));
+	noiseScale = glm::vec2(float(m_Width) / std::sqrtf(noiseSize), float(m_Height) / std::sqrtf(noiseSize));
 	// generating texture
 	glGenTextures(1, &noiseTexture);
 	glBindTexture(GL_TEXTURE_2D, noiseTexture);

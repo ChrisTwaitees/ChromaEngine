@@ -14,7 +14,7 @@ void PostFXBuffer::Initialize()
 	{
 		// Bind textures
 		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[i]);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL);
 		// set texture parameters
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -26,7 +26,7 @@ void PostFXBuffer::Initialize()
 	// create depth buffer (renderbuffer)
 	glGenRenderbuffers(1, &m_RBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 	// pass color attachments in order for multiple color buffers to be written
 	unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
@@ -87,7 +87,7 @@ void PostFXBuffer::genBlurBuffer()
 		glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[i]);
 		glBindTexture(GL_TEXTURE_2D, blurColorBuffers[i]);
 		glTexImage2D(
-			GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL
+			GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL
 		);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

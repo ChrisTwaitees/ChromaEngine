@@ -14,6 +14,21 @@
 
 class ShadowBuffer : IFramebuffer
 {
+public:
+	void ResizeBuffers() override;
+
+	// getters and setters
+	glm::mat4 GetLightSpaceMatrix() { return lightSpaceMatrix; };
+	unsigned int GetTexture() override { return ShadowMapTexture.ID; }
+
+	// calculate shadows
+	void DrawShadowMaps();
+	void BindShadowMaps();
+
+	// constructors
+	ShadowBuffer();
+	~ShadowBuffer();
+
 private:
 	// DepthBuffers
 	unsigned int depthMapFBO;
@@ -32,20 +47,6 @@ private:
 	void Initialize();
 	glm::mat4 lightSpaceMatrix;
 
-public:
-	void ResizeBuffers() override;
-
-	// getters and setters
-	glm::mat4 getLightSpaceMatrix() { return lightSpaceMatrix; };
-	unsigned int GetTexture() override { return ShadowMapTexture.ID; }
-
-	// calculate shadows
-	void DrawShadowMaps();
-	void BindShadowMaps();
-
-	// constructors
-	ShadowBuffer();
-	~ShadowBuffer();
 };
 
 #endif

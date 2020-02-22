@@ -160,10 +160,10 @@ namespace Chroma
 		Chroma::Scene::GetRenderCamera()->SetASPECT((float)width/(float)height);
 
 		// update buffers
+		m_PostFXBuffer->ScreenResizeCallback(width, height);
 		m_GBuffer->ScreenResizeCallback(width, height);
 		m_ForwardBuffer->ScreenResizeCallback(width, height);
 		m_DebugBuffer->ScreenResizeCallback(width, height);
-		m_PostFXBuffer->ScreenResizeCallback(width, height);
 		m_GraphicsDebugBuffer->ScreenResizeCallback(width, height);
 
 		// Draw while resizing
