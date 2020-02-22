@@ -1,4 +1,4 @@
-#include "GUI.h"
+#include "UI.h"
 #include <physics/PhysicsEngine.h>
 #include <render/Render.h>
 #include <scene/SceneManager.h>
@@ -6,27 +6,27 @@
 namespace Chroma
 {
 	// global
-	float GUI::timeSpeed;
-	std::string GUI::SelectedEntity;
+	float UI::timeSpeed;
+	std::string UI::SelectedEntity;
 	// render
-	bool  GUI::useSkybox;
-	float GUI::exposure;
-	float GUI::gamma;
-	bool  GUI::m_Bloom;
+	bool  UI::useSkybox;
+	float UI::exposure;
+	float UI::gamma;
+	bool  UI::m_Bloom;
 	// debug
-	bool GUI::drawPhysicsDebug;
+	bool UI::drawPhysicsDebug;
 	// anim
-	bool GUI::drawAnimMenu;
-	bool  GUI::debugAnim, drawSkeletonsDebug;
-	char  GUI::animClipName[128];
-	float GUI::DebugAnimClipPos;
+	bool UI::drawAnimMenu;
+	bool  UI::debugAnim, drawSkeletonsDebug;
+	char  UI::animClipName[128];
+	float UI::DebugAnimClipPos;
 	// graphics
-	bool GUI::drawGraphicsMenu;
-	int  GUI::m_GraphicsDebugSelected;
+	bool UI::drawGraphicsMenu;
+	int  UI::m_GraphicsDebugSelected;
 	static const char* GraphicsDebugs[5]{ "Alebdo", "Normals", "MetRoughAO", "SSAO", "Shadows"};
-	bool GUI::m_DrawGraphicsDebug;
+	bool UI::m_DrawGraphicsDebug;
 
-	void GUI::Init()
+	void UI::Init()
 	{
 		// context
 		IMGUI_CHECKVERSION();
@@ -35,9 +35,9 @@ namespace Chroma
 
 		// config
 		io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
-//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
-		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
-		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
+		//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+		//io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // Enable Docking
+		//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // Enable Multi-Viewport / Platform Windows
 
 		// style
 		ImGui::StyleColorsClassic();
@@ -66,7 +66,7 @@ namespace Chroma
 
 	}
 
-	void GUI::Draw()
+	void UI::Draw()
 	{
 		Start();
 
@@ -76,7 +76,7 @@ namespace Chroma
 		End();
 	}
 
-	void GUI::DrawMainMenu()
+	void UI::DrawMainMenu()
 	{
 		ImGui::Begin("Chroma");
 
@@ -104,7 +104,7 @@ namespace Chroma
 		ImGui::End();
 	}
 
-	void GUI::DrawGraphicsMenu()
+	void UI::DrawGraphicsMenu()
 	{
 		ImGui::Begin("Chroma Graphics");
 
@@ -125,7 +125,7 @@ namespace Chroma
 		ImGui::End();
 	}
 
-	void GUI::DrawAnimationMenu()
+	void UI::DrawAnimationMenu()
 	{
 		ImGui::Begin("Chroma Animation");
 
@@ -143,7 +143,7 @@ namespace Chroma
 	}
 
 
-	void GUI::Start()
+	void UI::Start()
 	{
 		// Start the Dear ImGui frame
 		ImGui_ImplOpenGL3_NewFrame();
@@ -151,18 +151,18 @@ namespace Chroma
 		ImGui::NewFrame();
 	}
 
-	void GUI::End()
+	void UI::End()
 	{
 
 		ImGuiIO& io = ImGui::GetIO();
 		io.DisplaySize = ImVec2(Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 
 		// Rendering
-		ImGui::RenderScene();
+		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	}
 
-	void GUI::ToggleBool(bool& toToggle)
+	void UI::ToggleBool(bool& toToggle)
 	{
 		toToggle = toToggle ? false : true;
 	}

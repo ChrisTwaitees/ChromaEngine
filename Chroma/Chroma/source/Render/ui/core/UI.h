@@ -1,9 +1,9 @@
 #ifndef _CHROMA_GUI_
 #define _CHROMA_GUI_
 // imgui
-#include "imgui/imgui.h"
-#include "imgui/imgui_impl_glfw.h"
-#include "imgui/imgui_impl_opengl3.h"
+#include <imgui/imgui.h>
+#include <imgui/examples/imgui_impl_glfw.h>
+#include <imgui/examples/imgui_impl_opengl3.h>
 
 // chroma
 
@@ -11,8 +11,20 @@
 
 namespace Chroma
 {
-	class GUI
+	class UI
 	{
+	public:
+		// functions
+		static void Init();
+		static void Draw();
+
+		// graphics
+		static bool m_Bloom;
+		static bool m_DrawGraphicsDebug;
+		static int m_GraphicsDebugSelected;
+
+		inline static void SetSelectedEntityName(std::string const& newEntity) { SelectedEntity = newEntity; };
+
 	protected:
 		static void Start();
 		static void End();
@@ -45,17 +57,7 @@ namespace Chroma
 		// graphics
 		static bool drawGraphicsMenu;
 
-	public:
-		// functions
-		static void Init();
-		static void Draw();
 
-		// graphics
-		static bool m_Bloom;
-		static bool m_DrawGraphicsDebug;
-		static int m_GraphicsDebugSelected;
-
-		inline static void SetSelectedEntityName(std::string const& newEntity) { SelectedEntity = newEntity; };
 	};
 }
 

@@ -157,32 +157,11 @@
     <Filter Include="Render\ui\core">
       <UniqueIdentifier>{ece9381b-7af1-4d1e-98de-632b6ed14eb3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Render\ui\core\imgui">
-      <UniqueIdentifier>{375a26e7-3cbb-441f-97b6-2ccb56ef7a59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Render\ui\icon">
-      <UniqueIdentifier>{f02fbd02-d3ed-4485-acde-584ab2e95c27}</UniqueIdentifier>
+    <Filter Include="Render\ui\uicomponents">
+      <UniqueIdentifier>{52b27e38-5777-474e-9e42-a69502d1397d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="source\glad.c">
       <Filter>thirdparty</Filter>
     </ClCompile>
@@ -351,12 +330,6 @@
     <ClCompile Include="source\Engine\resources\ResourceManager.cpp">
       <Filter>Engine\resources</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\gui\core\GUI.cpp">
-      <Filter>Render\ui\core</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\gui\icon\Icon.cpp">
-      <Filter>Render\ui\icon</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\component\UIComponent.cpp">
       <Filter>Engine\component</Filter>
     </ClCompile>
@@ -399,32 +372,29 @@
     <ClCompile Include="source\Editor\editor\EditorUI.cpp">
       <Filter>Editor\editor</Filter>
     </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
+      <Filter>Render\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_glfw.cpp">
+      <Filter>Render\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_opengl3.cpp">
+      <Filter>Render\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp">
+      <Filter>Render\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
+      <Filter>Render\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\ui\uicomponents\Icon.cpp">
+      <Filter>Render\ui\uicomponents</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\ui\core\UI.cpp">
+      <Filter>Render\ui\core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\thirdparty\include\imgui\imconfig.h">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\thirdparty\include\imgui\imgui.h">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_glfw.h">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_opengl3.h">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\thirdparty\include\imgui\imgui_internal.h">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClInclude>
     <ClInclude Include="source\Render\terrain\Terrain.h">
       <Filter>Render\terrain</Filter>
     </ClInclude>
@@ -626,12 +596,6 @@
     <ClInclude Include="source\Engine\resources\ResourceManager.h">
       <Filter>Engine\resources</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\gui\core\GUI.h">
-      <Filter>Render\ui\core</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\gui\icon\Icon.h">
-      <Filter>Render\ui\icon</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\component\UIComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
@@ -673,6 +637,12 @@
     </ClInclude>
     <ClInclude Include="source\Editor\editor\EditorUI.h">
       <Filter>Editor\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\ui\uicomponents\Icon.h">
+      <Filter>Render\ui\uicomponents</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\ui\core\UI.h">
+      <Filter>Render\ui\core</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 #include "Render.h"
-#include <gui/core/GUI.h>
+#include <UI/core/UI.h>
 #include <screen/Screen.h>
 
 namespace Chroma
@@ -49,14 +49,14 @@ namespace Chroma
 		m_PostFXBuffer->SetUniform("exposure", 1.0f);
 		m_PostFXBuffer->SetUniform("gamma", 2.2f);
 
-		((PostFXBuffer*)m_PostFXBuffer)->Draw(Chroma::GUI::m_Bloom);
+		((PostFXBuffer*)m_PostFXBuffer)->Draw(Chroma::UI::m_Bloom);
 	}
 
 	void Render::RenderGraphicsDebug()
 	{
 
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		switch (Chroma::GUI::m_GraphicsDebugSelected)
+		switch (Chroma::UI::m_GraphicsDebugSelected)
 		{
 		case (0):
 		{
@@ -139,7 +139,7 @@ namespace Chroma
 		RenderPostFX();
 
 		// Graphics Debug
-		if (Chroma::GUI::m_DrawGraphicsDebug)
+		if (Chroma::UI::m_DrawGraphicsDebug)
 			RenderGraphicsDebug();
 
 		// Clear

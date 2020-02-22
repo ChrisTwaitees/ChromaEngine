@@ -8,7 +8,7 @@
 #include <scene/Scene.h>
 #include <scene/SceneManager.h>
 #include <render/Render.h>
-#include <gui/core/GUI.h>
+#include <UI/core/UI.h>
 #include <physics/PhysicsEngine.h>
 #include <input/Input.h>
 #include <jobSystem/JobSystem.h>

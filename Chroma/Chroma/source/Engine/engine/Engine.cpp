@@ -40,7 +40,7 @@ namespace Chroma
 	void Engine::Draw()
 	{
 		Chroma::Render::RenderScene();
-		Chroma::GUI::Draw();
+		Chroma::UI::Draw();
 		Chroma::Screen::Update();
 	}
 
@@ -101,7 +101,7 @@ namespace Chroma
 		CHROMA_INFO("Renderer Initialized.");
 
 		// GUI
-		Chroma::JobSystem::Execute(Chroma::GUI::Init);
+		Chroma::JobSystem::Execute(Chroma::UI::Init);
 		CHROMA_INFO("GUI Initialized.");
 
 		// PhysicsEngine

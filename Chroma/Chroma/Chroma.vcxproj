@@ -128,7 +128,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)thirdparty\include\imgui;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -153,7 +153,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)thirdparty\include\imgui;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG; EDITOR</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -178,7 +178,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)thirdparty\include\imgui;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -203,7 +203,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)thirdparty\include\imgui;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions); DEBUG; EDITOR</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -230,7 +230,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)thirdparty\include\imgui;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -259,7 +259,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)thirdparty\include\;$(SolutionDir)thirdparty\include\imgui;$(SolutionDir)$(ProjectName)\source\Render\;$(SolutionDir)$(ProjectName)\source\Engine\;$(SolutionDir)$(ProjectName)\source\Game\;$(SolutionDir)$(ProjectName)\source\Editor\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;GLFW_INCLUDE_NONE;%(PreprocessorDefinitions);RELEASE</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -281,11 +281,10 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_impl_opengl3.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\Editor\ChromaEditor.cpp" />
     <ClCompile Include="source\Editor\editor\Editor.cpp" />
@@ -369,8 +368,6 @@
     <ClCompile Include="source\Render\camera\Camera.cpp" />
     <ClCompile Include="source\Render\camera\FlyCameraController.cpp" />
     <ClCompile Include="source\Render\camera\MayaCameraController.cpp" />
-    <ClCompile Include="source\Render\gui\core\GUI.cpp" />
-    <ClCompile Include="source\Render\gui\icon\Icon.cpp" />
     <ClCompile Include="source\Render\ibl\IBL.cpp" />
     <ClCompile Include="source\Render\light\Light.cpp" />
     <ClCompile Include="source\Render\model\BoxPrimitive.cpp" />
@@ -390,17 +387,11 @@
     <ClCompile Include="source\Render\texture\CubeMap.cpp" />
     <ClCompile Include="source\Render\texture\Texture.cpp" />
     <ClCompile Include="source\Render\texture\HDRTexture.cpp" />
+    <ClCompile Include="source\Render\ui\core\UI.cpp" />
+    <ClCompile Include="source\Render\ui\uicomponents\Icon.cpp" />
     <ClCompile Include="source\Scenes\Human.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\thirdparty\include\imgui\imconfig.h" />
-    <ClInclude Include="..\thirdparty\include\imgui\imgui.h" />
-    <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_glfw.h" />
-    <ClInclude Include="..\thirdparty\include\imgui\imgui_impl_opengl3.h" />
-    <ClInclude Include="..\thirdparty\include\imgui\imgui_internal.h" />
-    <ClInclude Include="..\thirdparty\include\imgui\imstb_rectpack.h" />
-    <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
-    <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="source\Editor\editor\Editor.h" />
     <ClInclude Include="source\Editor\editor\EditorUI.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
@@ -459,8 +450,6 @@
     <ClInclude Include="source\Render\camera\ICameraController.h" />
     <ClInclude Include="source\Render\camera\FlyCameraController.h" />
     <ClInclude Include="source\Render\camera\MayaCameraController.h" />
-    <ClInclude Include="source\Render\gui\core\GUI.h" />
-    <ClInclude Include="source\Render\gui\icon\Icon.h" />
     <ClInclude Include="source\Render\ibl\IBL.h" />
     <ClInclude Include="source\Render\light\Light.h" />
     <ClInclude Include="source\Render\model\BoxPrimitive.h" />
@@ -484,6 +473,8 @@
     <ClInclude Include="source\Render\texture\stb_image.h" />
     <ClInclude Include="source\Render\texture\Texture.h" />
     <ClInclude Include="source\Render\texture\HDRTexture.h" />
+    <ClInclude Include="source\Render\ui\core\UI.h" />
+    <ClInclude Include="source\Render\ui\uicomponents\Icon.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl" />

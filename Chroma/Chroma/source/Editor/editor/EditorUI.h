@@ -1,12 +1,11 @@
 #ifndef _CHROMA_EDITOR_UI_H_
 #define _CHROMA_EDITOR_UI_H_
 
-// imgui
-#include <gui/core/GUI.h>
+#include <UI/core/UI.h>
 
 namespace Chroma
 {
-	class EditorUI : public GUI
+	class EditorUI : public UI
 	{
 	public:
 		static void Draw();

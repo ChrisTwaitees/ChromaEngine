@@ -1,7 +1,7 @@
 #include "Input.h"
 #include <scene/Scene.h>
 #include <physics/PhysicsEngine.h>
-#include <gui/core/GUI.h>
+#include <UI/core/UI.h>
 
 namespace Chroma
 {
@@ -261,7 +261,7 @@ namespace Chroma
 		glm::vec3 end = start + (Chroma::Input::GetLastRay() * glm::vec3(1000.0));
 		IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
 		if (clickedEntity)
-			Chroma::GUI::SetSelectedEntityName(clickedEntity->GetName());
+			Chroma::UI::SetSelectedEntityName(clickedEntity->GetName());
 	}
 
 	void Input::UpdateMouseCoordinates()
