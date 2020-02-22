@@ -1,17 +1,14 @@
 #ifndef _CHROMA_CORE_
 #define _CHROMA_CORE_
 
+//common
+#include <common/PrecompiledHeader.h>
+
 // Config
 #include <ChromaConfig.h>
 
-// Logging
-#include <logging/Log.h>
-
 // Screen
 #include <screen/Screen.h>
-
-// Glad
-#include <glad/glad.h>
 
 
 namespace Chroma

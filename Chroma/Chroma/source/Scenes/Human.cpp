@@ -1,10 +1,8 @@
 #if not defined(EDITOR)
 
-// c++ standard libs
-#include <vector>
+//common
+#include <common/PrecompiledHeader.h>
 
-// glm
-#include <glm/glm.hpp>
 
 // chroma
 #include <engine/engine.h>

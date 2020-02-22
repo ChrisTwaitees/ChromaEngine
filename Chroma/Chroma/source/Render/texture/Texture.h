@@ -1,7 +1,8 @@
 #ifndef _TEXTURE_H_
 #define _TEXTURE_H_
 
-#include <glad/glad.h>
+//common
+#include <common/PrecompiledHeader.h>
 #include <common/CoreCommon.h>
 
 

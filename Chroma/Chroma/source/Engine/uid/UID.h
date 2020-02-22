@@ -2,9 +2,9 @@
 #define _CHOMA_UID_H_
 
 // generates unique hexadecimal ID
-#include <sstream>
-#include <random>
-#include <string>
+//common
+#include <common/PrecompiledHeader.h>
+
 #include <ChromaConfig.h>
 #include <iostream>
 

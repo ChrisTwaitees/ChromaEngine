@@ -1,11 +1,8 @@
 #ifndef _CHROMA_SCENE_MANAGER_
 #define _CHROMA_SCENE_MANAGER_
 
-//stl
-#include <vector>
-#include <set>
-#include <functional>
-#include <chrono>
+//common
+#include <common/PrecompiledHeader.h>
 //chroma
 #include <camera/Camera.h>
 #include <light/Light.h>

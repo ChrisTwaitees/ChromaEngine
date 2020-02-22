@@ -1,12 +1,8 @@
 #ifndef _CHROMA_UNIFORM_
 #define _CHROMA_UNIFORM_
 
-#include <map>
-#include <string>
-#include <iostream>
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 #include <core/Core.h>
 
 

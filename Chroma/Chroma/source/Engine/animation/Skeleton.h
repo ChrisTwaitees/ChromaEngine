@@ -1,13 +1,8 @@
 #ifndef _CHROMA_SKELETON_
 #define _CHROMA_SKELETON_
 
-// stl
-#include <vector>
-#include <map>
-
-// thirdparty
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma
 #include <shader/Shader.h>

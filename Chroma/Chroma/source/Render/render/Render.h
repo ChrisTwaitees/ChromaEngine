@@ -1,9 +1,8 @@
 #ifndef _CHROMA_RENDERER_
 #define _CHROMA_RENDERER_
 
-// stl
-#include <memory>
-#include <vector>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma
 #include <scene/Scene.h>
@@ -12,7 +11,6 @@
 #include <buffer/DebugBuffer.h>
 #include <buffer/ForwardBuffer.h>
 #include <jobsystem/JobSystem.h>
-#include <glm/glm.hpp>
 
 namespace Chroma
 {

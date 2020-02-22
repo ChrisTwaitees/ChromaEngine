@@ -1,8 +1,8 @@
 #ifndef _CHROMA_PHYSICS_
 #define _CHROMA_PHYSICS_
 
-#include <glm/glm.hpp>
-#include <iostream>
+//common
+#include <common/PrecompiledHeader.h>
 
 // bullet
 #include <bullet/btBulletCollisionCommon.h>

@@ -1,9 +1,8 @@
 #ifndef _MESH_H_
 #define _MESH_H_
 
-// stl
-#include <vector>
-#include <string>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma
 #include <camera/Camera.h>

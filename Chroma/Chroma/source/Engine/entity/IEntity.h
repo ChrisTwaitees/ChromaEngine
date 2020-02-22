@@ -1,11 +1,8 @@
 #ifndef _CHROMA_ENTITY_INTERFACE_
 #define _CHROMA_ENTITY_INTERFACE_
 
-// stl
-#include <string>
-#include <vector>
-// thirdparty
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 // chroma
 #include <common/CoreCommon.h>
 #include <model/Vertex.h>

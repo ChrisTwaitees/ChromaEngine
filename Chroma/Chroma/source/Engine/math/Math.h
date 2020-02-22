@@ -1,16 +1,12 @@
 #ifndef _CHROMA_MATH_
 #define _CHROMA_MATH_
 
+//common
+#include <common/PrecompiledHeader.h>
+
 #include <bullet/btBulletCollisionCommon.h>
-#include <glm/glm.hpp>
 
 #include <assimp/Importer.hpp>
-
-#include <glm/gtx/matrix_decompose.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
 
 
 // CONSTS

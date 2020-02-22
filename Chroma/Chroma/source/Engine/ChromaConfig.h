@@ -1,8 +1,8 @@
 #ifndef _CHROMA_CONFIG_
 #define _CHROMA_CONFIG_
 
-#include <string>
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 // DATA
 #define CHROMA_UID_LENGTH 8

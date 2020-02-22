@@ -1,10 +1,9 @@
 #ifndef _CHROMA_FRAMEBUFFER_
 #define _CHROMA_FRAMEBUFFER_
-// stl
-#include <iostream>
-#include <vector>
+
 
 // Chroma
+#include <common/PrecompiledHeader.h>
 #include <ChromaConfig.h>
 #include <shader/Shader.h>
 #include <model/NDCPlanePrimitive.h>

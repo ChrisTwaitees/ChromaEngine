@@ -1,11 +1,10 @@
 #ifndef _CHROMA_PHYSICS_DEBUG_
 #define _CHROMA_PHYSICS_DEBUG_
 
-// stl
-#include <iostream>
+//common
+#include <common/PrecompiledHeader.h>
 // thirdparty
 #include <bullet/LinearMath/btIDebugDraw.h>
-#include <glm/glm.hpp>
 //chroma
 #include <math/Math.h>
 #include <buffer/DebugBuffer.h>

@@ -1,9 +1,8 @@
 #ifndef _CHROMA_NDCPLANE_
 #define _CHROMA_NDCPLANE_
 
-#include <vector>
-
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 #include <model/StaticMesh.h>
 

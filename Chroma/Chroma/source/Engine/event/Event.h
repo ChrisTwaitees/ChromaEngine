@@ -1,10 +1,8 @@
 #ifndef _CHROMA_EVENTSYSTEM_H_
 #define _CHROMA_EVENTSYSTEM_H_
 
-//stl
-#include <string>
-#include <sstream>   
-#include <functional>
+//common
+#include <common/PrecompiledHeader.h>
 // chroma
 #include <common/CoreCommon.h>
 #include <input/Input.h>

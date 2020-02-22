@@ -1,11 +1,8 @@
 #ifndef _CHROMA_DEBUG_RENDERER_
 #define _CHROMA_DEBUG_RENDERER_
 
-// stl
-#include <iostream>
-#include <vector>
-// thirdparty
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 // chroma
 #include <buffer/IFramebuffer.h>
 #include <camera/Camera.h>

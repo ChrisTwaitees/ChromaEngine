@@ -1,7 +1,8 @@
 #ifndef _CHROMA_VERTEX_
 #define _CHROMA_VERTEX_
 
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 struct ChromaVertex
 {

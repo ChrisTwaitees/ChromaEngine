@@ -1,13 +1,8 @@
 #ifndef _CHROMA_TIME_H_
 #define _CHROMA_TIME_H_
 
-#include <chrono>
-#include <thread>
-#include <set>
-#include <memory>
-
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 #include <ChromaConfig.h>
 #include <math/Math.h>

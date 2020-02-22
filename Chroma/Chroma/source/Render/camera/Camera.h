@@ -1,11 +1,8 @@
 #ifndef _CHROMA_CAMERA_H_
 #define _CHROMA_CAMERA_H_
 
-//stl
-#include <iostream>
-
-// thirdparty
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma
 #include <math/Math.h>

@@ -1,8 +1,8 @@
 #ifndef _CHROMA_ANIMATION_COMPONENT_H_
 #define _CHROMA_ANIMATION_COMPONENT_H_
 
-// stl
-#include <vector>
+//common
+#include <common/PrecompiledHeader.h>
 // chroma
 #include <component/IComponent.h>
 #include <animation/Animator.h>

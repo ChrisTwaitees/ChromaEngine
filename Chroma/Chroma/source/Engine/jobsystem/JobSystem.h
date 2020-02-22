@@ -1,14 +1,8 @@
 #ifndef CHROMA_JOB_SYSTEM_H
 #define CHROMA_JOB_SYSTEM_H
 
-#include <algorithm>    // std::max
-#include <atomic>    // to use std::atomic<uint64_t>
-#include <thread>    // to use std::thread
-#include <condition_variable>    // to use std::condition_variable
-#include <sstream>
-#include <assert.h>
-#include <functional>
-#include <chrono>
+//common
+#include <common/PrecompiledHeader.h>
 
 // A Dispatched job will receive this as function argument:
 struct JobDispatchArgs

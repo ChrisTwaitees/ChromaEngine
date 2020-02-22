@@ -1,8 +1,8 @@
 #ifndef _CHROMA_COMPONENT_
 #define _CHROMA_COMPONENT_
 
-//stl
-#include <string>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma
 #include <uid/UID.h>

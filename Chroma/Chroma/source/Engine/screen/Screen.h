@@ -1,9 +1,8 @@
 #ifndef _CHROMA_SCREENMANAGER_H_
 #define _CHROMA_SCREENMANAGER_H_
 
-// glad and glfw
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+//common
+#include <common/PrecompiledHeader.h>
 // core
 #include <common/CoreCommon.h>
 

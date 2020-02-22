@@ -1,8 +1,8 @@
 #ifndef _CHROMA_ENTITY_
 #define _CHROMA_ENTITY_
 
-#include <vector>
-#include <memory>
+//common
+#include <common/PrecompiledHeader.h>
 
 #include <entity/IEntity.h>
 

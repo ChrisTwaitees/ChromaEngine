@@ -1,16 +1,13 @@
 #ifndef _CHROMA_ANIMATION_LOADER_H
 #define _CHROMA_ANIMATION_LOADER_H
 
-// stl
-#include <vector>
-#include <iostream>
-#include <map>
+//common
+#include <common/PrecompiledHeader.h>
 
 // thirdparty
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
-#include <glm/gtc/quaternion.hpp>
 
 // chroma
 #include <common/CoreCommon.h>

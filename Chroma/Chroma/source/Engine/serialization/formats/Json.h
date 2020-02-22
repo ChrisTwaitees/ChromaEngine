@@ -1,10 +1,8 @@
 #ifndef _CHROMA_JSON_H_
 #define _CHROMA_JSON_H_
 
-//stl
-#include <string>
-#include <iostream>
-#include <fstream>
+//common
+#include <common/PrecompiledHeader.h>
 
 //rapidjson
 #include <rapidJSON/document.h>

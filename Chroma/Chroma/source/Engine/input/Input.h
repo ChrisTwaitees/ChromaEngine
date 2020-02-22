@@ -2,15 +2,8 @@
 #define _CHROMA_INPUT_
 
 
-#include <iostream>
-#include <functional>
-
-// glfw
-#include <GLFW/glfw3.h>
-// glm
-#include <glm/glm.hpp>
-// glad
-#include <glad/glad.h>
+//common
+#include <common/PrecompiledHeader.h>
 // chroma
 #include <camera/Camera.h>
 #include <common/CoreCommon.h>

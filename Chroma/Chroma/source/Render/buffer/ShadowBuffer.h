@@ -1,13 +1,9 @@
 #ifndef _CHROMA_SHADOWBUFFER_
 #define _CHROMA_SHADOWBUFFER_
-// stl
-#include <iostream>
-#include <vector>
-// glad
-#include <glad/glad.h>
-// glm
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+
+// common
+#include <common/PrecompiledHeader.h>
+
 // Chroma
 #include <buffer/IFramebuffer.h>
 #include <scene/Scene.h>

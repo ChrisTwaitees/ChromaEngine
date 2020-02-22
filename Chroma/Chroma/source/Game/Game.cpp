@@ -1,12 +1,8 @@
-// c++ standard libs
-#include <vector>
-
-// glm
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma
 #include <engine/engine.h>
-
 #include <entity/Entity.h>
 #include <terrain/Terrain.h>
 #include <component/AnimationComponent.h>

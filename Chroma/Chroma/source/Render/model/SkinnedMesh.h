@@ -1,9 +1,8 @@
 #ifndef _CHROMA_SKINNED_MESH_
 #define _CHROMA_SKINNED_MESH_
 
-// stl
-#include <vector>
-#include <string>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma
 #include <model/StaticMesh.h>

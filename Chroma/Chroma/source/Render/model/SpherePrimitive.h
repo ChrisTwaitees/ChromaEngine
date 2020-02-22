@@ -1,9 +1,8 @@
 #ifndef _CHROMA_SPHERE_
 #define _CHROMA_SPHERE_
 
-#include <vector>
-
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 #include <model/StaticMesh.h>
 

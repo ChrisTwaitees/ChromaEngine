@@ -1,13 +1,14 @@
 #ifndef _CHROMA_ANIMATOR_H_
 #define _CHROMA_ANIMATOR_H_
 
+//common
+#include <common/PrecompiledHeader.h>
+
 // stl
 #include <common/CoreCommon.h>
-// thirdparty
-#include <GLFW/glfw3.h>
+
 // chroma
 #include <math/Math.h>
-#include <common/CoreCommon.h>
 
 #include <resources/AnimationLoader.h>
 #include <resources/AnimationCompression.h>

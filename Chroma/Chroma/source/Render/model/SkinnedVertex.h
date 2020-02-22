@@ -1,8 +1,8 @@
 #ifndef _CHROMA_SKINNED_VERTEX_
 #define _CHROMA_SKINNED_VERTEX_
 
-#include <glm/glm.hpp>
-#include <vector>
+//common
+#include <common/PrecompiledHeader.h>
 
 struct ChromaSkinnedVertex
 {

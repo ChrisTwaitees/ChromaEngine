@@ -1,11 +1,10 @@
 #ifndef _CHROMA_CHARACTERCONTROLLER_COMPONENT_H_
 #define _CHROMA_CHARACTERCONTROLLER_COMPONENT_H_
 
-// thirdparty
-#include <glm/glm.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma
-#include <common/CoreCommon.h>
 #include <component/IComponent.h>
 #include <camera/ICameraController.h>
 #include <physics/PhysicsEngine.h>

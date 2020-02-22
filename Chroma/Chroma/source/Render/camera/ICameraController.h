@@ -1,9 +1,8 @@
 #ifndef _CHROMA_CAMERACONTROLLER_
 #define _CHROMA_CAMERACONTROLLER_
 
-// thirdparty
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+//common
+#include <common/PrecompiledHeader.h>
 
 // chroma 
 #include <common/CoreCommon.h>

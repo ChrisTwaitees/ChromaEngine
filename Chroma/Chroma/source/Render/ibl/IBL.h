@@ -1,7 +1,8 @@
 #ifndef _CHROMA_IBL_
 #define _CHROMA_IBL_
-// stl
-#include <string>
+
+//common
+#include <common/PrecompiledHeader.h>
 // chroma
 #include <model/BoxPrimitive.h>
 #include <model/NDCPlanePrimitive.h>

@@ -1,11 +1,7 @@
 #ifndef _CHROMA_SSAO_BUFFER_
 #define _CHROMA_SSAO_BUFFER_
 
-#include <vector>
-#include <random>
-#include <memory>
-
-#include <glm/glm.hpp>
+#include <common/PrecompiledHeader.h>
 
 #include <buffer/IFramebuffer.h>
 #include <scene/Scene.h>

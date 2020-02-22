@@ -1,15 +1,8 @@
 #ifndef _CHROMA_SHADER_H_
 #define _CHROMA_SHADER_H_
-// stl
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <string>
-// thirdparty
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+
+//common
+#include <common/PrecompiledHeader.h>
 // chroma
 #include <ChromaConfig.h>
 #include <shader/Uniform.h>

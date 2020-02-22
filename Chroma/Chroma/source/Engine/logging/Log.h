@@ -1,7 +1,8 @@
 #ifndef _CHROMA_LOG_
 #define _CHROMA_LOG_
 
-#include <memory>
+//common
+#include <common/PrecompiledHeader.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
