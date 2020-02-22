@@ -2,11 +2,23 @@
 
 
 
+void IFramebuffer::ResizeBuffers()
+{
+	// textures
+	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+	// rbo
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
+	// attach buffers
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+}
+
 void IFramebuffer::GenTexture()
 {
 	glGenTextures(1, &m_FBOTexture);
 	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_HEIGHT, SCREEN_WIDTH, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
 }
 
 void IFramebuffer::SetTextureParameters()
@@ -26,10 +38,10 @@ void IFramebuffer::CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, sourceFBO); // fetch
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO); // copy 
 	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
+		0, 0, m_Width, m_Height, 0, 0, m_Width, m_Height, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
 	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
+		0, 0, m_Width, m_Height, 0, 0, m_Width, m_Height, GL_COLOR_BUFFER_BIT, GL_NEAREST
 	);
 }
 
@@ -38,7 +50,7 @@ void IFramebuffer::CopyDepth(unsigned int const& sourceFBO, unsigned int const& 
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, sourceFBO); // fetch 
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO); // copy 
 	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
+		0, 0, m_Width, m_Height, 0, 0, m_Width, m_Height, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
 }
 
@@ -47,7 +59,7 @@ void IFramebuffer::CopyColor(unsigned int const& sourceFBO, unsigned int const& 
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, sourceFBO); // fetch  
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO); // copy 
 	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST
+		0, 0, m_Width, m_Height, 0, 0, m_Width, m_Height, GL_COLOR_BUFFER_BIT, GL_NEAREST
 	);
 }
 
@@ -70,7 +82,7 @@ void IFramebuffer::Initialize()
 	glGenRenderbuffers(1, &m_RBO);
 	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 	// attach buffers
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		CHROMA_WARN("Framebuffer not complete!");
@@ -113,6 +125,13 @@ void IFramebuffer::Draw()
 	// setting transform uniforms
 	UpdateTransformUniforms();
 	RenderQuad();
+}
+
+void IFramebuffer::ScreenResizeCallback(int const& width, int const& height)
+{
+	m_Width = width;
+	m_Height = height;
+	ResizeBuffers();
 }
 
 

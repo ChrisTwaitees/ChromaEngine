@@ -51,6 +51,8 @@ class SSAOBuffer : public IFramebuffer
 
 public:
 	void Draw(unsigned int& gViewPosition, unsigned int& gNormal);
+	void ResizeBuffers() override;
+
 	virtual unsigned int GetTexture() override { return ssaoColorBufferBlur; };
 
 	SSAOBuffer();

@@ -12,7 +12,6 @@
 #include <core/Core.h>
 
 
-
 class GBuffer : public IFramebuffer
 {
 	// shaders
@@ -54,6 +53,7 @@ class GBuffer : public IFramebuffer
 public:
 	// functions
 	void Draw() override;
+	void ResizeBuffers() override;
 
 	void BindShadownMaps();
 	glm::mat4 GetLightSpaceMatrix();

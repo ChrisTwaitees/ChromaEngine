@@ -7,7 +7,7 @@ class PostFXBuffer : public IFramebuffer
 {
 protected:
 	// default HDR shader
-	unsigned int hdrFBO, hdrRBO;
+	unsigned int hdrFBO;
 	const char* vtxSource{ "resources/shaders/frameBufferVertex.glsl" };
 	const char* fragSource{ "resources/shaders/fragBloomFrameBuffer.glsl" };
 	// blur shader
@@ -33,7 +33,8 @@ protected:
 	// Functions
 	void Initialize() override;
 	void UpdateTransformUniforms() override;
-	void configure_shaders();
+	void ConfigureShaders();
+	void ResizeBuffers() override;
 
 public:
 

@@ -1,5 +1,6 @@
 #include "ShadowBuffer.h"
 #include <component/MeshComponent.h>
+#include <screen/Screen.h>
 
 void ShadowBuffer::calcLightSpaceMatrix()
 {
@@ -45,6 +46,18 @@ void ShadowBuffer::Initialize()
 	BindShadowMaps();
 }
 
+void ShadowBuffer::ResizeBuffers()
+{
+	// textures
+	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, nullptr);
+
+	// rbo
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
+	// attach buffers
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+}
+
 
 void ShadowBuffer::DrawShadowMaps()
 {
@@ -82,7 +95,7 @@ void ShadowBuffer::DrawShadowMaps()
 
 	//glCullFace(GL_BACK); // reset to original culling mode
 
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 

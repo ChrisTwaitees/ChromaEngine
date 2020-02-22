@@ -16,9 +16,9 @@ class IFramebuffer
 {
 public:
 	// static
-	static void CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
-	static void CopyDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
-	static void CopyColor(unsigned int const& sourceFBO, unsigned int const& targetFBO);
+	void CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
+	void CopyDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
+	void CopyColor(unsigned int const& sourceFBO, unsigned int const& targetFBO);
 
 	// draw
 	void RenderQuad();
@@ -41,11 +41,16 @@ public:
 	virtual void UnBind();
 	virtual void ClearColorAndDepth();
 	virtual void Draw();
+	virtual void ScreenResizeCallback(int const& width, int const& height);
 
 	IFramebuffer();
 	virtual ~IFramebuffer();
 
 protected:
+	// dimensions
+	unsigned int m_Width{ SCREEN_WIDTH };
+	unsigned int m_Height{ SCREEN_HEIGHT };
+
 	// consts
 	const char* vtxSource{ "resources/shaders/frameBufferVertex.glsl" };
 	const char* fragSource{ "resources/shaders/frameBufferFrag.glsl" };
@@ -71,6 +76,7 @@ protected:
 	virtual void Initialize();
 
 	// Initializing
+	virtual void ResizeBuffers();
 	virtual void GenTexture();
 	virtual void SetTextureParameters();
 	virtual void UpdateTransformUniforms();

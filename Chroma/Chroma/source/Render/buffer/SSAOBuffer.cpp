@@ -142,6 +142,17 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
 
 }
 
+void SSAOBuffer::ResizeBuffers()
+{
+	// textures
+	glBindTexture(GL_TEXTURE_2D, ssaoColorBuffer);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+	glBindTexture(GL_TEXTURE_2D, ssaoColorBufferBlur);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+}
+
+
 SSAOBuffer::SSAOBuffer()
 {
 	Initialize();

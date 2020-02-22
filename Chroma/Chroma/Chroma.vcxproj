@@ -289,6 +289,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\Editor\ChromaEditor.cpp" />
     <ClCompile Include="source\Editor\editor\Editor.cpp" />
+    <ClCompile Include="source\Editor\editor\EditorUI.cpp" />
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
     <ClCompile Include="source\Engine\animation\IStateMachine.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
@@ -323,6 +324,7 @@
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp" />
     <ClCompile Include="source\Engine\resources\AnimationCompression.cpp" />
     <ClCompile Include="source\Engine\resources\AnimationLoader.cpp" />
+    <ClCompile Include="source\Engine\resources\FileHelper.cpp" />
     <ClCompile Include="source\Engine\resources\ModelLoader.cpp" />
     <ClCompile Include="source\Engine\resources\ResourceManager.cpp" />
     <ClCompile Include="source\Engine\resources\TextureLoader.cpp" />
@@ -400,6 +402,7 @@
     <ClInclude Include="..\thirdparty\include\imgui\imstb_textedit.h" />
     <ClInclude Include="..\thirdparty\include\imgui\imstb_truetype.h" />
     <ClInclude Include="source\Editor\editor\Editor.h" />
+    <ClInclude Include="source\Editor\editor\EditorUI.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
     <ClInclude Include="source\Engine\animation\IStateMachine.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
@@ -430,6 +433,7 @@
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h" />
     <ClInclude Include="source\Engine\resources\AnimationCompression.h" />
     <ClInclude Include="source\Engine\resources\AnimationLoader.h" />
+    <ClInclude Include="source\Engine\resources\FileHelper.h" />
     <ClInclude Include="source\Engine\resources\ModelLoader.h" />
     <ClInclude Include="source\Engine\resources\ResourceManager.h" />
     <ClInclude Include="source\Engine\resources\TextureLoader.h" />

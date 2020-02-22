@@ -61,11 +61,12 @@ public:
 	inline glm::mat4 GetViewMatrix() const { return m_ViewMatrix; };
 	inline glm::mat4 GetViewProjMatrix() const { return m_ViewProjMatrix; };
 	
-	inline void SetFOV(float newFOV) { m_CamFOV = newFOV; UpdateProjectionMatrix(); };
-	inline void SetASPECT(float newASPECT) { m_CamAspect = newASPECT; UpdateProjectionMatrix(); };
-	inline void SetNEAR(float newNEAR) { m_CamNear = newNEAR; UpdateProjectionMatrix(); };
-	inline void SetFAR(float newFAR) { m_CamFar = newFAR; UpdateProjectionMatrix(); };
+	inline void SetFOV(float const& newFOV) { m_CamFOV = newFOV; UpdateProjectionMatrix(); };
+	inline void SetASPECT(float const& newASPECT) { m_CamAspect = newASPECT; UpdateProjectionMatrix(); };
+	inline void SetNEAR(float const& newNEAR) { m_CamNear = newNEAR; UpdateProjectionMatrix(); };
+	inline void SetFAR(float const& newFAR) { m_CamFar = newFAR; UpdateProjectionMatrix(); };
 	inline void SetCameraMode(CameraMode newMode) { m_CameraMode = newMode; };
+
 
 	void SetCustomCameraController(ICameraController*& newCameraController);
 

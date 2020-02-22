@@ -33,6 +33,8 @@ private:
 	glm::mat4 lightSpaceMatrix;
 
 public:
+	void ResizeBuffers() override;
+
 	// getters and setters
 	glm::mat4 getLightSpaceMatrix() { return lightSpaceMatrix; };
 	unsigned int GetTexture() override { return ShadowMapTexture.ID; }

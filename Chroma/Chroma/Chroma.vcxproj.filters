@@ -157,6 +157,12 @@
     <Filter Include="Engine\serialization\formats">
       <UniqueIdentifier>{d7cd9599-8f58-4d89-8e82-80c51e2ca7be}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\resources\loaders">
+      <UniqueIdentifier>{01da69cb-5dc5-4562-9a90-970e5d0f99b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\resources\compressors">
+      <UniqueIdentifier>{c40ea372-68c1-4de5-9732-d5b495ec3963}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
@@ -342,18 +348,6 @@
     <ClCompile Include="source\Scenes\Human.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\resources\AnimationCompression.cpp">
-      <Filter>Engine\resources</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\resources\AnimationLoader.cpp">
-      <Filter>Engine\resources</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\resources\ModelLoader.cpp">
-      <Filter>Engine\resources</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\resources\TextureLoader.cpp">
-      <Filter>Engine\resources</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\resources\ResourceManager.cpp">
       <Filter>Engine\resources</Filter>
     </ClCompile>
@@ -386,6 +380,24 @@
     </ClCompile>
     <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
       <Filter>Engine\common</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\AnimationCompression.cpp">
+      <Filter>Engine\resources\compressors</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\AnimationLoader.cpp">
+      <Filter>Engine\resources\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\TextureLoader.cpp">
+      <Filter>Engine\resources\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\ModelLoader.cpp">
+      <Filter>Engine\resources\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\resources\FileHelper.cpp">
+      <Filter>Engine\resources\loaders</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\editor\EditorUI.cpp">
+      <Filter>Editor\editor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -611,18 +623,6 @@
     <ClInclude Include="source\Engine\jobsystem\JobSystem.h">
       <Filter>Engine\jobsystem</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\resources\AnimationCompression.h">
-      <Filter>Engine\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\resources\AnimationLoader.h">
-      <Filter>Engine\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\resources\ModelLoader.h">
-      <Filter>Engine\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\resources\TextureLoader.h">
-      <Filter>Engine\resources</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\resources\ResourceManager.h">
       <Filter>Engine\resources</Filter>
     </ClInclude>
@@ -655,6 +655,24 @@
     </ClInclude>
     <ClInclude Include="source\Engine\common\PrecompiledHeader.h">
       <Filter>Engine\common</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\AnimationCompression.h">
+      <Filter>Engine\resources\compressors</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\ModelLoader.h">
+      <Filter>Engine\resources\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\AnimationLoader.h">
+      <Filter>Engine\resources\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\TextureLoader.h">
+      <Filter>Engine\resources\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\resources\FileHelper.h">
+      <Filter>Engine\resources\loaders</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\editor\EditorUI.h">
+      <Filter>Editor\editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

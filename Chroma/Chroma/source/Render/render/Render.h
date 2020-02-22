@@ -24,9 +24,14 @@ namespace Chroma
 		static void Init();
 		static void RenderScene();
 
+		// Screen resize
+		static void ScreenResizeCallBack(int const& width, int const& height);
+
+		// Getters
 		static DebugBuffer*& GetDebugBuffer() { return m_DebugBuffer; };
 		static glm::mat4 GetLightSpaceMatrix();
 
+		// Functions
 		static void BindShadowMaps();
 	private:
 

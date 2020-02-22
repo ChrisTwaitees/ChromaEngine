@@ -24,10 +24,10 @@ void PostFXBuffer::Initialize()
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0 + i, GL_TEXTURE_2D, colorBuffersTextures[i], 0);
 	}
 	// create depth buffer (renderbuffer)
-	glGenRenderbuffers(1, &hdrRBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, hdrRBO);
+	glGenRenderbuffers(1, &m_RBO);
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, hdrRBO);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 	// pass color attachments in order for multiple color buffers to be written
 	unsigned int attachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1 };
 	glDrawBuffers(2, attachments);
@@ -40,7 +40,7 @@ void PostFXBuffer::Initialize()
 	genBlurBuffer();
 
 	// configure shaders
-	configure_shaders();
+	ConfigureShaders();
 }
 
 void PostFXBuffer::UpdateTransformUniforms()
@@ -53,7 +53,7 @@ void PostFXBuffer::UpdateTransformUniforms()
 	m_ScreenShader->SetVec2("offset", m_Offset);
 }
 
-void PostFXBuffer::configure_shaders()
+void PostFXBuffer::ConfigureShaders()
 {
 	blurShader->Use();
 	blurShader->SetInt("image", 0);
@@ -61,6 +61,21 @@ void PostFXBuffer::configure_shaders()
 	m_ScreenShader->SetInt("scene", 0);
 	m_ScreenShader->SetInt("bloomBlur", 1);
 }
+
+void PostFXBuffer::ResizeBuffers()
+{
+	// textures
+	glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL);
+	glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[1]);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL);
+
+	// rbo
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
+	// attach buffers
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+}
+
 
 void PostFXBuffer::genBlurBuffer()
 {

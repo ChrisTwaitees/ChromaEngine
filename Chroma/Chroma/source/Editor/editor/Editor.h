@@ -2,6 +2,7 @@
 #define _CHROMA_EDITOR_H_
 
 #include <common/CoreCommon.h>
+#include <editor/EditorUI.h>
 
 namespace Chroma
 {
@@ -9,6 +10,11 @@ namespace Chroma
 	{
 	public:
 		static void Init();
+		static void PopulateTestScene();
+		static void Tick();
+	private:
+		static void DrawUI();
+
 	};
 }
 

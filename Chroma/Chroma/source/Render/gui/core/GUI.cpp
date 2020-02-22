@@ -25,9 +25,7 @@ namespace Chroma
 	int  GUI::m_GraphicsDebugSelected;
 	static const char* GraphicsDebugs[5]{ "Alebdo", "Normals", "MetRoughAO", "SSAO", "Shadows"};
 	bool GUI::m_DrawGraphicsDebug;
-	// scene manager
-	bool GUI::drawSceneManager;
-	char GUI::sceneName[128];
+
 	void GUI::Init()
 	{
 		// context
@@ -58,9 +56,6 @@ namespace Chroma
 		drawAnimMenu = true;
 		debugAnim = false;
 		DebugAnimClipPos = 0.0f;
-
-		// SCENEMANAGER
-		drawSceneManager = true;
 
 	}
 
@@ -94,12 +89,6 @@ namespace Chroma
 			ToggleBool(drawAnimMenu);
 		if (drawAnimMenu)
 			DrawAnimationMenu();
-
-		// Animation 
-		if (ImGui::Button("Open Scene Manager Menu"))
-			ToggleBool(drawSceneManager);
-		if (drawSceneManager)
-			DrawSceneManagerMenu();
 
 		// Display Selected Entity
 		ImGui::Text("Selected Entity : %s", SelectedEntity.c_str());
@@ -146,22 +135,6 @@ namespace Chroma
 		ImGui::End();
 	}
 
-	void GUI::DrawSceneManagerMenu()
-	{
-		ImGui::Begin("Chroma Scene Manager");
-
-		ImGui::InputText("Load Scene Path: ", sceneName, IM_ARRAYSIZE(sceneName));
-		// Debug
-		if (ImGui::Button("Load Scene"))
-			Chroma::SceneManager::LoadScene(sceneName);
-
-		if (ImGui::Button("Load HDR"))
-			Chroma::Scene::LoadIBL("resources/textures/ibl/ditchriver_ibl/river_sharp.hdr");
-
-
-		ImGui::End();
-
-	}
 
 	void GUI::Start()
 	{

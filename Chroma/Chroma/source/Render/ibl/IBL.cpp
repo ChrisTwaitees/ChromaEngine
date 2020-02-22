@@ -1,4 +1,5 @@
 #include "IBL.h"
+#include <screen/Screen.h>
 
 void IBL::Initialize()
 {
@@ -72,7 +73,7 @@ void IBL::GenerateEnvCubeMap()
 		// draw cube
 		m_captureCube.BindDrawVAO();
 	}
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -115,7 +116,7 @@ void IBL::GenerateIrradianceMap()
 
 		m_captureCube.BindDrawVAO();
 	}
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -171,7 +172,7 @@ void IBL::GeneratePrefilterMap()
 			m_captureCube.BindDrawVAO();
 		}
 	}
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }
 
@@ -202,7 +203,7 @@ void IBL::GenerateBRDFLUTMap()
 	m_capturePlane.BindDrawVAO();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+	glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 
 }
 

@@ -1,4 +1,5 @@
 #include "Screen.h"
+#include <render/Render.h>
 
 namespace Chroma
 {
@@ -26,14 +27,15 @@ namespace Chroma
 			glfwTerminate();
 		}
 		glfwMakeContextCurrent(m_Window);
+		glfwSetFramebufferSizeCallback(m_Window, framebuffer_size_callback);
 		CHROMA_INFO("Window Successfuly Initialized.");
 	}
 
 
 	void Screen::SetDimensions(int const& newWidth, int const& newHeight)
 	{
-		// make sure the viewport matches the new window dimensions;  
-		glViewport(0, 0, newWidth, newHeight);
+		// update renderer
+		Chroma::Render::ScreenResizeCallBack(newWidth, newHeight);
 	}
 
 

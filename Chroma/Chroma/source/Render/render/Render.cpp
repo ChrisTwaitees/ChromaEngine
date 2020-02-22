@@ -1,5 +1,6 @@
 #include "Render.h"
 #include <gui/core/GUI.h>
+#include <screen/Screen.h>
 
 namespace Chroma
 {
@@ -143,6 +144,31 @@ namespace Chroma
 
 		// Clear
 		CleanUp();
+	}
+
+	void Render::ScreenResizeCallBack(int const& width, int const& height)
+	{
+		// debug
+		CHROMA_INFO_UNDERLINE;
+		CHROMA_WARN("RENDERER :: Screen Resized : {0} by {1}", width, height);
+		CHROMA_INFO_UNDERLINE;
+
+		// make sure the viewport matches the new window dimensions;  
+		glViewport(0, 0, width, height);
+
+		// update scene camera projection to window aspect ratio
+		Chroma::Scene::GetRenderCamera()->SetASPECT((float)width/(float)height);
+
+		// update buffers
+		m_GBuffer->ScreenResizeCallback(width, height);
+		m_ForwardBuffer->ScreenResizeCallback(width, height);
+		m_DebugBuffer->ScreenResizeCallback(width, height);
+		m_PostFXBuffer->ScreenResizeCallback(width, height);
+		m_GraphicsDebugBuffer->ScreenResizeCallback(width, height);
+
+		// Draw while resizing
+		RenderScene();
+		Chroma::Screen::Update();
 	}
 
 	glm::mat4 Render::GetLightSpaceMatrix()

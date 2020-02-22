@@ -196,7 +196,7 @@ void GBuffer::BlitDepthBuffer()
 	glBindFramebuffer(GL_READ_FRAMEBUFFER, m_FBO);
 	glBindFramebuffer(GL_DRAW_FRAMEBUFFER, m_PostFXBuffer->GetFBO());// write to default HDR IFramebuffer
 	glBlitFramebuffer(
-		0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, GL_DEPTH_BUFFER_BIT, GL_NEAREST
+		0, 0, m_Width, m_Height, 0, 0, m_Width, m_Height, GL_DEPTH_BUFFER_BIT, GL_NEAREST
 	);
 }
 
@@ -224,6 +224,45 @@ void GBuffer::Draw()
 	// 5. Unbind postFX buffer
 	m_PostFXBuffer->UnBind();
 }
+
+void GBuffer::ResizeBuffers()
+{
+	// textures
+	// - position color buffer
+	glBindTexture(GL_TEXTURE_2D, gPosition);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+	// - gViewPosition for SSAO viewspace position 
+	glBindTexture(GL_TEXTURE_2D, gViewPosition);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+	// - fragposLightSpace color buffer for shadowmapping
+	glBindTexture(GL_TEXTURE_2D, gFragPosLightSpace);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+	// SURFACE DATA
+	// - albebo buffer
+	glBindTexture(GL_TEXTURE_2D, gAlbedo);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+	// - normal buffer
+	glBindTexture(GL_TEXTURE_2D, gNormal);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+	// - gViewPosition for SSAO viewspace position 
+	glBindTexture(GL_TEXTURE_2D, gViewNormal);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
+
+	// - metalness/rougness/ambient occlusion buffer
+	glBindTexture(GL_TEXTURE_2D, gMetRoughAO);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+	// rbo
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+}
+
 
 void GBuffer::BindShadownMaps()
 {

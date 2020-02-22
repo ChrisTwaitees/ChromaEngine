@@ -19,6 +19,7 @@ class ForwardBuffer : public IFramebuffer
 
 public:
 	void Draw() override;
+	void ResizeBuffers() override;
 
 	ForwardBuffer(IFramebuffer* const& postFXBuffer);
 	~ForwardBuffer();

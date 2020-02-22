@@ -110,6 +110,18 @@ void ForwardBuffer::Draw()
 	UnBind();
 }
 
+void ForwardBuffer::ResizeBuffers()
+{
+	// textures
+	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL);
+
+	// rbo
+	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
+	// attach buffers
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+}
+
 ForwardBuffer::ForwardBuffer(IFramebuffer* const& postFXBuffer)
 {
 	m_PostFXBuffer = postFXBuffer;
