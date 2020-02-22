@@ -156,9 +156,21 @@ namespace Chroma
 		ImGuiIO& io = ImGui::GetIO();
 		io.DisplaySize = ImVec2(Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 		// Rendering
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+		{
+			GLFWwindow* backup_current_context = glfwGetCurrentContext();
+			ImGui::UpdatePlatformWindows();
+			ImGui::RenderPlatformWindowsDefault();
+			glfwMakeContextCurrent(backup_current_context);
+		}
+
 	}
 
 	void UI::ToggleBool(bool& toToggle)

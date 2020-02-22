@@ -378,25 +378,22 @@
     <ClCompile Include="source\Render\ui\core\UI.cpp">
       <Filter>Render\ui\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_glfw.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\examples\imgui_impl_opengl3.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
-      <Filter>Render\ui\core\imgui</Filter>
-    </ClCompile>
     <ClCompile Include="..\thirdparty\include\glad\glad.c">
       <Filter>Render\core</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\editor\EditorUI.cpp">
       <Filter>Editor\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\thirdparty\include\imgui\imgui_demo.cpp">
+    <ClCompile Include="ImGuiBuild.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp">
+      <Filter>Render\ui\core\imgui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp">
       <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
   </ItemGroup>
