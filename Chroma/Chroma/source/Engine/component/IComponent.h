@@ -34,6 +34,8 @@ public:
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
 
+	virtual std::string GetTypeString() const = 0;
+
 	IEntity* GetParentEntity() const;
 	UID GetParentEntityUID() const;
 	virtual void SetParentEntityUID(UID const& newParentEntityUID) { m_ParentEntityUID = newParentEntityUID; }

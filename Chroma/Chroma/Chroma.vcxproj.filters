@@ -160,11 +160,11 @@
     <Filter Include="Render\ui\core\imgui">
       <UniqueIdentifier>{16543137-6157-44a6-9286-8b3f80cfff28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Render\core">
-      <UniqueIdentifier>{f2bd4ce8-29c7-4006-a2e3-d1efe2bb84e0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Editor\ui">
       <UniqueIdentifier>{33436909-f5a1-43f5-b5d5-e55815feee6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\opengl">
+      <UniqueIdentifier>{ec3645ea-cb12-4869-8aa6-12e073b0aff6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -378,9 +378,6 @@
     <ClCompile Include="source\Render\ui\core\UI.cpp">
       <Filter>Render\ui\core</Filter>
     </ClCompile>
-    <ClCompile Include="..\thirdparty\include\glad\glad.c">
-      <Filter>Render\core</Filter>
-    </ClCompile>
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp">
       <Filter>Render\ui\core\imgui</Filter>
     </ClCompile>
@@ -398,6 +395,9 @@
     </ClCompile>
     <ClCompile Include="source\Editor\editor\ui\EditorUI.cpp">
       <Filter>Editor\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\glad\glad.c">
+      <Filter>Render\opengl</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -648,9 +648,6 @@
       <Filter>Render\ui\core</Filter>
     </ClInclude>
     <ClInclude Include="source\Editor\editor\ui\EditorUI.h">
-      <Filter>Editor\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Editor\editor\ui\EditorUIWidgets.h">
       <Filter>Editor\ui</Filter>
     </ClInclude>
   </ItemGroup>

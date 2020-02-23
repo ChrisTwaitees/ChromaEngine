@@ -18,6 +18,8 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
 
+	std::string GetTypeString() const override { return "MeshComponent"; }
+
 	// attrs
 	virtual void SetIsRenderable(bool const& check) { m_IsRenderable = check; };
 	inline bool& GetIsRenderable() { return m_IsRenderable; }
@@ -59,10 +61,10 @@ public:
 	virtual void AddTexture(Texture texture_val) = 0;
 
 	// Draw
-	virtual void Draw(Shader const& shader) = 0;
+	virtual void Draw(Shader& shader) = 0;
 	virtual void Draw(Camera& RenderCamera) = 0;
-	virtual void Draw(Shader const& shader, Camera& RenderCamera) = 0;
-	virtual void DrawUpdateMaterials(Shader const& shader) = 0;
+	virtual void Draw(Shader& shader, Camera& RenderCamera) = 0;
+	virtual void DrawUpdateMaterials(Shader& shader) = 0;
 	virtual void DrawUpdateTransforms(Camera& renderCam) = 0;
 
 	// Shader Uniforms

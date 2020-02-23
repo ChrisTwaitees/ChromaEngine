@@ -39,5 +39,6 @@ namespace Chroma
 			uidcomponent.second->Destroy();
 			Chroma::Scene::RemoveComponent(uidcomponent.first);
 		}
+
 	}
 }

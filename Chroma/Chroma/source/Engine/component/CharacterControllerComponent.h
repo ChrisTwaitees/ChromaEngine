@@ -20,6 +20,8 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
 
+	std::string GetTypeString() const override { return "CharacterControllerComponent"; }
+
 	virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
 
 	inline virtual glm::vec3& GetPlayerPosition() { return m_Position; };

@@ -1,4 +1,5 @@
 #include "EditorUI.h"
+
 #include <scene/SceneManager.h>
 #include <physics/PhysicsEngine.h>
 #include <render/Render.h>
@@ -14,6 +15,11 @@ namespace Chroma
 	// Viewport
 	ImGuiWindowFlags  EditorUI::ViewportWindowFlags;
 	bool EditorUI::EditorViewportOpen;
+	bool EditorUI::m_IconsVisible;
+
+	int EditorUI::m_IconSize;
+
+	Texture EditorUI::m_LightsIcon;
 
 	// MENUS
 	char EditorUI::m_SceneName[128];
@@ -44,12 +50,25 @@ namespace Chroma
 
 	void EditorUI::Draw()
 	{
+		// root
 		AddUICall(ParentDockWindow);
-		AddUICall(DrawSceneManager);
-		AddUICall(DrawAnimationMenu);
-		AddUICall(DrawGraphicsMenu);
-		AddUICall(DrawMainMenu);
+		// viewport
 		AddUICall(Draw3DViewport);
+		// content browser
+		AddUICall(DrawContentBrowser);
+		// world outliner
+		AddUICall(DrawWorldOutliner);
+		// properties tab
+		AddUICall(DrawPropertiesTab);
+		// build tab
+		AddUICall(DrawBuildTab);
+		// entity types
+		AddUICall(DrawEntityTypesTab);
+		// modes
+		AddUICall(DrawEditingModeTab);
+
+		// Draw Icons
+		DrawIcons();
 	}
 
 	void EditorUI::Init()
@@ -82,33 +101,15 @@ namespace Chroma
 		debugAnim = false;
 		DebugAnimClipPos = 0.0f;
 
+		// test
+		m_LightsIcon = Texture("resources/icons/lights_icon.png");
+		m_IconSize = 20;
 
-
+		// VIEWPORT
+		m_IconsVisible = true;
 	}
 
-	void EditorUI::DrawPropertiesWindow()
-	{
 
-	}
-
-	void EditorUI::DrawResourceBrowser()
-	{
-	}
-
-	void EditorUI::DrawSceneManager()
-	{
-		ImGui::Begin("Chroma Scene Manager");
-
-		ImGui::InputText("Load Scene Path: ", m_SceneName, IM_ARRAYSIZE(m_SceneName));
-		// Debug
-		if (ImGui::Button("Load Scene"))
-			Chroma::SceneManager::LoadScene(m_SceneName);
-
-		if (ImGui::Button("Load HDR"))
-			Chroma::Scene::LoadIBL("resources/textures/ibl/ditchriver_ibl/river_sharp.hdr");
-
-		ImGui::End();
-	}
 	void EditorUI::ParentDockWindow()
 	{
 		// We are using the ImGuiWindowFlags_NoDocking flag to make the parent window not dockable into,
@@ -157,6 +158,23 @@ namespace Chroma
 		{
 			if (ImGui::BeginMenu("Chroma Editor"))
 			{
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("File"))
+			{
+				// Disabling fullscreen would allow the window to be moved to the front of other windows,
+				// which we can't undo at the moment without finer window depth/z control.
+				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
+
+				if (ImGui::MenuItem("Close Editor", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0));
+				if (ImGui::MenuItem("Load Scene", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0))
+				ImGui::Separator();
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Options"))
+			{
 				// Disabling fullscreen would allow the window to be moved to the front of other windows,
 				// which we can't undo at the moment without finer window depth/z control.
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
@@ -167,21 +185,147 @@ namespace Chroma
 				if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_PassthruCentralNode) != 0))     EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_PassthruCentralNode;
 				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_AutoHideTabBar;
 				ImGui::Separator();
-				if (ImGui::MenuItem("Close DockSpace", NULL, false, p_open != NULL))
-					* p_open = false;
 				ImGui::EndMenu();
 			}
 
-			delete p_open;
 			ImGui::EndMenuBar();
 		}
 
 		ImGui::End();
+
+
 	}
+
+
+	void EditorUI::DrawContentBrowser()
+	{
+		ImGui::Begin("Content Browser");
+
+		ImGui::InputText("Load Scene Path: ", m_SceneName, IM_ARRAYSIZE(m_SceneName));
+		// Debug
+		if (ImGui::Button("Load Scene"))
+			Chroma::SceneManager::LoadScene(m_SceneName);
+
+		if (ImGui::Button("Load HDR"))
+			Chroma::Scene::LoadIBL("resources/textures/ibl/ditchriver_ibl/river_sharp.hdr");
+		ImGui::End();
+	}
+
+
+	void EditorUI::DrawBuildTab()
+	{
+		ImGui::Begin("Build");
+		ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightsIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize));
+		ImGui::End();
+	}
+
+
+	void EditorUI::DrawWorldOutliner()
+	{
+		ImGui::Begin("World Outliner");
+
+		// Root Scene
+		if (ImGui::TreeNode("Scene"))
+		{
+			ImGui::Separator();
+			// Entities
+			if (ImGui::TreeNode("Entities"))
+			{
+				for (std::pair<UID, IEntity*> uidEntity : Chroma::Scene::GetAllEntities())
+				{
+					std::string EntityNameUIDHeading = uidEntity.second->GetName() + " : (" + uidEntity.first.data + ")";
+					// Enities Components
+					if (ImGui::TreeNode(EntityNameUIDHeading.c_str()))
+					{
+						ImGui::Indent();
+						for (UID componentUID : Chroma::Scene::GetEntity(uidEntity.first)->getComponentUIDs())
+						{
+							ImGui::TreeNode(componentUID.data.c_str());
+							ImGui::TreePop();
+						}
+						ImGui::Unindent();
+						ImGui::TreePop();
+					}
+				}
+				ImGui::TreePop();
+			}
+
+			ImGui::Separator();
+
+			// Components
+			if (ImGui::TreeNode("Components"))
+			{
+				for (std::pair<UID, IComponent*> uidComponent : Chroma::Scene::GetAllComponents())
+				{
+					std::string ComponentTypeUID = uidComponent.second->GetTypeString() + " : (" + uidComponent.first.data + ")";
+					// Enities Components
+					if (ImGui::TreeNode(ComponentTypeUID.c_str()))
+					{
+						ImGui::TreePop();
+					}
+				}
+				ImGui::TreePop();
+			}
+
+			ImGui::Separator();
+
+			// Lights
+			if (ImGui::TreeNode("Lights"))
+			{
+				for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
+				{
+					std::string lightTypeName = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID))->GetTypeString();
+					std::string LightTypeUID = lightTypeName + " : (" + lightUID.data + ")";
+					if (ImGui::TreeNode(LightTypeUID.c_str()))
+						ImGui::TreePop();
+				}
+				ImGui::TreePop();
+			}
+
+			ImGui::Separator();
+
+			ImGui::TreePop();
+		}
+
+
+		ImGui::End();
+	}
+
+
+	void EditorUI::DrawPropertiesTab()
+	{
+		ImGui::Begin("Properties");
+		ImGui::End();
+	}
+
+
+	void EditorUI::DrawEntityTypesTab()
+	{
+		ImGui::Begin("Entity Types");
+		ImGui::End();
+	}
+
+
+	void EditorUI::DrawEditingModeTab()
+	{
+		ImGui::Begin("Editor Mode");
+		ImGui::End();
+	}
+
+	void EditorUI::DrawIcons()
+	{
+		if (m_IconsVisible)
+		{
+
+		}
+	}
+
+
 	void EditorUI::ToggleBool(bool& toToggle)
 	{
 		toToggle = toToggle ? false : true;
 	}
+
 
 	void EditorUI::DrawMainMenu()
 	{

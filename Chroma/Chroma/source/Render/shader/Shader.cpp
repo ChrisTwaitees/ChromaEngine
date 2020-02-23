@@ -1,5 +1,5 @@
 #include "Shader.h"
-
+#include <scene/Scene.h>
 
 void Shader::CompileAndLink()
 {
@@ -139,48 +139,57 @@ void Shader::Use() const
 }
 
 
-void Shader::SetLightingUniforms(std::vector<Light*> Lights, Camera& renderCam)
+void Shader::SetLightingUniforms(Camera const& renderCam)
 {
 	int pointlights{ 0 };
 	int dirlights{ 0 };
 	int spotlights{ 0 };
-	for (int i = 0; i < Lights.size(); i++)
+
+	for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 	{
+		Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
 		std::string lightIndex;
 		// set uniforms
-		switch (Lights[i]->type) {
+		switch (light->type) {
 		case Light::POINT:
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
 			//// lights point light falloff
-			this->SetFloat(lightIndex + ".constant", Lights[i]->constant);
-			this->SetFloat(lightIndex + ".linear", Lights[i]->linear);
-			this->SetFloat(lightIndex + ".quadratic", Lights[i]->quadratic);
-			this->SetFloat(lightIndex + ".radius", Lights[i]->getRadius());
+			this->SetFloat(lightIndex + ".constant", light->constant);
+			this->SetFloat(lightIndex + ".linear", light->linear);
+			this->SetFloat(lightIndex + ".quadratic", light->quadratic);
+			this->SetFloat(lightIndex + ".radius", light->getRadius());
 			break;
 		case Light::SUNLIGHT:
+			dirlights++;
+			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
+			//// lights directional
+			this->SetVec3(lightIndex + ".direction", light->GetDirection());
+			break;
 		case Light::DIRECTIONAL:
 			dirlights++;
 			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
 			//// lights directional
-			this->SetVec3(lightIndex + ".direction", Lights[i]->GetDirection());
+			this->SetVec3(lightIndex + ".direction", light->GetDirection());
 			break;
 		case Light::SPOT:
 			spotlights++;
 			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
 			//// lights spotlight
-			this->SetFloat(lightIndex + ".spotSize", Lights[i]->getSpotSize());
-			this->SetFloat(lightIndex + ".penumbraSize", Lights[i]->getPenumbraSize());
+			this->SetFloat(lightIndex + ".spotSize", light->getSpotSize());
+			this->SetFloat(lightIndex + ".penumbraSize", light->getPenumbraSize());
 			break;
 		default:
 			break;
 		}
 		// lights all
-		this->SetFloat(lightIndex + ".intensity", Lights[i]->getIntensity());
-		this->SetVec3(lightIndex + ".diffuse", Lights[i]->getDiffuse());
-		this->SetVec3(lightIndex + ".position", Lights[i]->GetPosition());
+		this->SetFloat(lightIndex + ".intensity", light->getIntensity());
+		this->SetVec3(lightIndex + ".diffuse", light->getDiffuse());
+		this->SetVec3(lightIndex + ".position", light->GetPosition());
 		// lights view pos
 		this->SetVec3("viewPos", renderCam.GetPosition());
+
+//		delete light;
 	}
 }
 

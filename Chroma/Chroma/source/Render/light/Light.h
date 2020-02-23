@@ -3,8 +3,9 @@
 
 //common
 #include <common/PrecompiledHeader.h>
+#include <component/IComponent.h>
 
-class Light
+class Light : public IComponent
 {
 protected:
 
@@ -22,6 +23,12 @@ protected:
 
 
 public:
+	// icomponent interface
+	virtual void Init();
+	virtual void Update();
+	virtual void Destroy();
+	virtual void Serialize(ISerializer*& serializer) override;
+
 	//members
 	enum TYPE { POINT = 0, DIRECTIONAL = 1, SPOT= 2, SUNLIGHT=3 };
 	// type
@@ -51,6 +58,7 @@ public:
 
 	// getters
 	TYPE getType() const { return type; };
+	std::string GetTypeString() const;
 	// getters - directional
 	glm::vec3 GetDirection() { return direction; };
 	// getters - pointlights
@@ -64,6 +72,7 @@ public:
 
 	// constructors
 	Light();
+	Light(const Light& Light) {};
 	Light(TYPE type_val) : type{ type_val } {};
 	Light(TYPE type_val, float intensity_val) : type{ type_val }, intensity{ intensity_val }{ };
 	Light(glm::vec3 position_val, TYPE type_val) : type{ type_val }, position{ position_val } {};

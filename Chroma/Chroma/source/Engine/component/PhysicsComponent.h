@@ -23,6 +23,8 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
 
+	std::string GetTypeString() const override { return "PhysicsComponent"; }
+
 	void BuildRigidBody();
 	void Transform(btTransform& transform);
 

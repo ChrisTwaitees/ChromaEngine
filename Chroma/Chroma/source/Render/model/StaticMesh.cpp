@@ -62,7 +62,7 @@ void StaticMesh::SetupMesh()
 	glBindVertexArray(0);
 }
 
-void StaticMesh::UpdateUniforms(Shader const& shader, Camera& RenderCam)
+void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)
 {
 	UpdateTransformUniforms(shader, RenderCam);
 	UpdateMaterialUniforms(shader);
@@ -70,50 +70,9 @@ void StaticMesh::UpdateUniforms(Shader const& shader, Camera& RenderCam)
 	UpdateLightingUniforms(shader, RenderCam);
 }
 
-void StaticMesh::UpdateLightingUniforms(Shader const& shader, Camera& renderCam)
+void StaticMesh::UpdateLightingUniforms(Shader& shader, Camera& renderCam)
 {
-	int pointlights{ 0 };
-	int dirlights{ 0 };
-	int spotlights{ 0 };
-	for (int i = 0; i < Chroma::Scene::GetLights().size(); i++)
-	{
-		std::string lightIndex;
-		Light* currentLight = Chroma::Scene::GetLights()[i];
-		// set uniforms
-		switch (currentLight->type) {
-		case Light::POINT:
-			pointlights++;
-			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
-			//// lights point light falloff
-			shader.SetFloat(lightIndex + ".constant", currentLight->constant);
-			shader.SetFloat(lightIndex + ".linear", currentLight->linear);
-			shader.SetFloat(lightIndex + ".quadratic", currentLight->quadratic);
-			shader.SetFloat(lightIndex + ".radius", currentLight->getRadius());
-			break;
-		case Light::SUNLIGHT:
-		case Light::DIRECTIONAL:
-			dirlights++;
-			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
-			//// lights directional
-			shader.SetVec3(lightIndex + ".direction", currentLight->GetDirection());
-			break;
-		case Light::SPOT:
-			spotlights++;
-			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
-			//// lights spotlight
-			shader.SetFloat(lightIndex + ".spotSize", currentLight->getSpotSize());
-			shader.SetFloat(lightIndex + ".penumbraSize", currentLight->getPenumbraSize());
-			break;
-		default:
-			break;
-		}
-		// lights all
-		shader.SetFloat(lightIndex + ".intensity", currentLight->getIntensity());
-		shader.SetVec3(lightIndex + ".diffuse", currentLight->getDiffuse());
-		shader.SetVec3(lightIndex + ".position", currentLight->GetPosition());
-		// lights view pos
-		shader.SetVec3("viewPos", renderCam.GetPosition());
-	}
+	shader.SetLightingUniforms(renderCam);
 }
 
 void StaticMesh::updateTextureUniforms(Shader const& shader)
@@ -246,7 +205,7 @@ void StaticMesh::UpdateMaterialUniforms(Shader const& shader)
 	shader.SetBool("UseMetRoughAOMap", false);
 }
 
-void StaticMesh::Draw(Shader const& shader)
+void StaticMesh::Draw(Shader& shader)
 {
 	shader.Use();
 	// draw mesh
@@ -260,14 +219,14 @@ void StaticMesh::Draw(Camera& RenderCamera)
 	BindDrawVAO();
 }
 
-void StaticMesh::Draw(Shader const& shader, Camera& RenderCamera)
+void StaticMesh::Draw(Shader& shader, Camera& RenderCamera)
 {
 	shader.Use();
 	UpdateUniforms(shader, RenderCamera);
 	BindDrawVAO();
 }
 
-void StaticMesh::DrawUpdateMaterials(Shader const& shader)
+void StaticMesh::DrawUpdateMaterials(Shader& shader)
 {
 	shader.Use();
 	UpdateMaterialUniforms(shader);

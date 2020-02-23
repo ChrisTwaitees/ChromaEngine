@@ -3,6 +3,8 @@
 
 #include <UI/core/UI.h>
 
+
+
 namespace Chroma
 {
 	class EditorUI : public UI
@@ -12,13 +14,22 @@ namespace Chroma
 		static void Init();
 		static bool m_Bloom;
 
+		static int m_IconSize;
+
+		static Texture m_LightsIcon;
+
 
 	private:
 		// functions
-		static void DrawPropertiesWindow();
-		static void DrawResourceBrowser();
-		static void DrawSceneManager();
 		static void ParentDockWindow();
+		static void DrawContentBrowser();
+		static void DrawBuildTab();
+		static void DrawWorldOutliner();
+		static void DrawPropertiesTab();
+		static void DrawEntityTypesTab();
+		static void DrawEditingModeTab();
+
+		static void DrawIcons();
 
 		// attrs
 		// Scene Manager
@@ -62,6 +73,7 @@ namespace Chroma
 		// Viewport
 		static ImGuiWindowFlags ViewportWindowFlags;
 		static bool EditorViewportOpen;
+		static bool m_IconsVisible;
 	};
 }
 

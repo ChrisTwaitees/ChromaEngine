@@ -406,7 +406,6 @@
   <ItemGroup>
     <ClInclude Include="source\Editor\editor\Editor.h" />
     <ClInclude Include="source\Editor\editor\ui\EditorUI.h" />
-    <ClInclude Include="source\Editor\editor\ui\EditorUIWidgets.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
     <ClInclude Include="source\Engine\animation\IStateMachine.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />

@@ -20,7 +20,7 @@ int main()
 	Chroma::Scene::PreSceneBuild();
 
 	// POPULATE SCENE CONTENTS
-	//Chroma::Editor::PopulateTestScene();
+	Chroma::Editor::PopulateTestScene();
 
 	Chroma::Scene::PostSceneBuild();
 

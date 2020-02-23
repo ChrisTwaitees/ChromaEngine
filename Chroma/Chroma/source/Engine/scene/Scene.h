@@ -37,7 +37,7 @@ namespace Chroma
 		static void AddUIComponent(IComponent* const& newUIComponent);
 
 		// lights
-		static void AddLight(Light* const& newLight) { m_Lights.push_back(newLight); };
+		static void AddLight(IComponent* const& newLight);
 		static void RemoveLight(Light& RemoveLight);
 		// setters
 		static void SetEntities(std::vector<IEntity*> const& newEntities);
@@ -62,6 +62,8 @@ namespace Chroma
 		static void RemoveComponent(UID const& UID);
 		static void SafeRemoveComponentUID(std::set<UID>& componentUIDList, UID const& removeUID);
 
+		static inline std::set<UID>& GetLightUIDs() { return m_LightUIDs; }
+
 		static inline std::set<UID>& GetMeshComponentUIDs() { return m_MeshComponentUIDs; }
 		static inline std::set<UID>& GetSkinnedMeshComponentUIDs() { return m_SkinnedMeshComponentUIDs; }
 
@@ -79,7 +81,6 @@ namespace Chroma
 		static inline std::set<UID>& GetUIComponentUIDs() { return m_UIComponentUIDs; }
 		// Attrs
 		static Camera*& GetRenderCamera() { return m_RenderCamera; };
-		static std::vector<Light*>& GetLights() { return m_Lights; };
 		static Light*& GetSunLight() { return m_SunLight; };
 		static SkyBox*& GetSkyBox() { return m_Skybox; };
 		static glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
@@ -87,10 +88,6 @@ namespace Chroma
 		static void LoadIBL(std::string const& sourcePath);
 
 	private:
-
-		// scene components
-		static std::vector<Light*> m_Lights;
-
 		// Entities
 		static std::map<UID, IEntity*> m_Entities;
 
@@ -123,6 +120,8 @@ namespace Chroma
 		static std::set<UID> m_UnLitComponentUIDs;
 		// ui components
 		static std::set<UID> m_UIComponentUIDs;
+		// light uids
+		static std::set<UID> m_LightUIDs;
 
 		// render components
 		static Camera* m_RenderCamera;

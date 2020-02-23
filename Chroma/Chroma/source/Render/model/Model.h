@@ -15,11 +15,13 @@ public:
 	virtual void Init() override;
 	void Destroy() override;
 
+	std::string GetTypeString() const override { return "ModelComponent"; }
+
 	// Draw
-	void Draw(Shader const& shader) override;
+	void Draw(Shader& shader) override;
 	void Draw(Camera& RenderCamera) override;
-	void Draw(Shader const& shader, Camera& RenderCamera) override;
-	void DrawUpdateMaterials(Shader const& shader) override;
+	void Draw(Shader& shader, Camera& RenderCamera) override;
+	void DrawUpdateMaterials(Shader& shader) override;
 	void DrawUpdateTransforms(Camera& renderCam) override;
 
 	// Accessors	

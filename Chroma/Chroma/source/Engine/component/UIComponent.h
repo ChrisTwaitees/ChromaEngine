@@ -12,6 +12,8 @@ public:
 	void Destroy();
 	void Serialize(ISerializer*& serializer) override;
 
+	std::string GetTypeString() const override { return "UIComponent"; }
+
 	virtual void Draw() {};
 
 	UIComponent();

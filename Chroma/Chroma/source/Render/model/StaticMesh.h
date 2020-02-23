@@ -13,13 +13,15 @@ class StaticMesh : public MeshComponent
 {
 public:
 	// Functions
-	virtual void Draw(Shader const& shader) override;
+	virtual void Draw(Shader& shader) override;
 	virtual void Draw(Camera& RenderCamera) override;
-	virtual void Draw(Shader const& shader, Camera& RenderCamera) override;
-	virtual void DrawUpdateMaterials(Shader const& shader) override;
+	virtual void Draw(Shader& shader, Camera& RenderCamera) override;
+	virtual void DrawUpdateMaterials(Shader& shader) override;
 	virtual void DrawUpdateTransforms(Camera& renderCam) override;
 	virtual void BindDrawVAO();
 	virtual void Destroy() override;
+
+	std::string GetTypeString() const override { return "StaticMeshComponent"; }
 
 	// Bindings
 	virtual void SetShader(Shader const& shader) override { m_shader = shader; } ;
@@ -60,10 +62,10 @@ protected:
 	virtual void CalculateCentroid();
 	virtual void SetupMesh();
 	// render functions
-	virtual void UpdateUniforms(Shader const& shader, Camera& RenderCam);
+	virtual void UpdateUniforms(Shader& shader, Camera& RenderCam);
 	virtual void UpdateTransformUniforms(Shader const& shader, Camera& renderCam);
 	virtual void UpdateMaterialUniforms(Shader const& shader);
-	virtual void UpdateLightingUniforms(Shader const& shader, Camera& renderCam);
+	virtual void UpdateLightingUniforms(Shader& shader, Camera& renderCam);
 	virtual void updateTextureUniforms(Shader const& shader);
 	void UpdatePBRLightingTextureUniforms(Shader const& shader);
 };

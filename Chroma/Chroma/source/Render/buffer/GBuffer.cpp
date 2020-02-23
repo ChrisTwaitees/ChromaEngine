@@ -134,7 +134,7 @@ void GBuffer::BindGBufferTextures()
 
 void GBuffer::SetLightingUniforms()
 {
-	m_lightingPassShader.SetLightingUniforms(Chroma::Scene::GetLights(), *Chroma::Scene::GetRenderCamera());
+	m_lightingPassShader.SetLightingUniforms(*Chroma::Scene::GetRenderCamera());
 	m_lightingPassShader.SetUniform("ambient", Chroma::Scene::GetAmbientColor());
 }
 

@@ -38,7 +38,7 @@ public:
 	void Use() const;
 
 	// Uniforms
-	void SetLightingUniforms(std::vector<Light*> Lights, Camera& renderCam);
+	void SetLightingUniforms(Camera const& renderCam);
 
 	template<typename UniformType>
 	void addUniform(std::string uniformName, UniformType uniformValue){

@@ -18,6 +18,8 @@ public:
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() override;
 	Skeleton* GetSkeleton() { return &m_Skeleton; };
 
+	std::string GetTypeString() const override { return "SkinnedMeshComponent"; }
+
 	// Functions
 	void SetJointUniforms(Shader& skinnedShader) override;
 

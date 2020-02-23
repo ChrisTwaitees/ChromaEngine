@@ -16,6 +16,8 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer ) override;
 
+	std::string GetTypeString() const override { return "AnimationComponent"; }
+
 	void AddAnimator(Animator& newAnimator);
 	void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID);
 

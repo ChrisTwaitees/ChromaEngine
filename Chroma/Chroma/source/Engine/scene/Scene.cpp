@@ -9,7 +9,6 @@ namespace Chroma
 	Camera*             Scene::m_RenderCamera;
 	Light*              Scene::m_SunLight;
 	SkyBox*             Scene::m_Skybox;
-	std::vector<Light*> Scene::m_Lights;
 	IBL*				Scene::m_IBL;
 
 	// Entities Components
@@ -41,6 +40,8 @@ namespace Chroma
 	std::set<UID> Scene::m_PhysicsComponentUIDs;
 
 	std::set<UID> Scene::m_UIComponentUIDs;
+
+	std::set<UID> Scene::m_LightUIDs;
 
 	// timing
 	std::chrono::steady_clock::time_point Scene::m_SceneBuildStartTime;
@@ -312,6 +313,18 @@ namespace Chroma
 		m_Components[newUIComponent->GetUID()] = newUIComponent;
 	}
 
+	void Scene::AddLight(IComponent* const& newLight)
+	{
+		// add to global component UIDs
+		m_ComponentUIDs.insert(newLight->GetUID());
+
+		// collect component UID
+		m_LightUIDs.insert(newLight->GetUID());
+
+		// add component
+		m_Components[newLight->GetUID()] = newLight;
+	}
+
 	void Scene::RemoveLight(Light& RemoveLight)
 	{
 	
@@ -319,10 +332,18 @@ namespace Chroma
 
 	void Scene::SetLights(std::vector<Light*> newLights)
 	{
-		m_Lights = newLights;
-		for (Light* light : newLights)
+		for (Light*& light : newLights)
+		{
 			if (light->type == Light::SUNLIGHT)
+			{
 				m_SunLight = light;
+				AddLight(light);
+			}
+			else
+				AddLight(light);
+
+		}
+			
 	}
 
 	void Scene::SetEntities(std::vector<IEntity*> const& newEntities)
