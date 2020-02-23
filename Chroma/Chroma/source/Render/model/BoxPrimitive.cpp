@@ -40,7 +40,7 @@ std::vector<ChromaVertex> BoxPrimitive::GetVertices()
 	for (int i = 0; i < boxData.size(); i+=8)
 	{
 		ChromaVertex newVert;
-		glm::vec3 position;
+		glm::vec3 m_Position;
 		glm::vec3 normal;
 		glm::vec2 texcoords;
 		int vertDataIndex = i;
@@ -48,10 +48,10 @@ std::vector<ChromaVertex> BoxPrimitive::GetVertices()
 		// positions
 		for (int j = 0; j < 3; j++)
 		{
-			position[j] = boxData[vertDataIndex];
+			m_Position[j] = boxData[vertDataIndex];
 			vertDataIndex++;
 		}
-		newVert.m_position = position;
+		newVert.m_position = m_Position;
 		vertDataIndex++;
 		// normals
 		for (int j = 0; j < 3; j++)

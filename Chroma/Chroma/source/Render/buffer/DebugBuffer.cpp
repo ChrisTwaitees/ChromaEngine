@@ -130,7 +130,7 @@ void DebugBuffer::RenderSphere(SphereShape sphere)
 	m_SphereShader.Use();
 	m_SphereShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 	m_SphereShader.SetUniform("model", sphere.transform);
-	m_SphereShader.SetUniform("radius", sphere.radius);
+	m_SphereShader.SetUniform("radius", sphere.m_Radius);
 	m_SphereShader.SetUniform("color", sphere.color);
 
 	BindPointVAO();
@@ -241,20 +241,20 @@ void DebugBuffer::DrawOverlayBox(const glm::vec3& bbMin, const glm::vec3& bbMax,
 	m_OverlayBoxes.push_back(new_box);
 }
 
-void DebugBuffer::DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color)
+void DebugBuffer::DrawSphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color)
 {
 	SphereShape new_sphere;
 	new_sphere.transform = glm::translate(new_sphere.transform, center);
-	new_sphere.radius = radius;
+	new_sphere.m_Radius = m_Radius;
 	new_sphere.color = color;
 	m_spheres.push_back(new_sphere);
 }
 
-void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& radius, const glm::vec3& color)
+void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color)
 {
 	SphereShape new_sphere;
 	new_sphere.transform = glm::translate(new_sphere.transform, center);
-	new_sphere.radius = radius;
+	new_sphere.m_Radius = m_Radius;
 	new_sphere.color = color;
 	m_OverlaySpheres.push_back(new_sphere);
 }

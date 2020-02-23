@@ -268,32 +268,28 @@ namespace Chroma
 					// Enities Components
 					if (ImGui::TreeNodeEx(EntityNameUIDHeading.c_str(), m_SelectedObjectString == EntityNameUIDHeading ? ImGuiTreeNodeFlags_Selected : node_flags))
 					{
-						// if selected
+						// Selecting
 						if (ImGui::IsItemClicked() && (ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) > ImGui::GetTreeNodeToLabelSpacing())
 						{
-							CHROMA_TRACE("Entity : {0} selected.", EntityNameUIDHeading);
 							m_SelectedObjectString = EntityNameUIDHeading;
 							m_SelectedObjectUID = uidEntity.first;
-							CHROMA_TRACE("Entity Containes : {0} Components.", Chroma::Scene::GetEntity(uidEntity.first)->getComponentUIDs().size());
 						}
-
 
 						ImGui::Indent();
 						for (UID componentUID : Chroma::Scene::GetEntity(uidEntity.first)->getComponentUIDs())
 						{
 							std::string ComponentTypeUID = Chroma::Scene::GetComponent(componentUID)->GetTypeString() + " : (" + componentUID.data + ")";;
 
-							if (ImGui::Selectable(componentUID.data.c_str(), m_SelectedObjectString == ComponentTypeUID))
+							if (ImGui::Selectable(ComponentTypeUID.c_str(), m_SelectedObjectString == ComponentTypeUID))
 							{
-								// if selected
-								if (ImGui::IsItemToggledOpen)
+								// Selecting
+								if (ImGui::IsItemClicked)
 								{
 									m_SelectedObjectUID = componentUID;
-									//CHROMA_TRACE("Component : {0} selected.", ComponentTypeUID);
+									
 									m_SelectedObjectString = ComponentTypeUID;
 								}
 							}
-							ImGui::TreePop();
 						}
 						ImGui::Unindent();
 						ImGui::TreePop();
@@ -363,8 +359,22 @@ namespace Chroma
 	{
 		ImGui::Begin("Properties");
 
-
 		ImGui::Text(("Selected Object : " + m_SelectedObjectString).c_str());
+
+		// Get Object Serialization Data
+		ISerializer* objectSerializer = new JSONSerializer();
+		if (Chroma::Scene::GetComponent(m_SelectedObjectUID) != nullptr)
+		{
+			Chroma::Scene::GetComponent(m_SelectedObjectUID)->Serialize(objectSerializer);
+		}
+
+		for (std::pair<const char*, float*> floatProperty : objectSerializer->m_FloatProperties)
+		{
+			ImGui::SliderFloat(floatProperty.first, floatProperty.second, 0.0, 10.0);
+		}
+		delete objectSerializer;
+		
+
 
 		ImGui::End();
 	}

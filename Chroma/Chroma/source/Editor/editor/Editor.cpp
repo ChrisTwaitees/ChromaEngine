@@ -41,8 +41,8 @@ namespace Chroma
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
 			pointLight->setIntensity(0.51f);
-			pointLight->quadratic *= 4.0f;
-			pointLight->linear *= 2.0f;
+			pointLight->m_Quadratic *= 4.0f;
+			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
 		}
 
@@ -207,8 +207,8 @@ namespace Chroma
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
 			pointLight->setIntensity(0.51f);
-			pointLight->quadratic *= 4.0f;
-			pointLight->linear *= 2.0f;
+			pointLight->m_Quadratic *= 4.0f;
+			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
 		}
 

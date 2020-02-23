@@ -155,9 +155,9 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
 			//// lights point light falloff
-			this->SetFloat(lightIndex + ".constant", light->constant);
-			this->SetFloat(lightIndex + ".linear", light->linear);
-			this->SetFloat(lightIndex + ".quadratic", light->quadratic);
+			this->SetFloat(lightIndex + ".constant", light->m_Constant);
+			this->SetFloat(lightIndex + ".linear", light->m_Linear);
+			this->SetFloat(lightIndex + ".quadratic", light->m_Quadratic);
 			this->SetFloat(lightIndex + ".radius", light->getRadius());
 			break;
 		case Light::SUNLIGHT:

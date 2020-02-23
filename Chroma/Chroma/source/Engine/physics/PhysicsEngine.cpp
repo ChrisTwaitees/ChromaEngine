@@ -206,12 +206,12 @@ namespace Chroma
 	bool Physics::SphereTest(glm::vec3 const& sphereCenter, float const& sphereRadius)
 	{
 		btVector3 center(sphereCenter.x, sphereCenter.y, sphereCenter.z);
-		btScalar radius{ sphereRadius };
+		btScalar m_Radius{ sphereRadius };
 		
 		// use local collision object to test
 		m_CollisionObject->getWorldTransform().setOrigin(center);
 		// convert to sphere
-		m_SphereShape->setUnscaledRadius(radius);
+		m_SphereShape->setUnscaledRadius(m_Radius);
 		m_CollisionObject->setCollisionShape(m_SphereShape);
 
 		// create custom callback and query world using it

@@ -60,6 +60,9 @@ void Entity::AddMeshComponent(MeshComponent*& newMeshComponent)
 
 	// add mesh component
 	m_MeshComponentUIDs.push_back(newMeshComponent->GetUID());
+
+	// Add to global components list
+	m_ComponentUIDs.push_back(newMeshComponent->GetUID());
 }
 
 void Entity::AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
@@ -72,6 +75,9 @@ void Entity::AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent)
 
 	// add physics component
 	m_PhysicsComponentUIDs.push_back(newPhysicsComponent->GetUID());
+
+	// Add to global components list
+	m_ComponentUIDs.push_back(newPhysicsComponent->GetUID());
 
 }
 
@@ -88,6 +94,9 @@ void Entity::AddAnimationComponent(AnimationComponent*& newAnimationComponent)
 
 	// add to self to animated entities
 	Chroma::Scene::AddAnimatedEntity(this);
+
+	// Add to global components list
+	m_ComponentUIDs.push_back(newAnimationComponent->GetUID());
 }
 
 void Entity::AddCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent)
@@ -100,6 +109,9 @@ void Entity::AddCharacterControllerComponent(CharacterControllerComponent*& newC
 
 	// add to updating components
 	Chroma::Scene::AddCharacterControllerComponent(newCharacterControllerComponent);
+
+	// Add to global components list
+	m_ComponentUIDs.push_back(newCharacterControllerComponent->GetUID());
 }
 
 void Entity::CalculateBBox()
@@ -133,7 +145,6 @@ void Entity::AddComponent(IComponent*& newComponent)
 	// Prepare for Entity
 	ProcessNewComponent(newComponent);
 
-	// TODO: Consider shared_ptr to prevent memory duplication
 	m_ComponentUIDs.push_back(newComponent->GetUID());
 }
 

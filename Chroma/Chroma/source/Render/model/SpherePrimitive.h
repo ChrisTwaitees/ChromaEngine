@@ -14,17 +14,17 @@ class SpherePrimitive : public StaticMesh
 
 public:
 	// ctor/dtor
-	SpherePrimitive(float radius = 1.0f, int sectorCount = 36, int stackCount = 18);
+	SpherePrimitive(float m_Radius = 1.0f, int sectorCount = 36, int stackCount = 18);
 	~SpherePrimitive() {}
 
 	std::string GetTypeString() const override { return "SpherePrimitiveComponent"; }
 
 	// getters/setters
-	float getRadius() const { return radius; }
+	float getRadius() const { return m_Radius; }
 	int getSectorCount() const { return sectorCount; }
 	int getStackCount() const { return stackCount; }
-	void set(float radius, int sectorCount, int stackCount);
-	void setRadius(float radius);
+	void set(float m_Radius, int sectorCount, int stackCount);
+	void setRadius(float m_Radius);
 	void setSectorCount(int sectorCount);
 	void setStackCount(int stackCount);
 
@@ -75,7 +75,7 @@ private:
 		float x3, float y3, float z3);
 
 	// memeber vars
-	float radius;
+	float m_Radius;
 	int sectorCount;                        // longitude, # of slices
 	int stackCount;                         // latitude, # of stacks
 	bool smooth;

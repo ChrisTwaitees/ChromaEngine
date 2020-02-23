@@ -35,7 +35,7 @@ public:
 	}
 
 	template<>
-	void AddProperty<float>(const char* key, float value)
+	void AddProperty<float*>(const char* key, float* value)
 	{
 		m_FloatProperties.emplace(std::make_pair(key, value));
 	}
@@ -93,6 +93,7 @@ public:
 	ISerializer() {};
 	virtual ~ISerializer() {};
 
+	std::map<const char*, float*> m_FloatProperties;
 private:
 
 	std::map<const char*, const char*> m_CharProperties;
@@ -101,7 +102,6 @@ private:
 	std::map<const char*, int> m_IntProperties;
 	std::map<const char*, unsigned int> m_UIntProperties;
 
-	std::map<const char*, float> m_FloatProperties;
 	std::map<const char*, double> m_DoubleProperties;
 
 	std::map<const char*, glm::vec2> m_Vec2Properties;

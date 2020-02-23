@@ -29,7 +29,7 @@ struct BoxShape
 struct SphereShape
 {
 	glm::mat4 transform{ 1.0 };
-	float radius{ 1.0 };
+	float m_Radius{ 1.0 };
 	glm::vec3 color{ 1.0 };
 };
 
@@ -129,8 +129,8 @@ public:
 	void DrawOverlayBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
 
 	// Sphere
-	void DrawSphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
-	void DrawOverlaySphere(const glm::vec3& center, const float& radius, const glm::vec3& color);
+	void DrawSphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color);
+	void DrawOverlaySphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color);
 
 	// Joint
 	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size = 1.0, const glm::vec3& color = glm::vec3(1.0));

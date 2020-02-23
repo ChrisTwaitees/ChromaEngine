@@ -94,8 +94,12 @@ namespace Chroma
 
 	IEntity* Scene::GetEntity(UID const& UID)
 	{
-
-		return m_Entities.find(UID)->second;
+		if (m_Entities.find(UID) != m_Entities.end()) {
+			return m_Entities.find(UID)->second;
+		}
+		else {
+			return nullptr;
+		}
 	}
 
 	void Scene::RemoveEntity(UID const& UID)
@@ -110,7 +114,12 @@ namespace Chroma
 
 	IComponent* Scene::GetComponent(UID const& UID)
 	{
-		return m_Components.find(UID)->second;
+		if (m_Components.find(UID) != m_Components.end()) {
+			return m_Components.find(UID)->second;
+		}
+		else {
+			return nullptr;
+		}
 	}
 
 	void Scene::RemoveComponent(UID const& UID)

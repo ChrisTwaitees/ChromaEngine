@@ -9,9 +9,9 @@ const int MIN_STACK_COUNT = 2;
 ///////////////////////////////////////////////////////////////////////////////
 // ctor
 ///////////////////////////////////////////////////////////////////////////////
-SpherePrimitive::SpherePrimitive(float radius, int sectors, int stacks) : interleavedStride(32)
+SpherePrimitive::SpherePrimitive(float m_Radius, int sectors, int stacks) : interleavedStride(32)
 {
-	set(radius, sectors, stacks);
+	set(m_Radius, sectors, stacks);
 	SetupMesh();
 }
 
@@ -20,9 +20,9 @@ SpherePrimitive::SpherePrimitive(float radius, int sectors, int stacks) : interl
 ///////////////////////////////////////////////////////////////////////////////
 // setters
 ///////////////////////////////////////////////////////////////////////////////
-void SpherePrimitive::set(float radius, int sectors, int stacks)
+void SpherePrimitive::set(float m_Radius, int sectors, int stacks)
 {
-	this->radius = radius;
+	this->m_Radius = m_Radius;
 	this->sectorCount = sectors;
 	if (sectors < MIN_SECTOR_COUNT)
 		this->sectorCount = MIN_SECTOR_COUNT;
@@ -34,20 +34,20 @@ void SpherePrimitive::set(float radius, int sectors, int stacks)
 
 }
 
-void SpherePrimitive::setRadius(float radius)
+void SpherePrimitive::setRadius(float m_Radius)
 {
-	this->radius = radius;
+	this->m_Radius = m_Radius;
 	updateRadius();
 }
 
 void SpherePrimitive::setSectorCount(int sectors)
 {
-	set(radius, sectors, stackCount);
+	set(m_Radius, sectors, stackCount);
 }
 
 void SpherePrimitive::setStackCount(int stacks)
 {
-	set(radius, sectorCount, stacks);
+	set(m_Radius, sectorCount, stacks);
 }
 
 
@@ -104,7 +104,7 @@ void SpherePrimitive::BindDrawVAO()
 ///////////////////////////////////////////////////////////////////////////////
 void SpherePrimitive::updateRadius()
 {
-	float scale = sqrtf(radius * radius / (m_verts[0] * m_verts[0] + m_verts[1] * m_verts[1] + m_verts[2] * m_verts[2]));
+	float scale = sqrtf(m_Radius * m_Radius / (m_verts[0] * m_verts[0] + m_verts[1] * m_verts[1] + m_verts[2] * m_verts[2]));
 
 	std::size_t i, j;
 	std::size_t count = m_verts.size();
@@ -153,7 +153,7 @@ void SpherePrimitive::buildVerticesSmooth()
 	clearArrays();
 
 	float x, y, z, xy;                              // vertex position
-	float nx, ny, nz, lengthInv = 1.0f / radius;    // normal
+	float nx, ny, nz, lengthInv = 1.0f / m_Radius;    // normal
 	float s, t;                                     // texCoord
 
 	float sectorStep = 2 * PI / sectorCount;
@@ -163,8 +163,8 @@ void SpherePrimitive::buildVerticesSmooth()
 	for (int i = 0; i <= stackCount; ++i)
 	{
 		stackAngle = PI / 2 - i * stackStep;        // starting from pi/2 to -pi/2
-		xy = radius * cosf(stackAngle);             // r * cos(u)
-		z = radius * sinf(stackAngle);              // r * sin(u)
+		xy = m_Radius * cosf(stackAngle);             // r * cos(u)
+		z = m_Radius * sinf(stackAngle);              // r * sin(u)
 
 		// add (sectorCount+1) vertices per stack
 		// the first and last vertices have same position and normal, but different tex coords

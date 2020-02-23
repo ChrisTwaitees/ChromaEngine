@@ -14,15 +14,15 @@ void FlyCameraController::ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDir
 	pitch += mouseXYOffset.y;
 
 	// calculating cameraDirection using trig 
-	glm::vec3 direction;
-	direction.x = std::cos(glm::radians(pitch)) * std::cos(glm::radians(yaw));
-	direction.y = std::sin(glm::radians(pitch));
-	direction.z = std::cos(glm::radians(pitch)) * std::sin(glm::radians(yaw));
+	glm::vec3 m_Direction;
+	m_Direction.x = std::cos(glm::radians(pitch)) * std::cos(glm::radians(yaw));
+	m_Direction.y = std::sin(glm::radians(pitch));
+	m_Direction.z = std::cos(glm::radians(pitch)) * std::sin(glm::radians(yaw));
 
 	// set direction
-	camDir = direction;
+	camDir = m_Direction;
 	glm::vec3 camRight = glm::normalize(glm::cross(CHROMA_UP, camDir));
-	camUp = glm::cross(direction, camRight);
+	camUp = glm::cross(m_Direction, camRight);
 }
 
 void FlyCameraController::processKeyboardInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
