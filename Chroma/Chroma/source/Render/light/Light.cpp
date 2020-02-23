@@ -45,16 +45,21 @@ void Light::Destroy()
 
 void Light::Serialize(ISerializer*& serializer)
 {
-	//CHROMA_INFO("Serializing Light Component : {0}", m_UID.data);
-	//serializer->StartObject("LightComponent", m_UID);
-	//serializer->AddProperty("m_Intensity", &m_Intensity);
-	//CHROMA_INFO("m_Intensity {0}", m_Intensity);
-	//serializer->AddProperty("m_Diffuse", &m_Diffuse);
+	CHROMA_INFO("Serializing Light Component : {0}", m_UID.data);
+	serializer->StartObject("LightComponent", m_UID);
+
+	serializer->AddProperty("m_Position", &m_Position);
+	serializer->AddProperty("m_Intensity", &m_Intensity);
+	serializer->AddProperty("m_Diffuse", &m_Diffuse);
+
+
 	//CHROMA_INFO("m_Diffuse {0}", m_Diffuse.x);
-	//serializer->AddProperty("m_Linear", &m_Linear);
-	//CHROMA_INFO("m_Linear {0}", m_Linear);
-	//serializer->AddProperty("m_Quadratic", &m_Quadratic);
-	//serializer->AddProperty("m_Constant", &m_Constant);
+
+	serializer->AddProperty("m_Direction", &m_Direction);
+	serializer->AddProperty("m_Linear", &m_Linear);
+	serializer->AddProperty("m_Quadratic", &m_Quadratic);
+	serializer->AddProperty("m_Constant", &m_Constant);
+
 }
 
 #ifdef EDITOR

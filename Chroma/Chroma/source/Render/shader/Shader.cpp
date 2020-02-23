@@ -158,7 +158,7 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 			this->SetFloat(lightIndex + ".constant", light->m_Constant);
 			this->SetFloat(lightIndex + ".linear", light->m_Linear);
 			this->SetFloat(lightIndex + ".quadratic", light->m_Quadratic);
-			this->SetFloat(lightIndex + ".radius", light->getRadius());
+			//this->SetFloat(lightIndex + ".radius", light->getRadius());
 			break;
 		case Light::SUNLIGHT:
 			dirlights++;

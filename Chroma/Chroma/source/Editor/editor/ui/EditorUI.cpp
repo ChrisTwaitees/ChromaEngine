@@ -368,10 +368,30 @@ namespace Chroma
 			Chroma::Scene::GetComponent(m_SelectedObjectUID)->Serialize(objectSerializer);
 		}
 
+
+		// Float Properties
+		ImGui::Separator();
+		ImGui::Text("Float");
 		for (std::pair<const char*, float*> floatProperty : objectSerializer->m_FloatProperties)
 		{
-			ImGui::SliderFloat(floatProperty.first, floatProperty.second, 0.0, 10.0);
+			ImGui::SliderFloat(floatProperty.first, floatProperty.second, -10.0, 10.0);
 		}
+
+		// Vec3 Properties
+		ImGui::Separator();
+		ImGui::Text("Vec3");
+		for (std::pair<const char*, glm::vec3*> vec3Property : objectSerializer->m_Vec3Properties)
+		{
+			std::string x = ".x";
+			std::string y = ".y";
+			std::string z = ".z";
+			ImGui::SliderFloat((vec3Property.first + x).c_str(), &vec3Property.second->x, -10.0, 10.0);
+			ImGui::SliderFloat((vec3Property.first + y).c_str(), &vec3Property.second->y, -10.0, 10.0);
+			ImGui::SliderFloat((vec3Property.first + z).c_str(), &vec3Property.second->z, -10.0, 10.0);
+			
+		}
+
+
 		delete objectSerializer;
 		
 

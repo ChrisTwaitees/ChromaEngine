@@ -65,7 +65,7 @@ public:
 	}
 
 	template<>
-	void AddProperty<glm::vec3>(const char* key, glm::vec3 value)
+	void AddProperty<glm::vec3*>(const char* key, glm::vec3* value)
 	{
 		m_Vec3Properties.emplace(std::make_pair(key, value));
 	}
@@ -94,6 +94,7 @@ public:
 	virtual ~ISerializer() {};
 
 	std::map<const char*, float*> m_FloatProperties;
+	std::map<const char*, glm::vec3*> m_Vec3Properties;
 private:
 
 	std::map<const char*, const char*> m_CharProperties;
@@ -105,7 +106,6 @@ private:
 	std::map<const char*, double> m_DoubleProperties;
 
 	std::map<const char*, glm::vec2> m_Vec2Properties;
-	std::map<const char*, glm::vec3> m_Vec3Properties;
 	std::map<const char*, glm::vec4> m_Vec4Properties;
 	std::map<const char*, glm::mat3> m_Mat3Properties;
 	std::map<const char*, glm::mat4> m_Mat4Properties;
