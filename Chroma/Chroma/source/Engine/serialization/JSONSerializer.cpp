@@ -2,13 +2,9 @@
 
 
 
-void JSONSerializer::StartObject(const char* objectName, const char* objectID)
+void JSONSerializer::StartObject(const char* objectName, UID const& uid)
 {
-	CHROMA_TRACE("STARTING OBJECT : {0} with UID : {1}", objectName, objectID);
-}
-
-void JSONSerializer::AddProperty(const char* key, const char* value)
-{
+	CHROMA_TRACE("STARTING OBJECT : {0} with UID : {1}", objectName, uid.data);
 }
 
 const char* JSONSerializer::ToString()

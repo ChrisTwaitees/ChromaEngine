@@ -41,7 +41,7 @@ void CharacterControllerComponent::Destroy()
 void CharacterControllerComponent::Serialize(ISerializer*& serializer)
 {
 	CHROMA_INFO("Serializing Character Controller Component : {0}", m_UID.data);
-	serializer->StartObject("CharacterControllerComponent", m_UID.data.c_str());
+	serializer->StartObject("CharacterControllerComponent", m_UID);
 }
 
 CharacterControllerComponent::CharacterControllerComponent()

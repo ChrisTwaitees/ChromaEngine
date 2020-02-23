@@ -7,8 +7,8 @@
 class JSONSerializer : public ISerializer
 {
 public:
-	void StartObject(const char* objectName, const char* objectID) override;
-	void AddProperty(const char* key, const char* value) override;
+	void StartObject(const char* objectName, UID const& uid) override;
+
 	const char* ToString() override;
 
 	JSONSerializer();

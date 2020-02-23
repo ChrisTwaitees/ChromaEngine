@@ -42,7 +42,11 @@ void AnimationComponent::Destroy()
 void AnimationComponent::Serialize(ISerializer*& serializer)
 {
 	CHROMA_INFO("Serializing Animation Component : {0}", m_UID.data);
-	serializer->StartObject("AnimationComponent", m_UID.data.c_str());
+	serializer->StartObject("AnimationComponent", m_UID);
+
+	serializer->AddProperty("Skeleton", "testSkeleton");
+	serializer->AddProperty("Skeleton", "testSkeleton");
+	serializer->AddProperty("Skeleton", "testSkeleton");
 }
 
 void AnimationComponent::AddAnimator(Animator& newAnimator)

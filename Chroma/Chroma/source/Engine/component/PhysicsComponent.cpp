@@ -194,7 +194,7 @@ void PhysicsComponent::Destroy()
 void PhysicsComponent::Serialize(ISerializer*& serializer)
 {
 	CHROMA_INFO("Serializing Physics Component : {0}", m_UID.data);
-	serializer->StartObject("PhysicsComponent", m_UID.data.c_str());
+	serializer->StartObject("PhysicsComponent", m_UID);
 }
 
 

@@ -255,7 +255,7 @@ namespace Chroma
 		// Root Scene
 		if (ImGui::TreeNode("Scene"))
 		{
-			m_SceneTreeNodeExpanded = ImGui::IsItemToggledOpen();
+			//m_SceneTreeNodeExpanded = ImGui::IsItemToggledOpen();
 			ImGui::Separator();
 
 			// Entities
@@ -362,6 +362,10 @@ namespace Chroma
 	void EditorUI::DrawPropertiesTab()
 	{
 		ImGui::Begin("Properties");
+
+
+		ImGui::Text(("Selected Object : " + m_SelectedObjectString).c_str());
+
 		ImGui::End();
 	}
 

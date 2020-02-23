@@ -16,7 +16,7 @@ void UIComponent::Destroy()
 void UIComponent::Serialize(ISerializer*& serializer)
 {
 	CHROMA_INFO("Serializing UI Component : {0}", m_UID.data);
-	serializer->StartObject("UIComponent", m_UID.data.c_str());
+	serializer->StartObject("UIComponent", m_UID);
 }
 
 UIComponent::UIComponent()

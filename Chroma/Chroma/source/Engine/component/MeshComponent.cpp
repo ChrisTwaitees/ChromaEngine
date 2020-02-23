@@ -36,7 +36,7 @@ void MeshComponent::Destroy()
 void MeshComponent::Serialize(ISerializer*& serializer)
 {
 	CHROMA_INFO("Serializing Mesh Component : {0}", m_UID.data);
-	serializer->StartObject("MeshComponent", m_UID.data.c_str());
+	serializer->StartObject("MeshComponent", m_UID);
 }
 
 void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)

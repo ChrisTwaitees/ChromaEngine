@@ -46,7 +46,7 @@ void Light::Destroy()
 void Light::Serialize(ISerializer*& serializer)
 {
 	CHROMA_INFO("Serializing Light Component : {0}", m_UID.data);
-	serializer->StartObject("LightComponent", m_UID.data.c_str());
+	serializer->StartObject("LightComponent", m_UID);
 }
 
 #ifdef EDITOR
