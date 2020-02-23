@@ -1,5 +1,6 @@
 #include "Light.h"
-
+#include <ui/uicomponents/Icon.h>
+#include <scene/Scene.h>
 
 
 void Light::updatePointRadius()
@@ -13,7 +14,11 @@ void Light::Init()
 {
 #ifdef EDITOR
 	{
-
+		CHROMA_INFO("Initializing Light");
+		IComponent* lightIconComponent = new Icon();
+		Chroma::Scene::AddUIComponent(lightIconComponent);
+		m_IconUID = lightIconComponent->GetUID();
+		//delete lightIconComponent;
 	}
 #endif
 }
@@ -43,6 +48,14 @@ void Light::Serialize(ISerializer*& serializer)
 	CHROMA_INFO("Serializing Light Component : {0}", m_UID.data);
 	serializer->StartObject("LightComponent", m_UID.data.c_str());
 }
+
+#ifdef EDITOR
+void Light::DrawIcon(Texture& iconTexture)
+{
+	static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->SetIconTexture(iconTexture);
+	static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->SetPosition(position);
+}
+#endif
 
 std::string Light::GetTypeString() const
 {
@@ -74,6 +87,7 @@ std::string Light::GetTypeString() const
 Light::Light()
 {
 	updatePointRadius();
+	Init();
 }
 
 

@@ -20,6 +20,8 @@ namespace Chroma
 	int EditorUI::m_IconSize;
 
 	Texture EditorUI::m_LightsIcon;
+	Texture EditorUI::m_LightSunIcon;
+	Texture EditorUI::m_LightPointIcon;
 
 	// MENUS
 	char EditorUI::m_SceneName[128];
@@ -103,6 +105,8 @@ namespace Chroma
 
 		// test
 		m_LightsIcon = Texture("resources/icons/lights_icon.png");
+		m_LightSunIcon = Texture("resources/icons/light_sun.png");
+		m_LightPointIcon = Texture("resources/icons/light_point.png");
 		m_IconSize = 20;
 
 		// VIEWPORT
@@ -314,10 +318,31 @@ namespace Chroma
 
 	void EditorUI::DrawIcons()
 	{
+#ifdef EDITOR
 		if (m_IconsVisible)
 		{
-
+			for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
+			{
+				Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
+				// set uniforms
+				switch (light->type) {
+				case Light::POINT:
+					light->DrawIcon(m_LightPointIcon);
+				case Light::SUNLIGHT:
+					light->DrawIcon(m_LightSunIcon);
+					break;
+				case Light::DIRECTIONAL:
+					light->DrawIcon(m_LightSunIcon);
+					break;
+				case Light::SPOT:
+					light->DrawIcon(m_LightPointIcon);
+					break;
+				default:
+					break;
+				}
+			}
 		}
+#endif
 	}
 
 

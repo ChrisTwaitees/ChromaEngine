@@ -4,6 +4,7 @@
 //common
 #include <common/PrecompiledHeader.h>
 #include <component/IComponent.h>
+#include <texture/Texture.h>
 
 class Light : public IComponent
 {
@@ -28,6 +29,12 @@ public:
 	virtual void Update();
 	virtual void Destroy();
 	virtual void Serialize(ISerializer*& serializer) override;
+
+	// editor functions
+#ifdef EDITOR
+	void DrawIcon(Texture& iconTexture);
+	UID m_IconUID;
+#endif
 
 	//members
 	enum TYPE { POINT = 0, DIRECTIONAL = 1, SPOT= 2, SUNLIGHT=3 };
@@ -72,13 +79,12 @@ public:
 
 	// constructors
 	Light();
-	Light(const Light& Light) {};
-	Light(TYPE type_val) : type{ type_val } {};
-	Light(TYPE type_val, float intensity_val) : type{ type_val }, intensity{ intensity_val }{ };
-	Light(glm::vec3 position_val, TYPE type_val) : type{ type_val }, position{ position_val } {};
-	Light(TYPE type_val, glm::vec3 direction_val) : type{ type_val }, direction{ direction_val } { };
-	Light(TYPE type_val, glm::vec3 position_val, glm::vec3 direction_val, float intensity_val) : position{ position_val }, direction{ direction_val }, intensity{ intensity_val }, type{type_val} {};
-	Light(TYPE type_val, glm::vec3 direction_val, float intensity_val) :  direction{ direction_val }, intensity{ intensity_val }, type{ type_val } { };
+	Light(TYPE type_val) : type{ type_val } { Init(); };
+	Light(TYPE type_val, float intensity_val) : type{ type_val }, intensity{ intensity_val }{ Init(); };
+	Light(glm::vec3 position_val, TYPE type_val) : type{ type_val }, position{ position_val } { Init(); };
+	Light(TYPE type_val, glm::vec3 direction_val) : type{ type_val }, direction{ direction_val } {Init(); };
+	Light(TYPE type_val, glm::vec3 position_val, glm::vec3 direction_val, float intensity_val) : position{ position_val }, direction{ direction_val }, intensity{ intensity_val }, type{type_val} {Init(); };
+	Light(TYPE type_val, glm::vec3 direction_val, float intensity_val) :  direction{ direction_val }, intensity{ intensity_val }, type{ type_val } { Init(); };
 	~Light();
 };
 #endif

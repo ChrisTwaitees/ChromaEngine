@@ -137,6 +137,9 @@ namespace Chroma
 		m_LitComponentUIDs.erase(UID);
 		m_UnLitComponentUIDs.erase(UID);
 
+		// lights
+		m_LightUIDs.erase(UID);
+
 		// root component list
 		m_Components.erase(UID);
 	}

@@ -16,9 +16,6 @@ namespace Chroma
 
 		static int m_IconSize;
 
-		static Texture m_LightsIcon;
-
-
 	private:
 		// functions
 		static void ParentDockWindow();
@@ -74,6 +71,11 @@ namespace Chroma
 		static ImGuiWindowFlags ViewportWindowFlags;
 		static bool EditorViewportOpen;
 		static bool m_IconsVisible;
+
+		// Lights Icons
+		static Texture m_LightsIcon;
+		static Texture m_LightSunIcon;
+		static Texture m_LightPointIcon;
 	};
 }
 
