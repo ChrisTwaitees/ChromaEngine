@@ -4,7 +4,7 @@
 
 void Camera::Initialize()
 {
-	m_CamAspect = (float)Chroma::Screen::GetWidthHeight().first / (float)Chroma::Screen::GetWidthHeight().second;
+	//m_CamAspect = (float)Chroma::Screen::GetWidthHeight().first / (float)Chroma::Screen::GetWidthHeight().second;
 	UpdateProjectionMatrix();
 	UpdateViewMatrix();
 }

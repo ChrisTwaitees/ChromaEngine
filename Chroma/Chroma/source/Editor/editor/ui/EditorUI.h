@@ -1,6 +1,7 @@
 #ifndef _CHROMA_EDITOR_UI_H_
 #define _CHROMA_EDITOR_UI_H_
 
+
 #include <UI/core/UI.h>
 
 
@@ -12,9 +13,11 @@ namespace Chroma
 	public:
 		static void Draw();
 		static void Init();
+		static void ResizeEditorUI(int const& newWidth, int const& newHeight);
+		
+		static std::pair<int, int> GetViewportDimensions();
 		static bool m_Bloom;
 
-		static int m_IconSize;
 
 	private:
 		// functions
@@ -27,6 +30,9 @@ namespace Chroma
 		static void DrawEditingModeTab();
 
 		static void DrawIcons();
+
+		// Viewport Functions
+		static void ResizeViewport(int const& newWidth, int const& newHeight);
 
 		// attrs
 		// Scene Manager
@@ -71,11 +77,21 @@ namespace Chroma
 		static ImGuiWindowFlags ViewportWindowFlags;
 		static bool EditorViewportOpen;
 		static bool m_IconsVisible;
+		static int m_PrevViewportWidth;
+		static int m_PrevViewportHeight;
+		static int m_ViewportWidth;
+		static int m_ViewportHeight;
+		static int m_IconSize;
 
 		// Lights Icons
 		static Texture m_LightsIcon;
 		static Texture m_LightSunIcon;
 		static Texture m_LightPointIcon;
+
+		// Helpers
+		static void DrawContentRegionDebug();
+
+
 	};
 }
 

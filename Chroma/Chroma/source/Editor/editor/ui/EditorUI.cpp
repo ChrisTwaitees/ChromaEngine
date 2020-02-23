@@ -23,6 +23,11 @@ namespace Chroma
 	Texture EditorUI::m_LightSunIcon;
 	Texture EditorUI::m_LightPointIcon;
 
+	int EditorUI::m_ViewportWidth;
+	int EditorUI::m_ViewportHeight;
+	int EditorUI::m_PrevViewportWidth;
+	int EditorUI::m_PrevViewportHeight;
+
 	// MENUS
 	char EditorUI::m_SceneName[128];
 
@@ -113,6 +118,19 @@ namespace Chroma
 		m_IconsVisible = true;
 	}
 
+	void EditorUI::ResizeEditorUI(int const& newWidth, int const& newHeight)
+	{
+		// resize viewport
+		ResizeViewport(m_ViewportWidth, m_ViewportHeight);
+
+	}
+
+	std::pair<int, int> EditorUI::GetViewportDimensions()
+	{
+		return std::make_pair(m_ViewportWidth, m_ViewportHeight);
+		CHROMA_INFO("Viewport dimensions : {0}, {1}", m_ViewportWidth, m_ViewportHeight);
+	}
+
 
 	void EditorUI::ParentDockWindow()
 	{
@@ -142,8 +160,8 @@ namespace Chroma
 		// We cannot preserve the docking relationship between an active window and an inactive docking, otherwise
 		// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
-		bool* p_open = new bool(true);
-		ImGui::Begin("DockSpace Demo", p_open, window_flags);
+		bool p_open;
+		ImGui::Begin("DockSpace Demo", &p_open, window_flags);
 		ImGui::PopStyleVar();
 
 		if (EditorFullScreen)
@@ -167,10 +185,6 @@ namespace Chroma
 
 			if (ImGui::BeginMenu("File"))
 			{
-				// Disabling fullscreen would allow the window to be moved to the front of other windows,
-				// which we can't undo at the moment without finer window depth/z control.
-				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
-
 				if (ImGui::MenuItem("Close Editor", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0));
 				if (ImGui::MenuItem("Load Scene", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0))
 				ImGui::Separator();
@@ -321,6 +335,7 @@ namespace Chroma
 #ifdef EDITOR
 		if (m_IconsVisible)
 		{
+			// lights
 			for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 			{
 				Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
@@ -343,6 +358,11 @@ namespace Chroma
 			}
 		}
 #endif
+	}
+
+	void EditorUI::ResizeViewport(int const& newWidth, int const& newHeight)
+	{
+		Chroma::Render::ResizeBuffers(newWidth, newHeight);
 	}
 
 
@@ -422,10 +442,39 @@ namespace Chroma
 
 		ImGui::Begin("Viewport", &EditorViewportOpen, ViewportWindowFlags);
 		{
+			// Set Dimensions
+			m_ViewportWidth = ImGui::GetWindowSize().x;
+			m_ViewportHeight = ImGui::GetWindowSize().y;
+			// check if resize occurred
+			if (m_PrevViewportWidth != m_ViewportWidth || m_PrevViewportHeight != m_ViewportHeight)
+			{
+				ResizeViewport(m_ViewportWidth, m_ViewportHeight);
+			}
+
+			// Set Viewport to  Render Buffer Texture
 			ImGui::Image((void*)(intptr_t)Chroma::Render::GetPostFXBuffer()->GetTexture(),
-				ImVec2(ImGui::GetWindowSize().x, ImGui::GetWindowSize().y),
+				ImVec2(m_ViewportWidth, m_ViewportHeight),
 				ImVec2(0, 1), ImVec2(1, 0));
+
+			// Set prev attrs
+			m_PrevViewportHeight = m_ViewportHeight;
+			m_PrevViewportWidth = m_ViewportWidth;
+
 		}
 		ImGui::End();
+	}
+
+	void EditorUI::DrawContentRegionDebug()
+	{
+		// Debug : Draw rectangle in content region
+		ImVec2 vMin = ImGui::GetWindowContentRegionMin();
+		ImVec2 vMax = ImGui::GetWindowContentRegionMax();
+
+		vMin.x += ImGui::GetWindowPos().x;
+		vMin.y += ImGui::GetWindowPos().y;
+		vMax.x += ImGui::GetWindowPos().x;
+		vMax.y += ImGui::GetWindowPos().y;
+
+		ImGui::GetForegroundDrawList()->AddRect(vMin, vMax, IM_COL32(255, 255, 0, 255));
 	}
 }

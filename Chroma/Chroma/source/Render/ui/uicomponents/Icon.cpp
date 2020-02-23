@@ -16,6 +16,27 @@ void Icon::SetIconTexture(Texture& newTexture)
 	m_IconTexture = newTexture;
 }
 
+void Icon::DrawWithIconTexture(Texture const& newTexture)
+{
+	// use shader
+	m_IconShader.Use();
+
+	// use icons texture
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, newTexture.ID);
+
+	// Uniforms
+	m_IconShader.SetUniform("Texture", 0);
+	m_IconShader.SetUniform("scale", m_Scale);
+
+	// Transforms
+	m_IconShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
+	Chroma::Math::TransposeViewToModelMatrixParticles(m_ModelMatrix, Chroma::Scene::GetRenderCamera()->GetViewMatrix());
+	m_IconShader.SetUniform("modelView", Chroma::Scene::GetRenderCamera()->GetViewMatrix() * m_ModelMatrix);
+	// Draw
+	BindDrawVAO();
+}
+
 void Icon::Draw()
 {
 	// use shader

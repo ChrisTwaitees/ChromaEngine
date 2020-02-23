@@ -10,15 +10,6 @@ namespace Chroma
 {
 	class Screen
 	{
-		// window
-		static GLFWwindow* m_Window;
-
-		// dimensions
-		static int m_Width, m_Height;
-
-		// callbacks
-		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
-
 	public:
 		static void Init();
 
@@ -33,6 +24,20 @@ namespace Chroma
 		// functions
 		static void Update();
 		static void Close();
+
+	private:
+		// window
+		static GLFWwindow* m_Window;
+
+		// dimensions
+		static int m_Width, m_Height;
+
+		// callbacks
+		static void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+
+		// stats
+		static int last_width;
+		static int last_height;
 	};
 }
 

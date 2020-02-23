@@ -7,7 +7,7 @@
 
 // chroma
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
-#include <common/CoreCommon.h>
+#include <common/PrecompiledHeader.h>
 #include <texture/Texture.h>
 
 namespace Chroma

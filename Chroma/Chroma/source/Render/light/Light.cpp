@@ -52,7 +52,7 @@ void Light::Serialize(ISerializer*& serializer)
 #ifdef EDITOR
 void Light::DrawIcon(Texture& iconTexture)
 {
-	static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->SetIconTexture(iconTexture);
+	static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->DrawWithIconTexture(iconTexture);
 	static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->SetPosition(position);
 }
 #endif

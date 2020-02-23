@@ -23,7 +23,7 @@ namespace Chroma
 		static void RenderScene();
 
 		// Screen resize
-		static void ScreenResizeCallBack(int const& width, int const& height);
+		static void ResizeBuffers(int const& width, int const& height);
 
 		// Getters
 		static DebugBuffer*& GetDebugBuffer() { return m_DebugBuffer; };

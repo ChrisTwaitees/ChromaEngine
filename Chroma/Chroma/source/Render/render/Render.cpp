@@ -146,7 +146,7 @@ namespace Chroma
 		CleanUp();
 	}
 
-	void Render::ScreenResizeCallBack(int const& width, int const& height)
+	void Render::ResizeBuffers(int const& width, int const& height)
 	{
 		// debug
 		CHROMA_INFO_UNDERLINE;
