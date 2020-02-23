@@ -13,7 +13,7 @@ namespace Chroma
 	ImGuiDockNodeFlags EditorUI::EditorRootDockspaceFlags;
 
 	// Viewport
-	ImGuiWindowFlags  EditorUI::ViewportWindowFlags;
+	ImGuiWindowFlags  EditorUI::m_ViewportWindowFlags;
 	bool EditorUI::EditorViewportOpen;
 	bool EditorUI::m_IconsVisible;
 
@@ -27,6 +27,11 @@ namespace Chroma
 	int EditorUI::m_ViewportHeight;
 	int EditorUI::m_PrevViewportWidth;
 	int EditorUI::m_PrevViewportHeight;
+
+	// World Outliner
+	std::string EditorUI::m_SelectedObjectString;
+	UID EditorUI::m_SelectedObjectUID;
+	bool EditorUI::m_SceneTreeNodeExpanded;
 
 	// MENUS
 	char EditorUI::m_SceneName[128];
@@ -85,9 +90,9 @@ namespace Chroma
 		EditorFullScreen = true;
 		EditorRootDockspaceFlags = ImGuiDockNodeFlags_None;
 
-		ViewportWindowFlags |= ImGuiWindowFlags_NoTitleBar;
+		m_ViewportWindowFlags |= ImGuiWindowFlags_NoTitleBar;
 		//ViewportWindowFlags |= ImGuiWindowFlags_NoMove;
-		ViewportWindowFlags |= ImGuiWindowFlags_NoScrollbar;
+		m_ViewportWindowFlags |= ImGuiWindowFlags_NoScrollbar;
 
 		// GLOBAL
 		timeSpeed = 1.0f;
@@ -108,14 +113,15 @@ namespace Chroma
 		debugAnim = false;
 		DebugAnimClipPos = 0.0f;
 
-		// test
+		// VIEWPORT
+		m_IconsVisible = true;
 		m_LightsIcon = Texture("resources/icons/lights_icon.png");
 		m_LightSunIcon = Texture("resources/icons/light_sun.png");
 		m_LightPointIcon = Texture("resources/icons/light_point.png");
 		m_IconSize = 20;
 
-		// VIEWPORT
-		m_IconsVisible = true;
+		// WORLD OUTLINER
+		m_SceneTreeNodeExpanded = true;
 	}
 
 	void EditorUI::ResizeEditorUI(int const& newWidth, int const& newHeight)
@@ -242,23 +248,51 @@ namespace Chroma
 	{
 		ImGui::Begin("World Outliner");
 
+		ImGuiTreeNodeFlags node_flags =   ImGuiTreeNodeFlags_Bullet;
+
+		// Make sure Scene is open from launch
+		ImGui::SetNextTreeNodeOpen(m_SceneTreeNodeExpanded);
 		// Root Scene
 		if (ImGui::TreeNode("Scene"))
 		{
+			m_SceneTreeNodeExpanded = ImGui::IsItemToggledOpen();
 			ImGui::Separator();
+
 			// Entities
 			if (ImGui::TreeNode("Entities"))
 			{
 				for (std::pair<UID, IEntity*> uidEntity : Chroma::Scene::GetAllEntities())
 				{
 					std::string EntityNameUIDHeading = uidEntity.second->GetName() + " : (" + uidEntity.first.data + ")";
+					
 					// Enities Components
-					if (ImGui::TreeNode(EntityNameUIDHeading.c_str()))
+					if (ImGui::TreeNodeEx(EntityNameUIDHeading.c_str(), m_SelectedObjectString == EntityNameUIDHeading ? ImGuiTreeNodeFlags_Selected : node_flags))
 					{
+						// if selected
+						if (ImGui::IsItemClicked() && (ImGui::GetMousePos().x - ImGui::GetItemRectMin().x) > ImGui::GetTreeNodeToLabelSpacing())
+						{
+							CHROMA_TRACE("Entity : {0} selected.", EntityNameUIDHeading);
+							m_SelectedObjectString = EntityNameUIDHeading;
+							m_SelectedObjectUID = uidEntity.first;
+							CHROMA_TRACE("Entity Containes : {0} Components.", Chroma::Scene::GetEntity(uidEntity.first)->getComponentUIDs().size());
+						}
+
+
 						ImGui::Indent();
 						for (UID componentUID : Chroma::Scene::GetEntity(uidEntity.first)->getComponentUIDs())
 						{
-							ImGui::TreeNode(componentUID.data.c_str());
+							std::string ComponentTypeUID = Chroma::Scene::GetComponent(componentUID)->GetTypeString() + " : (" + componentUID.data + ")";;
+
+							if (ImGui::Selectable(componentUID.data.c_str(), m_SelectedObjectString == ComponentTypeUID))
+							{
+								// if selected
+								if (ImGui::IsItemToggledOpen)
+								{
+									m_SelectedObjectUID = componentUID;
+									//CHROMA_TRACE("Component : {0} selected.", ComponentTypeUID);
+									m_SelectedObjectString = ComponentTypeUID;
+								}
+							}
 							ImGui::TreePop();
 						}
 						ImGui::Unindent();
@@ -277,9 +311,15 @@ namespace Chroma
 				{
 					std::string ComponentTypeUID = uidComponent.second->GetTypeString() + " : (" + uidComponent.first.data + ")";
 					// Enities Components
-					if (ImGui::TreeNode(ComponentTypeUID.c_str()))
+					if (ImGui::Selectable(ComponentTypeUID.c_str(), m_SelectedObjectString == ComponentTypeUID))
 					{
-						ImGui::TreePop();
+						// if selected
+						if (ImGui::IsItemClicked)
+						{
+							CHROMA_TRACE("Component : {0} selected.", ComponentTypeUID);
+							m_SelectedObjectString = ComponentTypeUID;
+							m_SelectedObjectUID = uidComponent.first;
+						}
 					}
 				}
 				ImGui::TreePop();
@@ -294,8 +334,17 @@ namespace Chroma
 				{
 					std::string lightTypeName = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID))->GetTypeString();
 					std::string LightTypeUID = lightTypeName + " : (" + lightUID.data + ")";
-					if (ImGui::TreeNode(LightTypeUID.c_str()))
-						ImGui::TreePop();
+
+					if (ImGui::Selectable(LightTypeUID.c_str(), m_SelectedObjectString == LightTypeUID ))
+					{
+						// if selected
+						if (ImGui::IsItemClicked)
+						{
+							CHROMA_TRACE("Component : {0} selected.", LightTypeUID);
+							m_SelectedObjectString = LightTypeUID;
+							m_SelectedObjectUID = lightUID;
+						}
+					}
 				}
 				ImGui::TreePop();
 			}
@@ -440,7 +489,7 @@ namespace Chroma
 	void EditorUI::Draw3DViewport()
 	{
 
-		ImGui::Begin("Viewport", &EditorViewportOpen, ViewportWindowFlags);
+		ImGui::Begin("Viewport", &EditorViewportOpen, m_ViewportWindowFlags);
 		{
 			// Set Dimensions
 			m_ViewportWidth = ImGui::GetWindowSize().x;

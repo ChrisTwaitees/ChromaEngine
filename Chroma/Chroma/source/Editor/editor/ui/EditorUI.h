@@ -3,6 +3,7 @@
 
 
 #include <UI/core/UI.h>
+#include <uid/UID.h>
 
 
 
@@ -73,8 +74,13 @@ namespace Chroma
 		static bool EditorFullScreen;
 		static ImGuiDockNodeFlags EditorRootDockspaceFlags;
 
+		// World Outliner
+		static bool m_SceneTreeNodeExpanded;
+		static std::string m_SelectedObjectString;
+		static UID m_SelectedObjectUID;
+
 		// Viewport
-		static ImGuiWindowFlags ViewportWindowFlags;
+		static ImGuiWindowFlags m_ViewportWindowFlags;
 		static bool EditorViewportOpen;
 		static bool m_IconsVisible;
 		static int m_PrevViewportWidth;
