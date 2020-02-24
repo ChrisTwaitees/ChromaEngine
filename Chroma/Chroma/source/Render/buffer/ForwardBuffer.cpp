@@ -51,7 +51,8 @@ void ForwardBuffer::RenderForwardComponents()
 	}
 
 	// Render Transparent Components
-	RenderTransparency();
+	if(Chroma::Scene::GetTransparentComponentUIDs().size() > 0)
+		RenderTransparency();
 }
 
 void ForwardBuffer::RenderTransparency()

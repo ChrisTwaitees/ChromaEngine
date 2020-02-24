@@ -169,7 +169,7 @@ void GBuffer::DrawGeometryPass()
 		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsDoubleSided())
 		{
 			glDisable(GL_CULL_FACE);
-			((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
+			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
 			glEnable(GL_CULL_FACE);
 		}
 		else // if not render one front facing

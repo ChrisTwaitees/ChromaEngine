@@ -46,7 +46,7 @@ int main()
 		Light* pointLight = new Light(pos, Light::POINT);
 		pointLight->setIntensity(0.51f);
 		pointLight->m_Quadratic *= 4.0f;
-		pointLight->linear *= 2.0f;
+		pointLight->m_Linear *= 2.0f;
 		Lights.push_back(pointLight);
 	}
 

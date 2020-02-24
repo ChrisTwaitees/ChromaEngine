@@ -12,6 +12,7 @@ namespace Chroma
 		static void Init();
 		static void PopulateTestScene();
 		static void PopulateTestScene2();
+		static void PopulateTestScene3();
 		static void Tick();
 	private:
 		static void DrawUI();

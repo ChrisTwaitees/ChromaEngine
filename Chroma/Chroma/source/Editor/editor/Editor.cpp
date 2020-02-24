@@ -331,6 +331,77 @@ namespace Chroma
 		HumanEntity->AddComponent(EyebrowsMeshComponent);
 	}
 
+	void Editor::PopulateTestScene3()
+	{
+		// LIGHTS
+		// ____________________________________________________
+
+		// POINT LIGHTS
+		std::vector<Light*> Lights;
+
+		// point light positions
+		glm::vec3 pointLightPositions[] = {
+			glm::vec3(3.5f,  1.2f,  2.0f),
+			glm::vec3(0.5f,  0.2f,  -2.0f),
+			glm::vec3(-3.5f,  1.2f,  4.0f),
+		};
+		// dancing point lights
+		for (glm::vec3 pos : pointLightPositions)
+		{
+			Light* pointLight = new Light(pos, Light::POINT);
+			pointLight->setIntensity(0.51f);
+			pointLight->m_Quadratic *= 4.0f;
+			pointLight->m_Linear *= 2.0f;
+			Lights.push_back(pointLight);
+		}
+
+		// SUNLIGHT
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 2.0f);
+		Sun->setDiffuse(glm::vec3(1.0));
+		Sun->setIntensity(3.0);
+		Lights.push_back(Sun);
+		Chroma::Scene::SetLights(Lights);
+
+		// ____________________________________________________
+		// SHADERS
+		// ____________________________________________________
+		Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+
+	
+		// ____________________________________________________
+		// TEXTURES
+		// ____________________________________________________
+		// Generic
+		Texture blackAlbedo("resources/textures/colors/black.jpg");
+		Texture greyAlbedo("resources/textures/colors/grey.jpg");
+		Texture whiteAlbedo("resources/textures/colors/white.jpg");
+		Texture gridAlbedo("resources/animation/textures/grid.jpg");
+		Texture flatNormal("resources/textures/test/flat_normal.jpg");
+		flatNormal.type = Texture::NORMAL;
+
+
+		Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
+		headMetRoughAO.type = Texture::METROUGHAO;
+		// ____________________________________________________
+
+		// ANIMATED MODEL
+		// ____________________________________________________
+		IEntity* ClothModelEntity = new Entity;
+		ClothModelEntity->SetName("ClothModel");
+		Chroma::Scene::AddEntity(ClothModelEntity);
+		ClothModelEntity->SetScale(glm::vec3(10.0f));
+		//AnimModelEntity->SetTranslation(glm::vec3(0.0, 10.0, 0.0));
+		// mesh
+		MeshComponent* ClothModelMeshComponent = new Model("resources/lookdev/cloth.fbx");
+		//ClothModelMeshComponent->SetShader(PBRShader);
+		ClothModelMeshComponent->AddTexture(greyAlbedo);
+		ClothModelMeshComponent->AddTexture(flatNormal);
+		ClothModelMeshComponent->AddTexture(headMetRoughAO);
+
+		ClothModelEntity->AddComponent(ClothModelMeshComponent);
+	}
+
 	void Editor::Tick()
 	{
 		// UI

@@ -49,7 +49,7 @@ namespace Chroma
 		m_PostFXBuffer->SetUniform("exposure", 1.0f);
 		m_PostFXBuffer->SetUniform("gamma", 2.2f);
 
-		((PostFXBuffer*)m_PostFXBuffer)->Draw(Chroma::EditorUI::m_Bloom);
+		static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(Chroma::EditorUI::m_Bloom);
 	}
 
 	void Render::RenderGraphicsDebug()
