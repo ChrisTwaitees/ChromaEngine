@@ -6,5 +6,6 @@ void AnimationStateMachine::TranstionTo(State const& newState)
 	if (newState.m_TransitionFunc != nullptr)
 	{
 		CHROMA_INFO("ANIM STATE MACHINE :: Transition func called.");
+
 	}
 } 
