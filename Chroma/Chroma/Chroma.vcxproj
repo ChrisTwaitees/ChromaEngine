@@ -320,9 +320,10 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\Editor\ChromaEditor.cpp" />
     <ClCompile Include="source\Editor\editor\Editor.cpp" />
+    <ClCompile Include="source\Editor\editor\ui\AnimationEditorUI.cpp" />
     <ClCompile Include="source\Editor\editor\ui\EditorUI.cpp" />
+    <ClCompile Include="source\Engine\animation\AnimationStateMachine.cpp" />
     <ClCompile Include="source\Engine\animation\Animator.cpp" />
-    <ClCompile Include="source\Engine\animation\IStateMachine.cpp" />
     <ClCompile Include="source\Engine\animation\Skeleton.cpp" />
     <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -365,6 +366,7 @@
     <ClCompile Include="source\Engine\serialization\FactorySerializer.cpp" />
     <ClCompile Include="source\Engine\serialization\formats\Json.cpp" />
     <ClCompile Include="source\Engine\serialization\JSONSerializer.cpp" />
+    <ClCompile Include="source\Engine\statemachine\IStateMachine.cpp" />
     <ClCompile Include="source\Engine\time\Time.cpp" />
     <ClCompile Include="source\Engine\uid\UID.cpp" />
     <ClCompile Include="source\Game\Game.cpp" />
@@ -405,9 +407,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Editor\editor\Editor.h" />
+    <ClInclude Include="source\Editor\editor\ui\AnimationEditorUI.h" />
     <ClInclude Include="source\Editor\editor\ui\EditorUI.h" />
+    <ClInclude Include="source\Engine\animation\AnimationStateMachine.h" />
     <ClInclude Include="source\Engine\animation\Animator.h" />
-    <ClInclude Include="source\Engine\animation\IStateMachine.h" />
     <ClInclude Include="source\Engine\animation\Skeleton.h" />
     <ClInclude Include="source\Engine\ChromaConfig.h" />
     <ClInclude Include="source\Engine\common\CoreCommon.h" />
@@ -447,6 +450,7 @@
     <ClInclude Include="source\Engine\serialization\formats\Json.h" />
     <ClInclude Include="source\Engine\serialization\ISerializer.h" />
     <ClInclude Include="source\Engine\serialization\JSONSerializer.h" />
+    <ClInclude Include="source\Engine\statemachine\IStateMachine.h" />
     <ClInclude Include="source\Engine\time\Time.h" />
     <ClInclude Include="source\Engine\uid\UID.h" />
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCameraController.h" />

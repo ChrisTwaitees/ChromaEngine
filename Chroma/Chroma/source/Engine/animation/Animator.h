@@ -13,7 +13,7 @@
 #include <resources/AnimationLoader.h>
 #include <resources/AnimationCompression.h>
 
-#include <animation/IStateMachine.h>
+#include <animation/AnimationStateMachine.h>
 #include <animation/Skeleton.h>
 
 
@@ -46,11 +46,14 @@ public:
 	~Animator();
 
 private:
+	// init
+	void Init();
+
 	// skeleton
 	Skeleton* m_Skeleton{ nullptr };
 
 	// state machine
-	IStateMachine* m_StateMachine{ nullptr };
+	AnimationStateMachine m_StateMachine;
 
 	// UIDs to Existing Components
 	UID m_CharacterControllerComponentUID;

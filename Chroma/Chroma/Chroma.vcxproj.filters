@@ -166,6 +166,9 @@
     <Filter Include="Render\opengl">
       <UniqueIdentifier>{ec3645ea-cb12-4869-8aa6-12e073b0aff6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\statemachine">
+      <UniqueIdentifier>{63f0af8e-2ce6-431b-bded-57aa76c510fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -321,9 +324,6 @@
     <ClCompile Include="source\Render\buffer\IFramebuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\animation\IStateMachine.cpp">
-      <Filter>Engine\animation</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\jobsystem\JobSystem.cpp">
       <Filter>Engine\jobsystem</Filter>
     </ClCompile>
@@ -398,6 +398,15 @@
     </ClCompile>
     <ClCompile Include="..\thirdparty\include\glad\glad.c">
       <Filter>Render\opengl</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\editor\ui\AnimationEditorUI.cpp">
+      <Filter>Editor\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\statemachine\IStateMachine.cpp">
+      <Filter>Engine\statemachine</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\animation\AnimationStateMachine.cpp">
+      <Filter>Engine\animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -578,9 +587,6 @@
     <ClInclude Include="source\Render\model\MeshData.h">
       <Filter>Render\model\mesh</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\animation\IStateMachine.h">
-      <Filter>Engine\animation</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\event\Event.h">
       <Filter>Engine\event</Filter>
     </ClInclude>
@@ -649,6 +655,15 @@
     </ClInclude>
     <ClInclude Include="source\Editor\editor\ui\EditorUI.h">
       <Filter>Editor\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\editor\ui\AnimationEditorUI.h">
+      <Filter>Editor\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\statemachine\IStateMachine.h">
+      <Filter>Engine\statemachine</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\AnimationStateMachine.h">
+      <Filter>Engine\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

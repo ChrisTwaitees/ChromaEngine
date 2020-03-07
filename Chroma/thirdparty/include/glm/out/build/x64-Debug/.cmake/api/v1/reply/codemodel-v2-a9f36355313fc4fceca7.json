@@ -27,8 +27,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/Chris Thwaites/source/repos/ChromaEngine/Chroma/thirdparty/include/glm/out/build/x64-Debug",
-		"source" : "C:/Users/Chris Thwaites/source/repos/ChromaEngine/Chroma/thirdparty/include/glm"
+		"build" : "C:/Users/ChrisThwaites/source/repos/ChromaEngine/Chroma/thirdparty/include/glm/out/build/x64-Debug",
+		"source" : "C:/Users/ChrisThwaites/source/repos/ChromaEngine/Chroma/thirdparty/include/glm"
 	},
 	"version" : 
 	{

@@ -1,5 +1,5 @@
 #include "EditorUI.h"
-
+#include <editor/ui/AnimationEditorUI.h>
 #include <scene/SceneManager.h>
 #include <physics/PhysicsEngine.h>
 #include <render/Render.h>
@@ -81,6 +81,9 @@ namespace Chroma
 
 		// Draw Icons
 		DrawIcons();
+
+		// Draw other editors
+		DrawOtherEditorWindows();
 	}
 
 	void EditorUI::Init()
@@ -122,6 +125,9 @@ namespace Chroma
 
 		// WORLD OUTLINER
 		m_SceneTreeNodeExpanded = true;
+
+		// OTHER EDITORS
+		AnimationEditorUI::Init();
 	}
 
 	void EditorUI::ResizeEditorUI(int const& newWidth, int const& newHeight)
@@ -410,7 +416,14 @@ namespace Chroma
 	void EditorUI::DrawEditingModeTab()
 	{
 		ImGui::Begin("Editor Mode");
+		if (ImGui::Button("Animation Editor"))
+			AnimationEditorUI::Open();
 		ImGui::End();
+	}
+
+	void EditorUI::DrawOtherEditorWindows()
+	{
+		AnimationEditorUI::Draw();
 	}
 
 	void EditorUI::DrawIcons()

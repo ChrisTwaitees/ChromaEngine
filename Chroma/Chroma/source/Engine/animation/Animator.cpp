@@ -118,14 +118,19 @@ void Animator::BindSkeleton(IComponent* const& meshComponent)
 
 void Animator::Update()
 {
+	// check for skeleton
 	if (m_Skeleton == nullptr)
 	{
 		CHROMA_ERROR("ANIMATOR ERROR:: No Skeleton Found, cannot perform animation!");
 		return;
 	}
 
+	// check if valid take
 	if (m_Takes.find(m_CurrentTake) != m_Takes.end())
 	{
+		// update state machine
+		m_StateMachine.Update();
+		// play take
 		PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
 	}
 	else
@@ -165,9 +170,15 @@ void Animator::Destroy()
 
 Animator::Animator()
 {
+	Init();
 }
 
 
 Animator::~Animator()
 {
+}
+
+void Animator::Init()
+{
+
 }

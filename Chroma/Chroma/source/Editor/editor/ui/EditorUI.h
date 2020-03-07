@@ -29,6 +29,7 @@ namespace Chroma
 		static void DrawPropertiesTab();
 		static void DrawEntityTypesTab();
 		static void DrawEditingModeTab();
+		static void DrawOtherEditorWindows();
 
 		static void DrawIcons();
 
