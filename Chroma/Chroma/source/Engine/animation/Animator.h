@@ -42,6 +42,8 @@ public:
 
 	void Destroy();
 
+	std::map<std::string, Take>& GetTakes() { return m_Takes; };
+
 	Animator();
 	~Animator();
 
@@ -53,7 +55,7 @@ private:
 	Skeleton* m_Skeleton{ nullptr };
 
 	// state machine
-	AnimationStateMachine m_StateMachine;
+	AnimationStateMachine* m_StateMachine;
 
 	// UIDs to Existing Components
 	UID m_CharacterControllerComponentUID;

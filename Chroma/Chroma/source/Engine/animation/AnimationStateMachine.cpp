@@ -1,4 +1,14 @@
 #include "AnimationStateMachine.h"
+#include <animation/Animator.h>
+
+void AnimationStateMachine::Update()
+{
+	CHROMA_INFO("Animation State Machine Updating");
+	for (std::pair<std::string, Take> const& take : m_Animator->GetTakes())
+	{
+		//CHROMA_INFO("Take : {0}", take.first);
+	}
+}
 
 void AnimationStateMachine::TranstionTo(State const& newState)
 {

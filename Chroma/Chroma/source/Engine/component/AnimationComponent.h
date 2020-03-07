@@ -12,7 +12,7 @@ class AnimationComponent : public IComponent
 {
 public:
 	void Init() override;
-	void Update()override;
+	void Update() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer ) override;
 

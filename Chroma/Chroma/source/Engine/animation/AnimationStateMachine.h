@@ -2,17 +2,17 @@
 #define CHROMA_ANIMATIONSTATEMACHINE_H
 
 #include <statemachine/IStateMachine.h>
+class Animator;
 
 class AnimationStateMachine : public IStateMachine
 {
 public:
-	AnimationStateMachine() {};
-	~AnimationStateMachine() {};
-	
+	void Update();
 	void TranstionTo(State const& newState);
-
+	AnimationStateMachine(Animator* newAnimator) : m_Animator(newAnimator) {};
+	~AnimationStateMachine() {};
 private:
-	bool test;
+	Animator* m_Animator;
 };
 
 #endif
