@@ -130,6 +130,7 @@ void Animator::Update()
 	{
 		// update state machine
 		m_StateMachine.Update();
+
 		// play take
 		PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
 	}
