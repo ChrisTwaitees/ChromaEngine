@@ -54,9 +54,6 @@ private:
 	// skeleton
 	Skeleton* m_Skeleton{ nullptr };
 
-	// state machine
-	AnimationStateMachine* m_StateMachine;
-
 	// UIDs to Existing Components
 	UID m_CharacterControllerComponentUID;
 	UID m_AnimationComponentUID;

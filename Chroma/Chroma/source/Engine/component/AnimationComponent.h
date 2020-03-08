@@ -18,14 +18,18 @@ public:
 
 	std::string GetTypeString() const override { return "AnimationComponent"; }
 
-	void AddAnimator(Animator& newAnimator);
+	void SetAnimator(Animator& newAnimator);
+	void SetAnimationStateMachine(AnimationStateMachine& newAnimationStateMachine);
 	void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID);
+
+	Animator& GetAnimator() { return m_Animator; };
 
 	AnimationComponent();
 	~AnimationComponent();
 
 private:
-	std::vector<Animator> m_Animators;
+	Animator m_Animator;
+	AnimationStateMachine m_AnimationStateMachine;
 	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
 };
 

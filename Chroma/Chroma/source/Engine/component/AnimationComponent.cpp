@@ -3,10 +3,7 @@
 
 void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float const& debugTime)
 {
-	for (Animator& animator : m_Animators)
-	{
-		animator.DebugAnimationTake(debugAnimClipName, debugTime);
-	}
+	m_Animator.DebugAnimationTake(debugAnimClipName, debugTime);
 }
 
 
@@ -21,20 +18,15 @@ void AnimationComponent::Init()
 
 void AnimationComponent::Update()
 {
-	for (Animator& animator : m_Animators)
-	{
-		animator.Update();
-	}
+	m_AnimationStateMachine.Update();
+	m_Animator.Update();
 }
 
 void AnimationComponent::Destroy()
 {
 	// remove animators
-	for (Animator& animator : m_Animators)
-	{
-		animator.Destroy();
-	}
-	m_Animators.clear();
+	m_Animator.Destroy();
+	m_AnimationStateMachine.Destroy();
 
 	CHROMA_TRACE("AnimationComponent : {0} Destroyed.", m_UID.data);
 }
@@ -49,21 +41,26 @@ void AnimationComponent::Serialize(ISerializer*& serializer)
 	serializer->AddProperty("Skeleton", "testSkeleton");
 }
 
-void AnimationComponent::AddAnimator(Animator& newAnimator)
+void AnimationComponent::SetAnimator(Animator& newAnimator)
 {
+	// Set Animator
+	m_Animator = newAnimator;
 	// Set UID
 	newAnimator.SetAnimationComponentUID(m_UID);
-	// Add to existing animators
-	m_Animators.push_back(newAnimator);
 
+}
+
+void AnimationComponent::SetAnimationStateMachine(AnimationStateMachine& newAnimationStateMachine)
+{
+	// Set animation state machine
+	m_AnimationStateMachine = newAnimationStateMachine;
+	// Set UID
+	m_AnimationStateMachine.SetAnimationComponentUID(m_UID);
 }
 
 void AnimationComponent::SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID)
 {
-	for (Animator& animator : m_Animators)
-	{
-		animator.SetCharacterControllerComponentUID(newCharacterControllerComponentUID);
-	}
+	m_Animator.SetCharacterControllerComponentUID(newCharacterControllerComponentUID);
 }
 
 AnimationComponent::AnimationComponent()

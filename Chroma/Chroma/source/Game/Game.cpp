@@ -142,7 +142,7 @@ int main2()
 	AnimModelAnimator.LoadAnimations("resources/animation/vampire_idle.fbx");
 	AnimModelAnimator.LoadAnimations("resources/animation/vampire_walk.fbx");
 	AnimModelAnimator.CompressAnimations();
-	AnimModelAnimationComponent->AddAnimator(AnimModelAnimator);
+	AnimModelAnimationComponent->SetAnimator(AnimModelAnimator);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 	//// character controller
 	CharacterControllerComponent* AnimModelCharacterController = new ThirdPersonCharacterController();

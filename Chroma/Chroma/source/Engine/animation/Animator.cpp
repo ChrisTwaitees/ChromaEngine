@@ -128,9 +128,6 @@ void Animator::Update()
 	// check if valid take
 	if (m_Takes.find(m_CurrentTake) != m_Takes.end())
 	{
-		// update state machine
-		m_StateMachine->Update();
-
 		// play take
 		PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
 	}
@@ -181,5 +178,5 @@ Animator::~Animator()
 
 void Animator::Init()
 {
-	m_StateMachine = new AnimationStateMachine(this);
+	CHROMA_INFO("Animator Initialized");
 }

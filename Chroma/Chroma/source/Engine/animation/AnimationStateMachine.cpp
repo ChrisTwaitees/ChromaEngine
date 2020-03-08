@@ -1,13 +1,19 @@
 #include "AnimationStateMachine.h"
 #include <animation/Animator.h>
+#include <component/AnimationComponent.h>
+#include <scene/Scene.h>
 
 void AnimationStateMachine::Update()
 {
 	CHROMA_INFO("Animation State Machine Updating");
-	for (std::pair<std::string, Take> const& take : m_Animator->GetTakes())
+	for (std::pair<std::string, Take> const& take : GetAnimator().GetTakes())
 	{
-		//CHROMA_INFO("Take : {0}", take.first);
+		CHROMA_INFO("Take : {0}", take.first);
 	}
+}
+
+void AnimationStateMachine::Destroy()
+{
 }
 
 void AnimationStateMachine::TranstionTo(State const& newState)
@@ -18,4 +24,9 @@ void AnimationStateMachine::TranstionTo(State const& newState)
 		CHROMA_INFO("ANIM STATE MACHINE :: Transition func called.");
 
 	}
-} 
+}
+Animator& AnimationStateMachine::GetAnimator()
+{
+	return static_cast<AnimationComponent*>(Chroma::Scene::GetComponent(m_AnimationComponentUID))->GetAnimator();
+}
+
