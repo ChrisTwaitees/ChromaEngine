@@ -100,6 +100,9 @@ namespace Chroma
 		inline static float& GetControllerRightBumper() { return m_ControllerRightBumper; }
 		inline static float& GetControllerLeftBumper() { return m_ControllerLeftBumper; }
 
+		// Axis
+		static float GetAxis(const char* axis);
+
 		// bind
 		static void BindCamera(Camera* cam) { m_Camera = cam; };
 

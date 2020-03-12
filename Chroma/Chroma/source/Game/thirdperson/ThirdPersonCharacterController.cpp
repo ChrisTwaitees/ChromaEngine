@@ -128,9 +128,9 @@ void ThirdPersonCharacterController::ProcessMovement()
 	sidePlayer = normalize(sidePlayer);
 
 	// Set Heading
-	if (glm::abs(Chroma::Input::GetControllerLeftHorizontal()) > m_ControllerMin || glm::abs(Chroma::Input::GetControllerLeftVertical()) > m_ControllerMin)
+	if (glm::abs(Chroma::Input::GetAxis("Horizontal")) > m_ControllerMin || glm::abs(Chroma::Input::GetAxis("Vertical")) > m_ControllerMin)
 	{
-		glm::vec3 playerHeadingUnClamped = (sidePlayer * Chroma::Input::GetControllerLeftHorizontal()) + (toPlayer * -Chroma::Input::GetControllerLeftVertical());
+		glm::vec3 playerHeadingUnClamped = (sidePlayer * Chroma::Input::GetAxis("Horizontal")) + (toPlayer * -Chroma::Input::GetAxis("Vertical"));
 		m_PlayerHeading = glm::normalize(playerHeadingUnClamped); 
 		if (Chroma::Input::IsPressed(Chroma::Input::L3))
 			m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_MovementSpeed * m_SprintSpeedMultiplier * glm::vec3(DELTATIME);

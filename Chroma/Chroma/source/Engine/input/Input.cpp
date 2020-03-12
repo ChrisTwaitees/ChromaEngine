@@ -359,6 +359,48 @@ namespace Chroma
 	}
 
 
+	float Input::GetAxis(const char* axis)
+	{
+		if (axis == "Horizontal")
+		{
+			if (m_ControllerEnabled)
+			{
+				return m_ControllerLeftHorizontal;
+			}
+			else
+			{
+				if (IsPressed(W))
+					return 1.0f;
+				else if (IsPressed(S))
+					return -1.0f;
+				else
+					return 0.0f;
+			}
+		}
+		else if (axis == "Vertical")
+		{
+			if (m_ControllerEnabled)
+			{
+				return m_ControllerLeftVertical;
+			}
+			else
+			{
+				if (IsPressed(D))
+					return 1.0f;
+				if (IsPressed(A))
+					return -1.0f;
+				else
+					return 0.0f;
+			}
+		}
+		else
+		{
+			CHROMA_ERROR("CHROMA INPUT :: Invalid Axis {}", axis);
+			throw(std::invalid_argument("Invalid Axis"));
+		}
+	
+	}
+
 	Input::~Input()
 	{
 	}

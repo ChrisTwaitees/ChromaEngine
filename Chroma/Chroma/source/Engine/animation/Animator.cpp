@@ -113,7 +113,7 @@ void Animator::AddTake(Take const& newTake)
 
 void Animator::BindSkeleton(IComponent* const& meshComponent)
 {
-	m_Skeleton = ((SkinnedMesh*)meshComponent)->GetSkeleton();
+	m_Skeleton = static_cast<SkinnedMesh*>(meshComponent)->GetSkeleton();
 }
 
 void Animator::Update()
