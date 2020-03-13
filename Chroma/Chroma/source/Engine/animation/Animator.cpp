@@ -5,10 +5,23 @@
 
 void Animator::PlayTake(std::string const& takeName, float const& normalizedTime)
 {
+
+	// check for valid take
+	if (m_Takes.find(takeName) != m_Takes.end())
+	{
+		float frameNum = CalculateFrameNumber(takeName, normalizedTime);
+		glm::mat4 identity(1.0);
+		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, identity, frameNum);
+	}
+	else
+	{
+		CHROMA_WARN("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", m_CurrentTake);
+		m_Skeleton->SetToBindPose();
+		return;
+	}
 	
-	float frameNum = CalculateFrameNumber(takeName, normalizedTime);
-	glm::mat4 identity(1.0);
-	ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(takeName).m_KeyFrames, identity, frameNum);
+
+
 
 }
 
@@ -126,17 +139,8 @@ void Animator::Update()
 	}
 
 	// check if valid take
-	if (m_Takes.find(m_CurrentTake) != m_Takes.end())
-	{
-		// play take
-		PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
-	}
-	else
-	{
-		CHROMA_WARN("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", m_CurrentTake);
-		m_Skeleton->SetToBindPose();
-		return;
-	}
+	// play take
+	PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
 }
 
 void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)

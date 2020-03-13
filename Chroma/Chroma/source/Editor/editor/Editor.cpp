@@ -80,33 +80,7 @@ namespace Chroma
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
 		flatNormal.type = Texture::NORMAL;
-		Texture alphaTestAlbedo("resources/textures/test/grass.png");
-		Texture sandyNormal("resources/textures/test/sandy_normal.jpg");
-		sandyNormal.type = Texture::NORMAL;
 
-		// Woodplanks
-		Texture PlanksAlbedo("resources/textures/pbr/hardwood_pbr/albedo.jpg");
-		PlanksAlbedo.type = Texture::ALBEDO;
-		Texture PlanksNormal("resources/textures/pbr/hardwood_pbr/normal.jpg");
-		PlanksNormal.type = Texture::NORMAL;
-		Texture PlanksMetRoughAO("resources/textures/pbr/hardwood_pbr/MetRoughAO.jpg");
-		PlanksMetRoughAO.type = Texture::METROUGHAO;
-
-		// AgedWoodplanks
-		Texture agedPlanksAlbedo("resources/textures/pbr/agedplanks_pbr/albedo.jpg");
-		agedPlanksAlbedo.type = Texture::ALBEDO;
-		Texture agedPlanksNormal("resources/textures/pbr/agedplanks_pbr/normal.jpg");
-		agedPlanksNormal.type = Texture::NORMAL;
-		Texture agedPlanksMetRoughAO("resources/textures/pbr/agedplanks_pbr/MetRoughAO.jpg");
-		agedPlanksMetRoughAO.type = Texture::METROUGHAO;
-
-		// Rusted Metal
-		Texture rustedIronAlbedo("resources/textures/pbr/rustediron_pbr/albedo.jpg");
-		rustedIronAlbedo.type = Texture::ALBEDO;
-		Texture rustedIronNormal("resources/textures/pbr/rustediron_pbr/normal.jpg");
-		rustedIronNormal.type = Texture::NORMAL;
-		Texture rustedIronMetRoughAO("resources/textures/pbr/rustediron_pbr/MetRoughAO.jpg");
-		rustedIronMetRoughAO.type = Texture::METROUGHAO;
 
 		// Animated Model
 		Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
@@ -140,8 +114,11 @@ namespace Chroma
 		AnimationComponent* AnimModelAnimationComponent = new AnimationComponent();
 		Animator AnimModelAnimator;
 		AnimModelAnimator.BindSkeleton(AnimModelMeshComponent);
-		AnimModelAnimator.LoadAnimations("resources/animation/vampire_idle.fbx");
-		AnimModelAnimator.LoadAnimations("resources/animation/vampire_walk.fbx");
+		AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Walk.fbx");
+		AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Idle.fbx");
+		AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Run.fbx");
+		AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Jump.fbx");
+		AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Roll.fbx");
 		AnimModelAnimator.CompressAnimations();
 		AnimationStateMachine AnimModelAnimatorAnimationStateMachine;
 		AnimModelAnimationComponent->SetAnimator(AnimModelAnimator);
@@ -156,8 +133,25 @@ namespace Chroma
 		// adding the component
 		AnimModelEntity->AddComponent(AnimModelCharacterController);
 
+
+		// TERRAIN
+		// ____________________________________________________
+		IEntity* TerrainEntity = new Entity;
+		Chroma::Scene::AddEntity(TerrainEntity);
+		MeshComponent* TerrainMeshComponent = new Terrain;
+		TerrainMeshComponent->SetShader(PBRShader);
+		TerrainMeshComponent->AddTexture(gridAlbedo);
+		TerrainMeshComponent->AddTexture(flatNormal);
+		TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
+		//TerrainMeshComponent->AddTexture(PlanksNormal);
+		//TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
+		TerrainEntity->AddComponent(TerrainMeshComponent);
+		TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));
+		// ____________________________________________________
+
 		// SPHERES
-	// Sphere Positions
+		// ____________________________________________________
+		// Sphere Positions
 		glm::vec3 spherePositions[] = {
 			glm::vec3(0.f,  1.0f,  0.0f),
 			glm::vec3(2.5f,  1.0f,  0.0f),

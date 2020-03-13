@@ -7,12 +7,9 @@
 void AnimationStateMachine::Update()
 {
 	CHROMA_INFO("Animation State Machine Updating");
-	for (std::pair<std::string, Take> const& take : GetAnimator().GetTakes())
-	{
-		//CHROMA_INFO("Take : {0}", take.first);
-	}
-	CHROMA_INFO("Vertical : {}", Chroma::Input::GetAxis("Vertical"));
-	CHROMA_INFO("Horizontal : {}", Chroma::Input::GetAxis("Horizontal"));
+	CHROMA_INFO("Current State : {}", m_CurrentState.m_Name);
+	
+
 }
 
 void AnimationStateMachine::Destroy()
@@ -21,12 +18,15 @@ void AnimationStateMachine::Destroy()
 
 void AnimationStateMachine::TranstionTo(State const& newState)
 {
-	CHROMA_INFO("ANIM STATE MACHINE :: Transitioning to State : ", newState.m_Name);
-	if (newState.m_TransitionFunc != nullptr)
-	{
-		CHROMA_INFO("ANIM STATE MACHINE :: Transition func called.");
+	CHROMA_INFO("ANIM STATE MACHINE :: Transitioning from State {0} to {1} : ",m_CurrentState.m_Name, newState.m_Name);
 
-	}
+	m_CurrentState.m_TransitionFromFunc();
+
+	m_CurrentState = newState;
+
+	m_CurrentState.m_TransitionToFunc();
+
+
 }
 Animator& AnimationStateMachine::GetAnimator()
 {

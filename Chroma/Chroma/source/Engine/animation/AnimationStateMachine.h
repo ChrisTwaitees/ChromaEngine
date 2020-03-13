@@ -3,6 +3,7 @@
 
 #include <statemachine/IStateMachine.h>
 #include <uid/UID.h>
+
 class Animator;
 
 class AnimationStateMachine : public IStateMachine
@@ -20,6 +21,7 @@ public:
 private:
 
 	UID m_AnimationComponentUID;
+	
 };
 
 #endif

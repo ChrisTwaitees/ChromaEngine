@@ -5,11 +5,11 @@
 #include <common/PrecompiledHeader.h>
 
 
-
 struct State
 {
 	std::string m_Name{ "" };
-	void* m_TransitionFunc{ nullptr };
+	void m_TransitionFromFunc() {};
+	void m_TransitionToFunc() {};
 };
 
 
