@@ -12,6 +12,8 @@ public:
 	void ProcessConditions() override;
 	void ProcessAnimator() override;
 
+	void TranstionTo(State const& newState) override;
+
 	BipedalAnimationStateMachine() { Init(); };
 	~BipedalAnimationStateMachine() {};
 protected:
