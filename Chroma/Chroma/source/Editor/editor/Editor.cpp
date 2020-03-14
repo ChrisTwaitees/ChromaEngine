@@ -8,7 +8,7 @@
 #include <component/AnimationComponent.h>
 #include <model/SkinnedMesh.h>
 #include <model/Model.h>
-#include <animation/AnimationStateMachine.h>
+#include <bipedal/BipedalAnimationStateMachine.h>
 
 // game
 #include <thirdperson/ThirdPersonCharacterController.h>
@@ -120,9 +120,10 @@ namespace Chroma
 		AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Jump.fbx");
 		AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Roll.fbx");
 		AnimModelAnimator.CompressAnimations();
-		AnimationStateMachine AnimModelAnimatorAnimationStateMachine;
+		AnimationStateMachine* AnimModelAnimationStateMachine = new BipedalAnimationStateMachine;
+		// animation state
 		AnimModelAnimationComponent->SetAnimator(AnimModelAnimator);
-		AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimatorAnimationStateMachine);
+		AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimationStateMachine);
 		AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 		//// character controller
 		CharacterControllerComponent* AnimModelCharacterController = new ThirdPersonCharacterController();

@@ -408,6 +408,7 @@
     <ClCompile Include="source\Engine\animation\AnimationStateMachine.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
+    <ClCompile Include="source\Game\bipedal\BipedalAnimationStateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -665,6 +666,7 @@
     <ClInclude Include="source\Engine\animation\AnimationStateMachine.h">
       <Filter>Engine\animation</Filter>
     </ClInclude>
+    <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">

@@ -19,7 +19,7 @@ public:
 	std::string GetTypeString() const override { return "AnimationComponent"; }
 
 	void SetAnimator(Animator& newAnimator);
-	void SetAnimationStateMachine(AnimationStateMachine& newAnimationStateMachine);
+	void SetAnimationStateMachine(AnimationStateMachine*& newAnimationStateMachine);
 	void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID);
 
 	Animator& GetAnimator() { return m_Animator; };
@@ -29,7 +29,7 @@ public:
 
 private:
 	Animator m_Animator;
-	AnimationStateMachine m_AnimationStateMachine;
+	AnimationStateMachine* m_AnimationStateMachine;
 	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
 };
 

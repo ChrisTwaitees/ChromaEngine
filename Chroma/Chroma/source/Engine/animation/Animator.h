@@ -24,13 +24,17 @@ typedef std::map<std::string, KeyFrame> KeyFrames;
 class Animator
 {
 public:
+	void Update();
+	void Destroy();
+
+	// animation
+	void PlayTake(std::string const& takeName, float const& normalizedTime);
+
 	void LoadAnimations(std::string const& sourcePath);
 
 	void BindSkeleton(Skeleton* newSkeleton) { m_Skeleton = newSkeleton; };
 
 	void BindSkeleton(IComponent* const& meshComponent);
-
-	void Update();
 
 	void DebugAnimationTake(std::string const& takeName, float const& debugTime);
 
@@ -40,10 +44,9 @@ public:
 
 	inline void SetAnimationComponentUID(UID const& newAnimationComponentUID) { m_AnimationComponentUID = newAnimationComponentUID; }
 
-	void Destroy();
-
 	std::map<std::string, Take>& GetTakes() { return m_Takes; };
-
+	Take& GetTake(std::string const& takeName);
+	
 	Animator();
 	~Animator();
 
@@ -62,9 +65,6 @@ private:
 	std::map<std::string, Take> m_Takes;
 	std::string m_CurrentTake;
 	void AddTake(Take const& newTake);
-
-	// animation
-	void PlayTake(std::string const& takeName, float const& normalizedTime);
 
 	// time
 	float CalculateFrameNumber(std::string const& takeName, float const& normalizedTime);

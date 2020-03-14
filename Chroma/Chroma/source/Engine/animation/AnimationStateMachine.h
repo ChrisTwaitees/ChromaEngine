@@ -5,16 +5,22 @@
 #include <uid/UID.h>
 
 class Animator;
+struct Take;
 
 class AnimationStateMachine : public IStateMachine
 {
 public:
-	void Update();
-	void Destroy();
-	void TranstionTo(State const& newState);
+	void Update() override;
+	void Destroy() override;
+	void ProcessConditions() override {};
+	
+	virtual void ProcessAnimator() {};
+	virtual void TranstionTo(State const& newState);
+
 	void SetAnimationComponentUID(UID const& animcompUID) { m_AnimationComponentUID = animcompUID; };
 
 	Animator& GetAnimator();
+	Take& GetTake(std::string const& takeName);
 
 	AnimationStateMachine() {};
 	~AnimationStateMachine() {};

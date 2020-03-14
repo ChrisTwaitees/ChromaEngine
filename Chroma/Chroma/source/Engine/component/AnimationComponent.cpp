@@ -18,7 +18,7 @@ void AnimationComponent::Init()
 
 void AnimationComponent::Update()
 {
-	m_AnimationStateMachine.Update();
+	m_AnimationStateMachine->Update();
 	m_Animator.Update();
 }
 
@@ -26,7 +26,7 @@ void AnimationComponent::Destroy()
 {
 	// remove animators
 	m_Animator.Destroy();
-	m_AnimationStateMachine.Destroy();
+	m_AnimationStateMachine->Destroy();
 
 	CHROMA_TRACE("AnimationComponent : {0} Destroyed.", m_UID.data);
 }
@@ -47,15 +47,14 @@ void AnimationComponent::SetAnimator(Animator& newAnimator)
 	m_Animator = newAnimator;
 	// Set UID
 	newAnimator.SetAnimationComponentUID(m_UID);
-
 }
 
-void AnimationComponent::SetAnimationStateMachine(AnimationStateMachine& newAnimationStateMachine)
+void AnimationComponent::SetAnimationStateMachine(AnimationStateMachine*& newAnimationStateMachine)
 {
 	// Set animation state machine
 	m_AnimationStateMachine = newAnimationStateMachine;
 	// Set UID
-	m_AnimationStateMachine.SetAnimationComponentUID(m_UID);
+	m_AnimationStateMachine->SetAnimationComponentUID(m_UID);
 }
 
 void AnimationComponent::SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID)
@@ -70,4 +69,5 @@ AnimationComponent::AnimationComponent()
 
 AnimationComponent::~AnimationComponent()
 {
+	delete m_AnimationStateMachine;
 }

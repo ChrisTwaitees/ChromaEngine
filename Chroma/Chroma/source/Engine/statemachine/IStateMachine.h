@@ -4,26 +4,36 @@
 //common
 #include <common/PrecompiledHeader.h>
 
+struct StateTransitionCondition
+{
+	bool(*m_Condition)();
+};
+
 
 struct State
 {
 	std::string m_Name{ "" };
-	void m_TransitionFromFunc() {};
-	void m_TransitionToFunc() {};
+	void(*m_Exit)();
+	void(*m_Enter)();
+
+	std::vector<std::pair<State, StateTransitionCondition>> m_Transitions;
+	State() {};
+	State(std::string const& name) : m_Name(name) {};
 };
 
 
 class IStateMachine
 {
 public:
-	void Update();
-
-	void AddState(State const& newState);
+	virtual void Update() = 0;
+	virtual void Destroy() = 0;
+	virtual void ProcessConditions() = 0;
+	virtual void AddState(State const& newState);
 
 	IStateMachine();
 	~IStateMachine();
 protected:
-	void Init();
+	virtual void Init();
 	State m_CurrentState;
 	std::vector<State> m_States;
 

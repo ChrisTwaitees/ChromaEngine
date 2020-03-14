@@ -138,9 +138,14 @@ void Animator::Update()
 		return;
 	}
 
-	// check if valid take
 	// play take
-	PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
+	//PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
+}
+
+Take& Animator::GetTake(std::string const& takeName)
+{
+	if (m_Takes.find(takeName) != m_Takes.end()) 
+		return m_Takes.find(takeName)->second;
 }
 
 void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)
