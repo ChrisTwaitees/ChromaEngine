@@ -20,7 +20,7 @@ Take& AnimationStateMachine::GetTake(std::string const& takeName)
 	return GetAnimator().GetTake(takeName);
 }
 
-void AnimationStateMachine::TranstionTo(State const& newState)
+void AnimationStateMachine::TranstionTo(AnimState const& newState)
 {
 	CHROMA_INFO("ANIM STATE MACHINE :: Transitioning from State {0} to {1} : ",m_CurrentState.m_Name, newState.m_Name);
 

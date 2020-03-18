@@ -12,13 +12,13 @@ public:
 	void ProcessConditions() override;
 	void ProcessAnimator() override;
 
-	void TranstionTo(State const& newState) override;
+	void TranstionTo(AnimState const& newState) override;
 
 	BipedalAnimationStateMachine() { Init(); };
 	~BipedalAnimationStateMachine() {};
 protected:
 	void Init() override;
-	bool IsTransitioning{false};
+
 };
 
 #endif

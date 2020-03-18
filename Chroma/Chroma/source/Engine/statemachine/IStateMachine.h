@@ -7,15 +7,15 @@
 struct StateTransitionCondition
 {
 	bool(*m_Condition)();
+	StateTransitionCondition(bool(*func)()) : m_Condition(func) {};
 };
 
 
 struct State
 {
 	std::string m_Name{ "" };
-	void(*m_Exit)();
-	void(*m_Enter)();
-
+	void(*m_Exit)() {nullptr};
+	void(*m_Enter)() { nullptr };
 	std::vector<std::pair<State, StateTransitionCondition>> m_Transitions;
 	State() {};
 	State(std::string const& name) : m_Name(name) {};

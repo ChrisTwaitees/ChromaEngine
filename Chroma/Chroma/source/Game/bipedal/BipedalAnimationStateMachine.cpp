@@ -1,5 +1,6 @@
 #include "BipedalAnimationStateMachine.h"
 #include <animation/Animator.h>
+#include <input/Input.h>
 #include <time/Time.h>
 
 typedef std::pair<std::string, Take> TakeData;
@@ -18,13 +19,13 @@ void BipedalAnimationStateMachine::Update()
 
 void BipedalAnimationStateMachine::Destroy()
 {
-	CHROMA_INFO("Bipedal State Machine Destoyed");
+	CHROMA_INFO("Bipedal State Machine Destroyed");
 }
 
 void BipedalAnimationStateMachine::ProcessConditions()
 {
 	CHROMA_INFO("Processing State : {0} TransitionConditions", m_CurrentState.m_Name);
-	for (std::pair<State, StateTransitionCondition> transition : m_CurrentState.m_Transitions)
+	for (std::pair<AnimState, StateTransitionCondition> transition : m_CurrentState.m_Transitions)
 	{
 		if (transition.second.m_Condition())
 		{
@@ -36,37 +37,95 @@ void BipedalAnimationStateMachine::ProcessConditions()
 
 void BipedalAnimationStateMachine::ProcessAnimator()
 {
-	GetAnimator().PlayTake(m_CurrentState.m_Name, Chroma::Time::GetLoopingTimeNormalized(GetTake(m_CurrentState.m_Name).m_Duration));
+	// check whether currently transitioning
+	if (m_IsTransitioning)
+	{
+		// TODO : Animator func to interpolate two takes according to normalized timer
+		// 
+	}
+	else
+	{
+		GetAnimator().PlayTake(m_CurrentState.m_Name, Chroma::Time::GetLoopingTimeNormalized(GetTake(m_CurrentState.m_Name).m_Duration));
+	}
 }
 
-void BipedalAnimationStateMachine::TranstionTo(State const& newState)
+void BipedalAnimationStateMachine::TranstionTo(AnimState const& newState)
 {
 	CHROMA_INFO("ANIM STATE MACHINE :: Transitioning from State {0} to {1} : ", m_CurrentState.m_Name, newState.m_Name);
 
-	m_CurrentState.m_Exit();
+	if (m_CurrentState.m_Exit != nullptr)
+	{
+		m_CurrentState.m_Exit();
+	}
 
 	m_CurrentState = newState;
 
-	m_CurrentState.m_Enter();
+	if (m_CurrentState.m_Enter != nullptr)
+	{
+		m_CurrentState.m_Enter();
+	}
+
 }
 
 
-void Test()
+bool WalkTransitionCondition()
 {
-	CHROMA_WARN("test");
+	if (Chroma::Input::IsPressed(Chroma::Input::W))
+	{
+		CHROMA_INFO("Walk condition met!");
+		return true;
+	}
+	else
+		return false;
+}
+
+
+bool IdleTransitionCondition()
+{
+	if (Chroma::Input::GetAxis("Vertical") < 0.1f && Chroma::Input::GetAxis("Vertical") > -0.1f)
+	{
+		CHROMA_INFO("Idle condition met!");
+		return true;
+	}
+	else
+		return false;
+}
+
+bool JumpTransitionCondition()
+{
+	if (Chroma::Input::IsPressed(Chroma::Input::SPACEBAR))
+	{
+		CHROMA_INFO("Jump condition met!");
+		return true;
+	}
+	else
+		return false;
 }
 
 void BipedalAnimationStateMachine::Init()
 {
 	// Idle
-	State m_IdleState("Idle");
-	m_IdleState.m_Enter = &Test;
+	AnimState m_IdleState("Idle");
 	m_States.push_back(m_IdleState);
 
-	m_CurrentState = m_IdleState;
-
 	// Idle
-	State m_WalkState("Walk");
-
+	AnimState m_WalkState("Walk");
 	m_States.push_back(m_WalkState);
+	
+	// Jump
+	AnimState m_JumpState("Jump");
+	m_States.push_back(m_WalkState);
+
+	// transitions
+	// idle
+	m_IdleState.m_Transitions.push_back(std::make_pair(m_WalkState , StateTransitionCondition(&WalkTransitionCondition)));
+	// walk
+	m_WalkState.m_Transitions.push_back(std::make_pair(m_IdleState, StateTransitionCondition(&IdleTransitionCondition)));
+	m_WalkState.m_Transitions.push_back(std::make_pair(m_JumpState, StateTransitionCondition(&JumpTransitionCondition)));
+	// jump
+	m_JumpState.m_Transitions.push_back(std::make_pair(m_IdleState, StateTransitionCondition(&IdleTransitionCondition)));
+	m_JumpState.m_Transitions.push_back(std::make_pair(m_WalkState, StateTransitionCondition(&WalkTransitionCondition)));
+
+	// set current state
+	m_CurrentState = m_IdleState;
 }

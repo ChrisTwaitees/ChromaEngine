@@ -7,6 +7,16 @@
 class Animator;
 struct Take;
 
+struct AnimState : public State
+{
+	bool m_IsLooping{false};
+	float m_TransitionTime{ 0.0f };
+	std::vector<std::pair<AnimState, StateTransitionCondition>> m_Transitions;
+	AnimState() {};
+	AnimState(std::string const& takeName) { m_Name = takeName; };
+};
+
+
 class AnimationStateMachine : public IStateMachine
 {
 public:
@@ -15,7 +25,7 @@ public:
 	void ProcessConditions() override {};
 	
 	virtual void ProcessAnimator() {};
-	virtual void TranstionTo(State const& newState);
+	virtual void TranstionTo(AnimState const& newState);
 
 	void SetAnimationComponentUID(UID const& animcompUID) { m_AnimationComponentUID = animcompUID; };
 
@@ -24,9 +34,13 @@ public:
 
 	AnimationStateMachine() {};
 	~AnimationStateMachine() {};
-private:
 
+protected:
 	UID m_AnimationComponentUID;
+	std::vector<AnimState> m_States;
+	AnimState m_CurrentState;
+	float m_TransitionTimer{ 0.0f };
+	bool m_IsTransitioning{ false };
 	
 };
 
