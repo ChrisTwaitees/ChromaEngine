@@ -9,6 +9,15 @@
 
 class ThirdPersonCharacterController : public CharacterControllerComponent
 {
+public:
+
+	void Update() override;
+
+	ThirdPersonCharacterController() {};
+	~ThirdPersonCharacterController() {};
+
+private:
+
 	// Attrs
 	float m_CamFacingAngle{ 0.0f };
 
@@ -33,7 +42,7 @@ class ThirdPersonCharacterController : public CharacterControllerComponent
 	const float m_SprintSpeedMultiplier{ 2.5f };
 	float m_CurrentSpeed{ 0.0f };
 
-	glm::vec3 m_Velocity{ 0.0f };
+
 	glm::vec3 m_PreviousPosition{ 0.0f };
 
 	// Physics
@@ -63,12 +72,6 @@ class ThirdPersonCharacterController : public CharacterControllerComponent
 	void ProcessCamera();
 	void ProcessMovement();
 	
-public:
-
-	void Update() override;
-
-	ThirdPersonCharacterController() {};
-	~ThirdPersonCharacterController() {};
 
 };
 

@@ -1,4 +1,6 @@
 #include "BipedalAnimationStateMachine.h"
+
+#include <component/CharacterControllerComponent.h>
 #include <animation/Animator.h>
 #include <input/Input.h>
 #include <time/Time.h>
@@ -14,6 +16,8 @@ void BipedalAnimationStateMachine::Update()
 	ProcessConditions();
 
 	ProcessAnimator();
+
+	CHROMA_INFO("Velocity : {0}, {1}, {2}", GetCharacterController()->GetVelocity()[0], GetCharacterController()->GetVelocity()[1], GetCharacterController()->GetVelocity()[2]);
 
 }
 
@@ -70,7 +74,7 @@ void BipedalAnimationStateMachine::TranstionTo(AnimState const& newState)
 
 bool WalkTransitionCondition()
 {
-	if (Chroma::Input::IsPressed(Chroma::Input::W))
+	if (Chroma::Input::GetAxis("Vertical") > 0.1f || Chroma::Input::GetAxis("Vertical") < -0.1f)
 	{
 		CHROMA_INFO("Walk condition met!");
 		return true;
@@ -82,7 +86,7 @@ bool WalkTransitionCondition()
 
 bool IdleTransitionCondition()
 {
-	if (Chroma::Input::GetAxis("Vertical") < 0.1f && Chroma::Input::GetAxis("Vertical") > -0.1f)
+	if (Chroma::Input::GetAxis("Vertical") < 0.1f || Chroma::Input::GetAxis("Vertical") > -0.1f)
 	{
 		CHROMA_INFO("Idle condition met!");
 		return true;

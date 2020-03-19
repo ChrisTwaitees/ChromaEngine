@@ -1,6 +1,8 @@
 #include "AnimationStateMachine.h"
-#include <animation/Animator.h>
+
+#include <component/CharacterControllerComponent.h>
 #include <component/AnimationComponent.h>
+#include <animation/Animator.h>
 #include <scene/Scene.h>
 #include <input/Input.h>
 
@@ -29,6 +31,14 @@ void AnimationStateMachine::TranstionTo(AnimState const& newState)
 	m_CurrentState = newState;
 
 	m_CurrentState.m_Enter();
+}
+
+CharacterControllerComponent* AnimationStateMachine::GetCharacterController()
+{
+	UID CharacterControllerUID = Chroma::Scene::GetComponent(m_AnimationComponentUID)->GetParentEntity()->GetCharacterControllerComponentUIDs()[0];
+	return static_cast<CharacterControllerComponent*>(Chroma::Scene::GetComponent(CharacterControllerUID));
+	
+	// TODO: insert return statement here
 }
 
 Animator& AnimationStateMachine::GetAnimator()

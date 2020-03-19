@@ -182,7 +182,7 @@ Animator::Animator()
 
 
 Animator::~Animator()
-{
+ {
 }
 
 void Animator::Init()

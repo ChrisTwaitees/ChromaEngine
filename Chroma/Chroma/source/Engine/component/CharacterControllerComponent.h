@@ -24,6 +24,7 @@ public:
 
 	virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
 
+	inline virtual glm::vec3& GetVelocity() { return m_Velocity; }
 	inline virtual glm::vec3& GetPlayerPosition() { return m_Position; };
 	inline virtual glm::vec3& GetCamPosition() { return m_CamPosition; };
 
@@ -43,6 +44,9 @@ protected:
 	glm::vec3 m_Scale{ 1.0 };
 
 	glm::mat4 m_Transform{ 1.0 };
+
+	// physics
+	glm::vec3 m_Velocity{ 0.0f };
 
 	// functions
 	virtual void ProcessInput();

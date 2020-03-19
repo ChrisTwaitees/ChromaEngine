@@ -4,6 +4,7 @@
 #include <statemachine/IStateMachine.h>
 #include <uid/UID.h>
 
+class CharacterControllerComponent;
 class Animator;
 struct Take;
 
@@ -29,16 +30,18 @@ public:
 
 	void SetAnimationComponentUID(UID const& animcompUID) { m_AnimationComponentUID = animcompUID; };
 
-	Animator& GetAnimator();
-	Take& GetTake(std::string const& takeName);
-
 	AnimationStateMachine() {};
 	~AnimationStateMachine() {};
 
 protected:
+
+	CharacterControllerComponent* GetCharacterController();
+	Animator& GetAnimator();
+	Take& GetTake(std::string const& takeName);
 	UID m_AnimationComponentUID;
 	std::vector<AnimState> m_States;
 	AnimState m_CurrentState;
+
 	float m_TransitionTimer{ 0.0f };
 	bool m_IsTransitioning{ false };
 	

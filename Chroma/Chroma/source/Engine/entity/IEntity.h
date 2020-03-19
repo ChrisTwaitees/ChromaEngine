@@ -91,7 +91,7 @@ public:
 	inline virtual std::vector<UID> getMeshComponentUIDs() { return m_MeshComponentUIDs; }
 	inline virtual std::vector<UID> getPhysicsComponentUIDs() { return m_PhysicsComponentUIDs; }
 	inline virtual std::vector<UID> getAnimationComponentUIDs() { return m_AnimationComponentUIDs; }
-	inline virtual std::vector<UID> getCharacterControllerComponentUIDs() { return m_CharacterControllerComponentUIDs; }
+	inline virtual std::vector<UID> GetCharacterControllerComponentUIDs() { return m_CharacterControllerComponentUIDs; }
 
 	// add
 	template<typename component>

@@ -169,6 +169,9 @@
     <Filter Include="Engine\statemachine">
       <UniqueIdentifier>{63f0af8e-2ce6-431b-bded-57aa76c510fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\bipedal">
+      <UniqueIdentifier>{b08707ef-c002-4d1e-84da-45813465a5bc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -408,7 +411,9 @@
     <ClCompile Include="source\Engine\animation\AnimationStateMachine.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
-    <ClCompile Include="source\Game\bipedal\BipedalAnimationStateMachine.cpp" />
+    <ClCompile Include="source\Game\bipedal\BipedalAnimationStateMachine.cpp">
+      <Filter>Game\bipedal</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -666,7 +671,9 @@
     <ClInclude Include="source\Engine\animation\AnimationStateMachine.h">
       <Filter>Engine\animation</Filter>
     </ClInclude>
-    <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h" />
+    <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h">
+      <Filter>Game\bipedal</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">
