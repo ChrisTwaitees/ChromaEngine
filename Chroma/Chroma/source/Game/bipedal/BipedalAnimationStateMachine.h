@@ -12,6 +12,7 @@ public:
 	void ProcessConditions() override;
 	void ProcessAnimator() override;
 
+
 	void TranstionTo(AnimState const& newState) override;
 
 	BipedalAnimationStateMachine() { Init(); };

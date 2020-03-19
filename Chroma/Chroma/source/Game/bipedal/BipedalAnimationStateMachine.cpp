@@ -118,7 +118,7 @@ void BipedalAnimationStateMachine::Init()
 	
 	// Jump
 	AnimState m_JumpState("Jump");
-	m_States.push_back(m_WalkState);
+	m_States.push_back(m_JumpState);
 
 	// transitions
 	// idle
