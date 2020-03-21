@@ -4,12 +4,13 @@
 
 void StaticMesh::CalculateBBox()
 {
+	// collect verts
 	m_vertices = GetVertices();
-	// collecting all bboxes within mesh components of entity and returning overall
-	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	// once collected, calculate new min and max bbox
+
+	// calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
+
 	for (ChromaVertex& vert : m_vertices)
 	{
 		newMinBBox = glm::min(newMinBBox, vert.m_position);
@@ -60,6 +61,10 @@ void StaticMesh::SetupMesh()
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(ChromaVertex), (void*)offsetof(ChromaVertex, ChromaVertex::m_bitangent));
 
 	glBindVertexArray(0);
+
+	// BBOX
+	CalculateBBox();
+	CalculateCentroid();
 }
 
 void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)

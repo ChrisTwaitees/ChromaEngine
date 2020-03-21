@@ -123,7 +123,7 @@ int main()
 	AnimModelEntity->SetName("AnimationModel");
 	Chroma::Scene::AddEntity(AnimModelEntity);
 	AnimModelEntity->SetScale(glm::vec3(0.06f));
-	AnimModelEntity->SetTranslation(glm::vec3(0.0, 5.0, 0.0));
+	//AnimModelEntity->SetTranslation(glm::vec3(0.0, 5.0, 0.0));
 	// mesh
 	MeshComponent* AnimModelMeshComponent = new SkinnedMesh("resources/animation/vampire.fbx");
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
@@ -146,10 +146,10 @@ int main()
 	AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Jump.fbx");
 	AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Roll.fbx");
 	AnimModelAnimator.CompressAnimations();
-	AnimationStateMachine* AnimModelAnimationStateMachine = new BipedalAnimationStateMachine;
+	//AnimationStateMachine* AnimModelAnimationStateMachine = new BipedalAnimationStateMachine;
 	// animation state
 	AnimModelAnimationComponent->SetAnimator(AnimModelAnimator);
-	AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimationStateMachine);
+	//AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimationStateMachine);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 	//// character controller
 	CharacterControllerComponent* AnimModelCharacterController = new ThirdPersonCharacterController();
@@ -158,7 +158,7 @@ int main()
 	Chroma::Scene::GetRenderCamera()->SetCustomCameraController(AnimModelCameraController);
 	AnimModelCharacterController->SetCustomCameraController(AnimModelCameraController);
 	// adding the component
-	AnimModelEntity->AddComponent(AnimModelCharacterController);
+	//AnimModelEntity->AddComponent(AnimModelCharacterController);
 
 	// ____________________________________________________
 
@@ -254,10 +254,11 @@ int main()
 		Chroma::Scene::GetSunLight()->SetTranslation(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->GetPosition()));		
 
-		//((Model*)AnimModelMeshComponent)->SetTranslation(glm::vec3(-2, glm::sin(GameTime) * 20, 4));
-		glm::vec3 rotationAxis{ 0.0, 1.0, 0.0 };
-		float rotationAmount = glm::radians(glm::sin(GameTime*0.5) * 90);
-		//((Model*)AnimModelMeshComponent)->SetRotation(glm::angleAxis(rotationAmount, rotationAxis));
+		// Physics debug
+		if (Chroma::Input::IsPressed(Chroma::Input::P))
+		{
+			Chroma::Physics::ToggleDrawDebug();
+		}
 		
 
 		// GAME TICK

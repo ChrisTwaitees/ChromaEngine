@@ -18,31 +18,12 @@ int findIndexInVector(const std::vector<IComponent*>& vector, IComponent*& eleme
 
 class Entity : public IEntity
 {
-	// calculate attrs
-	void CalculateBBox() override;
-	void CalculateCentroid() override;
-
-	// Components
-	void AddComponent(IComponent*& newComponent) override;
-	void AddMeshComponent(MeshComponent*& newMeshComponent) override;
-	void AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent) override;
-	void AddAnimationComponent(AnimationComponent*& newAnimationComponent) override;
-	void AddCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) override;
-
-	// Components functions
-	void UpdatePhysicsComponentsTransforms();
-	void ProcessNewComponent(IComponent* const& newComponent);
-
-	template<class ComponentClass>
-	void SetParentEntityUID(ComponentClass component) {
-		component->SetParentEntityUID(m_UID);
-	}
-
 public:
 	// Functions
 	virtual void Init();
 	virtual void Update();
 	virtual void Destroy();
+
 	// Transformations
 	// setting
 	void SetTransform(glm::mat4 const& newTransformMat);
@@ -67,6 +48,27 @@ public:
 
 	Entity();
 	~Entity();
+
+private:
+	// calculate attrs
+	void CalculateBBox() override;
+	void CalculateCentroid() override;
+
+	// Components
+	void AddComponent(IComponent*& newComponent) override;
+	void AddMeshComponent(MeshComponent*& newMeshComponent) override;
+	void AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent) override;
+	void AddAnimationComponent(AnimationComponent*& newAnimationComponent) override;
+	void AddCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) override;
+
+	// Components functions
+	void UpdatePhysicsComponentsTransforms();
+	void ProcessNewComponent(IComponent* const& newComponent);
+
+	template<class ComponentClass>
+	void SetParentEntityUID(ComponentClass component) {
+		component->SetParentEntityUID(m_UID);
+	}
 };
 
 #endif

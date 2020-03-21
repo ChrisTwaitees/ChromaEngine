@@ -116,28 +116,26 @@ void Entity::AddCharacterControllerComponent(CharacterControllerComponent*& newC
 
 void Entity::CalculateBBox()
 {
-	// collecting all bboxes within mesh components of entity and returning overall
-	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
-	for (UID const& meshComponentUID : m_MeshComponentUIDs)
-		bboxes.push_back(((MeshComponent*)Chroma::Scene::GetComponent(meshComponentUID))->GetBBox());
-	// once collected, calculate new min and max bbox
+	// Calculate new min and max bbox from mesh components associated with entity
+
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
 	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
-	for (std::pair<glm::vec3, glm::vec3> MinMaxBBoxes : bboxes)
+
+	for (UID const& meshComponentUID : m_MeshComponentUIDs)
 	{
-		newMinBBox = glm::min(newMinBBox, MinMaxBBoxes.first);
-		newMaxBBox = glm::max(newMaxBBox, MinMaxBBoxes.second);
+		std::pair<glm::vec3, glm::vec3> meshBBox = static_cast<MeshComponent*>(Chroma::Scene::GetComponent(meshComponentUID))->GetBBox();
+		newMinBBox = glm::min(newMinBBox, meshBBox.first);
+		newMaxBBox = glm::max(newMaxBBox, meshBBox.second);
 	}
+
 	// re-establishing min and max bboxes
-	// m_Scale by entity's current size
-	glm::vec3 scale = getScale(m_Transform);
-	m_BBoxMin = newMinBBox * scale;
-	m_BBoxMax = newMaxBBox * scale;
+	m_BBoxMin = newMinBBox;
+	m_BBoxMax = newMaxBBox;
 }
 
 void Entity::CalculateCentroid()
 {
-	m_Centroid = (m_BBoxMin - m_BBoxMax) * glm::vec3(0.5);
+	m_Centroid = (m_BBoxMin + m_BBoxMax) / glm::vec3(2.0);
 }
 
 void Entity::AddComponent(IComponent*& newComponent)
@@ -153,8 +151,11 @@ void Entity::UpdatePhysicsComponentsTransforms()
 {
 	for (UID const& uid : m_PhysicsComponentUIDs)
 	{
-		if (((PhysicsComponent*)Chroma::Scene::GetComponent(uid))->getColliderState() == Kinematic) // check if physics object is kinematic
-			((PhysicsComponent*)Chroma::Scene::GetComponent(uid))->SetWorldTransform(m_Transform);
+		PhysicsComponent* physicsComp = static_cast<PhysicsComponent*>(Chroma::Scene::GetComponent(uid));
+		if (physicsComp->getColliderState() == Kinematic)
+		{
+			physicsComp->SetWorldTransform(m_Transform);
+		}
 	}
 }
 
@@ -197,6 +198,7 @@ void Entity::Destroy()
 void Entity::Init()
 {
 	CalculateBBox();
+	CalculateCentroid();
 	CHROMA_TRACE("Entity : {0} Initialized.", m_UID.data);
 }
 

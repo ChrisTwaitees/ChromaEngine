@@ -35,10 +35,14 @@ void AnimationStateMachine::TranstionTo(AnimState const& newState)
 
 CharacterControllerComponent* AnimationStateMachine::GetCharacterController()
 {
-	UID CharacterControllerUID = Chroma::Scene::GetComponent(m_AnimationComponentUID)->GetParentEntity()->GetCharacterControllerComponentUIDs()[0];
-	return static_cast<CharacterControllerComponent*>(Chroma::Scene::GetComponent(CharacterControllerUID));
-	
-	// TODO: insert return statement here
+	if (Chroma::Scene::GetComponent(m_AnimationComponentUID)->GetParentEntity()->GetCharacterControllerComponentUIDs().size() > 0)
+	{
+		UID CharacterControllerUID = Chroma::Scene::GetComponent(m_AnimationComponentUID)->GetParentEntity()->GetCharacterControllerComponentUIDs()[0];
+		return static_cast<CharacterControllerComponent*>(Chroma::Scene::GetComponent(CharacterControllerUID));
+	}
+	else
+		return nullptr;
+
 }
 
 Animator& AnimationStateMachine::GetAnimator()

@@ -17,7 +17,7 @@ void BipedalAnimationStateMachine::Update()
 
 	ProcessAnimator();
 
-	CHROMA_INFO("Velocity : {0}, {1}, {2}", GetCharacterController()->GetVelocity()[0], GetCharacterController()->GetVelocity()[1], GetCharacterController()->GetVelocity()[2]);
+	//CHROMA_INFO("Velocity : {0}, {1}, {2}", GetCharacterController()->GetVelocity()[0], GetCharacterController()->GetVelocity()[1], GetCharacterController()->GetVelocity()[2]);
 
 }
 

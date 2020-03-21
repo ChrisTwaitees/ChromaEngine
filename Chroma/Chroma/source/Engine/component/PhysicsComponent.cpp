@@ -26,7 +26,7 @@ const glm::vec3 PhysicsComponent::GetLinearVelocity() const
 
 void PhysicsComponent::SetWorldTransform(glm::mat4 const& transform)
 {
-	m_MotionState->setWorldTransform(GLMToBullet(transform));
+	m_MotionState->setWorldTransform(GLMToBullet(m_LocalTransform * transform));
 }
 
 glm::mat4 PhysicsComponent::GetWorldTransform() const
@@ -52,13 +52,17 @@ void PhysicsComponent::CreateCollisionShape()
 		std::pair<glm::vec3, glm::vec3> bbox = GetParentEntity()->GetBBox();
 		glm::vec3 boxSize = glm::abs(bbox.second);
 		m_CollisionShape = new btBoxShape(GLMToBullet(boxSize));
+
+		// transform
 		break;
 	}
 	case(Sphere) :
 	{
 		std::pair<glm::vec3, glm::vec3> bbox = GetParentEntity()->GetBBox();
-		float boxSize = glm::length(bbox.first - bbox.second);
-		m_CollisionShape = new btSphereShape(btScalar(boxSize) * 0.50);
+		float sphereSize = glm::length(bbox.first - bbox.second) / 2.0;
+		m_CollisionShape = new btSphereShape(btScalar(sphereSize));
+
+		// transform
 		break;
 	}
 	case(Convex):
@@ -72,6 +76,8 @@ void PhysicsComponent::CreateCollisionShape()
 				vert.m_position.z);
 			((btConvexHullShape*)m_CollisionShape)->addPoint(btv);
 		}
+
+		// transform
 		break;
 	}
 	case(Mesh):
@@ -98,17 +104,26 @@ void PhysicsComponent::CreateCollisionShape()
 			mesh->addTriangle(btv1, btv2, btv3);
 		}
 		m_CollisionShape = new btBvhTriangleMeshShape(mesh, true);
+
+		// transform
 		break;
 	}
 	case(Capsule):
 	{
+		// Get Entity Dimensions
 		std::pair<glm::vec3, glm::vec3> bbox = GetParentEntity()->GetBBox();
-		float boxheight = glm::length(bbox.first.y - bbox.second.y);
+
+		// Calculate height and width
+		float capsuleHeight = glm::length(bbox.first.y - bbox.second.y) / 2.0; // divide by 2 for radius
 		bbox.first.y = 0;
 		bbox.second.y = 0;
-		float boxwidth = glm::length(bbox.first - bbox.second);
+		float capsuleWidth = glm::length(bbox.first - bbox.second) / 2.0; // divide by 2 for radius
+
 		// constructor : (radius, height)
-		m_CollisionShape = new btCapsuleShape(boxwidth, boxheight);
+		m_CollisionShape = new btCapsuleShape(capsuleWidth, capsuleHeight);
+
+		// transform
+		m_LocalTransform = glm::translate(m_LocalTransform, glm::vec3(0 , 20 , 0));
 		break;
 	}
 	case(Box):
@@ -116,6 +131,8 @@ void PhysicsComponent::CreateCollisionShape()
 		std::pair<glm::vec3, glm::vec3> bbox = GetParentEntity()->GetBBox();
 		glm::vec3 boxSize = glm::abs(bbox.second);
 		m_CollisionShape = new btBoxShape(GLMToBullet(boxSize));
+
+		// transform
 		break;
 	}
 	}
@@ -124,8 +141,9 @@ void PhysicsComponent::CreateCollisionShape()
 
 void PhysicsComponent::CreateRigidBody()
 {
-	// fetch entity position
-	m_ColliderTransform = GLMToBullet(GetParentEntity()->GetTransform());
+	// create btTransform
+	m_InitTransform = m_LocalTransform * GetParentEntity()->GetTransform();
+	m_ColliderTransform = GLMToBullet(m_InitTransform);
 
 	// default motion state
 	m_MotionState = new btDefaultMotionState(m_ColliderTransform);

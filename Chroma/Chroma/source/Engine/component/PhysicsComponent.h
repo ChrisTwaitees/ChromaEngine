@@ -37,6 +37,10 @@ public:
 
 	float GetFriction() const { return m_Friction; };
 	void SetFriction(float const& newFriction) { m_Friction = newFriction; };
+
+	inline glm::mat4& GetLocalTransform() { return m_LocalTransform; };
+	inline void SetLocalTransform(glm::mat4 const& newLocalTransform) { m_LocalTransform = newLocalTransform; };
+
 	// collisions
 	ColliderShape GetColliderShape() const { return m_ColliderShape; };
 	void SetColliderShape(ColliderShape const& shape) { m_ColliderShape = shape; };
@@ -60,6 +64,10 @@ public:
 private:
 	// attrs
 	float m_Mass{ 0.0f };
+
+	glm::mat4 m_InitTransform{ 1.0f };
+	glm::mat4 m_LocalTransform{ 1.0f };
+
 	// collision shape
 	ColliderShape m_ColliderShape = ColliderShape::Box;
 	ColliderState m_CollisionState = ColliderState::Kinematic;

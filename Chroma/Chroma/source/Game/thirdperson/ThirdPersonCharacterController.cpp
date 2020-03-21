@@ -22,6 +22,10 @@ void ThirdPersonCharacterController::ProcessCurrentFrame()
 
 	// GRAVITY
 	CalculateGravity();
+
+	// test
+	std::pair<glm::vec3, glm::vec3>  bbox = GetParentEntity()->GetBBox();
+	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(bbox.first, bbox.second, glm::vec3(0.0, 0.0, 1.0));
 }
 
 void ThirdPersonCharacterController::GroundCollisionCheck()

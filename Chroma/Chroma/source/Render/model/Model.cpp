@@ -47,6 +47,21 @@ void Model::SetShader(Shader const& shader)
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetShader(shader);
 }
 
+std::vector<ChromaVertex> Model::GetVertices()
+{
+	if (m_IsSkinned)
+	{
+		std::vector<ChromaVertex> verts;
+		for (ChromaSkinnedVertex const& vert : m_SkinnedVertices)
+		{
+			verts.push_back(static_cast<ChromaVertex>(vert));
+		}
+		return verts;
+	}
+	else
+		return m_vertices;
+}
+
 // BBOX
 std::pair<glm::vec3, glm::vec3> Model::GetBBox()
 {
@@ -148,7 +163,6 @@ void Model::LoadModel(std::string path)
 			StaticMesh* newStaticMesh = new StaticMesh(meshData);
 			Chroma::Scene::AddMeshComponent(newStaticMesh);
 			m_MeshUIDs.push_back(newStaticMesh->GetUID());
-
 		}
 	}
 

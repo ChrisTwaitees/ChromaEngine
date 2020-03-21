@@ -34,7 +34,7 @@ public:
 	int GetNumTextures() override { return (int)m_Textures.size(); };
 	std::vector<UID>& GetMeshUIDs() { return m_MeshUIDs; }
 	// verts
-	std::vector<ChromaVertex> GetVertices() override { return m_vertices; };
+	std::vector<ChromaVertex> GetVertices() override;
 	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_SkinnedVertices; };
 	// animation/ skinning
 

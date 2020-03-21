@@ -3,19 +3,7 @@
 #include <resources/ModelLoader.h>
 
 
-void SkinnedMesh::CalculateBBox()
-{
-	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
-	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
-	for (ChromaSkinnedVertex& vert : m_SkinnedVertices)
-	{
-		newMinBBox = glm::min(newMinBBox, vert.m_position);
-		newMaxBBox = glm::max(newMaxBBox, vert.m_position);
-	}
-	// re-establishing min and max bboxes
-	m_BBoxMin = newMinBBox;
-	m_BBoxMax = newMaxBBox;
-}
+
 
 void SkinnedMesh::SetupMesh()
 {
@@ -58,6 +46,11 @@ void SkinnedMesh::SetupMesh()
 	glVertexAttribPointer(6, MAX_VERT_INFLUENCES, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_jointWeights));
 
 	glBindVertexArray(0);
+
+	// BBOX
+	CalculateBBox();
+	CalculateCentroid();
+
 }
 
 glm::mat4 SkinnedMesh::GetWorldTransform()
@@ -66,11 +59,18 @@ glm::mat4 SkinnedMesh::GetWorldTransform()
 }
 
 
-std::pair<glm::vec3, glm::vec3> SkinnedMesh::GetBBox()
+std::vector<ChromaVertex> SkinnedMesh::GetVertices()
 {
-	CalculateBBox();
-	return std::make_pair(m_BBoxMin, m_BBoxMax);
+
+	std::vector<ChromaVertex> verts;
+	for (ChromaSkinnedVertex const& vert : m_SkinnedVertices)
+	{
+		verts.push_back(static_cast<ChromaVertex>(vert));
+	}
+	return verts;
+
 }
+
 
 
 void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)

@@ -11,11 +11,14 @@
 class SkinnedMesh : public StaticMesh
 {
 public:
+	void Destroy() override;
+
 	glm::mat4 GetWorldTransform() override;
 
 	// Accessors
 	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() { return m_SkinnedVertices; };
-	virtual std::pair<glm::vec3, glm::vec3> GetBBox() override;
+	std::vector<ChromaVertex> GetVertices() override;
+	
 	Skeleton* GetSkeleton() { return &m_Skeleton; };
 
 	std::string GetTypeString() const override { return "SkinnedMeshComponent"; }
@@ -23,7 +26,6 @@ public:
 	// Functions
 	void SetJointUniforms(Shader& skinnedShader) override;
 
-	void Destroy() override;
 
 	SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val);
 	SkinnedMesh(MeshData const& newMeshData);
@@ -43,7 +45,6 @@ private:
 	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
 
 	// functions
-	void CalculateBBox() override;
 	void SetupMesh() override;
 
 };
