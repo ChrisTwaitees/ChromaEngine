@@ -122,6 +122,9 @@ namespace Chroma
 		m_ForwardBuffer = new ForwardBuffer(m_PostFXBuffer);
 		m_DebugBuffer = new DebugBuffer(m_PostFXBuffer);
 		m_GraphicsDebugBuffer = new IFramebuffer();
+
+		// Set to Default dimensions
+		Chroma::Screen::SetDimensions(SCREEN_WIDTH, SCREEN_HEIGHT);
 	}
 
 	void Render::RenderScene()
