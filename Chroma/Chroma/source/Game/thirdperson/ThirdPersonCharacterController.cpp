@@ -108,7 +108,7 @@ void ThirdPersonCharacterController::CalculateGravity()
 	m_JumpVector = rotateJumpVector * m_JumpVectorStationary;
 
 	// Jump : if on ground and button pressed
-	if (m_HitGround && Chroma::Input::IsPressed(Chroma::Input::CROSS))
+	if (m_HitGround && (Chroma::Input::IsPressed(Chroma::Input::CROSS) || Chroma::Input::IsPressed(Chroma::Input::SPACEBAR)))
 	{
 		CHROMA_INFO("Jump triggered!");
 		float jumpIntertia = Chroma::Math::InertiaForHeight(m_GravityMax, m_JumpHeight) * DELTATIME;
