@@ -25,10 +25,16 @@ std::pair<glm::vec3, glm::vec3> Entity::GetBBox()
 	return std::make_pair(m_BBoxMin * m_Scale, m_BBoxMax * m_Scale);
 }
 
-glm::vec3 Entity::GetCentroid()
+glm::vec3& Entity::GetCentroid()
 {
 	CalculateCentroid();
 	return m_Centroid;
+}
+
+float Entity::GetHeight()
+{
+	std::pair<glm::vec3, glm::vec3> bbox = GetBBox();
+	return glm::abs(bbox.first.y) + glm::abs(bbox.second.y);
 }
 
 void Entity::Draw(Shader& shader)

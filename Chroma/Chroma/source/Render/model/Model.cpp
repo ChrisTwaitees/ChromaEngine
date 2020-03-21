@@ -49,17 +49,19 @@ void Model::SetShader(Shader const& shader)
 
 std::vector<ChromaVertex> Model::GetVertices()
 {
-	if (m_IsSkinned)
+	std::vector<ChromaVertex> verts;
+	for (UID const& meshUID : m_MeshUIDs)
 	{
-		std::vector<ChromaVertex> verts;
-		for (ChromaSkinnedVertex const& vert : m_SkinnedVertices)
+		MeshComponent* meshComp = static_cast<MeshComponent*>(Chroma::Scene::GetComponent(meshUID));
+
+		for (ChromaVertex const& vert : meshComp->GetVertices())
 		{
-			verts.push_back(static_cast<ChromaVertex>(vert));
+			verts.push_back(vert);
 		}
-		return verts;
 	}
-	else
-		return m_vertices;
+
+	return verts;
+
 }
 
 // BBOX

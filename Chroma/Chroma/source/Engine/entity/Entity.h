@@ -39,7 +39,8 @@ public:
 	// attrs
 	std::vector<ChromaVertex> GetVertices() override;
 	std::pair<glm::vec3, glm::vec3> GetBBox() override;
-	glm::vec3 GetCentroid() override;
+	glm::vec3& GetCentroid() override;
+	float GetHeight() override;
 
 	// Draw
 	virtual void Draw(Shader& shader);

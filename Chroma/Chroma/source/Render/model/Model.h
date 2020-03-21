@@ -35,7 +35,6 @@ public:
 	std::vector<UID>& GetMeshUIDs() { return m_MeshUIDs; }
 	// verts
 	std::vector<ChromaVertex> GetVertices() override;
-	std::vector<ChromaSkinnedVertex> GetSkinnedVertices() const { return  m_SkinnedVertices; };
 	// animation/ skinning
 
 	// Component requirement 

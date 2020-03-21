@@ -25,12 +25,13 @@ private:
 	const float m_ControllerMin{ 0.22f };
 
 	// Camera Attrs
+	glm::vec3 m_CamLookAtPos{ 0.0f };
 	const float m_CamDrag{ 0.5f };
 	const float m_CamRotationSpeed{ 2.0f };
 	const float m_CamSensitivity{ 1.0f };
 	
-	const float m_FollowDistMin{ 10.0f };
-	const float m_FollowDistMax{ 20.0f };
+	const float m_FollowDistMin{ 30.0f };
+	const float m_FollowDistMax{ 35.0f };
 
 	float m_CamRotX{ 0.0f }, m_CamRotY{0.0f};
 	float const m_CamRotMax{ 75.0f };

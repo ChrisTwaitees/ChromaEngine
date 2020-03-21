@@ -50,7 +50,8 @@ public:
 	// BBOX
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
-	virtual glm::vec3 GetCentroid() = 0;
+	virtual glm::vec3& GetCentroid() = 0;
+	virtual float GetHeight() = 0;
 
 
 	// Components

@@ -84,30 +84,6 @@ int main()
 	Texture sandyNormal("resources/textures/test/sandy_normal.jpg");
 	sandyNormal.type = Texture::NORMAL;
 
-	//// Woodplanks
-	//Texture PlanksAlbedo("resources/textures/pbr/hardwood_pbr/albedo.jpg");
-	//PlanksAlbedo.type = Texture::ALBEDO;
-	//Texture PlanksNormal("resources/textures/pbr/hardwood_pbr/normal.jpg");
-	//PlanksNormal.type = Texture::NORMAL;
-	//Texture PlanksMetRoughAO("resources/textures/pbr/hardwood_pbr/MetRoughAO.jpg");
-	//PlanksMetRoughAO.type = Texture::METROUGHAO;
-
-	//// AgedWoodplanks
-	//Texture agedPlanksAlbedo("resources/textures/pbr/agedplanks_pbr/albedo.jpg");
-	//agedPlanksAlbedo.type = Texture::ALBEDO;
-	//Texture agedPlanksNormal("resources/textures/pbr/agedplanks_pbr/normal.jpg");
-	//agedPlanksNormal.type = Texture::NORMAL;
-	//Texture agedPlanksMetRoughAO("resources/textures/pbr/agedplanks_pbr/MetRoughAO.jpg");
-	//agedPlanksMetRoughAO.type = Texture::METROUGHAO;
-
-	//// Rusted Metal
-	//Texture rustedIronAlbedo("resources/textures/pbr/rustediron_pbr/albedo.jpg");
-	//rustedIronAlbedo.type = Texture::ALBEDO;
-	//Texture rustedIronNormal("resources/textures/pbr/rustediron_pbr/normal.jpg");
-	//rustedIronNormal.type = Texture::NORMAL;
-	//Texture rustedIronMetRoughAO("resources/textures/pbr/rustediron_pbr/MetRoughAO.jpg");
-	//rustedIronMetRoughAO.type = Texture::METROUGHAO;
-
 	// Animated Model
 	Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
 	walkingAlbedo.type = Texture::ALBEDO;
@@ -122,7 +98,7 @@ int main()
 	IEntity* AnimModelEntity = new Entity;
 	AnimModelEntity->SetName("AnimationModel");
 	Chroma::Scene::AddEntity(AnimModelEntity);
-	AnimModelEntity->SetScale(glm::vec3(0.06f));
+	AnimModelEntity->SetScale(glm::vec3(0.03f));
 	//AnimModelEntity->SetTranslation(glm::vec3(0.0, 5.0, 0.0));
 	// mesh
 	MeshComponent* AnimModelMeshComponent = new SkinnedMesh("resources/animation/vampire.fbx");
@@ -146,7 +122,7 @@ int main()
 	AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Jump.fbx");
 	AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Roll.fbx");
 	AnimModelAnimator.CompressAnimations();
-	//AnimationStateMachine* AnimModelAnimationStateMachine = new BipedalAnimationStateMachine;
+	AnimationStateMachine* AnimModelAnimationStateMachine = new BipedalAnimationStateMachine;
 	// animation state
 	AnimModelAnimationComponent->SetAnimator(AnimModelAnimator);
 	//AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimationStateMachine);
@@ -158,7 +134,7 @@ int main()
 	Chroma::Scene::GetRenderCamera()->SetCustomCameraController(AnimModelCameraController);
 	AnimModelCharacterController->SetCustomCameraController(AnimModelCameraController);
 	// adding the component
-	//AnimModelEntity->AddComponent(AnimModelCharacterController);
+	AnimModelEntity->AddComponent(AnimModelCharacterController);
 
 	// ____________________________________________________
 
@@ -196,9 +172,21 @@ int main()
 
 	// TERRAIN
 	// ____________________________________________________
+	//IEntity* TerrainEntity = new Entity;
+	//Chroma::Scene::AddEntity(TerrainEntity);
+	//MeshComponent* TerrainMeshComponent = new Terrain;
+	//TerrainMeshComponent->SetShader(PBRShader);
+	//TerrainMeshComponent->AddTexture(gridAlbedo);
+	//TerrainMeshComponent->AddTexture(flatNormal);
+	//TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
+	////TerrainMeshComponent->AddTexture(PlanksNormal);
+	////TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
+	//TerrainEntity->AddComponent(TerrainMeshComponent);
+	//TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));
+
 	IEntity* TerrainEntity = new Entity;
 	Chroma::Scene::AddEntity(TerrainEntity);
-	MeshComponent* TerrainMeshComponent = new Terrain;
+	MeshComponent* TerrainMeshComponent = new Model("resources/assets/level/groundScaleTest.fbx");
 	TerrainMeshComponent->SetShader(PBRShader);
 	TerrainMeshComponent->AddTexture(gridAlbedo);
 	TerrainMeshComponent->AddTexture(flatNormal);
@@ -206,7 +194,15 @@ int main()
 	//TerrainMeshComponent->AddTexture(PlanksNormal);
 	//TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
 	TerrainEntity->AddComponent(TerrainMeshComponent);
-	TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));
+
+	// rigid
+	PhysicsComponent* TerrainPhysicsComponent = new PhysicsComponent();
+	TerrainPhysicsComponent->SetColliderShape(ColliderShape::Mesh);
+	TerrainPhysicsComponent->SetCollisionState(ColliderState::Static);
+	TerrainEntity->AddComponent(TerrainPhysicsComponent);
+
+	
+
 	// ____________________________________________________
 
 	// SPHERES
@@ -253,6 +249,9 @@ int main()
 		//Sunlight Rotation	
 		Chroma::Scene::GetSunLight()->SetTranslation(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
 		Sun->setDirection(-normalize(Sun->GetPosition()));		
+
+		// Scale debug
+		Chroma::Render::GetDebugBuffer()->DrawOverlayBox(glm::vec3(0.0), glm::vec3(1.0), glm::vec3(1.0));
 
 		// Physics debug
 		if (Chroma::Input::IsPressed(Chroma::Input::P))

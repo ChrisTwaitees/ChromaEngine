@@ -22,10 +22,6 @@ void ThirdPersonCharacterController::ProcessCurrentFrame()
 
 	// GRAVITY
 	CalculateGravity();
-
-	// test
-	std::pair<glm::vec3, glm::vec3>  bbox = GetParentEntity()->GetBBox();
-	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(bbox.first, bbox.second, glm::vec3(0.0, 0.0, 1.0));
 }
 
 void ThirdPersonCharacterController::GroundCollisionCheck()
@@ -75,11 +71,13 @@ void ThirdPersonCharacterController::ProcessCamera()
 		m_CamPosition = nextVerticalPosition;
 
 	// DIRECTION - Aim At Player
+	m_CamLookAtPos = (m_Position + (GetParentEntity()->GetHeight() * 0.8f * m_GravityDirection));
+
 	m_CamDirection = glm::normalize(m_Position - m_CamPosition);
 	// UP
 	glm::vec3 ref = glm::cross(m_CamDirection, CHROMA_UP);
 	m_CamUp = glm::cross(ref, m_CamDirection);
-	//m_CamUp = CHROMA_UP;
+
 
 }
 

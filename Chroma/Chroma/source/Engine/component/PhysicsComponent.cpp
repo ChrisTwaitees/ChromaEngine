@@ -112,18 +112,19 @@ void PhysicsComponent::CreateCollisionShape()
 	{
 		// Get Entity Dimensions
 		std::pair<glm::vec3, glm::vec3> bbox = GetParentEntity()->GetBBox();
+		float entityHeight = GetParentEntity()->GetHeight();
 
 		// Calculate height and width
-		float capsuleHeight = glm::length(bbox.first.y - bbox.second.y) / 2.0; // divide by 2 for radius
+		float capsuleHeight = entityHeight / 2.0; // divide by 2 for radius
 		bbox.first.y = 0;
 		bbox.second.y = 0;
-		float capsuleWidth = glm::length(bbox.first - bbox.second) / 2.0; // divide by 2 for radius
+		float capsuleWidth = glm::length(bbox.first - bbox.second) / 4.0; // divide by 2 for radius
 
 		// constructor : (radius, height)
 		m_CollisionShape = new btCapsuleShape(capsuleWidth, capsuleHeight);
 
 		// transform
-		m_LocalTransform = glm::translate(m_LocalTransform, glm::vec3(0 , 20 , 0));
+		m_LocalTransform = glm::translate(m_LocalTransform, glm::vec3(0 , entityHeight / 2.0, 0));
 		break;
 	}
 	case(Box):
