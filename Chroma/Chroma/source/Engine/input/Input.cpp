@@ -48,6 +48,9 @@ namespace Chroma
 		glfwSetCursorPosCallback(Chroma::Screen::GetWindow(), mouse_aim_callback);
 		glfwSetScrollCallback(Chroma::Screen::GetWindow(), mouse_scroll_callback);
 		glfwSetMouseButtonCallback(Chroma::Screen::GetWindow(), mouse_click_callback);
+
+		// init vars
+		m_CursorEnabled = false;
 	}
 
 	bool Input::IsPressed(Key KeySelection)
@@ -198,43 +201,29 @@ namespace Chroma
 	void Input::Update()
 	{
 		// Should Close?
-		if (IsPressed(ESCAPE)) {
-			glfwSetWindowShouldClose(Chroma::Screen::GetWindow(), true);
-			return;
-		}
+		UpdateScreen();
 
-		// Capture / release mouse
-		int cursorMode = glfwGetInputMode(Chroma::Screen::GetWindow(), GLFW_CURSOR);
-		if (IsPressed(LEFT_CTRL))
-		{
-			if (cursorMode == GLFW_CURSOR_DISABLED)
-				glfwSetInputMode(Chroma::Screen::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-			else
-				glfwSetInputMode(Chroma::Screen::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-		}
-		m_CursorEnabled = cursorMode == GLFW_CURSOR_DISABLED;
-
-		// Mouse Coordinates
-		if (m_CursorEnabled)
-		{
-		}
-		UpdateMouseCoordinates();
-
-		// Mouse Picker
-		UpdateMousePicker();
+		// Mouse
+		UpdateMouse();
 
 		// Controller
-		m_ControllerEnabled = (glfwJoystickPresent(GLFW_JOYSTICK_1) > 0) ? true : false;
 		UpdateController();
 
 		// Camera
-		if (Chroma::Input::IsPressed(Chroma::Input::NUM1))
-			Chroma::Scene::GetRenderCamera()->SetCameraMode(Maya);
-		if (Chroma::Input::IsPressed(Chroma::Input::NUM2))
-			Chroma::Scene::GetRenderCamera()->SetCameraMode(FlyCam);
-		if (Chroma::Input::IsPressed(Chroma::Input::NUM3))
-			Chroma::Scene::GetRenderCamera()->SetCameraMode(Custom);
+		UpdateCamera();
 
+	}
+
+	void Input::ToggleCursorEnabledState()
+	{
+		int cursorMode = glfwGetInputMode(Chroma::Screen::GetWindow(), GLFW_CURSOR);
+		cursorMode == GLFW_CURSOR_DISABLED ? SetCursorEnabled(false) : SetCursorEnabled(true);
+	}
+
+	void Input::SetCursorEnabled(bool const& enabledState)
+	{
+		m_CursorEnabled = enabledState;
+		m_CursorEnabled ? glfwSetInputMode(Chroma::Screen::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED) : glfwSetInputMode(Chroma::Screen::GetWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 
 	// glfw callbacks
@@ -290,8 +279,18 @@ namespace Chroma
 		}
 	}
 
+	void Input::UpdateScreen()
+	{
+		if (IsPressed(ESCAPE)) {
+			glfwSetWindowShouldClose(Chroma::Screen::GetWindow(), true);
+			return;
+		}
+	}
+
 	void Input::UpdateController()
 	{
+		m_ControllerEnabled = (glfwJoystickPresent(GLFW_JOYSTICK_1) > 0) ? true : false;
+
 		if (m_ControllerEnabled)
 		{
 			// Axes
@@ -325,6 +324,34 @@ namespace Chroma
 		{
 			//CHROMA_WARN("INPUT :: No Controller Connected");
 		}
+	}
+
+	void Input::UpdateMouse()
+	{
+		// Capture / release mouse
+		if (IsPressed(LEFT_CTRL))
+		{
+			ToggleCursorEnabledState();
+		}
+
+		// Mouse Coordinates
+		if (m_CursorEnabled)
+		{
+		}
+		UpdateMouseCoordinates();
+
+		// Mouse Picker
+		UpdateMousePicker();
+	}
+
+	void Input::UpdateCamera()
+	{
+		if (Chroma::Input::IsPressed(Chroma::Input::NUM1))
+			Chroma::Scene::GetRenderCamera()->SetCameraMode(Maya);
+		if (Chroma::Input::IsPressed(Chroma::Input::NUM2))
+			Chroma::Scene::GetRenderCamera()->SetCameraMode(FlyCam);
+		if (Chroma::Input::IsPressed(Chroma::Input::NUM3))
+			Chroma::Scene::GetRenderCamera()->SetCameraMode(Custom);
 	}
 
 	glm::vec3 Input::ScreenToWorldRay(float const& mouseX, float const& mouseY)

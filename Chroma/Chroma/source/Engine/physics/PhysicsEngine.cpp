@@ -34,12 +34,14 @@ namespace Chroma
 	btDiscreteDynamicsWorld* Physics::m_World;
 
 	// debug
+	bool Physics::m_DrawDebug;
 	PhysicsDebug* Physics::m_Debug;
 
 	void Physics::Init()
 	{
 		// new debugbuffer
 		m_Debug = new PhysicsDebug();
+		m_DrawDebug = false;
 
 		// create world
 		InitPhysicsWorld();
@@ -144,6 +146,15 @@ namespace Chroma
 			}
 		}
 
+		// debug
+		if(m_DrawDebug)
+			DrawDebug();
+
+	}
+
+	void Physics::ToggleDrawDebug()
+	{
+		m_DrawDebug = m_DrawDebug ? false : true;
 	}
 
 	void Physics::SetGravity(glm::vec3 & newGravity)
@@ -153,7 +164,6 @@ namespace Chroma
 
 	void Physics::BindDebugBuffer(DebugBuffer* DebugRenderer)
 	{
-		m_Debug->BindDebugBuffer(DebugRenderer);
 		m_Debug->setDebugMode(btIDebugDraw::DBG_DrawWireframe);
 		m_World->setDebugDrawer(m_Debug);
 	}

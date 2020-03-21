@@ -123,7 +123,7 @@ int main()
 	AnimModelEntity->SetName("AnimationModel");
 	Chroma::Scene::AddEntity(AnimModelEntity);
 	AnimModelEntity->SetScale(glm::vec3(0.06f));
-	AnimModelEntity->SetTranslation(glm::vec3(0.0, 10.0, 0.0));
+	AnimModelEntity->SetTranslation(glm::vec3(0.0, 5.0, 0.0));
 	// mesh
 	MeshComponent* AnimModelMeshComponent = new SkinnedMesh("resources/animation/vampire.fbx");
 	AnimModelMeshComponent->AddTexture(walkingAlbedo);
@@ -133,7 +133,7 @@ int main()
 	AnimModelEntity->AddComponent(AnimModelMeshComponent);
 	// rigid
 	PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
-	AnimModelRigidComponent->SetColliderShape(ColliderShape::Box);
+	AnimModelRigidComponent->SetColliderShape(ColliderShape::Capsule);
 	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
 	AnimModelEntity->AddComponent(AnimModelRigidComponent);
 	// animation

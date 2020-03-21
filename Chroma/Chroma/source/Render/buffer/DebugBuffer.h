@@ -50,6 +50,36 @@ struct CoordinatesShape
 
 class DebugBuffer : public IFramebuffer
 {
+public:
+	// Coordinates
+	void DrawCoordinates(const glm::mat4& transform, const float& size = 1.0);
+	void DrawOverlayCoordinates(const glm::mat4& transform, const float& size = 1.0);
+
+	// Line
+	void DrawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
+	void DrawOverlayLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
+
+	// Box
+	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
+	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color);
+	void DrawOverlayBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
+
+	// Sphere
+	void DrawSphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color);
+	void DrawOverlaySphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color);
+
+	// Joint
+	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size = 1.0, const glm::vec3 & color = glm::vec3(1.0));
+
+	// Skeletons
+	void DrawSceneSkeletons();
+
+	void ClearColorAndDepth() override;
+	void Draw() override;
+
+	DebugBuffer(IFramebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
+
+private:
 	// shapes
 	std::vector<LineShape> m_lines;
 	std::vector<LineShape> m_OverlayLines;
@@ -112,36 +142,6 @@ class DebugBuffer : public IFramebuffer
 	void BindPointVAO();
 	// blitting depth buffer before rendering
 	void Initialize() override;
-
-
-public:
-	// Coordinates
-	void DrawCoordinates(const glm::mat4& transform, const float& size = 1.0 );
-	void DrawOverlayCoordinates(const glm::mat4& transform, const float& size = 1.0 );
-
-	// Line
-	void DrawLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
-	void DrawOverlayLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color);
-
-	// Box
-	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
-	void DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color);
-	void DrawOverlayBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color);
-
-	// Sphere
-	void DrawSphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color);
-	void DrawOverlaySphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color);
-
-	// Joint
-	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size = 1.0, const glm::vec3& color = glm::vec3(1.0));
-
-	// Skeletons
-	void DrawSceneSkeletons();
-
-	void ClearColorAndDepth() override;
-	void Draw() override;
-
-	DebugBuffer(IFramebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
 };
 
 #endif

@@ -25,6 +25,7 @@ namespace Chroma
 
 		static void Init();
 		static void Update();
+		static void ToggleDrawDebug();
 		static void DrawDebug();
 
 		static void BindDebugBuffer(DebugBuffer* DebugRenderer);
@@ -47,6 +48,7 @@ namespace Chroma
 
 	private:
 		// attrs
+		static bool m_DrawDebug;
 		static glm::vec3 m_Gravity;
 		static float m_TerrainFriction;
 		static btCollisionObject* m_CollisionObject;

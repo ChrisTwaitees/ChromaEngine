@@ -10,8 +10,9 @@ void ThirdPersonCharacterController::ProcessCurrentFrame()
 	m_Velocity = m_Position - m_PreviousPosition;
 	m_PreviousPosition = m_Position;
 	m_CurrentSpeed = glm::length(m_Velocity);
+
 	// debug
-	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, m_Position + m_Velocity, glm::vec3(1.0, 0.0, 1.0));
+	//Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, m_Position + m_Velocity, glm::vec3(1.0, 0.0, 1.0));
 
 	// AIM ANGLE
 	m_CamFacingAngle = Chroma::Math::GetFacingAngleEuler(m_Position, m_CamPosition);
@@ -26,13 +27,14 @@ void ThirdPersonCharacterController::ProcessCurrentFrame()
 void ThirdPersonCharacterController::GroundCollisionCheck()
 {
 	//m_CollisionCheckDist = glm::length(GetParentEntity()->GetBBox().first) * 0.8;
-	glm::vec3 checkPos = m_Position + glm::vec3(0.0, 3.0, 0.0) + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
-	m_HitGround = Chroma::Physics::RayTest(m_Position, checkPos);
+	glm::vec3 rayStart = m_Position + ( - glm::normalize(m_GravityDirection) * 0.1f);
+	glm::vec3 rayEnd = m_Position + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
+	m_HitGround = Chroma::Physics::RayTest(rayStart, rayEnd);
 	// debug
 	if (m_HitGround)
-		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(1.0, 0.0, 0.0));
+		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, rayEnd, glm::vec3(1.0, 0.0, 0.0));
 	else
-		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, checkPos, glm::vec3(0.0, 1.0, 0.0));
+		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, rayEnd, glm::vec3(0.0, 1.0, 0.0));
 }
 
 
@@ -112,8 +114,7 @@ void ThirdPersonCharacterController::CalculateGravity()
 	}
 
 	// JumpVector
-	glm::vec3 checkPos = m_Position + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
-	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(checkPos, checkPos + (m_JumpVector * glm::vec3(m_JumpHeight)) + glm::vec3(0.1, 0.0, 0.0), glm::vec3(1.0, 1.0, 0.0));
+	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, m_Position + (m_JumpVector * glm::vec3(m_JumpHeight)) + glm::vec3(0.1, 0.0, 0.0), glm::vec3(1.0, 1.0, 0.0));
 }
 
 void ThirdPersonCharacterController::ProcessMovement()
@@ -124,8 +125,8 @@ void ThirdPersonCharacterController::ProcessMovement()
 	// removing y and normalizing
 	toPlayer.y = 0.0f;
 	sidePlayer.y = 0.0f;
-	toPlayer = normalize(toPlayer);
-	sidePlayer = normalize(sidePlayer);
+	normalize(toPlayer);
+	normalize(sidePlayer);
 
 	// Set Heading
 	if (glm::abs(Chroma::Input::GetAxis("Horizontal")) > m_ControllerMin || glm::abs(Chroma::Input::GetAxis("Vertical")) > m_ControllerMin)
@@ -142,8 +143,8 @@ void ThirdPersonCharacterController::ProcessMovement()
 	m_Position += m_Force;
 
 	// prevent falling into the abyss
-	m_Position.y = glm::max(m_Position.y, 1.0f);
-	m_Position.y -= 1.05f;
+	m_Position.y = glm::max(m_Position.y, .0f);
+	//m_Position.y -= 1.05f;
 
 	// player rotation
 	float degreesRotated = Chroma::Math::DegreesBetweenVectors2D(CHROMA_FORWARD, m_PlayerHeading);
@@ -153,28 +154,54 @@ void ThirdPersonCharacterController::ProcessMovement()
 	// Force
 	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, m_Position + m_Force, glm::vec3(1.0, 0.0, 1.0));
 	// Player Heading
-	glm::vec3 checkPos = m_Position + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
-	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(checkPos, checkPos + m_PlayerHeading, glm::vec3(0.1, 0.9, 0.8));
+	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, m_Position + m_PlayerHeading, glm::vec3(0.1, 0.9, 0.8));
+}
+
+void ThirdPersonCharacterController::ProcessTransforms()
+{
+	// Calculate and apply transform to parent entity
+	CalculateTransform();
+	GetParentEntity()->SetTransform(m_Transform);
+	// Apply transforms to camera controller
+	m_CameraController->m_CamPos = m_CamPosition;
+	m_CameraController->m_CamDir = m_CamDirection;
+	m_CameraController->m_CamUp = m_CamUp;
+	// Debug
+	Chroma::Render::GetDebugBuffer()->DrawOverlayCoordinates(m_Transform, 5.0f);
 }
 
 void ThirdPersonCharacterController::ProcessInput()
 {
-	ProcessCamera();
-	ProcessMovement();
+	// camera context switching
+	// switch between editor cam and player cam
+	if (Chroma::Input::IsPressed(Chroma::Input::R1) && Chroma::Input::IsPressed(Chroma::Input::L1)) 
+	{
+		CHROMA_WARN("Switching Camera Context...");
+		Chroma::Input::ToggleCursorEnabledState();
+		Chroma::Scene::GetRenderCamera()->SetCameraMode(CameraMode::Custom);
+	}
+
+	if (Chroma::Input::IsPressed(Chroma::Input::R3) && Chroma::Input::IsPressed(Chroma::Input::L3))
+	{
+		CHROMA_WARN("Toggling Physics Rendering");
+		Chroma::Physics::ToggleDrawDebug();
+	}
 }
 
 void ThirdPersonCharacterController::Update()
 {
 	// Calculate from Previous Frame
 	ProcessCurrentFrame();
+
 	// Input
 	ProcessInput();
-	// Calculate and apply transform to parent entity
-	CalculateTransform();
-	Chroma::Render::GetDebugBuffer()->DrawOverlayCoordinates(m_Transform);
-	GetParentEntity()->SetTransform(m_Transform);
-	// Apply transforms to camera controller
-	m_CameraController->m_CamPos = m_CamPosition;
-	m_CameraController->m_CamDir = m_CamDirection;
-	m_CameraController->m_CamUp = m_CamUp;
+
+	// Movement
+	ProcessMovement();
+
+	// Camera
+	ProcessCamera();
+
+	// Transfroms
+	ProcessTransforms();
 }

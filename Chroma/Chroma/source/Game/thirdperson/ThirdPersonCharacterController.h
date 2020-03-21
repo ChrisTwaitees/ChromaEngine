@@ -48,8 +48,8 @@ private:
 	// Physics
 	glm::vec3 m_Force{ 0.0f };
 
-	const float m_JumpHeight{ 5.0f};
-	const float m_JumpHeadingBias{ 1.5f };
+	const float m_JumpHeight{ 12.0f};
+	const float m_JumpHeadingBias{ 0.5f };
 	glm::vec3 m_JumpVectorStationary{ 0.0f, 1.0f, 0.0f };
 	glm::vec3 m_JumpVector{ 0.0f, 1.0, 0.0f };
 
@@ -60,7 +60,7 @@ private:
 
 	// Collisions
 	bool m_HitGround{ true };
-	float m_CollisionCheckDist{0.1f };
+	float m_CollisionCheckDist{0.2f };
 
 	// Functions
 	void ProcessCurrentFrame();
@@ -71,6 +71,7 @@ private:
 	void ProcessInput() override;
 	void ProcessCamera();
 	void ProcessMovement();
+	void ProcessTransforms();
 	
 
 };

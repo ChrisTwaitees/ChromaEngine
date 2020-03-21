@@ -16,6 +16,55 @@ namespace Chroma
 {
 	class Input
 	{
+	public:
+		enum Key {
+			LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, RIGHT_ALT, SPACEBAR, ESCAPE, A, C, D, E, Q, S, W, Y, P,
+			NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9,
+			LEFT_MOUSE, LEFT_CTRL, RIGHT_CTRL, RIGHT_MOUSE, MIDDLE_MOUSE, LEFT_MOUSE_RELEASE, RIGHT_MOUSE_RELEASE,
+			MIDDLE_MOUSE_RELEASE,
+			CROSS, SQUARE, CIRCLE, TRIANGLE, R1, L1, L3, R3, R2, L2, DPADLEFT, DPADRIGHT, DPADUP, DPADDOWN, OPTIONS,
+			SHARE, TOUCHPAD
+		};
+		bool static IsPressed(Key KeySelection);
+
+		//  functions
+		static void Init();
+		static void Update();
+
+		// getters and setters
+		// MOUSE
+		// mouse xy
+		inline static glm::vec2 GetMouseXY() { return glm::vec2(m_MouseX, m_MouseY); }
+		inline static glm::vec2 GetMouseXYOffset() { return m_MouseXYOffset; }
+		// cursor attrs
+		static void ToggleCursorEnabledState();
+		static void SetCursorEnabled(bool const& enabledState) ;
+		inline static bool GetCursorEnabled() { return m_CursorEnabled; }
+		inline static glm::vec3 GetLastRay() { return m_LastMouseRay; }
+
+		// CONTROLLER
+		inline static bool GetControllerEnabled() { return m_ControllerEnabled; }
+		// Sticks
+		inline static float& GetControllerLeftVertical() { return m_ControllerLeftVertical; }
+		inline static float& GetControllerLeftHorizontal() { return m_ControllerLeftHorizontal; }
+
+		inline static float& GetControllerRightVertical() { return m_ControllerRightVertical; }
+		inline static float& GetControllerRightHorizontal() { return m_ControllerRightHorizontal; }
+		// Bumpers
+		inline static float& GetControllerRightBumper() { return m_ControllerRightBumper; }
+		inline static float& GetControllerLeftBumper() { return m_ControllerLeftBumper; }
+
+		// Axis
+		static float GetAxis(const char* axis);
+
+		// bind
+		static void BindCamera(Camera* cam) { m_Camera = cam; };
+
+		// constructors
+		Input() {};
+		~Input();
+
+	private:
 		// components
 		static Camera* m_Camera;
 
@@ -54,7 +103,10 @@ namespace Chroma
 		// functions 
 		static void UpdateMouseCoordinates();
 		static void UpdateMousePicker();
+		static void UpdateScreen();
+		static void UpdateMouse();
 		static void UpdateController();
+		static void UpdateCamera();
 
 		static glm::vec3 ScreenToWorldRay(float const& mouseX, float const& mouseY);
 
@@ -62,53 +114,6 @@ namespace Chroma
 		static void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos);
 		static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 		static void mouse_click_callback(GLFWwindow* window, int button, int action, int mods);
-
-
-	public:
-		enum Key {
-			LEFT_SHIFT, RIGHT_SHIFT, LEFT_ALT, RIGHT_ALT, SPACEBAR, ESCAPE, A, C, D, E, Q, S, W, Y, P,
-			NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9,
-			LEFT_MOUSE, LEFT_CTRL, RIGHT_CTRL, RIGHT_MOUSE, MIDDLE_MOUSE, LEFT_MOUSE_RELEASE, RIGHT_MOUSE_RELEASE,
-			MIDDLE_MOUSE_RELEASE,
-			CROSS, SQUARE, CIRCLE, TRIANGLE, R1, L1, L3, R3, R2, L2, DPADLEFT, DPADRIGHT, DPADUP, DPADDOWN, OPTIONS,
-			SHARE, TOUCHPAD
-		};
-		bool static IsPressed(Key KeySelection);
-
-		//  functions
-		static void Init();
-		static void Update();
-
-		// getters and setters
-		// MOUSE
-		// mouse xy
-		inline static glm::vec2 GetMouseXY() { return glm::vec2(m_MouseX, m_MouseY); }
-		inline static glm::vec2 GetMouseXYOffset() { return m_MouseXYOffset; }
-		// cursor attrs
-		inline static bool GetCursorEnabled() { return m_CursorEnabled; }
-		inline static glm::vec3 GetLastRay() { return m_LastMouseRay; }
-
-		// CONTROLLER
-		inline static bool GetControllerEnabled() { return m_ControllerEnabled; }
-		// Sticks
-		inline static float& GetControllerLeftVertical() { return m_ControllerLeftVertical; }
-		inline static float& GetControllerLeftHorizontal() { return m_ControllerLeftHorizontal; }
-
-		inline static float& GetControllerRightVertical() { return m_ControllerRightVertical; }
-		inline static float& GetControllerRightHorizontal() { return m_ControllerRightHorizontal; }
-		// Bumpers
-		inline static float& GetControllerRightBumper() { return m_ControllerRightBumper; }
-		inline static float& GetControllerLeftBumper() { return m_ControllerLeftBumper; }
-
-		// Axis
-		static float GetAxis(const char* axis);
-
-		// bind
-		static void BindCamera(Camera* cam) { m_Camera = cam; };
-
-		// constructors
-		Input() {};
-		~Input();
 	};
 }
 
