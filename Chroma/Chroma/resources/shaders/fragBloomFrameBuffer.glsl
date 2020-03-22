@@ -9,9 +9,18 @@ uniform bool bloom;
 uniform float exposure;
 uniform float gamma;
 
+float rgbSplitAmount = 0.0005f;
+bool splitRGB = false;
+
 void main()
-{             
-    vec3 hdrColor = texture(scene, TexCoords).rgb;      
+{
+    // chromatic abberation
+    float hdrColorR = texture(scene, TexCoords + vec2(rgbSplitAmount)).r;   
+    float hdrColorG = texture(scene, TexCoords).g;   
+    float hdrColorB = texture(scene, TexCoords - vec2(rgbSplitAmount)).b;   
+    
+    vec3 hdrColor = splitRGB ?  vec3(hdrColorR, hdrColorG, hdrColorB) : texture(scene, TexCoords).rgb;   
+
     vec3 bloomColor = texture(bloomBlur, TexCoords).rgb;
     if(bloom)
         hdrColor += bloomColor; // additive blending
