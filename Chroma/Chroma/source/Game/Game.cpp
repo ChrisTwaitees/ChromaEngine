@@ -125,7 +125,7 @@ int main()
 	AnimationStateMachine* AnimModelAnimationStateMachine = new BipedalAnimationStateMachine;
 	// animation state
 	AnimModelAnimationComponent->SetAnimator(AnimModelAnimator);
-	//AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimationStateMachine);
+	AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimationStateMachine);
 	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
 	//// character controller
 	CharacterControllerComponent* AnimModelCharacterController = new ThirdPersonCharacterController();

@@ -414,6 +414,9 @@
     <ClCompile Include="source\Game\bipedal\BipedalAnimationStateMachine.cpp">
       <Filter>Game\bipedal</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\component\StateMachineComponent.cpp">
+      <Filter>Engine\component</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -673,6 +676,9 @@
     </ClInclude>
     <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h">
       <Filter>Game\bipedal</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\StateMachineComponent.h">
+      <Filter>Engine\component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

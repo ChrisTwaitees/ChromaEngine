@@ -14,7 +14,7 @@ struct StateTransitionCondition
 struct State
 {
 	std::string m_Name{ "" };
-	void(*m_Exit)() {nullptr};
+	void(*m_Exit)() { nullptr };
 	void(*m_Enter)() { nullptr };
 	std::vector<std::pair<State, StateTransitionCondition>> m_Transitions;
 	State() {};

@@ -112,23 +112,23 @@ void BipedalAnimationStateMachine::Init()
 	AnimState m_IdleState("Idle");
 	m_States.push_back(m_IdleState);
 
-	//// Walk
-	//AnimState m_WalkState("Walk");
-	//m_States.push_back(m_WalkState);
-	//
-	//// Jump
-	//AnimState m_JumpState("Jump");
-	//m_States.push_back(m_JumpState);
+	// Walk
+	AnimState m_WalkState("Walk");
+	m_States.push_back(m_WalkState);
+	
+	// Jump
+	AnimState m_JumpState("Jump");
+	m_States.push_back(m_JumpState);
 
-	//// transitions
-	//// idle
-	//m_IdleState.m_Transitions.push_back(std::make_pair(m_WalkState , StateTransitionCondition(&WalkTransitionCondition)));
-	//// walk
-	//m_WalkState.m_Transitions.push_back(std::make_pair(m_IdleState, StateTransitionCondition(&IdleTransitionCondition)));
-	//m_WalkState.m_Transitions.push_back(std::make_pair(m_JumpState, StateTransitionCondition(&JumpTransitionCondition)));
-	//// jump
-	//m_JumpState.m_Transitions.push_back(std::make_pair(m_IdleState, StateTransitionCondition(&IdleTransitionCondition)));
-	//m_JumpState.m_Transitions.push_back(std::make_pair(m_WalkState, StateTransitionCondition(&WalkTransitionCondition)));
+	// transitions
+	// idle
+	m_IdleState.m_Transitions.push_back(std::make_pair(m_WalkState , StateTransitionCondition(&WalkTransitionCondition)));
+	// walk
+	m_WalkState.m_Transitions.push_back(std::make_pair(m_IdleState, StateTransitionCondition(&IdleTransitionCondition)));
+	m_WalkState.m_Transitions.push_back(std::make_pair(m_JumpState, StateTransitionCondition(&JumpTransitionCondition)));
+	// jump
+	m_JumpState.m_Transitions.push_back(std::make_pair(m_IdleState, StateTransitionCondition(&IdleTransitionCondition)));
+	m_JumpState.m_Transitions.push_back(std::make_pair(m_WalkState, StateTransitionCondition(&WalkTransitionCondition)));
 
 	// set current state
 	m_CurrentState = m_IdleState;

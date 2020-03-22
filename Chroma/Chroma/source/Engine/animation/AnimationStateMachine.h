@@ -1,8 +1,8 @@
 #ifndef CHROMA_ANIMATIONSTATEMACHINE_H
 #define CHROMA_ANIMATIONSTATEMACHINE_H
 
-#include <statemachine/IStateMachine.h>
 #include <uid/UID.h>
+#include <component/StateMachineComponent.h>
 
 class CharacterControllerComponent;
 class Animator;
@@ -18,7 +18,7 @@ struct AnimState : public State
 };
 
 
-class AnimationStateMachine : public IStateMachine
+class AnimationStateMachine : public StateMachineComponent
 {
 public:
 	void Update() override;
