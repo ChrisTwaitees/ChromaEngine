@@ -15,6 +15,7 @@ class MeshComponent;
 class PhysicsComponent;
 class AnimationComponent;
 class CharacterControllerComponent;
+class StateMachineComponent;
 
 class IEntity
 {
@@ -92,6 +93,11 @@ public:
 		AddCharacterControllerComponent(newComponent);
 	};
 
+	//template<>
+	//void AddComponent<StateMachineComponent*>(StateMachineComponent*& newComponent) {
+	//	AddStateMachineComponent(newComponent);
+	//}
+
 
 	IEntity();
 	virtual ~IEntity() {};
@@ -123,12 +129,15 @@ protected:
 	std::vector<UID> m_PhysicsComponentUIDs;
 	std::vector<UID> m_AnimationComponentUIDs;
 	std::vector<UID> m_CharacterControllerComponentUIDs;
+	std::vector<UID> m_StateMachineComponentUIDs;
+
 	// add
 	virtual void AddComponent(IComponent*& newComponent) = 0;
 	virtual void AddMeshComponent(MeshComponent*& newMeshComponent) = 0;
 	virtual void AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent) = 0;
 	virtual void AddAnimationComponent(AnimationComponent*& newAnimationComponent) = 0;
 	virtual void AddCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) = 0;
+	virtual void AddStateMachineComponent(StateMachineComponent*& newCharacterControllerComponent) = 0;
 };
 
 #endif

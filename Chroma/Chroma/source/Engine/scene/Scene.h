@@ -35,6 +35,7 @@ namespace Chroma
 		static void AddMeshComponent(IComponent* const& newMeshComponent);
 		static void AddPhysicsComponent(IComponent* const& newPhysicsComponent);
 		static void AddUIComponent(IComponent* const& newUIComponent);
+		static void AddStateMachineComponent(IComponent* const& newStateMachineComponent);
 
 		// lights
 		static void AddLight(IComponent* const& newLight);
@@ -120,6 +121,8 @@ namespace Chroma
 		static std::set<UID> m_UnLitComponentUIDs;
 		// ui components
 		static std::set<UID> m_UIComponentUIDs;
+		// state machine components
+		static std::set<UID> m_StateMachineUIDs;
 		// light uids
 		static std::set<UID> m_LightUIDs;
 

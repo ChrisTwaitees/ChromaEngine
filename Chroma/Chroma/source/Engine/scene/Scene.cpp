@@ -41,6 +41,8 @@ namespace Chroma
 
 	std::set<UID> Scene::m_UIComponentUIDs;
 
+	std::set<UID> Scene::m_StateMachineUIDs;
+
 	std::set<UID> Scene::m_LightUIDs;
 
 	// timing
@@ -323,6 +325,18 @@ namespace Chroma
 
 		// add component
 		m_Components[newUIComponent->GetUID()] = newUIComponent;
+	}
+
+	void Scene::AddStateMachineComponent(IComponent* const& newStateMachineComponent)
+	{
+		// add to global component UIDs
+		m_ComponentUIDs.insert(newStateMachineComponent->GetUID());
+
+		// collect component UID
+		m_StateMachineUIDs.insert(newStateMachineComponent->GetUID());
+
+		// add component
+		m_Components[newStateMachineComponent->GetUID()] = newStateMachineComponent;
 	}
 
 	void Scene::AddLight(IComponent* const& newLight)

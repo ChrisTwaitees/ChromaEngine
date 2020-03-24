@@ -61,6 +61,7 @@ private:
 	void AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent) override;
 	void AddAnimationComponent(AnimationComponent*& newAnimationComponent) override;
 	void AddCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) override;
+	void AddStateMachineComponent(StateMachineComponent*& newStateMachineComponent) override;
 
 	// Components functions
 	void UpdatePhysicsComponentsTransforms();

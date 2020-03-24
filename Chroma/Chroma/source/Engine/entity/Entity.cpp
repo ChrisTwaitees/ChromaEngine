@@ -120,6 +120,21 @@ void Entity::AddCharacterControllerComponent(CharacterControllerComponent*& newC
 	m_ComponentUIDs.push_back(newCharacterControllerComponent->GetUID());
 }
 
+void Entity::AddStateMachineComponent(StateMachineComponent*& newStateMachineComponent)
+{
+	// Prepare for Entity
+	ProcessNewComponent(newStateMachineComponent);
+
+	// add state machines component
+	m_StateMachineComponentUIDs.push_back(newStateMachineComponent->GetUID());
+
+	// add to updating components
+	Chroma::Scene::AddStateMachineComponent(newStateMachineComponent);
+
+	// Add to global components list
+	m_ComponentUIDs.push_back(newStateMachineComponent->GetUID());
+}
+
 void Entity::CalculateBBox()
 {
 	// Calculate new min and max bbox from mesh components associated with entity
