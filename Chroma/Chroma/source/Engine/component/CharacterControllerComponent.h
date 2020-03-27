@@ -27,7 +27,9 @@ public:
 	inline virtual glm::vec3& GetVelocity() { return m_Velocity; }
 	inline virtual glm::vec3& GetPlayerPosition() { return m_Position; };
 	inline virtual glm::vec3& GetCamPosition() { return m_CamPosition; };
-
+	virtual float& GetSprintSpeed() { return m_SprintSpeed; };
+	virtual float& GetWalkSpeed() { return m_WalkSpeed; };
+	
 	CharacterControllerComponent();
 	virtual ~CharacterControllerComponent();
 
@@ -46,6 +48,8 @@ protected:
 	glm::mat4 m_Transform{ 1.0 };
 
 	// physics
+	float m_WalkSpeed;
+	float m_SprintSpeed;
 	glm::vec3 m_Velocity{ 0.0f };
 
 	// functions

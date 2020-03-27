@@ -136,9 +136,9 @@ void ThirdPersonCharacterController::ProcessMovement()
 		glm::vec3 playerHeadingUnClamped = (sidePlayer * Chroma::Input::GetAxis("Horizontal")) + (toPlayer * -Chroma::Input::GetAxis("Vertical"));
 		m_PlayerHeading = glm::normalize(playerHeadingUnClamped); 
 		if (Chroma::Input::IsPressed(Chroma::Input::L3))
-			m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_MovementSpeed * m_SprintSpeedMultiplier * glm::vec3(DELTATIME);
+			m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_WalkSpeed * m_SprintSpeedMultiplier * glm::vec3(DELTATIME);
 		else
-			m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_MovementSpeed * glm::vec3(DELTATIME);
+			m_Position += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_WalkSpeed * glm::vec3(DELTATIME);
 	}
 
 	// add force

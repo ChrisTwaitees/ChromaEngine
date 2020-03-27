@@ -8,6 +8,28 @@
 #include <math/Math.h>
 #include <core/Core.h>
 
+struct NormalizedTimer
+{
+	float m_StartTime{ 0.0f };
+	float m_CurrentTime{ 0.0f };
+	float* m_Timer;
+	//std::reference_wrapper<float> m_Timer;
+
+	bool operator <(const NormalizedTimer& rhs) const
+	{
+		return rhs.m_StartTime > m_StartTime;
+	}
+
+	NormalizedTimer();
+	NormalizedTimer(float& Duration)
+	{
+		m_StartTime = Duration;
+		m_CurrentTime = Duration;
+		Duration = 1.0f;
+		m_Timer = &Duration;
+	}
+};
+
 
 namespace Chroma
 {
@@ -31,6 +53,7 @@ namespace Chroma
 
 		// timers
 		inline static void StartTimer(float& Duration) { m_Timers.insert(Duration); };
+		static void StartNormalizedTimer(float& Duration);
 
 		static void Update();
 
@@ -50,6 +73,7 @@ namespace Chroma
 		static float m_Speed;
 
 		static std::set<std::reference_wrapper<float>> m_Timers;
+		static std::vector<NormalizedTimer> m_NormalizedTimers;
 
 		// functions
 		static void ProcessTimers();

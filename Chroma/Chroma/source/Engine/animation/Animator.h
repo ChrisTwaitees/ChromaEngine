@@ -13,13 +13,13 @@
 #include <resources/AnimationLoader.h>
 #include <resources/AnimationCompression.h>
 
-#include <animation/AnimationStateMachine.h>
 #include <animation/Skeleton.h>
 
 
 class IComponent;
 
 typedef std::map<std::string, KeyFrame> KeyFrames;
+typedef std::pair<float, Take> TakeState;
 
 class Animator
 {
@@ -29,6 +29,8 @@ public:
 
 	// animation
 	void PlayTake(std::string const& takeName, float const& normalizedTime);
+
+	void LerpTakes(TakeState const& stateFrom, TakeState const& stateTo);
 
 	void LoadAnimations(std::string const& sourcePath);
 

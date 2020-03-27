@@ -6,6 +6,7 @@
 // chroma
 #include <component/IComponent.h>
 #include <animation/Animator.h>
+#include <animation/AnimationStateMachine.h>
 #include <time/Time.h>
 
 class AnimationComponent : public IComponent

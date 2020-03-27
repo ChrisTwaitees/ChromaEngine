@@ -19,10 +19,13 @@ void Animator::PlayTake(std::string const& takeName, float const& normalizedTime
 		m_Skeleton->SetToBindPose();
 		return;
 	}
-	
 
+}
 
-
+void Animator::LerpTakes(TakeState const& stateFrom, TakeState const& stateTo)
+{
+	CHROMA_INFO("Transitioning from State : {0} to : {1}", stateFrom.second.m_Name, stateTo.second.m_Name);
+	CHROMA_INFO("Transition timing from   : {0} to : {1}", stateFrom.first, stateTo.first);
 }
 
 float Animator::CalculateFrameNumber(std::string const& takeName, float const& normalizedTime)

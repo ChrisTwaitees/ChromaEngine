@@ -13,6 +13,9 @@ public:
 
 	void Update() override;
 
+	float& GetSprintSpeed() override { return m_SprintSpeedMultiplier; };
+	float& GetWalkSpeed() override { return m_WalkSpeed; };
+
 	ThirdPersonCharacterController() {};
 	~ThirdPersonCharacterController() {};
 
@@ -39,14 +42,13 @@ private:
 	// Movement
 	glm::vec3 m_PlayerHeading{ 0.0f };
 
-	const float m_MovementSpeed{ 10.0f };
-	const float m_SprintSpeedMultiplier{ 2.5f };
+	float m_WalkSpeed{ 10.0f };
+	float m_SprintSpeedMultiplier{ 2.5f };
 	float m_CurrentSpeed{ 0.0f };
 
 
-	glm::vec3 m_PreviousPosition{ 0.0f };
-
 	// Physics
+	glm::vec3 m_PreviousPosition{ 0.0f };
 	glm::vec3 m_Force{ 0.0f };
 
 	const float m_JumpHeight{ 12.0f};

@@ -11,6 +11,7 @@ namespace Chroma
 	double Time::m_FPS;
 	float Time::m_Speed;
 	std::set<std::reference_wrapper<float>> Time::m_Timers;
+	std::vector<NormalizedTimer> Time::m_NormalizedTimers;
 
 
 	void Time::Sleep(unsigned int milliseconds)
@@ -20,6 +21,7 @@ namespace Chroma
 
 	void Time::ProcessTimers()
 	{
+		// timers
 		std::set<std::reference_wrapper<float>>::iterator it = m_Timers.begin();
 
 		for (float& timer : m_Timers)
@@ -32,6 +34,23 @@ namespace Chroma
 			else
 			{
 				timer -= m_Delta;
+			}
+		}
+
+		// normalizedTimers
+		std::vector<NormalizedTimer>::iterator normIt = m_NormalizedTimers.begin();
+
+		for (NormalizedTimer& timer : m_NormalizedTimers)
+		{
+			if (timer.m_CurrentTime - m_Delta < 0.0f)
+			{
+				*timer.m_Timer = 0.0f;
+				m_NormalizedTimers.erase(normIt);
+			}
+			else
+			{
+				timer.m_CurrentTime -= m_Delta;
+				*timer.m_Timer = timer.m_CurrentTime * (1.0/timer.m_StartTime);
 			}
 		}
 	}
@@ -54,6 +73,12 @@ namespace Chroma
 	float Time::GetLoopingTimeNormalized(float const& loopDuration)
 	{
 		return Chroma::Math::Remap01(GetLoopingTime(loopDuration), 0.0, loopDuration);
+	}
+
+	void Time::StartNormalizedTimer(float& Duration)
+	{
+		NormalizedTimer newNormalizedTimer(Duration);
+		m_NormalizedTimers.push_back(newNormalizedTimer); // add to timers to tick down
 	}
 
 	void Time::Update()

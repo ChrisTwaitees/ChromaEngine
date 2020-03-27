@@ -8,13 +8,23 @@ class CharacterControllerComponent;
 class Animator;
 struct Take;
 
+
+struct AnimStateTransitionCondition
+{
+	bool(*m_Condition)(CharacterControllerComponent* charController);
+	AnimStateTransitionCondition(bool(*func)(CharacterControllerComponent*)) : m_Condition(func) {};
+};
+
+
 struct AnimState : public State
 {
 	bool m_IsLooping{false};
-	float m_TransitionTime{ 0.0f };
-	std::vector<std::pair<AnimState, StateTransitionCondition>> m_Transitions;
+	float m_TransitionTime{ 3.0f };
+	std::vector<std::pair<AnimState, AnimStateTransitionCondition>>* m_Transitions{ new std::vector<std::pair<AnimState, AnimStateTransitionCondition>> };
+
 	AnimState() {};
 	AnimState(std::string const& takeName) { m_Name = takeName; };
+	//~AnimState() { delete m_Transitions; };
 };
 
 
@@ -43,6 +53,7 @@ protected:
 	AnimState m_CurrentState;
 
 	float m_TransitionTimer{ 0.0f };
+	float m_TransitionTimerStart{ 0.0f };
 	bool m_IsTransitioning{ false };
 	
 };
