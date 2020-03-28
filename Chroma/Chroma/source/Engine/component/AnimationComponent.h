@@ -21,7 +21,7 @@ public:
 
 	void SetAnimator(Animator& newAnimator);
 	void SetAnimationStateMachine(AnimationStateMachine*& newAnimationStateMachine);
-	void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID);
+	AnimationStateMachine*& GetAnimationStateMachine() { return m_AnimationStateMachine; };
 
 	Animator& GetAnimator() { return m_Animator; };
 
@@ -30,7 +30,7 @@ public:
 
 private:
 	Animator m_Animator;
-	AnimationStateMachine* m_AnimationStateMachine;
+	AnimationStateMachine* m_AnimationStateMachine{nullptr};
 	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
 };
 

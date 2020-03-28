@@ -142,6 +142,39 @@ int main()
 	// ____________________________________________________
 
 
+	// ____________________________________________________
+
+	// IK TEST MODEL
+	// ____________________________________________________
+	IEntity* IKTestEntity = new Entity;
+	IKTestEntity->SetName("IKTestEntity");
+	Chroma::Scene::AddEntity(IKTestEntity);
+	IKTestEntity->SetScale(glm::vec3(0.5f));
+	IKTestEntity->SetTranslation(glm::vec3(5.0, 0.0, 0.0));
+	// mesh
+	MeshComponent* IKTestMeshComponent = new SkinnedMesh("resources/animation/test_tentacle/test_tentacle.fbx");
+	IKTestMeshComponent->SetShader(PBRShader);
+	IKTestMeshComponent->AddTexture(gridAlbedo);
+	IKTestMeshComponent->AddTexture(flatNormal);
+	IKTestMeshComponent->m_UVMultiply = glm::vec2(8.0f);
+	IKTestEntity->AddComponent(IKTestMeshComponent);
+	// rigid
+	PhysicsComponent* IKTestRigidComponent = new PhysicsComponent();
+	IKTestRigidComponent->SetColliderShape(ColliderShape::Capsule);
+	IKTestRigidComponent->SetCollisionState(ColliderState::Kinematic);
+	IKTestEntity->AddComponent(IKTestRigidComponent);
+	// animation
+	AnimationComponent* IKTestAnimationComponent = new AnimationComponent();
+	Animator IKTestAnimator;
+	IKTestAnimator.BindSkeleton(IKTestMeshComponent);
+	IKTestAnimator.LoadAnimations("resources/animation/test_tentacle/test_tentacle.fbx");
+	IKTestAnimator.CompressAnimations();
+	IKTestAnimationComponent->SetAnimator(IKTestAnimator);
+	IKTestEntity->AddComponent(IKTestAnimationComponent);
+	// ____________________________________________________
+
+
+
 	//// CAPSULE
 	//// ____________________________________________________
 	//IEntity* CapsuleEntity = new Entity;

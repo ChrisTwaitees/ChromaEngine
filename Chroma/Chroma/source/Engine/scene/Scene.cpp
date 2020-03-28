@@ -135,6 +135,8 @@ namespace Chroma
 
 		m_CharacterControllerUIDs.erase(UID);
 
+		m_StateMachineUIDs.erase(UID);
+
 		m_PhysicsComponentUIDs.erase(UID);
 
 		m_UIComponentUIDs.erase(UID);

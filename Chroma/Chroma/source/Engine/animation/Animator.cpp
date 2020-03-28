@@ -1,7 +1,7 @@
 #include "Animator.h"
 #include <model/SkinnedMesh.h>
 #include <scene/Scene.h>
-#include <component/CharacterControllerComponent.h>
+#include <component/AnimationComponent.h>
 
 void Animator::PlayTake(std::string const& takeName, float const& normalizedTime)
 {
@@ -181,6 +181,11 @@ void Animator::LoadAnimations(std::string const& sourcePath)
 	}
 }
 
+AnimationComponent* Animator::GetAnimationComponent()
+{
+	return static_cast<AnimationComponent*>(Chroma::Scene::GetComponent(m_AnimationComponentUID));
+}
+
 void Animator::AddTake(Take const& newTake)
 {
 	m_Takes[newTake.m_Name] = newTake;
@@ -201,8 +206,13 @@ void Animator::Update()
 		return;
 	}
 
-	// play take
-	//PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
+	// If no animstatemachine present on Entity, play current take
+	if (GetAnimationComponent()->GetAnimationStateMachine() == nullptr)
+	{
+		// play take
+		PlayTake(m_CurrentTake, Chroma::Time::GetLoopingTimeNormalized(m_Takes.at(m_CurrentTake).m_Duration));
+	}
+	
 }
 
 Take& Animator::GetTake(std::string const& takeName)

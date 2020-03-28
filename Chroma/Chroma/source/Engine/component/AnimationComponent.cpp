@@ -10,15 +10,11 @@ void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float
 void AnimationComponent::Init()
 {
 	CHROMA_TRACE("AnimationComponent : {0} Initialized.", m_UID.data);
-	for (UID const& uid : GetParentEntity()->GetCharacterControllerComponentUIDs())
-	{
-		SetCharacterControllerComponentUID(uid);
-	}
 }
 
 void AnimationComponent::Update()
 {
-	// state machine
+	// state machinem_AnimationComponentUID
 	if( m_AnimationStateMachine != nullptr)
 		m_AnimationStateMachine->Update();
 
@@ -50,7 +46,7 @@ void AnimationComponent::SetAnimator(Animator& newAnimator)
 	// Set Animator
 	m_Animator = newAnimator;
 	// Set UID
-	newAnimator.SetAnimationComponentUID(m_UID);
+	m_Animator.SetAnimationComponentUID(m_UID);
 }
 
 void AnimationComponent::SetAnimationStateMachine(AnimationStateMachine*& newAnimationStateMachine)
@@ -61,10 +57,6 @@ void AnimationComponent::SetAnimationStateMachine(AnimationStateMachine*& newAni
 	m_AnimationStateMachine->SetAnimationComponentUID(m_UID);
 }
 
-void AnimationComponent::SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID)
-{
-	m_Animator.SetCharacterControllerComponentUID(newCharacterControllerComponentUID);
-}
 
 AnimationComponent::AnimationComponent()
 {

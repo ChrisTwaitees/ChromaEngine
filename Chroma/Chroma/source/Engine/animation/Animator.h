@@ -16,7 +16,7 @@
 #include <animation/Skeleton.h>
 
 
-class IComponent;
+class AnimationComponent;
 
 typedef std::map<std::string, KeyFrame> KeyFrameArray;
 typedef std::pair<std::string, float> TakeNameTime;
@@ -42,8 +42,6 @@ public:
 
 	void CompressAnimations();
 
-	inline void SetCharacterControllerComponentUID(UID const& newCharacterControllerComponentUID) { m_CharacterControllerComponentUID = newCharacterControllerComponentUID; }
-
 	inline void SetAnimationComponentUID(UID const& newAnimationComponentUID) { m_AnimationComponentUID = newAnimationComponentUID; }
 
 	std::map<std::string, Take>& GetTakes() { return m_Takes; };
@@ -60,8 +58,10 @@ private:
 	Skeleton* m_Skeleton{ nullptr };
 
 	// UIDs to Existing Components
-	UID m_CharacterControllerComponentUID;
 	UID m_AnimationComponentUID;
+	
+	// Get AnimationComponent
+	AnimationComponent* GetAnimationComponent();
 
 	// takes
 	std::map<std::string, Take> m_Takes;
