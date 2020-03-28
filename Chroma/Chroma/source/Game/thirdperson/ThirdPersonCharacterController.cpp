@@ -29,9 +29,9 @@ void ThirdPersonCharacterController::GroundCollisionCheck()
 	//m_CollisionCheckDist = glm::length(GetParentEntity()->GetBBox().first) * 0.8;
 	glm::vec3 rayStart = m_Position + ( - glm::normalize(m_GravityDirection) * 0.1f);
 	glm::vec3 rayEnd = m_Position + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
-	m_HitGround = Chroma::Physics::RayTest(rayStart, rayEnd);
+	m_IsOnGround = Chroma::Physics::RayTest(rayStart, rayEnd);
 	// debug
-	if (m_HitGround)
+	if (m_IsOnGround)
 		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, rayEnd, glm::vec3(1.0, 0.0, 0.0));
 	else
 		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, rayEnd, glm::vec3(0.0, 1.0, 0.0));
@@ -84,7 +84,7 @@ void ThirdPersonCharacterController::ProcessCamera()
 void ThirdPersonCharacterController::CalculateGravity()
 {
 	// Apply Gravity
-	if (!m_HitGround) // if in air, apply gravity
+	if (!m_IsOnGround) // if in air, apply gravity
 	{
 		// using dot product check if gravity has reached max
 		float gravitySpeed = (float)glm::max(glm::dot(m_GravityDirection, glm::normalize(m_Force)), 0.0f);
@@ -108,7 +108,7 @@ void ThirdPersonCharacterController::CalculateGravity()
 	m_JumpVector = rotateJumpVector * m_JumpVectorStationary;
 
 	// Jump : if on ground and button pressed
-	if (m_HitGround && (Chroma::Input::IsPressed(Chroma::Input::CROSS) || Chroma::Input::IsPressed(Chroma::Input::SPACEBAR)))
+	if (m_IsOnGround && (Chroma::Input::IsPressed(Chroma::Input::CROSS) || Chroma::Input::IsPressed(Chroma::Input::SPACEBAR)))
 	{
 		CHROMA_INFO("Jump triggered!");
 		float jumpIntertia = Chroma::Math::InertiaForHeight(m_GravityMax, m_JumpHeight) * DELTATIME;

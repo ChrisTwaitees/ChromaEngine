@@ -19,7 +19,7 @@ struct AnimStateTransitionCondition
 struct AnimState : public State
 {
 	bool m_IsLooping{false};
-	float m_TransitionTime{ 3.0f };
+	float m_TransitionTime{ 0.5f };
 	float m_CurrentTime{ 0.0f };
 
 	std::vector<std::pair<AnimState, AnimStateTransitionCondition>>* m_Transitions{ new std::vector<std::pair<AnimState, AnimStateTransitionCondition>> };
@@ -37,6 +37,7 @@ public:
 	void ProcessConditions() override {};
 	
 	virtual void ProcessAnimator() {};
+	virtual void ProcessAnimStates() {};
 	virtual void TranstionTo(AnimState const& newState);
 
 	void SetAnimationComponentUID(UID const& animcompUID) { m_AnimationComponentUID = animcompUID; };
@@ -50,8 +51,10 @@ protected:
 	Animator& GetAnimator();
 	Take& GetTake(std::string const& takeName);
 	UID m_AnimationComponentUID;
+
 	std::vector<AnimState> m_States;
 	AnimState m_CurrentState;
+	AnimState m_PreviousState;
 
 	float m_TransitionTimer{ 0.0f };
 	float m_TransitionTimerStart{ 0.0f };

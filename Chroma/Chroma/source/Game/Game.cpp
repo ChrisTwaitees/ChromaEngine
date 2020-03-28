@@ -186,7 +186,7 @@ int main()
 
 	IEntity* TerrainEntity = new Entity;
 	Chroma::Scene::AddEntity(TerrainEntity);
-	MeshComponent* TerrainMeshComponent = new Model("resources/assets/level/groundScaleTest.fbx");
+	MeshComponent* TerrainMeshComponent = new Model("resources/assets/level/groundScaleTest2.fbx");
 	TerrainMeshComponent->SetShader(PBRShader);
 	TerrainMeshComponent->AddTexture(gridAlbedo);
 	TerrainMeshComponent->AddTexture(flatNormal);

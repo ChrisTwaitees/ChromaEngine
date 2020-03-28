@@ -62,7 +62,6 @@ private:
 	glm::vec3 m_GravityDirection{ 0.0f, -1.0f, 0.0f };
 
 	// Collisions
-	bool m_HitGround{ true };
 	float m_CollisionCheckDist{0.2f };
 
 	// Functions

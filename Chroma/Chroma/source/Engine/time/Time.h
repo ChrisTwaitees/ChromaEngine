@@ -8,24 +8,44 @@
 #include <math/Math.h>
 #include <core/Core.h>
 
-struct NormalizedTimer
+struct NormalizedTimer10
 {
 	float m_StartTime{ 0.0f };
 	float m_CurrentTime{ 0.0f };
 	float* m_Timer;
-	//std::reference_wrapper<float> m_Timer;
 
-	bool operator <(const NormalizedTimer& rhs) const
+	bool operator <(const NormalizedTimer10& rhs) const
 	{
 		return rhs.m_StartTime > m_StartTime;
 	}
 
-	NormalizedTimer();
-	NormalizedTimer(float& Duration)
+	NormalizedTimer10();
+	NormalizedTimer10(float& Duration)
 	{
 		m_StartTime = Duration;
 		m_CurrentTime = Duration;
 		Duration = 1.0f;
+		m_Timer = &Duration;
+	}
+};
+
+struct NormalizedTimer01
+{
+	float m_StartTime{ 0.0f };
+	float m_CurrentTime{ 0.0f };
+	float* m_Timer;
+
+	bool operator <(const NormalizedTimer01& rhs) const
+	{
+		return rhs.m_StartTime > m_StartTime;
+	}
+
+	NormalizedTimer01();
+	NormalizedTimer01(float& Duration)
+	{
+		m_StartTime = Duration;
+		m_CurrentTime = Duration;
+		Duration = 0.0f;
 		m_Timer = &Duration;
 	}
 };
@@ -53,7 +73,8 @@ namespace Chroma
 
 		// timers
 		inline static void StartTimer(float& Duration) { m_Timers.insert(Duration); };
-		static void StartNormalizedTimer(float& Duration);
+		static void StartNormalizedTimer10(float& Duration);
+		static void StartNormalizedTimer01(float& Duration);
 
 		static void Update();
 
@@ -73,7 +94,8 @@ namespace Chroma
 		static float m_Speed;
 
 		static std::set<std::reference_wrapper<float>> m_Timers;
-		static std::vector<NormalizedTimer> m_NormalizedTimers;
+		static std::vector<NormalizedTimer10> m_NormalizedTimers10;
+		static std::vector<NormalizedTimer01> m_NormalizedTimers01;
 
 		// functions
 		static void ProcessTimers();

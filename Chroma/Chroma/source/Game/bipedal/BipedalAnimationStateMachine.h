@@ -10,6 +10,7 @@ public:
 	void Update() override;
 	void Destroy() override;
 	void ProcessConditions() override;
+	void ProcessAnimStates() override;
 	void ProcessAnimator() override;
 
 

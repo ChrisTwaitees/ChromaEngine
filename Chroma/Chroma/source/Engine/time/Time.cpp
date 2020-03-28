@@ -11,7 +11,8 @@ namespace Chroma
 	double Time::m_FPS;
 	float Time::m_Speed;
 	std::set<std::reference_wrapper<float>> Time::m_Timers;
-	std::vector<NormalizedTimer> Time::m_NormalizedTimers;
+	std::vector<NormalizedTimer10> Time::m_NormalizedTimers10;
+	std::vector<NormalizedTimer01> Time::m_NormalizedTimers01;
 
 
 	void Time::Sleep(unsigned int milliseconds)
@@ -37,20 +38,37 @@ namespace Chroma
 			}
 		}
 
-		// normalizedTimers
-		std::vector<NormalizedTimer>::iterator normIt = m_NormalizedTimers.begin();
+		// normalizedTimers10
+		std::vector<NormalizedTimer10>::iterator normIt10 = m_NormalizedTimers10.begin();
 
-		for (NormalizedTimer& timer : m_NormalizedTimers)
+		for (NormalizedTimer10& timer : m_NormalizedTimers10)
 		{
 			if (timer.m_CurrentTime - m_Delta < 0.0f)
 			{
 				*timer.m_Timer = 0.0f;
-				m_NormalizedTimers.erase(normIt);
+				m_NormalizedTimers10.erase(normIt10);
 			}
 			else
 			{
 				timer.m_CurrentTime -= m_Delta;
 				*timer.m_Timer = timer.m_CurrentTime * (1.0/timer.m_StartTime);
+			}
+		}
+
+		// normalizedTimers01
+		std::vector<NormalizedTimer01>::iterator normIt01 = m_NormalizedTimers01.begin();
+
+		for (NormalizedTimer01& timer : m_NormalizedTimers01)
+		{
+			if (timer.m_CurrentTime - m_Delta < 0.0f)
+			{
+				*timer.m_Timer = 1.0f;
+				m_NormalizedTimers01.erase(normIt01);
+			}
+			else
+			{
+				timer.m_CurrentTime -= m_Delta;
+				*timer.m_Timer = 1.0 - (timer.m_CurrentTime * (1.0 / timer.m_StartTime));
 			}
 		}
 	}
@@ -75,10 +93,16 @@ namespace Chroma
 		return Chroma::Math::Remap01(GetLoopingTime(loopDuration), 0.0, loopDuration);
 	}
 
-	void Time::StartNormalizedTimer(float& Duration)
+	void Time::StartNormalizedTimer10(float& Duration)
 	{
-		NormalizedTimer newNormalizedTimer(Duration);
-		m_NormalizedTimers.push_back(newNormalizedTimer); // add to timers to tick down
+		NormalizedTimer10 newNormalizedTimer(Duration);
+		m_NormalizedTimers10.push_back(newNormalizedTimer); // add to timers to tick down
+	}
+
+	void Time::StartNormalizedTimer01(float& Duration)
+	{
+		NormalizedTimer01 newNormalizedTimer(Duration);
+		m_NormalizedTimers01.push_back(newNormalizedTimer); // add to timers to tick down
 	}
 
 	void Time::Update()

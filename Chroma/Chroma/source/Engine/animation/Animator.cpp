@@ -22,6 +22,7 @@ void Animator::PlayTake(std::string const& takeName, float const& normalizedTime
 
 }
 
+
 void Animator::LerpTakes(TakeNameTime const& stateFrom, TakeNameTime const& stateTo, float const& lerpAmount)
 {
 	CHROMA_INFO("Transitioning from State : {0} to : {1}", stateFrom.first, stateTo.first);
@@ -45,6 +46,7 @@ void Animator::LerpTakes(TakeNameTime const& stateFrom, TakeNameTime const& stat
 
 float Animator::CalculateFrameNumber(std::string const& takeName, float const& normalizedTime)
 {
+
 	return Chroma::Math::Remap(normalizedTime, 0.0, 1.0, 0.0, (float)m_Takes.at(takeName).m_NumFrames);
 }
 
@@ -164,6 +166,10 @@ Take& Animator::GetTake(std::string const& takeName)
 {
 	if (m_Takes.find(takeName) != m_Takes.end()) 
 		return m_Takes.find(takeName)->second;
+	else
+	{
+		CHROMA_ERROR("Cannot find Take : {0}", takeName);
+	}
 }
 
 void Animator::DebugAnimationTake(std::string const& takeName, float const& debugTime)

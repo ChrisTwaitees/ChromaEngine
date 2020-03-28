@@ -10,13 +10,19 @@ typedef std::pair<std::string, Take> TakeData;
 
 void BipedalAnimationStateMachine::Update()
 {
+	CHROMA_INFO_UNDERLINE;
+
 	CHROMA_INFO("Bipedal State Machine Updating");
-	CHROMA_INFO("Current State : {0}", m_CurrentState.m_Name);
+	CHROMA_INFO("Current State : {0}, time : {1}", m_CurrentState.m_Name, m_CurrentState.m_CurrentTime);
+	CHROMA_INFO("Previous State : {0}, time : {1}", m_PreviousState.m_Name, m_PreviousState.m_CurrentTime);
+
+	ProcessAnimStates(); 
 
 	ProcessConditions();
 
 	ProcessAnimator();
 
+	CHROMA_INFO_UNDERLINE;
 }
 
 void BipedalAnimationStateMachine::Destroy()
@@ -27,7 +33,7 @@ void BipedalAnimationStateMachine::Destroy()
 void BipedalAnimationStateMachine::ProcessConditions()
 {
 	CHROMA_INFO("Processing State : {0} TransitionConditions", m_CurrentState.m_Name);
-	for (std::pair<AnimState, AnimStateTransitionCondition> transition : *m_CurrentState.m_Transitions)
+	for (std::pair<AnimState, AnimStateTransitionCondition> const& transition : *m_CurrentState.m_Transitions)
 	{
 		//CHROMA_INFO("Condition for state : {}", transition.first.m_Name);
 		if (transition.second.m_Condition(GetCharacterController()))
@@ -38,13 +44,36 @@ void BipedalAnimationStateMachine::ProcessConditions()
 	}
 }
 
+void BipedalAnimationStateMachine::ProcessAnimStates()
+{
+	// Updates current and previous states Current Time
+	CHROMA_INFO("Processing Anim States");
+
+
+	// if in transition continue updating previous state
+	if (m_IsTransitioning)
+	{
+		if (m_PreviousState.m_IsLooping)
+		{
+			m_PreviousState.m_CurrentTime = Chroma::Time::GetLoopingTimeNormalized(GetTake(m_PreviousState.m_Name).m_Duration);
+		}
+	}
+
+	// update time in current state
+	if (m_CurrentState.m_IsLooping)
+	{
+		m_CurrentState.m_CurrentTime = Chroma::Time::GetLoopingTimeNormalized(GetTake(m_CurrentState.m_Name).m_Duration);
+	}
+
+}
+
 void BipedalAnimationStateMachine::ProcessAnimator()
 {
 
 	// check whether currently transitioning
 	if (m_IsTransitioning)
 	{
-		CHROMA_INFO("Transition Timer : {}", m_TransitionTimer);
+		//CHROMA_INFO("Transition Timer : {}", m_TransitionTimer);
 		//GetAnimator().LerpTakes(std::make_pair(0.5, Take()), std::make_pair(0.5, Take()));
 
 		if (m_TransitionTimer <= 0.0f)
@@ -54,15 +83,8 @@ void BipedalAnimationStateMachine::ProcessAnimator()
 	}
 	else // continue in current state
 	{
-		if (m_CurrentState.m_IsLooping)
-		{
-			GetAnimator().PlayTake(m_CurrentState.m_Name, Chroma::Time::GetLoopingTimeNormalized(GetTake(m_CurrentState.m_Name).m_Duration));
-		}
-		else
-		{
-			GetAnimator().PlayTake(m_CurrentState.m_Name, Chroma::Time::GetLoopingTimeNormalized(GetTake(m_CurrentState.m_Name).m_Duration));
-		}
 	}
+	GetAnimator().PlayTake(m_CurrentState.m_Name, m_CurrentState.m_CurrentTime);
 }
 
 void BipedalAnimationStateMachine::TranstionTo(AnimState const& newState)
@@ -75,11 +97,8 @@ void BipedalAnimationStateMachine::TranstionTo(AnimState const& newState)
 		m_CurrentState.m_Exit();
 	}
 
-	// call enter func
-	if (m_CurrentState.m_Enter != nullptr)
-	{
-		m_CurrentState.m_Enter();
-	}
+	// set previous state
+	m_PreviousState = m_CurrentState;
 
 	// set current state
 	m_CurrentState = newState;
@@ -88,18 +107,37 @@ void BipedalAnimationStateMachine::TranstionTo(AnimState const& newState)
 	if (m_CurrentState.m_TransitionTime != 0.0f)
 	{
 		m_TransitionTimer = m_CurrentState.m_TransitionTime;
-		Chroma::Time::StartNormalizedTimer(m_TransitionTimer);
+		Chroma::Time::StartNormalizedTimer10(m_TransitionTimer);
 		m_IsTransitioning = true;
 	}
+
+	// trigger once off timer if not looping
+	if (!m_CurrentState.m_IsLooping)
+	{
+		m_CurrentState.m_CurrentTime = GetTake(m_CurrentState.m_Name).m_Duration;
+		Chroma::Time::StartNormalizedTimer01(m_CurrentState.m_CurrentTime);
+	}
+
+	// call enter func
+	if (m_CurrentState.m_Enter != nullptr)
+	{
+		m_CurrentState.m_Enter();
+	}
+
 }
 
 
 bool WalkTransitionCondition(CharacterControllerComponent* characterController)
 {
-	if (glm::length(characterController->GetVelocity()) > 0.1f)
+	if (characterController->GetIsOnGround())
 	{
-		CHROMA_INFO("Walk condition met!");
-		return true;
+		if (glm::length(characterController->GetVelocity()) > 0.1f)
+		{
+			CHROMA_INFO("Walk condition met!");
+			return true;
+		}
+		else
+			return false;
 	}
 	else
 		return false;
@@ -108,10 +146,15 @@ bool WalkTransitionCondition(CharacterControllerComponent* characterController)
 
 bool IdleTransitionCondition(CharacterControllerComponent* characterController)
 {
-	if (glm::length(characterController->GetVelocity()) < 0.1f)
+	if (characterController->GetIsOnGround())
 	{
-		CHROMA_INFO("Idle condition met!");
-		return true;
+		if (glm::length(characterController->GetVelocity()) < 0.1f)
+		{
+			CHROMA_INFO("Idle condition met!");
+			return true;
+		}
+		else
+			return false;
 	}
 	else
 		return false;
@@ -133,17 +176,16 @@ void BipedalAnimationStateMachine::Init()
 	// Idle
 	AnimState m_IdleState("Idle");
 	m_IdleState.m_IsLooping = true;
-	m_IdleState.m_TransitionTime = 0.5f;
 	m_States.push_back(m_IdleState);
 
 	// Walk
 	AnimState m_WalkState("Walk");
-	m_WalkState.m_IsLooping = true;
+	m_WalkState.m_IsLooping = false;
 	m_States.push_back(m_WalkState);
 	
 	// Jump
 	AnimState m_JumpState("Jump");
-	m_JumpState.m_IsLooping = true;
+	m_JumpState.m_IsLooping = false;
 	m_States.push_back(m_JumpState);
 
 
