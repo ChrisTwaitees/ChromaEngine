@@ -32,7 +32,7 @@ void BipedalAnimationStateMachine::Destroy()
 
 void BipedalAnimationStateMachine::ProcessConditions()
 {
-	CHROMA_INFO("Processing State : {0} TransitionConditions", m_CurrentState.m_Name);
+	CHROMA_INFO("Processing StateTransition Conditions : {0}", m_CurrentState.m_Name);
 	for (std::pair<AnimState, AnimStateTransitionCondition> const& transition : *m_CurrentState.m_Transitions)
 	{
 		//CHROMA_INFO("Condition for state : {}", transition.first.m_Name);
@@ -69,22 +69,20 @@ void BipedalAnimationStateMachine::ProcessAnimStates()
 
 void BipedalAnimationStateMachine::ProcessAnimator()
 {
-
 	// check whether currently transitioning
+	m_IsTransitioning = m_TransitionTimer != 1.0f;
+
 	if (m_IsTransitioning)
 	{
-		//CHROMA_INFO("Transition Timer : {}", m_TransitionTimer);
-		//GetAnimator().LerpTakes(std::make_pair(0.5, Take()), std::make_pair(0.5, Take()));
-
-		if (m_TransitionTimer <= 0.0f)
-		{
-			m_IsTransitioning = false;
-		}
+		CHROMA_INFO("Transition Timer : {}", m_TransitionTimer);
+		// Lerp Takes
+		GetAnimator().LerpTakes(std::make_pair(m_PreviousState.m_Name, m_PreviousState.m_CurrentTime),
+			std::make_pair(m_CurrentState.m_Name, m_CurrentState.m_CurrentTime), m_TransitionTimer);
 	}
 	else // continue in current state
 	{
+		GetAnimator().PlayTake(m_CurrentState.m_Name, m_CurrentState.m_CurrentTime);
 	}
-	GetAnimator().PlayTake(m_CurrentState.m_Name, m_CurrentState.m_CurrentTime);
 }
 
 void BipedalAnimationStateMachine::TranstionTo(AnimState const& newState)
@@ -107,7 +105,7 @@ void BipedalAnimationStateMachine::TranstionTo(AnimState const& newState)
 	if (m_CurrentState.m_TransitionTime != 0.0f)
 	{
 		m_TransitionTimer = m_CurrentState.m_TransitionTime;
-		Chroma::Time::StartNormalizedTimer10(m_TransitionTimer);
+		Chroma::Time::StartNormalizedTimer01(m_TransitionTimer);
 		m_IsTransitioning = true;
 	}
 
@@ -180,7 +178,7 @@ void BipedalAnimationStateMachine::Init()
 
 	// Walk
 	AnimState m_WalkState("Walk");
-	m_WalkState.m_IsLooping = false;
+	m_WalkState.m_IsLooping = true;
 	m_States.push_back(m_WalkState);
 	
 	// Jump

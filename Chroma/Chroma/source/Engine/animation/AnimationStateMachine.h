@@ -56,8 +56,7 @@ protected:
 	AnimState m_CurrentState;
 	AnimState m_PreviousState;
 
-	float m_TransitionTimer{ 0.0f };
-	float m_TransitionTimerStart{ 0.0f };
+	float m_TransitionTimer{ 1.0f };
 	bool m_IsTransitioning{ false };
 	
 };

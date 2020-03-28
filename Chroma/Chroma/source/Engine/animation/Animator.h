@@ -18,7 +18,7 @@
 
 class IComponent;
 
-typedef std::map<std::string, KeyFrame> KeyFrames;
+typedef std::map<std::string, KeyFrame> KeyFrameArray;
 typedef std::pair<std::string, float> TakeNameTime;
 
 class Animator
@@ -72,11 +72,16 @@ private:
 	float CalculateFrameNumber(std::string const& takeName, float const& normalizedTime);
 
 	// joint transforms
-	void ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4& parentTransform , float const& timeStamp);
+	glm::mat4 m_Identity{ glm::mat4(1.0f) };
 
-	glm::mat4 GetJointMat4AtKeyFrameTime(std::string const& jointName, KeyFrames& keyFrames, float timeStamp);
-	JointTransform GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, float const& timeStamp);
+	void ApplyAnimJointHierarchy(int const& jointID, KeyFrameArray& keyFrames, glm::mat4& parentTransform , float const& frameNum);
+	void ApplyAnimJointHierarchyLerped(int const& jointID, KeyFrameArray& fromKeyFrames, float const& fromFrameNum, KeyFrameArray& toKeyFrame, float const& toFrameNum, float const& lerpAmount, glm::mat4 const& parentTransform);
+
+	JointTransform GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, float const& frameNum);
+	JointTransform GetJointTransformAtKeyFrameArrayTime(std::string const& jointName, KeyFrameArray& keyFrames, float const& frameNum);
 	JointTransform InterpolateJointTransforms(JointTransform const& from, JointTransform const& to, float const& lerp);
+
+	glm::mat4 GetJointMat4AtKeyFrameTime(std::string const& jointName, KeyFrameArray& keyFrames, float frameNum);
 	glm::mat4 JointTransformToMat4(JointTransform const& jointTransform);
 
 };

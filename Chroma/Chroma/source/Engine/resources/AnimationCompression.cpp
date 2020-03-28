@@ -6,7 +6,7 @@ namespace Chroma
 	void AnimationCompress::RemoveKeysNotInSkeleton(Take& take, Skeleton*& skeleton)
 	{
 		CHROMA_TRACE_UNDERLINE;
-		CHROMA_TRACE("ANIMATION COMPRESSION :: Reading : {0}. Removing KeyFrames if not found in Skeleton.", take.m_Name);
+		CHROMA_TRACE("ANIMATION COMPRESSION :: Reading : {0}. Removing KeyFrameArray if not found in Skeleton.", take.m_Name);
 		CHROMA_TRACE_UNDERLINE;
 		for (std::pair<std::string, KeyFrame> keyFrame : take.m_KeyFrames)
 		{
