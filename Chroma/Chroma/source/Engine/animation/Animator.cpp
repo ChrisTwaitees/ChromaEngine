@@ -46,8 +46,13 @@ void Animator::LerpTakes(TakeNameTime const& stateFrom, TakeNameTime const& stat
 
 float Animator::CalculateFrameNumber(std::string const& takeName, float const& normalizedTime)
 {
-
-	return Chroma::Math::Remap(normalizedTime, 0.0, 1.0, 0.0, (float)m_Takes.at(takeName).m_NumFrames);
+	// TODO: update framenumber interpolation
+	if (normalizedTime == 1.0)
+	{
+		return Chroma::Math::Remap(0.999, 0.0, 1.0, 0.0, (float)m_Takes.at(takeName).m_NumFrames);
+	}
+	else
+		return Chroma::Math::Remap(normalizedTime, 0.0, 1.0, 0.0, (float)m_Takes.at(takeName).m_NumFrames);
 }
 
 void Animator::ApplyAnimJointHierarchy(int const& jointID, KeyFrames& keyFrames, glm::mat4& parentTransform, float const& frameNum)
