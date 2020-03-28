@@ -19,7 +19,7 @@ struct AnimStateTransitionCondition
 struct AnimState : public State
 {
 	bool m_IsLooping{false};
-	float m_TransitionTime{ 0.5f };
+	float m_TransitionTime{ 0.2f };
 	float m_CurrentTime{ 0.0f };
 
 	std::vector<std::pair<AnimState, AnimStateTransitionCondition>>* m_Transitions{ new std::vector<std::pair<AnimState, AnimStateTransitionCondition>> };

@@ -129,7 +129,7 @@ bool WalkTransitionCondition(CharacterControllerComponent* characterController)
 {
 	if (characterController->GetIsOnGround())
 	{
-		if (glm::length(characterController->GetVelocity()) > 0.1f)
+		if (glm::length(characterController->GetVelocity()) > 0.1f && glm::length(characterController->GetVelocity()) < 0.3f)
 		{
 			CHROMA_INFO("Walk condition met!");
 			return true;
@@ -158,6 +158,23 @@ bool IdleTransitionCondition(CharacterControllerComponent* characterController)
 		return false;
 }
 
+bool SprintTransitionCondition(CharacterControllerComponent* characterController)
+{
+	if (characterController->GetIsOnGround())
+	{
+		if (glm::length(characterController->GetVelocity()) > 0.3f)
+		{
+			CHROMA_INFO("Sprint condition met!");
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+
+
 bool JumpTransitionCondition(CharacterControllerComponent* characterController)
 {
 	if (Chroma::Input::IsPressed(Chroma::Input::SPACEBAR) || Chroma::Input::IsPressed(Chroma::Input::CROSS))
@@ -180,6 +197,11 @@ void BipedalAnimationStateMachine::Init()
 	AnimState m_WalkState("Walk");
 	m_WalkState.m_IsLooping = true;
 	m_States.push_back(m_WalkState);
+
+	// Sprint
+	AnimState m_RunState("Run");
+	m_RunState.m_IsLooping = true;
+	m_States.push_back(m_RunState);
 	
 	// Jump
 	AnimState m_JumpState("Jump");
@@ -194,6 +216,11 @@ void BipedalAnimationStateMachine::Init()
 	// walk
 	m_WalkState.m_Transitions->push_back(std::make_pair(m_JumpState, AnimStateTransitionCondition(&JumpTransitionCondition)));
 	m_WalkState.m_Transitions->push_back(std::make_pair(m_IdleState, AnimStateTransitionCondition(&IdleTransitionCondition)));
+	m_WalkState.m_Transitions->push_back(std::make_pair(m_RunState, AnimStateTransitionCondition(&SprintTransitionCondition)));
+	// sprint
+	m_RunState.m_Transitions->push_back(std::make_pair(m_JumpState, AnimStateTransitionCondition(&JumpTransitionCondition)));
+	m_RunState.m_Transitions->push_back(std::make_pair(m_IdleState, AnimStateTransitionCondition(&IdleTransitionCondition)));
+	m_RunState.m_Transitions->push_back(std::make_pair(m_WalkState, AnimStateTransitionCondition(&WalkTransitionCondition)));
 	// jump					 
 	m_JumpState.m_Transitions->push_back(std::make_pair(m_IdleState, AnimStateTransitionCondition(&IdleTransitionCondition)));
 	m_JumpState.m_Transitions->push_back(std::make_pair(m_WalkState, AnimStateTransitionCondition(&WalkTransitionCondition)));
