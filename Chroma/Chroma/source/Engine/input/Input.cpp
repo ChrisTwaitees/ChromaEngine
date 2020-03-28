@@ -298,26 +298,32 @@ namespace Chroma
 			for (int i = 0; i < m_ControllerAxesCount; i++)
 			{
 				// Sticks
-				m_ControllerRightVertical = axes[5];
-				m_ControllerRightHorizontal = axes[2];
+				m_ControllerRightVertical = axes[RV_AXIS];
+				m_ControllerRightHorizontal = axes[RH_AXIS];
 
-				m_ControllerLeftVertical = axes[1];
-				m_ControllerLeftHorizontal = axes[0];
+				m_ControllerLeftVertical = axes[LV_AXIS];
+				m_ControllerLeftHorizontal = axes[LH_AXIS];
 
 				// Bumpers
-				m_ControllerLeftBumper = axes[3];
-				m_ControllerRightBumper = axes[4];
+				m_ControllerLeftBumper = axes[L2_AXIS];
+				m_ControllerRightBumper = axes[R2_AXIS];
 			}
 			// Buttons
 			m_ControllerButtonsMapping = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &m_ControllerButtonsCount);
 
-			// Debugging
+			// DEBUGGING
+			//// BUTTONS
 			//for (int i = 0; i < m_ControllerButtonsCount; i++)
 			//{
 			//	if (m_ControllerButtonsMapping[i] == GLFW_PRESS)
 			//	{
 			//		CHROMA_INFO("Index : {0}", i);
 			//	}
+			//}
+			//AXIS
+			//for (int i = 0; i < m_ControllerAxesCount; i++)
+			//{
+			//	CHROMA_INFO("Axis Index : {0} , Weight : {1}", i, axes[i]);
 			//}
 		}
 		else

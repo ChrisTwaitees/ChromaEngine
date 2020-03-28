@@ -171,7 +171,7 @@ namespace Chroma
 	void Scene::LoadIBL(std::string const& sourcePath)
 	{
 		m_IBL->LoadIBL(sourcePath); // image based lighting
-		m_Skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
+		m_Skybox->setCubeMapID(m_IBL->GetEnvCubeMapID());
 
 	}
 
@@ -185,7 +185,7 @@ namespace Chroma
 
 		// setting skybox to IBL environment map
 		m_Skybox->setColorSpace(HDR);
-		m_Skybox->setCubeMapID(m_IBL->getEnvCubeMapID());
+		m_Skybox->setCubeMapID(m_IBL->GetEnvCubeMapID());
 	}
 
 	void Scene::PreSceneBuild()

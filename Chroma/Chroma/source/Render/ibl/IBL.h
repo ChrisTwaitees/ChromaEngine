@@ -19,10 +19,10 @@ public:
 	void SetIBLTexture(HDRTexture newHDRTexture);
 	void LoadIBL(std::string const& newHDRTexturePath);
 
-	inline unsigned int getEnvCubeMapID() { return m_envCubeMap; };
+	inline unsigned int GetEnvCubeMapID() { return m_envCubeMap; };
 	inline unsigned int GetIrradianceMapID() { return m_irradianceMap; };
 	inline unsigned int GetPrefilterMapID() { return m_prefilterMap; };
-	inline unsigned int getHDRTextureID() { return m_HDRtexture.ID; };
+	inline unsigned int GetHDRTextureID() { return m_HDRtexture.ID; };
 	inline unsigned int GetBRDFLUTID() { return m_brdfLUTTexture; };
 
 	template <typename UniformType>

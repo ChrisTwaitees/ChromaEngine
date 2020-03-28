@@ -206,6 +206,7 @@ void BipedalAnimationStateMachine::Init()
 	// Jump
 	AnimState m_JumpState("Jump");
 	m_JumpState.m_IsLooping = false;
+	m_JumpState.m_TransitionTime = 0.1f;
 	m_States.push_back(m_JumpState);
 
 
