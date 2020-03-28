@@ -19,7 +19,7 @@
 class IComponent;
 
 typedef std::map<std::string, KeyFrame> KeyFrames;
-typedef std::pair<float, Take> TakeState;
+typedef std::pair<std::string, float> TakeNameTime;
 
 class Animator
 {
@@ -30,7 +30,7 @@ public:
 	// animation
 	void PlayTake(std::string const& takeName, float const& normalizedTime);
 
-	void LerpTakes(TakeState const& stateFrom, TakeState const& stateTo);
+	void LerpTakes(TakeNameTime const& stateFrom, TakeNameTime const& stateTo, float const& lerpAmount);
 
 	void LoadAnimations(std::string const& sourcePath);
 

@@ -45,7 +45,7 @@ void BipedalAnimationStateMachine::ProcessAnimator()
 	if (m_IsTransitioning)
 	{
 		CHROMA_INFO("Transition Timer : {}", m_TransitionTimer);
-		GetAnimator().LerpTakes(std::make_pair(0.5, Take()), std::make_pair(0.5, Take()));
+		//GetAnimator().LerpTakes(std::make_pair(0.5, Take()), std::make_pair(0.5, Take()));
 
 		if (m_TransitionTimer <= 0.0f)
 		{
@@ -133,6 +133,7 @@ void BipedalAnimationStateMachine::Init()
 	// Idle
 	AnimState m_IdleState("Idle");
 	m_IdleState.m_IsLooping = true;
+	m_IdleState.m_TransitionTime = 0.5f;
 	m_States.push_back(m_IdleState);
 
 	// Walk

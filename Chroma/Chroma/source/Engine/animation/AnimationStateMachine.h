@@ -7,7 +7,7 @@
 class CharacterControllerComponent;
 class Animator;
 struct Take;
-
+typedef std::pair<Take, float> TakeTime;
 
 struct AnimStateTransitionCondition
 {
@@ -20,11 +20,12 @@ struct AnimState : public State
 {
 	bool m_IsLooping{false};
 	float m_TransitionTime{ 3.0f };
+	float m_CurrentTime{ 0.0f };
+
 	std::vector<std::pair<AnimState, AnimStateTransitionCondition>>* m_Transitions{ new std::vector<std::pair<AnimState, AnimStateTransitionCondition>> };
 
 	AnimState() {};
 	AnimState(std::string const& takeName) { m_Name = takeName; };
-	//~AnimState() { delete m_Transitions; };
 };
 
 

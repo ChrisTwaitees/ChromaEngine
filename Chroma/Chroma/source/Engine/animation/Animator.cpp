@@ -15,18 +15,33 @@ void Animator::PlayTake(std::string const& takeName, float const& normalizedTime
 	}
 	else
 	{
-		CHROMA_WARN("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", m_CurrentTake);
+		CHROMA_ERROR("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", m_CurrentTake);
 		m_Skeleton->SetToBindPose();
 		return;
 	}
 
 }
 
-void Animator::LerpTakes(TakeState const& stateFrom, TakeState const& stateTo)
+void Animator::LerpTakes(TakeNameTime const& stateFrom, TakeNameTime const& stateTo, float const& lerpAmount)
 {
-	CHROMA_INFO("Transitioning from State : {0} to : {1}", stateFrom.second.m_Name, stateTo.second.m_Name);
-	CHROMA_INFO("Transition timing from   : {0} to : {1}", stateFrom.first, stateTo.first);
+	CHROMA_INFO("Transitioning from State : {0} to : {1}", stateFrom.first, stateTo.first);
+	CHROMA_INFO("Transition timing from   : {0} to : {1}", stateFrom.second, stateTo.second);
+
+	// check takes are valid
+	if (m_Takes.find(stateFrom.first) != m_Takes.end() && m_Takes.find(stateTo.first) != m_Takes.end())
+	{
+		float frameNum = CalculateFrameNumber(stateFrom.first, stateFrom.second);
+		glm::mat4 identity(1.0);
+		ApplyAnimJointHierarchy(m_Skeleton->GetRootJointID(), m_Takes.at(stateFrom.first).m_KeyFrames, identity, frameNum);
+	}
+	else
+	{
+		CHROMA_ERROR("NO TAKE : {0} FOUND, CANNOT APPLY ANIMATION", m_CurrentTake);
+		m_Skeleton->SetToBindPose();
+		return;
+	}
 }
+
 
 float Animator::CalculateFrameNumber(std::string const& takeName, float const& normalizedTime)
 {

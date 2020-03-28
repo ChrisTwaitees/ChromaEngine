@@ -17,7 +17,6 @@
 #define CHROMA_RIGHT glm::vec3(1.0, 0.0, 0.0)
 #define CHROMA_LEFT glm::vec3(-1.0 ,0.0, 0.0)
 
-
 // UTILITIES
 namespace Chroma
 {
@@ -106,6 +105,8 @@ namespace Chroma
 
 		inline static glm::vec3 GetTranslation(glm::mat4 const& transform) { return glm::vec3(transform[3]); }
 
+		inline static glm::mat4 GetIdentityMatrix() { return glm::mat4(1.0f); };
+
 
 		inline static float CartesianToPolar(float const& x, float const& y) { return -( glm::atan(y, x)); }
 
@@ -167,8 +168,6 @@ namespace Chroma
 			modelMatrix[2][2] = viewMatrix[2][2];
 
 		}
-
-
 
 	};
 }
