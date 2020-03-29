@@ -72,6 +72,7 @@ public:
 	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size = 1.0, const glm::vec3 & color = glm::vec3(1.0));
 
 	// Skeletons
+	void ToggleDrawSkeletons();
 	void DrawSceneSkeletons();
 
 	void ClearColorAndDepth() override;
@@ -80,6 +81,9 @@ public:
 	DebugBuffer(IFramebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
 
 private:
+	// debugSkeletons
+	bool m_DebugSkeletons{false};
+
 	// shapes
 	std::vector<LineShape> m_lines;
 	std::vector<LineShape> m_OverlayLines;

@@ -14,6 +14,8 @@
 enum ColliderShape { Box, Convex, Mesh, Capsule, Sphere, AABB };
 enum ColliderState {Static, Kinematic, Dynamic};
 
+struct CollisionData;
+
 class PhysicsComponent :	public IComponent
 {
 public:
@@ -45,12 +47,14 @@ public:
 	ColliderShape GetColliderShape() const { return m_ColliderShape; };
 	void SetColliderShape(ColliderShape const& shape) { m_ColliderShape = shape; };
 
-	ColliderState getColliderState() const { return m_CollisionState; };
+	ColliderState GetColliderState() const { return m_CollisionState; };
 	void SetCollisionState(ColliderState const& state) { m_CollisionState = state; };
 	
 	btRigidBody* GetRigidBody() const { return m_RigidBody; };
 
 	btMotionState* GetMotionState() const { return m_MotionState; };
+
+	std::vector<CollisionData> GetRigidBodyCollisionData();
 	// transforms
 	const glm::vec3 GetLinearVelocity() const;
 	void SetLinearVelocity(glm::vec3 const& velocity);

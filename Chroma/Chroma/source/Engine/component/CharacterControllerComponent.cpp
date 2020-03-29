@@ -2,11 +2,24 @@
 #include <input/Input.h>
 #include <entity/Entity.h>
 #include <component/AnimationComponent.h>
+#include <component/PhysicsComponent.h>
 
+
+PhysicsComponent* CharacterControllerComponent::GetPhysicsComponent()
+{
+	for (UID const& physUID : GetParentEntity()->getPhysicsComponentUIDs())
+	{
+		return static_cast<PhysicsComponent*>(Chroma::Scene::GetComponent(physUID));
+	}
+}
 
 void CharacterControllerComponent::ProcessInput()
 {
 	
+}
+
+void CharacterControllerComponent::ProcessCollisions()
+{
 }
 
 void CharacterControllerComponent::CalculateTransform()

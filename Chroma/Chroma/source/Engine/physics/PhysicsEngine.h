@@ -17,6 +17,14 @@
 
 class IEntity;
 
+struct CollisionData
+{
+	glm::vec3 m_ColliderAContactPoint;
+	glm::vec3 m_ColliderBContactPoint;
+	glm::vec3 m_ColliderBContactNormal;
+};
+
+
 namespace Chroma
 {
 	class Physics
@@ -39,6 +47,9 @@ namespace Chroma
 		static IEntity* GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 		static bool RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 		static bool SphereTest(glm::vec3 const& sphereCenter, float const& sphereRadius);
+
+		// Collision Data
+		static std::vector<CollisionData> GetRigidBodyCollisionData(btRigidBody*& rigidBody);
 
 		// utilities
 		static float CalcInertiaToReachHeight(float const& targetHeight, float const& gravityMagnitude);

@@ -173,7 +173,7 @@ void Entity::UpdatePhysicsComponentsTransforms()
 	for (UID const& uid : m_PhysicsComponentUIDs)
 	{
 		PhysicsComponent* physicsComp = static_cast<PhysicsComponent*>(Chroma::Scene::GetComponent(uid));
-		if (physicsComp->getColliderState() == Kinematic)
+		if (physicsComp->GetColliderState() == Kinematic)
 		{
 			physicsComp->SetWorldTransform(m_Transform);
 		}

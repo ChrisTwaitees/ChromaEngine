@@ -79,6 +79,11 @@ void DebugBuffer::DrawShapes()
 
 void DebugBuffer::DrawOverlayShapes()
 {
+	// skeletons
+	if (m_DebugSkeletons)
+	{
+		DrawSceneSkeletons();
+	}
 	// lines
 	for (LineShape line : m_OverlayLines)
 		RenderLine(line);
@@ -94,6 +99,7 @@ void DebugBuffer::DrawOverlayShapes()
 	// coordinates
 	for (CoordinatesShape coordinate : m_OverlayCoordinates)
 		RenderCoordinate(coordinate);
+
 }
 
 void DebugBuffer::DrawDepthCulledShapes()
@@ -268,6 +274,11 @@ void DebugBuffer::DrawOverlayJoint(const glm::vec3& originPosition, const glm::v
 	newJoint.size = size;
 	newJoint.color = color;
 	m_OverlayJoints.push_back(newJoint);
+}
+
+void DebugBuffer::ToggleDrawSkeletons()
+{
+	m_DebugSkeletons = m_DebugSkeletons ? false : true;
 }
 
 void DebugBuffer::DrawSceneSkeletons()

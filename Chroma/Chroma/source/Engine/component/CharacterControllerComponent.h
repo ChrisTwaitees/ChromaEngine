@@ -10,6 +10,7 @@
 #include <physics/PhysicsEngine.h>
 #include <math/Math.h>
 
+class PhysicsComponent;
 
 class CharacterControllerComponent : public IComponent
 {
@@ -49,6 +50,7 @@ protected:
 	glm::mat4 m_Transform{ 1.0 };
 
 	// physics
+	PhysicsComponent* GetPhysicsComponent();
 	bool m_IsOnGround{ true };
 	float m_WalkSpeed;
 	float m_SprintSpeed;
@@ -56,6 +58,7 @@ protected:
 
 	// functions
 	virtual void ProcessInput();
+	virtual void ProcessCollisions();
 	void CalculateTransform();
 };
 

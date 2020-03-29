@@ -1,5 +1,6 @@
 #include "PhysicsEngine.h"
 #include <entity/IEntity.h>
+#include <math/Math.h>
 
 // callbacks
 struct myContactResultCallback : public btCollisionWorld::ContactResultCallback
@@ -14,6 +15,59 @@ struct myContactResultCallback : public btCollisionWorld::ContactResultCallback
 	{
 		CHROMA_ERROR("Physics :: MyContactCallBack not implemented");
 		return false;
+	}
+};
+
+
+struct ChromaContactResultCallback : public btCollisionWorld::ContactResultCallback
+{
+	//! Constructor, pass whatever context you want to have available when processing contacts
+	/*! You may also want to set m_collisionFilterGroup and m_collisionFilterMask
+	 * (supplied by the superclass) for needsCollision() */
+	ChromaContactResultCallback(btRigidBody& tgtBody, std::vector<CollisionData>& collisionData /*, ... */)
+		: btCollisionWorld::ContactResultCallback(), body(tgtBody), collisionData(collisionData){ }
+
+	btRigidBody& body; //!< The body the sensor is monitoring
+	std::vector<CollisionData>& collisionData;
+
+	//! If you don't want to consider collisions where the bodies are joined by a constraint, override needsCollision:
+	/*! However, if you use a btCollisionObject for #body instead of a btRigidBody,
+	 * then this is unnecessary—checkCollideWithOverride isn't available */
+	virtual bool needsCollision(btBroadphaseProxy* proxy) const {
+		// superclass will check m_collisionFilterGroup and m_collisionFilterMask
+		if (!btCollisionWorld::ContactResultCallback::needsCollision(proxy))
+			return false;
+		// if passed filters, may also want to avoid contacts between constraints
+		return body.checkCollideWithOverride(static_cast<btCollisionObject*>(proxy->m_clientObject));
+	}
+
+	//! Called with each contact for your own processing (e.g. test if contacts fall in within sensor parameters)
+	virtual btScalar addSingleResult(btManifoldPoint& cp,
+		const btCollisionObjectWrapper* colObj0, int partId0, int index0,
+		const btCollisionObjectWrapper* colObj1, int partId1, int index1)
+	{
+		CollisionData newColData;
+
+		//btVector3 pt; // will be set to point of collision relative to body
+		//if (colObj0->m_collisionObject == &body) {
+		//	pt = cp.m_localPointA;
+		//	newColData.m_ColliderAContactPoint = BulletToGLM(cp.getPositionWorldOnA());
+		//	newColData.m_ColliderBContactPoint = BulletToGLM(cp.getPositionWorldOnB());
+		//	newColData.m_ColliderBContactNormal = BulletToGLM(cp.getPositionWorldOnB());
+		//}
+		//else {
+		//	assert(colObj1->m_collisionObject == &body && "body does not match either collision object");
+		//	pt = cp.m_localPointB;
+		//}
+		//// do stuff with the collision point
+		//return 0; // not actually sure if return value is used for anything...?
+
+		newColData.m_ColliderAContactPoint = BulletToGLM(cp.getPositionWorldOnA());
+		newColData.m_ColliderBContactPoint = BulletToGLM(cp.getPositionWorldOnB());
+		newColData.m_ColliderBContactNormal = BulletToGLM(cp.m_normalWorldOnB);
+
+		collisionData.push_back(newColData);
+		return 0;
 	}
 };
 
@@ -128,7 +182,7 @@ namespace Chroma
 			// collect rigid body
 			btCollisionObject* obj = m_World->getCollisionObjectArray()[i];
 			btRigidBody* body = btRigidBody::upcast(obj);
-
+			
 			// check if connected to physics component
 			if (body->getUserPointer() != NULL)
 			{
@@ -141,7 +195,7 @@ namespace Chroma
 				else
 					currentWorldTransform = obj->getWorldTransform();
 				// apply transform
-				if (physicsComponent->getColliderState() == Dynamic)
+				if (physicsComponent->GetColliderState() == Dynamic)
 					physicsComponent->Transform(currentWorldTransform);
 			}
 		}
@@ -230,6 +284,17 @@ namespace Chroma
 
 		return ContactSphereCallback.hasHit();
 	}
+
+	std::vector<CollisionData> Physics::GetRigidBodyCollisionData(btRigidBody*& rigidBody)
+	{
+		std::vector<CollisionData> colData;
+
+		ChromaContactResultCallback collisionCallBack(*rigidBody, colData);
+		m_World->contactTest(rigidBody, collisionCallBack);
+
+		return colData;
+	}
+
 
 
 	float Physics::CalcInertiaToReachHeight(float const& targetHeight, float const& gravityMagnitude)

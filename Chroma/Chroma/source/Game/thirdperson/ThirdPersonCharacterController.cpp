@@ -4,28 +4,27 @@
 #include <render/Render.h>
 
 
-void ThirdPersonCharacterController::ProcessCurrentFrame()
+void ThirdPersonCharacterController::ProcessPreviousFrame()
 {
 	// VELOCITY
 	m_Velocity = m_Position - m_PreviousPosition;
 	m_PreviousPosition = m_Position;
 	m_CurrentSpeed = glm::length(m_Velocity);
 
-	// debug
-	//Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, m_Position + m_Velocity, glm::vec3(1.0, 0.0, 1.0));
-
-	// AIM ANGLE
-	m_CamFacingAngle = Chroma::Math::GetFacingAngleEuler(m_Position, m_CamPosition);
-
-	// COLLISIONS
-	GroundCollisionCheck();
-
-	// GRAVITY
-	CalculateGravity();
 }
 
-void ThirdPersonCharacterController::GroundCollisionCheck()
+void ThirdPersonCharacterController::ProcessCollisions()
 {
+	for (CollisionData const& colData : GetPhysicsComponent()->GetRigidBodyCollisionData())
+	{
+		//CHROMA_INFO("CollisionData PosA : {0}, {1}, {2}", colData.m_ColliderAContactPoint.x, colData.m_ColliderAContactPoint.y, colData.m_ColliderAContactPoint.z);
+		//CHROMA_INFO("CollisionData PosB : {0}, {1}, {2}", colData.m_ColliderBContactPoint.x, colData.m_ColliderBContactPoint.y, colData.m_ColliderBContactPoint.z);
+		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(colData.m_ColliderAContactPoint, colData.m_ColliderBContactPoint, glm::vec3(1.0, 1.0, 0.0));
+		//CHROMA_INFO("CollisionData NormalB : {0}, {1}, {2}", colData.m_ColliderBContactNormal.x, colData.m_ColliderBContactNormal.y, colData.m_ColliderBContactNormal.z);
+		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(colData.m_ColliderBContactPoint, colData.m_ColliderBContactPoint + colData.m_ColliderBContactNormal, glm::vec3(0.0, 1.0, 1.0));
+	}
+	
+
 	//m_CollisionCheckDist = glm::length(GetParentEntity()->GetBBox().first) * 0.8;
 	glm::vec3 rayStart = m_Position + ( - glm::normalize(m_GravityDirection) * 0.1f);
 	glm::vec3 rayEnd = m_Position + (glm::normalize(m_GravityDirection) * m_CollisionCheckDist);
@@ -35,6 +34,14 @@ void ThirdPersonCharacterController::GroundCollisionCheck()
 		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, rayEnd, glm::vec3(1.0, 0.0, 0.0));
 	else
 		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, rayEnd, glm::vec3(0.0, 1.0, 0.0));
+
+	// CollectCollision Data
+	GetPhysicsComponent();
+
+	// GRAVITY
+	CalculateGravity();
+
+	CHROMA_INFO_UNDERLINE;
 }
 
 
@@ -121,6 +128,9 @@ void ThirdPersonCharacterController::CalculateGravity()
 
 void ThirdPersonCharacterController::ProcessMovement()
 {
+	// AIM ANGLE
+	m_CamFacingAngle = Chroma::Math::GetFacingAngleEuler(m_Position, m_CamPosition);
+
 	glm::vec3 toPlayer = glm::normalize(m_Position - m_CamPosition);
 	glm::vec3 sidePlayer = glm::normalize(glm::cross(toPlayer, CHROMA_UP));
 
@@ -192,11 +202,16 @@ void ThirdPersonCharacterController::ProcessInput()
 
 void ThirdPersonCharacterController::Update()
 {
+	CHROMA_INFO_UNDERLINE;
+
 	// Calculate from Previous Frame
-	ProcessCurrentFrame();
+	ProcessPreviousFrame();
 
 	// Input
 	ProcessInput();
+
+	// Collisions
+	ProcessCollisions();
 
 	// Movement
 	ProcessMovement();
@@ -206,4 +221,6 @@ void ThirdPersonCharacterController::Update()
 
 	// Transfroms
 	ProcessTransforms();
+
+	CHROMA_INFO_UNDERLINE;
 }

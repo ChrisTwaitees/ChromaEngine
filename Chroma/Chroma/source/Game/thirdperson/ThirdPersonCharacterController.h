@@ -65,8 +65,8 @@ private:
 	float m_CollisionCheckDist{0.2f };
 
 	// Functions
-	void ProcessCurrentFrame();
-	void GroundCollisionCheck();
+	void ProcessPreviousFrame();
+	void ProcessCollisions() override;
 	void CalculateGravity();
 
 

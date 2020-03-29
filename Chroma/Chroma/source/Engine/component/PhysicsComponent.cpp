@@ -19,6 +19,11 @@ void PhysicsComponent::SetLinearVelocity(glm::vec3 const& velocity)
 	m_RigidBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 }
 
+std::vector<CollisionData> PhysicsComponent::GetRigidBodyCollisionData()
+{
+	return Chroma::Physics::GetRigidBodyCollisionData(m_RigidBody);
+}
+
 const glm::vec3 PhysicsComponent::GetLinearVelocity() const
 {
 	return  BulletToGLM(m_RigidBody->getLinearVelocity());

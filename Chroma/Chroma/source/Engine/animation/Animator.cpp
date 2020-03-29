@@ -134,7 +134,15 @@ JointTransform Animator::GetJointTransformAtKeyFrameTime(KeyFrame& keyFrame, flo
 	{
 		// if timestamp sitting between frames interpolate jointtransforms
 		float interpolateAmount{ (frameNum - nearestCurrent) / (nearestNext - nearestCurrent) };
-		return InterpolateJointTransforms(keyFrame.m_JointTransforms.at(nearestCurrent), keyFrame.m_JointTransforms.at(nearestNext), interpolateAmount);
+		// TODO: validate frames exist in list of joint transforms
+		if (keyFrame.m_JointTransforms.count(nearestCurrent) == 1 && keyFrame.m_JointTransforms.count(nearestNext) == 1)
+		{
+			return InterpolateJointTransforms(keyFrame.m_JointTransforms.at(nearestCurrent), keyFrame.m_JointTransforms.at(nearestNext), interpolateAmount);
+		}
+		else
+		{
+			return JointTransform();
+		}
 	}
 }
 

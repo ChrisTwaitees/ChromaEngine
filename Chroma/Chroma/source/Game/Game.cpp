@@ -6,6 +6,7 @@
 #include <entity/Entity.h>
 #include <terrain/Terrain.h>
 #include <component/AnimationComponent.h>
+#include <component/CharacterPhysicsComponent.h>
 #include <model/SkinnedMesh.h>
 #include <bipedal/BipedalAnimationStateMachine.h>
 
@@ -111,7 +112,7 @@ int main()
 	AnimModelMeshComponent->SetIsDoubleSided(true);
 	AnimModelEntity->AddComponent(AnimModelMeshComponent);
 	// rigid
-	PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
+	PhysicsComponent* AnimModelRigidComponent = new CharacterPhysicsComponent();
 	AnimModelRigidComponent->SetColliderShape(ColliderShape::Capsule);
 	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
 	AnimModelEntity->AddComponent(AnimModelRigidComponent);
@@ -283,11 +284,16 @@ int main()
 		double DeltaTime = Chroma::Time::GetDeltaTime();
 
 		//Sunlight Rotation	
-		Chroma::Scene::GetSunLight()->SetTranslation(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
-		Sun->setDirection(-normalize(Sun->GetPosition()));		
+		//Chroma::Scene::GetSunLight()->SetTranslation(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
+		//Sun->setDirection(-normalize(Sun->GetPosition()));		
 
-		// Scale debug
-		Chroma::Render::GetDebugBuffer()->DrawOverlayBox(glm::vec3(0.0), glm::vec3(1.0), glm::vec3(1.0));
+		//// Scale debug
+		//Chroma::Render::GetDebugBuffer()->DrawOverlayBox(glm::vec3(0.0), glm::vec3(1.0), glm::vec3(1.0));
+
+		if (Chroma::Input::IsPressed(Chroma::Input::D))
+		{
+			Chroma::Render::GetDebugBuffer()->ToggleDrawSkeletons();
+		}
 
 		// Physics debug
 		if (Chroma::Input::IsPressed(Chroma::Input::P))

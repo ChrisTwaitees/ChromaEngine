@@ -172,6 +172,21 @@
     <Filter Include="Game\bipedal">
       <UniqueIdentifier>{b08707ef-c002-4d1e-84da-45813465a5bc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\component\character">
+      <UniqueIdentifier>{0487a6c2-fd97-4e88-92e9-afeb4415ab36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\component\animation">
+      <UniqueIdentifier>{4145a872-6412-4c65-ae92-e993621512a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\component\visual">
+      <UniqueIdentifier>{e54e926e-e32c-497f-a956-f3fc13383269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\component\ai">
+      <UniqueIdentifier>{504c149b-b1b2-48d8-9276-d03d553e56ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\component\physics">
+      <UniqueIdentifier>{de54237a-fcd9-4ef9-80d0-91b6d57aaba6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -273,15 +288,6 @@
     <ClCompile Include="source\Engine\entity\Entity.cpp">
       <Filter>Engine\entity</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\component\PhysicsComponent.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\component\MeshComponent.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\component\AnimationComponent.cpp">
-      <Filter>Engine\component</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\scene\Scene.cpp">
       <Filter>Engine\scene</Filter>
     </ClCompile>
@@ -299,9 +305,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\logging\Log.cpp">
       <Filter>Engine\logging</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\component\CharacterControllerComponent.cpp">
-      <Filter>Engine\component</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\screen\Screen.cpp">
       <Filter>Engine\screen</Filter>
@@ -335,9 +338,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\resources\ResourceManager.cpp">
       <Filter>Engine\resources</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\component\UIComponent.cpp">
-      <Filter>Engine\component</Filter>
     </ClCompile>
     <ClCompile Include="source\Editor\ChromaEditor.cpp">
       <Filter>Editor</Filter>
@@ -414,8 +414,26 @@
     <ClCompile Include="source\Game\bipedal\BipedalAnimationStateMachine.cpp">
       <Filter>Game\bipedal</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\component\CharacterControllerComponent.cpp">
+      <Filter>Engine\component\character</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\AnimationComponent.cpp">
+      <Filter>Engine\component\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\MeshComponent.cpp">
+      <Filter>Engine\component\visual</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\UIComponent.cpp">
+      <Filter>Engine\component\visual</Filter>
+    </ClCompile>
     <ClCompile Include="source\Engine\component\StateMachineComponent.cpp">
-      <Filter>Engine\component</Filter>
+      <Filter>Engine\component\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\PhysicsComponent.cpp">
+      <Filter>Engine\component\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\component\CharacterPhysicsComponent.cpp">
+      <Filter>Engine\component\character</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -545,15 +563,6 @@
     <ClInclude Include="source\Engine\component\IComponent.h">
       <Filter>Engine\component</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\component\PhysicsComponent.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\component\MeshComponent.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\component\AnimationComponent.h">
-      <Filter>Engine\component</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\scene\Scene.h">
       <Filter>Engine\scene</Filter>
     </ClInclude>
@@ -568,9 +577,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\core\Core.h">
       <Filter>Engine\core</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\component\CharacterControllerComponent.h">
-      <Filter>Engine\component</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\screen\Screen.h">
       <Filter>Engine\screen</Filter>
@@ -616,9 +622,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\resources\ResourceManager.h">
       <Filter>Engine\resources</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\component\UIComponent.h">
-      <Filter>Engine\component</Filter>
     </ClInclude>
     <ClInclude Include="source\Editor\editor\Editor.h">
       <Filter>Editor\editor</Filter>
@@ -677,8 +680,26 @@
     <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h">
       <Filter>Game\bipedal</Filter>
     </ClInclude>
+    <ClInclude Include="source\Engine\component\CharacterControllerComponent.h">
+      <Filter>Engine\component\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\AnimationComponent.h">
+      <Filter>Engine\component\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\MeshComponent.h">
+      <Filter>Engine\component\visual</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\UIComponent.h">
+      <Filter>Engine\component\visual</Filter>
+    </ClInclude>
     <ClInclude Include="source\Engine\component\StateMachineComponent.h">
-      <Filter>Engine\component</Filter>
+      <Filter>Engine\component\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\PhysicsComponent.h">
+      <Filter>Engine\component\physics</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\CharacterPhysicsComponent.h">
+      <Filter>Engine\component\character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
