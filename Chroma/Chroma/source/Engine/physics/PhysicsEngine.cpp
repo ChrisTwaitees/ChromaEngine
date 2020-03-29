@@ -3,21 +3,26 @@
 #include <math/Math.h>
 
 // callbacks
-struct myContactResultCallback : public btCollisionWorld::ContactResultCallback
+struct ChromaSimpleContactResultCallback : public btCollisionWorld::ContactResultCallback
 {
+	btVector3 ptA;
+	btVector3 ptB;
+
 	btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
-		btVector3 ptA = cp.getPositionWorldOnA();
-		btVector3 ptB = cp.getPositionWorldOnB();
+		ptA = cp.getPositionWorldOnA();
+		ptB = cp.getPositionWorldOnB();
 		return 0.0;
 	}
 
 	bool hasHit()
 	{
-		CHROMA_ERROR("Physics :: MyContactCallBack not implemented");
+		if (glm::length(BulletToGLM(ptA) - BulletToGLM(ptB)) < 0.05)
+		{
+			return true;
+		}
 		return false;
 	}
 };
-
 
 struct ChromaContactResultCallback : public btCollisionWorld::ContactResultCallback
 {
@@ -48,30 +53,57 @@ struct ChromaContactResultCallback : public btCollisionWorld::ContactResultCallb
 	{
 		CollisionData newColData;
 
-		//btVector3 pt; // will be set to point of collision relative to body
-		//if (colObj0->m_collisionObject == &body) {
-		//	pt = cp.m_localPointA;
-		//	newColData.m_ColliderAContactPoint = BulletToGLM(cp.getPositionWorldOnA());
-		//	newColData.m_ColliderBContactPoint = BulletToGLM(cp.getPositionWorldOnB());
-		//	newColData.m_ColliderBContactNormal = BulletToGLM(cp.getPositionWorldOnB());
-		//}
-		//else {
-		//	assert(colObj1->m_collisionObject == &body && "body does not match either collision object");
-		//	pt = cp.m_localPointB;
-		//}
-		//// do stuff with the collision point
-		//return 0; // not actually sure if return value is used for anything...?
-
+		// fetching contact points and collider normal
 		newColData.m_ColliderAContactPoint = BulletToGLM(cp.getPositionWorldOnA());
 		newColData.m_ColliderBContactPoint = BulletToGLM(cp.getPositionWorldOnB());
 		newColData.m_ColliderBContactNormal = BulletToGLM(cp.m_normalWorldOnB);
 
+		// fetching collision tags
+		// colA
+		if (colObj0->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_STATIC_OBJECT)
+			newColData.m_ColliderAState = Static;
+		else if (colObj0->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_KINEMATIC_OBJECT)
+			newColData.m_ColliderAState = Kinematic;
+		else
+			newColData.m_ColliderAState = Dynamic;
+
+		// colB
+		if (colObj1->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_STATIC_OBJECT)
+			newColData.m_ColliderBState = Static;
+
+		else if (colObj1->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_KINEMATIC_OBJECT)
+			newColData.m_ColliderBState = Kinematic;
+		else
+			newColData.m_ColliderBState = Dynamic;
+
+		// push back new collision data
 		collisionData.push_back(newColData);
-		return 0;
+		return 0.0;
 	}
 };
 
+class ClosestNotMeRayResultCallback : public btCollisionWorld::ClosestRayResultCallback
+{
+public:
+	ClosestNotMeRayResultCallback(btCollisionObject* me);
+	virtual btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace);
+protected:
+	btCollisionObject* m_me;
+};
 
+ClosestNotMeRayResultCallback::ClosestNotMeRayResultCallback (btCollisionObject* me) 
+	: ClosestRayResultCallback(btVector3(0.0, 0.0, 0.0), btVector3(0.0, 0.0, 0.0))
+{
+	m_me = me;
+}
+
+btScalar ClosestNotMeRayResultCallback::addSingleResult(btCollisionWorld::LocalRayResult& rayResult,bool normalInWorldSpace)
+{
+	if (rayResult.m_collisionObject == m_me)
+		return 1.0;
+
+	return ClosestNotMeRayResultCallback::ClosestRayResultCallback::addSingleResult (rayResult, normalInWorldSpace);
+}
 
 namespace Chroma
 {
@@ -227,6 +259,50 @@ namespace Chroma
 		m_World->debugDrawWorld();
 	}
 
+	RayHitData Physics::GetRayHitData(glm::vec3 const& worldRay_origin, glm::vec3 const& worldRay_end)
+	{
+		RayHitData newRayHit;
+
+		btVector3 start(worldRay_origin.x, worldRay_origin.y, worldRay_origin.z);
+		btVector3 end(worldRay_end.x, worldRay_end.y, worldRay_end.z);
+
+		btCollisionWorld::ClosestRayResultCallback RayCallback(start, end);
+
+		m_World->rayTest(start, end, RayCallback);
+
+		if (RayCallback.hasHit())
+		{
+			newRayHit.m_Hit = true;
+			newRayHit.m_RayStart = worldRay_origin;
+			newRayHit.m_RayHitPosition = BulletToGLM(RayCallback.m_hitPointWorld);
+			newRayHit.m_RayHitNormal = BulletToGLM(RayCallback.m_hitNormalWorld);
+		}
+
+		return newRayHit;
+	}
+
+	RayHitData Physics::GetRayHitDataExcludeRigidbody(btRigidBody*& rigidBody, glm::vec3 const& rayStart, glm::vec3 const& rayEnd)
+	{
+		RayHitData newRayHit;
+
+		btVector3 start(rayStart.x, rayStart.y, rayStart.z);
+		btVector3 end(rayEnd.x, rayEnd.y, rayEnd.z);
+
+		ClosestNotMeRayResultCallback rayCallBack(rigidBody);
+
+		m_World->rayTest(start, end, rayCallBack);
+
+		if (rayCallBack.hasHit())
+		{
+			newRayHit.m_Hit = true;
+			newRayHit.m_RayStart = rayStart;
+			newRayHit.m_RayHitPosition = BulletToGLM(rayCallBack.m_hitPointWorld);
+			newRayHit.m_RayHitNormal = BulletToGLM(rayCallBack.m_hitNormalWorld);
+		}
+
+		return newRayHit;
+	}
+
 	IEntity* Physics::GetEntityRayTest(glm::vec3 & worldRay_origin, glm::vec3 & worldRay_end)
 	{
 		btVector3 start(worldRay_origin.x, worldRay_origin.y, worldRay_origin.z);
@@ -279,7 +355,7 @@ namespace Chroma
 		m_CollisionObject->setCollisionShape(m_SphereShape);
 
 		// create custom callback and query world using it
-		myContactResultCallback ContactSphereCallback;
+		ChromaSimpleContactResultCallback ContactSphereCallback;
 		m_World->contactTest(m_CollisionObject, ContactSphereCallback);
 
 		return ContactSphereCallback.hasHit();

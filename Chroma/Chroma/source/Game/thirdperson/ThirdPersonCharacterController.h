@@ -10,7 +10,6 @@
 class ThirdPersonCharacterController : public CharacterControllerComponent
 {
 public:
-
 	void Update() override;
 
 	float& GetSprintSpeed() override { return m_SprintSpeedMultiplier; };
@@ -25,7 +24,7 @@ private:
 	float m_CamFacingAngle{ 0.0f };
 
 	// Controls
-	const float m_ControllerMin{ 0.22f };
+	const float m_InputMin{ 0.1f };
 
 	// Camera Attrs
 	glm::vec3 m_CamLookAtPos{ 0.0f };
@@ -40,22 +39,28 @@ private:
 	float const m_CamRotMax{ 75.0f };
 
 	// Movement
-	glm::vec3 m_PlayerHeading{ 0.0f };
-
+	glm::vec3 m_PlayerHeading{ glm::vec3(1.0f, 0.0f, 0.0f) };
 	float m_WalkSpeed{ 10.0f };
 	float m_SprintSpeedMultiplier{ 2.5f };
-	float m_CurrentSpeed{ 0.0f };
-
+	float m_maxSlopeAngle{ 30.0f };
 
 	// Physics
+	// Speed
+	float m_CurrentSpeed{ 0.0f };
 	glm::vec3 m_PreviousPosition{ 0.0f };
-	glm::vec3 m_Force{ 0.0f };
 
+	// Forces
+	glm::vec3 m_GravityForce{ 0.0f };
+	glm::vec3 m_CollisionForce{ 0.0f };
+	glm::vec3 m_ControllerForce{ 0.0f };
+
+	// Jumping
 	const float m_JumpHeight{ 12.0f};
 	const float m_JumpHeadingBias{ 0.5f };
 	glm::vec3 m_JumpVectorStationary{ 0.0f, 1.0f, 0.0f };
 	glm::vec3 m_JumpVector{ 0.0f, 1.0, 0.0f };
 
+	// Gravity
 	float m_GravityStrength{ 1.0f };
 	float m_GravityCurrent{ 0.0f };
 	float m_GravityMax{ 9.81f };
@@ -73,6 +78,7 @@ private:
 	void ProcessInput() override;
 	void ProcessCamera();
 	void ProcessMovement();
+	void ProcessJump();
 	void ProcessTransforms();
 	
 

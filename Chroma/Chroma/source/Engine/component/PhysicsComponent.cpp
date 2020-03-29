@@ -19,6 +19,11 @@ void PhysicsComponent::SetLinearVelocity(glm::vec3 const& velocity)
 	m_RigidBody->setLinearVelocity(btVector3(velocity.x, velocity.y, velocity.z));
 }
 
+RayHitData PhysicsComponent::GetRayHitExcludeMe(glm::vec3 const& rayStart, glm::vec3 const& rayEnd)
+{
+	return Chroma::Physics::GetRayHitDataExcludeRigidbody(m_RigidBody, rayStart, rayEnd);
+}
+
 std::vector<CollisionData> PhysicsComponent::GetRigidBodyCollisionData()
 {
 	return Chroma::Physics::GetRigidBodyCollisionData(m_RigidBody);
@@ -47,6 +52,7 @@ void PhysicsComponent::Transform(btTransform& transform)
 	glm::mat4 transformMat = BulletToGLM(transform);
 	GetParentEntity()->SetTransform(transformMat);
 }
+
 
 void PhysicsComponent::CreateCollisionShape()
 {
@@ -178,17 +184,16 @@ void PhysicsComponent::SetCollisionFlags()
 	// static objects have a mass of 0
 	// kinematic objects have a mass 0 but can be moved by code
 	// dynamic objects have a mass non-zero transforms are controlled by bullet
-	if (m_Mass == 0 && m_CollisionState == Static)
-		m_RigidBody->setCollisionFlags(m_RigidBody->getCollisionFlags() | btCollisionObject::CF_STATIC_OBJECT);
-	else if (m_Mass == 0 && m_CollisionState == Kinematic)
+	if (m_Mass == 0.0 && m_CollisionState == Static)
+		m_RigidBody->setCollisionFlags(btCollisionObject::CF_STATIC_OBJECT);
+	else if (m_Mass == 0.0 && m_CollisionState == Kinematic)
 	{
-		m_RigidBody->setCollisionFlags(m_RigidBody->getCollisionFlags() | btCollisionObject::CF_KINEMATIC_OBJECT);
+		m_RigidBody->setCollisionFlags(btCollisionObject::CF_KINEMATIC_OBJECT);
 		m_RigidBody->setActivationState(DISABLE_DEACTIVATION);
 	}
-	else if (m_Mass > 0)
+	else if (m_Mass > 0.0)
 	{
 		SetCollisionState(Dynamic);
-		//m_RigidBody->setMotionState();
 	}
 }
 

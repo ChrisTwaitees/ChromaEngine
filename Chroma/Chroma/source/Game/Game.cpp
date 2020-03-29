@@ -85,8 +85,6 @@ int main()
 	Texture flatNormal("resources/textures/test/flat_normal.jpg");
 	flatNormal.type = Texture::NORMAL;
 	Texture alphaTestAlbedo("resources/textures/test/grass.png");
-	Texture sandyNormal("resources/textures/test/sandy_normal.jpg");
-	sandyNormal.type = Texture::NORMAL;
 
 	// Animated Model
 	Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
@@ -95,6 +93,14 @@ int main()
 	walkingNormal.type = Texture::NORMAL;
 	Texture walkingMetRoughAO("resources/animation/vampire_textures/MetRoughAO.jpg");
 	walkingMetRoughAO.type = Texture::METROUGHAO;
+
+	// Floor Panels
+	Texture woodBoardsAlbedo("resources/textures/pbr/hardwood_pbr/albedo.jpg");
+	woodBoardsAlbedo.type = Texture::ALBEDO;
+	Texture woodBoardsNormal("resources/textures/pbr/hardwood_pbr/normal.jpg");
+	woodBoardsNormal.type = Texture::NORMAL;
+	Texture woodBoardsMetRoughAO("resources/textures/pbr/hardwood_pbr/MetRoughAO.jpg");
+	woodBoardsMetRoughAO.type = Texture::METROUGHAO;
 	// ____________________________________________________
 
 	// ANIMATED MODEL
@@ -209,34 +215,78 @@ int main()
 
 	// TERRAIN
 	// ____________________________________________________
-	//IEntity* TerrainEntity = new Entity;
-	//Chroma::Scene::AddEntity(TerrainEntity);
-	//MeshComponent* TerrainMeshComponent = new Terrain;
-	//TerrainMeshComponent->SetShader(PBRShader);
-	//TerrainMeshComponent->AddTexture(gridAlbedo);
-	//TerrainMeshComponent->AddTexture(flatNormal);
-	//TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
-	////TerrainMeshComponent->AddTexture(PlanksNormal);
-	////TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
-	//TerrainEntity->AddComponent(TerrainMeshComponent);
-	//TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));
-
+	// ground
 	IEntity* TerrainEntity = new Entity;
 	Chroma::Scene::AddEntity(TerrainEntity);
-	MeshComponent* TerrainMeshComponent = new Model("resources/assets/level/groundScaleTest2.fbx");
+
+	MeshComponent* TerrainMeshComponent = new Model("resources/assets/level/ground.fbx");
 	TerrainMeshComponent->SetShader(PBRShader);
-	TerrainMeshComponent->AddTexture(gridAlbedo);
-	TerrainMeshComponent->AddTexture(flatNormal);
+	TerrainMeshComponent->AddTexture(woodBoardsAlbedo);
+	TerrainMeshComponent->AddTexture(woodBoardsNormal);
+	TerrainMeshComponent->AddTexture(woodBoardsMetRoughAO);
 	TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
-	//TerrainMeshComponent->AddTexture(PlanksNormal);
-	//TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
 	TerrainEntity->AddComponent(TerrainMeshComponent);
 
 	// rigid
 	PhysicsComponent* TerrainPhysicsComponent = new PhysicsComponent();
-	TerrainPhysicsComponent->SetColliderShape(ColliderShape::Mesh);
+	TerrainPhysicsComponent->SetColliderShape(ColliderShape::Convex);
 	TerrainPhysicsComponent->SetCollisionState(ColliderState::Static);
 	TerrainEntity->AddComponent(TerrainPhysicsComponent);
+
+	// 10 degrees
+	IEntity* TerrainEntity2 = new Entity;
+	Chroma::Scene::AddEntity(TerrainEntity2);
+
+	MeshComponent* TerrainMesh2Component = new Model("resources/assets/level/10degrees.fbx");
+	TerrainMesh2Component->SetShader(PBRShader);
+	TerrainMesh2Component->AddTexture(woodBoardsAlbedo);
+	TerrainMesh2Component->AddTexture(woodBoardsNormal);
+	TerrainMesh2Component->AddTexture(woodBoardsMetRoughAO);
+	TerrainMesh2Component->m_UVMultiply = glm::vec2(8.0f);
+	TerrainEntity2->AddComponent(TerrainMesh2Component);
+
+	// rigid
+	PhysicsComponent* TerrainPhysicsComponent2 = new PhysicsComponent();
+	TerrainPhysicsComponent2->SetColliderShape(ColliderShape::Convex);
+	TerrainPhysicsComponent2->SetCollisionState(ColliderState::Static);
+	TerrainEntity2->AddComponent(TerrainPhysicsComponent2);
+
+
+	// 20 degrees
+	IEntity* TerrainEntity3 = new Entity;
+	Chroma::Scene::AddEntity(TerrainEntity3);
+
+	MeshComponent* TerrainMesh3Component = new Model("resources/assets/level/20degrees.fbx");
+	TerrainMesh3Component->SetShader(PBRShader);
+	TerrainMesh3Component->AddTexture(woodBoardsAlbedo);
+	TerrainMesh3Component->AddTexture(woodBoardsNormal);
+	TerrainMesh3Component->AddTexture(woodBoardsMetRoughAO);
+	TerrainMesh3Component->m_UVMultiply = glm::vec2(8.0f);
+	TerrainEntity3->AddComponent(TerrainMesh3Component);
+
+	// rigid
+	PhysicsComponent* TerrainPhysicsComponent3 = new PhysicsComponent();
+	TerrainPhysicsComponent3->SetColliderShape(ColliderShape::Convex);
+	TerrainPhysicsComponent3->SetCollisionState(ColliderState::Static);
+	TerrainEntity3->AddComponent(TerrainPhysicsComponent3);
+
+	// 35 degrees
+	IEntity* TerrainEntity4 = new Entity;
+	Chroma::Scene::AddEntity(TerrainEntity4);
+
+	MeshComponent* TerrainMesh4Component = new Model("resources/assets/level/35degrees.fbx");
+	TerrainMesh4Component->SetShader(PBRShader);
+	TerrainMesh4Component->AddTexture(woodBoardsAlbedo);
+	TerrainMesh4Component->AddTexture(woodBoardsNormal);
+	TerrainMesh4Component->AddTexture(woodBoardsMetRoughAO);
+	TerrainMesh4Component->m_UVMultiply = glm::vec2(8.0f);
+	TerrainEntity4->AddComponent(TerrainMesh4Component);
+
+	// rigid
+	PhysicsComponent* TerrainPhysicsComponent4 = new PhysicsComponent();
+	TerrainPhysicsComponent4->SetColliderShape(ColliderShape::Convex);
+	TerrainPhysicsComponent4->SetCollisionState(ColliderState::Static);
+	TerrainEntity4->AddComponent(TerrainPhysicsComponent4);
 
 	
 

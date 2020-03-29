@@ -54,6 +54,7 @@ protected:
 	bool m_IsOnGround{ true };
 	float m_WalkSpeed;
 	float m_SprintSpeed;
+	bool m_HasDoubleJumped{ false };
 	glm::vec3 m_Velocity{ 0.0f };
 
 	// functions

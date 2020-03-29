@@ -15,6 +15,7 @@ enum ColliderShape { Box, Convex, Mesh, Capsule, Sphere, AABB };
 enum ColliderState {Static, Kinematic, Dynamic};
 
 struct CollisionData;
+struct RayHitData;
 
 class PhysicsComponent :	public IComponent
 {
@@ -54,6 +55,7 @@ public:
 
 	btMotionState* GetMotionState() const { return m_MotionState; };
 
+	RayHitData GetRayHitExcludeMe(glm::vec3 const& rayStart, glm::vec3 const& rayEnd);
 	std::vector<CollisionData> GetRigidBodyCollisionData();
 	// transforms
 	const glm::vec3 GetLinearVelocity() const;

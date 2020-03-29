@@ -39,8 +39,10 @@ public:
 
 	virtual std::string GetTypeString() const = 0;
 
+	// Entity
 	IEntity* GetParentEntity() const;
 	UID GetParentEntityUID() const;
+	std::string GetParentEntityName() const;
 	virtual void SetParentEntityUID(UID const& newParentEntityUID) { m_ParentEntityUID = newParentEntityUID; }
 
 	IComponent();

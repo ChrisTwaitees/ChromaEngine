@@ -19,9 +19,21 @@ class IEntity;
 
 struct CollisionData
 {
-	glm::vec3 m_ColliderAContactPoint;
-	glm::vec3 m_ColliderBContactPoint;
-	glm::vec3 m_ColliderBContactNormal;
+	glm::vec3 m_ColliderAContactPoint{0.0f};
+	glm::vec3 m_ColliderBContactPoint{ 0.0f };
+
+	glm::vec3 m_ColliderBContactNormal{ 0.0f };
+
+	ColliderState m_ColliderAState;
+	ColliderState m_ColliderBState;
+};
+
+struct RayHitData
+{
+	bool m_Hit{false};
+	glm::vec3 m_RayStart{ 0.0f };
+	glm::vec3 m_RayHitPosition{ 0.0f };
+	glm::vec3 m_RayHitNormal{ 0.0f };
 };
 
 
@@ -44,6 +56,8 @@ namespace Chroma
 		static void SetGravity(glm::vec3& newGravity);
 
 		// Ray Queries
+		static RayHitData GetRayHitData(glm::vec3 const& worldRay_origin, glm::vec3 const& worldRay_end);
+		static RayHitData GetRayHitDataExcludeRigidbody(btRigidBody*& rigidBody, glm::vec3 const& rayOrigin, glm::vec3 const& rayEnd);
 		static IEntity* GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 		static bool RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 		static bool SphereTest(glm::vec3 const& sphereCenter, float const& sphereRadius);
