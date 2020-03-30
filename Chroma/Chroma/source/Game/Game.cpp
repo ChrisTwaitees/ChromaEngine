@@ -56,7 +56,7 @@ int main()
 	Chroma::Scene::SetLights(Lights);
 
 	// BACKGROUND
-	Chroma::Scene::GetIBL()->LoadIBL("resources/textures/ibl/grey_ibl/grey.hdr");
+	//Chroma::Scene::GetIBL()->LoadIBL("resources/textures/ibl/grey_ibl/grey.hdr");
 
 	// ____________________________________________________
 	// SHADERS
