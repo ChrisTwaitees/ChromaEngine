@@ -435,6 +435,9 @@
     <ClCompile Include="source\Engine\component\CharacterPhysicsComponent.cpp">
       <Filter>Engine\component\character</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\component\IKComponent.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -700,6 +703,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\component\CharacterPhysicsComponent.h">
       <Filter>Engine\component\character</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\component\IKComponent.h">
+      <Filter>Engine\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

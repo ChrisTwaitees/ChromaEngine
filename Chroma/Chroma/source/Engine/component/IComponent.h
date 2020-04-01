@@ -30,6 +30,7 @@ public:
 	
 	// Serialization
 	virtual void Serialize(ISerializer*& serializer) = 0;
+	virtual std::string GetTypeString() const = 0;
 
 	// Acessors
 	UID GetUID() const { return m_UID; };
@@ -37,7 +38,6 @@ public:
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
 
-	virtual std::string GetTypeString() const = 0;
 
 	// Entity
 	IEntity* GetParentEntity() const;
