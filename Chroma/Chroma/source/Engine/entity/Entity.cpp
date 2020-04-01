@@ -4,6 +4,7 @@
 #include <component/PhysicsComponent.h>
 #include <component/AnimationComponent.h>
 #include <component/CharacterControllerComponent.h>
+#include <component/IKComponent.h>
 #include <physics/PhysicsEngine.h>
 
 std::vector<ChromaVertex> Entity::GetVertices()
@@ -133,6 +134,21 @@ void Entity::AddStateMachineComponent(StateMachineComponent*& newStateMachineCom
 
 	// Add to global components list
 	m_ComponentUIDs.push_back(newStateMachineComponent->GetUID());
+}
+
+void Entity::AddIKComponent(IKComponent*& newIKComponent)
+{
+	// Prepare for Entity
+	ProcessNewComponent(newIKComponent);
+
+	// add state machines component
+	m_IKComponentUIDs.push_back(newIKComponent->GetUID());
+
+	// add to updating components
+	Chroma::Scene::AddIKComponent(newIKComponent);
+
+	// Add to global components list
+	m_ComponentUIDs.push_back(newIKComponent->GetUID());
 }
 
 void Entity::CalculateBBox()

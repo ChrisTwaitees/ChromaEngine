@@ -16,6 +16,7 @@ class PhysicsComponent;
 class AnimationComponent;
 class CharacterControllerComponent;
 class StateMachineComponent;
+class IKComponent;
 
 class IEntity
 {
@@ -56,11 +57,12 @@ public:
 
 
 	// Components
-	inline virtual std::vector<UID> getComponentUIDs() { return m_ComponentUIDs; }
-	inline virtual std::vector<UID> getMeshComponentUIDs() { return m_MeshComponentUIDs; }
-	inline virtual std::vector<UID> getPhysicsComponentUIDs() { return m_PhysicsComponentUIDs; }
-	inline virtual std::vector<UID> getAnimationComponentUIDs() { return m_AnimationComponentUIDs; }
+	inline virtual std::vector<UID> GetComponentUIDs() { return m_ComponentUIDs; }
+	inline virtual std::vector<UID> GetMeshComponentUIDs() { return m_MeshComponentUIDs; }
+	inline virtual std::vector<UID> GetPhysicsComponentUIDs() { return m_PhysicsComponentUIDs; }
+	inline virtual std::vector<UID> GetAnimationComponentUIDs() { return m_AnimationComponentUIDs; }
 	inline virtual std::vector<UID> GetCharacterControllerComponentUIDs() { return m_CharacterControllerComponentUIDs; }
+	inline virtual std::vector<UID> GetIKComponentUIDs() { return m_IKComponentUIDs; }
 
 	// add
 	template<typename component>
@@ -93,10 +95,15 @@ public:
 		AddCharacterControllerComponent(newComponent);
 	};
 
-	//template<>
-	//void AddComponent<StateMachineComponent*>(StateMachineComponent*& newComponent) {
-	//	AddStateMachineComponent(newComponent);
-	//}
+	template<>
+	void AddComponent<StateMachineComponent*>(StateMachineComponent* newComponent) {
+		AddStateMachineComponent(newComponent);
+	}
+
+	template<>
+	void AddComponent<IKComponent*>(IKComponent* newComponent) {
+		AddIKComponent(newComponent);
+	}
 
 
 	IEntity();
@@ -130,6 +137,7 @@ protected:
 	std::vector<UID> m_AnimationComponentUIDs;
 	std::vector<UID> m_CharacterControllerComponentUIDs;
 	std::vector<UID> m_StateMachineComponentUIDs;
+	std::vector<UID> m_IKComponentUIDs;
 
 	// add
 	virtual void AddComponent(IComponent*& newComponent) = 0;
@@ -137,7 +145,8 @@ protected:
 	virtual void AddPhysicsComponent(PhysicsComponent*& newPhysicsComponent) = 0;
 	virtual void AddAnimationComponent(AnimationComponent*& newAnimationComponent) = 0;
 	virtual void AddCharacterControllerComponent(CharacterControllerComponent*& newCharacterControllerComponent) = 0;
-	virtual void AddStateMachineComponent(StateMachineComponent*& newCharacterControllerComponent) = 0;
+	virtual void AddStateMachineComponent(StateMachineComponent*& newStateMachineComponent) = 0;
+	virtual void AddIKComponent(IKComponent*& newIKComponent) = 0;
 };
 
 #endif

@@ -9,6 +9,7 @@
 #include <component/CharacterPhysicsComponent.h>
 #include <model/SkinnedMesh.h>
 #include <bipedal/BipedalAnimationStateMachine.h>
+#include <component/IKComponent.h>
 
 // game
 #include <thirdperson/ThirdPersonCharacterController.h>
@@ -178,6 +179,9 @@ int main()
 	IKTestAnimator.CompressAnimations();
 	IKTestAnimationComponent->SetAnimator(IKTestAnimator);
 	IKTestEntity->AddComponent(IKTestAnimationComponent);
+	// ik
+	IKComponent* IKTestIKComponent = new IKComponent();
+	IKTestEntity->AddComponent(IKTestIKComponent);
 	// ____________________________________________________
 
 

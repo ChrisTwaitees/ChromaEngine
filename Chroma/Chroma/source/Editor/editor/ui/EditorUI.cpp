@@ -282,7 +282,7 @@ namespace Chroma
 						}
 
 						ImGui::Indent();
-						for (UID componentUID : Chroma::Scene::GetEntity(uidEntity.first)->getComponentUIDs())
+						for (UID componentUID : Chroma::Scene::GetEntity(uidEntity.first)->GetComponentUIDs())
 						{
 							std::string ComponentTypeUID = Chroma::Scene::GetComponent(componentUID)->GetTypeString() + " : (" + componentUID.data + ")";;
 

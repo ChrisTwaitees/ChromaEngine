@@ -20,6 +20,7 @@ namespace Chroma
 	std::set<UID> Scene::m_EntityUIDs;
 	std::set<UID> Scene::m_TransparentEntityUIDs;
 	std::set<UID> Scene::m_AnimatedEntityUIDs;
+	std::set<UID> Scene::m_IKComponentUIDs;
 
 	//components
 	std::set<UID> Scene::m_ComponentUIDs;
@@ -339,6 +340,18 @@ namespace Chroma
 
 		// add component
 		m_Components[newStateMachineComponent->GetUID()] = newStateMachineComponent;
+	}
+
+	void Scene::AddIKComponent(IComponent* const& newIKComponent)
+	{
+		// add to global component UIDs
+		m_ComponentUIDs.insert(newIKComponent->GetUID());
+
+		// collect component UID
+		m_IKComponentUIDs.insert(newIKComponent->GetUID());
+
+		// add component
+		m_Components[newIKComponent->GetUID()] = newIKComponent;
 	}
 
 	void Scene::AddLight(IComponent* const& newLight)

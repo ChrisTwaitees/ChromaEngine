@@ -48,6 +48,12 @@ namespace Chroma
 			Chroma::Scene::GetComponent(ComponentUID)->Update();
 		}
 
+		// IK Components
+		for (UID const& ComponentUID : Chroma::Scene::GetIKComponentUIDs())
+		{
+			Chroma::Scene::GetComponent(ComponentUID)->Update();
+		}
+
 		// UI Components
 		for (UID const& ComponentUID : Chroma::Scene::GetUIComponentUIDs())
 		{

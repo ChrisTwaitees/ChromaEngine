@@ -3,7 +3,7 @@
 
 #include <component/IComponent.h>
 
-class IKComponent : IComponent
+class IKComponent : public IComponent
 {
 public:
 

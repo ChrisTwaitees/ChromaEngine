@@ -7,7 +7,7 @@
 
 PhysicsComponent* CharacterControllerComponent::GetPhysicsComponent()
 {
-	for (UID const& physUID : GetParentEntity()->getPhysicsComponentUIDs())
+	for (UID const& physUID : GetParentEntity()->GetPhysicsComponentUIDs())
 	{
 		return static_cast<PhysicsComponent*>(Chroma::Scene::GetComponent(physUID));
 	}
