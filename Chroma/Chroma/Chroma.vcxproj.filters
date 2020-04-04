@@ -435,7 +435,7 @@
     <ClCompile Include="source\Engine\component\CharacterPhysicsComponent.cpp">
       <Filter>Engine\component\character</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\component\IKComponent.cpp">
+    <ClCompile Include="source\Engine\component\AnimConstraintComponent.cpp">
       <Filter>Engine\animation</Filter>
     </ClCompile>
   </ItemGroup>
@@ -704,7 +704,7 @@
     <ClInclude Include="source\Engine\component\CharacterPhysicsComponent.h">
       <Filter>Engine\component\character</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\component\IKComponent.h">
+    <ClInclude Include="source\Engine\component\AnimConstraintComponent.h">
       <Filter>Engine\animation</Filter>
     </ClInclude>
   </ItemGroup>

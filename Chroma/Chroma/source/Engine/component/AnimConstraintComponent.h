@@ -3,7 +3,7 @@
 
 #include <component/IComponent.h>
 
-class IKComponent : public IComponent
+class AnimConstraintComponent : public IComponent
 {
 public:
 
@@ -16,8 +16,8 @@ public:
 	virtual void Serialize(ISerializer*& serializer);
 	virtual std::string GetTypeString() const;
 
-	IKComponent() {};
-	~IKComponent() {};
+	AnimConstraintComponent() {};
+	~AnimConstraintComponent() {};
 };
 
 #endif // CHROMA_IK_COMPONENT_H

@@ -9,7 +9,7 @@
 #include <component/CharacterPhysicsComponent.h>
 #include <model/SkinnedMesh.h>
 #include <bipedal/BipedalAnimationStateMachine.h>
-#include <component/IKComponent.h>
+#include <component/AnimConstraintComponent.h>
 
 // game
 #include <thirdperson/ThirdPersonCharacterController.h>
@@ -180,7 +180,7 @@ int main()
 	IKTestAnimationComponent->SetAnimator(IKTestAnimator);
 	IKTestEntity->AddComponent(IKTestAnimationComponent);
 	// ik
-	IKComponent* IKTestIKComponent = new IKComponent();
+	AnimConstraintComponent* IKTestIKComponent = new AnimConstraintComponent();
 	IKTestEntity->AddComponent(IKTestIKComponent);
 	// ____________________________________________________
 

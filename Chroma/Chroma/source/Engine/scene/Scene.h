@@ -36,7 +36,7 @@ namespace Chroma
 		static void AddPhysicsComponent(IComponent* const& newPhysicsComponent);
 		static void AddUIComponent(IComponent* const& newUIComponent);
 		static void AddStateMachineComponent(IComponent* const& newStateMachineComponent);
-		static void AddIKComponent(IComponent* const& newIKComponent);
+		static void AddAnimConstraintComponent(IComponent* const& newIKComponent);
 
 		// lights
 		static void AddLight(IComponent* const& newLight);
@@ -71,7 +71,7 @@ namespace Chroma
 
 		static inline std::set<UID>& GetAnimationComponentUIDs() { return m_AnimationComponentUIDs; }
 		static inline std::set<UID>& GetCharacterControllerUIDs() { return m_CharacterControllerUIDs; }
-		static inline std::set<UID>& GetIKComponentUIDs() { return m_IKComponentUIDs; }
+		static inline std::set<UID>& GetIKComponentUIDs() { return m_AnimConstraintComponentUIDs; }
 
 		static inline std::set<UID>& GetRenderableComponentUIDs() { return m_RenderableComponentUIDs; }
 		static inline std::set<UID>& GetLitComponentUIDs() { return m_LitComponentUIDs; }
@@ -114,7 +114,7 @@ namespace Chroma
 		// animation components
 		static std::set<UID> m_AnimationComponentUIDs;
 		static std::set<UID> m_CharacterControllerUIDs;
-		static std::set<UID> m_IKComponentUIDs;
+		static std::set<UID> m_AnimConstraintComponentUIDs;
 		// render flagged components
 		static std::set<UID> m_RenderableComponentUIDs;
 		static std::set<UID> m_LitComponentUIDs;

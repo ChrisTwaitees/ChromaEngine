@@ -19,18 +19,19 @@ namespace Chroma
 	//entities
 	std::set<UID> Scene::m_EntityUIDs;
 	std::set<UID> Scene::m_TransparentEntityUIDs;
-	std::set<UID> Scene::m_AnimatedEntityUIDs;
-	std::set<UID> Scene::m_IKComponentUIDs;
 
 	//components
 	std::set<UID> Scene::m_ComponentUIDs;
-
-	std::set<UID> Scene::m_MeshComponentUIDs;
-	std::set<UID> Scene::m_SkinnedMeshComponentUIDs;
-
+	
+	//components - animation
 	std::set<UID> Scene::m_AnimationComponentUIDs;
 	std::set<UID> Scene::m_CharacterControllerUIDs;
+	std::set<UID> Scene::m_AnimatedEntityUIDs;
+	std::set<UID> Scene::m_AnimConstraintComponentUIDs;
 
+	//components - visual
+	std::set<UID> Scene::m_MeshComponentUIDs;
+	std::set<UID> Scene::m_SkinnedMeshComponentUIDs;
 	std::set<UID> Scene::m_RenderableComponentUIDs;
 	std::set<UID> Scene::m_LitComponentUIDs;
 	std::set<UID> Scene::m_ShadowCastingComponentUIDs;
@@ -342,16 +343,16 @@ namespace Chroma
 		m_Components[newStateMachineComponent->GetUID()] = newStateMachineComponent;
 	}
 
-	void Scene::AddIKComponent(IComponent* const& newIKComponent)
+	void Scene::AddAnimConstraintComponent(IComponent* const& newAnimConstraintComponent)
 	{
 		// add to global component UIDs
-		m_ComponentUIDs.insert(newIKComponent->GetUID());
+		m_ComponentUIDs.insert(newAnimConstraintComponent->GetUID());
 
 		// collect component UID
-		m_IKComponentUIDs.insert(newIKComponent->GetUID());
+		m_AnimConstraintComponentUIDs.insert(newAnimConstraintComponent->GetUID());
 
 		// add component
-		m_Components[newIKComponent->GetUID()] = newIKComponent;
+		m_Components[newAnimConstraintComponent->GetUID()] = newAnimConstraintComponent;
 	}
 
 	void Scene::AddLight(IComponent* const& newLight)

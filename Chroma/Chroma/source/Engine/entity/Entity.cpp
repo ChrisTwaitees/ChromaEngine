@@ -4,7 +4,7 @@
 #include <component/PhysicsComponent.h>
 #include <component/AnimationComponent.h>
 #include <component/CharacterControllerComponent.h>
-#include <component/IKComponent.h>
+#include <component/AnimConstraintComponent.h>
 #include <physics/PhysicsEngine.h>
 
 std::vector<ChromaVertex> Entity::GetVertices()
@@ -136,16 +136,16 @@ void Entity::AddStateMachineComponent(StateMachineComponent*& newStateMachineCom
 	m_ComponentUIDs.push_back(newStateMachineComponent->GetUID());
 }
 
-void Entity::AddIKComponent(IKComponent*& newIKComponent)
+void Entity::AddAnimConstraintComponent(AnimConstraintComponent*& newIKComponent)
 {
 	// Prepare for Entity
 	ProcessNewComponent(newIKComponent);
 
 	// add state machines component
-	m_IKComponentUIDs.push_back(newIKComponent->GetUID());
+	m_AnimConstraintComponentUIDs.push_back(newIKComponent->GetUID());
 
 	// add to updating components
-	Chroma::Scene::AddIKComponent(newIKComponent);
+	Chroma::Scene::AddAnimConstraintComponent(newIKComponent);
 
 	// Add to global components list
 	m_ComponentUIDs.push_back(newIKComponent->GetUID());
