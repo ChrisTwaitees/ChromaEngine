@@ -1,5 +1,6 @@
 #include "ModelLoader.h"
 
+
 namespace Chroma 
 {
 	std::string ModelLoader::m_SourceDir;
@@ -136,6 +137,16 @@ namespace Chroma
 			else
 				UV1 = glm::vec2(0.0f, 0.0f);
 
+			// colors
+			glm::vec4 color1{ 0.0f };
+			if (mesh->mColors[0] != NULL)
+			{
+				color1.x = mesh->mColors[0][i].r;
+				color1.y = mesh->mColors[0][i].g;
+				color1.z = mesh->mColors[0][i].b;
+				color1.w = mesh->mColors[0][i].a;
+			}
+
 			// add new vertex
 			if (newMeshData.isSkinned)
 			{
@@ -145,6 +156,7 @@ namespace Chroma
 				vertex.m_tangent = tangent;
 				vertex.m_bitangent = bitangent;
 				vertex.m_texCoords = UV1;
+				vertex.m_color = color1;
 				newMeshData.skinnedVerts.push_back(vertex);
 			}
 			else
@@ -155,6 +167,7 @@ namespace Chroma
 				vertex.m_tangent = tangent;
 				vertex.m_bitangent = bitangent;
 				vertex.m_texCoords = UV1;
+				vertex.m_color = color1;
 				newMeshData.verts.push_back(vertex);
 			}
 		}
@@ -179,13 +192,15 @@ namespace Chroma
 			GetTexturesFromMaterial(material,	aiTextureType_HEIGHT, Texture::NORMAL, newMeshData);
 		}
 
-		// build Mesh
+		// retrieve and process Skeleton
 		if (newMeshData.isSkinned)
 		{
 			// Process Skeleton
 			Skeleton skeleton;			
 			// Process Joint Hierarchy
 			ProcessSkeleton(scene, mesh, skeleton, newMeshData);
+			// Process Skeleton Metadata
+			ProcessSkeletonMetaData(scene, mesh, skeleton, newMeshData);
 			// Set MeshData's Skeleton
 			newMeshData.skeleton = skeleton;
 		}
@@ -348,4 +363,30 @@ namespace Chroma
 			parentJointID = -1;
 		}
 	}
+
+	void ModelLoader::ProcessSkeletonMetaData(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData)
+	{
+		// Iterate over joints
+		for (unsigned int i = 0; i < mesh->mNumBones; i++)
+		{
+			aiNode* jointNode = scene->mRootNode->FindNode(mesh->mBones[i]->mName);
+			CHROMA_TRACE("Retreiving Metadat for Joint  : {0}", mesh->mBones[i]->mName.C_Str());
+			for (unsigned int a = 0; a < jointNode->mMetaData->mNumProperties; a++)
+			{
+				CHROMA_TRACE("METADATA Property Key : {0}", (std::string)jointNode->mMetaData->mKeys[a].C_Str());
+				switch (jointNode->mMetaData->mValues[a].mType)
+				{
+					case(aiMetadataType::AI_BOOL):
+					{
+						CHROMA_TRACE("Boolean : {}", (bool)jointNode->mMetaData->mValues[a].mData);
+						break;
+
+					}
+				}
+
+
+			}
+		}
+	}
+
 }

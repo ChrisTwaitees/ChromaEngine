@@ -29,6 +29,7 @@ namespace Chroma {
 		// skinning and skeletons
 		static void SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
 		static void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData);
+		static void ProcessSkeletonMetaData(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData);
 		static void GetChildJointIDs(const aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
 		static void GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID);
 		static void NormalizeSkinningWeights(MeshData& meshData);

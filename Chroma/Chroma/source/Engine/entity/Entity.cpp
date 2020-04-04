@@ -4,7 +4,7 @@
 #include <component/PhysicsComponent.h>
 #include <component/AnimationComponent.h>
 #include <component/CharacterControllerComponent.h>
-#include <component/AnimConstraintComponent.h>
+#include <component/animation/AnimConstraintComponent.h>
 #include <physics/PhysicsEngine.h>
 
 std::vector<ChromaVertex> Entity::GetVertices()

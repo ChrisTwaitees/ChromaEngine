@@ -318,8 +318,9 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="source\Engine\component\animation\AnimConstraintComponent.cpp" />
+    <ClCompile Include="source\Engine\component\animation\IKAnimConstraint.cpp" />
     <ClCompile Include="source\Engine\component\CharacterPhysicsComponent.cpp" />
-    <ClCompile Include="source\Engine\component\AnimConstraintComponent.cpp" />
     <ClCompile Include="source\Engine\component\StateMachineComponent.cpp" />
     <ClCompile Include="source\Game\bipedal\BipedalAnimationStateMachine.cpp" />
     <ClCompile Include="source\Editor\ChromaEditor.cpp" />
@@ -410,8 +411,9 @@
     <ClCompile Include="source\Scenes\Human.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="source\Engine\component\animation\AnimConstraintComponent.h" />
+    <ClInclude Include="source\Engine\component\animation\IKAnimConstraint.h" />
     <ClInclude Include="source\Engine\component\CharacterPhysicsComponent.h" />
-    <ClInclude Include="source\Engine\component\AnimConstraintComponent.h" />
     <ClInclude Include="source\Engine\component\StateMachineComponent.h" />
     <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h" />
     <ClInclude Include="source\Editor\editor\Editor.h" />

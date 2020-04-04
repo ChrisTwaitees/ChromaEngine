@@ -9,6 +9,14 @@
 #include <uid/UID.h>
 
 
+struct Constraint
+{
+	int m_targetJointID{ 0 };
+	int m_effectorJointID{ 0 };
+	enum m_type{IK, Aim, Orient, Parent};
+};
+
+
 struct Joint
 {
 	// Identifiers
@@ -30,24 +38,11 @@ struct Joint
 
 class Skeleton
 {
-	int m_RootJointID{ 0 };
-	UID m_ParentComponentUID;
-	std::map<std::pair<int, std::string>, Joint> m_Joints;
-
-	glm::mat4 m_RootTransform{ glm::mat4(1.0) };
-
-	// Functions
-	glm::mat4 BuildRootTransform();
-	void DebugWalkChildJoints(Joint const& currentJoint);
-	void UpdateSkeletonRootTransform();
-
 public:
-	// Accessors
+	// Joints
 	void AddJoint(Joint& newJoint);
 	void SetRootJoint(Joint& newRootJoint) { m_RootJointID = newRootJoint.m_ID; };
 	void SetRootJointID(int const& newRootJointID) { m_RootJointID = newRootJointID; };
-
-	void SetToBindPose();
 
 	int GetNumJoints() const { return (int)m_Joints.size(); };
 	std::map<std::pair<int, std::string>, Joint> GetIndexedNamedJoints() const { return m_Joints; };
@@ -74,17 +69,44 @@ public:
 	bool GetJointExists(int const& index) const;
 	bool GetJointExists(std::string const& jointName) const;
 
+	// Constraints
+	inline std::vector<Constraint>& GetConstraints() { return m_Constraints; }; 
+	inline void AddConstraint(Constraint const& newConstraint) { m_Constraints.push_back(newConstraint); };
+	
+	// Skeleton
+	void InitializeSkeleton();
+	void SetToBindPose();
+	void DebugDraw();
+	void Destroy();
+
 	// Functions
 	void SetParentComponentUID(UID const& parentComponentUID) { m_ParentComponentUID = parentComponentUID; };
 	void SetJointUniforms(Shader& skinnedShader);
-	void CalculateLocalBindOffset(int const& jointID, glm::mat4 const& parentTransform);
-	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
-	void DebugDraw();
-	void InitializeSkeleton();
-	void Destroy();
 
 	Skeleton();
 	~Skeleton();
+
+private:
+	// Joints
+	int m_RootJointID{ 0 };
+	glm::mat4 m_RootTransform{ glm::mat4(1.0) };
+	std::map<std::pair<int, std::string>, Joint> m_Joints;
+
+	glm::mat4 BuildRootTransform();
+	void UpdateSkeletonRootTransform();
+
+	void CalculateLocalBindOffset(int const& jointID, glm::mat4 const& parentTransform);
+	void TransformJointAndChildren(int const& jointID, glm::mat4 const& transform);
+
+	// Components
+	UID m_ParentComponentUID;
+
+	// Constraints
+	std::vector<Constraint> m_Constraints;
+
+	// Debug
+	void DebugWalkChildJoints(Joint const& currentJoint);
+
 };
 
 #endif

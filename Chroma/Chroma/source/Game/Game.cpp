@@ -9,7 +9,7 @@
 #include <component/CharacterPhysicsComponent.h>
 #include <model/SkinnedMesh.h>
 #include <bipedal/BipedalAnimationStateMachine.h>
-#include <component/AnimConstraintComponent.h>
+#include <component/animation/IKAnimConstraint.h>
 
 // game
 #include <thirdperson/ThirdPersonCharacterController.h>
@@ -160,7 +160,7 @@ int main()
 	IKTestEntity->SetScale(glm::vec3(0.5f));
 	IKTestEntity->SetTranslation(glm::vec3(5.0, 0.0, 0.0));
 	// mesh
-	MeshComponent* IKTestMeshComponent = new SkinnedMesh("resources/animation/test_tentacle/test_tentacle.fbx");
+	MeshComponent* IKTestMeshComponent = new SkinnedMesh("resources/animation/test_tentacle/test_tentacle_iktest.fbx");
 	IKTestMeshComponent->SetShader(PBRShader);
 	IKTestMeshComponent->AddTexture(gridAlbedo);
 	IKTestMeshComponent->AddTexture(flatNormal);
@@ -180,7 +180,7 @@ int main()
 	IKTestAnimationComponent->SetAnimator(IKTestAnimator);
 	IKTestEntity->AddComponent(IKTestAnimationComponent);
 	// ik
-	AnimConstraintComponent* IKTestIKComponent = new AnimConstraintComponent();
+	AnimConstraintComponent* IKTestIKComponent = new IKAnimConstraint();
 	IKTestEntity->AddComponent(IKTestIKComponent);
 	// ____________________________________________________
 
