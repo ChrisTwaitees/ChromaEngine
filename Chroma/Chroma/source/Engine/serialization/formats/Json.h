@@ -20,9 +20,10 @@ class JSON
 public:
 	JSON(const JSON&) {};
 	JSON& operator=(const JSON&) {};
-	JSON( const char* sourcePath);
+	JSON( const char* sourcePath, bool isFile=true);
 	~JSON() {};
 
+	bool HasKey(const char* keyString);
 
 	rapidjson::Value& GetValue(const char* accessorString) {
 		return m_Document[accessorString];

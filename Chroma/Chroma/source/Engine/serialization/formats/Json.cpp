@@ -1,8 +1,19 @@
 #include "Json.h"
 
-JSON::JSON(const char* sourcePath)
+JSON::JSON(const char* source, bool isFile)
 {
-	Load(sourcePath);
+	if(isFile)
+		Load(source);
+	else
+	{
+		m_Document.Parse(source);
+	}
+
+}
+
+bool JSON::HasKey(const char* keyString)
+{
+	return m_Document.HasMember(keyString);
 }
 
 

@@ -11,9 +11,11 @@
 
 struct Constraint
 {
-	int m_targetJointID{ 0 };
-	int m_effectorJointID{ 0 };
-	enum m_type{IK, Aim, Orient, Parent};
+	enum Type{IK, Aim, Orient, Parent, Null};
+
+	int m_RootJointID{ -99 };
+	int m_EffectorJointID{ -99 };
+	Type m_Type = Null;
 };
 
 

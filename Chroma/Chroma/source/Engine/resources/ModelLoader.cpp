@@ -195,6 +195,7 @@ namespace Chroma
 		// retrieve and process Skeleton
 		if (newMeshData.isSkinned)
 		{
+			CHROMA_TRACE("MODEL LOADER :: Model contains skinning data, processing Skeleton.");
 			// Process Skeleton
 			Skeleton skeleton;			
 			// Process Joint Hierarchy
@@ -203,6 +204,7 @@ namespace Chroma
 			ProcessSkeletonMetaData(scene, mesh, skeleton, newMeshData);
 			// Set MeshData's Skeleton
 			newMeshData.skeleton = skeleton;
+			CHROMA_TRACE("MODEL LOADER :: Skeleton Processed.");
 		}
 
 		return newMeshData;
@@ -366,6 +368,10 @@ namespace Chroma
 
 	void ModelLoader::ProcessSkeletonMetaData(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData)
 	{
+		// Debug
+		CHROMA_TRACE("MODEL LOADER :: Processing Skeleton Metadata.");
+		bool metadataFound = false;
+
 		// Iterate over joints
 		for (unsigned int i = 0; i < mesh->mNumBones; i++)
 		{
@@ -376,27 +382,137 @@ namespace Chroma
 				// Collect Key
 				std::string metadataKey = jointNode->mMetaData->mKeys[a].C_Str();
 				
-
 				// Check for Constraints
-				if (metadataKey.find(CONSTRAINT_PREFIX) != std::string::npos)
+				if (metadataKey.find(CONSTRAINT_MD_ROOTKEY) != std::string::npos)
 				{
-					ProcessSkeletonConstraint(jointNode->mMetaData, a, skeleton);
+					metadataFound = true;
+					ProcessSkeletonConstraints(jointNode->mMetaData, a, skeleton);
 					break;
 				}
 			}
 		}
-	}
-
-	void ModelLoader::ProcessSkeletonConstraint(const aiMetadata* metaData, unsigned int propertyIndex, Skeleton& skeleton)
-	{
-		// Get Constraint Details
-		// Collect Key
-		std::string metadataKey = metaData->mKeys[propertyIndex].C_Str();
-		// Check for Constraints
-		if (metadataKey.find(CONSTRAINT_PREFIX) != std::string::npos)
+		if (!metadataFound)
 		{
-			//TODO : collect constraint data
+			CHROMA_TRACE("MODEL LOADER :: No Skeleton Metadata found.");
 		}
 	}
 
+	void ModelLoader::ProcessSkeletonConstraints(const aiMetadata* metaData, unsigned int propertyIndex, Skeleton& skeleton)
+	{
+		// Collect Key
+		std::string metadataKey = metaData->mKeys[propertyIndex].C_Str();
+		// Check for Constraints
+		if (metadataKey.find(CONSTRAINT_MD_ROOTKEY) != std::string::npos)
+		{
+			std::string rawMetaValue = ((aiString*)metaData->mValues[propertyIndex].mData)->C_Str();
+			JSON jsonMeta(rawMetaValue.c_str(), false);
+
+			// IK
+			for (Constraint& IKConstraint : GetIKConstraints(jsonMeta, skeleton))
+			{
+				skeleton.AddConstraint(IKConstraint);
+			}
+
+		}
+		else
+		{
+			CHROMA_ERROR("No Constraint Key : {0} Found in Skeleton Metadata!", CONSTRAINT_MD_ROOTKEY);
+		}
+	}
+
+	std::vector<Constraint> ModelLoader::GetIKConstraints(JSON& metaData, Skeleton const& skeleton)
+	{
+		std::vector<Constraint> newIKConstraints;
+
+		// IF has Metadata IK Key iterate over entries
+		if (metaData.HasKey(CONSTRAINT_MD_IK_KEY))
+		{
+			CHROMA_TRACE("MODEL LOADER :: Chroma Constraint IK Metadata found, building constraint.");
+			// get IK value
+			rapidjson::Value& IKData = metaData.GetValue(CONSTRAINT_MD_IK_KEY);
+			// handler based on single or multiple entries
+			switch (IKData.GetType())
+			{
+			case(rapidjson::Type::kArrayType): // multiple constraints
+			{
+				for (unsigned int i = 0; i < IKData.Size(); i++)
+				{
+					int rootJointID = -99;
+					int effectorJointID = -99;
+
+					// Collect IK Constraint Details
+					// ROOT
+					rapidjson::Value::ConstMemberIterator rootItr = IKData[i].FindMember(CONSTRAINT_MD_IK_ROOT_KEY);
+					if (rootItr != IKData[i].MemberEnd())
+					{
+						rootJointID = skeleton.GetJointID(rootItr->value.GetString());
+						CHROMA_TRACE("MODEL LOADER :: Chroma IK Constraint Rootjoint found : {0}", rootItr->value.GetString());
+					}
+					else
+						CHROMA_ERROR("MODEL LOADER :: Chroma IK Constraint could not find Root Joint, check Metadata Keys");
+
+					// Effector
+					rapidjson::Value::ConstMemberIterator effectorItr = IKData[i].FindMember(CONSTRAINT_MD_IK_EFFECTOR_KEY);
+					if (effectorItr != IKData[i].MemberEnd())
+					{
+						effectorJointID = skeleton.GetJointID(effectorItr->value.GetString());
+						CHROMA_TRACE("MODEL LOADER :: Chroma IK Constraint Effectorjoint found : {0}", effectorItr->value.GetString());
+					}
+					else
+						CHROMA_ERROR("MODEL LOADER :: Chroma IK Constraint could not find Effector Joint, check Metadata Keys");
+
+					// Create and populate newConstraint
+					Constraint newConstraint;
+					newConstraint.m_Type = Constraint::IK;
+					newConstraint.m_RootJointID = rootJointID;
+					newConstraint.m_EffectorJointID = effectorJointID;
+
+					// Push back constraint
+					newIKConstraints.push_back(newConstraint);
+				}
+
+				break;
+
+			}
+			case(rapidjson::Type::kObjectType): // single constraints
+			{
+				int rootJointID = -99;
+				int effectorJointID = -99;
+
+				// Collect IK Constraint Details
+				// ROOT
+				rapidjson::Value::ConstMemberIterator rootItr = IKData.FindMember(CONSTRAINT_MD_IK_ROOT_KEY);
+				if (rootItr != IKData.MemberEnd())
+				{
+					rootJointID = skeleton.GetJointID(rootItr->value.GetString());
+					CHROMA_TRACE("MODEL LOADER :: Chroma IK Constraint Rootjoint found : {0}", rootItr->value.GetString());
+				}
+				else
+					CHROMA_ERROR("MODEL LOADER :: Chroma IK Constraint could not find Root Joint, check Metadata Keys");
+				// Effector
+				rapidjson::Value::ConstMemberIterator effectorItr = IKData.FindMember(CONSTRAINT_MD_IK_EFFECTOR_KEY);
+				if (effectorItr != IKData.MemberEnd())
+				{
+					effectorJointID = skeleton.GetJointID(effectorItr->value.GetString());
+					CHROMA_TRACE("MODEL LOADER :: Chroma IK Constraint Effectorjoint found : {0}", effectorItr->value.GetString());
+				}
+				else
+					CHROMA_ERROR("MODEL LOADER :: Chroma IK Constraint could not find Effector Joint, check Metadata Keys");
+
+				// Create and populate newConstraint
+				Constraint newConstraint;
+				newConstraint.m_Type = Constraint::IK;
+				newConstraint.m_RootJointID = rootJointID;
+				newConstraint.m_EffectorJointID = effectorJointID;
+
+				//// Push back constraint
+				newIKConstraints.push_back(newConstraint);
+				break;
+			}
+			}
+		}
+
+		// return constraints
+		return newIKConstraints;
+	}
 }

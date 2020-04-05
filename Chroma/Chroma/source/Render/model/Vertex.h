@@ -10,6 +10,7 @@ struct ChromaVertex
 	glm::vec3 m_position{ 0.0 };
 	// normal
 	glm::vec3 m_normal{ 0.0 };
+
 	// tagent
 	glm::vec3 m_tangent{ 0.0 };
 	// bitangent

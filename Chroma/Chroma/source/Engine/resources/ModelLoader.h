@@ -12,8 +12,8 @@
 #include <model/MeshData.h>
 #include <resources/TextureLoader.h>
 #include <jobSystem/JobSystem.h>
-
-#define CONSTRAINT_PREFIX "CHROMA_CONSTRAINT"
+#include <animation/Skeleton.h>
+#include <serialization/formats/Json.h>
 
 namespace Chroma {
 	class ModelLoader
@@ -32,13 +32,27 @@ namespace Chroma {
 		static void SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
 		static void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData);
 		static void ProcessSkeletonMetaData(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData);
-		static void ProcessSkeletonConstraint(const aiMetadata* metaData, unsigned int propertyIndex, Skeleton& skeleton);
+		static void ProcessSkeletonConstraints(const aiMetadata* metaData, unsigned int propertyIndex, Skeleton& skeleton);
 		static void GetChildJointIDs(const aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
 		static void GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID);
 		static void NormalizeSkinningWeights(MeshData& meshData);
+		static std::vector<Constraint> GetIKConstraints(JSON& metaData, Skeleton const& skeleton);
 		// textures
 		static void GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName, MeshData& meshData);
 	};
 }
+
+
+
+// MD - MetaData
+
+// Skeleton Constraints
+#define CONSTRAINT_MD_ROOTKEY "CHROMA_CONSTRAINT"
+#define CONSTRAINT_MD_IK_KEY "IK"
+#define CONSTRAINT_MD_IK_ROOT_KEY "root"
+#define CONSTRAINT_MD_IK_EFFECTOR_KEY "effector"
+#define CONSTRAINT_MD_AIM_KEY "AIM"
+#define CONSTRAINT_MD_PARENT_KEY "PARENT"
+#define CONSTRAINT_MD_ORIENT_KEY "PARENT"
 
 #endif
