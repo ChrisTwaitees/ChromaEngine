@@ -2,6 +2,9 @@
 #define CHROMA_IK_COMPONENT_H
 
 #include <component/IComponent.h>
+#include <animation/Skeleton.h>
+
+class Animator;
 
 class AnimConstraintComponent : public IComponent
 {
@@ -16,15 +19,18 @@ public:
 	virtual std::string GetTypeString() const;
 
 	// Funcs
-	inline bool GetIsActive() { return m_isActive; };
-	inline void SetIsActive(bool const& isActive) { m_isActive = isActive; };
+	inline bool GetIsActive() { return m_IsActive; };
+	inline void SetIsActive(bool const& isActive) { m_IsActive = isActive; };
 
+	Animator& GetAnimator();
+	Skeleton* GetSkeleton();
+	Constraint GetConstraint(const char* name);
 
 	AnimConstraintComponent() {};
 	~AnimConstraintComponent() {};
-private:
 
-	bool m_isActive{ true };
+protected:
+	bool m_IsActive{ true };
 	float m_ActivationAmount{ 1.0f };
 };
 

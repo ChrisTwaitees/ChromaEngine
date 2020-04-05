@@ -73,8 +73,8 @@ std::string Shader::ExpandShaderSource(std::string shaderSourcePath)
 		if (line.find("#include") != std::string::npos)
 			{
 				// fetching path of include
-				int start = line.find('"') + 1;
-				int end = line.rfind('"');
+				size_t start = line.find('"') + 1;
+				size_t end = line.rfind('"');
 				std::string includeSourcePath = shaderDir + line.substr(start, end - start);
 				// creating include source file
 				std::fstream includeFile;

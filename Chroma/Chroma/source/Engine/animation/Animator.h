@@ -43,6 +43,7 @@ public:
 	void CompressAnimations();
 
 	inline void SetAnimationComponentUID(UID const& newAnimationComponentUID) { m_AnimationComponentUID = newAnimationComponentUID; }
+	inline Skeleton* GetSkeleton() { return m_Skeleton; };
 
 	std::map<std::string, Take>& GetTakes() { return m_Takes; };
 	Take& GetTake(std::string const& takeName);

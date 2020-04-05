@@ -7,7 +7,14 @@ void IKAnimConstraint::Init()
 
 void IKAnimConstraint::Update()
 {
-	CHROMA_INFO("IK Anim Constraint Updating");
+	if (m_IsActive && m_ActivationAmount > 0.0)
+	{
+		CHROMA_INFO("IK Anim Constraint Updating");
+	}
+	else
+	{
+		CHROMA_INFO("IK Anim Constraint Inactive : No updates");
+	}
 }
 
 void IKAnimConstraint::Destroy()

@@ -3,6 +3,11 @@
 #include <component/MeshComponent.h>
 #include <render/Render.h>
 
+void Skeleton::AddIKConstraint(IKConstraint& newConstraint)
+{
+	m_IKConstraints.insert(std::make_pair(newConstraint.m_Name, newConstraint));
+}
+
 void Skeleton::InitializeSkeleton()
 {
 	// calculate local bind m_Offset relative to parent joint
@@ -224,12 +229,12 @@ void Skeleton::DebugDraw()
 
 void Skeleton::DebugDrawIKs()
 {
-	for (IKConstraint& ik : m_IKConstraints)
+	for (std::pair<const char*, IKConstraint> ik : m_IKConstraints)
 	{
 		// Root
-		glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.m_RootJointID).m_ModelSpaceTransform);
+		glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.second.m_RootJointID).m_ModelSpaceTransform);
 		// Effector
-		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.m_EffectorJointID).m_ModelSpaceTransform);
+		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.second.m_EffectorJointID).m_ModelSpaceTransform);
 		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(startPos, endPos, glm::vec3(0.101, 0.541, 1));
 	}
 }

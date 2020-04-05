@@ -437,10 +437,20 @@ namespace Chroma
 			{
 				for (unsigned int i = 0; i < IKData.Size(); i++)
 				{
+					const char* constraintName = "";
 					int rootJointID = -99;
 					int effectorJointID = -99;
 
 					// Collect IK Constraint Details
+					// NAME
+					rapidjson::Value::ConstMemberIterator nameItr = IKData[i].FindMember(CONSTRAINT_MD_NAME_KEY);
+					if (nameItr != IKData[i].MemberEnd())
+					{
+						constraintName = nameItr->value.GetString();
+						CHROMA_TRACE("MODEL LOADER :: Chroma IK Constraint Name : {0}", constraintName);
+					}
+					else
+						CHROMA_ERROR("MODEL LOADER :: Chroma IK Constraint could not find NameAttr, check Metadata Keys");
 					// ROOT
 					rapidjson::Value::ConstMemberIterator rootItr = IKData[i].FindMember(CONSTRAINT_MD_IK_ROOT_KEY);
 					if (rootItr != IKData[i].MemberEnd())
@@ -463,6 +473,7 @@ namespace Chroma
 
 					// Create and populate newConstraint
 					IKConstraint newConstraint;
+					newConstraint.m_Name = constraintName;
 					newConstraint.m_RootJointID = rootJointID;
 					newConstraint.m_EffectorJointID = effectorJointID;
 
@@ -475,10 +486,18 @@ namespace Chroma
 			}
 			case(rapidjson::Type::kObjectType): // single constraints
 			{
+				const char* constraintName = "";
 				int rootJointID = -99;
 				int effectorJointID = -99;
 
 				// Collect IK Constraint Details
+				// NAME
+				rapidjson::Value::ConstMemberIterator nameItr = IKData.FindMember(CONSTRAINT_MD_NAME_KEY);
+				if (nameItr != IKData.MemberEnd())
+				{
+					constraintName = nameItr->value.GetString();
+					CHROMA_TRACE("MODEL LOADER :: Chroma IK Constraint Name : {0}", constraintName);
+				}
 				// ROOT
 				rapidjson::Value::ConstMemberIterator rootItr = IKData.FindMember(CONSTRAINT_MD_IK_ROOT_KEY);
 				if (rootItr != IKData.MemberEnd())
@@ -500,6 +519,7 @@ namespace Chroma
 
 				// Create and populate newConstraint
 				IKConstraint newConstraint;
+				newConstraint.m_Name = constraintName;
 				newConstraint.m_RootJointID = rootJointID;
 				newConstraint.m_EffectorJointID = effectorJointID;
 

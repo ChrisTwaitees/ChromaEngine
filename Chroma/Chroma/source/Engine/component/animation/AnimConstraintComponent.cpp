@@ -1,4 +1,6 @@
 #include "AnimConstraintComponent.h"
+#include <entity/Entity.h>
+#include <component/AnimationComponent.h>
 
 void AnimConstraintComponent::Init()
 {
@@ -17,10 +19,34 @@ void AnimConstraintComponent::Destroy()
 
 void AnimConstraintComponent::Serialize(ISerializer*& serializer)
 {
-	
+	serializer->StartObject(GetTypeString().c_str(), m_UID);
 }
 
 std::string AnimConstraintComponent::GetTypeString() const
 {
 	return "Anim Constraint";
+}
+
+Animator& AnimConstraintComponent::GetAnimator()
+{
+	if (GetParentEntity()->GetAnimationComponentUIDs().size() > 0)
+	{
+		UID animationComponentUID = GetParentEntity()->GetAnimationComponentUIDs()[0];
+		AnimationComponent* animComponent = static_cast<AnimationComponent*>(Chroma::Scene::GetComponent(animationComponentUID));
+		return animComponent->GetAnimator();
+	}
+	else
+	{
+		CHROMA_ERROR("No Animator found within Entity : {0}", GetParentEntityName());
+	}
+}
+
+Skeleton* AnimConstraintComponent::GetSkeleton()
+{
+	return GetAnimator().GetSkeleton();
+}
+
+Constraint AnimConstraintComponent::GetConstraint(const char* name)
+{
+	return Constraint();
 }
