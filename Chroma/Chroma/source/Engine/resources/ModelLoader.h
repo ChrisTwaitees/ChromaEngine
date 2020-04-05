@@ -13,6 +13,8 @@
 #include <resources/TextureLoader.h>
 #include <jobSystem/JobSystem.h>
 
+#define CONSTRAINT_PREFIX "CHROMA_CONSTRAINT"
+
 namespace Chroma {
 	class ModelLoader
 	{
@@ -30,6 +32,7 @@ namespace Chroma {
 		static void SetVertSkinningData(ChromaSkinnedVertex& vert, std::pair<int, float>  const& jointIDWeight);
 		static void ProcessSkeleton(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData);
 		static void ProcessSkeletonMetaData(const aiScene* scene, const aiMesh* mesh, Skeleton& skeleton, MeshData& meshData);
+		static void ProcessSkeletonConstraint(const aiMetadata* metaData, unsigned int propertyIndex, Skeleton& skeleton);
 		static void GetChildJointIDs(const aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
 		static void GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID);
 		static void NormalizeSkinningWeights(MeshData& meshData);

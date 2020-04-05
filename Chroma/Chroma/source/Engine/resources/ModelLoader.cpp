@@ -370,22 +370,32 @@ namespace Chroma
 		for (unsigned int i = 0; i < mesh->mNumBones; i++)
 		{
 			aiNode* jointNode = scene->mRootNode->FindNode(mesh->mBones[i]->mName);
-			CHROMA_TRACE("Retreiving Metadat for Joint  : {0}", mesh->mBones[i]->mName.C_Str());
+
 			for (unsigned int a = 0; a < jointNode->mMetaData->mNumProperties; a++)
 			{
-				CHROMA_TRACE("METADATA Property Key : {0}", (std::string)jointNode->mMetaData->mKeys[a].C_Str());
-				switch (jointNode->mMetaData->mValues[a].mType)
+				// Collect Key
+				std::string metadataKey = jointNode->mMetaData->mKeys[a].C_Str();
+				
+
+				// Check for Constraints
+				if (metadataKey.find(CONSTRAINT_PREFIX) != std::string::npos)
 				{
-					case(aiMetadataType::AI_BOOL):
-					{
-						CHROMA_TRACE("Boolean : {}", (bool)jointNode->mMetaData->mValues[a].mData);
-						break;
-
-					}
+					ProcessSkeletonConstraint(jointNode->mMetaData, a, skeleton);
+					break;
 				}
-
-
 			}
+		}
+	}
+
+	void ModelLoader::ProcessSkeletonConstraint(const aiMetadata* metaData, unsigned int propertyIndex, Skeleton& skeleton)
+	{
+		// Get Constraint Details
+		// Collect Key
+		std::string metadataKey = metaData->mKeys[propertyIndex].C_Str();
+		// Check for Constraints
+		if (metadataKey.find(CONSTRAINT_PREFIX) != std::string::npos)
+		{
+			//TODO : collect constraint data
 		}
 	}
 
