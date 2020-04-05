@@ -441,6 +441,9 @@
     <ClCompile Include="source\Engine\component\animation\IKAnimConstraint.cpp">
       <Filter>Engine\component\animation</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\animation\SkeletonUtils.cpp">
+      <Filter>Engine\animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -712,6 +715,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\component\animation\IKAnimConstraint.h">
       <Filter>Engine\component\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\animation\SkeletonUtils.h">
+      <Filter>Engine\animation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

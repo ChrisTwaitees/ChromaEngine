@@ -18,6 +18,11 @@ struct Constraint
 	Type m_Type = Null;
 };
 
+struct IKConstraint : public Constraint
+{
+	Type m_Type = IK;
+};
+
 
 struct Joint
 {
@@ -72,13 +77,15 @@ public:
 	bool GetJointExists(std::string const& jointName) const;
 
 	// Constraints
-	inline std::vector<Constraint>& GetConstraints() { return m_Constraints; }; 
-	inline void AddConstraint(Constraint const& newConstraint) { m_Constraints.push_back(newConstraint); };
+	// IK
+	inline std::vector<IKConstraint>& GetIKConstraints() { return m_IKConstraints; };
+	inline void AddIKConstraint(IKConstraint const& newConstraint) { m_IKConstraints.push_back(newConstraint); };
 	
 	// Skeleton
 	void InitializeSkeleton();
 	void SetToBindPose();
 	void DebugDraw();
+	void DebugDrawIKs();
 	void Destroy();
 
 	// Functions
@@ -104,7 +111,7 @@ private:
 	UID m_ParentComponentUID;
 
 	// Constraints
-	std::vector<Constraint> m_Constraints;
+	std::vector<IKConstraint> m_IKConstraints;
 
 	// Debug
 	void DebugWalkChildJoints(Joint const& currentJoint);

@@ -408,9 +408,9 @@ namespace Chroma
 			JSON jsonMeta(rawMetaValue.c_str(), false);
 
 			// IK
-			for (Constraint& IKConstraint : GetIKConstraints(jsonMeta, skeleton))
+			for (IKConstraint& IKConstraint : GetIKConstraints(jsonMeta, skeleton))
 			{
-				skeleton.AddConstraint(IKConstraint);
+				skeleton.AddIKConstraint(IKConstraint);
 			}
 
 		}
@@ -420,9 +420,9 @@ namespace Chroma
 		}
 	}
 
-	std::vector<Constraint> ModelLoader::GetIKConstraints(JSON& metaData, Skeleton const& skeleton)
+	std::vector<IKConstraint> ModelLoader::GetIKConstraints(JSON& metaData, Skeleton const& skeleton)
 	{
-		std::vector<Constraint> newIKConstraints;
+		std::vector<IKConstraint> newIKConstraints;
 
 		// IF has Metadata IK Key iterate over entries
 		if (metaData.HasKey(CONSTRAINT_MD_IK_KEY))
@@ -462,8 +462,7 @@ namespace Chroma
 						CHROMA_ERROR("MODEL LOADER :: Chroma IK Constraint could not find Effector Joint, check Metadata Keys");
 
 					// Create and populate newConstraint
-					Constraint newConstraint;
-					newConstraint.m_Type = Constraint::IK;
+					IKConstraint newConstraint;
 					newConstraint.m_RootJointID = rootJointID;
 					newConstraint.m_EffectorJointID = effectorJointID;
 
@@ -500,8 +499,7 @@ namespace Chroma
 					CHROMA_ERROR("MODEL LOADER :: Chroma IK Constraint could not find Effector Joint, check Metadata Keys");
 
 				// Create and populate newConstraint
-				Constraint newConstraint;
-				newConstraint.m_Type = Constraint::IK;
+				IKConstraint newConstraint;
 				newConstraint.m_RootJointID = rootJointID;
 				newConstraint.m_EffectorJointID = effectorJointID;
 

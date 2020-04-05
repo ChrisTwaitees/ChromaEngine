@@ -285,12 +285,13 @@ void DebugBuffer::DrawSceneSkeletons()
 {
 	for (UID const& uid : Chroma::Scene::GetAnimatedEntityUIDs())
 	{
-		for (UID const& component : Chroma::Scene::GetEntity(uid)->GetMeshComponentUIDs())
+		for (UID const& componentUID : Chroma::Scene::GetEntity(uid)->GetMeshComponentUIDs())
 		{
 			// check if mesh skinned
-			if (((MeshComponent*)Chroma::Scene::GetComponent(component))->GetIsSkinned())
+			if (((MeshComponent*)Chroma::Scene::GetComponent(componentUID))->GetIsSkinned())
 			{
-				((SkinnedMesh*)Chroma::Scene::GetComponent(component))->GetSkeleton()->DebugDraw();
+				// Joints
+				static_cast<SkinnedMesh*>(Chroma::Scene::GetComponent(componentUID))->GetSkeleton()->DebugDraw();
 			}
 		}
 	}

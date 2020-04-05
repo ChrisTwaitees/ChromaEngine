@@ -36,7 +36,7 @@ namespace Chroma {
 		static void GetChildJointIDs(const aiNode* node, Skeleton& skeleton, std::vector<int>& childJointIDs);
 		static void GetParentJointID(const aiNode* node, Skeleton& skeleton, int& parentJointID);
 		static void NormalizeSkinningWeights(MeshData& meshData);
-		static std::vector<Constraint> GetIKConstraints(JSON& metaData, Skeleton const& skeleton);
+		static std::vector<IKConstraint> GetIKConstraints(JSON& metaData, Skeleton const& skeleton);
 		// textures
 		static void GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName, MeshData& meshData);
 	};

@@ -217,6 +217,21 @@ void Skeleton::DebugDraw()
 {
 	// Loop through Skeleton drawing to debug buffer
 	DebugWalkChildJoints(GetRootJoint());
+	// Constraints
+	// IK
+	DebugDrawIKs();
+}
+
+void Skeleton::DebugDrawIKs()
+{
+	for (IKConstraint& ik : m_IKConstraints)
+	{
+		// Root
+		glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.m_RootJointID).m_ModelSpaceTransform);
+		// Effector
+		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.m_EffectorJointID).m_ModelSpaceTransform);
+		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(startPos, endPos, glm::vec3(0.101, 0.541, 1));
+	}
 }
 
 glm::mat4 Skeleton::BuildRootTransform()
