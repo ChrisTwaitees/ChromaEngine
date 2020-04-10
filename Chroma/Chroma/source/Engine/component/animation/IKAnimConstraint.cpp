@@ -15,18 +15,8 @@ void IKAnimConstraint::Update()
 		// fetch skeleton, iterate over ikconstraints
 		for (std::pair<std::string, IKConstraint> ik : GetSkeleton()->GetIKConstraints())
 		{
-			/*glm::vec3 effectorPos(0.0, 5.0, 0.0);
-			SetEffectorModelPos(ik.first, effectorPos);
-			glm::mat4 effectorTransform(1.0);
-			effectorTransform = glm::translate(effectorTransform, ik.second.m_EffectorWorldPos);
-			GetSkeleton()->GetJointPtr(ik.second.m_EffectorJointID)->m_ModelSpaceTransform = effectorTransform;*/
-			std::vector<Joint*> ikJoints = SkeletonUtils::GetInbetweenJoints(GetSkeleton(), ik.second.m_RootJointID, ik.second.m_EffectorJointID);
-			CHROMA_INFO("");
+			SolveIK(ik.second);
 		}
-	}
-	else
-	{
-		CHROMA_INFO("IK Anim Constraint Inactive : No updates");
 	}
 }
 
@@ -62,4 +52,13 @@ IKConstraint& IKAnimConstraint::GetConstraint(std::string const& constraintName)
 	else
 		CHROMA_ERROR("No Constraint of name : {} found!", constraintName);
 
+}
+
+void IKAnimConstraint::SolveIK(IKConstraint const& ik)
+{
+	for (unsigned int const& jointID : ik.m_JointIDs)
+	{
+		// TODO : IK solve
+		//GetSkeleton()->GetJointPtr(jointID)->m_ModelSpaceTransform = identity;
+	}
 }

@@ -15,10 +15,8 @@ void Skeleton::InitializeSkeleton()
 	CalculateLocalBindOffset(GetRootJointID(), glm::mat4{ 1.0 });
 
 	// collect jointIDs for constraints
-	for (std::pair<std::string, IKConstraint>&& ik : m_IKConstraints)
-	{
+	for (auto& ik : m_IKConstraints)
 		ik.second.m_JointIDs = SkeletonUtils::GetInbetweenJointIDs(this, ik.second.m_RootJointID, ik.second.m_EffectorJointID);
-	}
 }
 
 void Skeleton::Destroy()
