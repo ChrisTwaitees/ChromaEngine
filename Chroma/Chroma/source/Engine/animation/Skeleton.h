@@ -12,7 +12,7 @@
 struct Constraint
 {
 	enum Type{IK, Aim, Orient, Parent, Null};
-	const char* m_Name{ "" };
+	std::string m_Name{ "" };
 	int m_RootJointID{ -99 };
 	int m_EffectorJointID{ -99 };
 	Type m_Type = Null;
@@ -22,6 +22,7 @@ struct IKConstraint : public Constraint
 {
 	Type m_Type = IK;
 	glm::vec3 m_EffectorWorldPos{ 0.0 };
+	std::vector<unsigned int> m_JointIDs;
 };
 
 
@@ -79,7 +80,7 @@ public:
 
 	// Constraints
 	// IK
-	inline std::map<const char*, IKConstraint>& GetIKConstraints() { return m_IKConstraints; };
+	inline std::map<std::string, IKConstraint>& GetIKConstraints() { return m_IKConstraints; };
 	void AddIKConstraint(IKConstraint& newConstraint);
 	
 	// Skeleton
@@ -112,7 +113,7 @@ private:
 	UID m_ParentComponentUID;
 
 	// Constraints
-	std::map<const char*, IKConstraint> m_IKConstraints;
+	std::map<std::string, IKConstraint> m_IKConstraints;
 
 	// Debug
 	void DebugWalkChildJoints(Joint const& currentJoint);

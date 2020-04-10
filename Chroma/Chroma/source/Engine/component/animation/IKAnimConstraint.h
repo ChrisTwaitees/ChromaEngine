@@ -15,6 +15,12 @@ public:
 	virtual void Serialize(ISerializer*& serializer);
 	virtual std::string GetTypeString() const;
 
+	// Effectors
+	void SetEffectorWorldPos(std::string const& constraintName, glm::vec3 const& worldPos);
+	void SetEffectorModelPos(std::string const& constraintName, glm::vec3 const& modelPos);
+
+	IKConstraint& GetConstraint(std::string const& constraintName);
+
 	// Init
 	IKAnimConstraint() {};
 	~IKAnimConstraint() {};

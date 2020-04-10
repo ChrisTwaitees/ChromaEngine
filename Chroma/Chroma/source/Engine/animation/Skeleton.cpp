@@ -2,6 +2,7 @@
 #include <entity/IEntity.h>
 #include <component/MeshComponent.h>
 #include <render/Render.h>
+#include <animation/SkeletonUtils.h>
 
 void Skeleton::AddIKConstraint(IKConstraint& newConstraint)
 {
@@ -12,6 +13,12 @@ void Skeleton::InitializeSkeleton()
 {
 	// calculate local bind m_Offset relative to parent joint
 	CalculateLocalBindOffset(GetRootJointID(), glm::mat4{ 1.0 });
+
+	// collect jointIDs for constraints
+	for (std::pair<std::string, IKConstraint>&& ik : m_IKConstraints)
+	{
+		ik.second.m_JointIDs = SkeletonUtils::GetInbetweenJointIDs(this, ik.second.m_RootJointID, ik.second.m_EffectorJointID);
+	}
 }
 
 void Skeleton::Destroy()
@@ -229,7 +236,7 @@ void Skeleton::DebugDraw()
 
 void Skeleton::DebugDrawIKs()
 {
-	for (std::pair<const char*, IKConstraint> ik : m_IKConstraints)
+	for (std::pair<std::string, IKConstraint> ik : m_IKConstraints)
 	{
 		// Root
 		glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.second.m_RootJointID).m_ModelSpaceTransform);

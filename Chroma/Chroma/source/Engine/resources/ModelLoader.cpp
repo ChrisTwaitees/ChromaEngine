@@ -202,6 +202,8 @@ namespace Chroma
 			ProcessSkeleton(scene, mesh, skeleton, newMeshData);
 			// Process Skeleton Metadata
 			ProcessSkeletonMetaData(scene, mesh, skeleton, newMeshData);
+			// Initialize Skeleton
+			skeleton.InitializeSkeleton();
 			// Set MeshData's Skeleton
 			newMeshData.skeleton = skeleton;
 			CHROMA_TRACE("MODEL LOADER :: Skeleton Processed.");
@@ -316,8 +318,6 @@ namespace Chroma
 				namedJoint.second->m_ChildJointIDs = childJointIDs;
 			}
 		}
-		// Calculate Local Bind Offset Transforms
-		skeleton.InitializeSkeleton();
 	}
 
 	void ModelLoader::NormalizeSkinningWeights(MeshData& meshData)
