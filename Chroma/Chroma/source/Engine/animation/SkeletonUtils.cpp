@@ -55,4 +55,29 @@ namespace SkeletonUtils
 
 		return inbetweenJoints;
 	}
+	void InitIKConstraint(Skeleton* skeleton, IKConstraint& ikConstraint)
+	{
+		// Collect chain joint IDs
+		ikConstraint.m_JointIDs = GetInbetweenJointIDs(skeleton, ikConstraint.m_RootJointID, ikConstraint.m_EffectorJointID);
+
+		// Chain length attrs
+		float chainLength{ 0.0 };
+
+		// collect distance for first joint
+		ikConstraint.m_JointDistances.push_back(0.0);
+
+		// iterate through remaining joints collecting distances and adding overall chain length
+		for (int i = 1; i < ikConstraint.m_JointIDs.size() ; i++)
+		{
+			glm::vec3 currentPos = Chroma::Math::GetTranslation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i])->m_ModelSpaceTransform);
+			glm::vec3 parentPos = Chroma::Math::GetTranslation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i-1])->m_ModelSpaceTransform);
+
+			// collect distances 
+			ikConstraint.m_JointDistances.push_back((currentPos - parentPos).length());
+			chainLength += (currentPos - parentPos).length();
+		}		
+
+		// set final chain length
+		ikConstraint.m_ChainLength = chainLength;
+	}
 }

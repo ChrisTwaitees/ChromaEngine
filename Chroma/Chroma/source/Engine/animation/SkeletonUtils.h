@@ -8,6 +8,7 @@ namespace SkeletonUtils
 {
 	std::vector<Joint*> GetInbetweenJoints(Skeleton* skeleton, unsigned int const& startJointID, unsigned int const& endJointID);
 	std::vector<unsigned int> GetInbetweenJointIDs(Skeleton* skeleton, unsigned int const& startJointID, unsigned int const& endJointID);
+	void InitIKConstraint(Skeleton* skeleton, IKConstraint& ikConstraint);
 }
 
 

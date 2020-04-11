@@ -23,6 +23,8 @@ struct IKConstraint : public Constraint
 	Type m_Type = IK;
 	glm::vec3 m_EffectorWorldPos{ 0.0 };
 	std::vector<unsigned int> m_JointIDs;
+	std::vector<float> m_JointDistances;
+	float m_ChainLength;
 };
 
 

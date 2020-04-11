@@ -5,6 +5,7 @@
 void IKAnimConstraint::Init()
 {
 	CHROMA_TRACE("IK Anim Constraint : {0} initialized.", m_UID.data);
+
 }
 
 void IKAnimConstraint::Update()
@@ -13,7 +14,7 @@ void IKAnimConstraint::Update()
 	{
 		CHROMA_INFO("IK Anim Constraint Updating");
 		// fetch skeleton, iterate over ikconstraints
-		for (std::pair<std::string, IKConstraint> ik : GetSkeleton()->GetIKConstraints())
+		for (auto& ik : GetSkeleton()->GetIKConstraints())
 		{
 			SolveIK(ik.second);
 		}

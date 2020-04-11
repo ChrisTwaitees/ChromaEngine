@@ -16,9 +16,7 @@ void Skeleton::InitializeSkeleton()
 
 	// collect jointIDs for constraints
 	for (auto& ik : m_IKConstraints)
-	{
-		ik.second.m_JointIDs = SkeletonUtils::GetInbetweenJointIDs(this, ik.second.m_RootJointID, ik.second.m_EffectorJointID);
-	}
+		SkeletonUtils::InitIKConstraint(this, ik.second);
 }
 
 void Skeleton::Destroy()
