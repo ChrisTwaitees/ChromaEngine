@@ -344,9 +344,14 @@ int main()
 		//// Scale debug
 		//Chroma::Render::GetDebugBuffer()->DrawOverlayBox(glm::vec3(0.0), glm::vec3(1.0), glm::vec3(1.0));
 
-		if (Chroma::Input::IsPressed(Chroma::Input::D))
+		if (Chroma::Input::IsPressed(Chroma::Input::J))
 		{
 			Chroma::Render::GetDebugBuffer()->ToggleDrawSkeletons();
+		}
+
+		if (Chroma::Input::IsPressed(Chroma::Input::C))
+		{
+			Chroma::Render::GetDebugBuffer()->ToggleDrawSkeletonConstraints();
 		}
 
 		// Physics debug

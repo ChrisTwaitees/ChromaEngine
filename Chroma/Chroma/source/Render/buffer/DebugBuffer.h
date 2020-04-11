@@ -75,6 +75,11 @@ public:
 	void ToggleDrawSkeletons();
 	void DrawSceneSkeletons();
 
+	// Constraints
+	void ToggleDrawSkeletonConstraints();
+	void DrawSceneSkeletonConstraints();
+
+	// Buffer Funcs
 	void ClearColorAndDepth() override;
 	void Draw() override;
 
@@ -83,6 +88,7 @@ public:
 private:
 	// debugSkeletons
 	bool m_DebugSkeletons{false};
+	bool m_DebugSkeletonConstraints{ false };
 
 	// shapes
 	std::vector<LineShape> m_lines;

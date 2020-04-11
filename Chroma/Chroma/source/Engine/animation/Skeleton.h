@@ -86,7 +86,7 @@ public:
 	// Skeleton
 	void InitializeSkeleton();
 	void SetToBindPose();
-	void DebugDraw();
+	void DebugDrawSkeleton();
 	void DebugDrawIKs();
 	void Destroy();
 

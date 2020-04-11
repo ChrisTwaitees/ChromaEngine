@@ -81,9 +81,12 @@ void DebugBuffer::DrawOverlayShapes()
 {
 	// skeletons
 	if (m_DebugSkeletons)
-	{
 		DrawSceneSkeletons();
-	}
+
+	// skeleton constraints
+	if (m_DebugSkeletonConstraints)
+		DrawSceneSkeletonConstraints();
+
 	// lines
 	for (LineShape line : m_OverlayLines)
 		RenderLine(line);
@@ -291,7 +294,28 @@ void DebugBuffer::DrawSceneSkeletons()
 			if (((MeshComponent*)Chroma::Scene::GetComponent(componentUID))->GetIsSkinned())
 			{
 				// Joints
-				static_cast<SkinnedMesh*>(Chroma::Scene::GetComponent(componentUID))->GetSkeleton()->DebugDraw();
+				static_cast<SkinnedMesh*>(Chroma::Scene::GetComponent(componentUID))->GetSkeleton()->DebugDrawSkeleton();
+			}
+		}
+	}
+}
+
+void DebugBuffer::ToggleDrawSkeletonConstraints()
+{
+	m_DebugSkeletonConstraints = m_DebugSkeletonConstraints ? false : true;
+}
+
+void DebugBuffer::DrawSceneSkeletonConstraints()
+{
+	for (UID const& uid : Chroma::Scene::GetAnimatedEntityUIDs())
+	{
+		for (UID const& componentUID : Chroma::Scene::GetEntity(uid)->GetMeshComponentUIDs())
+		{
+			// check if mesh skinned
+			if (((MeshComponent*)Chroma::Scene::GetComponent(componentUID))->GetIsSkinned())
+			{
+				// IKS
+				static_cast<SkinnedMesh*>(Chroma::Scene::GetComponent(componentUID))->GetSkeleton()->DebugDrawIKs();
 			}
 		}
 	}

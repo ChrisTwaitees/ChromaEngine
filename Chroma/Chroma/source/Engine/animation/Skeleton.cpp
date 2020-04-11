@@ -15,7 +15,7 @@ void Skeleton::InitializeSkeleton()
 	CalculateLocalBindOffset(GetRootJointID(), glm::mat4{ 1.0 });
 
 	// collect jointIDs for constraints
-	for (std::pair<std::string, IKConstraint>&& ik : m_IKConstraints)
+	for (auto& ik : m_IKConstraints)
 	{
 		ik.second.m_JointIDs = SkeletonUtils::GetInbetweenJointIDs(this, ik.second.m_RootJointID, ik.second.m_EffectorJointID);
 	}
@@ -225,23 +225,51 @@ bool Skeleton::GetJointExists(std::string const& jointName) const
 	return false;
 }
 
-void Skeleton::DebugDraw()
+void Skeleton::DebugDrawSkeleton()
 {
 	// Loop through Skeleton drawing to debug buffer
 	DebugWalkChildJoints(GetRootJoint());
-	// Constraints
-	// IK
-	DebugDrawIKs();
 }
 
 void Skeleton::DebugDrawIKs()
 {
-	for (std::pair<std::string, IKConstraint> ik : m_IKConstraints)
+	for (auto& ik : m_IKConstraints)
 	{
+		// Affected Joints
+		for (int i = 0; i < ik.second.m_JointIDs.size(); i++)
+		{
+			glm::mat4 jointTrs{ 1.0 };
+			glm::vec3 root{ 0.0 };
+			glm::vec3 end{ 0.0 };
+			glm::vec3 jointColor{ 0.019, 0.776, 1 };
+			//first joint
+			if (i == 0)
+				jointColor = glm::vec3(1, 0.019, 0.933);
+
+			if (i != ik.second.m_JointIDs.size()-1) // all but last
+			{
+				jointTrs = GetRootTransform() * GetJointPtr(ik.second.m_JointIDs[i])->m_ModelSpaceTransform;
+				root = GLMGetTranslation(GetRootTransform() * GetJointPtr(ik.second.m_JointIDs[i])->m_ModelSpaceTransform);
+				end = GLMGetTranslation(GetRootTransform() * GetJointPtr(ik.second.m_JointIDs[i + 1])->m_ModelSpaceTransform);
+				// Joint
+				Chroma::Render::GetDebugBuffer()->DrawOverlayJoint(root, end, jointTrs, 1.0, jointColor);
+				// Coordinates
+				Chroma::Render::GetDebugBuffer()->DrawOverlayCoordinates(jointTrs, 2.0);
+			}
+			else // just draw transform
+			{
+				jointTrs = GetRootTransform() * GetJointPtr(ik.second.m_JointIDs[i])->m_ModelSpaceTransform;
+				// Coordinates
+				Chroma::Render::GetDebugBuffer()->DrawOverlayCoordinates(jointTrs, 2.0);
+			}
+
+		}
+
+		// Effector Line
 		// Root
-		glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.second.m_RootJointID).m_ModelSpaceTransform);
+		glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * GetJointPtr(ik.second.m_RootJointID)->m_ModelSpaceTransform);
 		// Effector
-		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJoint(ik.second.m_EffectorJointID).m_ModelSpaceTransform);
+		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJointPtr(ik.second.m_EffectorJointID)->m_ModelSpaceTransform);
 		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(startPos, endPos, glm::vec3(0.101, 0.541, 1));
 	}
 }
@@ -271,6 +299,8 @@ void Skeleton::DebugWalkChildJoints(Joint const& currentJoint)
 		DebugWalkChildJoints(GetJoint(childID));
 	}
 }
+
+
 
 void Skeleton::SetJointUniforms(Shader& skinnedShader)
 {
