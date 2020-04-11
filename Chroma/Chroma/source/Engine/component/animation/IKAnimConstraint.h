@@ -24,6 +24,8 @@ public:
 	// Init
 	IKAnimConstraint() {};
 	~IKAnimConstraint() {};
+private:
+	void SolveIK(IKConstraint const& ik);
 };
 
 #endif //CHROMA_IK_ANIM_CONSTRAINT_H
