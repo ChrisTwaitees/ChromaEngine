@@ -78,6 +78,7 @@ private:
 	void ProcessInput() override;
 	void ProcessCamera();
 	void ProcessMovement();
+	void ProcessIKs();
 	void ProcessJump();
 	void ProcessTransforms();
 	

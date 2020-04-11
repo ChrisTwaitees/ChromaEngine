@@ -148,6 +148,11 @@ void ThirdPersonCharacterController::ProcessMovement()
 	Chroma::Render::GetDebugBuffer()->DrawOverlayLine(m_Position, m_Position + m_PlayerHeading, glm::vec3(0.1, 0.9, 0.8));
 }
 
+void ThirdPersonCharacterController::ProcessIKs()
+{
+
+}
+
 void ThirdPersonCharacterController::ProcessJump()
 {
 	// JUMPING
