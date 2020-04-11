@@ -342,7 +342,10 @@ int main()
 		//Sun->setDirection(-normalize(Sun->GetPosition()));		
 
 		//// Scale debug
-		//Chroma::Render::GetDebugBuffer()->DrawOverlayBox(glm::vec3(0.0), glm::vec3(1.0), glm::vec3(1.0));
+		//Chroma::Render::GetDebugBuffer()->DrawOverlayBox(glm::vec3(0.0), glm::vec3(1.0), glm::vec3(1.0))
+		
+		
+		static_cast<IKAnimConstraint*>(IKTestIKComponent)->SetEffectorWorldPos("tentacleTestIK", glm::vec3(glm::abs(glm::sin(GAMETIME) * 3.0), glm::sin(GAMETIME) * 3.0, 0.0));
 
 		if (Chroma::Input::IsPressed(Chroma::Input::J))
 		{

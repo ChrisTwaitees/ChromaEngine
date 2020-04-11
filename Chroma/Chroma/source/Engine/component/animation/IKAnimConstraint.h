@@ -19,6 +19,9 @@ public:
 	void SetEffectorWorldPos(std::string const& constraintName, glm::vec3 const& worldPos);
 	void SetEffectorModelPos(std::string const& constraintName, glm::vec3 const& modelPos);
 
+	// Solver
+	inline void SetIterations(unsigned int const& iterations) { m_Iterations = iterations; };
+
 	IKConstraint& GetConstraint(std::string const& constraintName);
 
 	// Init
@@ -26,6 +29,8 @@ public:
 	~IKAnimConstraint() {};
 private:
 	void SolveIK(IKConstraint const& ik);
+
+	unsigned int m_Iterations{ 10 };
 };
 
 #endif //CHROMA_IK_ANIM_CONSTRAINT_H

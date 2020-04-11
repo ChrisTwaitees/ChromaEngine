@@ -57,18 +57,22 @@ void DebugBuffer::DrawShapes()
 	CopyColor(m_PostFXBuffer->GetFBO(), m_FBO);
 	DrawOverlayShapes();
 
-	// Set to alpha blending
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-	// Disable Back Face Culling to allow interior of transparent objects to be seen
-	glDisable(GL_CULL_FACE);
-	for (UID const& componentUID : Chroma::Scene::GetUIComponentUIDs())
+	// Draw UI Components
+	if (Chroma::Scene::GetUIComponentUIDs().size() > 0)
 	{
-		((UIComponent*)Chroma::Scene::GetComponent(componentUID))->Draw();
+		// Set to alpha blending
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		// Disable Back Face Culling to allow interior of transparent objects to be seen
+		glDisable(GL_CULL_FACE);
+		for (UID const& componentUID : Chroma::Scene::GetUIComponentUIDs())
+		{
+			((UIComponent*)Chroma::Scene::GetComponent(componentUID))->Draw();
+		}
+		// set to default blending
+		glBlendFunc(GL_ONE, GL_ZERO);
+		// Re enable backface culling for preventing unecessary rendering
+		glEnable(GL_CULL_FACE);
 	}
-	// set to default blending
-	glBlendFunc(GL_ONE, GL_ZERO);
-	// Re enable backface culling for preventing unecessary rendering
-	glEnable(GL_CULL_FACE);
 
 	// DEPTH RESPECTING
 	CopyDepth(m_PostFXBuffer->GetFBO(), m_FBO);
@@ -88,19 +92,22 @@ void DebugBuffer::DrawOverlayShapes()
 		DrawSceneSkeletonConstraints();
 
 	// lines
-	for (LineShape line : m_OverlayLines)
+	for (LineShape const& line : m_OverlayLines)
 		RenderLine(line);
 	// spheres
-	for (SphereShape sphere : m_OverlaySpheres)
+	for (SphereShape const& sphere : m_OverlaySpheres)
 		RenderSphere(sphere);
 	// boxes
-	for (BoxShape box : m_OverlayBoxes)
+	for (BoxShape const& box : m_OverlayBoxes)
 		RenderBox(box);
+	//crosses
+	for (CrossShape const& cross : m_OverlayCrosses)
+		RenderCross(cross);
 	// joints
-	for (JointShape joint : m_OverlayJoints)
+	for (JointShape const& joint : m_OverlayJoints)
 		RenderJoint(joint);
 	// coordinates
-	for (CoordinatesShape coordinate : m_OverlayCoordinates)
+	for (CoordinatesShape const& coordinate : m_OverlayCoordinates)
 		RenderCoordinate(coordinate);
 
 }
@@ -108,20 +115,23 @@ void DebugBuffer::DrawOverlayShapes()
 void DebugBuffer::DrawDepthCulledShapes()
 {
 	// lines
-	for (LineShape line : m_lines)
+	for (LineShape const& line : m_Lines)
 		RenderLine(line);
 	// spheres
-	for (SphereShape sphere : m_spheres)
+	for (SphereShape const&  sphere : m_Spheres)
 		RenderSphere(sphere);
 	// boxes
-	for (BoxShape box : m_boxes)
+	for (BoxShape const& box : m_Boxes)
 		RenderBox(box);
+	//crosses
+	for (CrossShape const& cross : m_Crosses)
+		RenderCross(cross);
 	// coordinates
-	for (CoordinatesShape coordinate : m_Coordinates)
+	for (CoordinatesShape const& coordinate : m_Coordinates)
 		RenderCoordinate(coordinate);
 }
 
-void DebugBuffer::RenderLine(LineShape line)
+void DebugBuffer::RenderLine(LineShape const& line)
 {
 	m_LineShader.Use();
 	m_LineShader.SetUniform("Start", line.start);
@@ -134,7 +144,7 @@ void DebugBuffer::RenderLine(LineShape line)
 	BindPointVAO();
 }
 
-void DebugBuffer::RenderSphere(SphereShape sphere)
+void DebugBuffer::RenderSphere(SphereShape const& sphere)
 {
 	m_SphereShader.Use();
 	m_SphereShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
@@ -145,7 +155,7 @@ void DebugBuffer::RenderSphere(SphereShape sphere)
 	BindPointVAO();
 }
 
-void DebugBuffer::RenderBox(BoxShape box)
+void DebugBuffer::RenderBox(BoxShape const& box)
 {
 	m_BoxShader.Use();
 	m_BoxShader.SetUniform("BBoxMin", box.bbox_min);
@@ -157,7 +167,17 @@ void DebugBuffer::RenderBox(BoxShape box)
 	BindPointVAO();
 }
 
-void DebugBuffer::RenderJoint(JointShape joint)
+void DebugBuffer::RenderCross(CrossShape const& cross)
+{
+	m_CrossShader.Use();
+	m_CrossShader.SetUniform("model", cross.transform);
+	m_CrossShader.SetUniform("color", cross.color);
+	m_CrossShader.SetUniform("Size", cross.size);
+	m_CrossShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+	BindPointVAO();
+}
+
+void DebugBuffer::RenderJoint(JointShape const& joint)
 {
 	m_JointShader.Use();
 	m_JointShader.SetUniform("JointPos", joint.jointPos);
@@ -169,7 +189,7 @@ void DebugBuffer::RenderJoint(JointShape joint)
 	BindPointVAO();
 }
 
-void DebugBuffer::RenderCoordinate(CoordinatesShape coordinate)
+void DebugBuffer::RenderCoordinate(CoordinatesShape const& coordinate)
 {
 	// Coordinate reference 
 	m_CoordinatesShader.Use();
@@ -210,7 +230,7 @@ void DebugBuffer::DrawLine(const glm::vec3& from, const glm::vec3& to, const glm
 	new_line.start = from;
 	new_line.end = to;
 	new_line.color = color;
-	m_lines.push_back(new_line);
+	m_Lines.push_back(new_line);
 }
 
 void DebugBuffer::DrawOverlayLine(const glm::vec3& from, const glm::vec3& to, const glm::vec3& color)
@@ -228,7 +248,7 @@ void DebugBuffer::DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const 
 	new_box.bbox_min = bbMin;
 	new_box.bbox_max = bbMax;
 	new_box.color = color;
-	m_boxes.push_back(new_box);
+	m_Boxes.push_back(new_box);
 }
 
 void DebugBuffer::DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::mat4& trans, const glm::vec3& color)
@@ -238,7 +258,7 @@ void DebugBuffer::DrawBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const 
 	new_box.bbox_max = bbMax;
 	new_box.color = color;
 	new_box.transform =  trans;
-	m_boxes.push_back(new_box);
+	m_Boxes.push_back(new_box);
 }
 
 void DebugBuffer::DrawOverlayBox(const glm::vec3& bbMin, const glm::vec3& bbMax, const glm::vec3& color)
@@ -256,7 +276,7 @@ void DebugBuffer::DrawSphere(const glm::vec3& center, const float& m_Radius, con
 	new_sphere.transform = glm::translate(new_sphere.transform, center);
 	new_sphere.m_Radius = m_Radius;
 	new_sphere.color = color;
-	m_spheres.push_back(new_sphere);
+	m_Spheres.push_back(new_sphere);
 }
 
 void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color)
@@ -266,6 +286,24 @@ void DebugBuffer::DrawOverlaySphere(const glm::vec3& center, const float& m_Radi
 	new_sphere.m_Radius = m_Radius;
 	new_sphere.color = color;
 	m_OverlaySpheres.push_back(new_sphere);
+}
+
+void DebugBuffer::DrawCross(const glm::vec3& worldPos, const float& size, const glm::vec3& color)
+{
+	CrossShape new_cross;
+	new_cross.color = color;
+	new_cross.size = size;
+	new_cross.transform = glm::translate(new_cross.transform, worldPos);
+	m_Crosses.push_back(new_cross);
+}
+
+void DebugBuffer::DrawOverlayCross(const glm::vec3& worldPos, const float& size, const glm::vec3& color)
+{
+	CrossShape new_cross;
+	new_cross.color = color;
+	new_cross.size = size;
+	new_cross.transform = glm::translate(new_cross.transform, worldPos);
+	m_OverlayCrosses.push_back(new_cross);
 }
 
 void DebugBuffer::DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size, const glm::vec3& color)
@@ -324,15 +362,19 @@ void DebugBuffer::DrawSceneSkeletonConstraints()
 
 void DebugBuffer::ClearColorAndDepth()
 {
+	// Overlay buffer
 	m_OverlayLines.clear();
 	m_OverlayBoxes.clear();
 	m_OverlaySpheres.clear();
+	m_OverlayCrosses.clear();
 	m_OverlayJoints.clear();
 	m_OverlayCoordinates.clear();
 
-	m_lines.clear();
-	m_spheres.clear();
-	m_boxes.clear();
+	// Depth culled buffer
+	m_Lines.clear();
+	m_Spheres.clear();
+	m_Boxes.clear();
+	m_Crosses.clear();
 	m_Coordinates.clear();
 }
 

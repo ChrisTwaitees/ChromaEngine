@@ -510,6 +510,7 @@
     <None Include="resources\shaders\fragBlur.glsl" />
     <None Include="resources\shaders\fragBRDF.glsl" />
     <None Include="resources\shaders\fragCoordinatesDebug.glsl" />
+    <None Include="resources\shaders\fragCrossDebug.glsl" />
     <None Include="resources\shaders\fragDepth.glsl" />
     <None Include="resources\shaders\fragEmpty.glsl" />
     <None Include="resources\shaders\fragGBufferGeometry.glsl" />
@@ -531,6 +532,7 @@
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\geometryBoxDebug.glsl" />
     <None Include="resources\shaders\geometryCoordinatesDebug.glsl" />
+    <None Include="resources\shaders\geometryCrossDebug.glsl" />
     <None Include="resources\shaders\geometryDebugNormals.glsl" />
     <None Include="resources\shaders\geometryJointDebug.glsl" />
     <None Include="resources\shaders\geometryLineDebug.glsl" />
@@ -538,6 +540,7 @@
     <None Include="resources\shaders\ui\icon\frgIcon.glsl" />
     <None Include="resources\shaders\ui\icon\vtxIcon.glsl" />
     <None Include="resources\shaders\vertexCoordinatesDebug.glsl" />
+    <None Include="resources\shaders\vertexCrossDebug.glsl" />
     <None Include="resources\shaders\vertexCubeMap.glsl" />
     <None Include="resources\shaders\vertexJointDebug.glsl" />
     <None Include="resources\shaders\vertexSkyBox.glsl" />

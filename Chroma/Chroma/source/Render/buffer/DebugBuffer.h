@@ -48,6 +48,13 @@ struct CoordinatesShape
 	float size{ 1.0 };
 };
 
+struct CrossShape
+{
+	glm::mat4 transform{ 1.0 };
+	glm::vec3 color{ 0.0 };
+	float size{ 1.0 };
+};
+
 class DebugBuffer : public IFramebuffer
 {
 public:
@@ -67,6 +74,10 @@ public:
 	// Sphere
 	void DrawSphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color);
 	void DrawOverlaySphere(const glm::vec3& center, const float& m_Radius, const glm::vec3& color);
+
+	// Sphere
+	void DrawCross(const glm::vec3& worldPos, const float& size, const glm::vec3& color);
+	void DrawOverlayCross(const glm::vec3& worldPos, const float& size, const glm::vec3& color);
 
 	// Joint
 	void DrawOverlayJoint(const glm::vec3& originPosition, const glm::vec3 childPosition, const glm::mat4 jointTransform, const float& size = 1.0, const glm::vec3 & color = glm::vec3(1.0));
@@ -91,19 +102,24 @@ private:
 	bool m_DebugSkeletonConstraints{ false };
 
 	// shapes
-	std::vector<LineShape> m_lines;
+	std::vector<LineShape> m_Lines;
 	std::vector<LineShape> m_OverlayLines;
 
-	std::vector<BoxShape> m_boxes;
+	std::vector<BoxShape> m_Boxes;
 	std::vector<BoxShape> m_OverlayBoxes;
 
- 	std::vector<SphereShape> m_spheres;
+ 	std::vector<SphereShape> m_Spheres;
 	std::vector<SphereShape> m_OverlaySpheres;
+
+	std::vector<CrossShape> m_Crosses;
+	std::vector<CrossShape> m_OverlayCrosses;
 
 	std::vector<JointShape> m_OverlayJoints;
 
 	std::vector<CoordinatesShape> m_Coordinates;
 	std::vector<CoordinatesShape> m_OverlayCoordinates;
+
+	
 
 	// attrs
 	unsigned int pointVAO, pointVBO;
@@ -132,6 +148,11 @@ private:
 	const char* coordinatesVtxSource{ "resources/shaders/vertexCoordinatesDebug.glsl" };
 	const char* coordinatesGeomSource{ "resources/shaders/geometryCoordinatesDebug.glsl" };
 	Shader m_CoordinatesShader{ coordinatesFragSource, coordinatesVtxSource, coordinatesGeomSource };
+	// cross geometry shader
+	const char* crossFragSource{ "resources/shaders/fragCrossDebug.glsl" };
+	const char* crossVtxSource{ "resources/shaders/vertexCrossDebug.glsl" };
+	const char* crossGeomSource{ "resources/shaders/geometryCrossDebug.glsl" };
+	Shader m_CrossShader{ crossFragSource, crossVtxSource, crossGeomSource };
 
 	// point VAO
 	void GeneratePointVAO();
@@ -143,11 +164,12 @@ private:
 	void DrawShapes();
 	void DrawOverlayShapes();
 	void DrawDepthCulledShapes();
-	void RenderLine(LineShape line);
-	void RenderSphere(SphereShape sphere);
-	void RenderBox(BoxShape box);
-	void RenderJoint(JointShape joint);
-	void RenderCoordinate(CoordinatesShape coordinate);
+	void RenderLine(LineShape const& line);
+	void RenderSphere(SphereShape const& sphere);
+	void RenderBox(BoxShape const& box);
+	void RenderCross(CrossShape const& cross);
+	void RenderJoint(JointShape const& joint);
+	void RenderCoordinate(CoordinatesShape const& coordinate);
 
 	void BindPointVAO();
 	// blitting depth buffer before rendering

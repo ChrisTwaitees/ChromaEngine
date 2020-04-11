@@ -168,7 +168,6 @@ namespace Chroma
 			modelMatrix[2][2] = viewMatrix[2][2];
 
 		}
-
 	};
 }
 

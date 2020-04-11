@@ -233,18 +233,19 @@ void Skeleton::DebugDrawSkeleton()
 
 void Skeleton::DebugDrawIKs()
 {
+	glm::mat4 jointTrs{ 1.0 };
+	glm::vec3 root{ 0.0 };
+	glm::vec3 end{ 0.0 };
+	glm::vec3 jointColor{ 0.019, 0.776, 1 };
+
 	for (auto& ik : m_IKConstraints)
 	{
 		// Affected Joints
 		for (int i = 0; i < ik.second.m_JointIDs.size(); i++)
 		{
-			glm::mat4 jointTrs{ 1.0 };
-			glm::vec3 root{ 0.0 };
-			glm::vec3 end{ 0.0 };
-			glm::vec3 jointColor{ 0.019, 0.776, 1 };
+
 			//first joint
-			if (i == 0)
-				jointColor = glm::vec3(1, 0.019, 0.933);
+			jointColor = i == 0 ? glm::vec3(1, 0.019, 0.933) : glm::vec3(0.019, 0.776, 1);
 
 			if (i != ik.second.m_JointIDs.size()-1) // all but last
 			{
@@ -267,10 +268,11 @@ void Skeleton::DebugDrawIKs()
 
 		// Effector Line
 		// Root
-		glm::vec3 startPos = GLMGetTranslation(GetRootTransform() * GetJointPtr(ik.second.m_RootJointID)->m_ModelSpaceTransform);
+		root = GLMGetTranslation(GetRootTransform() * GetJointPtr(ik.second.m_RootJointID)->m_ModelSpaceTransform);
 		// Effector
-		glm::vec3 endPos = GLMGetTranslation(GetRootTransform() * GetJointPtr(ik.second.m_EffectorJointID)->m_ModelSpaceTransform);
-		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(startPos, endPos, glm::vec3(0.101, 0.541, 1));
+		end = ik.second.m_EffectorWorldPos;
+		Chroma::Render::GetDebugBuffer()->DrawOverlayLine(root, end, glm::vec3(0.101, 0.541, 1));
+		Chroma::Render::GetDebugBuffer()->DrawOverlayCross(end, 1.0, glm::vec3(0.262, 1, 0.019));
 	}
 }
 

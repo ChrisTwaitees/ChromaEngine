@@ -874,5 +874,14 @@
     <None Include="resources\shaders\ui\icon\vtxIcon.glsl">
       <Filter>Resources\shaders\gui\icon</Filter>
     </None>
+    <None Include="resources\shaders\fragCrossDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\geometryCrossDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\vertexCrossDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
   </ItemGroup>
 </Project>
