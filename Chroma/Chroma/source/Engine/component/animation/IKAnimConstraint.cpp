@@ -58,6 +58,7 @@ IKConstraint& IKAnimConstraint::GetConstraint(std::string const& constraintName)
 
 void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 {
+	// TODO : Implement Rotation and PoleVector : https://www.youtube.com/watch?v=qqOAzn05fvk&t=393s
 	std::vector<glm::vec3> jntPositionsWS;
 	glm::vec3 entityScale = GetParentEntity()->GetScale();
 
@@ -67,9 +68,12 @@ void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 		jntPositionsWS.push_back( Chroma::Math::GetTranslation(GetSkeleton()->GetRootTransform() * GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform));
 	}
 
+	// root to effector
+	float distToEffector = glm::distance(jntPositionsWS[0], ik.m_EffectorWorldPos);
+
 	// calculations
 	// check if effector within solve range
-	if (glm::distance(jntPositionsWS[0], ik.m_EffectorWorldPos) >= ik.m_ChainLength * entityScale.x)
+	if (distToEffector >= ik.m_ChainLength * entityScale.x)
 	{
 		glm::vec3 toEffector = glm::normalize(ik.m_EffectorWorldPos - jntPositionsWS[0]);
 		for (int i = 1; i < ik.m_JointIDs.size(); i++)
@@ -77,9 +81,27 @@ void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 			jntPositionsWS[i] = jntPositionsWS[i-1] + (toEffector * ik.m_JointDistances[i] * entityScale);
 		}
 	}
-	else // solve
+	else // solve using Fabrik Algorithm : https://github.com/ditzel/SimpleIK
 	{
+		for (unsigned int i = 0; i < m_Iterations; i++)
+		{
+			// backwards
+			for (int i = ik.m_JointIDs.size() - 1; i > 0; i--)
+			{
+				if (i == ik.m_JointIDs.size() - 1)
+					jntPositionsWS[i] = ik.m_EffectorWorldPos; // set to effector
+				else
+					jntPositionsWS[i] = jntPositionsWS[i + 1] + ((glm::normalize(jntPositionsWS[i] - jntPositionsWS[i + 1]) * ik.m_JointDistances[i] * entityScale));
+			}
 
+			// forwards
+			for (int i = 1; i < jntPositionsWS.size(); i++)
+				jntPositionsWS[i] = jntPositionsWS[i - 1] + ((glm::normalize(jntPositionsWS[i] - jntPositionsWS[i - 1]) * ik.m_JointDistances[i] * entityScale));
+
+			// within delta threshold?
+			if (distToEffector < m_DeltaThreshold)
+				break;
+		}
 	}
 
 	// set positions

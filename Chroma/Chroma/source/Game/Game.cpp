@@ -148,7 +148,7 @@ int main()
 	AnimModelEntity->AddComponent(AnimModelCharacterController);
 	// ik
 	AnimConstraintComponent* AnimModelIKComponent = new IKAnimConstraint();
-	AnimModelEntity->AddComponent(AnimModelIKComponent);
+	//AnimModelEntity->AddComponent(AnimModelIKComponent);
 
 	// ____________________________________________________
 
@@ -338,7 +338,7 @@ int main()
 	{
 		// IK debug
 		IKTestEntity->SetTranslation(glm::vec3(glm::cos(GAMETIME) * 5.0, glm::sin(GAMETIME) * 5.0, 0.0));
-		static_cast<IKAnimConstraint*>(IKTestIKComponent)->SetEffectorWorldPos("tentacleTestIK", glm::vec3(glm::sin(GAMETIME) * 20.0, glm::cos(GAMETIME * 1.0) * 20.0, glm::sin(GAMETIME) * 20.0));
+		static_cast<IKAnimConstraint*>(IKTestIKComponent)->SetEffectorWorldPos("tentacleTestIK", glm::vec3(glm::sin(GAMETIME) * 5.0, glm::cos(GAMETIME * 1.0) * 3.0, glm::sin(GAMETIME) * 5.0));
 
 		if (Chroma::Input::IsPressed(Chroma::Input::J))
 		{

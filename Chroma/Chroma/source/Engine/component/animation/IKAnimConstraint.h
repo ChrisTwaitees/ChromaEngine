@@ -31,6 +31,7 @@ private:
 	void SolveIK(IKConstraint const& ik);
 
 	unsigned int m_Iterations{ 10 };
+	const float m_DeltaThreshold{ 0.01f };
 };
 
 #endif //CHROMA_IK_ANIM_CONSTRAINT_H
