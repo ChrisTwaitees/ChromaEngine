@@ -73,8 +73,9 @@ namespace SkeletonUtils
 			glm::vec3 parentPos = Chroma::Math::GetTranslation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i-1])->m_ModelSpaceTransform);
 
 			// collect distances 
-			ikConstraint.m_JointDistances.push_back((currentPos - parentPos).length());
-			chainLength += (currentPos - parentPos).length();
+			float distToParent = glm::distance(currentPos, parentPos);
+			ikConstraint.m_JointDistances.push_back(distToParent);
+			chainLength += distToParent;
 		}		
 
 		// set final chain length

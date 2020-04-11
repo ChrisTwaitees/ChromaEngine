@@ -146,6 +146,9 @@ int main()
 	AnimModelCharacterController->SetCustomCameraController(AnimModelCameraController);
 	// adding the component
 	AnimModelEntity->AddComponent(AnimModelCharacterController);
+	// ik
+	AnimConstraintComponent* AnimModelIKComponent = new IKAnimConstraint();
+	AnimModelEntity->AddComponent(AnimModelIKComponent);
 
 	// ____________________________________________________
 
@@ -158,7 +161,7 @@ int main()
 	IKTestEntity->SetName("IKTestEntity");
 	Chroma::Scene::AddEntity(IKTestEntity);
 	IKTestEntity->SetScale(glm::vec3(0.5f));
-	IKTestEntity->SetTranslation(glm::vec3(5.0, 0.0, 0.0));
+	//IKTestEntity->SetTranslation(glm::vec3(5.0, 0.0, 0.0));
 	// mesh
 	MeshComponent* IKTestMeshComponent = new SkinnedMesh("resources/animation/test_tentacle/test_tentacle_iktest.fbx");
 	IKTestMeshComponent->SetShader(PBRShader);
@@ -333,19 +336,9 @@ int main()
 	// -----------
 	while (Chroma::Screen::IsRunning())
 	{
-		// SCREENMANAGER START
-		double GameTime = Chroma::Time::GetGameTime();
-		double DeltaTime = Chroma::Time::GetDeltaTime();
-
-		//Sunlight Rotation	
-		//Chroma::Scene::GetSunLight()->SetTranslation(glm::vec3(std::sin(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GameTime* SUNLIGHT_SPIN_SPEED)* SUNLIGHT_DISTANCE));
-		//Sun->setDirection(-normalize(Sun->GetPosition()));		
-
-		//// Scale debug
-		//Chroma::Render::GetDebugBuffer()->DrawOverlayBox(glm::vec3(0.0), glm::vec3(1.0), glm::vec3(1.0))
-		
-		
-		static_cast<IKAnimConstraint*>(IKTestIKComponent)->SetEffectorWorldPos("tentacleTestIK", glm::vec3(glm::abs(glm::sin(GAMETIME) * 3.0), glm::sin(GAMETIME) * 3.0, 0.0));
+		// IK debug
+		IKTestEntity->SetTranslation(glm::vec3(glm::cos(GAMETIME) * 5.0, glm::sin(GAMETIME) * 5.0, 0.0));
+		static_cast<IKAnimConstraint*>(IKTestIKComponent)->SetEffectorWorldPos("tentacleTestIK", glm::vec3(glm::sin(GAMETIME) * 20.0, glm::cos(GAMETIME * 1.0) * 20.0, glm::sin(GAMETIME) * 20.0));
 
 		if (Chroma::Input::IsPressed(Chroma::Input::J))
 		{

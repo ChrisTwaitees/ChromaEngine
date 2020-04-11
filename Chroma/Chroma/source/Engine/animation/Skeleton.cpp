@@ -236,7 +236,7 @@ void Skeleton::DebugDrawIKs()
 	glm::vec3 end{ 0.0 };
 	glm::vec3 jointColor{ 0.019, 0.776, 1 };
 
-	for (auto& ik : m_IKConstraints)
+	for (std::pair<std::string, IKConstraint> const& ik : m_IKConstraints)
 	{
 		// Affected Joints
 		for (int i = 0; i < ik.second.m_JointIDs.size(); i++)

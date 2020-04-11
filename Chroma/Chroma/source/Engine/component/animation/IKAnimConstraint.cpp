@@ -1,6 +1,7 @@
 #include "IKAnimConstraint.h"
 #include <entity/Entity.h>
 #include <animation/SkeletonUtils.h>
+#include <animation/Animator.h>
 
 void IKAnimConstraint::Init()
 {
@@ -57,9 +58,35 @@ IKConstraint& IKAnimConstraint::GetConstraint(std::string const& constraintName)
 
 void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 {
-	for (unsigned int const& jointID : ik.m_JointIDs)
+	std::vector<glm::vec3> jntPositionsWS;
+	glm::vec3 entityScale = GetParentEntity()->GetScale();
+
+	// get positions
+	for (int i = 0; i < ik.m_JointIDs.size(); i++)
 	{
-		// TODO : IK solve
-		//GetSkeleton()->GetJointPtr(jointID)->m_ModelSpaceTransform = identity;
+		jntPositionsWS.push_back( Chroma::Math::GetTranslation(GetSkeleton()->GetRootTransform() * GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform));
+	}
+
+	// calculations
+	// check if effector within solve range
+	if (glm::distance(jntPositionsWS[0], ik.m_EffectorWorldPos) >= ik.m_ChainLength * entityScale.x)
+	{
+		glm::vec3 toEffector = glm::normalize(ik.m_EffectorWorldPos - jntPositionsWS[0]);
+		for (int i = 1; i < ik.m_JointIDs.size(); i++)
+		{
+			jntPositionsWS[i] = jntPositionsWS[i-1] + (toEffector * ik.m_JointDistances[i] * entityScale);
+		}
+	}
+	else // solve
+	{
+
+	}
+
+	// set positions
+	for (int i = 0; i < ik.m_JointIDs.size(); i++)
+	{
+		glm::mat4 newMSJointTrs = glm::translate(glm::inverse(GetSkeleton()->GetRootTransform()) * glm::mat4(1.0), jntPositionsWS[i]);
+		newMSJointTrs = glm::scale(newMSJointTrs, entityScale);
+		GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform = newMSJointTrs;
 	}
 }
