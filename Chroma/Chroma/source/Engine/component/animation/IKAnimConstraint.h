@@ -29,6 +29,7 @@ public:
 	~IKAnimConstraint() {};
 private:
 	void SolveIK(IKConstraint const& ik);
+	glm::quat GetJointOrientationWS(unsigned int const& jointID);
 
 	unsigned int m_Iterations{ 10 };
 	const float m_DeltaThreshold{ 0.01f };

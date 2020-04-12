@@ -59,19 +59,24 @@ IKConstraint& IKAnimConstraint::GetConstraint(std::string const& constraintName)
 void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 {
 	// TODO : Implement Rotation and PoleVector : https://www.youtube.com/watch?v=qqOAzn05fvk&t=393s
+	// positions
 	std::vector<glm::vec3> jntPositionsWS;
+	// entity scale
 	glm::vec3 entityScale = GetParentEntity()->GetScale();
+	// rotation
+	std::vector<glm::quat> jntBindOrientationsWS;
+	glm::quat rootRotation = GetJointOrientationWS(ik.m_RootJointID);
 
-	// get positions
+	// get positions WS
 	for (int i = 0; i < ik.m_JointIDs.size(); i++)
-	{
 		jntPositionsWS.push_back( Chroma::Math::GetTranslation(GetSkeleton()->GetRootTransform() * GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform));
-	}
+	// get orientations WS
+	for (int i = 0; i < ik.m_JointIDs.size(); i++)
+		jntBindOrientationsWS.push_back(Chroma::Math::GetQuatRotation(GetSkeleton()->GetRootTransform()) * ik.m_BindOrientations[i]);
 
+	// POSITIONS
 	// root to effector
 	float distToEffector = glm::distance(jntPositionsWS[0], ik.m_EffectorWorldPos);
-
-	// calculations
 	// check if effector within solve range
 	if (distToEffector >= ik.m_ChainLength * entityScale.x)
 	{
@@ -104,11 +109,30 @@ void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 		}
 	}
 
-	// set positions
+	// POLES
+
+
+	// ROTATIONS
+	// set positions and rotations
 	for (int i = 0; i < ik.m_JointIDs.size(); i++)
 	{
-		glm::mat4 newMSJointTrs = glm::translate(glm::inverse(GetSkeleton()->GetRootTransform()) * glm::mat4(1.0), jntPositionsWS[i]);
-		newMSJointTrs = glm::scale(newMSJointTrs, entityScale);
+		glm::quat newOrient = glm::quat();
+		// rotation
+		if (i == ik.m_JointIDs.size() - 1) // do not apply to last bone
+			newOrient = glm::inverse(glm::inverse(ik.m_EffectorWorldOrient) * glm::inverse(ik.m_BindOrientations[i])) * rootRotation;
+		else
+			newOrient = Chroma::Math::FromToRotation(ik.m_BindVectors[i], jntPositionsWS[i+1] - jntPositionsWS[i]) * glm::inverse(jntBindOrientationsWS[i]);
+
+		// build transform matrix
+		glm::mat4 newMSJointTrs = glm::inverse(GetSkeleton()->GetRootTransform()) * glm::mat4(1.0);
+		newMSJointTrs = glm::translate(newMSJointTrs, jntPositionsWS[i]); // translation 
+		newMSJointTrs = newMSJointTrs * glm::toMat4(newOrient); // orientation
+		newMSJointTrs = glm::scale(newMSJointTrs, entityScale); // scale
 		GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform = newMSJointTrs;
 	}
+}
+
+glm::quat IKAnimConstraint::GetJointOrientationWS(unsigned int const& jointID)
+{
+	return Chroma::Math::GetQuatRotation(GetSkeleton()->GetRootTransform() * GetSkeleton()->GetJointPtr(jointID)->m_ModelSpaceTransform);
 }

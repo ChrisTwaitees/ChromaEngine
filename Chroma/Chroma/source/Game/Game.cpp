@@ -148,7 +148,7 @@ int main()
 	AnimModelEntity->AddComponent(AnimModelCharacterController);
 	// ik
 	AnimConstraintComponent* AnimModelIKComponent = new IKAnimConstraint();
-	//AnimModelEntity->AddComponent(AnimModelIKComponent);
+	AnimModelEntity->AddComponent(AnimModelIKComponent);
 
 	// ____________________________________________________
 
@@ -331,14 +331,15 @@ int main()
 
 
 	Chroma::Scene::PostSceneBuild();
-
 	// RENDER LOOP
 	// -----------
 	while (Chroma::Screen::IsRunning())
 	{
 		// IK debug
-		//IKTestEntity->SetTranslation(glm::vec3(glm::cos(GAMETIME) * 5.0, glm::sin(GAMETIME) * 5.0, 0.0));
-		static_cast<IKAnimConstraint*>(IKTestIKComponent)->SetEffectorWorldPos("tentacleTestIK", glm::vec3(glm::sin(GAMETIME) * 5.0, glm::abs( glm::cos(GAMETIME * 1.0) * 8.0), glm::sin(GAMETIME) * 5.0));
+		IKTestEntity->SetTranslation(glm::vec3(glm::cos(GAMETIME) * 2.0, (glm::sin(GAMETIME) * 2.0 + 10), 0.0));
+
+		//IKTestEntity->SetRotation(glm::angleAxis((float)(glm::radians(glm::cos(GAMETIME) * 180)), glm::abs(glm::vec3(glm::sin(GAMETIME*0.1),  glm::cos(GAMETIME * 0.1), glm::sin(GAMETIME * 0.1)))));
+		static_cast<IKAnimConstraint*>(IKTestIKComponent)->SetEffectorWorldPos("tentacleTestIK", glm::vec3(glm::sin(GAMETIME) * 5.0, glm::abs( glm::cos(GAMETIME * 1.0) * 8.0) + 18, glm::sin(GAMETIME) * 5.0));
 
 		if (Chroma::Input::IsPressed(Chroma::Input::J))
 		{

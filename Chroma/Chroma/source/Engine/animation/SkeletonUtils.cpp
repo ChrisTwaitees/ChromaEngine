@@ -60,6 +60,7 @@ namespace SkeletonUtils
 		// Collect chain joint IDs
 		ikConstraint.m_JointIDs = GetInbetweenJointIDs(skeleton, ikConstraint.m_RootJointID, ikConstraint.m_EffectorJointID);
 
+		// LENGTH
 		// Chain length attrs
 		float chainLength{ 0.0 };
 
@@ -72,7 +73,6 @@ namespace SkeletonUtils
 			glm::vec3 currentPos = Chroma::Math::GetTranslation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i])->m_ModelSpaceTransform);
 			glm::vec3 parentPos = Chroma::Math::GetTranslation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i-1])->m_ModelSpaceTransform);
 
-			// collect distances 
 			float distToParent = glm::distance(currentPos, parentPos);
 			ikConstraint.m_JointDistances.push_back(distToParent);
 			chainLength += distToParent;
@@ -80,5 +80,27 @@ namespace SkeletonUtils
 
 		// set final chain length
 		ikConstraint.m_ChainLength = chainLength;
+
+		// ROTATIONS
+		// iterate through joints collecting rotations and vectors
+		for (int i = 0; i < ikConstraint.m_JointIDs.size(); i++)
+		{
+			glm::vec3 currentPos, childPos;
+			// Bind Vectors
+			if (i != ikConstraint.m_JointIDs.size()-1) // all but the last joint will have a bind vector
+			{
+				currentPos = Chroma::Math::GetTranslation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i])->m_ModelSpaceTransform);
+				childPos = Chroma::Math::GetTranslation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i + 1])->m_ModelSpaceTransform);
+			}
+			else // direction to target
+			{
+				currentPos = Chroma::Math::GetTranslation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i])->m_ModelSpaceTransform);
+				childPos = ikConstraint.m_EffectorWorldPos;
+			}
+			ikConstraint.m_BindVectors.push_back(glm::normalize(childPos - currentPos));
+
+			// Orientation
+			ikConstraint.m_BindOrientations.push_back(Chroma::Math::GetQuatRotation(skeleton->GetJointPtr(ikConstraint.m_JointIDs[i])->m_ModelBindTransform));
+		}
 	}
 }

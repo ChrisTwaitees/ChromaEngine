@@ -21,10 +21,18 @@ struct Constraint
 struct IKConstraint : public Constraint
 {
 	Type m_Type = IK;
+	// effector
 	glm::vec3 m_EffectorWorldPos{ 0.0 };
+	glm::quat m_EffectorWorldOrient{glm::quat()};
+
+	// joints
 	std::vector<unsigned int> m_JointIDs;
-	std::vector<float> m_JointDistances;
+	// length
 	float m_ChainLength;
+	std::vector<float> m_JointDistances;
+	// rotations
+	std::vector<glm::quat> m_BindOrientations;
+	std::vector<glm::vec3> m_BindVectors;
 };
 
 
