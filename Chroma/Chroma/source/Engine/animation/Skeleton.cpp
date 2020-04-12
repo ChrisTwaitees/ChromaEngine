@@ -121,6 +121,18 @@ glm::mat4 Skeleton::GetJointTransform(int const& jointID) const
 	return glm::mat4(1.0);
 }
 
+void Skeleton::TransformJointMSAndChildren(int const& jointID, glm::mat4 const& transform)
+{
+	// Recursive applying transform from Model Bind Transform
+	glm::mat4 updatedTransform{ transform * GetJointPtr(jointID)->m_ModelSpaceTransform };
+	GetJointPtr(jointID)->m_ModelSpaceTransform = updatedTransform;
+
+	for (int const& childID : GetJointPtr(jointID)->m_ChildJointIDs)
+	{
+		TransformJointMSAndChildren(childID, transform);
+	}
+}
+
 Joint Skeleton::GetJoint(int const& index)
 {
 	for (auto & IDNameJoint : m_Joints)
@@ -320,7 +332,7 @@ void Skeleton::UpdateSkeletonRootTransform()
 
 void Skeleton::TransformJointAndChildren(int const& jointID, glm::mat4 const& transform)
 {
-	// Recursive applying m_Offset from Model Bind Transform
+	// Recursive applying transform from Model Bind Transform
 	glm::mat4 updatedTransform{ transform * GetJointPtr(jointID)->m_ModelBindTransform };
 	GetJointPtr(jointID)->m_ModelSpaceTransform = updatedTransform;
 

@@ -2,6 +2,7 @@
 #include <entity/Entity.h>
 #include <animation/SkeletonUtils.h>
 #include <animation/Animator.h>
+#include <glm/gtx/quaternion.hpp>
 
 void IKAnimConstraint::Init()
 {
@@ -67,12 +68,12 @@ void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 	std::vector<glm::quat> jntBindOrientationsWS;
 	glm::quat rootRotation = GetJointOrientationWS(ik.m_RootJointID);
 
-	// get positions WS
+	// get positions and orientations WS
 	for (int i = 0; i < ik.m_JointIDs.size(); i++)
-		jntPositionsWS.push_back( Chroma::Math::GetTranslation(GetSkeleton()->GetRootTransform() * GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform));
-	// get orientations WS
-	for (int i = 0; i < ik.m_JointIDs.size(); i++)
+	{
+		jntPositionsWS.push_back(Chroma::Math::GetTranslation(GetSkeleton()->GetRootTransform() * GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform));
 		jntBindOrientationsWS.push_back(Chroma::Math::GetQuatRotation(GetSkeleton()->GetRootTransform()) * ik.m_BindOrientations[i]);
+	}
 
 	// POSITIONS
 	// root to effector
@@ -114,9 +115,11 @@ void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 
 	// ROTATIONS
 	// set positions and rotations
+	glm::mat4 animatedJntTransform(1.0);
+	glm::mat4 finalJntTransform(1.0);
+	glm::quat newOrient = glm::quat();
 	for (int i = 0; i < ik.m_JointIDs.size(); i++)
 	{
-		glm::quat newOrient = glm::quat();
 		// rotation
 		if (i == ik.m_JointIDs.size() - 1) // do not apply to last bone
 			newOrient = glm::inverse(glm::inverse(ik.m_EffectorWorldOrient) * glm::inverse(ik.m_BindOrientations[i])) * rootRotation;
@@ -124,13 +127,23 @@ void IKAnimConstraint::SolveIK(IKConstraint const& ik)
 			newOrient = Chroma::Math::FromToRotation(ik.m_BindVectors[i], jntPositionsWS[i+1] - jntPositionsWS[i]) * glm::inverse(jntBindOrientationsWS[i]);
 
 		// build transform matrix
-		glm::mat4 newMSJointTrs = glm::inverse(GetSkeleton()->GetRootTransform()) * glm::mat4(1.0);
-		newMSJointTrs = glm::translate(newMSJointTrs, jntPositionsWS[i]); // translation 
-		newMSJointTrs = newMSJointTrs * glm::toMat4(newOrient); // orientation
-		newMSJointTrs = glm::scale(newMSJointTrs, entityScale); // scale
-		GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform = newMSJointTrs;
+		finalJntTransform = glm::inverse(GetSkeleton()->GetRootTransform()) * glm::mat4(1.0);
+		finalJntTransform = glm::translate(finalJntTransform, jntPositionsWS[i]); // translation 
+		finalJntTransform *=   glm::toMat4(newOrient); // orientation
+		finalJntTransform = glm::scale(finalJntTransform, entityScale); // scale
+
+		// grab animated transform and set new transform
+		animatedJntTransform = GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform;
+		GetSkeleton()->GetJointPtr(ik.m_JointIDs[i])->m_ModelSpaceTransform = finalJntTransform;
 	}
+
+	// Propogate Animation
+	// Apply final transform to all children joints
+	if (GetSkeleton()->GetJointPtr(ik.m_JointIDs.back())->m_ChildJointIDs.size() > 0)
+		GetSkeleton()->TransformJointMSAndChildren(GetSkeleton()->GetJointPtr(ik.m_JointIDs.back())->m_ChildJointIDs[0], finalJntTransform * glm::inverse(animatedJntTransform));
 }
+
+
 
 glm::quat IKAnimConstraint::GetJointOrientationWS(unsigned int const& jointID)
 {

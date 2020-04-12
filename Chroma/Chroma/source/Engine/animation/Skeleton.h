@@ -3,7 +3,6 @@
 
 //common
 #include <common/PrecompiledHeader.h>
-
 // chroma
 #include <shader/Shader.h>
 #include <uid/UID.h>
@@ -23,7 +22,8 @@ struct IKConstraint : public Constraint
 	Type m_Type = IK;
 	// effector
 	glm::vec3 m_EffectorWorldPos{ 0.0 };
-	glm::quat m_EffectorWorldOrient{glm::quat()};
+	glm::quat m_EffectorWorldOrient{ glm::angleAxis((float)glm::degrees(90.0f), CHROMA_UP) };
+	glm::vec3 m_PoleWorldPos{ 0.0 };
 
 	// joints
 	std::vector<unsigned int> m_JointIDs;
@@ -76,6 +76,7 @@ public:
 	glm::mat4 GetJointTransform(int const& jointID) const;
 	glm::mat4 GetRootTransform() { return BuildRootTransform(); };
 	unsigned int GetRootJointID() const { return m_RootJointID; };
+	void TransformJointMSAndChildren(int const& jointID, glm::mat4 const& transform);
 
 	Joint GetJoint(int const& index);
 	Joint* GetJointPtr(int const& index);
