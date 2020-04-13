@@ -27,9 +27,6 @@ public:
 	IKAnimConstraint() {};
 	~IKAnimConstraint() {};
 private:
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kIKAnimationConstraintComponent };
-
 	void SolveIK(IKConstraint const& ik);
 	glm::quat GetJointOrientationWS(unsigned int const& jointID);
 

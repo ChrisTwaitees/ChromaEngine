@@ -12,6 +12,9 @@ void Light::updatePointRadius()
 
 void Light::Init()
 {
+	// Set Type
+	m_Type = Chroma::Type::Component::kLightComponent;	
+
 #ifdef EDITOR
 	{
 		CHROMA_INFO("Initializing Light");
@@ -22,7 +25,6 @@ void Light::Init()
 #endif
 
 	CMPNT_INITIALIZED
-
 }
 
 void Light::Update()

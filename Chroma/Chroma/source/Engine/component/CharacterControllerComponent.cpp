@@ -29,8 +29,13 @@ void CharacterControllerComponent::CalculateTransform()
 
 void CharacterControllerComponent::Init()
 {
+	// Set Type
+	m_Type = Chroma::Type::Component::kCharacterControllerComponent;
+
 	m_Scale = GetParentEntity()->GetScale();
 	m_Position = GetParentEntity()->GetTranslation();
+
+	CMPNT_INITIALIZED
 }
 
 void CharacterControllerComponent::Update()

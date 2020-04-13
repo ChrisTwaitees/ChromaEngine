@@ -86,8 +86,5 @@ protected:
 	// spotlight
 	float spotSize{ glm::cos(glm::radians(8.5f)) };
 	float penumbraSize{ glm::cos(glm::radians(17.5f)) };
-
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kLightComponent };
 };
 #endif

@@ -6,8 +6,10 @@
 
 void IKAnimConstraint::Init()
 {
-	CMPNT_INITIALIZED
+	// Set Type
+	m_Type = Chroma::Type::Component::kIKAnimationConstraintComponent;
 
+	CMPNT_INITIALIZED
 }
 
 void IKAnimConstraint::Update()

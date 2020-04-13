@@ -28,8 +28,8 @@ public:
 	void SetUID(const UID& newUID) { m_UID = newUID; };
 
 	// Type
-	Chroma::Type::Component GetType() { return m_Type; };
-	std::string GetTypeName() { return Chroma::Type::GetName(m_Type); };
+	virtual Chroma::Type::Component GetType() { return m_Type; };
+	virtual std::string GetTypeName() { return Chroma::Type::GetName(m_Type); };
 
 	// Name
 	std::string GetName() const { return m_Name; };

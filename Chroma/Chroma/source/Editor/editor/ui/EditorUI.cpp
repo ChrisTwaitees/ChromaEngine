@@ -15,6 +15,7 @@ namespace Chroma
 
 	// Viewport
 	ImGuiWindowFlags  EditorUI::m_ViewportWindowFlags;
+	bool EditorUI::m_MouseIsOverViewport;
 	bool EditorUI::EditorViewportOpen;
 	bool EditorUI::m_IconsVisible;
 
@@ -125,6 +126,7 @@ namespace Chroma
 
 		// VIEWPORT
 		m_IconsVisible = true;
+		m_MouseIsOverViewport = false;
 		m_LightsIcon = Texture("resources/icons/lights_icon.png");
 		m_LightSunIcon = Texture("resources/icons/light_sun.png");
 		m_LightPointIcon = Texture("resources/icons/light_point.png");
@@ -161,6 +163,7 @@ namespace Chroma
 			m_SelectedObjectString = Chroma::Scene::GetEntity(m_SelectedObjectUID)->GetName() + " : (" + selectedUID.data + ")";
 		}
 	}
+
 
 	std::pair<int, int> EditorUI::GetViewportDimensions()
 	{
@@ -606,6 +609,9 @@ namespace Chroma
 
 		ImGui::Begin("Viewport", &EditorViewportOpen, m_ViewportWindowFlags);
 		{
+			// Check if mouse hovering
+			m_MouseIsOverViewport = ImGui::IsWindowHovered();
+
 			// Set Dimensions
 			m_ViewportWidth = ImGui::GetWindowSize().x;
 			m_ViewportHeight = ImGui::GetWindowSize().y;

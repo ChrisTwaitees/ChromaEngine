@@ -29,9 +29,6 @@ public:
 	~AnimConstraintComponent() {};
 
 protected:
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kAnimationConstraintComponent };
-
 	bool m_IsActive{ true };
 	float m_ActivationAmount{ 1.0f };
 

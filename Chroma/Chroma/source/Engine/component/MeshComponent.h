@@ -17,6 +17,7 @@ public:
 	void Update() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
+	Chroma::Type::Component GetType() override { return m_Type; };
 
 	// attrs
 	virtual void SetIsRenderable(bool const& check) { m_IsRenderable = check; };
@@ -76,9 +77,6 @@ public:
 	virtual ~MeshComponent();
 
 protected:
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kMeshComponent };
-
 	// Transforms
 	glm::mat4 m_Transform{ glm::mat4(1.0f) };
 	glm::vec3 m_Translation{ glm::vec3(0.0f) };

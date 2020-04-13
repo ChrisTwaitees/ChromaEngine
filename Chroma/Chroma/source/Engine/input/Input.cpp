@@ -261,8 +261,13 @@ namespace Chroma
 		if (clickedEntity)
 		{
 			Chroma::UI::SetSelectedEntityName(clickedEntity->GetName());
+		}
+#ifdef EDITOR
+		if (Chroma::EditorUI::GetIsMouseOverViewport() && clickedEntity)
+		{
 			Chroma::EditorUI::SetSelectedObjectUID(clickedEntity->GetUID());
 		}
+#endif
 	}
 
 	void Input::UpdateMouseCoordinates()

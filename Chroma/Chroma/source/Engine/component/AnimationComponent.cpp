@@ -9,7 +9,10 @@ void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float
 
 void AnimationComponent::Init()
 {
-	CMPNT_INITIALIZED
+	// Set Type
+	m_Type = Chroma::Type::Component::kAnimationComponent;
+
+	CMPNT_INITIALIZED;
 }
 
 void AnimationComponent::Update()

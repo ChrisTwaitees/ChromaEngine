@@ -3,6 +3,7 @@
 
 MeshComponent::MeshComponent()
 {
+	Init();
 	m_IsRenderable = true;
 	m_IsLit = true;
 	m_CastShadows = true;
@@ -21,6 +22,9 @@ void MeshComponent::RebuildTransform()
 
 void MeshComponent::Init()
 {
+	// Set Type
+	m_Type = Chroma::Type::Component::kMeshComponent ;
+
 	CMPNT_INITIALIZED
 }
 

@@ -4,6 +4,9 @@
 
 void UIComponent::Init()
 {
+	// Set Type
+	m_Type = Chroma::Type::Component::kUIComponent;
+
 	CMPNT_INITIALIZED
 }
 

@@ -30,8 +30,6 @@ private:
 	Animator m_Animator;
 	AnimationStateMachine* m_AnimationStateMachine{nullptr};
 	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kAnimationComponent };
 };
 
 #endif

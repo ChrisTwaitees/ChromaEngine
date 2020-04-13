@@ -66,9 +66,6 @@ public:
 	~PhysicsComponent();
 
 private:
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kPhysicsComponent };
-
 	// attrs
 	float m_Mass{ 0.0f };
 

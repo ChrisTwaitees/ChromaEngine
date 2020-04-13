@@ -2,7 +2,10 @@
 
 void StateMachineComponent::Init()
 {
-	CHROMA_INFO("STATE MACHINE :: Initialized");
+	// Set Type
+	m_Type = Chroma::Type::Component::kStateMachineComponent;
+
+	CMPNT_INITIALIZED;
 }
 
 void StateMachineComponent::Update()

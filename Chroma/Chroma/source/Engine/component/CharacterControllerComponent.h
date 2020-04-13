@@ -34,9 +34,6 @@ public:
 	virtual ~CharacterControllerComponent();
 
 protected:
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kCharacterControllerComponent };
-
 	// camera controller
 	ICameraController* m_CameraController{ nullptr };
 	glm::vec3 m_CamPosition{ glm::vec3(10.0) };

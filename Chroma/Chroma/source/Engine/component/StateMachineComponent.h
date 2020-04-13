@@ -20,9 +20,7 @@ public:
 	virtual void ProcessConditions() {};
 
 protected:
-	// funcs
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kStateMachineComponent };
+	// 
 };
 
 #endif

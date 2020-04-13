@@ -18,8 +18,6 @@ public:
 	virtual ~UIComponent();
 
 protected:
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kUIComponent };
 };
 
 #endif

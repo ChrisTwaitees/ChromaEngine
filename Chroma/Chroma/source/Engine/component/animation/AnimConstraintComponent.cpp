@@ -5,6 +5,9 @@
 
 void AnimConstraintComponent::Init()
 {
+	// Set Type
+	m_Type = Chroma::Type::Component::kAnimationConstraintComponent;
+
 	CMPNT_INITIALIZED
 }
 

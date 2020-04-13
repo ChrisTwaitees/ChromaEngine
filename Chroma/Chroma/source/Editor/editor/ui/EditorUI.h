@@ -17,6 +17,7 @@ namespace Chroma
 		static void ResizeEditorUI(int const& newWidth, int const& newHeight);
 		
 		static void SetSelectedObjectUID(const UID& selectedUID);
+		inline static bool GetIsMouseOverViewport() { return m_MouseIsOverViewport; };
 
 		static std::pair<int, int> GetViewportDimensions();
 		static bool m_Bloom;
@@ -86,6 +87,7 @@ namespace Chroma
 
 		// Viewport
 		static ImGuiWindowFlags m_ViewportWindowFlags;
+		static bool m_MouseIsOverViewport;
 		static bool EditorViewportOpen;
 		static bool m_IconsVisible;
 		static int m_PrevViewportWidth;

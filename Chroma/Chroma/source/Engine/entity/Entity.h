@@ -74,8 +74,7 @@ private:
 		component->SetParentEntityUID(m_UID);
 	}
 
-	// Serialization
-	Chroma::Type::Entity m_Type{ Chroma::Type::Entity::kEntity };
+
 
 };
 

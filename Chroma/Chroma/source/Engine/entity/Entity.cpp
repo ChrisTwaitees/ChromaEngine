@@ -249,6 +249,9 @@ void Entity::Serialize(ISerializer*& serializer)
 
 void Entity::Init()
 {
+	// Set Type
+	m_Type =  Chroma::Type::Entity::kEntity;
+
 	CalculateBBox();
 	CalculateCentroid();
 	ENTITY_INITIALIZED
