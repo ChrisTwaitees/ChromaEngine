@@ -16,7 +16,6 @@ public:
 
 	// Serialization
 	virtual void Serialize(ISerializer*& serializer);
-	virtual std::string GetTypeString() const;
 
 	// Funcs
 	inline bool GetIsActive() { return m_IsActive; };
@@ -30,8 +29,13 @@ public:
 	~AnimConstraintComponent() {};
 
 protected:
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kAnimationConstraintComponent };
+
 	bool m_IsActive{ true };
 	float m_ActivationAmount{ 1.0f };
+
+
 };
 
 #endif // CHROMA_IK_COMPONENT_H

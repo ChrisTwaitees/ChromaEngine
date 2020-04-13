@@ -4,6 +4,8 @@
 #include <imgui/imgui.h>
 #include <imgui/examples/imgui_impl_glfw.h>
 #include <imgui/examples/imgui_impl_opengl3.h>
+#include <stdio.h>
+#include <imguifiledialog/ImGuiFileDialog.h>
 
 // chroma
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
@@ -29,13 +31,19 @@ namespace Chroma
 		inline static void SetSelectedEntityName(std::string const& newEntity) { };
 
 	protected:
+
+		static void OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters);
+		static void DrawFileBrowser();
+
 		static void Start();
 		static void End();
 		static void DrawUICalls();
 
 		static std::vector<void(*)() > m_UICalls;
 
-
+		static std::string m_FileBrowserKey;
+		static std::string m_FilePathName;
+		static std::string m_FileDirectory;
 
 	};
 }

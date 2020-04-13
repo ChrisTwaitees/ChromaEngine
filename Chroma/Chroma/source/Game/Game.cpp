@@ -15,7 +15,7 @@
 #include <thirdperson/ThirdPersonCharacterController.h>
 #include <thirdperson/ThirdPersonCameraController.h>
 
-int main()
+int main2()
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();

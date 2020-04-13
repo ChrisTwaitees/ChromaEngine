@@ -5,6 +5,7 @@
 #include <render/Render.h>
 #include <screen/Screen.h>
 
+
 namespace Chroma
 {
 	// EDITOR
@@ -62,10 +63,12 @@ namespace Chroma
 
 	void EditorUI::Draw()
 	{
+
 		// root
 		AddUICall(ParentDockWindow);
 		// viewport
 		AddUICall(Draw3DViewport);
+		Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// content browser
 		AddUICall(DrawContentBrowser);
 		// world outliner
@@ -84,11 +87,15 @@ namespace Chroma
 
 		// Draw other editors
 		DrawOtherEditorWindows();
+
+		// file browser
+		AddUICall(DrawFileBrowser);
 	}
 
 	void EditorUI::Init()
 	{
 		CHROMA_INFO("CHROMA EDITOR :: UI Initialized");
+		
 		// Editor Options
 		EditorFullScreen = true;
 		EditorRootDockspaceFlags = ImGuiDockNodeFlags_None;
@@ -137,6 +144,24 @@ namespace Chroma
 
 	}
 
+	void EditorUI::SetSelectedObjectUID(const UID& selectedUID)
+	{
+		// set UID
+		m_SelectedObjectUID = selectedUID;
+		// get name for ui
+		// attempt to fetch component
+		if (Chroma::Scene::GetComponent(m_SelectedObjectUID) != nullptr)
+		{
+			m_SelectedObjectString = Chroma::Type::GetName(Chroma::Scene::GetComponent(m_SelectedObjectUID)->GetType()) + " : (" + m_SelectedObjectUID.data + ")";
+		}
+
+		// attempt to fetch entity
+		if (Chroma::Scene::GetEntity(m_SelectedObjectUID) != nullptr)
+		{
+			m_SelectedObjectString = Chroma::Scene::GetEntity(m_SelectedObjectUID)->GetName() + " : (" + selectedUID.data + ")";
+		}
+	}
+
 	std::pair<int, int> EditorUI::GetViewportDimensions()
 	{
 		return std::make_pair(m_ViewportWidth, m_ViewportHeight);
@@ -173,7 +198,7 @@ namespace Chroma
 		// any change of dockspace/settings would lead to windows being stuck in limbo and never being visible.
 		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 		bool p_open;
-		ImGui::Begin("DockSpace Demo", &p_open, window_flags);
+		ImGui::Begin("Chroma Editor Docking", &p_open, window_flags);
 		ImGui::PopStyleVar();
 
 		if (EditorFullScreen)
@@ -190,16 +215,23 @@ namespace Chroma
 		// Menu Bar
 		if (ImGui::BeginMenuBar())
 		{
-			if (ImGui::BeginMenu("Chroma Editor"))
-			{
-				ImGui::EndMenu();
-			}
-
+		
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Close Editor", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0));
-				if (ImGui::MenuItem("Load Scene", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0))
+
+				
+				if (ImGui::MenuItem("Open Scene"))
+				{
+					OpenFileBrowser("Open Scene", ".json\0");
+				}
+
 				ImGui::Separator();
+
+				if (ImGui::MenuItem("Save Scene"))
+				{
+					OpenFileBrowser("Choose File", ".json\0");
+				}
+
 				ImGui::EndMenu();
 			}
 
@@ -209,11 +241,17 @@ namespace Chroma
 				// which we can't undo at the moment without finer window depth/z control.
 				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
 
-				if (ImGui::MenuItem("Flag: NoSplit", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0))                 EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_NoSplit;
+				/*if (ImGui::MenuItem("Flag: NoSplit", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0))                 EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_NoSplit;
 				if (ImGui::MenuItem("Flag: NoResize", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoResize) != 0))                EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_NoResize;
 				if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))  EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
 				if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_PassthruCentralNode) != 0))     EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_PassthruCentralNode;
-				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_AutoHideTabBar;
+				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_AutoHideTabBar;*/
+				
+				if (ImGui::MenuItem("Editor Settings"))
+				{
+					CHROMA_INFO("Opening Editor Settings");
+				}
+
 				ImGui::Separator();
 				ImGui::EndMenu();
 			}
@@ -223,8 +261,8 @@ namespace Chroma
 
 		ImGui::End();
 
-
 	}
+
 
 
 	void EditorUI::DrawContentBrowser()
@@ -284,7 +322,7 @@ namespace Chroma
 						ImGui::Indent();
 						for (UID componentUID : Chroma::Scene::GetEntity(uidEntity.first)->GetComponentUIDs())
 						{
-							std::string ComponentTypeUID = Chroma::Scene::GetComponent(componentUID)->GetTypeString() + " : (" + componentUID.data + ")";;
+							std::string ComponentTypeUID = Chroma::Type::GetName(Chroma::Scene::GetComponent(componentUID)->GetType()) + " : (" + componentUID.data + ")";
 
 							if (ImGui::Selectable(ComponentTypeUID.c_str(), m_SelectedObjectString == ComponentTypeUID))
 							{
@@ -311,7 +349,7 @@ namespace Chroma
 			{
 				for (std::pair<UID, IComponent*> uidComponent : Chroma::Scene::GetAllComponents())
 				{
-					std::string ComponentTypeUID = uidComponent.second->GetTypeString() + " : (" + uidComponent.first.data + ")";
+					std::string ComponentTypeUID = Chroma::Type::GetName(uidComponent.second->GetType()) + " : (" + uidComponent.first.data + ")";
 					// Enities Components
 					if (ImGui::Selectable(ComponentTypeUID.c_str(), m_SelectedObjectString == ComponentTypeUID))
 					{
@@ -369,10 +407,20 @@ namespace Chroma
 
 		// Get Object Serialization Data
 		ISerializer* objectSerializer = new JSONSerializer();
+
+		// attempt to fetch component
 		if (Chroma::Scene::GetComponent(m_SelectedObjectUID) != nullptr)
 		{
 			Chroma::Scene::GetComponent(m_SelectedObjectUID)->Serialize(objectSerializer);
 		}
+
+		// attempt to fetch entity
+		if (Chroma::Scene::GetEntity(m_SelectedObjectUID) != nullptr)
+		{
+			Chroma::Scene::GetEntity(m_SelectedObjectUID)->Serialize(objectSerializer);
+			Chroma::Scene::GetEntity(m_SelectedObjectUID)->Update();
+		}
+
 
 
 		// Float Properties
@@ -394,6 +442,7 @@ namespace Chroma
 			ImGui::SliderFloat((vec3Property.first + x).c_str(), &vec3Property.second->x, -10.0, 10.0);
 			ImGui::SliderFloat((vec3Property.first + y).c_str(), &vec3Property.second->y, -10.0, 10.0);
 			ImGui::SliderFloat((vec3Property.first + z).c_str(), &vec3Property.second->z, -10.0, 10.0);
+			ImGui::Separator();
 			
 		}
 
@@ -455,6 +504,25 @@ namespace Chroma
 		}
 #endif
 	}
+
+	void EditorUI::DrawFileBrowser()
+	{
+		if (ImGuiFileDialog::Instance()->FileDialog(m_FileBrowserKey))
+		{
+			// action if OK
+			if (ImGuiFileDialog::Instance()->IsOk == true)
+			{
+				m_FilePathName = ImGuiFileDialog::Instance()->GetFilepathName();
+				m_FileDirectory = ImGuiFileDialog::Instance()->GetCurrentPath();
+				// Load new Scene
+				Chroma::SceneManager::LoadScene(m_FilePathName.c_str());
+			}
+			// close
+			ImGuiFileDialog::Instance()->CloseDialog(m_FileBrowserKey);
+		}
+	}
+
+
 
 	void EditorUI::ResizeViewport(int const& newWidth, int const& newHeight)
 	{

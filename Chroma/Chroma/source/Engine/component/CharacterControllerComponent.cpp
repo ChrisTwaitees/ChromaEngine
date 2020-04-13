@@ -42,14 +42,13 @@ void CharacterControllerComponent::Update()
 
 void CharacterControllerComponent::Destroy()
 {
-	CHROMA_TRACE("CharacterController Component : {0} Destroyed.", m_UID.data);
 	delete m_CameraController;
+	CMPNT_DESTROYED
 }
 
 void CharacterControllerComponent::Serialize(ISerializer*& serializer)
 {
-	CHROMA_INFO("Serializing Character Controller Component : {0}", m_UID.data);
-	serializer->StartObject("CharacterControllerComponent", m_UID);
+	CMPNT_SERIALIZE_BEGIN
 }
 
 CharacterControllerComponent::CharacterControllerComponent()

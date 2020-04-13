@@ -21,7 +21,7 @@ void MeshComponent::RebuildTransform()
 
 void MeshComponent::Init()
 {
-	CHROMA_TRACE("Mesh Component : {0} Initialized.", m_UID.data);
+	CMPNT_INITIALIZED
 }
 
 void MeshComponent::Update()
@@ -30,13 +30,17 @@ void MeshComponent::Update()
 
 void MeshComponent::Destroy()
 {
-	CHROMA_TRACE("Mesh Component : {0} Destroyed.", m_UID.data);
+	CMPNT_DESTROYED
 }
 
 void MeshComponent::Serialize(ISerializer*& serializer)
 {
-	CHROMA_INFO("Serializing Mesh Component : {0}", m_UID.data);
-	serializer->StartObject("MeshComponent", m_UID);
+	CMPNT_SERIALIZE_BEGIN
+
+	// Properties
+	serializer->AddProperty("m_Translation", &m_Translation);
+	serializer->AddProperty("m_Rotation", &m_Rotation);
+	serializer->AddProperty("m_Scale", &m_Scale);
 }
 
 void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)

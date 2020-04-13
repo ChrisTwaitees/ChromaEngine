@@ -9,7 +9,7 @@ void AnimationComponent::UpdateDebug(std::string const& debugAnimClipName, float
 
 void AnimationComponent::Init()
 {
-	CHROMA_TRACE("AnimationComponent : {0} Initialized.", m_UID.data);
+	CMPNT_INITIALIZED
 }
 
 void AnimationComponent::Update()
@@ -28,16 +28,13 @@ void AnimationComponent::Destroy()
 	m_Animator.Destroy();
 	m_AnimationStateMachine->Destroy();
 
-	CHROMA_TRACE("AnimationComponent : {0} Destroyed.", m_UID.data);
+	CMPNT_DESTROYED
 }
 
 void AnimationComponent::Serialize(ISerializer*& serializer)
 {
-	CHROMA_INFO("Serializing Animation Component : {0}", m_UID.data);
-	serializer->StartObject("AnimationComponent", m_UID);
+	CMPNT_SERIALIZE_BEGIN
 
-	serializer->AddProperty("Skeleton", "testSkeleton");
-	serializer->AddProperty("Skeleton", "testSkeleton");
 	serializer->AddProperty("Skeleton", "testSkeleton");
 }
 

@@ -20,9 +20,10 @@ class Entity : public IEntity
 {
 public:
 	// Functions
-	virtual void Init();
-	virtual void Update();
-	virtual void Destroy();
+	virtual void Init() override;
+	virtual void Update() override;
+	virtual void Destroy() override;
+	virtual void Serialize(ISerializer*& serializer) override;
 
 	// Transformations
 	// setting
@@ -72,6 +73,10 @@ private:
 	void SetParentEntityUID(ComponentClass component) {
 		component->SetParentEntityUID(m_UID);
 	}
+
+	// Serialization
+	Chroma::Type::Entity m_Type{ Chroma::Type::Entity::kEntity };
+
 };
 
 #endif

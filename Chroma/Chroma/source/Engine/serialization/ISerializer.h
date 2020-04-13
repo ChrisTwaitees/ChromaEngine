@@ -3,6 +3,7 @@
 
 // Factory method read from : https://realpython.com/factory-method-python/
 #include <common/PrecompiledHeader.h>
+//#include <types/Types.h> 
 #include <uid/UID.h>
 
 struct Serialization
@@ -77,6 +78,12 @@ public:
 	}
 
 	template<>
+	void AddProperty<glm::quat>(const char* key, glm::quat value)
+	{
+		m_QuatProperties.emplace(std::make_pair(key, value));
+	}
+
+	template<>
 	void AddProperty<glm::mat3>(const char* key, glm::mat3 value)
 	{
 		m_Mat3Properties.emplace(std::make_pair(key, value));
@@ -107,6 +114,7 @@ private:
 
 	std::map<const char*, glm::vec2> m_Vec2Properties;
 	std::map<const char*, glm::vec4> m_Vec4Properties;
+	std::map<const char*, glm::quat> m_QuatProperties;
 	std::map<const char*, glm::mat3> m_Mat3Properties;
 	std::map<const char*, glm::mat4> m_Mat4Properties;
 

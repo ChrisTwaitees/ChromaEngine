@@ -2,6 +2,9 @@
 #include <scene/Scene.h>
 #include <physics/PhysicsEngine.h>
 #include <UI/core/UI.h>
+#ifdef EDITOR
+#include <editor/ui/EditorUI.h>
+#endif
 
 namespace Chroma
 {
@@ -256,7 +259,10 @@ namespace Chroma
 		glm::vec3 end = start + (Chroma::Input::GetLastRay() * glm::vec3(1000.0));
 		IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
 		if (clickedEntity)
+		{
 			Chroma::UI::SetSelectedEntityName(clickedEntity->GetName());
+			Chroma::EditorUI::SetSelectedObjectUID(clickedEntity->GetUID());
+		}
 	}
 
 	void Input::UpdateMouseCoordinates()

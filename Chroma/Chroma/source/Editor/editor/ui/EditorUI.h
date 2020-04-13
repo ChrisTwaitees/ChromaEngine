@@ -16,11 +16,14 @@ namespace Chroma
 		static void Init();
 		static void ResizeEditorUI(int const& newWidth, int const& newHeight);
 		
+		static void SetSelectedObjectUID(const UID& selectedUID);
+
 		static std::pair<int, int> GetViewportDimensions();
 		static bool m_Bloom;
 
 
 	private:
+
 		// functions
 		static void ParentDockWindow();
 		static void DrawContentBrowser();
@@ -32,6 +35,7 @@ namespace Chroma
 		static void DrawOtherEditorWindows();
 
 		static void DrawIcons();
+		static void DrawFileBrowser();
 
 		// Viewport Functions
 		static void ResizeViewport(int const& newWidth, int const& newHeight);

@@ -52,3 +52,4 @@
 // Chroma
 // Logging
 #include <logging/Log.h>
+#include <types/Types.h>

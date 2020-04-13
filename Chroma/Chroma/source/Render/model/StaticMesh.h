@@ -21,8 +21,6 @@ public:
 	virtual void BindDrawVAO();
 	virtual void Destroy() override;
 
-	std::string GetTypeString() const override { return "StaticMeshComponent"; }
-
 	// Bindings
 	virtual void SetShader(Shader const& shader) override { m_shader = shader; } ;
 	virtual void SetTextures(std::vector<Texture> textures_val) override;

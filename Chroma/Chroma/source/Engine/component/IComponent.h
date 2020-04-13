@@ -9,35 +9,31 @@
 #include <common/CoreCommon.h>
 #include <serialization/ISerializer.h>
 
+
 // forward declarations
 class IEntity;
 
 class IComponent
 {
-protected:
-	// name
-	UID m_UID;
-	std::string m_Name;
-
-	// parent
-	UID m_ParentEntityUID;
-
 public:
 	// Functions
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Destroy() = 0;
-	
-	// Serialization
 	virtual void Serialize(ISerializer*& serializer) = 0;
-	virtual std::string GetTypeString() const = 0;
 
 	// Acessors
+	// UID
 	UID GetUID() const { return m_UID; };
+	void SetUID(const UID& newUID) { m_UID = newUID; };
 
+	// Type
+	Chroma::Type::Component GetType() { return m_Type; };
+	std::string GetTypeName() { return Chroma::Type::GetName(m_Type); };
+
+	// Name
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
-
 
 	// Entity
 	IEntity* GetParentEntity() const;
@@ -47,6 +43,31 @@ public:
 
 	IComponent();
 	virtual ~IComponent() {};
+
+protected:
+	// UID
+	UID m_UID;
+
+	//Name
+	std::string m_Name;
+
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kIComponent };
+
+	// Parent
+	UID m_ParentEntityUID;
 };
+
+
+
+#ifdef DEBUG
+#define CMPNT_SERIALIZE_BEGIN CHROMA_INFO("Serializing : {} , UID : {}", GetTypeName(), m_UID.data); serializer->StartObject(GetTypeName().c_str(), m_UID);
+#define CMPNT_DESTROYED CHROMA_INFO("{} Destroyed. UID : {}", GetTypeName(), m_UID.data );
+#define CMPNT_INITIALIZED CHROMA_INFO("{} Intialized. UID : {}", GetTypeName(), m_UID.data );
+#else
+#define CMPNT_SERIALIZE_BEGIN serializer->StartObject(GetTypeName().c_str(), m_UID);
+#define CMPNT_DESTROYED
+#define CMPNT_INITIALIZED
+#endif
 
 #endif

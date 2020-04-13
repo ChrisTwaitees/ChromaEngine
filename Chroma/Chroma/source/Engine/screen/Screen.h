@@ -38,6 +38,8 @@ namespace Chroma
 		// stats
 		static int last_width;
 		static int last_height;
+		static std::string m_WindowName;
+		
 	};
 }
 

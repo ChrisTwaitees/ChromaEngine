@@ -8,20 +8,6 @@
 
 class Light : public IComponent
 {
-protected:
-
-	void updatePointRadius();
-
-	float m_Intensity{ 1.0f };
-	// transforms
-	glm::vec3 m_Position{ 0.0f, 0.0f, 0.0f };
-	glm::vec3 m_Direction{ 0.0f, -1.0f, 0.0f };
-	glm::vec3 m_Diffuse{ 1.0f, 1.0f, 1.0f };
-
-	// spotlight
-	float spotSize{ glm::cos(glm::radians(8.5f)) };
-	float penumbraSize{ glm::cos(glm::radians(17.5f)) };
-
 
 public:
 	// icomponent interface
@@ -86,5 +72,22 @@ public:
 	Light(TYPE type_val, glm::vec3 position_val, glm::vec3 direction_val, float intensity_val) : m_Position{ position_val }, m_Direction{ direction_val }, m_Intensity{ intensity_val }, type{type_val} {Init(); };
 	Light(TYPE type_val, glm::vec3 direction_val, float intensity_val) :  m_Direction{ direction_val }, m_Intensity{ intensity_val }, type{ type_val } { Init(); };
 	~Light();
+
+protected:
+
+	void updatePointRadius();
+
+	float m_Intensity{ 1.0f };
+	// transforms
+	glm::vec3 m_Position{ 0.0f, 0.0f, 0.0f };
+	glm::vec3 m_Direction{ 0.0f, -1.0f, 0.0f };
+	glm::vec3 m_Diffuse{ 1.0f, 1.0f, 1.0f };
+
+	// spotlight
+	float spotSize{ glm::cos(glm::radians(8.5f)) };
+	float penumbraSize{ glm::cos(glm::radians(17.5f)) };
+
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kLightComponent };
 };
 #endif

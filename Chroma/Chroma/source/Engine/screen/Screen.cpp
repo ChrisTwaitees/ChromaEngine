@@ -11,9 +11,17 @@ namespace Chroma
 	int Screen::m_Width;
 	int Screen::last_width;
 	int Screen::last_height;
+	std::string Screen::m_WindowName;
 
 	void Screen::Init()
 	{
+		// set window name
+#ifdef EDITOR
+		m_WindowName = "CHROMA EDITOR";
+#else
+		m_WindowName = "CHROMA";
+#endif
+
 		// Configure Window
 		// glfw: initialize and configure
 		// ------------------------------
@@ -25,7 +33,7 @@ namespace Chroma
 
 		// glfw window creation
 		// --------------------
-		m_Window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "CHROMA", NULL, NULL);
+		m_Window = glfwCreateWindow(SCREEN_WIDTH, SCREEN_HEIGHT, m_WindowName.c_str(), NULL, NULL);
 		if (m_Window == NULL)
 		{
 			CHROMA_FATAL("Failed to Initialize Chroma window");

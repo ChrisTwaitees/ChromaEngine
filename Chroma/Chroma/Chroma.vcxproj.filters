@@ -187,6 +187,12 @@
     <Filter Include="Engine\component\physics">
       <UniqueIdentifier>{de54237a-fcd9-4ef9-80d0-91b6d57aaba6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\ui\core\imguifilebrowser">
+      <UniqueIdentifier>{81b78986-7f0d-4a54-a52c-244148f9dadc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\types">
+      <UniqueIdentifier>{baf5ac2f-9ac3-44c5-bd72-a5bee3e90605}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -443,6 +449,12 @@
     </ClCompile>
     <ClCompile Include="source\Engine\animation\SkeletonUtils.cpp">
       <Filter>Engine\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.cpp">
+      <Filter>Render\ui\core\imguifilebrowser</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\types\Types.cpp">
+      <Filter>Engine\types</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -719,6 +731,15 @@
     <ClInclude Include="source\Engine\animation\SkeletonUtils.h">
       <Filter>Engine\animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h">
+      <Filter>Render\ui\core\imguifilebrowser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h">
+      <Filter>Render\ui\core\imguifilebrowser</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\types\Types.h">
+      <Filter>Engine\types</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">
@@ -881,6 +902,12 @@
       <Filter>Resources\shaders\debug</Filter>
     </None>
     <None Include="resources\shaders\vertexCrossDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\geometryGridDebug.glsl">
+      <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\vertexGridDebug.glsl">
       <Filter>Resources\shaders\debug</Filter>
     </None>
   </ItemGroup>

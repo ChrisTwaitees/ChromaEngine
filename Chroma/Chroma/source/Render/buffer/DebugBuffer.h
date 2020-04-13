@@ -19,6 +19,14 @@ struct LineShape
 	glm::vec3 color{ 0.0 };
 };
 
+struct GridShape
+{
+	glm::vec3 color{ 0.5 };
+	glm::mat4 transform{ 1.0 };
+	float size{ 10.0 };
+};
+
+
 struct BoxShape
 {
 	glm::mat4 transform{ 1.0 };
@@ -58,6 +66,10 @@ struct CrossShape
 class DebugBuffer : public IFramebuffer
 {
 public:
+	// Grid
+	void DrawGrid(float const& size = 10.0, glm::vec3 const& color = glm::vec3(0.5));
+	void DrawOverlayGrid(float const& size = 10.0, glm::vec3 const& color = glm::vec3(0.5));
+
 	// Coordinates
 	void DrawCoordinates(const glm::mat4& transform, const float& size = 1.0);
 	void DrawOverlayCoordinates(const glm::mat4& transform, const float& size = 1.0);
@@ -119,7 +131,8 @@ private:
 	std::vector<CoordinatesShape> m_Coordinates;
 	std::vector<CoordinatesShape> m_OverlayCoordinates;
 
-	
+	std::vector<GridShape> m_Grids;
+	std::vector<GridShape> m_OverlayGrids;
 
 	// attrs
 	unsigned int pointVAO, pointVBO;
@@ -153,6 +166,10 @@ private:
 	const char* crossVtxSource{ "resources/shaders/vertexCrossDebug.glsl" };
 	const char* crossGeomSource{ "resources/shaders/geometryCrossDebug.glsl" };
 	Shader m_CrossShader{ crossFragSource, crossVtxSource, crossGeomSource };
+	// grid geometry shader
+	const char* gridVtxSource{ "resources/shaders/vertexGridDebug.glsl" };
+	const char* gridGeomSource{ "resources/shaders/geometryGridDebug.glsl" };
+	Shader m_GridShader{ FragSource, gridVtxSource, gridGeomSource };
 
 	// point VAO
 	void GeneratePointVAO();
@@ -170,6 +187,7 @@ private:
 	void RenderCross(CrossShape const& cross);
 	void RenderJoint(JointShape const& joint);
 	void RenderCoordinate(CoordinatesShape const& coordinate);
+	void RenderGrid(GridShape const& grid);
 
 	void BindPointVAO();
 	// blitting depth buffer before rendering

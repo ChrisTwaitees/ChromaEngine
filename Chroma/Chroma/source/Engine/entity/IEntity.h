@@ -25,9 +25,16 @@ public:
 	virtual void Init() = 0;
 	virtual void Update() = 0;
 	virtual void Destroy() = 0;
+	virtual void Serialize(ISerializer*& serializer) = 0;
+	
+	// Type
+	Chroma::Type::Entity GetType() { return m_Type; };
+	std::string GetTypeName() { return Chroma::Type::GetName(m_Type); }
+
+	//UID
+	UID GetUID() const { return m_UID; };
 
 	// Name
-	UID GetUID() const { return m_UID; };
 	std::string GetName() const { return m_Name; };
 	void SetName(std::string newName) { m_Name = newName; };
 
@@ -115,6 +122,8 @@ protected:
 
 	// Name
 	std::string m_Name;
+	// Serialization
+	Chroma::Type::Entity m_Type{ Chroma::Type::Entity::kIEntity };
 
 	// Transforms
 	glm::mat4 m_Transform{ glm::mat4(1.0f) };
@@ -148,5 +157,15 @@ protected:
 	virtual void AddStateMachineComponent(StateMachineComponent*& newStateMachineComponent) = 0;
 	virtual void AddAnimConstraintComponent(AnimConstraintComponent*& newIKComponent) = 0;
 };
+
+#ifdef DEBUG
+#define ENTITY_SERIALIZE_BEGIN 	CHROMA_INFO("{} Serializing, UID : {}", GetTypeName(), m_UID.data); serializer->StartObject(Chroma::Type::GetName(m_Type).c_str(), m_UID);
+#define ENTITY_DESTROYED CHROMA_INFO("{} Destroyed. UID : {}", GetTypeName(), m_UID.data );
+#define ENTITY_INITIALIZED CHROMA_INFO("{} Intialized. UID : {}", GetTypeName(), m_UID.data );
+#else
+#define ENTITY_SERIALIZE_BEGIN 	serializer->StartObject(Chroma::Type::GetName(m_Type).c_str(), m_UID);
+#define ENTITY_DESTROYED
+#define ENTITY_INITIALIZED
+#endif
 
 #endif

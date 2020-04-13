@@ -15,8 +15,6 @@ public:
 	virtual void Init() override;
 	void Destroy() override;
 
-	std::string GetTypeString() const override { return "ModelComponent"; }
-
 	// Draw
 	void Draw(Shader& shader) override;
 	void Draw(Camera& RenderCamera) override;

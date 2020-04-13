@@ -4,7 +4,6 @@
 #include <common/PrecompiledHeader.h>
 #include <engine/Engine.h>
 #include <editor/Editor.h>
-#include <resources/FileHelper.h>
 
 
 #if defined(EDITOR)
@@ -20,15 +19,9 @@ int main()
 	Chroma::Scene::PreSceneBuild();
 
 	// POPULATE SCENE CONTENTS
-	Chroma::Editor::PopulateTestScene();
+	Chroma::Editor::PopulateTestScene2();
 
 	Chroma::Scene::PostSceneBuild();
-
-	std::vector<std::string> files = Chroma::FileHelper::GetFilesFromDirectory("resources/hdri");
-	for (std::string const& fileName : files)
-	{
-		std::cout << fileName << std::endl;
-	}
 
 	// TEST 
 	Chroma::SceneManager::SaveScene("resources/levels/testSave.json");
@@ -39,7 +32,7 @@ int main()
 	while (Chroma::Screen::IsRunning())
 	{
 
-		// GAME TICK
+		// ENGINE TICK
 		Chroma::Engine::Tick();
 		
 		// EDITOR TICK

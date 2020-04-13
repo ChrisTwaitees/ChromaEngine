@@ -6,7 +6,7 @@
 
 void IKAnimConstraint::Init()
 {
-	CHROMA_TRACE("IK Anim Constraint : {0} initialized.", m_UID.data);
+	CMPNT_INITIALIZED
 
 }
 
@@ -25,18 +25,14 @@ void IKAnimConstraint::Update()
 
 void IKAnimConstraint::Destroy()
 {
-	CHROMA_TRACE("IK Anim Constraint : {0} Destroyed.", m_UID.data);
+	CMPNT_DESTROYED
 }
 
 void IKAnimConstraint::Serialize(ISerializer*& serializer)
 {
-	CHROMA_INFO("IK Anim Constraint : {0} Serializing.", m_UID.data);
+	CMPNT_SERIALIZE_BEGIN
 }
 
-std::string IKAnimConstraint::GetTypeString() const
-{
-	return "IK Anim Constraint";
-}
 
 void IKAnimConstraint::SetEffectorWorldPos(std::string const& constraintName, glm::vec3 const& worldPos)
 {

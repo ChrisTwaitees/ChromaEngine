@@ -5,7 +5,7 @@
 
 void AnimConstraintComponent::Init()
 {
-	CHROMA_INFO("AnimConstraint Component {0} Initialized!", m_UID.data);
+	CMPNT_INITIALIZED
 }
 
 void AnimConstraintComponent::Update()
@@ -15,18 +15,15 @@ void AnimConstraintComponent::Update()
 
 void AnimConstraintComponent::Destroy()
 {
-	CHROMA_INFO("AnimConstraint Component {0} Destroyed!", m_UID.data);
+	CMPNT_DESTROYED
 }
 
 void AnimConstraintComponent::Serialize(ISerializer*& serializer)
 {
-	serializer->StartObject(GetTypeString().c_str(), m_UID);
+	CMPNT_SERIALIZE_BEGIN
+
 }
 
-std::string AnimConstraintComponent::GetTypeString() const
-{
-	return "Anim Constraint";
-}
 
 Animator& AnimConstraintComponent::GetAnimator()
 {

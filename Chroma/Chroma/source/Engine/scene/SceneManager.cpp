@@ -21,6 +21,11 @@ namespace Chroma
 	{
 		CHROMA_INFO("SCENE MANAGER :: Loading Scene from : {0}", destinationScenePath);
 		ClearScene();
+		Chroma::Scene::PreSceneBuild();
+
+
+
+		Chroma::Scene::PostSceneBuild();
 	}
 
 

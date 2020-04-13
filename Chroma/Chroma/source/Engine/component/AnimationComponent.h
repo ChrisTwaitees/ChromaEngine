@@ -17,8 +17,6 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer ) override;
 
-	std::string GetTypeString() const override { return "AnimationComponent"; }
-
 	void SetAnimator(Animator& newAnimator);
 	void SetAnimationStateMachine(AnimationStateMachine*& newAnimationStateMachine);
 	AnimationStateMachine*& GetAnimationStateMachine() { return m_AnimationStateMachine; };
@@ -32,6 +30,8 @@ private:
 	Animator m_Animator;
 	AnimationStateMachine* m_AnimationStateMachine{nullptr};
 	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kAnimationComponent };
 };
 
 #endif

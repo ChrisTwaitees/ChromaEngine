@@ -18,9 +18,11 @@ void Light::Init()
 		IComponent* lightIconComponent = new Icon();
 		Chroma::Scene::AddUIComponent(lightIconComponent);
 		m_IconUID = lightIconComponent->GetUID();
-		//delete lightIconComponent;
 	}
 #endif
+
+	CMPNT_INITIALIZED
+
 }
 
 void Light::Update()
@@ -34,26 +36,22 @@ void Light::Update()
 
 void Light::Destroy()
 {
-	CHROMA_INFO("Destroying Light");
 #ifdef EDITOR
 	{
 
 	}
 #endif
+	CMPNT_DESTROYED
 
 }
 
 void Light::Serialize(ISerializer*& serializer)
 {
-	CHROMA_INFO("Serializing Light Component : {0}", m_UID.data);
-	serializer->StartObject("LightComponent", m_UID);
+	CMPNT_SERIALIZE_BEGIN
 
 	serializer->AddProperty("m_Position", &m_Position);
 	serializer->AddProperty("m_Intensity", &m_Intensity);
 	serializer->AddProperty("m_Diffuse", &m_Diffuse);
-
-
-	//CHROMA_INFO("m_Diffuse {0}", m_Diffuse.x);
 
 	serializer->AddProperty("m_Direction", &m_Direction);
 	serializer->AddProperty("m_Linear", &m_Linear);

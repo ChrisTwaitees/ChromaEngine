@@ -21,8 +21,6 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
 
-	std::string GetTypeString() const override { return "CharacterControllerComponent"; }
-
 	virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
 
 	inline virtual glm::vec3& GetVelocity() { return m_Velocity; }
@@ -36,6 +34,9 @@ public:
 	virtual ~CharacterControllerComponent();
 
 protected:
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kCharacterControllerComponent };
+
 	// camera controller
 	ICameraController* m_CameraController{ nullptr };
 	glm::vec3 m_CamPosition{ glm::vec3(10.0) };

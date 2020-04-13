@@ -204,7 +204,9 @@ void PhysicsComponent::Init()
 
    // add rigid body to physics world
 	Chroma::Physics::AddBodyToWorld(m_RigidBody);
-	CHROMA_TRACE("PhysicsComponent : {0} Initialized.", m_UID.data);
+	
+	// debug
+	CMPNT_INITIALIZED
 }
 
 void PhysicsComponent::Update()
@@ -213,17 +215,18 @@ void PhysicsComponent::Update()
 
 void PhysicsComponent::Destroy()
 {
-	CHROMA_TRACE("PhysicsComponent : {0} Destroyed.", m_UID.data);
 	Chroma::Physics::RemoveBodyFromWorld(m_RigidBody);
 	delete m_RigidBody;
 	delete m_CollisionShape;
 	delete m_MotionState;
+
+	// debug
+	CMPNT_DESTROYED
 }
 
 void PhysicsComponent::Serialize(ISerializer*& serializer)
 {
-	CHROMA_INFO("Serializing Physics Component : {0}", m_UID.data);
-	serializer->StartObject("PhysicsComponent", m_UID);
+	CMPNT_SERIALIZE_BEGIN
 }
 
 

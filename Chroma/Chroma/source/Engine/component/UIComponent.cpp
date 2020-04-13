@@ -4,19 +4,18 @@
 
 void UIComponent::Init()
 {
-	CHROMA_TRACE("UI Component : {0} Initialized.", m_UID.data);
+	CMPNT_INITIALIZED
 }
 
 
 void UIComponent::Destroy()
 {
-	CHROMA_TRACE("UI Component : {0} Destroyed.", m_UID.data);
+	CMPNT_DESTROYED
 }
 
 void UIComponent::Serialize(ISerializer*& serializer)
 {
-	CHROMA_INFO("Serializing UI Component : {0}", m_UID.data);
-	serializer->StartObject("UIComponent", m_UID);
+	CMPNT_SERIALIZE_BEGIN
 }
 
 UIComponent::UIComponent()

@@ -9,6 +9,9 @@ class CharacterPhysicsComponent : public PhysicsComponent
 public:
 	CharacterPhysicsComponent() {};
 	~CharacterPhysicsComponent() {};
+protected:
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kCharacterPhysicsComponent };
 };
 
 #endif //CHROMA_CHARACTER_PHYSICS_COMPONENT_H

@@ -7,12 +7,16 @@ void StateMachineComponent::Init()
 
 void StateMachineComponent::Update()
 {
+	CMPNT_INITIALIZED
 }
 
 void StateMachineComponent::Destroy()
 {
+	CMPNT_DESTROYED
 }
 
 void StateMachineComponent::Serialize(ISerializer*& serializer)
 {
+	CMPNT_SERIALIZE_BEGIN
+
 }

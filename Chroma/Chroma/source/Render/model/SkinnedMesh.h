@@ -21,8 +21,6 @@ public:
 	
 	Skeleton* GetSkeleton() { return &m_Skeleton; };
 
-	std::string GetTypeString() const override { return "SkinnedMeshComponent"; }
-
 	// Functions
 	void SetJointUniforms(Shader& skinnedShader) override;
 

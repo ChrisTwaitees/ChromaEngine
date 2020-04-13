@@ -6,6 +6,11 @@ namespace Chroma
 	// locals
 	std::vector<void(*)() > UI::m_UICalls;
 
+	// FileBrowser
+	std::string UI::m_FileBrowserKey;
+	std::string UI::m_FilePathName;
+	std::string UI::m_FileDirectory;
+
 	void UI::Init()
 	{
 		// Setup Dear ImGui context
@@ -32,6 +37,10 @@ namespace Chroma
 		ImGui_ImplGlfw_InitForOpenGL(Chroma::Screen::GetWindow(), true);
 		ImGui_ImplOpenGL3_Init("#version 330");
 
+		// Filebrowser
+		m_FileBrowserKey = "ChromaFileBrowserKey";
+		ImGuiFileDialog::Instance()->SetFilterColor(".json", ImVec4(1, 1, 0, 0.5));
+
 	}
 
 	void UI::Draw()
@@ -48,6 +57,28 @@ namespace Chroma
 		m_UICalls.push_back(UICall);
 	}
 
+
+	void UI::OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters)
+	{
+		ImGuiFileDialog::Instance()->OpenDialog(m_FileBrowserKey, fileBrowserName.c_str(), fileFilters, ".");
+	}
+
+	void UI::DrawFileBrowser()
+	{
+		if (ImGuiFileDialog::Instance()->FileDialog(m_FileBrowserKey))
+		{
+			// action if OK
+			if (ImGuiFileDialog::Instance()->IsOk == true)
+			{
+				m_FilePathName = ImGuiFileDialog::Instance()->GetFilepathName();
+				m_FileDirectory = ImGuiFileDialog::Instance()->GetCurrentPath();
+				// action
+				CHROMA_INFO("File selected : {} \nAt Directory : {}", m_FilePathName, m_FileDirectory);
+			}
+			// close
+			ImGuiFileDialog::Instance()->CloseDialog(m_FileBrowserKey);
+		}
+	}
 
 	void UI::Start()
 	{

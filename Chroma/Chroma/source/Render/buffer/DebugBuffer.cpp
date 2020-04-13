@@ -109,6 +109,9 @@ void DebugBuffer::DrawOverlayShapes()
 	// coordinates
 	for (CoordinatesShape const& coordinate : m_OverlayCoordinates)
 		RenderCoordinate(coordinate);
+	// grids
+	for (GridShape const& grid : m_OverlayGrids)
+		RenderGrid(grid);
 
 }
 
@@ -129,6 +132,9 @@ void DebugBuffer::DrawDepthCulledShapes()
 	// coordinates
 	for (CoordinatesShape const& coordinate : m_Coordinates)
 		RenderCoordinate(coordinate);
+	// grids
+	for (GridShape const& grid : m_Grids)
+		RenderGrid(grid);
 }
 
 void DebugBuffer::RenderLine(LineShape const& line)
@@ -200,6 +206,17 @@ void DebugBuffer::RenderCoordinate(CoordinatesShape const& coordinate)
 	BindPointVAO();
 }
 
+void DebugBuffer::RenderGrid(GridShape const& grid)
+{
+	m_GridShader.Use();
+	m_GridShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+	m_GridShader.SetUniform("color", grid.color);
+	m_GridShader.SetUniform("model", grid.transform);
+	m_GridShader.SetUniform("size", grid.size);
+
+	BindPointVAO();
+}
+
 void DebugBuffer::BindPointVAO()
 {
 	glBindVertexArray(pointVAO);
@@ -207,6 +224,22 @@ void DebugBuffer::BindPointVAO()
 	glBindVertexArray(0);
 }
 
+
+void DebugBuffer::DrawGrid(float const& size, glm::vec3 const& color)
+{
+	GridShape newGrid;
+	newGrid.color = color;
+	newGrid.size = size;
+	m_Grids.push_back(newGrid);
+}
+
+void DebugBuffer::DrawOverlayGrid(float const& size, glm::vec3 const& color)
+{
+	GridShape newGrid;
+	newGrid.color = color;
+	newGrid.size = size;
+	m_Grids.push_back(newGrid);
+}
 
 void DebugBuffer::DrawCoordinates(const glm::mat4& transform, const float& size)
 {
@@ -369,6 +402,7 @@ void DebugBuffer::ClearColorAndDepth()
 	m_OverlayCrosses.clear();
 	m_OverlayJoints.clear();
 	m_OverlayCoordinates.clear();
+	m_OverlayGrids.clear();
 
 	// Depth culled buffer
 	m_Lines.clear();
@@ -376,6 +410,7 @@ void DebugBuffer::ClearColorAndDepth()
 	m_Boxes.clear();
 	m_Crosses.clear();
 	m_Coordinates.clear();
+	m_Grids.clear();
 }
 
 void DebugBuffer::Draw()

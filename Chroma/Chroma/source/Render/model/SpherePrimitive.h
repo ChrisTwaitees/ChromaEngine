@@ -17,8 +17,6 @@ public:
 	SpherePrimitive(float m_Radius = 1.0f, int sectorCount = 36, int stackCount = 18);
 	~SpherePrimitive() {}
 
-	std::string GetTypeString() const override { return "SpherePrimitiveComponent"; }
-
 	// getters/setters
 	float getRadius() const { return m_Radius; }
 	int getSectorCount() const { return sectorCount; }

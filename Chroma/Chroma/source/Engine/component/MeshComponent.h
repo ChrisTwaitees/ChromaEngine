@@ -18,8 +18,6 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
 
-	std::string GetTypeString() const override { return "MeshComponent"; }
-
 	// attrs
 	virtual void SetIsRenderable(bool const& check) { m_IsRenderable = check; };
 	inline bool& GetIsRenderable() { return m_IsRenderable; }
@@ -78,6 +76,9 @@ public:
 	virtual ~MeshComponent();
 
 protected:
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kMeshComponent };
+
 	// Transforms
 	glm::mat4 m_Transform{ glm::mat4(1.0f) };
 	glm::vec3 m_Translation{ glm::vec3(0.0f) };

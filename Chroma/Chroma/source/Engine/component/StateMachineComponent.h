@@ -15,14 +15,14 @@ public:
 	virtual void Update() override;
 	virtual void Destroy() override;
 	virtual void Serialize(ISerializer*& serializer) override;
-	virtual std::string GetTypeString() const { return "StateMachineComponent"; };
 
 	// funcs
 	virtual void ProcessConditions() {};
 
 protected:
 	// funcs
-
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kStateMachineComponent };
 };
 
 #endif

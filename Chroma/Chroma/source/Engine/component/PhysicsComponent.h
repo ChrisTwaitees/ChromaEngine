@@ -26,8 +26,6 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
 
-	std::string GetTypeString() const override { return "PhysicsComponent"; }
-
 	void BuildRigidBody();
 	void Transform(btTransform& transform);
 
@@ -68,6 +66,9 @@ public:
 	~PhysicsComponent();
 
 private:
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kPhysicsComponent };
+
 	// attrs
 	float m_Mass{ 0.0f };
 

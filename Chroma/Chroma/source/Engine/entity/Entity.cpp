@@ -224,19 +224,34 @@ void Entity::Rotate(float degrees, glm::vec3 rotationaxis)
 
 void Entity::Update()
 {
-	CHROMA_TRACE("Entity : {0} Updating.", m_UID.data);
+#ifdef EDITOR
+	CHROMA_TRACE("{0} Updating. UID : {0} Updating.", GetTypeName(),  m_UID.data);
+	RebuildTransform();
+#endif
 }
 
 void Entity::Destroy()
 {
-	CHROMA_TRACE("Entity : {0} Destroyed.", m_UID.data);
+	ENTITY_DESTROYED
 }
+
+void Entity::Serialize(ISerializer*& serializer)
+{
+	ENTITY_SERIALIZE_BEGIN
+
+	// Transforms
+	serializer->AddProperty("m_Translation", &m_Translation);
+	serializer->AddProperty("m_Rotation", &m_Rotation);
+	serializer->AddProperty("m_Scale", &m_Scale);
+
+}
+
 
 void Entity::Init()
 {
 	CalculateBBox();
 	CalculateCentroid();
-	CHROMA_TRACE("Entity : {0} Initialized.", m_UID.data);
+	ENTITY_INITIALIZED
 }
 
 void Entity::SetTransform(glm::mat4 const& newTransformMat)

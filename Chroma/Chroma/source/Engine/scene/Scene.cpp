@@ -132,12 +132,11 @@ namespace Chroma
 
 		m_AnimationComponentUIDs.erase(UID);
 		m_AnimatedEntityUIDs.erase(UID);
+		m_AnimConstraintComponentUIDs.erase(UID);
 
 		m_PhysicsComponentUIDs.erase(UID);
 
 		m_CharacterControllerUIDs.erase(UID);
-
-		m_StateMachineUIDs.erase(UID);
 
 		m_PhysicsComponentUIDs.erase(UID);
 
@@ -151,6 +150,9 @@ namespace Chroma
 		m_ForwardLitComponentUIDs.erase(UID);
 		m_LitComponentUIDs.erase(UID);
 		m_UnLitComponentUIDs.erase(UID);
+
+		// statemachine
+		m_StateMachineUIDs.erase(UID);
 
 		// lights
 		m_LightUIDs.erase(UID);

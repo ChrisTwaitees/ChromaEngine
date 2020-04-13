@@ -13,7 +13,6 @@ public:
 
 	// Serialization
 	virtual void Serialize(ISerializer*& serializer);
-	virtual std::string GetTypeString() const;
 
 	// Effectors
 	void SetEffectorWorldPos(std::string const& constraintName, glm::vec3 const& worldPos);
@@ -28,6 +27,9 @@ public:
 	IKAnimConstraint() {};
 	~IKAnimConstraint() {};
 private:
+	// Serialization
+	Chroma::Type::Component m_Type{ Chroma::Type::Component::kIKAnimationConstraintComponent };
+
 	void SolveIK(IKConstraint const& ik);
 	glm::quat GetJointOrientationWS(unsigned int const& jointID);
 
