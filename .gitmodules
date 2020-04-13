@@ -1,3 +1,6 @@
 [submodule "Chroma/thirdparty/include/imgui"]
 	path = Chroma/thirdparty/include/imgui
 	url = https://github.com/ocornut/imgui
+[submodule "Chroma\\thirdparty\\include\\ImGuiFileDialog"]
+	path = Chroma\\thirdparty\\include\\ImGuiFileDialog
+	url = https://github.com/aiekick/ImGuiFileDialog
