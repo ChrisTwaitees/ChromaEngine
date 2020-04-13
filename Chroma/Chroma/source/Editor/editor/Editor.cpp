@@ -208,7 +208,7 @@ namespace Chroma
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 2.0f);
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->setDiffuse(glm::vec3(1.0));
 		Sun->setIntensity(3.0);
 		Lights.push_back(Sun);
@@ -222,7 +222,14 @@ namespace Chroma
 		HumanEntity->SetName("Human Model");
 		Chroma::Scene::AddEntity(HumanEntity);
 		HumanEntity->SetScale(glm::vec3(40.0f));
-		HumanEntity->SetTranslation(glm::vec3(0, 0, 0));
+		HumanEntity->SetTranslation(glm::vec3(-6.8, 0, 0));
+
+
+		IEntity* LookDevEntity = new Entity;
+		LookDevEntity->SetName("LookDev Sphere");
+		Chroma::Scene::AddEntity(LookDevEntity);
+		LookDevEntity->SetScale(glm::vec3(0.7f));
+		LookDevEntity->SetTranslation(glm::vec3(6.2, 7.1, 0));
 
 		// ____________________________________________________
 		// SHADERS
@@ -254,11 +261,19 @@ namespace Chroma
 		Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
 		headTranslucency.type = Texture::TRANSLUCENCY;
 
+		// Lookdev Sphere
+		Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
+		lookDevAlbedo.type = Texture::ALBEDO;
+		Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
+		lookDevNormal.type = Texture::NORMAL;
+		Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
+		lookDevMetRoughAO.type = Texture::METROUGHAO;
+
 		// ____________________________________________________
 		// MODELS
 		// ____________________________________________________
 
-		// Head
+		// HEAD		
 		MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");
 		HeadMeshComponent->SetShader(PBRShader);
 		HeadMeshComponent->AddTexture(headAlbedo);
@@ -267,13 +282,6 @@ namespace Chroma
 		HeadMeshComponent->AddTexture(headTranslucency);
 		HumanEntity->AddComponent(HeadMeshComponent);
 
-		// Head Physics
-		PhysicsComponent* HeadPhysicsComponent = new PhysicsComponent();
-		HeadPhysicsComponent->SetColliderShape(Box);
-		HeadPhysicsComponent->SetCollisionState(Kinematic);
-		HumanEntity->AddComponent(HeadPhysicsComponent);
-
-
 		// Eyelashes 
 		MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
 		HumanEntity->AddComponent(EyelashesMeshComponent);
@@ -281,6 +289,28 @@ namespace Chroma
 		// Eyebrows
 		MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
 		HumanEntity->AddComponent(EyebrowsMeshComponent);
+
+		// Head Physics
+		PhysicsComponent* HeadPhysicsComponent = new PhysicsComponent();
+		HeadPhysicsComponent->SetColliderShape(Box);
+		HeadPhysicsComponent->SetCollisionState(Kinematic);
+		HumanEntity->AddComponent(HeadPhysicsComponent);
+
+		// LOOKDEVSPHERE
+		MeshComponent* lookDevMeshComponent = new Model("resources/lookdev/sphere.obj");
+		lookDevMeshComponent->SetShader(PBRShader);
+		lookDevMeshComponent->AddTexture(lookDevAlbedo);
+		lookDevMeshComponent->AddTexture(lookDevNormal);
+		lookDevMeshComponent->AddTexture(lookDevMetRoughAO);
+		LookDevEntity->AddComponent(lookDevMeshComponent);
+
+		// LookDev Physics
+		PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
+		LookDevPhysicsComponent->SetColliderShape(Box);
+		LookDevPhysicsComponent->SetCollisionState(Kinematic);
+		LookDevEntity->AddComponent(LookDevPhysicsComponent);
+
+
 	}
 
 	void Editor::PopulateTestScene3()
