@@ -4,3 +4,6 @@
 [submodule "Chroma\\thirdparty\\include\\ImGuiFileDialog"]
 	path = Chroma\\thirdparty\\include\\ImGuiFileDialog
 	url = https://github.com/aiekick/ImGuiFileDialog
+[submodule "Chroma\\thirdparty\\include\\dirent"]
+	path = Chroma\\thirdparty\\include\\dirent
+	url = https://github.com/tronkko/dirent
