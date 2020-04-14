@@ -12,7 +12,10 @@ public:
 	void AddNewEntity(ISerializer*& serialized);
 	void AddNewComponent(ISerializer*& serialized);
 
-
+	rapidjson::Value& GetRoot();
+	rapidjson::Value& GetLevel();
+	rapidjson::Value& GetEntities();
+	rapidjson::Value& GetComponents();
 
 	JSONScene();
 	~JSONScene() {};
