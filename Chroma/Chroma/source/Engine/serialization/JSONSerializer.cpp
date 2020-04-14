@@ -1,10 +1,16 @@
 #include "JSONSerializer.h"
 
 
-
-void JSONSerializer::StartObject(const char* objectName, UID const& uid)
+void JSONSerializer::StartObject(const Chroma::Type::Component& componentType, const UID& uid)
 {
-	CHROMA_TRACE("STARTING OBJECT : {0} with UID : {1}", objectName, uid.data);
+	m_ComponentType = componentType;
+	m_UID = uid;
+}
+
+void JSONSerializer::StartObject(const Chroma::Type::Entity& entityType, const UID& uid)
+{
+	m_EntityType = entityType;
+	m_UID = uid;
 }
 
 const char* JSONSerializer::ToString()

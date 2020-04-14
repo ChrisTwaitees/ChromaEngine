@@ -61,7 +61,7 @@ protected:
 
 
 #ifdef DEBUG
-#define CMPNT_SERIALIZE_BEGIN CHROMA_INFO("Serializing : {} , UID : {}", GetTypeName(), m_UID.data); serializer->StartObject(GetTypeName().c_str(), m_UID);
+#define CMPNT_SERIALIZE_BEGIN CHROMA_INFO("Serializing : {} , UID : {}", GetTypeName(), m_UID.data); serializer->StartObject(GetType(), m_UID);
 #define CMPNT_DESTROYED CHROMA_INFO("{} Destroyed. UID : {}", GetTypeName(), m_UID.data );
 #define CMPNT_INITIALIZED CHROMA_INFO("{} Intialized. UID : {}", GetTypeName(), m_UID.data );
 #else

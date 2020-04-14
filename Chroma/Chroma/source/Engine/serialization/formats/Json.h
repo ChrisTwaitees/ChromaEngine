@@ -21,6 +21,7 @@ public:
 	JSON(const JSON&) {};
 	JSON& operator=(const JSON&) {};
 	JSON( const char* sourcePath, bool isFile=true);
+	JSON() {};
 	~JSON() {};
 
 	bool HasKey(const char* keyString);
@@ -36,7 +37,7 @@ public:
 
 	friend std::ostream& operator<<(std::ostream& out, JSON& refJson);
 
-private:
+protected:
 	rapidjson::Document m_Document;
 	const char* m_SourcePath;
 	void Load(const char* sourcePath);

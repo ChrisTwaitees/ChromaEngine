@@ -2,7 +2,9 @@
 #define _CHROMA_SCENE_MANAGER_H_
 
 #include <scene/Scene.h>
-#include <memory>
+#include <serialization/scene/JSONScene.h>
+
+
 
 namespace Chroma
 {
@@ -15,9 +17,13 @@ namespace Chroma
 		static void LoadScene(const char* destinationScenePath);
 
 	private:
+		static void SerializeComponentToJSON(ISerializer*& serialized, JSONScene& json);
+		static void SerializeEntityToJson(ISerializer*& serialized, JSONScene& json);
+
 		static void ClearScene();
 	};
 
 }
+
 
 #endif

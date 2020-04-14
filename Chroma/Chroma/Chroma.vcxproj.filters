@@ -193,6 +193,9 @@
     <Filter Include="Engine\types">
       <UniqueIdentifier>{baf5ac2f-9ac3-44c5-bd72-a5bee3e90605}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\serialization\scene">
+      <UniqueIdentifier>{10a0562f-8bd7-4cd4-b8b4-98e43de77968}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -455,6 +458,10 @@
     </ClCompile>
     <ClCompile Include="source\Engine\types\Types.cpp">
       <Filter>Engine\types</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\serialization\ISerializer.cpp" />
+    <ClCompile Include="source\Engine\serialization\scene\JSONScene.cpp">
+      <Filter>Engine\serialization\scene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -739,6 +746,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\types\Types.h">
       <Filter>Engine\types</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\serialization\scene\JSONScene.h">
+      <Filter>Engine\serialization\scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

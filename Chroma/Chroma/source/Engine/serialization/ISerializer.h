@@ -15,8 +15,17 @@ struct Serialization
 class ISerializer
 {
 public:
-	virtual void StartObject(const char* objectName, UID const& uid) = 0;
+	virtual void StartObject(const Chroma::Type::Component& componentType, const UID& uid) = 0;
+	virtual void StartObject(const Chroma::Type::Entity& entityType, const UID& uid) = 0;
 
+	// TYPES
+	Chroma::Type::Component m_ComponentType{ Chroma::Type::Component::kIComponent };
+	Chroma::Type::Entity m_EntityType{ Chroma::Type::Entity::kIEntity };
+
+	// UID
+	UID m_UID;
+
+	// PROPERTIES
 	template<typename PropertyType>
 	void AddProperty(const char* key, PropertyType value)
 	{
@@ -97,12 +106,9 @@ public:
 
 	virtual const char* ToString() = 0;
 
-	ISerializer() {};
-	virtual ~ISerializer() {};
 
 	std::map<const char*, float*> m_FloatProperties;
 	std::map<const char*, glm::vec3*> m_Vec3Properties;
-private:
 
 	std::map<const char*, const char*> m_CharProperties;
 	std::map<const char*, std::string> m_StringProperties;
@@ -117,6 +123,10 @@ private:
 	std::map<const char*, glm::quat> m_QuatProperties;
 	std::map<const char*, glm::mat3> m_Mat3Properties;
 	std::map<const char*, glm::mat4> m_Mat4Properties;
+
+	ISerializer() {};
+	virtual ~ISerializer() {};
+private:
 
 };
 

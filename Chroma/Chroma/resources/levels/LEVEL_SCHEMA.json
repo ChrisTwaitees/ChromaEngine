@@ -1,0 +1,28 @@
+
+{"Root" : 
+	{
+		"Level" :
+		{
+			"Name" : "TestLevel",
+			"Entities" : 
+			{
+				"jaoisd984937" : 
+				{
+					"m_Translation" : [1 ,1, 1]
+				}
+			},
+
+			"Components" :
+			{
+				"kMeshComponents" : 
+				{
+					"oij09rlsdkjaf0" :
+					{
+						"m_Translation" : [1021, 1045 , 4645]
+					}
+
+				}
+			}	
+		}
+	}
+}

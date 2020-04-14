@@ -272,6 +272,11 @@ namespace Chroma
 	{
 		ImGui::Begin("Content Browser");
 
+		if (ImGui::Button("SaveScene"))
+		{
+			Chroma::SceneManager::SaveScene("resources/levels/testSaveScene.json");
+		}
+
 		ImGui::InputText("Load Scene Path: ", m_SceneName, IM_ARRAYSIZE(m_SceneName));
 		// Debug
 		if (ImGui::Button("Load Scene"))

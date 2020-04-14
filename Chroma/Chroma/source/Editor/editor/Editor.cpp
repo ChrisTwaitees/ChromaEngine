@@ -261,13 +261,13 @@ namespace Chroma
 		Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
 		headTranslucency.type = Texture::TRANSLUCENCY;
 
-		// Lookdev Sphere
-		Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-		lookDevAlbedo.type = Texture::ALBEDO;
-		Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
-		lookDevNormal.type = Texture::NORMAL;
-		Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-		lookDevMetRoughAO.type = Texture::METROUGHAO;
+		//// Lookdev Sphere
+		//Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
+		//lookDevAlbedo.type = Texture::ALBEDO;
+		//Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
+		//lookDevNormal.type = Texture::NORMAL;
+		//Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
+		//lookDevMetRoughAO.type = Texture::METROUGHAO;
 
 		// ____________________________________________________
 		// MODELS
@@ -297,18 +297,18 @@ namespace Chroma
 		HumanEntity->AddComponent(HeadPhysicsComponent);
 
 		// LOOKDEVSPHERE
-		MeshComponent* lookDevMeshComponent = new Model("resources/lookdev/sphere.obj");
-		lookDevMeshComponent->SetShader(PBRShader);
-		lookDevMeshComponent->AddTexture(lookDevAlbedo);
-		lookDevMeshComponent->AddTexture(lookDevNormal);
-		lookDevMeshComponent->AddTexture(lookDevMetRoughAO);
-		LookDevEntity->AddComponent(lookDevMeshComponent);
+		//MeshComponent* lookDevMeshComponent = new Model("resources/lookdev/sphere.obj");
+		//lookDevMeshComponent->SetShader(PBRShader);
+		////lookDevMeshComponent->AddTexture(lookDevAlbedo);
+		////lookDevMeshComponent->AddTexture(lookDevNormal);
+		////lookDevMeshComponent->AddTexture(flatNormal);
+		//LookDevEntity->AddComponent(lookDevMeshComponent);
 
-		// LookDev Physics
-		PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
-		LookDevPhysicsComponent->SetColliderShape(Box);
-		LookDevPhysicsComponent->SetCollisionState(Kinematic);
-		LookDevEntity->AddComponent(LookDevPhysicsComponent);
+		//// LookDev Physics
+		//PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
+		//LookDevPhysicsComponent->SetColliderShape(Box);
+		//LookDevPhysicsComponent->SetCollisionState(Kinematic);
+		//LookDevEntity->AddComponent(LookDevPhysicsComponent);
 
 
 	}

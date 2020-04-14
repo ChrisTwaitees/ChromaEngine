@@ -23,9 +23,6 @@ int main()
 
 	Chroma::Scene::PostSceneBuild();
 
-	// TEST 
-	Chroma::SceneManager::SaveScene("resources/levels/testSave.json");
-
 	// RENDER LOOP
 	// -----------
 
