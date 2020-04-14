@@ -17,8 +17,6 @@ namespace Chroma
 		static void LoadScene(const char* destinationScenePath);
 
 	private:
-		static void SerializeComponentToJSON(ISerializer*& serialized, JSONScene& json);
-		static void SerializeEntityToJson(ISerializer*& serialized, JSONScene& json);
 
 		static void ClearScene();
 	};

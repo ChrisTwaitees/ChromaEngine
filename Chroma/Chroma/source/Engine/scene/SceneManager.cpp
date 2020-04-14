@@ -17,7 +17,7 @@ namespace Chroma
 		{
 			ISerializer* serializer = FactorySerializer::GetSerializer(Serialization::FORMAT::JSON);
 			uidentity.second->Serialize(serializer);
-			SerializeEntityToJson(serializer, SceneJSON);
+			SceneJSON.AddNewEntity(serializer);
 		}
 
 		// Serializing Components
@@ -25,7 +25,7 @@ namespace Chroma
 		{
 			ISerializer* serializer = FactorySerializer::GetSerializer(Serialization::FORMAT::JSON);
 			uidcomponent.second->Serialize(serializer);
-			SerializeComponentToJSON(serializer, SceneJSON);
+			SceneJSON.AddNewComponent(serializer);
 		}
 
 		// Write JSON
@@ -44,39 +44,8 @@ namespace Chroma
 	}
 
 
-	void SceneManager::SerializeComponentToJSON(ISerializer*& serialized, JSONScene& json)
-	{
-		json.AddNewComponent(serialized->m_UID);
 
-		switch (serialized->m_ComponentType)
-		{
-		case(Chroma::Type::Component::kIComponent):
-		{
-			break;
-		}
-		case(Chroma::Type::Component::kMeshComponent):
-		{
-			break;
-		}
-		}
-	}
 
-	void SceneManager::SerializeEntityToJson(ISerializer*& serialized, JSONScene& json)
-	{
-		switch (serialized->m_EntityType)
-		{
-		case(Chroma::Type::Entity::kEntity):
-		{
-			json.AddNewEntity(serialized->m_UID);
-			break;
-		}
-		case(Chroma::Type::Entity::kIEntity):
-		{
-			json.AddNewEntity(serialized->m_UID);
-			break;
-		}
-		}
-	}
 
 	void SceneManager::ClearScene()
 	{

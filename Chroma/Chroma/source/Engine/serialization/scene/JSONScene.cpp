@@ -1,19 +1,17 @@
 #include "JSONScene.h"
 
-void JSONScene::AddNewEntity(const UID& uid)
+void JSONScene::AddNewEntity(ISerializer*& serialized)
 {
 	rapidjson::Value newEntity(rapidjson::kObjectType);
-	std::string uidKey(uid.data);
 
-	m_Document[CHROMA_ROOT][CHROMA_LEVEL][CHROMA_ENTITIES].AddMember("TestEntity", newEntity, m_Document.GetAllocator());
+	m_Document[CHROMA_ROOT][CHROMA_LEVEL][CHROMA_ENTITIES][Chroma::Type::GetName(serialized->m_EntityType).c_str()].AddMember("TestEntity", newEntity, m_Document.GetAllocator());
 }
 
-void JSONScene::AddNewComponent(const UID& uid)
+void JSONScene::AddNewComponent(ISerializer*& serialized)
 {
 	rapidjson::Value newComponent(rapidjson::kObjectType);
-	std::string uidKey(uid.data);
 
-	m_Document[CHROMA_ROOT][CHROMA_LEVEL][CHROMA_COMPONENTS].AddMember("TestComponent", newComponent, m_Document.GetAllocator());
+	m_Document[CHROMA_ROOT][CHROMA_LEVEL][CHROMA_COMPONENTS][Chroma::Type::GetName(serialized->m_ComponentType).c_str()].AddMember("TestComponent", newComponent, m_Document.GetAllocator());
 
 }
 

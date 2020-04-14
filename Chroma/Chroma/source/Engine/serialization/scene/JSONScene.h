@@ -3,14 +3,14 @@
 
 #include <serialization/formats/Json.h>
 #include <common/PrecompiledHeader.h>
-#include <uid/UID.h>
+#include <serialization/ISerializer.h>
 
 class JSONScene : public JSON
 {
 public:
 
-	void AddNewEntity(const UID& uid);
-	void AddNewComponent(const UID& uid);
+	void AddNewEntity(ISerializer*& serialized);
+	void AddNewComponent(ISerializer*& serialized);
 
 
 
