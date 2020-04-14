@@ -27,9 +27,9 @@ private:
 	rapidjson::Value m_ComponentsObject{ rapidjson::kObjectType };
 };
 
-#define CHROMA_ROOT "Root"
-#define CHROMA_LEVEL "Level"
-#define CHROMA_ENTITIES "Entities"
-#define CHROMA_COMPONENTS "Components"
+#define CHROMA_ROOT        "Root"
+#define CHROMA_LEVEL       "Level"
+#define CHROMA_ENTITIES    "Entities"
+#define CHROMA_COMPONENTS  "Components"
 
 #endif
