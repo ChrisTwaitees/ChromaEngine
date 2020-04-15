@@ -19,7 +19,8 @@ namespace Chroma
 			kPhysicsComponent = 7, 
 			kMeshComponent = 8,
 			kUIComponent = 9,
-			kLightComponent = 10
+			kLightComponent = 10,
+			kModelComponent = 11
 
 		};
 

@@ -8,6 +8,8 @@ void JSONScene::AddNewEntity(ISerializer*& serialized)
 	rapidjson::Value entityTypeName(entityType.c_str(), m_Document.GetAllocator());
 	// Get UID
 	std::string uidKey = serialized->m_UID.data;
+	// Serialize Entity
+	SerializeEntity(serialized, newEntity);
 
 	// Check if entity type already created
 	rapidjson::Value::ConstMemberIterator itr = GetEntities().FindMember(entityTypeName);
@@ -31,6 +33,8 @@ void JSONScene::AddNewComponent(ISerializer*& serialized)
 	rapidjson::Value componentTypeName(componentType.c_str(), m_Document.GetAllocator());
 	// Get UID
 	std::string uidKey = serialized->m_UID.data;
+	// Serialize Component
+	SerializeComponent(serialized, newComponent);
 
 	// Check if entity type already created
 	rapidjson::Value::ConstMemberIterator itr = GetComponents().FindMember(componentTypeName);
@@ -86,5 +90,52 @@ JSONScene::JSONScene()
 	// add root to Document
 	m_Document.AddMember(CHROMA_ROOT, m_RootObject, m_Document.GetAllocator());
 
+}
+
+rapidjson::Value& JSONScene::SerializeEntity(ISerializer*& serialized, rapidjson::Value& jsonValue)
+{
+	// String Properties
+	for (std::pair<const char*, std::string*>&& str : serialized->m_StringProperties)
+	{
+		rapidjson::Value stringKey(str.first, m_Document.GetAllocator());
+		rapidjson::Value stringValue(str.second->c_str(), m_Document.GetAllocator());
+		jsonValue.AddMember(stringKey, stringValue, m_Document.GetAllocator());
+	}
+
+	// Vec3 Properties
+	for (std::pair<const char*, glm::vec3*>&& vec3 : serialized->m_Vec3Properties)
+	{
+		rapidjson::Value vec3Key(vec3.first, m_Document.GetAllocator());
+		rapidjson::Value vec3Value(rapidjson::kArrayType);
+		vec3Value.PushBack(vec3.second->x, m_Document.GetAllocator());
+		vec3Value.PushBack(vec3.second->y, m_Document.GetAllocator());
+		vec3Value.PushBack(vec3.second->z, m_Document.GetAllocator());
+		jsonValue.AddMember(vec3Key, vec3Value, m_Document.GetAllocator());
+	}
+
+	return jsonValue;
+}
+
+rapidjson::Value& JSONScene::SerializeComponent(ISerializer*& serialized, rapidjson::Value& jsonValue)
+{
+	for (std::pair<const char*, std::string*>&& str : serialized->m_StringProperties)
+	{
+		rapidjson::Value stringKey(str.first, m_Document.GetAllocator());
+		rapidjson::Value stringValue(str.second->c_str(), m_Document.GetAllocator());
+		jsonValue.AddMember(stringKey, stringValue, m_Document.GetAllocator());
+	}
+
+	// Vec3 Properties
+	for (std::pair<const char*, glm::vec3*>&& vec3 : serialized->m_Vec3Properties)
+	{
+		rapidjson::Value vec3Key(vec3.first, m_Document.GetAllocator());
+		rapidjson::Value vec3Value(rapidjson::kArrayType);
+		vec3Value.PushBack(vec3.second->x, m_Document.GetAllocator());
+		vec3Value.PushBack(vec3.second->y, m_Document.GetAllocator());
+		vec3Value.PushBack(vec3.second->z, m_Document.GetAllocator());
+		jsonValue.AddMember(vec3Key, vec3Value, m_Document.GetAllocator());
+	}
+
+	return jsonValue;
 }
 

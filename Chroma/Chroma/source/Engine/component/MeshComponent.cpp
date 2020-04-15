@@ -42,9 +42,13 @@ void MeshComponent::Serialize(ISerializer*& serializer)
 	CMPNT_SERIALIZE_BEGIN
 
 	// Properties
+	// Transform
 	serializer->AddProperty("m_Translation", &m_Translation);
 	serializer->AddProperty("m_Rotation", &m_Rotation);
 	serializer->AddProperty("m_Scale", &m_Scale);
+
+	// File Properties
+	serializer->AddProperty("m_SourcePath", &m_SourcePath);
 }
 
 void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)

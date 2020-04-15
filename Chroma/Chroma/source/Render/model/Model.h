@@ -15,6 +15,9 @@ public:
 	virtual void Init() override;
 	void Destroy() override;
 
+	// Serialization
+	virtual void Serialize(ISerializer*& serializer) override;
+
 	// Draw
 	void Draw(Shader& shader) override;
 	void Draw(Camera& RenderCamera) override;

@@ -17,7 +17,6 @@ public:
 	void Update() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
-	Chroma::Type::Component GetType() override { return m_Type; };
 
 	// attrs
 	virtual void SetIsRenderable(bool const& check) { m_IsRenderable = check; };
@@ -59,6 +58,9 @@ public:
 	virtual void SetTextures(std::vector<Texture> textures_val) = 0;
 	virtual void AddTexture(Texture texture_val) = 0;
 
+	virtual std::string& GetSourcePath() { return m_SourcePath; }
+	virtual void SetSourcePath(const std::string& newSourcePath) { m_SourcePath = newSourcePath; }
+
 	// Draw
 	virtual void Draw(Shader& shader) = 0;
 	virtual void Draw(Camera& RenderCamera) = 0;
@@ -77,6 +79,8 @@ public:
 	virtual ~MeshComponent();
 
 protected:
+	// Resources
+	std::string m_SourcePath{ "" };
 	// Transforms
 	glm::mat4 m_Transform{ glm::mat4(1.0f) };
 	glm::vec3 m_Translation{ glm::vec3(0.0f) };

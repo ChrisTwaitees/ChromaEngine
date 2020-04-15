@@ -454,6 +454,23 @@ namespace Chroma
 			
 		}
 
+		// Quat Properties
+		ImGui::Separator();
+		ImGui::Text("Quat");
+		for (std::pair<const char*, glm::quat*> quatProperty : objectSerializer->m_QuatProperties)
+		{
+			std::string x = ".x";
+			std::string y = ".y";
+			std::string z = ".z";
+			std::string w = ".w";
+			ImGui::SliderFloat((quatProperty.first + x).c_str(), &quatProperty.second->x, -10.0, 10.0);
+			ImGui::SliderFloat((quatProperty.first + y).c_str(), &quatProperty.second->y, -10.0, 10.0);
+			ImGui::SliderFloat((quatProperty.first + z).c_str(), &quatProperty.second->z, -10.0, 10.0);
+			ImGui::SliderFloat((quatProperty.first + w).c_str(), &quatProperty.second->w, -10.0, 10.0);
+			ImGui::Separator();
+
+		}
+
 
 		delete objectSerializer;
 		

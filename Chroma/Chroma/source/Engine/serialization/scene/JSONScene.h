@@ -25,6 +25,9 @@ private:
 	rapidjson::Value m_LevelObject{ rapidjson::kObjectType };
 	rapidjson::Value m_EntitiesObject{ rapidjson::kObjectType };
 	rapidjson::Value m_ComponentsObject{ rapidjson::kObjectType };
+
+	rapidjson::Value& SerializeEntity(ISerializer*& serialized, rapidjson::Value& jsonValue);
+	rapidjson::Value& SerializeComponent(ISerializer*& serialized, rapidjson::Value& jsonValue);
 };
 
 #define CHROMA_ROOT        "Root"

@@ -150,6 +150,7 @@ void Model::CalculateCentroid()
 // LOADING
 void Model::LoadModel(std::string path)
 {
+	m_SourcePath = path;
 
 	for (MeshData& meshData : Chroma::ResourceManager::LoadModels(path))
 	{
@@ -157,12 +158,14 @@ void Model::LoadModel(std::string path)
 		{
 			m_IsSkinned = true;
 			SkinnedMesh* newSkinnedMesh = new SkinnedMesh(meshData);
+			newSkinnedMesh->SetSourcePath(path);
 			Chroma::Scene::AddMeshComponent(newSkinnedMesh);
 			m_MeshUIDs.push_back(newSkinnedMesh->GetUID());
 		}
 		else
 		{
 			StaticMesh* newStaticMesh = new StaticMesh(meshData);
+			newStaticMesh->SetSourcePath(path);
 			Chroma::Scene::AddMeshComponent(newStaticMesh);
 			m_MeshUIDs.push_back(newStaticMesh->GetUID());
 		}
@@ -177,12 +180,15 @@ void Model::Init()
 	{
 		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetParentEntityUID(GetParentEntityUID());
 	}
+
+	// set component type
+	m_Type = Chroma::Type::Component::kModelComponent;
+
+	CMPNT_INITIALIZED
 }
 
 void Model::Destroy()
 {
-	CHROMA_INFO("Destroying Model");
-
 	// textures
 	for (Texture& texture : m_Textures)
 	{
@@ -192,6 +198,52 @@ void Model::Destroy()
 
 	// verts
 	m_IsSkinned ? m_SkinnedVertices.clear() : m_vertices.clear();
+
+	CMPNT_DESTROYED
+}
+
+void Model::Serialize(ISerializer*& serializer)
+{
+	CMPNT_SERIALIZE_BEGIN
+
+	// Properties
+	// Transform
+	serializer->AddProperty("m_Translation", &m_Translation);
+	serializer->AddProperty("m_Rotation", &m_Rotation);
+	serializer->AddProperty("m_Scale", &m_Scale);
+
+	// File Properties
+	serializer->AddProperty("m_SourcePath", &m_SourcePath);
+
+	// Textures
+	for (Texture& texture : m_Textures)
+	{
+		switch (texture.type)
+		{
+		case(Texture::ALBEDO):
+		{
+			serializer->AddProperty("Texture_ALBEDO", texture.GetSourcePath());
+			break;
+		}
+		case(Texture::NORMAL):
+		{
+			serializer->AddProperty("Texture_NORMAL", texture.GetSourcePath());
+			break;
+		}
+		case(Texture::METROUGHAO):
+		{
+			serializer->AddProperty("Texture_METROUGHAO", texture.GetSourcePath());
+			break;
+		}
+		case(Texture::TRANSLUCENCY):
+		{
+			serializer->AddProperty("Texture_TRANSLUCENCY", texture.GetSourcePath());
+			break;
+		}
+		}
+		
+
+	}
 }
 
 

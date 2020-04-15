@@ -38,6 +38,7 @@ void AnimationComponent::Serialize(ISerializer*& serializer)
 {
 	CMPNT_SERIALIZE_BEGIN
 
+
 	serializer->AddProperty("Skeleton", "testSkeleton");
 }
 

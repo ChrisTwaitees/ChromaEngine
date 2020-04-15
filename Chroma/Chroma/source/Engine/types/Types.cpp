@@ -54,6 +54,11 @@ std::string Chroma::Type::GetName(Component componentEnum)
 		return "kLightComponent";
 		break;
 	}
+	case(Component::kModelComponent):
+	{
+		return "kModelComponent";
+		break;
+	}
 	default:
 	{
 		CHROMA_ERROR("Unsupported Component Type!");
