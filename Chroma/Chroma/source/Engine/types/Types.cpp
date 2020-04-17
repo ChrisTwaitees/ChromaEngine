@@ -59,6 +59,16 @@ std::string Chroma::Type::GetName(Component componentEnum)
 		return "kModelComponent";
 		break;
 	}
+	case(Component::kStaticMeshComponent):
+	{
+		return "kStaticMeshComponent";
+		break;
+	}
+	case(Component::kSkinnedMeshComponent):
+	{
+		return "kSkinnedMeshComponent";
+		break;
+	}
 	default:
 	{
 		CHROMA_ERROR("Unsupported Component Type!");

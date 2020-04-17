@@ -12,6 +12,11 @@
 class StaticMesh : public MeshComponent
 {
 public:
+	// Component Functions
+	void Init() override;
+	void Destroy() override;
+	void Serialize(ISerializer*& serializer) override;
+
 	// Functions
 	virtual void Draw(Shader& shader) override;
 	virtual void Draw(Camera& RenderCamera) override;
@@ -19,7 +24,6 @@ public:
 	virtual void DrawUpdateMaterials(Shader& shader) override;
 	virtual void DrawUpdateTransforms(Camera& renderCam) override;
 	virtual void BindDrawVAO();
-	virtual void Destroy() override;
 
 	// Bindings
 	virtual void SetShader(Shader const& shader) override { m_shader = shader; } ;
@@ -49,7 +53,6 @@ protected:
 	unsigned int VAO{ 0 }, VBO{ 0 }, EBO{ 0 };
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<unsigned int> m_Indices;
-	std::vector<Texture> m_Textures;
 	// default shader
 	std::string fragShaderSource = "resources/shaders/fragPBR.glsl";
 	std::string vtxShaderSource = "resources/shaders/vertexLitShadowsNormals.glsl";

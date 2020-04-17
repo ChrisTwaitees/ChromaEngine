@@ -708,11 +708,11 @@ static int stbi__sse2_available(void)
 #ifdef STBI_NEON
 #include <arm_neon.h>
 // assume GCC or Clang on ARM targets
-#define STBI_SIMD_ALIGN(type, name) type name __attribute__((aligned(16)))
+#define STBI_SIMD_ALIGN(m_Type, name) m_Type name __attribute__((aligned(16)))
 #endif
 
 #ifndef STBI_SIMD_ALIGN
-#define STBI_SIMD_ALIGN(type, name) type name
+#define STBI_SIMD_ALIGN(m_Type, name) m_Type name
 #endif
 
 ///////////////////////////////////////////////
@@ -1044,7 +1044,7 @@ static void* stbi__load_main(stbi__context * s, int* x, int* y, int* comp, int r
 		return stbi__tga_load(s, x, y, comp, req_comp, ri);
 #endif
 
-	return stbi__errpuc("unknown image type", "Image not of any known type, or corrupt");
+	return stbi__errpuc("unknown image m_Type", "Image not of any known m_Type, or corrupt");
 }
 
 static stbi_uc* stbi__convert_16_to_8(stbi__uint16 * orig, int w, int h, int channels)
@@ -1328,7 +1328,7 @@ static float* stbi__loadf_main(stbi__context * s, int* x, int* y, int* comp, int
 	data = stbi__load_and_postprocess_8bit(s, x, y, comp, req_comp);
 	if (data)
 		return stbi__ldr_to_hdr(data, *x, *y, req_comp ? req_comp : *comp);
-	return stbi__errpf("unknown image type", "Image not of any known type, or corrupt");
+	return stbi__errpf("unknown image m_Type", "Image not of any known m_Type, or corrupt");
 }
 
 STBIDEF float* stbi_loadf_from_memory(stbi_uc const* buffer, int len, int* x, int* y, int* comp, int req_comp)
@@ -2935,7 +2935,7 @@ static int stbi__process_marker(stbi__jpeg * z, int m)
 			int q = stbi__get8(z->s);
 			int p = q >> 4, sixteen = (p != 0);
 			int t = q & 15, i;
-			if (p != 0 && p != 1) return stbi__err("bad DQT type", "Corrupt JPEG");
+			if (p != 0 && p != 1) return stbi__err("bad DQT m_Type", "Corrupt JPEG");
 			if (t > 3) return stbi__err("bad DQT table", "Corrupt JPEG");
 
 			for (i = 0; i < 64; ++i)
@@ -5015,7 +5015,7 @@ static int stbi__parse_png_file(stbi__png * z, int scan, int req_comp)
 				invalid_chunk[2] = STBI__BYTECAST(c.type >> 8);
 				invalid_chunk[3] = STBI__BYTECAST(c.type >> 0);
 #endif
-				return stbi__err(invalid_chunk, "PNG not supported: unknown PNG chunk type");
+				return stbi__err(invalid_chunk, "PNG not supported: unknown PNG chunk m_Type");
 			}
 			stbi__skip(s, c.length);
 			break;
@@ -5192,7 +5192,7 @@ static void* stbi__bmp_parse_header(stbi__context * s, stbi__bmp_data * info)
 	info->hsz = hsz = stbi__get32le(s);
 	info->mr = info->mg = info->mb = info->ma = 0;
 
-	if (hsz != 12 && hsz != 40 && hsz != 56 && hsz != 108 && hsz != 124) return stbi__errpuc("unknown BMP", "BMP type not supported: unknown");
+	if (hsz != 12 && hsz != 40 && hsz != 56 && hsz != 108 && hsz != 124) return stbi__errpuc("unknown BMP", "BMP m_Type not supported: unknown");
 	if (hsz == 12) {
 		s->img_x = stbi__get16le(s);
 		s->img_y = stbi__get16le(s);
@@ -5205,7 +5205,7 @@ static void* stbi__bmp_parse_header(stbi__context * s, stbi__bmp_data * info)
 	info->bpp = stbi__get16le(s);
 	if (hsz != 12) {
 		int compress = stbi__get32le(s);
-		if (compress == 1 || compress == 2) return stbi__errpuc("BMP RLE", "BMP type not supported: RLE");
+		if (compress == 1 || compress == 2) return stbi__errpuc("BMP RLE", "BMP m_Type not supported: RLE");
 		stbi__get32le(s); // discard sizeof
 		stbi__get32le(s); // discard hres
 		stbi__get32le(s); // discard vres
@@ -6156,7 +6156,7 @@ static stbi_uc * stbi__pic_load_core(stbi__context * s, int width, int height, i
 
 			switch (packet->type) {
 			default:
-				return stbi__errpuc("bad format", "packet has bad compression type");
+				return stbi__errpuc("bad format", "packet has bad compression m_Type");
 
 			case 0: {//uncompressed
 				int x;
@@ -6746,7 +6746,7 @@ static void* stbi__load_gif_main(stbi__context * s, int** delays, int* x, int* y
 		return out;
 	}
 	else {
-		return stbi__errpuc("not GIF", "Image was not as a gif type.");
+		return stbi__errpuc("not GIF", "Image was not as a gif m_Type.");
 	}
 }
 
@@ -7349,7 +7349,7 @@ static int stbi__info_main(stbi__context * s, int* x, int* y, int* comp)
 	if (stbi__tga_info(s, x, y, comp))
 		return 1;
 #endif
-	return stbi__err("unknown image type", "Image not of any known type, or corrupt");
+	return stbi__err("unknown image m_Type", "Image not of any known m_Type, or corrupt");
 }
 
 static int stbi__is_16_main(stbi__context * s)

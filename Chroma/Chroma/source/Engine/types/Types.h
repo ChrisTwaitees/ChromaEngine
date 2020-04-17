@@ -20,7 +20,9 @@ namespace Chroma
 			kMeshComponent = 8,
 			kUIComponent = 9,
 			kLightComponent = 10,
-			kModelComponent = 11
+			kModelComponent = 11,
+			kStaticMeshComponent = 12, 
+			kSkinnedMeshComponent = 13
 
 		};
 

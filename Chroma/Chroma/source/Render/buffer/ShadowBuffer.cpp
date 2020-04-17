@@ -38,7 +38,7 @@ void ShadowBuffer::Initialize()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// shadow map texture type
-	ShadowMapTexture.type = Texture::SHADOWMAP;
+	ShadowMapTexture.m_Type = Texture::SHADOWMAP;
 
 	// Attach shadowmap to all shadowcasting elements in scene
 	BindShadowMaps();

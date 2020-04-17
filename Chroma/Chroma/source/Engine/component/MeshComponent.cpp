@@ -20,6 +20,45 @@ void MeshComponent::RebuildTransform()
 	m_Transform = Chroma::Math::BuildMat4(m_Translation, m_Rotation, m_Scale);
 }
 
+void MeshComponent::SerializeTextures(ISerializer*& serializer)
+{
+	// Textures
+	for (Texture& texture : m_Textures)
+	{
+		switch (texture.m_Type)
+		{
+		case(Texture::ALBEDO):
+		{
+			serializer->AddProperty("Texture_ALBEDO", &texture.GetSourcePath());
+			break;
+		}
+		case(Texture::NORMAL):
+		{
+			serializer->AddProperty("Texture_NORMAL", &texture.GetSourcePath());
+			break;
+		}
+		case(Texture::METROUGHAO):
+		{
+			serializer->AddProperty("Texture_METROUGHAO", &texture.GetSourcePath());
+			break;
+		}
+		case(Texture::TRANSLUCENCY):
+		{
+			serializer->AddProperty("Texture_TRANSLUCENCY", &texture.GetSourcePath());
+			break;
+		}
+		}
+	}
+}
+
+void MeshComponent::DestroyTextures()
+{
+	for (Texture& texture : m_Textures)
+		texture.Destroy();
+
+	m_Textures.clear();
+}
+
 void MeshComponent::Init()
 {
 	// Set Type
@@ -49,6 +88,7 @@ void MeshComponent::Serialize(ISerializer*& serializer)
 
 	// File Properties
 	serializer->AddProperty("m_SourcePath", &m_SourcePath);
+
 }
 
 void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)

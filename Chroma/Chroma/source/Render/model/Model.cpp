@@ -8,43 +8,43 @@
 void Model::Draw(Shader& shader)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(shader);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(shader);
 }
 
 void Model::Draw(Camera& RenderCamera)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(RenderCamera);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(RenderCamera);
 }
 
 void Model::Draw(Shader& shader, Camera& RenderCamera)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(shader, RenderCamera);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(shader, RenderCamera);
 }
 
 void Model::DrawUpdateMaterials(Shader& shader)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(shader);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(shader);
 }
 
 void Model::DrawUpdateTransforms(Camera& renderCam)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(renderCam);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(renderCam);
 }
 
 Shader& Model::GetShader()
 {
 	for (UID const& uid : m_MeshUIDs)
-		return ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetShader();
+		return static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetShader();
 }
 
 void Model::SetShader(Shader const& shader)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetShader(shader);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetShader(shader);
 }
 
 std::vector<ChromaVertex> Model::GetVertices()
@@ -80,45 +80,45 @@ glm::vec3 Model::GetCentroid()
 void Model::SetIsLit(bool const& check)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetIsLit(check);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetIsLit(check);
 }
 
 void Model::SetIsForwardLit(bool const& check)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetIsForwardLit(check);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetIsForwardLit(check);
 }
 
 // TEXTURES
 void Model::AddTexture(Texture texture_val)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->AddTexture(texture_val);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->AddTexture(texture_val);
 }
 
 // UNIFORMS
 void Model::SetMat4(std::string name, glm::mat4 value)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetMat4(name, value);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetMat4(name, value);
 }
 
 void Model::SetInt(std::string name, int value)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetInt(name, value);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetInt(name, value);
 }
 
 void Model::SetFloat(std::string name, float value)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetFloat(name, value);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetFloat(name, value);
 }
 
 void Model::SetJointUniforms(Shader& skinnedShader)
 {
 	for (UID const& uid : m_MeshUIDs)
-		((SkinnedMesh*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(skinnedShader);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetJointUniforms(skinnedShader);
 }
 
 void Model::CalculateBBox()
@@ -178,7 +178,7 @@ void Model::Init()
 	// set entity UID to all meshes under model
 	for (UID const& uid : m_MeshUIDs)
 	{
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetParentEntityUID(GetParentEntityUID());
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetParentEntityUID(GetParentEntityUID());
 	}
 
 	// set component type
@@ -206,6 +206,12 @@ void Model::Serialize(ISerializer*& serializer)
 {
 	CMPNT_SERIALIZE_BEGIN
 
+	//// set entity UID to all meshes under model
+	//for (UID const& uid : m_MeshUIDs)
+	//{
+	//	static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Serialize(serializer);
+	//}
+
 	// Properties
 	// Transform
 	serializer->AddProperty("m_Translation", &m_Translation);
@@ -216,34 +222,8 @@ void Model::Serialize(ISerializer*& serializer)
 	serializer->AddProperty("m_SourcePath", &m_SourcePath);
 
 	// Textures
-	for (Texture& texture : m_Textures)
-	{
-		switch (texture.type)
-		{
-		case(Texture::ALBEDO):
-		{
-			serializer->AddProperty("Texture_ALBEDO", texture.GetSourcePath());
-			break;
-		}
-		case(Texture::NORMAL):
-		{
-			serializer->AddProperty("Texture_NORMAL", texture.GetSourcePath());
-			break;
-		}
-		case(Texture::METROUGHAO):
-		{
-			serializer->AddProperty("Texture_METROUGHAO", texture.GetSourcePath());
-			break;
-		}
-		case(Texture::TRANSLUCENCY):
-		{
-			serializer->AddProperty("Texture_TRANSLUCENCY", texture.GetSourcePath());
-			break;
-		}
-		}
-		
+	SerializeTextures(serializer);
 
-	}
 }
 
 

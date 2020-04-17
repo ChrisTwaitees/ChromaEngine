@@ -36,7 +36,6 @@ public:
 	std::vector<UID>& GetMeshUIDs() { return m_MeshUIDs; }
 	// verts
 	std::vector<ChromaVertex> GetVertices() override;
-	// animation/ skinning
 
 	// Component requirement 
 	void SetIsLit(bool const& check) override;
@@ -64,8 +63,7 @@ protected:
 	// verts
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
-	//textures
-	std::vector<Texture> m_Textures;
+
 	// Functions
 	void LoadModel(std::string path);
 };

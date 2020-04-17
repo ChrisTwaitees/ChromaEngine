@@ -203,7 +203,7 @@ void Shader::CheckCompileErrors(GLuint shader, std::string type)
 		if (!success)
 		{
 			glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-			CHROMA_WARN("ERROR::SHADER : COMPILATION_ERROR of type: {0} \n {1}", type, infoLog);
+			CHROMA_WARN("ERROR::SHADER : COMPILATION_ERROR of m_Type: {0} \n {1}", type, infoLog);
 			CHROMA_WARN("SHADER FRAG SOURCE : {0}", fragSourcePath);
 			CHROMA_WARN("SHADER VTX SOURCE : {0}", vertexSourcePath);
 			CHROMA_WARN("SHADER GEOM SOURCE  : {0}", geometrySourcePath);
@@ -215,7 +215,7 @@ void Shader::CheckCompileErrors(GLuint shader, std::string type)
 		if (!success)
 		{
 			glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-			CHROMA_WARN("ERROR::SHADER : COMPILATION_ERROR of type: {0} \n {1}", type, infoLog);
+			CHROMA_WARN("ERROR::SHADER : COMPILATION_ERROR of m_Type: {0} \n {1}", type, infoLog);
 			CHROMA_WARN("SHADER FRAG SOURCE : {0}", fragSourcePath);
 			CHROMA_WARN("SHADER VTX SOURCE : {0}", vertexSourcePath);
 			CHROMA_WARN("SHADER GEOM SOURCE  : {0}", geometrySourcePath);

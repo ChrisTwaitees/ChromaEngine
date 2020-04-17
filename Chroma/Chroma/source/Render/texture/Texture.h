@@ -22,7 +22,7 @@ public:
 	unsigned int ID {0} ;
 
 	enum TYPE { ALBEDO, NORMAL, METROUGHAO, METALNESS, ROUGHNESS, AO, SHADOWMAP, HDR, TRANSLUCENCY};
-	TYPE type {TYPE::ALBEDO};
+	TYPE m_Type {TYPE::ALBEDO};
 
 	std::string& GetSourcePath() { return m_SourcePath; }
 

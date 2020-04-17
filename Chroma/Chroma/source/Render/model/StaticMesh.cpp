@@ -99,7 +99,7 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		Texture::TYPE textureType = m_Textures[i].type;
+		Texture::TYPE textureType = m_Textures[i].m_Type;
 
 		switch(textureType)
 		{
@@ -253,6 +253,12 @@ void StaticMesh::BindDrawVAO()
 	glBindVertexArray(0); // reset to default
 }
 
+void StaticMesh::Init()
+{
+	m_Type = Chroma::Type::Component::kStaticMeshComponent;
+	CMPNT_INITIALIZED
+}
+
 void StaticMesh::Destroy()
 {
 	// textures
@@ -269,7 +275,24 @@ void StaticMesh::Destroy()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-	CHROMA_INFO("Static Mesh : {0} Destroyed.", m_UID.data);
+	CMPNT_DESTROYED
+}
+
+void StaticMesh::Serialize(ISerializer*& serializer)
+{
+	CMPNT_SERIALIZE_BEGIN
+
+	// Properties
+	// Transform
+	serializer->AddProperty("m_Translation", &m_Translation);
+	serializer->AddProperty("m_Rotation", &m_Rotation);
+	serializer->AddProperty("m_Scale", &m_Scale);
+
+	// File Properties
+	serializer->AddProperty("m_SourcePath", &m_SourcePath);
+
+	// Textures
+	SerializeTextures(serializer);
 }
 
 
@@ -368,3 +391,4 @@ StaticMesh::StaticMesh()
 StaticMesh::~StaticMesh()
 {
 }
+

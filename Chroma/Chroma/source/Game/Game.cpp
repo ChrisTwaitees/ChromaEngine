@@ -70,11 +70,11 @@ int main2()
 
 	// Lookdev Sphere
 	Texture lookdevAlbedo("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-	lookdevAlbedo.type = Texture::ALBEDO;
+	lookdevAlbedo.m_Type = Texture::ALBEDO;
 	Texture lookdevNormal("resources/textures/pbr/lookdev_pbr/normal.jpg");
-	lookdevNormal.type = Texture::NORMAL;
+	lookdevNormal.m_Type = Texture::NORMAL;
 	Texture lookdevMetRoughAO("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-	lookdevMetRoughAO.type = Texture::METROUGHAO;
+	lookdevMetRoughAO.m_Type = Texture::METROUGHAO;
 	// ____________________________________________________
 	// TEXTURES
 	// ____________________________________________________
@@ -84,24 +84,24 @@ int main2()
 	Texture whiteAlbedo("resources/textures/colors/white.jpg");
 	Texture gridAlbedo("resources/animation/textures/grid.jpg");
 	Texture flatNormal("resources/textures/test/flat_normal.jpg");
-	flatNormal.type = Texture::NORMAL;
+	flatNormal.m_Type = Texture::NORMAL;
 	Texture alphaTestAlbedo("resources/textures/test/grass.png");
 
 	// Animated Model
 	Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
-	walkingAlbedo.type = Texture::ALBEDO;
+	walkingAlbedo.m_Type = Texture::ALBEDO;
 	Texture walkingNormal("resources/animation/vampire_textures/normal.jpg");
-	walkingNormal.type = Texture::NORMAL;
+	walkingNormal.m_Type = Texture::NORMAL;
 	Texture walkingMetRoughAO("resources/animation/vampire_textures/MetRoughAO.jpg");
-	walkingMetRoughAO.type = Texture::METROUGHAO;
+	walkingMetRoughAO.m_Type = Texture::METROUGHAO;
 
 	// Floor Panels
 	Texture woodBoardsAlbedo("resources/textures/pbr/hardwood_pbr/albedo.jpg");
-	woodBoardsAlbedo.type = Texture::ALBEDO;
+	woodBoardsAlbedo.m_Type = Texture::ALBEDO;
 	Texture woodBoardsNormal("resources/textures/pbr/hardwood_pbr/normal.jpg");
-	woodBoardsNormal.type = Texture::NORMAL;
+	woodBoardsNormal.m_Type = Texture::NORMAL;
 	Texture woodBoardsMetRoughAO("resources/textures/pbr/hardwood_pbr/MetRoughAO.jpg");
-	woodBoardsMetRoughAO.type = Texture::METROUGHAO;
+	woodBoardsMetRoughAO.m_Type = Texture::METROUGHAO;
 	// ____________________________________________________
 
 	// ANIMATED MODEL

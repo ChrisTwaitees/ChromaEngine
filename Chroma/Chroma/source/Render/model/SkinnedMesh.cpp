@@ -78,14 +78,16 @@ void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 	m_Skeleton.SetJointUniforms(skinnedShader);
 }
 
+void SkinnedMesh::Init()
+{
+	m_Type = Chroma::Type::Component::kSkinnedMeshComponent;
+	CMPNT_INITIALIZED
+}
+
 void SkinnedMesh::Destroy()
 {
 	// textures
-	for (Texture& texture : m_Textures)
-	{
-		texture.Destroy();
-	}
-	m_Textures.clear();
+	DestroyTextures();
 	// verts
 	m_SkinnedVertices.clear();
 	// Skeleton
@@ -96,7 +98,24 @@ void SkinnedMesh::Destroy()
 	glDeleteBuffers(1, &VBO);
 	glDeleteBuffers(1, &EBO);
 
-	CHROMA_INFO("Skinned Mesh : {0} Destroyed.", m_UID.data);
+	CMPNT_DESTROYED
+}
+
+void SkinnedMesh::Serialize(ISerializer*& serializer)
+{
+	CMPNT_SERIALIZE_BEGIN
+
+	// Properties
+	// Transform
+	serializer->AddProperty("m_Translation", &m_Translation);
+	serializer->AddProperty("m_Rotation", &m_Rotation);
+	serializer->AddProperty("m_Scale", &m_Scale);
+
+	// File Properties
+	serializer->AddProperty("m_SourcePath", &m_SourcePath);
+
+	// Textures
+	SerializeTextures(serializer);
 }
 
 

@@ -101,13 +101,13 @@ int main2()
 
 	// Head
 	Texture headAlbedo = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_albedo.jpg");
-	headAlbedo.type = Texture::ALBEDO;
+	headAlbedo.m_Type = Texture::ALBEDO;
 	Texture headNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_normal.jpg");
-	headNormal.type = Texture::NORMAL;
+	headNormal.m_Type = Texture::NORMAL;
 	Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
-	headMetRoughAO.type = Texture::METROUGHAO;
+	headMetRoughAO.m_Type = Texture::METROUGHAO;
 	Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
-	headTranslucency.type = Texture::TRANSLUCENCY;
+	headTranslucency.m_Type = Texture::TRANSLUCENCY;
 
 
 

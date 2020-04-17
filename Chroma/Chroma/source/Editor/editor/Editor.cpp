@@ -65,11 +65,11 @@ namespace Chroma
 
 		// Lookdev Sphere
 		Texture lookdevAlbedo("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-		lookdevAlbedo.type = Texture::ALBEDO;
+		lookdevAlbedo.m_Type = Texture::ALBEDO;
 		Texture lookdevNormal("resources/textures/pbr/lookdev_pbr/normal.jpg");
-		lookdevNormal.type = Texture::NORMAL;
+		lookdevNormal.m_Type = Texture::NORMAL;
 		Texture lookdevMetRoughAO("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-		lookdevMetRoughAO.type = Texture::METROUGHAO;
+		lookdevMetRoughAO.m_Type = Texture::METROUGHAO;
 		// ____________________________________________________
 		// TEXTURES
 		// ____________________________________________________
@@ -79,16 +79,16 @@ namespace Chroma
 		Texture whiteAlbedo("resources/textures/colors/white.jpg");
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.type = Texture::NORMAL;
+		flatNormal.m_Type = Texture::NORMAL;
 
 
 		// Animated Model
 		Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
-		walkingAlbedo.type = Texture::ALBEDO;
+		walkingAlbedo.m_Type = Texture::ALBEDO;
 		Texture walkingNormal("resources/animation/vampire_textures/normal.jpg");
-		walkingNormal.type = Texture::NORMAL;
+		walkingNormal.m_Type = Texture::NORMAL;
 		Texture walkingMetRoughAO("resources/animation/vampire_textures/MetRoughAO.jpg");
-		walkingMetRoughAO.type = Texture::METROUGHAO;
+		walkingMetRoughAO.m_Type = Texture::METROUGHAO;
 		// ____________________________________________________
 
 		// ANIMATED MODEL
@@ -253,13 +253,13 @@ namespace Chroma
 
 		// Head
 		Texture headAlbedo = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_albedo.jpg");
-		headAlbedo.type = Texture::ALBEDO;
+		headAlbedo.m_Type = Texture::ALBEDO;
 		Texture headNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_normal.jpg");
-		headNormal.type = Texture::NORMAL;
+		headNormal.m_Type = Texture::NORMAL;
 		Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
-		headMetRoughAO.type = Texture::METROUGHAO;
+		headMetRoughAO.m_Type = Texture::METROUGHAO;
 		Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
-		headTranslucency.type = Texture::TRANSLUCENCY;
+		headTranslucency.m_Type = Texture::TRANSLUCENCY;
 
 		//// Lookdev Sphere
 		//Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
@@ -360,11 +360,11 @@ namespace Chroma
 		Texture whiteAlbedo("resources/textures/colors/white.jpg");
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.type = Texture::NORMAL;
+		flatNormal.m_Type = Texture::NORMAL;
 
 
 		Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
-		headMetRoughAO.type = Texture::METROUGHAO;
+		headMetRoughAO.m_Type = Texture::METROUGHAO;
 		// ____________________________________________________
 
 		// ANIMATED MODEL

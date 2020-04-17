@@ -11,7 +11,10 @@
 class SkinnedMesh : public StaticMesh
 {
 public:
+	// Component Functions
+	void Init() override;
 	void Destroy() override;
+	void Serialize(ISerializer*& serializer) override;
 
 	glm::mat4 GetWorldTransform() override;
 
