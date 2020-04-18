@@ -423,6 +423,7 @@
     <ClInclude Include="source\Engine\component\animation\IKAnimConstraint.h" />
     <ClInclude Include="source\Engine\component\CharacterPhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\StateMachineComponent.h" />
+    <ClInclude Include="source\Engine\serialization\IDeserializer.h" />
     <ClInclude Include="source\Engine\serialization\scene\JSONScene.h" />
     <ClInclude Include="source\Engine\types\Types.h" />
     <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h" />
