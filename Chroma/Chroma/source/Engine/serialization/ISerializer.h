@@ -3,13 +3,9 @@
 
 // Factory method read from : https://realpython.com/factory-method-python/
 #include <common/PrecompiledHeader.h>
-//#include <types/Types.h> 
+#include <types/Types.h> 
 #include <uid/UID.h>
 
-struct Serialization
-{
-	enum FORMAT{JSON};
-};
 
 
 class ISerializer

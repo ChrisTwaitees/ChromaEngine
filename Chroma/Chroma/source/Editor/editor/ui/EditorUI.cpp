@@ -414,7 +414,7 @@ namespace Chroma
 		ImGui::Text(("Selected Object : " + m_SelectedObjectString).c_str());
 
 		// Get Object Serialization Data
-		ISerializer* objectSerializer = new JSONSerializer();
+		ISerializer* objectSerializer = FactorySerializer::GetSerializer(Chroma::Type::Serialization::kJSON);
 
 		// attempt to fetch component
 		if (Chroma::Scene::GetComponent(m_SelectedObjectUID) != nullptr)

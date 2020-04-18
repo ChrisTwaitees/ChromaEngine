@@ -324,7 +324,8 @@
     <ClCompile Include="source\Engine\component\animation\IKAnimConstraint.cpp" />
     <ClCompile Include="source\Engine\component\CharacterPhysicsComponent.cpp" />
     <ClCompile Include="source\Engine\component\StateMachineComponent.cpp" />
-    <ClCompile Include="source\Engine\serialization\ISerializer.cpp" />
+    <ClCompile Include="source\Engine\serialization\formats\JSONDeserializer.cpp" />
+    <ClCompile Include="source\Engine\serialization\formats\JSONSerializer.cpp" />
     <ClCompile Include="source\Engine\serialization\scene\JSONScene.cpp" />
     <ClCompile Include="source\Engine\types\Types.cpp" />
     <ClCompile Include="source\Game\bipedal\BipedalAnimationStateMachine.cpp" />
@@ -375,7 +376,6 @@
     <ClCompile Include="source\Engine\screen\Screen.cpp" />
     <ClCompile Include="source\Engine\serialization\FactorySerializer.cpp" />
     <ClCompile Include="source\Engine\serialization\formats\Json.cpp" />
-    <ClCompile Include="source\Engine\serialization\JSONSerializer.cpp" />
     <ClCompile Include="source\Engine\statemachine\IStateMachine.cpp" />
     <ClCompile Include="source\Engine\time\Time.cpp" />
     <ClCompile Include="source\Engine\uid\UID.cpp" />
@@ -423,6 +423,8 @@
     <ClInclude Include="source\Engine\component\animation\IKAnimConstraint.h" />
     <ClInclude Include="source\Engine\component\CharacterPhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\StateMachineComponent.h" />
+    <ClInclude Include="source\Engine\serialization\formats\JSONDeserializer.h" />
+    <ClInclude Include="source\Engine\serialization\formats\JSONSerializer.h" />
     <ClInclude Include="source\Engine\serialization\IDeserializer.h" />
     <ClInclude Include="source\Engine\serialization\scene\JSONScene.h" />
     <ClInclude Include="source\Engine\types\Types.h" />
@@ -470,7 +472,6 @@
     <ClInclude Include="source\Engine\serialization\FactorySerializer.h" />
     <ClInclude Include="source\Engine\serialization\formats\Json.h" />
     <ClInclude Include="source\Engine\serialization\ISerializer.h" />
-    <ClInclude Include="source\Engine\serialization\JSONSerializer.h" />
     <ClInclude Include="source\Engine\statemachine\IStateMachine.h" />
     <ClInclude Include="source\Engine\time\Time.h" />
     <ClInclude Include="source\Engine\uid\UID.h" />

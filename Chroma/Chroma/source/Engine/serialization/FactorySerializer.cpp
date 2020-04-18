@@ -1,15 +1,29 @@
 #include "FactorySerializer.h"
+#include <serialization/formats/JSONSerializer.h>
+#include <serialization/formats/JSONDeserializer.h>
 
 
 
-ISerializer* FactorySerializer::GetSerializer(Serialization::FORMAT format)
+ISerializer* FactorySerializer::GetSerializer(Chroma::Type::Serialization serializationType)
 {
-	switch (format)
+	switch (serializationType)
 	{
-	case(Serialization::FORMAT::JSON):
-		{
-			return new JSONSerializer;
-			break;
-		}
+	case(Chroma::Type::Serialization::kJSON):
+	{
+		return new JSONSerializer;
+		break;
+	}
+	}
+}
+
+IDeserializer* FactorySerializer::GetDeSerializer(Chroma::Type::Serialization serializationType)
+{
+	switch (serializationType)
+	{
+	case(Chroma::Type::Serialization::kJSON):
+	{
+		return new JSONDeserializer;
+		break;
+	}
 	}
 }

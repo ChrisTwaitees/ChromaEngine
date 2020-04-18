@@ -31,9 +31,15 @@ namespace Chroma
 			kEntity = 1
 		};
 
+		enum Serialization {
+			kJSON = 0
+		};
+
 		std::string GetName(Component componentEnum);
 
 		std::string GetName(Entity entityEnum);
+
+		std::string GetName(Serialization serializedType);
 
 	}
 

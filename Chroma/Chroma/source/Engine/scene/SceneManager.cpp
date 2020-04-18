@@ -15,7 +15,7 @@ namespace Chroma
 		// Serializing Entities
 		for (std::pair<UID, IEntity*> const& uidentity : Chroma::Scene::GetAllEntities())
 		{
-			ISerializer* serializer = FactorySerializer::GetSerializer(Serialization::FORMAT::JSON);
+			ISerializer* serializer = FactorySerializer::GetSerializer(Chroma::Type::Serialization::kJSON);
 			uidentity.second->Serialize(serializer);
 			SceneJSON.AddNewEntity(serializer);
 		}
@@ -23,7 +23,7 @@ namespace Chroma
 		// Serializing Components
 		for (std::pair<UID, IComponent*> const& uidcomponent : Chroma::Scene::GetAllComponents())
 		{
-			ISerializer* serializer = FactorySerializer::GetSerializer(Serialization::FORMAT::JSON);
+			ISerializer* serializer = FactorySerializer::GetSerializer(Chroma::Type::Serialization::kJSON);
 			uidcomponent.second->Serialize(serializer);
 			SceneJSON.AddNewComponent(serializer);
 		}

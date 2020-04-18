@@ -11,9 +11,6 @@
 #include <rapidJSON/filewritestream.h>
 #include <rapidJSON/stringbuffer.h>
 
-//chroma
-#include <common/CoreCommon.h>
-
 
 class JSON
 {

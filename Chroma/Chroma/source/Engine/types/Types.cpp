@@ -100,3 +100,21 @@ std::string Chroma::Type::GetName(Entity entityEnum)
 	}
 	}
 }
+
+std::string Chroma::Type::GetName(Serialization serializedType)
+{
+	switch (serializedType)
+	{
+	case(Serialization::kJSON):
+	{
+		return "kJSON";
+		break;
+	}
+	default:
+	{
+		CHROMA_ERROR("Unsupported Serialization Type!");
+		return "Unsupported Serialization Type!";
+		break;
+	}
+	}
+}

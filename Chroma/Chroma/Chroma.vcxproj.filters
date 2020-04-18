@@ -456,14 +456,16 @@
     <ClCompile Include="source\Engine\types\Types.cpp">
       <Filter>Engine\types</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\serialization\ISerializer.cpp" />
     <ClCompile Include="source\Engine\serialization\scene\JSONScene.cpp">
       <Filter>Engine\serialization\scene</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\serialization\formats\Json.cpp">
       <Filter>Engine\serialization\formats\json</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\serialization\JSONSerializer.cpp">
+    <ClCompile Include="source\Engine\serialization\formats\JSONDeserializer.cpp">
+      <Filter>Engine\serialization\formats\json</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\serialization\formats\JSONSerializer.cpp">
       <Filter>Engine\serialization\formats\json</Filter>
     </ClCompile>
   </ItemGroup>
@@ -753,7 +755,10 @@
     <ClInclude Include="source\Engine\serialization\formats\Json.h">
       <Filter>Engine\serialization\formats\json</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\serialization\JSONSerializer.h">
+    <ClInclude Include="source\Engine\serialization\formats\JSONDeserializer.h">
+      <Filter>Engine\serialization\formats\json</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\serialization\formats\JSONSerializer.h">
       <Filter>Engine\serialization\formats\json</Filter>
     </ClInclude>
   </ItemGroup>
