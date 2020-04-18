@@ -87,6 +87,11 @@ JSONScene::JSONScene()
 
 }
 
+JSONScene::JSONScene(const char* loadScenePath)
+{
+	Load(loadScenePath);
+}
+
 void JSONScene::SerializeEntity(ISerializer*& serialized, rapidjson::Value& jsonValue)
 {
 	// Serialized generic types

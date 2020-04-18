@@ -21,6 +21,7 @@ int main()
 	// POPULATE SCENE CONTENTS
 	Chroma::Editor::PopulateTestScene2();
 
+	// Init all build components
 	Chroma::Scene::PostSceneBuild();
 
 	// RENDER LOOP

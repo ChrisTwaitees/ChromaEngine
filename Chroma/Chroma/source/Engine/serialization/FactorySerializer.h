@@ -10,7 +10,7 @@ class FactorySerializer
 {
 public:
 	static ISerializer* GetSerializer(Chroma::Type::Serialization serializationType);
-	static IDeserializer* GetDeSerializer(Chroma::Type::Serialization serializationType);
+	static IDeserializer* GetDeserializer(Chroma::Type::Serialization serializationType);
 };
 
 #endif

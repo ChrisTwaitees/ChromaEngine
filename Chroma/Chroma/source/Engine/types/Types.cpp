@@ -1,5 +1,41 @@
 #include "Types.h"
 
+
+namespace Chroma
+{
+	std::map<std::string, Type::Component> Type::m_ComponentMap =
+	{
+		{ "<NULL>",                         Type::Component::kNullComponent},
+		{ "kIComponent",                    Type::Component::kIComponent},
+		{ "kStateMachineComponent",         Type::Component::kStateMachineComponent},
+		{ "kAnimationComponent",            Type::Component::kAnimationComponent},
+		{ "kAnimationConstraintComponent",  Type::Component::kAnimationConstraintComponent},
+		{ "kCharacterControllerComponent",  Type::Component::kCharacterControllerComponent},
+		{ "kCharacterPhysicsComponent",     Type::Component::kCharacterPhysicsComponent},
+		{ "kPhysicsComponent",              Type::Component::kPhysicsComponent},
+		{ "kMeshComponent",                 Type::Component::kMeshComponent},
+		{ "kUIComponent",                   Type::Component::kUIComponent},
+		{ "kLightComponent",                Type::Component::kLightComponent},
+		{ "kModelComponent",                Type::Component::kModelComponent},
+		{ "kStaticMeshComponent",           Type::Component::kStaticMeshComponent},
+		{ "kSkinnedMeshComponent",          Type::Component::kSkinnedMeshComponent}
+	};
+
+	std::map<std::string, Type::Entity> Type::m_EntityMap =
+	{
+		{ "<NULL>",                        Type::Entity::kNullEntity},
+		{ "kIEntity",                      Type::Entity::kIEntity},
+		{ "kEntity",					   Type::Entity::kEntity}
+	};
+
+	std::map<std::string, Type::Serialization> Type::m_SerializationMap =
+	{
+		{"<NULL>",                        Type::Serialization::kNullSerialization},
+		{"kJSON",                         Type::Serialization::kJSON}
+	};
+}
+
+
 std::string Chroma::Type::GetName(Component componentEnum)
 {
 	switch(componentEnum)
@@ -89,7 +125,7 @@ std::string Chroma::Type::GetName(Entity entityEnum)
 	}
 	case(Entity::kEntity):
 	{
-		return "kIEntity";
+		return "kEntity";
 		break;
 	}
 	default:

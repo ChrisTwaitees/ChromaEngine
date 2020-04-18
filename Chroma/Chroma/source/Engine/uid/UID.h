@@ -17,6 +17,7 @@ public:
 	std::string data;
 	bool operator <(const UID& rhs) const;
 	UID();
+	UID(std::string UIDData);
 	~UID() {};
 };
 

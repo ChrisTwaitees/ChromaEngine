@@ -41,7 +41,7 @@ public:
 	void SetLightingUniforms(Camera const& renderCam);
 
 	template<typename UniformType>
-	void addUniform(std::string uniformName, UniformType uniformValue){
+	void AddUniform(std::string uniformName, UniformType uniformValue){
 		Uniforms.addUniform(uniformName, uniformValue);
 	};
 

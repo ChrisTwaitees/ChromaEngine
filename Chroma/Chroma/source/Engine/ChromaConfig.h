@@ -31,7 +31,6 @@
 // OPENGL CONFIG
 #define OPENGL_VERSION std::string( "330 core" )
 
-// INPUT
-static double MOUSE_XOFFSET, MOUSE_YOFFSET;
+
 
 #endif

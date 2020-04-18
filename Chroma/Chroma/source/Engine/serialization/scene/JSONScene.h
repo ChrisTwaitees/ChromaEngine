@@ -18,6 +18,7 @@ public:
 	rapidjson::Value& GetComponents();
 
 	JSONScene();
+	JSONScene(const char* loadScenePath);
 	~JSONScene() {};
 
 private:

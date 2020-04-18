@@ -280,7 +280,7 @@ namespace Chroma
 		ImGui::InputText("Load Scene Path: ", m_SceneName, IM_ARRAYSIZE(m_SceneName));
 		// Debug
 		if (ImGui::Button("Load Scene"))
-			Chroma::SceneManager::LoadScene(m_SceneName);
+			Chroma::SceneManager::LoadScene("resources/levels/testSaveScene.json");
 
 		if (ImGui::Button("Load HDR"))
 			Chroma::Scene::LoadIBL("resources/textures/ibl/ditchriver_ibl/river_sharp.hdr");

@@ -33,6 +33,7 @@ public:
 
 	//UID
 	UID GetUID() const { return m_UID; };
+	void SetUID(const UID& newUID) { m_UID = newUID; };
 
 	// Name
 	std::string GetName() const { return m_Name; };

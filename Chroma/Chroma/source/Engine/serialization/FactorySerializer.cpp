@@ -16,7 +16,7 @@ ISerializer* FactorySerializer::GetSerializer(Chroma::Type::Serialization serial
 	}
 }
 
-IDeserializer* FactorySerializer::GetDeSerializer(Chroma::Type::Serialization serializationType)
+IDeserializer* FactorySerializer::GetDeserializer(Chroma::Type::Serialization serializationType)
 {
 	switch (serializationType)
 	{

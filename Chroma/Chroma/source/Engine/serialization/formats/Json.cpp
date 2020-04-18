@@ -29,8 +29,7 @@ void JSON::Load(const char* sourcePath)
 		char readBuffer[65536];
 		rapidjson::FileReadStream jsonFileStream(jsonRawFilePtr, readBuffer, sizeof(readBuffer));
 
-		// Parse to DOM
-		const char* json = "{\"project\":\"rapidjson\",\"stars\":10}";
+		// Parse to document
 		m_Document.ParseStream(jsonFileStream);
 
 		// close the file
@@ -38,12 +37,12 @@ void JSON::Load(const char* sourcePath)
 
 		// debug
 		CHROMA_INFO_UNDERLINE;
-		CHROMA_INFO("JSON LOADER :: Successfully loaded JSON from {0}", sourcePath);
+		CHROMA_INFO("JSON :: Successfully loaded JSON from : {0}", sourcePath);
 		CHROMA_INFO_UNDERLINE;
 	}
 	else
 	{
-		CHROMA_ERROR("JSON LOADER :: Source file : {0} is not a valid path.", sourcePath);
+		CHROMA_ERROR("JSON :: Source file : {0} is not a valid path.", sourcePath);
 	}
 }
 
@@ -60,7 +59,7 @@ void JSON::Write(JSON& sourceJson, const char* destinationPath)
 	fclose(fp);
 
 	CHROMA_INFO_UNDERLINE;
-	CHROMA_INFO("JSON LOADER :: Successfully wrote JSON to {0}", destinationPath);
+	CHROMA_INFO("JSON :: Successfully wrote JSON to : {0}", destinationPath);
 	CHROMA_INFO_UNDERLINE;
 }
 

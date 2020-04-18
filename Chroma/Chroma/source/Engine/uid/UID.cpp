@@ -39,3 +39,8 @@ UID::UID()
 {
 	data = GenerateNewUID();
 }
+
+UID::UID(std::string UIDData)
+{
+	data = UIDData;
+}
