@@ -9,6 +9,9 @@
 class Material
 {
 public:
+	//Funcs
+	inline void Use() { m_Shader.Use(); };
+
 	// Shader
 	Shader& GetShader() { return m_Shader; };
 	inline void SetShader(const Shader& newShader) { m_Shader = newShader; }

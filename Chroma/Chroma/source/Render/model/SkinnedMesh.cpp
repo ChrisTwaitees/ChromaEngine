@@ -58,7 +58,6 @@ glm::mat4 SkinnedMesh::GetWorldTransform()
 	return GetParentEntity()->GetTransform();
 }
 
-
 std::vector<ChromaVertex> SkinnedMesh::GetVertices()
 {
 
@@ -70,8 +69,6 @@ std::vector<ChromaVertex> SkinnedMesh::GetVertices()
 	return verts;
 
 }
-
-
 
 void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
 {
@@ -116,6 +113,9 @@ void SkinnedMesh::Serialize(ISerializer*& serializer)
 
 	// Textures
 	SerializeTextures(serializer);
+
+	// Material 
+	serializer->AddProperty("m_Material", &m_Material);
 }
 
 

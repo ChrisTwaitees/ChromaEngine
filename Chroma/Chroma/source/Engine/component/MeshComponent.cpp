@@ -89,6 +89,9 @@ void MeshComponent::Serialize(ISerializer*& serializer)
 	// File Properties
 	serializer->AddProperty("m_SourcePath", &m_SourcePath);
 
+	// Material 
+	serializer->AddProperty("m_Material", &m_Material);
+
 }
 
 void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)

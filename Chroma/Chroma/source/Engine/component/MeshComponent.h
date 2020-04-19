@@ -92,7 +92,8 @@ protected:
 	// calculate attrs
 	virtual void CalculateBBox() = 0;
 	virtual void CalculateCentroid() = 0;
-	//Textures
+	//Material
+	Material m_Material;
 	std::vector<Texture> m_Textures;
 	virtual void SerializeTextures(ISerializer*& serializer);
 	virtual void DestroyTextures();

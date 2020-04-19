@@ -293,6 +293,9 @@ void StaticMesh::Serialize(ISerializer*& serializer)
 
 	// Textures
 	SerializeTextures(serializer);
+
+	// Material 
+	serializer->AddProperty("m_Material", &m_Material);
 }
 
 
