@@ -238,11 +238,14 @@ void Entity::Destroy()
 void Entity::Serialize(ISerializer*& serializer)
 {
 	ENTITY_SERIALIZE_BEGIN
+	// Name
+	serializer->AddProperty("m_Name", &m_Name);
 
 	// Transforms
+	serializer->AddProperty("m_Transform",   &m_Transform);
 	serializer->AddProperty("m_Translation", &m_Translation);
-	serializer->AddProperty("m_Rotation", &m_Rotation);
-	serializer->AddProperty("m_Scale", &m_Scale);
+	serializer->AddProperty("m_Rotation",    &m_Rotation);
+	serializer->AddProperty("m_Scale",       &m_Scale);
 
 }
 

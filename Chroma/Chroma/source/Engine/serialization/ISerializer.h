@@ -100,6 +100,12 @@ public:
 		m_Mat4Properties.emplace(std::make_pair(key, value));
 	}
 
+	template<>
+	void AddProperty<std::vector<UID>>(const char* key, std::vector<UID> value)
+	{
+		m_UIDVectors.emplace(std::make_pair(key, value));
+	}
+
 	virtual const char* ToString() = 0;
 
 
@@ -119,6 +125,9 @@ public:
 	std::map<const char*, glm::quat*> m_QuatProperties;
 	std::map<const char*, glm::mat3*> m_Mat3Properties;
 	std::map<const char*, glm::mat4*> m_Mat4Properties;
+
+	// vector properties
+	std::map<const char*, std::vector<UID>> m_UIDVectors;
 
 	ISerializer() {};
 	virtual ~ISerializer() {};

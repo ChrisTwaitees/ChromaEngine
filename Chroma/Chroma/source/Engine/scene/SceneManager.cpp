@@ -90,8 +90,9 @@ namespace Chroma
 			{
 				for (rapidjson::Value::ConstMemberIterator entity = entityTypes->value.MemberBegin(); entity != entityTypes->value.MemberEnd(); ++entity)
 				{
-					Entity* newEntity = deserializer->CreateObject<Entity*>(Chroma::Type::Component::kStaticMeshComponent, entity->value);
+					Entity* newEntity = deserializer->CreateObject<Entity*>(Chroma::Type::Entity::kEntity, entity->value);
 					newEntity->SetUID(UID(entity->name.GetString()));
+					Chroma::Scene::AddEntity(newEntity);
 				}
 			}
 			};

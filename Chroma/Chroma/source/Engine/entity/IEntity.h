@@ -66,11 +66,24 @@ public:
 
 	// Components
 	inline virtual std::vector<UID> GetComponentUIDs() { return m_ComponentUIDs; }
+
 	inline virtual std::vector<UID> GetMeshComponentUIDs() { return m_MeshComponentUIDs; }
+	inline virtual void AddMeshComponentUID(const UID& newUID) { m_MeshComponentUIDs.push_back(newUID); }
+
 	inline virtual std::vector<UID> GetPhysicsComponentUIDs() { return m_PhysicsComponentUIDs; }
+	inline virtual void AddPhysicsComponentUID(const UID& newUID) { m_PhysicsComponentUIDs.push_back(newUID); }
+
 	inline virtual std::vector<UID> GetAnimationComponentUIDs() { return m_AnimationComponentUIDs; }
+	inline virtual void AddAnimationComponentUID(const UID& newUID) { m_AnimationComponentUIDs.push_back(newUID); }
+
 	inline virtual std::vector<UID> GetCharacterControllerComponentUIDs() { return m_CharacterControllerComponentUIDs; }
+	inline virtual void AddCharacterControllerComponentUID(const UID& newUID) { m_CharacterControllerComponentUIDs.push_back(newUID); }
+
 	inline virtual std::vector<UID> GetAnimConstraintComponentUIDs() { return m_AnimConstraintComponentUIDs; }
+	inline virtual void AddAnimConstraintComponentUID(const UID& newUID) { m_AnimConstraintComponentUIDs.push_back(newUID); }
+
+	inline virtual std::vector<UID> GetStateMachineComponentUIDs() { return m_StateMachineComponentUIDs; }
+	inline virtual void AddStateMachineComponentUID(const UID& newUID) { m_StateMachineComponentUIDs.push_back(newUID); }
 
 	// add
 	template<typename component>
