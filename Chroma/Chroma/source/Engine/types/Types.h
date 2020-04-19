@@ -44,11 +44,22 @@ namespace Chroma
 			kNull = 0
 		};
 
+		enum EditorProperty {
+			kNullEditorProperty = 0,
+			kSourcePathProperty = 1, 
+			kFloatPropery = 2, 
+			kIntProperty = 3, 
+			kStringProperty = 4,
+			kMaterialProperty = 5
+		};
+
 		// Getters
 		// Name
 		static std::string GetName(Component componentEnum);
 		static std::string GetName(Entity entityEnum);
 		static std::string GetName(Serialization serializedType);
+		static std::string GetName(DataType dataType);
+		static std::string GetName(EditorProperty editorPropertyType);
 
 		// Type
 		template<typename T>
@@ -89,6 +100,8 @@ namespace Chroma
 		static std::map<std::string, Type::Component> m_ComponentMap;
 		static std::map<std::string, Type::Entity> m_EntityMap;
 		static std::map<std::string, Type::Serialization> m_SerializationMap;
+		static std::map<std::string, Type::DataType> m_DataTypeMap;
+		static std::map<std::string, Type::EditorProperty> m_EditorPropertiesMap;
 	};
 
 }

@@ -33,6 +33,22 @@ namespace Chroma
 		{"<NULL>",                        Type::Serialization::kNullSerialization},
 		{"kJSON",                         Type::Serialization::kJSON}
 	};
+
+
+	std::map<std::string, Type::DataType> Type::m_DataTypeMap =
+	{
+		{"<NULL>",                        Type::DataType::kNull},
+	};
+
+	std::map<std::string, Type::EditorProperty> Type::m_EditorPropertiesMap =
+	{
+		{"<NULL>",                        Type::EditorProperty::kNullEditorProperty},
+		{"kSourcePathProperty",           Type::EditorProperty::kSourcePathProperty},
+		{"kFloatPropery",                 Type::EditorProperty::kFloatPropery},
+		{"kIntProperty",                  Type::EditorProperty::kIntProperty},
+		{"kStringProperty",               Type::EditorProperty::kStringProperty},
+		{"kMaterialProperty",             Type::EditorProperty::kMaterialProperty}
+	};
 }
 
 
@@ -153,4 +169,14 @@ std::string Chroma::Type::GetName(Serialization serializedType)
 		break;
 	}
 	}
+}
+
+std::string Chroma::Type::GetName(DataType dataType)
+{
+	return std::string();
+}
+
+std::string Chroma::Type::GetName(EditorProperty editorPropertyType)
+{
+	return std::string();
 }
