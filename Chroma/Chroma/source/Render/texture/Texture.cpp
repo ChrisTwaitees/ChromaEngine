@@ -44,6 +44,11 @@ Texture::Texture(TextureData textData)
 	InitTextureData(textData);
 }
 
+bool Texture::operator<(const Texture& rhs) const
+{
+	return true;
+}
+
 Texture::~Texture()
 {
 }

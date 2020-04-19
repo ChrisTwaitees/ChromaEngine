@@ -120,7 +120,7 @@ public:
 	};
 
 	// Renders
-	void setUniforms();
+	void SetUniforms();
 
 	// Uniform Updating
 	void SetBool(const std::string& name, bool value) const;

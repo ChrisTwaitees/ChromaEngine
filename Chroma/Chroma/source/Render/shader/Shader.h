@@ -14,22 +14,6 @@
 
 class Shader
 {
-private:
-	// Functions
-	void CheckCompileErrors(GLuint shader, std::string type);
-	void CompileAndLink();
-	void LoadShaderSource();
-	void Replace(std::string& sourceString, std::string const& from, std::string const& to);
-	std::string ExpandShaderSource(std::string shaderSourcePath);
-
-	//Attrs
-	std::string shaderDir{"resources/shaders/"};
-	std::string fragSourcePath, vertexSourcePath, geometrySourcePath;
-	std::string fragCode, vertexCode, geometryCode;
-
-	// Uniforms
-	Uniform Uniforms{ &ShaderID };
-
 public:
 	//program ID
 	unsigned int ShaderID;
@@ -42,12 +26,12 @@ public:
 
 	template<typename UniformType>
 	void AddUniform(std::string uniformName, UniformType uniformValue){
-		Uniforms.addUniform(uniformName, uniformValue);
+		m_Uniforms.addUniform(uniformName, uniformValue);
 	};
 
 	template<typename UniformType>
 	void SetUniform(std::string uniformName, UniformType uniformValue) {
-		Uniforms.SetUniform(uniformName, uniformValue);
+		m_Uniforms.SetUniform(uniformName, uniformValue);
 	};
 
 	void SetBool(const std::string& name, bool value) const;
@@ -58,12 +42,30 @@ public:
 	void SetMat4(const std::string& name, glm::mat4 matrix) const;
 
 	// Set Uniforms
-	void setUniforms();
+	void SetUniforms();
+	inline Uniform& GetUniformArray() { return m_Uniforms; }
+	inline void SetUniformArray(const Uniform& newUniform) { m_Uniforms = newUniform; }
 
 	//constructor reads and builds the shader
 	Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");
 	Shader();
 	~Shader();
+
+private:
+	// Functions
+	void CheckCompileErrors(GLuint shader, std::string type);
+	void CompileAndLink();
+	void LoadShaderSource();
+	void Replace(std::string& sourceString, std::string const& from, std::string const& to);
+	std::string ExpandShaderSource(std::string shaderSourcePath);
+
+	//Attrs
+	std::string shaderDir{ "resources/shaders/" };
+	std::string fragSourcePath, vertexSourcePath, geometrySourcePath;
+	std::string fragCode, vertexCode, geometryCode;
+
+	// Uniforms
+	Uniform m_Uniforms{ &ShaderID };
 };
 
 

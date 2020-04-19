@@ -1,7 +1,7 @@
 #include "Uniform.h"
 
 
-void Uniform::setUniforms()
+void Uniform::SetUniforms()
 {
 	for (std::pair<std::string, int> uniform : intUniforms.uniforms) {
 		SetInt(uniform.first, uniform.second);

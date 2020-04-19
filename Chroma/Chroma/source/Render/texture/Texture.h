@@ -34,6 +34,7 @@ public:
 	Texture(unsigned int newID);
 	Texture(std::string sourcePath);
 	Texture(TextureData textData);
+	bool operator <(const Texture& rhs) const;
 	Texture() {};
 	~Texture();
 

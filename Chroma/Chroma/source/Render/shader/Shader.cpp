@@ -227,36 +227,36 @@ void Shader::CheckCompileErrors(GLuint shader, std::string type)
 
 void Shader::SetBool(const std::string& name, bool value) const
 {
-	Uniforms.SetBool(name, value);
+	m_Uniforms.SetBool(name, value);
 }
 
 void Shader::SetInt(const std::string& name, int value) const
 {
-	Uniforms.SetInt(name, value);
+	m_Uniforms.SetInt(name, value);
 }
 
 void Shader::SetFloat(const std::string& name, float value) const
 {
-	Uniforms.SetFloat(name, value);
+	m_Uniforms.SetFloat(name, value);
 }
 
 void Shader::SetVec2(const std::string& name, glm::vec2 value) const
 {
-	Uniforms.setVec2(name, value);
+	m_Uniforms.setVec2(name, value);
 }
 
 void Shader::SetVec3(const std::string& name, glm::vec3 value) const
 {
-	Uniforms.setVec3(name, value);
+	m_Uniforms.setVec3(name, value);
 }
 
 void Shader::SetMat4(const std::string& name, glm::mat4 value) const
 {
-	Uniforms.SetMat4(name, value);
+	m_Uniforms.SetMat4(name, value);
 }
 
-void Shader::setUniforms()
+void Shader::SetUniforms()
 {
-	Uniforms.setUniforms();
+	m_Uniforms.SetUniforms();
 }
 
