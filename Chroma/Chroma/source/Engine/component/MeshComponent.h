@@ -6,7 +6,7 @@
 #include <camera/Camera.h>
 #include <light/Light.h>
 #include <shader/Shader.h>
-
+#include <material/Material.h>
 #include <model/MeshData.h>
 
 class MeshComponent : public IComponent

@@ -48,7 +48,7 @@ public:
 
 	//constructor reads and builds the shader
 	Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");
-	Shader();
+	Shader() {};
 	~Shader();
 
 private:
