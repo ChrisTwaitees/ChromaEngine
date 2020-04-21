@@ -25,14 +25,7 @@ public:
 	virtual void DrawUpdateTransforms(Camera& renderCam) override;
 	virtual void BindDrawVAO();
 
-	// Bindings
-	virtual void SetShader(Shader const& shader) override { m_shader = shader; } ;
-	virtual void SetTextures(std::vector<Texture> textures_val) override;
-	virtual void AddTexture(Texture texture_val) override;
-
 	// Getters/Setters
-	virtual Shader& GetShader() { return m_shader; };
-	int GetNumTextures() override { return (int)m_Textures.size(); };
 	virtual glm::mat4 GetTransform() override { return m_Transform; };
 	virtual std::vector<ChromaVertex> GetVertices() { return m_vertices; };
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox();
@@ -53,10 +46,6 @@ protected:
 	unsigned int VAO{ 0 }, VBO{ 0 }, EBO{ 0 };
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<unsigned int> m_Indices;
-	// default shader
-	std::string fragShaderSource = "resources/shaders/fragPBR.glsl";
-	std::string vtxShaderSource = "resources/shaders/vertexLitShadowsNormals.glsl";
-	Shader m_shader{ fragShaderSource, vtxShaderSource };
 
 	// functions
 	virtual void CalculateBBox();
@@ -64,11 +53,11 @@ protected:
 	virtual void SetupMesh();
 	// render functions
 	virtual void UpdateUniforms(Shader& shader, Camera& RenderCam);
-	virtual void UpdateTransformUniforms(Shader const& shader, Camera& renderCam);
-	virtual void UpdateMaterialUniforms(Shader const& shader);
+	virtual void UpdateTransformUniforms(Shader& shader, Camera& renderCam);
+	virtual void UpdateMaterialUniforms(Shader& shader);
 	virtual void UpdateLightingUniforms(Shader& shader, Camera& renderCam);
-	virtual void updateTextureUniforms(Shader const& shader);
-	void UpdatePBRLightingTextureUniforms(Shader const& shader);
+	virtual void updateTextureUniforms(Shader& shader);
+	void UpdatePBRLightingTextureUniforms(Shader& shader);
 };
 
 #endif

@@ -29,10 +29,10 @@ void LinePrimitive::SetupMesh()
 
 void LinePrimitive::BindDrawVAO()
 {
-	m_shader.Use();
-	m_shader.SetVec3("start", start);
-	m_shader.SetVec3("end", end);
-	m_shader.SetFloat("thickness", thickness);
+	GetShader().Use();
+	GetShader().SetUniform("start", start);
+	GetShader().SetUniform("end", end);
+	GetShader().SetUniform("thickness", thickness);
 
 	glDisable(GL_CULL_FACE);
 	glBindVertexArray(VAO);
@@ -43,7 +43,7 @@ void LinePrimitive::BindDrawVAO()
 
 LinePrimitive::LinePrimitive(glm::vec3 start_val, glm::vec3 end_val, float thicknessVal)
 {
-	m_shader = Shader(fragSrc, vtxSrc);
+	m_Material.SetShader(fragSrc.c_str(), vtxSrc.c_str());
 	start = start_val;
 	end = end_val;
 	thickness = thicknessVal;

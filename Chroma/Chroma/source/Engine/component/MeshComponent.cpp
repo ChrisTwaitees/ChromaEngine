@@ -3,16 +3,17 @@
 
 MeshComponent::MeshComponent()
 {
-	Init();
 	m_IsRenderable = true;
 	m_IsLit = true;
 	m_CastShadows = true;
 	m_IsTransparent = false;
+	Init();
 }
 
 
 MeshComponent::~MeshComponent()
 {
+	Destroy();
 }
 
 void MeshComponent::RebuildTransform()
@@ -20,44 +21,47 @@ void MeshComponent::RebuildTransform()
 	m_Transform = Chroma::Math::BuildMat4(m_Translation, m_Rotation, m_Scale);
 }
 
-void MeshComponent::SerializeTextures(ISerializer*& serializer)
+void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 {
+	// Texture Editor Property
+	EditorProperty editorPrpty(Chroma::Type::EditorProperty::kMaterialTextureProperty);
+
 	// Textures
-	for (Texture& texture : m_Textures)
+	for (Texture& texture : GetTextureSet())
 	{
 		switch (texture.m_Type)
 		{
 		case(Texture::ALBEDO):
 		{
-			serializer->AddProperty("Texture_ALBEDO", &texture.GetSourcePath());
+			serializer->AddProperty("Texture_ALBEDO", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
 		case(Texture::NORMAL):
 		{
-			serializer->AddProperty("Texture_NORMAL", &texture.GetSourcePath());
+			serializer->AddProperty("Texture_NORMAL", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
 		case(Texture::METROUGHAO):
 		{
-			serializer->AddProperty("Texture_METROUGHAO", &texture.GetSourcePath());
+			serializer->AddProperty("Texture_METROUGHAO", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
 		case(Texture::TRANSLUCENCY):
 		{
-			serializer->AddProperty("Texture_TRANSLUCENCY", &texture.GetSourcePath());
+			serializer->AddProperty("Texture_TRANSLUCENCY", &texture.GetSourcePath(), editorPrpty);
+			break;
+		}
+		default : 
+		{
 			break;
 		}
 		}
 	}
+
+	// Uniforms
+	//for (float floatUniform : m_Material.GetUniformArray().Get)
 }
 
-void MeshComponent::DestroyTextures()
-{
-	for (Texture& texture : m_Textures)
-		texture.Destroy();
-
-	m_Textures.clear();
-}
 
 void MeshComponent::Init()
 {

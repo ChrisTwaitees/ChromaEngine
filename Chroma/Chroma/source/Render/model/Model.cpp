@@ -89,11 +89,24 @@ void Model::SetIsForwardLit(bool const& check)
 		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetIsForwardLit(check);
 }
 
+
 // TEXTURES
-void Model::AddTexture(Texture texture_val)
+void Model::AddTexture(Texture& texture_val)
 {
 	for (UID const& uid : m_MeshUIDs)
 		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->AddTexture(texture_val);
+}
+
+void Model::SetMaterial(const Material& newMaterial)
+{
+	for (UID const& uid : m_MeshUIDs)
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetMaterial(newMaterial);
+}
+
+void Model::SetTextureSet(std::vector<Texture>& textures_val)
+{
+	for (UID const& uid : m_MeshUIDs)
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetTextureSet(textures_val);
 }
 
 // UNIFORMS
@@ -189,12 +202,8 @@ void Model::Init()
 
 void Model::Destroy()
 {
-	// textures
-	for (Texture& texture : m_Textures)
-	{
-		texture.Destroy();
-	}
-	m_Textures.clear();
+	// Material
+	m_Material.Destroy();
 
 	// verts
 	m_IsSkinned ? m_SkinnedVertices.clear() : m_vertices.clear();
@@ -206,12 +215,6 @@ void Model::Serialize(ISerializer*& serializer)
 {
 	CMPNT_SERIALIZE_BEGIN
 
-	//// set entity UID to all meshes under model
-	//for (UID const& uid : m_MeshUIDs)
-	//{
-	//	static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Serialize(serializer);
-	//}
-
 	// Properties
 	// Transform
 	serializer->AddProperty("m_Translation", &m_Translation);
@@ -221,9 +224,8 @@ void Model::Serialize(ISerializer*& serializer)
 	// File Properties
 	serializer->AddProperty("m_SourcePath", &m_SourcePath);
 
-	// Textures
-	SerializeTextures(serializer);
-
+	// MeshUIDs
+	serializer->AddProperty("m_MeshUIDs", m_MeshUIDs);
 }
 
 

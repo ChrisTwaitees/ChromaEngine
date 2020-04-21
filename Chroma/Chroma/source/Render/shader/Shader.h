@@ -15,6 +15,9 @@
 class Shader
 {
 public:
+	// Cleanup
+	void Destroy();
+
 	//program ID
 	unsigned int ShaderID;
 
@@ -22,29 +25,13 @@ public:
 	void Use() const;
 
 	// Uniforms
-	void SetLightingUniforms(Camera const& renderCam);
-
-	template<typename UniformType>
-	void AddUniform(std::string uniformName, UniformType uniformValue){
-		m_Uniforms.addUniform(uniformName, uniformValue);
-	};
-
 	template<typename UniformType>
 	void SetUniform(std::string uniformName, UniformType uniformValue) {
 		m_Uniforms.SetUniform(uniformName, uniformValue);
 	};
 
-	void SetBool(const std::string& name, bool value) const;
-	void SetInt(const std::string& name, int value) const;
-	void SetFloat(const std::string& name, float value) const;
-	void SetVec2(const std::string& name, glm::vec2 value) const;
-	void SetVec3(const std::string& name, glm::vec3 value) const;
-	void SetMat4(const std::string& name, glm::mat4 matrix) const;
+	void SetLightingUniforms(Camera const& renderCam);
 
-	// Set Uniforms
-	void SetUniforms();
-	inline Uniform& GetUniformArray() { return m_Uniforms; }
-	inline void SetUniformArray(const Uniform& newUniform) { m_Uniforms = newUniform; }
 
 	//constructor reads and builds the shader
 	Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");

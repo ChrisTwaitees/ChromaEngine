@@ -3,18 +3,16 @@
 
 #include <types/Types.h>
 
-using namespace Chroma;
-
 class EditorProperty
 {
 public:
-	inline Type::EditorProperty GetType() { return m_Type; };
+	inline Chroma::Type::EditorProperty GetType() { return m_Type; };
 
 	EditorProperty() {};
-	EditorProperty(Type::EditorProperty type) { m_Type = type; };
+	EditorProperty(Chroma::Type::EditorProperty type) { m_Type = type; };
 	~EditorProperty() {};
 protected:
-	Type::EditorProperty m_Type = Type::EditorProperty{ Type::EditorProperty::kNullEditorProperty };
+	Chroma::Type::EditorProperty m_Type{ Chroma::Type::EditorProperty::kNullEditorProperty };
 
 };
 

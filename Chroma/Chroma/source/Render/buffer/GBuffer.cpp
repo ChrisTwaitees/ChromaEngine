@@ -149,31 +149,32 @@ void GBuffer::DrawGeometryPass()
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	Bind();
 	m_geometryPassShader.Use();
-	m_geometryPassShader.SetMat4("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
-	m_geometryPassShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
-	m_geometryPassShader.SetMat4("lightSpaceMatrix", m_Shadowbuffer->GetLightSpaceMatrix());
+	m_geometryPassShader.SetUniform("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
+	m_geometryPassShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
+	m_geometryPassShader.SetUniform("lightSpaceMatrix", m_Shadowbuffer->GetLightSpaceMatrix());
 
 	// Render Lit Components
 	for (UID const& uid : Chroma::Scene::GetLitComponentUIDs())
 	{
 		// transform components by entity transform
-		m_geometryPassShader.SetMat4("model", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetWorldTransform());
+		m_geometryPassShader.SetUniform("model", static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetWorldTransform());
 
 		// check if mesh skinned
-		m_geometryPassShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsSkinned());
-		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsSkinned())
-			((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(m_geometryPassShader);
+		bool isSkinned = static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsSkinned();
+		m_geometryPassShader.SetUniform("isSkinned", isSkinned);
+		if (isSkinned)
+			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetJointUniforms(m_geometryPassShader);
 
 		// Draw Update Materials
 		// Check if Mesh is double sided
-		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsDoubleSided())
+		if (static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsDoubleSided())
 		{
 			glDisable(GL_CULL_FACE);
 			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
 			glEnable(GL_CULL_FACE);
 		}
 		else // if not render one front facing
-			((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
+			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateMaterials(m_geometryPassShader);
 	}
 	UnBind();
 }
@@ -209,7 +210,7 @@ void GBuffer::Draw()
 	DrawGeometryPass();
 
 	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
-	((SSAOBuffer*)m_SSAOBuffer)->Draw(gViewPosition, gViewNormal);
+	static_cast<SSAOBuffer*>(m_SSAOBuffer)->Draw(gViewPosition, gViewNormal);
 
 	// 2. Render pass to PostFX buffer
 	m_PostFXBuffer->Bind();

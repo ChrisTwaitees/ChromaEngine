@@ -64,7 +64,7 @@ void ShadowBuffer::DrawShadowMaps()
 
 	// Set uniforms on shader
 	depthShader.Use();
-	depthShader.SetMat4("lightSpaceMatrix", lightSpaceMatrix);
+	depthShader.SetUniform("lightSpaceMatrix", lightSpaceMatrix);
 
 	// Set map resolution
 	glViewport(0, 0, width, height);
@@ -79,14 +79,15 @@ void ShadowBuffer::DrawShadowMaps()
 	// render scene
 	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
 	{
-		depthShader.SetMat4("model", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetWorldTransform());
+		depthShader.SetUniform("model", static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetWorldTransform());
 		
 		// check if mesh skinned
-		depthShader.SetUniform("isSkinned", ((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsSkinned());
-		if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsSkinned())
-			((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetJointUniforms(depthShader);
+		bool isSkinned = static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsSkinned();
+		depthShader.SetUniform("isSkinned", isSkinned);
+		if (isSkinned)
+			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetJointUniforms(depthShader);
 
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(depthShader);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(depthShader);
 	}
 
 	UnBind();
@@ -101,7 +102,7 @@ void ShadowBuffer::BindShadowMaps()
 {
 	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
 	{
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->AddTexture(ShadowMapTexture);
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->AddTexture(ShadowMapTexture);
 	}
 }
 

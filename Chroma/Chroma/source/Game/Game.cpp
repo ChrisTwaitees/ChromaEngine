@@ -64,7 +64,7 @@ int main2()
 	// ____________________________________________________
 	Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	UnlitShader.Use();
-	UnlitShader.SetVec3("color", glm::vec3(1, 1, 0));
+	UnlitShader.SetUniform("color", glm::vec3(1, 1, 0));
 	Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 	Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
@@ -167,7 +167,7 @@ int main2()
 	IKTestMeshComponent->SetShader(PBRShader);
 	IKTestMeshComponent->AddTexture(gridAlbedo);
 	IKTestMeshComponent->AddTexture(flatNormal);
-	IKTestMeshComponent->m_UVMultiply = glm::vec2(8.0f);
+	IKTestMeshComponent->GetMaterial().SetUVMultiply(8.0f);
 	IKTestEntity->AddComponent(IKTestMeshComponent);
 	// rigid
 	PhysicsComponent* IKTestRigidComponent = new PhysicsComponent();
@@ -231,7 +231,7 @@ int main2()
 	TerrainMeshComponent->AddTexture(woodBoardsAlbedo);
 	TerrainMeshComponent->AddTexture(woodBoardsNormal);
 	TerrainMeshComponent->AddTexture(woodBoardsMetRoughAO);
-	TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
+	TerrainMeshComponent->GetMaterial().SetUVMultiply(8.0);
 	TerrainEntity->AddComponent(TerrainMeshComponent);
 
 	// rigid
@@ -249,7 +249,7 @@ int main2()
 	TerrainMesh2Component->AddTexture(woodBoardsAlbedo);
 	TerrainMesh2Component->AddTexture(woodBoardsNormal);
 	TerrainMesh2Component->AddTexture(woodBoardsMetRoughAO);
-	TerrainMesh2Component->m_UVMultiply = glm::vec2(8.0f);
+	TerrainMesh2Component->GetMaterial().SetUVMultiply(8.0);
 	TerrainEntity2->AddComponent(TerrainMesh2Component);
 
 	// rigid
@@ -268,7 +268,7 @@ int main2()
 	TerrainMesh3Component->AddTexture(woodBoardsAlbedo);
 	TerrainMesh3Component->AddTexture(woodBoardsNormal);
 	TerrainMesh3Component->AddTexture(woodBoardsMetRoughAO);
-	TerrainMesh3Component->m_UVMultiply = glm::vec2(8.0f);
+	TerrainMesh3Component->GetMaterial().SetUVMultiply(8.0);
 	TerrainEntity3->AddComponent(TerrainMesh3Component);
 
 	// rigid
@@ -286,7 +286,7 @@ int main2()
 	TerrainMesh4Component->AddTexture(woodBoardsAlbedo);
 	TerrainMesh4Component->AddTexture(woodBoardsNormal);
 	TerrainMesh4Component->AddTexture(woodBoardsMetRoughAO);
-	TerrainMesh4Component->m_UVMultiply = glm::vec2(8.0f);
+	TerrainMesh4Component->GetMaterial().SetUVMultiply(8.0);
 	TerrainEntity4->AddComponent(TerrainMesh4Component);
 
 	// rigid

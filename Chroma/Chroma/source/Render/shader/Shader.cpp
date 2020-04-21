@@ -130,8 +130,14 @@ Shader::Shader(std::string fragmentPath, std::string vertexPath, std::string geo
 
 Shader::~Shader()
 {
-	ShaderID = glCreateProgram();
+	Destroy();
 }
+
+void Shader::Destroy()
+{
+	glDeleteProgram(ShaderID);
+}
+
 
 void Shader::Use() const
 {
@@ -155,39 +161,39 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 			pointlights++;
 			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
 			//// lights point light falloff
-			this->SetFloat(lightIndex + ".constant", light->m_Constant);
-			this->SetFloat(lightIndex + ".linear", light->m_Linear);
-			this->SetFloat(lightIndex + ".quadratic", light->m_Quadratic);
+			this->SetUniform(lightIndex + ".constant", light->m_Constant);
+			this->SetUniform(lightIndex + ".linear", light->m_Linear);
+			this->SetUniform(lightIndex + ".quadratic", light->m_Quadratic);
 			//this->SetFloat(lightIndex + ".radius", light->getRadius());
 			break;
 		case Light::SUNLIGHT:
 			dirlights++;
 			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
 			//// lights directional
-			this->SetVec3(lightIndex + ".direction", light->GetDirection());
+			this->SetUniform(lightIndex + ".direction", light->GetDirection());
 			break;
 		case Light::DIRECTIONAL:
 			dirlights++;
 			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
 			//// lights directional
-			this->SetVec3(lightIndex + ".direction", light->GetDirection());
+			this->SetUniform(lightIndex + ".direction", light->GetDirection());
 			break;
 		case Light::SPOT:
 			spotlights++;
 			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
 			//// lights spotlight
-			this->SetFloat(lightIndex + ".spotSize", light->getSpotSize());
-			this->SetFloat(lightIndex + ".penumbraSize", light->getPenumbraSize());
+			this->SetUniform(lightIndex + ".spotSize", light->getSpotSize());
+			this->SetUniform(lightIndex + ".penumbraSize", light->getPenumbraSize());
 			break;
 		default:
 			break;
 		}
 		// lights all
-		this->SetFloat(lightIndex + ".intensity", light->getIntensity());
-		this->SetVec3(lightIndex + ".diffuse", light->getDiffuse());
-		this->SetVec3(lightIndex + ".position", light->GetPosition());
+		this->SetUniform(lightIndex + ".intensity", light->getIntensity());
+		this->SetUniform(lightIndex + ".diffuse", light->getDiffuse());
+		this->SetUniform(lightIndex + ".position", light->GetPosition());
 		// lights view pos
-		this->SetVec3("viewPos", renderCam.GetPosition());
+		this->SetUniform("viewPos", renderCam.GetPosition());
 
 //		delete light;
 	}
@@ -223,40 +229,4 @@ void Shader::CheckCompileErrors(GLuint shader, std::string type)
 	}
 }
 
-
-
-void Shader::SetBool(const std::string& name, bool value) const
-{
-	m_Uniforms.SetBool(name, value);
-}
-
-void Shader::SetInt(const std::string& name, int value) const
-{
-	m_Uniforms.SetInt(name, value);
-}
-
-void Shader::SetFloat(const std::string& name, float value) const
-{
-	m_Uniforms.SetFloat(name, value);
-}
-
-void Shader::SetVec2(const std::string& name, glm::vec2 value) const
-{
-	m_Uniforms.setVec2(name, value);
-}
-
-void Shader::SetVec3(const std::string& name, glm::vec3 value) const
-{
-	m_Uniforms.setVec3(name, value);
-}
-
-void Shader::SetMat4(const std::string& name, glm::mat4 value) const
-{
-	m_Uniforms.SetMat4(name, value);
-}
-
-void Shader::SetUniforms()
-{
-	m_Uniforms.SetUniforms();
-}
 

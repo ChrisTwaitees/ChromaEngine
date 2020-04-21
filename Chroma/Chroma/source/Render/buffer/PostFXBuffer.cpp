@@ -46,20 +46,20 @@ void PostFXBuffer::Initialize()
 void PostFXBuffer::UpdateTransformUniforms()
 {
 	blurShader->Use();
-	blurShader->SetVec2("scale", m_Scale);
-	blurShader->SetVec2("offset", m_Offset);
+	blurShader->SetUniform("scale", m_Scale);
+	blurShader->SetUniform("offset", m_Offset);
 	m_ScreenShader->Use();
-	m_ScreenShader->SetVec2("scale", m_Scale);
-	m_ScreenShader->SetVec2("offset", m_Offset);
+	m_ScreenShader->SetUniform("scale", m_Scale);
+	m_ScreenShader->SetUniform("offset", m_Offset);
 }
 
 void PostFXBuffer::ConfigureShaders()
 {
 	blurShader->Use();
-	blurShader->SetInt("image", 0);
+	blurShader->SetUniform("image", 0);
 	m_ScreenShader->Use();
-	m_ScreenShader->SetInt("scene", 0);
-	m_ScreenShader->SetInt("bloomBlur", 1);
+	m_ScreenShader->SetUniform("scene", 0);
+	m_ScreenShader->SetUniform("bloomBlur", 1);
 }
 
 void PostFXBuffer::ResizeBuffers()
@@ -110,7 +110,7 @@ void PostFXBuffer::blurFragments()
 	for (int i = 0; i < blurIterations; i++)
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
-		blurShader->SetInt("horizontal", horizontal);
+		blurShader->SetUniform("horizontal", horizontal);
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(
 			GL_TEXTURE_2D, first_iteration ? colorBuffersTextures[1] : blurColorBuffers[!horizontal]
@@ -131,7 +131,7 @@ void PostFXBuffer::Draw()
 	m_ScreenShader->Use();
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
-	m_ScreenShader->SetInt("bloom", 0);
+	m_ScreenShader->SetUniform("bloom", 0);
 	// setting transform uniforms
 	UpdateTransformUniforms();
 	RenderQuad();
@@ -150,7 +150,7 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		for (int i = 0; i < blurIterations; i++)
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, blurFBOs[horizontal]);
-			blurShader->SetInt("horizontal", horizontal);
+			blurShader->SetUniform("horizontal", horizontal);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(
 				GL_TEXTURE_2D, first_iteration ? colorBuffersTextures[1] : blurColorBuffers[!horizontal]
@@ -168,7 +168,7 @@ void PostFXBuffer::Draw(const bool& useBloom)
 		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
 		glActiveTexture(GL_TEXTURE1);
 		glBindTexture(GL_TEXTURE_2D, blurColorBuffers[!horizontal]);
-		m_ScreenShader->SetInt("bloom", useBloom);
+		m_ScreenShader->SetUniform("bloom", useBloom);
 		// setting transform uniforms
 		RenderQuad();
 	}

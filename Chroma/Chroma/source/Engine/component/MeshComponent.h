@@ -12,7 +12,7 @@
 class MeshComponent : public IComponent
 {
 public:
-	// Functions
+	// Component Functions
 	void Init() override;
 	void Update() override;
 	void Destroy() override;
@@ -36,28 +36,20 @@ public:
 	virtual void SetCastsShadows(bool const& check) { m_CastShadows = check; };
 	inline bool& GetCastsShadows() { return m_CastShadows; }
 
-	glm::vec2 m_UVMultiply{ 1.0 };
-
-	// transforms
-	// set
+	// Transforms
 	virtual glm::mat4 GetWorldTransform();
 	virtual void SetTransform(glm::mat4 const& newTransformMat);
 	virtual inline void SetScale(glm::vec3 const& newscale) { m_Scale = newscale; RebuildTransform(); }
 	virtual inline void SetTranslation(glm::vec3 const& newposition) { m_Translation = newposition; RebuildTransform(); }
 	virtual void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; RebuildTransform(); }
 
-	// Accessors
+	// Dimensions
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
 	virtual glm::vec3 GetCentroid() = 0;
-	virtual Shader& GetShader() = 0;
-	virtual int GetNumTextures() = 0;
 	virtual glm::mat4 GetTransform() { return m_Transform; };
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
 
-	virtual void SetShader(Shader const& shader) = 0;
-	virtual void SetTextures(std::vector<Texture> textures_val) = 0;
-	virtual void AddTexture(Texture texture_val) = 0;
-
+	// Filepaths
 	virtual std::string& GetSourcePath() { return m_SourcePath; }
 	virtual void SetSourcePath(const std::string& newSourcePath) { m_SourcePath = newSourcePath; }
 
@@ -73,6 +65,18 @@ public:
 	virtual void SetInt(std::string name, int value) = 0;
 	virtual void SetFloat(std::string name, float value) = 0;
 	virtual void SetJointUniforms(Shader& shader) {};
+
+	// Materials
+	virtual void SetMaterial(const Material& newMaterial) { m_Material = newMaterial; };
+	virtual Material& GetMaterial() { return m_Material; };
+
+	virtual void SetShader(Shader const& shader) { m_Material.SetShader(shader); };
+	virtual Shader& GetShader() { return m_Material.GetShader(); };
+
+	virtual void SetTextureSet(std::vector<Texture>& textures_val) { m_Material.SetTextureSet(textures_val); };
+	virtual std::vector<Texture>& GetTextureSet() { return m_Material.GetTextureSet(); };
+	virtual void AddTexture(Texture& texture_val) { m_Material.AddTexture(texture_val); };
+	virtual int GetNumTextures() { return m_Material.GetTextureSet().size(); };
 
 	// Constructors
 	MeshComponent();
@@ -94,9 +98,7 @@ protected:
 	virtual void CalculateCentroid() = 0;
 	//Material
 	Material m_Material;
-	std::vector<Texture> m_Textures;
-	virtual void SerializeTextures(ISerializer*& serializer);
-	virtual void DestroyTextures();
+	void SerializeMaterial(ISerializer*& serializer);
 	// Render Attrs
 	bool m_IsRenderable{ false };
 	bool m_IsTransparent{ false };

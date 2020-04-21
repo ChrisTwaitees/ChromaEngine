@@ -4,8 +4,8 @@
 void SkyBox::Initialize()
 {
 	// initialize shaders uniforms
-	m_linearShader.SetInt("skybox", 0);
-	m_HDRShader.SetInt("skybox", 0);
+	m_linearShader.SetUniform("skybox", 0);
+	m_HDRShader.SetUniform("skybox", 0);
 
 	// create VBO
 	glGenBuffers(1, &VBO);
@@ -34,15 +34,15 @@ void SkyBox::Draw()
 	case(LINEAR) :
 	{
 		m_linearShader.Use();
-		m_linearShader.SetMat4("view", view);
-		m_linearShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
+		m_linearShader.SetUniform("view", view);
+		m_linearShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 		break;
 	}
 	case(HDR):
 	{
 		m_HDRShader.Use();
-		m_HDRShader.SetMat4("view", view);
-		m_HDRShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
+		m_HDRShader.SetUniform("view", view);
+		m_HDRShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 		break;
 	}
 	}

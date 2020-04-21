@@ -25,5 +25,10 @@ IDeserializer* FactorySerializer::GetDeserializer(Chroma::Type::Serialization se
 		return new JSONDeserializer;
 		break;
 	}
+	default:
+	{
+		return new JSONDeserializer;
+		break;
+	}
 	}
 }

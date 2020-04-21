@@ -32,16 +32,16 @@ public:
 	// render components
 	Shader& GetShader();
 	void SetShader(Shader const& shader) override;
-	int GetNumTextures() override { return (int)m_Textures.size(); };
 	std::vector<UID>& GetMeshUIDs() { return m_MeshUIDs; }
 	// verts
 	std::vector<ChromaVertex> GetVertices() override;
 
-	// Component requirement 
+	// Material
 	void SetIsLit(bool const& check) override;
 	void SetIsForwardLit(bool const& check) override;
-	void SetTextures(std::vector<Texture> textures_val) override {};
-	void AddTexture(Texture texture_val) override;
+	void SetTextureSet(std::vector<Texture>& textures_val) override;
+	void AddTexture(Texture& texture_val) override;
+	void SetMaterial(const Material& newMaterial) override;
 
 	// Shader Uniforms
 	void SetMat4(std::string name, glm::mat4 value) override;

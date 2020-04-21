@@ -83,8 +83,8 @@ void SkinnedMesh::Init()
 
 void SkinnedMesh::Destroy()
 {
-	// textures
-	DestroyTextures();
+	// Material
+	m_Material.Destroy();
 	// verts
 	m_SkinnedVertices.clear();
 	// Skeleton
@@ -111,11 +111,8 @@ void SkinnedMesh::Serialize(ISerializer*& serializer)
 	// File Properties
 	serializer->AddProperty("m_SourcePath", &m_SourcePath);
 
-	// Textures
-	SerializeTextures(serializer);
-
 	// Material 
-	serializer->AddProperty("m_Material", &m_Material);
+	SerializeMaterial(serializer);
 }
 
 
@@ -134,7 +131,7 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 	m_RootTransform = rootTransform_val;
 	m_RootTransformInversed = glm::inverse(rootTransform_val);
 	// Textures
-	m_Textures = textures_val;
+	m_Material.SetTextureSet(textures_val);
 	// Build Mesh
 	SetupMesh();
 }
@@ -151,7 +148,7 @@ SkinnedMesh::SkinnedMesh(MeshData const& newMeshData)
 	m_SkinnedVertices = newMeshData.skinnedVerts;
 	m_Indices = newMeshData.indices;
 	// Textures
-	m_Textures = newMeshData.textures;
+	m_Material.SetTextureSet(newMeshData.textures);
 	// Build Mesh
 	SetupMesh();
 }
@@ -169,7 +166,7 @@ SkinnedMesh::SkinnedMesh(std::string const& sourcePath)
 	m_SkinnedVertices = newMeshData.skinnedVerts;
 	m_Indices = newMeshData.indices;
 	// Textures
-	m_Textures = newMeshData.textures;
+	m_Material.SetTextureSet(newMeshData.textures);
 	// Build Mesh
 	SetupMesh();
 

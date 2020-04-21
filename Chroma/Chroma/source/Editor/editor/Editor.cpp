@@ -59,7 +59,7 @@ namespace Chroma
 		// ____________________________________________________
 		Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 		UnlitShader.Use();
-		UnlitShader.SetVec3("color", glm::vec3(1, 1, 0));
+		UnlitShader.SetUniform("color", glm::vec3(1, 1, 0));
 		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
@@ -143,7 +143,7 @@ namespace Chroma
 		TerrainMeshComponent->SetShader(PBRShader);
 		TerrainMeshComponent->AddTexture(gridAlbedo);
 		TerrainMeshComponent->AddTexture(flatNormal);
-		TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
+		TerrainMeshComponent->GetMaterial().SetUVMultiply(8.0);
 		//TerrainMeshComponent->AddTexture(PlanksNormal);
 		//TerrainMeshComponent->AddTexture(PlanksMetRoughAO);
 		TerrainEntity->AddComponent(TerrainMeshComponent);
@@ -261,13 +261,13 @@ namespace Chroma
 		Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
 		headTranslucency.m_Type = Texture::TRANSLUCENCY;
 
-		//// Lookdev Sphere
+		// Lookdev Sphere
 		//Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-		//lookDevAlbedo.type = Texture::ALBEDO;
+		//lookDevAlbedo.m_Type = Texture::ALBEDO;
 		//Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
-		//lookDevNormal.type = Texture::NORMAL;
+		//lookDevNormal.m_Type = Texture::NORMAL;
 		//Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-		//lookDevMetRoughAO.type = Texture::METROUGHAO;
+		//lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
 
 		// ____________________________________________________
 		// MODELS
@@ -275,11 +275,14 @@ namespace Chroma
 
 		// HEAD		
 		MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");
-		HeadMeshComponent->SetShader(PBRShader);
-		HeadMeshComponent->AddTexture(headAlbedo);
-		HeadMeshComponent->AddTexture(headNormal);
-		HeadMeshComponent->AddTexture(headMetRoughAO);
-		HeadMeshComponent->AddTexture(headTranslucency);
+		Material HeadMeshMaterial;
+		HeadMeshMaterial.SetShader(PBRShader);
+		HeadMeshMaterial.AddTexture(headAlbedo);
+		HeadMeshMaterial.AddTexture(headNormal);
+		HeadMeshMaterial.AddTexture(headMetRoughAO);
+		HeadMeshMaterial.AddTexture(headTranslucency);
+		HeadMeshMaterial.AddUniform("test", 1);
+		HeadMeshComponent->SetMaterial(HeadMeshMaterial);
 		HumanEntity->AddComponent(HeadMeshComponent);
 
 		// Eyelashes 
@@ -299,9 +302,9 @@ namespace Chroma
 		// LOOKDEVSPHERE
 		//MeshComponent* lookDevMeshComponent = new Model("resources/lookdev/sphere.obj");
 		//lookDevMeshComponent->SetShader(PBRShader);
-		////lookDevMeshComponent->AddTexture(lookDevAlbedo);
-		////lookDevMeshComponent->AddTexture(lookDevNormal);
-		////lookDevMeshComponent->AddTexture(flatNormal);
+		//lookDevMeshComponent->AddTexture(lookDevAlbedo);
+		//lookDevMeshComponent->AddTexture(lookDevNormal);
+		//lookDevMeshComponent->AddTexture(flatNormal);
 		//LookDevEntity->AddComponent(lookDevMeshComponent);
 
 		//// LookDev Physics

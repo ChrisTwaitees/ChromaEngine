@@ -77,13 +77,13 @@ void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)
 
 void StaticMesh::UpdateLightingUniforms(Shader& shader, Camera& renderCam)
 {
-	shader.SetLightingUniforms(renderCam);
+	GetShader().SetLightingUniforms(renderCam);
 }
 
-void StaticMesh::updateTextureUniforms(Shader const& shader)
+void StaticMesh::updateTextureUniforms(Shader& shader)
 {
 	// UV Modifiers
-	shader.SetVec2("UVMultiply", m_UVMultiply);
+	shader.SetUniform("UVMultiply", m_Material.GetUVMultiply());
 
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
@@ -94,12 +94,12 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 	unsigned int metroughaoNr{ 1 };
 	unsigned int aoNr{ 1 };
 	unsigned int translucencyNr{ 1 };
-	for (int i = 0; i < m_Textures.size(); i++)
+	for (int i = 0; i < GetNumTextures(); i++)
 	{
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		Texture::TYPE textureType = m_Textures[i].m_Type;
+		Texture::TYPE textureType = GetTextureSet()[i].m_Type;
 
 		switch(textureType)
 		{
@@ -108,7 +108,7 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 				name = "material.texture_albedo";
 				texturenum = std::to_string(diffuseNr++);
 				// set use texture albedo
-				shader.SetBool("UseAlbedoMap", true);
+				shader.SetUniform("UseAlbedoMap", true);
 				break;
 			}
 		case Texture::NORMAL:
@@ -116,7 +116,7 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 				name = "material.texture_normal";
 				texturenum = std::to_string(normalNr++);
 				// set use texture normals
-				shader.SetBool("UseNormalMap", true);
+				shader.SetUniform("UseNormalMap", true);
 				break;
 			}
 		case Texture::METROUGHAO:
@@ -124,7 +124,7 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 				name = "material.texture_MetRoughAO";
 				texturenum = std::to_string(metroughaoNr++);
 				// set use texture metroughao
-				shader.SetBool("UseMetRoughAOMap", true);
+				shader.SetUniform("UseMetRoughAOMap", true);
 				break;
 			}
 		case Texture::METALNESS:
@@ -155,7 +155,7 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 		{
 			name = "material.texture_translucency";
 			texturenum = std::to_string(translucencyNr++);
-			shader.SetBool("UseTranslucencyMap", true);
+			shader.SetUniform("UseTranslucencyMap", true);
 			break;
 		}
 		}
@@ -163,9 +163,9 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 		// Activate Texture before binding
 		glActiveTexture(GL_TEXTURE0 + i);
 		// Bind Texture
-		glBindTexture(GL_TEXTURE_2D, m_Textures[i].ID);
+		glBindTexture(GL_TEXTURE_2D, GetTextureSet()[i].ID);
 		// Set Unitform
-		shader.SetInt(( name + texturenum).c_str(), i);
+		shader.SetUniform(( name + texturenum).c_str(), i);
 
 
 	}
@@ -177,41 +177,43 @@ void StaticMesh::updateTextureUniforms(Shader const& shader)
 
 }
 
-void StaticMesh::UpdatePBRLightingTextureUniforms(Shader const& shader)
+void StaticMesh::UpdatePBRLightingTextureUniforms(Shader& shader)
 {
 	// Irradiance
-	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 1);
-	shader.SetInt("irradianceMap", m_Textures.size() + 1);
+	glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 1);
+	shader.SetUniform("irradianceMap", GetNumTextures() + 1);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetIrradianceMapID());
 	// Prefilter Map
-	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 2);
-	shader.SetInt("prefilterMap", m_Textures.size() + 2);
+	glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 2);
+	shader.SetUniform("prefilterMap", GetNumTextures() + 2);
 	glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetPrefilterMapID());
 	// BRDF LUT
-	glActiveTexture(GL_TEXTURE0 + m_Textures.size() + 3);
-	shader.SetInt("brdfLUT", m_Textures.size() + 3);
+	glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 3);
+	shader.SetUniform("brdfLUT", GetNumTextures() + 3);
 	glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->GetBRDFLUTID());
 }
 
-void StaticMesh::UpdateTransformUniforms(Shader const& shader, Camera& renderCam)
+void StaticMesh::UpdateTransformUniforms(Shader& shader, Camera& renderCam)
 {
-	shader.SetMat4("model", GetWorldTransform());
-	shader.SetMat4("view", renderCam.GetViewMatrix());
-	shader.SetMat4("projection", renderCam.GetProjectionMatrix());
+	shader.SetUniform("model", GetWorldTransform());
+	shader.SetUniform("view", renderCam.GetViewMatrix());
+	shader.SetUniform("projection", renderCam.GetProjectionMatrix());
 }
 
-void StaticMesh::UpdateMaterialUniforms(Shader const& shader)
+void StaticMesh::UpdateMaterialUniforms(Shader& shader)
 {
-	shader.SetFloat("roughness", 0.4f);
-	shader.SetVec3("color", glm::vec4(1, 0, 0, 0.5));
-	shader.SetFloat("metalness", 0.0f);
-	shader.SetBool("UseAlbedoMap", false);
-	shader.SetBool("UseNormalMap", false);
-	shader.SetBool("UseMetRoughAOMap", false);
+	shader.SetUniform("roughness", 0.4f);
+	shader.SetUniform("color", glm::vec4(1, 0, 0, 0.5));
+	shader.SetUniform("metalness", 0.0f);
+	shader.SetUniform("UseAlbedoMap", false);
+	shader.SetUniform("UseNormalMap", false);
+	shader.SetUniform("UseMetRoughAOMap", false);
+	m_Material.GetUniformArray().SetUniforms(shader.ShaderID);
 }
 
 void StaticMesh::Draw(Shader& shader)
 {
+	//shader.Use();
 	shader.Use();
 	// draw mesh
 	BindDrawVAO();
@@ -219,8 +221,8 @@ void StaticMesh::Draw(Shader& shader)
 
 void StaticMesh::Draw(Camera& RenderCamera)
 {
-	m_shader.Use();
-	UpdateUniforms(m_shader, RenderCamera);
+	m_Material.Use();
+	UpdateUniforms(GetShader(), RenderCamera);
 	BindDrawVAO();
 }
 
@@ -241,8 +243,8 @@ void StaticMesh::DrawUpdateMaterials(Shader& shader)
 
 void StaticMesh::DrawUpdateTransforms(Camera& renderCam)
 {
-	m_shader.Use();
-	UpdateTransformUniforms(m_shader, renderCam);
+	m_Material.Use();
+	UpdateTransformUniforms(GetShader(), renderCam);
 	BindDrawVAO();
 }
 
@@ -261,12 +263,8 @@ void StaticMesh::Init()
 
 void StaticMesh::Destroy()
 {
-	// textures
-	for (Texture& texture : m_Textures)
-	{
-		texture.Destroy();
-	}
-	m_Textures.clear();
+	// Material 
+	m_Material.Destroy();
 	// verts
 	m_vertices.clear();
 	// vao
@@ -291,48 +289,8 @@ void StaticMesh::Serialize(ISerializer*& serializer)
 	// File Properties
 	serializer->AddProperty("m_SourcePath", &m_SourcePath);
 
-	// Textures
-	SerializeTextures(serializer);
-
 	// Material 
-	serializer->AddProperty("m_Material", &m_Material);
-}
-
-
-void StaticMesh::SetTextures(std::vector<Texture> textures_val)
-{
-	for (unsigned int i = 0; textures_val.size(); i++)
-	{
-		bool skip{ false };
-		for (unsigned int j = 0; j < m_Textures.size(); j++)
-		{
-			if (std::strcmp(m_Textures[j].GetSourcePath().data(), textures_val[j].GetSourcePath().data()) == 0)
-			{
-				skip = true;
-				break;
-			}
-		}
-		if (!skip)
-			m_Textures.push_back(textures_val[i]);
-	}
-}
-
-void StaticMesh::AddTexture(Texture texture_val)
-{
-	bool skip{false};
-	for (unsigned int i = 0; i < m_Textures.size(); i++)
-	{
-		skip = false;
-		if (std::strcmp(m_Textures[i].GetSourcePath().data(), texture_val.GetSourcePath().data()) == 0)
-		{
-			skip = true;
-			break;
-		}
-	}
-	if (!skip)
-	{
-		m_Textures.push_back(texture_val);
-	}
+	SerializeMaterial(serializer);
 }
 
 
@@ -350,20 +308,20 @@ glm::vec3 StaticMesh::GetCentroid()
 
 void StaticMesh::SetMat4(std::string name, glm::mat4 value)
 {
-	m_shader.Use();
-	m_shader.SetMat4(name, value);
+	GetShader().Use();
+	GetShader().SetUniform(name, value);
 }
 
 void StaticMesh::SetInt(std::string name, int value)
 {
-	m_shader.Use();
-	m_shader.SetInt(name, value);
+	GetShader().Use();
+	GetShader().SetUniform(name, value);
 }
 
 void StaticMesh::SetFloat(std::string name, float value)
 {
-	m_shader.Use();
-	m_shader.SetFloat(name, value);
+	GetShader().Use();
+	GetShader().SetUniform(name, value);
 }
 
 StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
@@ -371,8 +329,8 @@ StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsig
 	m_IsRenderable = true;
 	m_vertices = vertices_val;
 	m_Indices = indices_val;
-	m_Textures = textures_val;
-	
+	m_Material.SetTextureSet(textures_val);
+
 	SetupMesh();
 }
 
@@ -381,7 +339,7 @@ StaticMesh::StaticMesh(MeshData const& newMeshData)
 	m_IsRenderable = true;
 	m_vertices = newMeshData.verts;
 	m_Indices = newMeshData.indices;
-	m_Textures = newMeshData.textures;
+	m_Material.SetTextureSet(newMeshData.textures);
 
 	SetupMesh();
 }
@@ -393,5 +351,6 @@ StaticMesh::StaticMesh()
 
 StaticMesh::~StaticMesh()
 {
+	Destroy();
 }
 

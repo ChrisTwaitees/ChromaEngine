@@ -6,7 +6,6 @@
 #include <editor/EditorProperty.h>
 #include <types/Types.h> 
 #include <uid/UID.h>
-//#include <material/Material.h>
 
 
 class ISerializer
@@ -107,12 +106,6 @@ public:
 		m_UIDVectors.emplace(std::make_pair(key, value));
 	}
 
-	//template<>
-	//void AddProperty<Material*>(const char* key, Material* value, EditorProperty editorPrpty)
-	//{
-	//	m_MaterialProperties.emplace(std::make_pair(key, value));
-	//}
-
 	virtual const char* ToString() = 0;
 
 
@@ -132,7 +125,6 @@ public:
 	std::map<const char*, glm::quat*> m_QuatProperties;
 	std::map<const char*, glm::mat3*> m_Mat3Properties;
 	std::map<const char*, glm::mat4*> m_Mat4Properties;
-	//std::map<const char*, Material*> m_MaterialProperties;
 
 	// vector properties
 	std::map<const char*, std::vector<UID>> m_UIDVectors;

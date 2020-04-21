@@ -6,73 +6,9 @@
 #include <core/Core.h>
 
 
-template<typename UniformType>
-class UniformArray
-{
-public:
-	std::map<std::string, UniformType> uniforms;
-
-	void addUniform(std::string uniformName, UniformType uniformValue) {
-		uniforms.insert(std::make_pair(uniformName, uniformValue));
-	};
-
-
-	int size() { return uniforms.size(); };
-
-	UniformArray() {};
-	~UniformArray() {};
-};
-
-
 class Uniform
 {
-private:
-	UniformArray<int> intUniforms;
-	UniformArray<float> floatUniforms;
-	UniformArray<glm::vec2> vec2Uniforms;
-	UniformArray<glm::vec3> vec3Uniforms;
-	UniformArray<glm::mat4> mat4Uniforms;
-
-	unsigned int* ShaderID;
-
 public:
-	// Adding new Uniforms
-
-	template<class T>
-	void addUniform(std::string name, T uniformType) {
-		CHROMA_WARN("Not supported Uniform Type!");
-	};
-
-	template<>
-	void addUniform<int>(std::string uniformName, int uniformValue) {
-		intUniforms.addUniform(uniformName, uniformValue);
-	};
-
-	template<>
-	void addUniform<float>(std::string uniformName, float uniformValue)
-	{
-		floatUniforms.addUniform(uniformName, uniformValue);
-	};
-
-	template<>
-	void addUniform<glm::vec2>(std::string uniformName, glm::vec2 uniformValue)
-	{
-		vec2Uniforms.addUniform(uniformName, uniformValue);
-	};
-
-	template<>
-	void addUniform<glm::vec3>(std::string uniformName, glm::vec3 uniformValue)
-	{
-		vec3Uniforms.addUniform(uniformName, uniformValue);
-	};
-
-	template<>
-	void addUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
-	{
-		mat4Uniforms.addUniform(uniformName, uniformValue);
-	};
-
-	// Setting existing Uniforms
 
 	template<typename T>
 	void SetUniform(std::string name, T uniformValue) {
@@ -81,60 +17,122 @@ public:
 
 	template<>
 	void SetUniform<int>(std::string uniformName, int uniformValue) {
-		SetInt(uniformName, uniformValue);
+		SetInt(uniformName, uniformValue, *ShaderID);
 	};
 
 	template<>
 	void SetUniform<unsigned int>(std::string uniformName, unsigned int uniformValue) {
-		SetInt(uniformName, uniformValue);
+		SetInt(uniformName, uniformValue, *ShaderID);
 	};
 
 	template<>
 	void SetUniform<float>(std::string uniformName, float uniformValue)
 	{
-		SetFloat(uniformName, uniformValue);
+		SetFloat(uniformName, uniformValue, *ShaderID);
 	};
 
 	template<>
 	void SetUniform<glm::vec2>(std::string uniformName, glm::vec2 uniformValue)
 	{
-		setVec2(uniformName, uniformValue);
+		setVec2(uniformName, uniformValue, *ShaderID);
 	};
 
 	template<>
 	void SetUniform<glm::vec3>(std::string uniformName, glm::vec3 uniformValue)
 	{
-		setVec3(uniformName, uniformValue);
+		setVec3(uniformName, uniformValue, *ShaderID);
 	};
 
 	template<>
 	void SetUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
 	{
-		SetMat4(uniformName, uniformValue);
+		SetMat4(uniformName, uniformValue, *ShaderID);
 	};
 
 	template<>
 	void SetUniform<bool>(std::string uniformName, bool uniformValue)
 	{
-		SetBool(uniformName, uniformValue);
+		SetBool(uniformName, uniformValue, *ShaderID);
 	};
 
-	// Renders
-	void SetUniforms();
-
-	// Uniform Updating
-	void SetBool(const std::string& name, bool value) const;
-	void SetInt(const std::string& name, int value) const;
-	void SetFloat(const std::string& name, float value) const;
-	void setVec2(const std::string& name, glm::vec2 value) const;
-	void setVec3(const std::string& name, glm::vec3 value) const;
-	void SetMat4(const std::string& name, glm::mat4 matrix) const;
-
-
 	Uniform(unsigned int *shaderID) : ShaderID{ shaderID } {};
+	Uniform() {};
 	~Uniform() {};
 
+protected:
+
+	// Uniform Updating
+	static void SetBool(const std::string& name, bool value, unsigned int const& shaderID);
+	static void SetInt(const std::string& name, int value, unsigned int const& shaderID);
+	static void SetFloat(const std::string& name, float value, unsigned int const& shaderID);
+	static void setVec2(const std::string& name, glm::vec2 value, unsigned int const& shaderID);
+	static void setVec3(const std::string& name, glm::vec3 value, unsigned int const& shaderID);
+	static void SetMat4(const std::string& name, glm::mat4 matrix, unsigned int const& shaderID);
+	unsigned int* ShaderID;
+
 };
+
+
+class UniformArray : public Uniform
+{
+public:
+
+	template<class T>
+	void AddUniform(std::string name, T uniformType) {
+		CHROMA_ERROR("Not supported Uniform Type!");
+	};
+
+	template<>
+	void AddUniform<int>(std::string uniformName, int uniformValue) {
+		m_IntUniforms.insert(std::make_pair(uniformName, uniformValue));
+	};
+
+	template<>
+	void AddUniform<float>(std::string uniformName, float uniformValue)
+	{
+		m_FloatUniforms.insert(std::make_pair(uniformName, uniformValue));
+	};
+
+	template<>
+	void AddUniform<glm::vec2>(std::string uniformName, glm::vec2 uniformValue)
+	{
+		m_Vec2Uniforms.insert(std::make_pair(uniformName, uniformValue));
+	};
+
+	template<>
+	void AddUniform<glm::vec3>(std::string uniformName, glm::vec3 uniformValue)
+	{
+		m_Vec3Uniforms.insert(std::make_pair(uniformName, uniformValue));
+	};
+
+	template<>
+	void AddUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
+	{
+		m_Mat4Uniforms.insert(std::make_pair(uniformName, uniformValue));
+	};
+
+	template<>
+	void AddUniform<unsigned int>(std::string uniformName, unsigned int uniformValue) {
+		m_UIntUniforms.insert(std::make_pair(uniformName, uniformValue));
+	};
+
+	void SetUniforms(unsigned int shaderID);
+
+	int size();
+
+	UniformArray() {};
+	~UniformArray() {};
+
+private:
+	std::map<std::string, int>           m_IntUniforms;
+	std::map<std::string, unsigned int>  m_UIntUniforms;
+	std::map<std::string, float>         m_FloatUniforms;
+	std::map<std::string, glm::vec2>     m_Vec2Uniforms;
+	std::map<std::string, glm::vec3>     m_Vec3Uniforms;
+	std::map<std::string, glm::mat4>     m_Mat4Uniforms;
+
+};
+
 
 
 #endif

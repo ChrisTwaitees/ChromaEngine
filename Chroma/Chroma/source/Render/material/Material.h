@@ -11,26 +11,32 @@ class Material
 public:
 	//Funcs
 	inline void Use() { m_Shader.Use(); };
+	void Destroy();
 
 	// Shader
 	Shader& GetShader() { return m_Shader; };
 	inline void SetShader(const Shader& newShader) { m_Shader = newShader; }
 	inline void SetShader(const char* shaderFRAGSourcePath, const char* shaderVTXSourcePath, const char* shaderGEOMSourcePath = "") 
-	{ m_Shader = Shader(shaderFRAGSourcePath, shaderVTXSourcePath, shaderGEOMSourcePath); }
+	{
+		m_Shader.Destroy();  m_Shader = Shader(shaderFRAGSourcePath, shaderVTXSourcePath, shaderGEOMSourcePath);
+	}
 
 	// Texture
-	std::set<Texture>& GetTextureSet() { return m_TextureSet; };
-	inline void SetTextureSet(const std::set<Texture>& newTextureSet) { m_TextureSet = newTextureSet; }
-	inline void AddTexture(const Texture& newTexture) { m_TextureSet.emplace(newTexture); };
+	std::vector<Texture>& GetTextureSet() { return m_TextureSet; };
+	void SetTextureSet(std::vector<Texture> newTextureSet);
+	void AddTexture(Texture& newTexture);
+
+	inline glm::vec2 GetUVMultiply() { return m_UVMultiply; }
+	inline void SetUVMultiply(const glm::vec2& newUV) { m_UVMultiply = newUV; }
+	inline void SetUVMultiply(const float& newUVFactor) { m_UVMultiply = glm::vec2(newUVFactor); };
 
 	// Uniform
-	Uniform& GetUniformArray() { return m_Shader.GetUniformArray(); };
-	inline void SetUniformArray(const Uniform& newUniform) { m_Shader.SetUniformArray(newUniform); }
-	inline void SetUniforms() { m_Shader.SetUniforms(); }
+	UniformArray& GetUniformArray() { return m_Uniforms; };
+	inline void SetUniforms() { m_Uniforms.SetUniforms(m_Shader.ShaderID); }
 
 	template<typename UniformType>
 	void AddUniform(std::string uniformName, UniformType uniformValue) {
-		m_Shader.AddUniform(uniformName, uniformValue);
+		m_Uniforms.AddUniform(uniformName, uniformValue);
 	};
 
 	template<typename UniformType>
@@ -42,8 +48,10 @@ public:
 	~Material() {};
 
 private:
-	Shader m_Shader;
-	std::set<Texture> m_TextureSet;
+	Shader m_Shader{ "resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl" };
+	UniformArray m_Uniforms;
+	std::vector<Texture> m_TextureSet;
+	glm::vec2 m_UVMultiply{ 1.0 };
 };
 
 #endif

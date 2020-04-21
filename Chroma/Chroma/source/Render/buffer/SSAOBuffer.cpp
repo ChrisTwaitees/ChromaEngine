@@ -85,29 +85,29 @@ void SSAOBuffer::generateNoiseTexture()
 void SSAOBuffer::sendKernelSamplesToShader()
 {
 	for (unsigned int i = 0; i < kernelSamples; i++)
-		SSAOShader.SetVec3("samples[" + std::to_string(i) + "]", ssaoKernel[i]);
+		SSAOShader.SetUniform("samples[" + std::to_string(i) + "]", ssaoKernel[i]);
 }
 
 void SSAOBuffer::ConfigureShaders()
 {
 	SSAOShader.Use();
-	SSAOShader.SetInt("kernelSize", kernelSamples);
-	SSAOShader.SetFloat("radius", 0.5f);
-	SSAOShader.SetFloat("bias", 0.025f);
-	SSAOShader.SetVec2("noiseScale", noiseScale);
+	SSAOShader.SetUniform("kernelSize", kernelSamples);
+	SSAOShader.SetUniform("radius", 0.5f);
+	SSAOShader.SetUniform("bias", 0.025f);
+	SSAOShader.SetUniform("noiseScale", noiseScale);
 
-	SSAOShader.SetInt("gViewPosition", 0);
-	SSAOShader.SetInt("gViewNormal", 1);
-	SSAOShader.SetInt("texNoise", 2);
+	SSAOShader.SetUniform("gViewPosition", 0);
+	SSAOShader.SetUniform("gViewNormal", 1);
+	SSAOShader.SetUniform("texNoise", 2);
 
-	SSAOShader.SetVec2("scale", m_Scale);
-	SSAOShader.SetVec2("offset", m_Offset);
+	SSAOShader.SetUniform("scale", m_Scale);
+	SSAOShader.SetUniform("offset", m_Offset);
 
 	SSAOBlurShader.Use();
-	SSAOBlurShader.SetInt("ssaoInput", 0);
+	SSAOBlurShader.SetUniform("ssaoInput", 0);
 
-	SSAOBlurShader.SetVec2("scale", m_Scale);
-	SSAOBlurShader.SetVec2("offset", m_Offset);
+	SSAOBlurShader.SetUniform("scale", m_Scale);
+	SSAOBlurShader.SetUniform("offset", m_Offset);
 }
 
 void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
@@ -118,7 +118,7 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
 	// updating shader uniforms
 	SSAOShader.Use();
 	sendKernelSamplesToShader();
-	SSAOShader.SetMat4("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
+	SSAOShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	//sending textures
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, gViewPosition);
