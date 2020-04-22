@@ -17,7 +17,6 @@ void Light::Init()
 
 #ifdef EDITOR
 	{
-		CHROMA_INFO("Initializing Light");
 		IComponent* lightIconComponent = new Icon();
 		Chroma::Scene::AddUIComponent(lightIconComponent);
 		m_IconUID = lightIconComponent->GetUID();
@@ -50,16 +49,20 @@ void Light::Destroy()
 void Light::Serialize(ISerializer*& serializer)
 {
 	CMPNT_SERIALIZE_BEGIN
-
-	serializer->AddProperty("m_Position", &m_Position);
-	serializer->AddProperty("m_Intensity", &m_Intensity);
-	serializer->AddProperty("m_Diffuse", &m_Diffuse);
-
-	serializer->AddProperty("m_Direction", &m_Direction);
+	EditorProperty editorProperty(Chroma::Type::EditorProperty::kNullEditorProperty);
+	editorProperty.m_Vec3MinMax = std::make_pair(glm::vec3(-20.0), glm::vec3(20.0));
+	serializer->AddProperty("m_Position", &m_Position, editorProperty);
+	editorProperty.m_FloatMinMax = std::make_pair(0.0,5.0);
+	serializer->AddProperty("m_Intensity", &m_Intensity, editorProperty);
+	editorProperty.m_Vec3MinMax = std::make_pair(glm::vec3(-1.0), glm::vec3(1.0));
+	serializer->AddProperty("m_Direction", &m_Direction, editorProperty);
+	editorProperty.m_FloatMinMax = std::make_pair(0.0, 1.0);
 	serializer->AddProperty("m_Linear", &m_Linear);
 	serializer->AddProperty("m_Quadratic", &m_Quadratic);
 	serializer->AddProperty("m_Constant", &m_Constant);
 
+	editorProperty.m_Type = Chroma::Type::EditorProperty::kColorProperty;
+	serializer->AddProperty("m_Diffuse", &m_Diffuse, editorProperty);
 }
 
 #ifdef EDITOR

@@ -84,7 +84,8 @@ namespace Chroma
 		AddUICall(DrawEditingModeTab);
 
 		// Draw Icons
-		DrawIcons();
+		if(m_IconsVisible)
+			DrawIcons();
 
 		// Draw other editors
 		DrawOtherEditorWindows();
@@ -557,6 +558,12 @@ namespace Chroma
 				ImGui::SliderFloat((vec3Property.first.m_Name + z).c_str(), &vec3Property.second->z, minMax.first.z, minMax.second.z);
 				ImGui::Separator();
 			}
+			if (vec3Property.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kColorProperty)
+			{
+				ImGui::Text(vec3Property.first.m_Name);
+				DrawColorPicker(*vec3Property.second);
+				ImGui::Separator();
+			}
 		}
 
 		// Vec4 Properties
@@ -612,6 +619,7 @@ namespace Chroma
 		ImGui::Begin("Editor Mode");
 		if (ImGui::Button("Animation Editor"))
 			AnimationEditorUI::Open();
+		ImGui::Checkbox("Draw Icons", &m_IconsVisible);
 		ImGui::End();
 	}
 
@@ -622,32 +630,30 @@ namespace Chroma
 
 	void EditorUI::DrawIcons()
 	{
-#ifdef EDITOR
-		if (m_IconsVisible)
+
+		// lights
+		for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 		{
-			// lights
-			for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
-			{
-				Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
-				// set uniforms
-				switch (light->type) {
-				case Light::POINT:
-					light->DrawIcon(m_LightPointIcon);
-				case Light::SUNLIGHT:
-					light->DrawIcon(m_LightSunIcon);
-					break;
-				case Light::DIRECTIONAL:
-					light->DrawIcon(m_LightSunIcon);
-					break;
-				case Light::SPOT:
-					light->DrawIcon(m_LightPointIcon);
-					break;
-				default:
-					break;
-				}
+			Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
+			// set uniforms
+			switch (light->type) {
+			case Light::POINT:
+				light->DrawIcon(m_LightPointIcon);
+			case Light::SUNLIGHT:
+				light->DrawIcon(m_LightSunIcon);
+				break;
+			case Light::DIRECTIONAL:
+				light->DrawIcon(m_LightSunIcon);
+				break;
+			case Light::SPOT:
+				light->DrawIcon(m_LightPointIcon);
+				break;
+			default:
+				break;
 			}
 		}
-#endif
+
+
 	}
 
 	void EditorUI::DrawFileBrowser()

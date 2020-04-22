@@ -1,5 +1,6 @@
 #include "StaticMesh.h"
 #include <scene/Scene.h>
+#include <resources/ModelLoader.h>
 
 
 void StaticMesh::CalculateBBox()
@@ -342,6 +343,20 @@ StaticMesh::StaticMesh(MeshData const& newMeshData)
 	m_Material.SetTextureSet(newMeshData.textures);
 
 	SetupMesh();
+}
+
+StaticMesh::StaticMesh(const std::string& sourcePath)
+{
+	for (MeshData const& newMeshData : Chroma::ModelLoader::Load(sourcePath))
+	{
+		m_IsRenderable = true;
+		m_vertices = newMeshData.verts;
+		m_Indices = newMeshData.indices;
+		m_Material.SetTextureSet(newMeshData.textures);
+
+		SetupMesh();
+		return;
+	}
 }
 
 StaticMesh::StaticMesh()

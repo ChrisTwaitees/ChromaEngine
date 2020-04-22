@@ -474,6 +474,8 @@ namespace Chroma
 
 	void Editor::PopulateTestScene3()
 	{
+		// POPULATE SCENE CONTENTS
+		// ____________________________________________________
 		// LIGHTS
 		// ____________________________________________________
 
@@ -486,7 +488,7 @@ namespace Chroma
 			glm::vec3(0.5f,  0.2f,  -2.0f),
 			glm::vec3(-3.5f,  1.2f,  4.0f),
 		};
-		// dancing point lights
+		// point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
@@ -497,50 +499,81 @@ namespace Chroma
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 2.0f);
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->setDiffuse(glm::vec3(1.0));
 		Sun->setIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 
+
 		// ____________________________________________________
 		// SHADERS
 		// ____________________________________________________
-		Shader UnlitShader("resources/shaders/fragBasic.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+
+		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRSkinShaderExperimental("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRSkinShader("resources/shaders/fragSSSS_backup.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
-	
 		// ____________________________________________________
 		// TEXTURES
 		// ____________________________________________________
+
+		// Default
 		// Generic
-		Texture blackAlbedo("resources/textures/colors/black.jpg");
 		Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		Texture whiteAlbedo("resources/textures/colors/white.jpg");
+		greyAlbedo.m_Type = Texture::ALBEDO;
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
+		gridAlbedo.m_Type = Texture::ALBEDO;
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
 		flatNormal.m_Type = Texture::NORMAL;
 
+		// Lookdev Sphere
+		Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
+		lookDevAlbedo.m_Type = Texture::ALBEDO;
+		Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
+		lookDevNormal.m_Type = Texture::NORMAL;
+		Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
+		lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
 
-		Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
-		headMetRoughAO.m_Type = Texture::METROUGHAO;
+		// ____________________________________________________
+		// Materials
 		// ____________________________________________________
 
-		// ANIMATED MODEL
-		// ____________________________________________________
-		IEntity* ClothModelEntity = new Entity;
-		ClothModelEntity->SetName("ClothModel");
-		Chroma::Scene::AddEntity(ClothModelEntity);
-		ClothModelEntity->SetScale(glm::vec3(10.0f));
-		//AnimModelEntity->SetTranslation(glm::vec3(0.0, 10.0, 0.0));
-		// mesh
-		MeshComponent* ClothModelMeshComponent = new Model("resources/lookdev/cloth.fbx");
-		//ClothModelMeshComponent->SetShader(PBRShader);
-		ClothModelMeshComponent->AddTexture(greyAlbedo);
-		ClothModelMeshComponent->AddTexture(flatNormal);
-		ClothModelMeshComponent->AddTexture(headMetRoughAO);
+		Material testMat;
+		testMat.SetShader(PBRShader);
+		testMat.AddTexture(lookDevAlbedo);
+		testMat.AddTexture(lookDevNormal);
+		testMat.AddTexture(lookDevMetRoughAO);
 
-		ClothModelEntity->AddComponent(ClothModelMeshComponent);
+		Material testMat2;
+		Material testMat3;
+		Material testMat4;
+		Material testMat5;
+
+		std::vector<Material> materialList{ testMat, testMat2 , testMat3, testMat4, testMat5 };
+
+		float spacing{ 3.0 };
+
+		for (unsigned int i = 0; i < materialList.size(); i++)
+		{
+			IEntity* lookDevEntity = new Entity;
+			lookDevEntity->SetName("LookDev Sphere : " + i);
+			Chroma::Scene::AddEntity(lookDevEntity);
+			lookDevEntity->SetScale(glm::vec3(0.2f));
+			lookDevEntity->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
+			// mesh component
+			MeshComponent* lookDevMeshComponent = new StaticMesh("resources/lookdev/sphere.obj");
+			lookDevMeshComponent->SetMaterial(testMat);
+			lookDevEntity->AddComponent(lookDevMeshComponent);
+
+			// LookDev Physics
+			PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
+			LookDevPhysicsComponent->SetColliderShape(Box);
+			LookDevPhysicsComponent->SetCollisionState(Kinematic);
+			lookDevEntity->AddComponent(LookDevPhysicsComponent);
+		}
+
 	}
 
 

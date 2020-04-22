@@ -38,6 +38,7 @@ public:
 
 	StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val);
 	StaticMesh(MeshData const& newMeshData);
+	StaticMesh(const std::string& sourcePath);
 	StaticMesh();
 	virtual ~StaticMesh();
 

@@ -21,6 +21,7 @@ namespace Chroma
 
 		static std::pair<int, int> GetViewportDimensions();
 		static bool m_Bloom;
+		static bool m_IconsVisible;
 
 
 	private:
@@ -89,7 +90,6 @@ namespace Chroma
 		static ImGuiWindowFlags m_ViewportWindowFlags;
 		static bool m_MouseIsOverViewport;
 		static bool EditorViewportOpen;
-		static bool m_IconsVisible;
 		static int m_PrevViewportWidth;
 		static int m_PrevViewportHeight;
 		static int m_ViewportWidth;

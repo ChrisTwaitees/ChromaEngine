@@ -2,6 +2,9 @@
 #include <scene/Scene.h>
 #include <model/SkinnedMesh.h>
 #include <component/UIComponent.h>
+#ifdef EDITOR
+#include <editor/ui/EditorUI.h>
+#endif
 
 
 void DebugBuffer::Initialize()
@@ -58,8 +61,12 @@ void DebugBuffer::DrawShapes()
 	DrawOverlayShapes();
 
 	// Draw UI Components
-	if (Chroma::Scene::GetUIComponentUIDs().size() > 0)
+#ifdef EDITOR
+	if (Chroma::Scene::GetUIComponentUIDs().size() > 0 && Chroma::EditorUI::m_IconsVisible)
 	{
+#else
+	if (Chroma::Scene::GetUIComponentUIDs().size() > 0)
+#endif
 		// Set to alpha blending
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		// Disable Back Face Culling to allow interior of transparent objects to be seen
