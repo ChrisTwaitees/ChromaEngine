@@ -52,7 +52,8 @@ namespace Chroma
 			kStringProperty = 4,
 			kMaterialProperty = 5,
 			kMaterialTextureProperty = 6,
-			kMaterialUniformProperty = 7
+			kMaterialUniformProperty = 7,
+			kTransformProperty = 8
 		};
 
 		// Getters

@@ -242,10 +242,13 @@ void Entity::Serialize(ISerializer*& serializer)
 	serializer->AddProperty("m_Name", &m_Name);
 
 	// Transforms
+	EditorProperty editoryPrpty(Chroma::Type::EditorProperty::kTransformProperty);
+	editoryPrpty.m_Vec3MinMax = std::make_pair(glm::vec3(-20.0), glm::vec3(20.0));
 	serializer->AddProperty("m_Transform",   &m_Transform);
-	serializer->AddProperty("m_Translation", &m_Translation);
-	serializer->AddProperty("m_Rotation",    &m_Rotation);
-	serializer->AddProperty("m_Scale",       &m_Scale);
+	serializer->AddProperty("m_Translation", &m_Translation, editoryPrpty);
+	serializer->AddProperty("m_Rotation",    &m_Rotation, editoryPrpty);
+	editoryPrpty.m_Vec3MinMax = std::make_pair(glm::vec3(0.0), glm::vec3(1.0));
+	serializer->AddProperty("m_Scale",       &m_Scale, editoryPrpty);
 
 }
 

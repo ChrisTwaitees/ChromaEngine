@@ -429,46 +429,123 @@ namespace Chroma
 			Chroma::Scene::GetEntity(m_SelectedObjectUID)->Update();
 		}
 
+		ImGui::Separator();
 
+		// const 
+		std::string x = ".x";
+		std::string y = ".y";
+		std::string z = ".z";
+		std::string w = ".w";
+
+		// TransformProperties
+		ImGui::Text("Transforms");
+		ImGui::Separator();
+		for (auto& floatProperty : objectSerializer->m_FloatProperties)
+		{
+			if (floatProperty.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kTransformProperty)
+			{
+				ImGui::SliderFloat(floatProperty.first.m_Name, floatProperty.second, floatProperty.first.m_EditorProperty.m_FloatMinMax.first, floatProperty.first.m_EditorProperty.m_FloatMinMax.second);
+				ImGui::Separator();
+			}
+		}
+
+		for (auto& vec3Property : objectSerializer->m_Vec3Properties)
+		{
+			if (vec3Property.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kTransformProperty)
+			{
+				std::pair<glm::vec3, glm::vec3> minMax = vec3Property.first.m_EditorProperty.m_Vec3MinMax;
+				ImGui::SliderFloat((vec3Property.first.m_Name + x).c_str(), &vec3Property.second->x, minMax.first.x, minMax.second.x);
+				ImGui::SliderFloat((vec3Property.first.m_Name + y).c_str(), &vec3Property.second->y, minMax.first.y, minMax.second.y);
+				ImGui::SliderFloat((vec3Property.first.m_Name + z).c_str(), &vec3Property.second->z, minMax.first.z, minMax.second.z);
+				ImGui::Separator();
+			}
+		}
+
+		for (auto& vec4Property : objectSerializer->m_Vec4Properties)
+		{
+			if (vec4Property.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kTransformProperty)
+			{
+				std::pair<glm::vec4, glm::vec4> minMax = vec4Property.first.m_EditorProperty.m_Vec4MinMax;
+				ImGui::SliderFloat((vec4Property.first.m_Name + x).c_str(), &vec4Property.second->x, minMax.first.x, minMax.second.x);
+				ImGui::SliderFloat((vec4Property.first.m_Name + y).c_str(), &vec4Property.second->y, minMax.first.y, minMax.second.y);
+				ImGui::SliderFloat((vec4Property.first.m_Name + z).c_str(), &vec4Property.second->z, minMax.first.z, minMax.second.z);
+				ImGui::SliderFloat((vec4Property.first.m_Name + w).c_str(), &vec4Property.second->w, minMax.first.w, minMax.second.w);
+				ImGui::Separator();
+			}
+		}
+
+		for (auto& quatProperty : objectSerializer->m_QuatProperties)
+		{
+			if (quatProperty.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kTransformProperty)
+			{
+				std::pair<glm::vec4, glm::vec4> minMax = quatProperty.first.m_EditorProperty.m_Vec4MinMax;
+				ImGui::SliderFloat((quatProperty.first.m_Name + x).c_str(), &quatProperty.second->x, minMax.first.x, minMax.second.x);
+				ImGui::SliderFloat((quatProperty.first.m_Name + y).c_str(), &quatProperty.second->y, minMax.first.y, minMax.second.y);
+				ImGui::SliderFloat((quatProperty.first.m_Name + z).c_str(), &quatProperty.second->z, minMax.first.z, minMax.second.z);
+				ImGui::SliderFloat((quatProperty.first.m_Name + w).c_str(), &quatProperty.second->w, minMax.first.w, minMax.second.w);
+				ImGui::Separator();
+			}
+		}
+
+
+		// UNCATEGORIZED
+		ImGui::Text("Uncategorized");
+		ImGui::Separator();
 
 		// Float Properties
 		ImGui::Separator();
 		ImGui::Text("Float");
-		for (std::pair<const char*, float*> floatProperty : objectSerializer->m_FloatProperties)
+		for (auto& floatProperty : objectSerializer->m_FloatProperties)
 		{
-			ImGui::SliderFloat(floatProperty.first, floatProperty.second, -10.0, 10.0);
+			if(floatProperty.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kNullEditorProperty)
+				ImGui::SliderFloat(floatProperty.first.m_Name, floatProperty.second, floatProperty.first.m_EditorProperty.m_FloatMinMax.first, floatProperty.first.m_EditorProperty.m_FloatMinMax.second);
 		}
 
 		// Vec3 Properties
 		ImGui::Separator();
 		ImGui::Text("Vec3");
-		for (std::pair<const char*, glm::vec3*> vec3Property : objectSerializer->m_Vec3Properties)
+		for (auto& vec3Property : objectSerializer->m_Vec3Properties)
 		{
-			std::string x = ".x";
-			std::string y = ".y";
-			std::string z = ".z";
-			ImGui::SliderFloat((vec3Property.first + x).c_str(), &vec3Property.second->x, -10.0, 10.0);
-			ImGui::SliderFloat((vec3Property.first + y).c_str(), &vec3Property.second->y, -10.0, 10.0);
-			ImGui::SliderFloat((vec3Property.first + z).c_str(), &vec3Property.second->z, -10.0, 10.0);
-			ImGui::Separator();
-			
+			if (vec3Property.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kNullEditorProperty)
+			{
+				std::pair<glm::vec3, glm::vec3> minMax = vec3Property.first.m_EditorProperty.m_Vec3MinMax;
+				ImGui::SliderFloat((vec3Property.first.m_Name + x).c_str(), &vec3Property.second->x, minMax.first.x, minMax.second.x);
+				ImGui::SliderFloat((vec3Property.first.m_Name + y).c_str(), &vec3Property.second->y, minMax.first.y, minMax.second.y);
+				ImGui::SliderFloat((vec3Property.first.m_Name + z).c_str(), &vec3Property.second->z, minMax.first.z, minMax.second.z);
+				ImGui::Separator();
+			}
+		}
+
+		// Vec4 Properties
+		ImGui::Separator();
+		ImGui::Text("Vec4");
+		for (auto& vec4Property : objectSerializer->m_Vec4Properties)
+		{
+			if (vec4Property.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kNullEditorProperty)
+			{
+				std::pair<glm::vec4, glm::vec4> minMax = vec4Property.first.m_EditorProperty.m_Vec4MinMax;
+				ImGui::SliderFloat((vec4Property.first.m_Name + x).c_str(), &vec4Property.second->x, minMax.first.x, minMax.second.x);
+				ImGui::SliderFloat((vec4Property.first.m_Name + y).c_str(), &vec4Property.second->y, minMax.first.y, minMax.second.y);
+				ImGui::SliderFloat((vec4Property.first.m_Name + z).c_str(), &vec4Property.second->z, minMax.first.z, minMax.second.z);
+				ImGui::SliderFloat((vec4Property.first.m_Name + w).c_str(), &vec4Property.second->w, minMax.first.w, minMax.second.w);
+				ImGui::Separator();
+			}
 		}
 
 		// Quat Properties
 		ImGui::Separator();
 		ImGui::Text("Quat");
-		for (std::pair<const char*, glm::quat*> quatProperty : objectSerializer->m_QuatProperties)
+		for (auto& quatProperty : objectSerializer->m_QuatProperties)
 		{
-			std::string x = ".x";
-			std::string y = ".y";
-			std::string z = ".z";
-			std::string w = ".w";
-			ImGui::SliderFloat((quatProperty.first + x).c_str(), &quatProperty.second->x, -10.0, 10.0);
-			ImGui::SliderFloat((quatProperty.first + y).c_str(), &quatProperty.second->y, -10.0, 10.0);
-			ImGui::SliderFloat((quatProperty.first + z).c_str(), &quatProperty.second->z, -10.0, 10.0);
-			ImGui::SliderFloat((quatProperty.first + w).c_str(), &quatProperty.second->w, -10.0, 10.0);
-			ImGui::Separator();
-
+			if (quatProperty.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kNullEditorProperty)
+			{
+				std::pair<glm::vec4, glm::vec4> minMax = quatProperty.first.m_EditorProperty.m_Vec4MinMax;
+				ImGui::SliderFloat((quatProperty.first.m_Name + x).c_str(), &quatProperty.second->x, minMax.first.x, minMax.second.x);
+				ImGui::SliderFloat((quatProperty.first.m_Name + y).c_str(), &quatProperty.second->y, minMax.first.y, minMax.second.y);
+				ImGui::SliderFloat((quatProperty.first.m_Name + z).c_str(), &quatProperty.second->z, minMax.first.z, minMax.second.z);
+				ImGui::SliderFloat((quatProperty.first.m_Name + w).c_str(), &quatProperty.second->w, minMax.first.w, minMax.second.w);
+				ImGui::Separator();
+			}
 		}
 
 

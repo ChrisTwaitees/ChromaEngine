@@ -124,18 +124,47 @@ void JSONScene::SerializeComponent(ISerializer*& serialized, rapidjson::Value& j
 
 void JSONScene::SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonValue)
 {
+
 	// String Properties
-	for (std::pair<const char*, std::string*>&& str : serialized->m_StringProperties)
+	for (auto& str : serialized->m_StringProperties)
 	{
-		rapidjson::Value stringKey(str.first, m_Document.GetAllocator());
+		rapidjson::Value stringKey(str.first.m_Name, m_Document.GetAllocator());
 		rapidjson::Value stringValue(str.second->c_str(), m_Document.GetAllocator());
 		jsonValue.AddMember(stringKey, stringValue, m_Document.GetAllocator());
 	}
 
-	// Vec3 Properties
-	for (std::pair<const char*, glm::vec3*>&& vec3 : serialized->m_Vec3Properties)
+	// Int Properties
+	for (auto& intVal : serialized->m_IntProperties)
 	{
-		rapidjson::Value vec3Key(vec3.first, m_Document.GetAllocator());
+		rapidjson::Value intKey(intVal.first.m_Name, m_Document.GetAllocator());
+		rapidjson::Value intValue(rapidjson::kNumberType);
+		intValue.SetInt(*intVal.second);
+		jsonValue.AddMember(intKey, intValue, m_Document.GetAllocator());
+	}
+
+	// uInt Properties
+	for (auto& uIntVal : serialized->m_UIntProperties)
+	{
+		rapidjson::Value intKey(uIntVal.first.m_Name, m_Document.GetAllocator());
+		rapidjson::Value intValue(rapidjson::kNumberType);
+		intValue.SetInt(*uIntVal.second);
+		jsonValue.AddMember(intKey, intValue, m_Document.GetAllocator());
+	}
+
+	// Vec2 Properties
+	for (auto& vec2 : serialized->m_Vec2Properties)
+	{
+		rapidjson::Value vec2Key(vec2.first.m_Name, m_Document.GetAllocator());
+		rapidjson::Value vec2Value(rapidjson::kArrayType);
+		vec2Value.PushBack(vec2.second->x, m_Document.GetAllocator());
+		vec2Value.PushBack(vec2.second->y, m_Document.GetAllocator());
+		jsonValue.AddMember(vec2Key, vec2Value, m_Document.GetAllocator());
+	}
+
+	// Vec3 Properties
+	for (auto& vec3 : serialized->m_Vec3Properties)
+	{
+		rapidjson::Value vec3Key(vec3.first.m_Name, m_Document.GetAllocator());
 		rapidjson::Value vec3Value(rapidjson::kArrayType);
 		vec3Value.PushBack(vec3.second->x, m_Document.GetAllocator());
 		vec3Value.PushBack(vec3.second->y, m_Document.GetAllocator());
@@ -144,9 +173,9 @@ void JSONScene::SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonV
 	}
 
 	// Vec4 Properties
-	for (std::pair<const char*, glm::vec4*>&& vec4 : serialized->m_Vec4Properties)
+	for (auto& vec4 : serialized->m_Vec4Properties)
 	{
-		rapidjson::Value vec4Key(vec4.first, m_Document.GetAllocator());
+		rapidjson::Value vec4Key(vec4.first.m_Name, m_Document.GetAllocator());
 		rapidjson::Value vec4Value(rapidjson::kArrayType);
 		vec4Value.PushBack(vec4.second->x, m_Document.GetAllocator());
 		vec4Value.PushBack(vec4.second->y, m_Document.GetAllocator());
@@ -156,9 +185,9 @@ void JSONScene::SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonV
 	}
 
 	// Quat Properties
-	for (std::pair<const char*, glm::quat*>&& quat : serialized->m_QuatProperties)
+	for (auto& quat : serialized->m_QuatProperties)
 	{
-		rapidjson::Value quatKey(quat.first, m_Document.GetAllocator());
+		rapidjson::Value quatKey(quat.first.m_Name, m_Document.GetAllocator());
 		rapidjson::Value quatValue(rapidjson::kArrayType);
 		quatValue.PushBack(quat.second->x, m_Document.GetAllocator());
 		quatValue.PushBack(quat.second->y, m_Document.GetAllocator());

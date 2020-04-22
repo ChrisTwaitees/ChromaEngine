@@ -113,6 +113,12 @@ public:
 	};
 
 	template<>
+	void AddUniform<glm::vec4>(std::string uniformName, glm::vec4 uniformValue)
+	{
+		m_Vec4Uniforms.insert(std::make_pair(uniformName, uniformValue));
+	};
+
+	template<>
 	void AddUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
 	{
 		m_Mat4Uniforms.insert(std::make_pair(uniformName, uniformValue));
@@ -130,12 +136,12 @@ public:
 	UniformArray() {};
 	~UniformArray() {};
 
-private:
 	std::map<std::string, int>           m_IntUniforms;
 	std::map<std::string, unsigned int>  m_UIntUniforms;
 	std::map<std::string, float>         m_FloatUniforms;
 	std::map<std::string, glm::vec2>     m_Vec2Uniforms;
 	std::map<std::string, glm::vec3>     m_Vec3Uniforms;
+	std::map<std::string, glm::vec4>     m_Vec4Uniforms;
 	std::map<std::string, glm::mat4>     m_Mat4Uniforms;
 
 };

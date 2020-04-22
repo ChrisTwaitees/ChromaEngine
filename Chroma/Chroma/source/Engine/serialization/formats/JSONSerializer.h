@@ -11,8 +11,6 @@ public:
 	virtual void StartObject(const Chroma::Type::Component& componentType, const UID& uid) override;
 	virtual void StartObject(const Chroma::Type::Entity& entityType, const UID& uid) override;
 
-	const char* ToString() override;
-
 	JSONSerializer();
 	~JSONSerializer();
 };

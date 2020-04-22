@@ -281,7 +281,8 @@ namespace Chroma
 		HeadMeshMaterial.AddTexture(headNormal);
 		HeadMeshMaterial.AddTexture(headMetRoughAO);
 		HeadMeshMaterial.AddTexture(headTranslucency);
-		HeadMeshMaterial.AddUniform("test", 1);
+		HeadMeshMaterial.AddUniform("TestUniform", 1);
+		HeadMeshMaterial.AddUniform("UVMultiply", glm::vec2(3.0));
 		HeadMeshComponent->SetMaterial(HeadMeshMaterial);
 		HumanEntity->AddComponent(HeadMeshComponent);
 

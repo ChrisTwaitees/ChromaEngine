@@ -58,8 +58,27 @@ void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 		}
 	}
 
+	// Material Uniform Property
+	editorPrpty = EditorProperty(Chroma::Type::EditorProperty::kMaterialUniformProperty);
 	// Uniforms
-	//for (float floatUniform : m_Material.GetUniformArray().Get)
+	// float
+	for (auto& floatUniform : m_Material.GetUniformArray().m_FloatUniforms)
+		serializer->AddProperty(floatUniform.first.c_str(), &floatUniform.second, editorPrpty);
+	// int
+	for (auto& intUniform : m_Material.GetUniformArray().m_IntUniforms)
+		serializer->AddProperty(intUniform.first.c_str(), &intUniform.second, editorPrpty);
+	// uInt
+	for (auto& uIntUniform : m_Material.GetUniformArray().m_UIntUniforms)
+		serializer->AddProperty(uIntUniform.first.c_str(), &uIntUniform.second, editorPrpty);
+	// vec2
+	for (auto& vec2Uniform : m_Material.GetUniformArray().m_Vec2Uniforms)
+		serializer->AddProperty(vec2Uniform.first.c_str(), &vec2Uniform.second, editorPrpty);
+	// vec3
+	for (auto& vec3Uniform : m_Material.GetUniformArray().m_Vec3Uniforms)
+		serializer->AddProperty(vec3Uniform.first.c_str(), &vec3Uniform.second, editorPrpty);
+	// vec4
+	for (auto& vec4Uniform : m_Material.GetUniformArray().m_Vec4Uniforms)
+		serializer->AddProperty(vec4Uniform.first.c_str(), &vec4Uniform.second, editorPrpty);
 }
 
 
@@ -94,7 +113,7 @@ void MeshComponent::Serialize(ISerializer*& serializer)
 	serializer->AddProperty("m_SourcePath", &m_SourcePath);
 
 	// Material 
-	serializer->AddProperty("m_Material", &m_Material);
+	SerializeMaterial(serializer);
 
 }
 

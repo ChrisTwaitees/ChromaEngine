@@ -13,10 +13,6 @@ void JSONSerializer::StartObject(const Chroma::Type::Entity& entityType, const U
 	m_UID = uid;
 }
 
-const char* JSONSerializer::ToString()
-{
-	return nullptr;
-}
 
 JSONSerializer::JSONSerializer()
 {
