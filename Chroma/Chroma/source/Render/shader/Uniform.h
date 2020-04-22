@@ -12,7 +12,7 @@ public:
 
 	template<typename T>
 	void SetUniform(std::string name, T uniformValue) {
-		CHROMA_WARN("Not supported Uniform Type!");
+		CHROMA_ERROR("Unsupported Uniform Type!");
 	};
 
 	template<>
@@ -44,6 +44,12 @@ public:
 	};
 
 	template<>
+	void SetUniform<glm::vec4>(std::string uniformName, glm::vec4 uniformValue)
+	{
+		SetVec4(uniformName, uniformValue, *ShaderID);
+	};
+
+	template<>
 	void SetUniform<glm::mat4>(std::string uniformName, glm::mat4 uniformValue)
 	{
 		SetMat4(uniformName, uniformValue, *ShaderID);
@@ -67,6 +73,7 @@ protected:
 	static void SetFloat(const std::string& name, float value, unsigned int const& shaderID);
 	static void setVec2(const std::string& name, glm::vec2 value, unsigned int const& shaderID);
 	static void setVec3(const std::string& name, glm::vec3 value, unsigned int const& shaderID);
+	static void SetVec4(const std::string& name, glm::vec4 const& value, unsigned int const& shaderID);
 	static void SetMat4(const std::string& name, glm::mat4 matrix, unsigned int const& shaderID);
 	unsigned int* ShaderID;
 
