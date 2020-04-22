@@ -59,7 +59,7 @@ void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 	}
 
 	// Material Uniform Property
-	editorPrpty = EditorProperty(Chroma::Type::EditorProperty::kMaterialUniformProperty);
+	editorPrpty.m_Type = Chroma::Type::EditorProperty::kMaterialUniformProperty;
 	// Uniforms
 	// float
 	for (auto& floatUniform : m_Material.GetUniformArray().m_FloatUniforms)
@@ -73,12 +73,15 @@ void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 	// vec2
 	for (auto& vec2Uniform : m_Material.GetUniformArray().m_Vec2Uniforms)
 		serializer->AddProperty(vec2Uniform.first.c_str(), &vec2Uniform.second, editorPrpty);
+
+	editorPrpty.m_Type = Chroma::Type::EditorProperty::kMaterialUniformColorProperty;
 	// vec3
 	for (auto& vec3Uniform : m_Material.GetUniformArray().m_Vec3Uniforms)
 		serializer->AddProperty(vec3Uniform.first.c_str(), &vec3Uniform.second, editorPrpty);
 	// vec4
 	for (auto& vec4Uniform : m_Material.GetUniformArray().m_Vec4Uniforms)
 		serializer->AddProperty(vec4Uniform.first.c_str(), &vec4Uniform.second, editorPrpty);
+
 }
 
 

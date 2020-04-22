@@ -47,7 +47,9 @@ namespace Chroma
 		{"kFloatPropery",                 Type::EditorProperty::kFloatPropery},
 		{"kIntProperty",                  Type::EditorProperty::kIntProperty},
 		{"kStringProperty",               Type::EditorProperty::kStringProperty},
-		{"kMaterialProperty",             Type::EditorProperty::kMaterialProperty}
+		{"kMaterialProperty",             Type::EditorProperty::kMaterialProperty},
+		{"kMaterialTextureProperty",      Type::EditorProperty::kMaterialTextureProperty},
+		{"kMaterialUniformProperty",      Type::EditorProperty::kMaterialUniformProperty}
 	};
 }
 

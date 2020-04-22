@@ -50,10 +50,11 @@ namespace Chroma
 			kFloatPropery = 2, 
 			kIntProperty = 3, 
 			kStringProperty = 4,
-			kMaterialProperty = 5,
-			kMaterialTextureProperty = 6,
-			kMaterialUniformProperty = 7,
-			kTransformProperty = 8
+			kTransformProperty = 5,
+			kMaterialProperty = 6,
+			kMaterialTextureProperty = 7,
+			kMaterialUniformProperty = 8,
+			kMaterialUniformColorProperty = 9
 		};
 
 		// Getters

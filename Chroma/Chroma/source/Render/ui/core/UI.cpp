@@ -11,6 +11,9 @@ namespace Chroma
 	std::string UI::m_FilePathName;
 	std::string UI::m_FileDirectory;
 
+	// ColorPicker 
+	ImGuiColorEditFlags UI::m_ColorPickerFlags{  ImGuiColorEditFlags_NoDragDrop | ImGuiColorEditFlags_AlphaPreview };
+
 	void UI::Init()
 	{
 		// Setup Dear ImGui context
@@ -78,6 +81,20 @@ namespace Chroma
 			// close
 			ImGuiFileDialog::Instance()->CloseDialog(m_FileBrowserKey);
 		}
+	}
+
+	void UI::DrawColorPicker(glm::vec3& color)
+	{
+		ImVec4 tempColor(color.x, color.y, color.z, 1.0);
+		ImGui::ColorEdit3("MyColorPickerVec3", (float*)& tempColor, ImGuiColorEditFlags_Float | m_ColorPickerFlags);
+		color = glm::vec3(tempColor.x, tempColor.y, tempColor.z);
+	}
+
+	void UI::DrawColorPicker(glm::vec4& color)
+	{
+		ImVec4 tempColor(color.x, color.y, color.z, color.w);
+		ImGui::ColorEdit4("MyColorPickerVec4", (float*)& tempColor, ImGuiColorEditFlags_Float | m_ColorPickerFlags);
+		color = glm::vec4(tempColor.x, tempColor.y, tempColor.z, tempColor.w);
 	}
 
 	void UI::Start()

@@ -488,6 +488,52 @@ namespace Chroma
 		}
 
 
+		// MATERIALS
+		ImGui::Text("Materials");
+		ImGui::Separator();
+		for (auto& floatProperty : objectSerializer->m_FloatProperties)
+		{
+			if (floatProperty.first.m_EditorProperty.m_Type >= Chroma::Type::EditorProperty::kMaterialProperty && floatProperty.first.m_EditorProperty.m_Type <= Chroma::Type::EditorProperty::kMaterialUniformColorProperty)
+			{
+				ImGui::SliderFloat(floatProperty.first.m_Name, floatProperty.second, floatProperty.first.m_EditorProperty.m_FloatMinMax.first, floatProperty.first.m_EditorProperty.m_FloatMinMax.second);
+				ImGui::Separator();
+			}
+		}
+
+		for (auto& vec2Property : objectSerializer->m_Vec2Properties)
+		{
+			if (vec2Property.first.m_EditorProperty.m_Type >= Chroma::Type::EditorProperty::kMaterialProperty && vec2Property.first.m_EditorProperty.m_Type <= Chroma::Type::EditorProperty::kMaterialUniformColorProperty)
+			{
+				std::pair<glm::vec2, glm::vec2> minMax = vec2Property.first.m_EditorProperty.m_Vec2MinMax;
+				ImGui::SliderFloat((vec2Property.first.m_Name + x).c_str(), &vec2Property.second->x, minMax.first.x, minMax.second.x);
+				ImGui::SliderFloat((vec2Property.first.m_Name + y).c_str(), &vec2Property.second->y, minMax.first.y, minMax.second.y);
+				ImGui::Separator();
+			}
+		}
+
+
+		for (auto& vec3Property : objectSerializer->m_Vec3Properties)
+		{
+			if (vec3Property.first.m_EditorProperty.m_Type >= Chroma::Type::EditorProperty::kMaterialProperty && vec3Property.first.m_EditorProperty.m_Type <= Chroma::Type::EditorProperty::kMaterialUniformColorProperty)
+			{
+				ImGui::Text(vec3Property.first.m_Name);
+				DrawColorPicker(*vec3Property.second);
+				ImGui::Separator();
+			}
+		}
+
+		for (auto& vec4Property : objectSerializer->m_Vec4Properties)
+		{
+			if (vec4Property.first.m_EditorProperty.m_Type >= Chroma::Type::EditorProperty::kMaterialProperty && vec4Property.first.m_EditorProperty.m_Type <= Chroma::Type::EditorProperty::kMaterialUniformColorProperty)
+			{
+				ImGui::Text(vec4Property.first.m_Name);
+				DrawColorPicker(*vec4Property.second);
+				ImGui::Separator();
+			}
+		}
+
+
+
 		// UNCATEGORIZED
 		ImGui::Text("Uncategorized");
 		ImGui::Separator();
@@ -612,7 +658,7 @@ namespace Chroma
 		if (ImGuiFileDialog::Instance()->FileDialog(m_FileBrowserKey))
 		{
 			// action if OK
-			if (ImGuiFileDialog::Instance()->IsOk == true)
+			if (ImGuiFileDialog::Instance()->IsOk)
 			{
 				m_FilePathName = ImGuiFileDialog::Instance()->GetFilepathName();
 				m_FileDirectory = ImGuiFileDialog::Instance()->GetCurrentPath();

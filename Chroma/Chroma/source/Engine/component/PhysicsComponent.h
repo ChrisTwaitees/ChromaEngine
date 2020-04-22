@@ -65,7 +65,7 @@ public:
 	PhysicsComponent();
 	~PhysicsComponent();
 
-private:
+protected:
 	// attrs
 	float m_Mass{ 0.0f };
 

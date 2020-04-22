@@ -35,6 +35,9 @@ namespace Chroma
 		static void OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters);
 		static void DrawFileBrowser();
 
+		static void DrawColorPicker(glm::vec3& color);
+		static void DrawColorPicker(glm::vec4& color);
+
 		static void Start();
 		static void End();
 		static void DrawUICalls();
@@ -44,6 +47,9 @@ namespace Chroma
 		static std::string m_FileBrowserKey;
 		static std::string m_FilePathName;
 		static std::string m_FileDirectory;
+
+		// color picker
+		static ImGuiColorEditFlags m_ColorPickerFlags;
 
 	};
 }
