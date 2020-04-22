@@ -32,7 +32,9 @@ namespace Chroma
 
 	protected:
 
-		static void OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters);
+		static enum FileBrowserMode { kSceneOpen, kSceneSave, kLoadIBL };
+
+		static void OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters, FileBrowserMode fileBrowserFlags = FileBrowserMode::kSceneOpen);
 		static void DrawFileBrowser();
 
 		static void DrawColorPicker(glm::vec3& color);
@@ -50,6 +52,7 @@ namespace Chroma
 
 		// color picker
 		static ImGuiColorEditFlags m_ColorPickerFlags;
+		static FileBrowserMode m_FileBrowserMode;
 
 	};
 }

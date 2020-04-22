@@ -240,15 +240,6 @@ namespace Chroma
 
 			if (ImGui::BeginMenu("Options"))
 			{
-				// Disabling fullscreen would allow the window to be moved to the front of other windows,
-				// which we can't undo at the moment without finer window depth/z control.
-				//ImGui::MenuItem("Fullscreen", NULL, &opt_fullscreen_persistant);
-
-				/*if (ImGui::MenuItem("Flag: NoSplit", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoSplit) != 0))                 EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_NoSplit;
-				if (ImGui::MenuItem("Flag: NoResize", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoResize) != 0))                EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_NoResize;
-				if (ImGui::MenuItem("Flag: NoDockingInCentralNode", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_NoDockingInCentralNode) != 0))  EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_NoDockingInCentralNode;
-				if (ImGui::MenuItem("Flag: PassthruCentralNode", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_PassthruCentralNode) != 0))     EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_PassthruCentralNode;
-				if (ImGui::MenuItem("Flag: AutoHideTabBar", "", (EditorRootDockspaceFlags & ImGuiDockNodeFlags_AutoHideTabBar) != 0))          EditorRootDockspaceFlags ^= ImGuiDockNodeFlags_AutoHideTabBar;*/
 				
 				if (ImGui::MenuItem("Editor Settings"))
 				{
@@ -275,15 +266,21 @@ namespace Chroma
 		if (ImGui::Button("SaveScene"))
 		{
 			Chroma::SceneManager::SaveScene("resources/levels/testSaveScene.json");
+			//OpenFileBrowser("Save Scene", ".json\0", UI::FileBrowserMode::kSceneSave);
 		}
 
-		ImGui::InputText("Load Scene Path: ", m_SceneName, IM_ARRAYSIZE(m_SceneName));
 		// Debug
 		if (ImGui::Button("Load Scene"))
+		{
 			Chroma::SceneManager::LoadScene("resources/levels/testSaveScene.json");
+			//OpenFileBrowser("Load Scene", ".json\0", UI::FileBrowserMode::kSceneOpen);
+		}
 
 		if (ImGui::Button("Load HDR"))
-			Chroma::Scene::LoadIBL("resources/textures/ibl/ditchriver_ibl/river_sharp.hdr");
+		{
+			OpenFileBrowser("Choose HDR File", ".hdr\0.ibl\0", UI::FileBrowserMode::kLoadIBL);
+
+		}
 		ImGui::End();
 	}
 
@@ -663,7 +660,29 @@ namespace Chroma
 				m_FilePathName = ImGuiFileDialog::Instance()->GetFilepathName();
 				m_FileDirectory = ImGuiFileDialog::Instance()->GetCurrentPath();
 				// Load new Scene
-				Chroma::SceneManager::LoadScene(m_FilePathName.c_str());
+				switch (m_FileBrowserMode)
+				{
+				case(UI::FileBrowserMode::kSceneOpen):
+					{
+						Chroma::SceneManager::LoadScene(m_FilePathName.c_str());
+						break;
+					}
+				case(UI::FileBrowserMode::kSceneSave):
+				{
+					Chroma::SceneManager::SaveScene(m_FilePathName.c_str());
+					break;
+				}
+				case(UI::FileBrowserMode::kLoadIBL):
+				{
+					Chroma::Scene::LoadIBL(m_FilePathName);
+					break;
+				}
+				default :
+				{
+					CHROMA_ERROR("CHROMA EDITOR :: File Browser Mode Node Supported.");
+				}
+				}
+
 			}
 			// close
 			ImGuiFileDialog::Instance()->CloseDialog(m_FileBrowserKey);

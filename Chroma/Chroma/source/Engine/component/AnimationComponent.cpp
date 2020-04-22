@@ -27,9 +27,12 @@ void AnimationComponent::Update()
 
 void AnimationComponent::Destroy()
 {
-	// remove animators
+	// Destroy animators
 	m_Animator.Destroy();
-	m_AnimationStateMachine->Destroy();
+
+	// Destroy State Machine
+	if(m_AnimationStateMachine)
+		m_AnimationStateMachine->Destroy();
 
 	CMPNT_DESTROYED
 }

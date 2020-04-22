@@ -10,6 +10,7 @@ namespace Chroma
 	std::string UI::m_FileBrowserKey;
 	std::string UI::m_FilePathName;
 	std::string UI::m_FileDirectory;
+	UI::FileBrowserMode UI::m_FileBrowserMode{ FileBrowserMode::kSceneOpen };
 
 	// ColorPicker 
 	ImGuiColorEditFlags UI::m_ColorPickerFlags{  ImGuiColorEditFlags_NoDragDrop | ImGuiColorEditFlags_AlphaPreview };
@@ -61,9 +62,10 @@ namespace Chroma
 	}
 
 
-	void UI::OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters)
+	void UI::OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters, FileBrowserMode fileBrowserFlags)
 	{
 		ImGuiFileDialog::Instance()->OpenDialog(m_FileBrowserKey, fileBrowserName.c_str(), fileFilters, ".");
+		m_FileBrowserMode = fileBrowserFlags;
 	}
 
 	void UI::DrawFileBrowser()
