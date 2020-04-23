@@ -133,6 +133,15 @@ void JSONScene::SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonV
 		jsonValue.AddMember(stringKey, stringValue, m_Document.GetAllocator());
 	}
 
+	// Float Properties
+	for (auto& floatVal : serialized->m_FloatProperties)
+	{
+		rapidjson::Value floatKey(floatVal.first.m_Name, m_Document.GetAllocator());
+		rapidjson::Value floatValue(rapidjson::kNumberType);
+		floatValue.SetFloat(*floatVal.second);
+		jsonValue.AddMember(floatKey, floatValue, m_Document.GetAllocator());
+	}
+
 	// Int Properties
 	for (auto& intVal : serialized->m_IntProperties)
 	{

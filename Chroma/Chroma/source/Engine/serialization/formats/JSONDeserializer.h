@@ -137,6 +137,7 @@ public:
 		{
 			CHROMA_INFO("Component attr : {0}", componentValue->name.GetString());
 		}
+
 		return newStaticMesh;
 	}
 
@@ -156,6 +157,85 @@ public:
 
 		// UID is set after creation
 		return newSkinnedMesh;
+	}
+
+	// Light
+	template<>
+	Light* CreateObject<Light*, Chroma::Type::Component>(Chroma::Type::Component type, const rapidjson::Value& jsonData)
+	{
+		DESERIALIZE_START
+			// create new component pointer
+		Light* newLight = new Light;
+
+		// Setting Members
+		for (rapidjson::Value::ConstMemberIterator lightValue = jsonData.MemberBegin(); lightValue != jsonData.MemberEnd(); ++lightValue)
+		{
+			CHROMA_INFO("Light attr : {0}", lightValue->name.GetString());
+			std::string lightValueName = lightValue->name.GetString();
+
+			// transforms
+			if (lightValueName == "m_Position")
+			{
+				glm::vec3 newTranslation(0.0);
+				newTranslation.x = lightValue->value.GetArray()[0].GetFloat();
+				newTranslation.y = lightValue->value.GetArray()[1].GetFloat();
+				newTranslation.z = lightValue->value.GetArray()[2].GetFloat();
+				newLight->SetTranslation(newTranslation);
+			}
+
+			// direction
+			if (lightValueName == "m_Direction") 
+			{
+				glm::vec3 newDirection(0.0);
+				newDirection.x = lightValue->value.GetArray()[0].GetFloat();
+				newDirection.y = lightValue->value.GetArray()[1].GetFloat();
+				newDirection.z = lightValue->value.GetArray()[2].GetFloat();
+				newLight->setDirection(newDirection);
+			}
+
+			// color
+			if (lightValueName == "m_Diffuse")
+			{
+				glm::vec3 newDiffuse(0.0);
+				newDiffuse.x = lightValue->value.GetArray()[0].GetFloat();
+				newDiffuse.y = lightValue->value.GetArray()[1].GetFloat();
+				newDiffuse.z = lightValue->value.GetArray()[2].GetFloat();
+				newLight->setDiffuse(newDiffuse);
+			}
+
+			// falloffs
+			if (lightValueName == "m_Intensity")
+				newLight->setIntensity(lightValue->value.GetFloat());
+
+			if (lightValueName == "m_Linear") 
+				newLight->setLinear(lightValue->value.GetFloat());
+
+			if (lightValueName == "m_Quadratic")
+				newLight->setQuadratic(lightValue->value.GetFloat());
+
+			if (lightValueName == "m_Constant")
+				newLight->setConstant(lightValue->value.GetFloat());
+
+			if (lightValueName == "m_Type")
+			{
+				int lightType = lightValue->value.GetInt();
+
+				if (lightType == Light::TYPE::DIRECTIONAL)
+					newLight->SetType(Light::TYPE::DIRECTIONAL);
+				
+				else if (lightType == Light::TYPE::POINT)
+					newLight->SetType(Light::TYPE::POINT);
+				
+				else if (lightType == Light::TYPE::SUNLIGHT)
+					newLight->SetType(Light::TYPE::SUNLIGHT);
+
+				else if (lightType == Light::TYPE::SPOT)
+					newLight->SetType(Light::TYPE::SPOT);
+
+			}
+		}
+		// UID is set after creation
+		return newLight;
 	}
 
 

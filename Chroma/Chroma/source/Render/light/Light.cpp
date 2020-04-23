@@ -63,6 +63,8 @@ void Light::Serialize(ISerializer*& serializer)
 
 	editorProperty.m_Type = Chroma::Type::EditorProperty::kColorProperty;
 	serializer->AddProperty("m_Diffuse", &m_Diffuse, editorProperty);
+	// type
+	serializer->AddProperty("m_Type", &m_Type, editorProperty);
 }
 
 #ifdef EDITOR

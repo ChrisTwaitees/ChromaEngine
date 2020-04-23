@@ -63,7 +63,9 @@ namespace Chroma
 				{
 					StaticMesh* newStaticMeshComponent = deserializer->CreateObject<StaticMesh*>(Chroma::Type::Component::kStaticMeshComponent, staticMeshComponent->value);
 					newStaticMeshComponent->SetUID(UID(staticMeshComponent->name.GetString()));
+					//Chroma::Scene::AddMeshComponent(newStaticMeshComponent);
 				}
+				break;
 			}
 			case(Type::Component::kSkinnedMeshComponent):
 			{
@@ -71,7 +73,19 @@ namespace Chroma
 				{
 					SkinnedMesh* newSkinnedMeshComponent = deserializer->CreateObject<SkinnedMesh*>(Chroma::Type::Component::kSkinnedMeshComponent, skinnedMeshComponent->value);
 					newSkinnedMeshComponent->SetUID(UID(skinnedMeshComponent->name.GetString()));
+					//Chroma::Scene::AddMeshComponent(newSkinnedMeshComponent);
 				}
+				break;
+			}
+			case(Type::Component::kLightComponent):
+			{
+				for (rapidjson::Value::ConstMemberIterator lightComponent = componentTypes->value.MemberBegin(); lightComponent != componentTypes->value.MemberEnd(); ++lightComponent)
+				{
+					Light* newLight = deserializer->CreateObject<Light*>(Chroma::Type::Component::kLightComponent, lightComponent->value);
+					newLight->SetUID(UID(lightComponent->name.GetString()));
+					Chroma::Scene::AddLight(newLight);
+				}
+				break;
 			}
 			};
 		}

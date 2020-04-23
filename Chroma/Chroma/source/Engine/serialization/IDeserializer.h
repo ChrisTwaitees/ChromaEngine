@@ -9,6 +9,7 @@
 #include <entity/Entity.h>
 #include <model/StaticMesh.h>
 #include <model/SkinnedMesh.h>
+#include <light/Light.h>
 
 
 class IDeserializer
