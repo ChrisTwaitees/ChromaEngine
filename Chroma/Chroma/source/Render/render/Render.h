@@ -29,6 +29,7 @@ namespace Chroma
 		static DebugBuffer*& GetDebugBuffer() { return m_DebugBuffer; };
 		static IFramebuffer*& GetPostFXBuffer() { return m_PostFXBuffer; }
 		static IFramebuffer*& GetForwardBuffer() { return m_ForwardBuffer; }
+		static IFramebuffer*& GetGBuffer() { return m_GBuffer; }
 		static glm::mat4 GetLightSpaceMatrix();
 
 		// Functions

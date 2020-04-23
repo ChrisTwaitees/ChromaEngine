@@ -19,7 +19,7 @@ int main()
 	Chroma::Scene::PreSceneBuild();
 
 	// POPULATE SCENE CONTENTS
-	Chroma::Editor::StanfordBunny();
+	Chroma::Editor::Sponza();
 
 	// Init all build components
 	Chroma::Scene::PostSceneBuild();
@@ -29,13 +29,11 @@ int main()
 
 	while (Chroma::Screen::IsRunning())
 	{
-
 		// ENGINE TICK
 		Chroma::Engine::Tick();
 		
 		// EDITOR TICK
 		Chroma::Editor::Tick();
-
 	}
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.

@@ -706,6 +706,22 @@ namespace Chroma
 		// POINT LIGHTS
 		std::vector<Light*> Lights;
 
+		// point light positions
+		glm::vec3 pointLightPositions[] = {
+			glm::vec3(3.5f,  1.2f,  2.0f),
+			glm::vec3(0.5f,  0.2f,  -2.0f),
+			glm::vec3(-3.5f,  1.2f,  4.0f),
+		};
+		// point lights
+		for (glm::vec3 pos : pointLightPositions)
+		{
+			Light* pointLight = new Light(pos, Light::POINT);
+			pointLight->setIntensity(0.51f);
+			pointLight->m_Quadratic *= 4.0f;
+			pointLight->m_Linear *= 2.0f;
+			Lights.push_back(pointLight);
+		}
+
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->setDiffuse(glm::vec3(1.0));
@@ -733,6 +749,7 @@ namespace Chroma
 		gridAlbedo.m_Type = Texture::ALBEDO;
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
 		flatNormal.m_Type = Texture::NORMAL;
+
 
 		// ____________________________________________________
 		// Materials
@@ -757,7 +774,7 @@ namespace Chroma
 		// ____________________________________________________
 
 		// Mesh component
-		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponzaCombined.fbx");
+		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza.obj");
 		SponzaMeshComponent->SetMaterial(basicMat);
 		SponzaEntity->AddComponent(SponzaMeshComponent);
 	}
@@ -767,6 +784,22 @@ namespace Chroma
 		// POINT LIGHTS
 		std::vector<Light*> Lights;
 
+		// point light positions
+		glm::vec3 pointLightPositions[] = {
+			glm::vec3(3.5f,  1.2f,  2.0f),
+			glm::vec3(0.5f,  0.2f,  -2.0f),
+			glm::vec3(-3.5f,  1.2f,  4.0f),
+		};
+		// point lights
+		for (glm::vec3 pos : pointLightPositions)
+		{
+			Light* pointLight = new Light(pos, Light::POINT);
+			pointLight->setIntensity(0.51f);
+			pointLight->m_Quadratic *= 4.0f;
+			pointLight->m_Linear *= 2.0f;
+			Lights.push_back(pointLight);
+		}
+
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->setDiffuse(glm::vec3(1.0));
@@ -808,18 +841,18 @@ namespace Chroma
 		// ____________________________________________________
 		// Entities
 		// ____________________________________________________
-		IEntity* SponzaEntity = new Entity;
-		SponzaEntity->SetName("Sponza");
-		Chroma::Scene::AddEntity(SponzaEntity);
+		IEntity* DragonEntity = new Entity;
+		DragonEntity->SetName("Dragon");
+		Chroma::Scene::AddEntity(DragonEntity);
 
 		// ____________________________________________________
 		// Components
 		// ____________________________________________________
 
 		// Mesh component
-		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Dragon/dragon.fbx");
-		SponzaMeshComponent->SetMaterial(basicMat);
-		SponzaEntity->AddComponent(SponzaMeshComponent);
+		MeshComponent* DragonMeshComponent = new StaticMesh("resources/lookdev/Dragon/dragon.fbx");
+		DragonMeshComponent->SetMaterial(basicMat);
+		DragonEntity->AddComponent(DragonMeshComponent);
 	}
 
 	void Editor::Buddha()
@@ -827,12 +860,29 @@ namespace Chroma
 		// POINT LIGHTS
 		std::vector<Light*> Lights;
 
+		// point light positions
+		glm::vec3 pointLightPositions[] = {
+			glm::vec3(3.5f,  1.2f,  2.0f),
+			glm::vec3(0.5f,  0.2f,  -2.0f),
+			glm::vec3(-3.5f,  1.2f,  4.0f),
+		};
+		// point lights
+		for (glm::vec3 pos : pointLightPositions)
+		{
+			Light* pointLight = new Light(pos, Light::POINT);
+			pointLight->setIntensity(0.51f);
+			pointLight->m_Quadratic *= 4.0f;
+			pointLight->m_Linear *= 2.0f;
+			Lights.push_back(pointLight);
+		}
+
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->setDiffuse(glm::vec3(1.0));
 		Sun->setIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
+
 
 
 		// ____________________________________________________
@@ -854,6 +904,8 @@ namespace Chroma
 		gridAlbedo.m_Type = Texture::ALBEDO;
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
 		flatNormal.m_Type = Texture::NORMAL;
+		Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
+		lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
 
 		// ____________________________________________________
 		// Materials
@@ -863,29 +915,47 @@ namespace Chroma
 		basicMat.SetShader(PBRShader);
 		basicMat.AddTexture(greyAlbedo);
 		basicMat.AddTexture(flatNormal);
+		basicMat.AddTexture(lookDevMetRoughAO);
+
 
 
 		// ____________________________________________________
 		// Entities
 		// ____________________________________________________
-		IEntity* SponzaEntity = new Entity;
-		SponzaEntity->SetName("Sponza");
-		Chroma::Scene::AddEntity(SponzaEntity);
+		IEntity* BuddhaEntity = new Entity;
+		BuddhaEntity->SetName("BuddhaEntity");
+		Chroma::Scene::AddEntity(BuddhaEntity);
 
 		// ____________________________________________________
 		// Components
 		// ____________________________________________________
 
 		// Mesh component
-		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Buddha/buddha.fbx");
-		SponzaMeshComponent->SetMaterial(basicMat);
-		SponzaEntity->AddComponent(SponzaMeshComponent);
+		MeshComponent* BuddhaMeshComponent = new StaticMesh("resources/lookdev/Buddha/buddha.fbx");
+		BuddhaMeshComponent->SetMaterial(basicMat);
+		BuddhaEntity->AddComponent(BuddhaMeshComponent);
 	}
 
 	void Editor::StanfordBunny()
 	{
 		// POINT LIGHTS
 		std::vector<Light*> Lights;
+
+		// point light positions
+		glm::vec3 pointLightPositions[] = {
+			glm::vec3(3.5f,  1.2f,  2.0f),
+			glm::vec3(0.5f,  0.2f,  -2.0f),
+			glm::vec3(-3.5f,  1.2f,  4.0f),
+		};
+		// point lights
+		for (glm::vec3 pos : pointLightPositions)
+		{
+			Light* pointLight = new Light(pos, Light::POINT);
+			pointLight->setIntensity(0.51f);
+			pointLight->m_Quadratic *= 4.0f;
+			pointLight->m_Linear *= 2.0f;
+			Lights.push_back(pointLight);
+		}
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);

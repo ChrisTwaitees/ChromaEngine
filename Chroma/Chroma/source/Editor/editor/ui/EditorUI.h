@@ -32,9 +32,14 @@ namespace Chroma
 		static void DrawBuildTab();
 		static void DrawWorldOutliner();
 		static void DrawPropertiesTab();
+		// EntityTypes
 		static void DrawEntityTypesTab();
-		static void DrawEditingModeTab();
+		// Editors
+		static void DrawEditorsTab();
 		static void DrawOtherEditorWindows();
+		// viewport
+		static void Draw3DViewportTab();
+		static void DrawGraphicsDebugMenu();
 
 		static void DrawIcons();
 		static void DrawFileBrowser();
@@ -62,7 +67,7 @@ namespace Chroma
 		static char animClipName[128];
 		static float DebugAnimClipPos;
 		// graphics
-		static bool drawGraphicsMenu;
+		static bool m_DrawGraphicsDebugMenu;
 
 		static void ToggleBool(bool& toToggle);
 
@@ -70,11 +75,8 @@ namespace Chroma
 
 		static void DrawMainMenu();
 
-		static void DrawGraphicsMenu();
-
 		static void DrawAnimationMenu();
 
-		static void Draw3DViewport();
 
 		// EDITOR
 		// Global Settings
@@ -95,6 +97,7 @@ namespace Chroma
 		static int m_ViewportWidth;
 		static int m_ViewportHeight;
 		static int m_IconSize;
+
 
 		// Lights Icons
 		static Texture m_LightsIcon;

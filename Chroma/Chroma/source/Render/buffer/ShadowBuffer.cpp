@@ -7,8 +7,8 @@ void ShadowBuffer::calcLightSpaceMatrix()
 	// calculate LightSpaceMatrix
 	float near_plane = 0.01f, far_plane = 50.0f;
 	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
-	glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetSunLight()->GetDirection() * -20.0f,
-		glm::vec3(0.0f, 0.0f, 0.0f),
+	glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetRenderCamera()->GetPosition() + (Chroma::Scene::GetSunLight()->GetDirection() * -15.0f),
+		Chroma::Scene::GetRenderCamera()->GetPosition(),
 		glm::vec3(0.0f, 1.0f, 0.0f));
 	lightSpaceMatrix = lightProjection * lightView;
 }
@@ -47,8 +47,8 @@ void ShadowBuffer::Initialize()
 void ShadowBuffer::ResizeBuffers()
 {
 	// Resize to half the screen resolution
-	width = Chroma::Screen::GetWidthHeight().first / 2;
-	height = Chroma::Screen::GetWidthHeight().second / 2;
+	width = Chroma::Screen::GetWidthHeight().first;
+	height = Chroma::Screen::GetWidthHeight().second;
 
 	// textures
 	glBindTexture(GL_TEXTURE_2D, ShadowMapTexture.ID);

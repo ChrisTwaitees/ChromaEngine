@@ -4,7 +4,7 @@
 #include <physics/PhysicsEngine.h>
 #include <render/Render.h>
 #include <screen/Screen.h>
-
+#include <buffer/GBuffer.h>
 
 namespace Chroma
 {
@@ -55,7 +55,7 @@ namespace Chroma
 	char EditorUI::animClipName[128];
 	float EditorUI::DebugAnimClipPos;
 	// graphics
-	bool EditorUI::drawGraphicsMenu;
+	bool EditorUI::m_DrawGraphicsDebugMenu;
 
 	int  EditorUI::m_GraphicsDebugSelected;
 	static const char* GraphicsDebugs[5]{ "Alebdo", "Normals", "MetRoughAO", "SSAO", "Shadows" };
@@ -68,7 +68,7 @@ namespace Chroma
 		// root
 		AddUICall(ParentDockWindow);
 		// viewport
-		AddUICall(Draw3DViewport);
+		AddUICall(Draw3DViewportTab);
 		Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// content browser
 		AddUICall(DrawContentBrowser);
@@ -81,7 +81,7 @@ namespace Chroma
 		// entity types
 		AddUICall(DrawEntityTypesTab);
 		// modes
-		AddUICall(DrawEditingModeTab);
+		AddUICall(DrawEditorsTab);
 
 		// Draw Icons
 		if(m_IconsVisible)
@@ -109,7 +109,7 @@ namespace Chroma
 		// GLOBAL
 		timeSpeed = 1.0f;
 		// GRAPHICS
-		drawGraphicsMenu = false;
+		m_DrawGraphicsDebugMenu = false;
 		m_GraphicsDebugSelected = 0;
 		exposure = 1.0f;
 		gamma = 2.2f;
@@ -614,18 +614,21 @@ namespace Chroma
 	}
 
 
-	void EditorUI::DrawEditingModeTab()
+	void EditorUI::DrawEditorsTab()
 	{
-		ImGui::Begin("Editor Mode");
+		ImGui::Begin("Editors");
 		if (ImGui::Button("Animation Editor"))
 			AnimationEditorUI::Open();
-		ImGui::Checkbox("Draw Icons", &m_IconsVisible);
+
 		ImGui::End();
 	}
 
 	void EditorUI::DrawOtherEditorWindows()
 	{
 		AnimationEditorUI::Draw();
+
+		if (m_DrawGraphicsDebugMenu)
+			AddUICall(DrawGraphicsDebugMenu);
 	}
 
 	void EditorUI::DrawIcons()
@@ -720,9 +723,9 @@ namespace Chroma
 
 		// Enable Graphics Menu
 		if (ImGui::Button("Open Graphics Menu"))
-			ToggleBool(drawGraphicsMenu);
-		if (drawGraphicsMenu)
-			DrawGraphicsMenu();
+			ToggleBool(m_DrawGraphicsDebugMenu);
+		if (m_DrawGraphicsDebugMenu)
+			DrawGraphicsDebugMenu();
 
 		// Animation 
 		if (ImGui::Button("Open Animation Menu"))
@@ -737,23 +740,77 @@ namespace Chroma
 		ImGui::End();
 	}
 
-	void EditorUI::DrawGraphicsMenu()
+	void EditorUI::DrawGraphicsDebugMenu()
 	{
-		ImGui::Begin("Chroma Graphics");
+		ImGui::Begin("Chroma Graphics Debug");
+		float debugScale = 0.25;
 
-		// bloom
-		ImGui::Checkbox("Bloom", &m_Bloom);
+		// Albedo
+		ImGui::BeginChild("Albedo", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale ), true);
+		ImVec2 p = ImGui::GetCursorScreenPos();
+		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetAlbedoTexture(),
+			ImGui::GetWindowSize(),
+			ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+		ImGui::BeginChild("Albedo");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10 , p.y + 10), IM_COL32(255, 255, 255, 255), "Albedo", NULL, 0.0f);
+		ImGui::EndChild();
 
-		// debug 
-		ImGui::Checkbox("Draw Physics", &drawPhysicsDebug);
-		if (drawPhysicsDebug)
-			Chroma::Physics::DrawDebug();
+		// Normals
+		ImGui::BeginChild("Normals", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
+		p = ImGui::GetCursorScreenPos();
+		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetNormalTexture(),
+			ImGui::GetWindowSize(),
+			ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+		ImGui::BeginChild("Normals");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "Normals", NULL, 0.0f);
+		ImGui::EndChild();
 
-		ImGui::Checkbox("Graphics Debug", &m_DrawGraphicsDebug);
-		if (m_DrawGraphicsDebug)
-		{
-			ImGui::ListBox("Graphics Debug Mode", &m_GraphicsDebugSelected, GraphicsDebugs, IM_ARRAYSIZE(GraphicsDebugs));
-		}
+		// MetRoughAO
+		ImGui::BeginChild("MetRoughAO", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
+		p = ImGui::GetCursorScreenPos();
+		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetMetalRoughnessAO(),
+			ImGui::GetWindowSize(),
+			ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+		ImGui::BeginChild("MetRoughAO");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "Metallness Roughness AO", NULL, 0.0f);
+		ImGui::EndChild();
+
+		// SSAO
+		ImGui::BeginChild("SSAO", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
+		p = ImGui::GetCursorScreenPos();
+		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetSSAOTexture(),
+			ImGui::GetWindowSize(),
+			ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+		ImGui::BeginChild("SSAO");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "SSAO", NULL, 0.0f);
+		ImGui::EndChild();
+
+		// Positions
+		ImGui::BeginChild("Positions", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
+		p = ImGui::GetCursorScreenPos();
+		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetPositionTexture(),
+			ImGui::GetWindowSize(),
+			ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+		ImGui::BeginChild("Positions");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "WS Positions", NULL, 0.0f);
+		ImGui::EndChild();
+
+		// Positions
+		ImGui::BeginChild("SunlightShadowMap", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
+		p = ImGui::GetCursorScreenPos();
+		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetShadowBufferTexture(),
+			ImGui::GetWindowSize(),
+			ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+		ImGui::BeginChild("SunlightShadowMap");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "Sunlight ShadowMap", NULL, 0.0f);
+		ImGui::EndChild();
+
 
 		ImGui::End();
 	}
@@ -774,11 +831,16 @@ namespace Chroma
 
 		ImGui::End();
 	}
-	void EditorUI::Draw3DViewport()
+	void EditorUI::Draw3DViewportTab()
 	{
 
 		ImGui::Begin("Viewport", &EditorViewportOpen, m_ViewportWindowFlags);
 		{
+			// Settings
+			ImGui::Checkbox("Draw Icons", &m_IconsVisible); ImGui::SameLine();
+			if (ImGui::Button("Graphics Debug"))
+				m_DrawGraphicsDebugMenu = m_DrawGraphicsDebugMenu ? false : true;
+
 			// Check if mouse hovering
 			m_MouseIsOverViewport = ImGui::IsWindowHovered();
 
@@ -803,6 +865,7 @@ namespace Chroma
 		}
 		ImGui::End();
 	}
+
 
 	void EditorUI::DrawContentRegionDebug()
 	{
