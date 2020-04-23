@@ -19,7 +19,7 @@ int main()
 	Chroma::Scene::PreSceneBuild();
 
 	// POPULATE SCENE CONTENTS
-	Chroma::Editor::PopulateTestScene3();
+	Chroma::Editor::StanfordBunny();
 
 	// Init all build components
 	Chroma::Scene::PostSceneBuild();

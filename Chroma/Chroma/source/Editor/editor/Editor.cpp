@@ -577,6 +577,373 @@ namespace Chroma
 	}
 
 
+	void Editor::CornellBox()
+	{
+		// POPULATE SCENE CONTENTS
+// ____________________________________________________
+// LIGHTS
+// ____________________________________________________
+
+// POINT LIGHTS
+		std::vector<Light*> Lights;
+
+		// point light positions
+		glm::vec3 pointLightPositions[] = {
+			glm::vec3(3.5f,  1.2f,  2.0f),
+			glm::vec3(0.5f,  0.2f,  -2.0f),
+			glm::vec3(-3.5f,  1.2f,  4.0f),
+		};
+		// point lights
+		for (glm::vec3 pos : pointLightPositions)
+		{
+			Light* pointLight = new Light(pos, Light::POINT);
+			pointLight->setIntensity(0.51f);
+			pointLight->m_Quadratic *= 4.0f;
+			pointLight->m_Linear *= 2.0f;
+			Lights.push_back(pointLight);
+		}
+
+		// SUNLIGHT
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Sun->setDiffuse(glm::vec3(1.0));
+		Sun->setIntensity(3.0);
+		Lights.push_back(Sun);
+		Chroma::Scene::SetLights(Lights);
+
+
+		// ____________________________________________________
+		// SHADERS
+		// ____________________________________________________
+
+		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRSkinShaderExperimental("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRSkinShader("resources/shaders/fragSSSS_backup.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+
+		// ____________________________________________________
+		// TEXTURES
+		// ____________________________________________________
+
+		// Default
+		// Generic
+		Texture greyAlbedo("resources/textures/colors/grey.jpg");
+		greyAlbedo.m_Type = Texture::ALBEDO;
+		Texture gridAlbedo("resources/animation/textures/grid.jpg");
+		gridAlbedo.m_Type = Texture::ALBEDO;
+		Texture flatNormal("resources/textures/test/flat_normal.jpg");
+		flatNormal.m_Type = Texture::NORMAL;
+
+		// Lookdev Sphere
+		Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
+		lookDevAlbedo.m_Type = Texture::ALBEDO;
+		Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
+		lookDevNormal.m_Type = Texture::NORMAL;
+		Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
+		lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
+
+		// ____________________________________________________
+		// Materials
+		// ____________________________________________________
+
+		Material wallMat;
+		wallMat.SetShader(PBRShader);
+		wallMat.AddTexture(lookDevAlbedo);
+		wallMat.AddTexture(flatNormal);
+		wallMat.AddTexture(lookDevMetRoughAO);
+
+		Material ballMatteMat;
+		ballMatteMat.AddTexture(greyAlbedo);
+		ballMatteMat.AddTexture(flatNormal);
+
+
+		// ____________________________________________________
+		// Entities
+		// ____________________________________________________
+		IEntity* CornellBoxEntity = new Entity;
+		CornellBoxEntity->SetName("Cornel Box");
+		Chroma::Scene::AddEntity(CornellBoxEntity);
+
+		// ____________________________________________________
+		// Components
+		// ____________________________________________________
+
+		// Mesh component
+		// walls
+		MeshComponent* wallBackMeshComponent = new StaticMesh("resources/lookdev/CornellBox/sphereBackWall.fbx");
+		wallBackMeshComponent->SetMaterial(wallMat);
+		CornellBoxEntity->AddComponent(wallBackMeshComponent);
+		MeshComponent* wallLeftMeshComponent = new StaticMesh("resources/lookdev/CornellBox/sphereLeftWall.fbx");
+		wallLeftMeshComponent->SetMaterial(wallMat);
+		CornellBoxEntity->AddComponent(wallLeftMeshComponent);
+		MeshComponent* wallRightMeshComponent = new StaticMesh("resources/lookdev/CornellBox/sphereRightWall.fbx");
+		wallRightMeshComponent->SetMaterial(wallMat);
+		CornellBoxEntity->AddComponent(wallRightMeshComponent);
+		MeshComponent* wallCeilingMeshComponent = new StaticMesh("resources/lookdev/CornellBox/sphereCeiling.fbx");
+		wallCeilingMeshComponent->SetMaterial(wallMat);
+		CornellBoxEntity->AddComponent(wallCeilingMeshComponent);
+		MeshComponent* wallFloorMeshComponent = new StaticMesh("resources/lookdev/CornellBox/sphereFloor.fbx");
+		wallFloorMeshComponent->SetMaterial(wallMat);
+		CornellBoxEntity->AddComponent(wallFloorMeshComponent);
+		// balls
+		MeshComponent* leftBallMeshComponent = new StaticMesh("resources/lookdev/CornellBox/sphereLeft.fbx");
+		leftBallMeshComponent->SetMaterial(ballMatteMat);
+		CornellBoxEntity->AddComponent(leftBallMeshComponent);
+		MeshComponent* leftRightMeshComponent = new StaticMesh("resources/lookdev/CornellBox/sphereRight.fbx");
+		leftRightMeshComponent->SetMaterial(ballMatteMat);
+		CornellBoxEntity->AddComponent(leftRightMeshComponent);
+
+
+
+		// Physics
+		PhysicsComponent* CornellBoxPhysicsComponent = new PhysicsComponent();
+		CornellBoxPhysicsComponent->SetColliderShape(Box);
+		CornellBoxPhysicsComponent->SetCollisionState(Kinematic);
+		CornellBoxEntity->AddComponent(CornellBoxPhysicsComponent);
+	}
+
+	void Editor::Sponza()
+	{	
+		// POINT LIGHTS
+		std::vector<Light*> Lights;
+
+		// SUNLIGHT
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Sun->setDiffuse(glm::vec3(1.0));
+		Sun->setIntensity(3.0);
+		Lights.push_back(Sun);
+		Chroma::Scene::SetLights(Lights);
+
+
+		// ____________________________________________________
+		// SHADERS
+		// ____________________________________________________
+
+		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+
+		// ____________________________________________________
+		// TEXTURES
+		// ____________________________________________________
+
+		// Default
+		// Generic
+		Texture greyAlbedo("resources/textures/colors/grey.jpg");
+		greyAlbedo.m_Type = Texture::ALBEDO;
+		Texture gridAlbedo("resources/animation/textures/grid.jpg");
+		gridAlbedo.m_Type = Texture::ALBEDO;
+		Texture flatNormal("resources/textures/test/flat_normal.jpg");
+		flatNormal.m_Type = Texture::NORMAL;
+
+		// ____________________________________________________
+		// Materials
+		// ____________________________________________________
+
+		Material basicMat;
+		basicMat.SetShader(PBRShader);
+		basicMat.AddTexture(greyAlbedo);
+		basicMat.AddTexture(flatNormal);
+
+
+		// ____________________________________________________
+		// Entities
+		// ____________________________________________________
+		IEntity* SponzaEntity = new Entity;
+		SponzaEntity->SetName("Sponza");
+		SponzaEntity->SetScale(glm::vec3(0.01));
+		Chroma::Scene::AddEntity(SponzaEntity);
+
+		// ____________________________________________________
+		// Components
+		// ____________________________________________________
+
+		// Mesh component
+		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponzaCombined.fbx");
+		SponzaMeshComponent->SetMaterial(basicMat);
+		SponzaEntity->AddComponent(SponzaMeshComponent);
+	}
+
+	void Editor::Dragon()
+	{
+		// POINT LIGHTS
+		std::vector<Light*> Lights;
+
+		// SUNLIGHT
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Sun->setDiffuse(glm::vec3(1.0));
+		Sun->setIntensity(3.0);
+		Lights.push_back(Sun);
+		Chroma::Scene::SetLights(Lights);
+
+
+		// ____________________________________________________
+		// SHADERS
+		// ____________________________________________________
+
+		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+
+		// ____________________________________________________
+		// TEXTURES
+		// ____________________________________________________
+
+		// Default
+		// Generic
+		Texture greyAlbedo("resources/textures/colors/grey.jpg");
+		greyAlbedo.m_Type = Texture::ALBEDO;
+		Texture gridAlbedo("resources/animation/textures/grid.jpg");
+		gridAlbedo.m_Type = Texture::ALBEDO;
+		Texture flatNormal("resources/textures/test/flat_normal.jpg");
+		flatNormal.m_Type = Texture::NORMAL;
+
+		// ____________________________________________________
+		// Materials
+		// ____________________________________________________
+
+		Material basicMat;
+		basicMat.SetShader(PBRShader);
+		basicMat.AddTexture(greyAlbedo);
+		basicMat.AddTexture(flatNormal);
+
+
+		// ____________________________________________________
+		// Entities
+		// ____________________________________________________
+		IEntity* SponzaEntity = new Entity;
+		SponzaEntity->SetName("Sponza");
+		Chroma::Scene::AddEntity(SponzaEntity);
+
+		// ____________________________________________________
+		// Components
+		// ____________________________________________________
+
+		// Mesh component
+		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Dragon/dragon.fbx");
+		SponzaMeshComponent->SetMaterial(basicMat);
+		SponzaEntity->AddComponent(SponzaMeshComponent);
+	}
+
+	void Editor::Buddha()
+	{
+		// POINT LIGHTS
+		std::vector<Light*> Lights;
+
+		// SUNLIGHT
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Sun->setDiffuse(glm::vec3(1.0));
+		Sun->setIntensity(3.0);
+		Lights.push_back(Sun);
+		Chroma::Scene::SetLights(Lights);
+
+
+		// ____________________________________________________
+		// SHADERS
+		// ____________________________________________________
+
+		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+
+		// ____________________________________________________
+		// TEXTURES
+		// ____________________________________________________
+
+		// Default
+		// Generic
+		Texture greyAlbedo("resources/textures/colors/grey.jpg");
+		greyAlbedo.m_Type = Texture::ALBEDO;
+		Texture gridAlbedo("resources/animation/textures/grid.jpg");
+		gridAlbedo.m_Type = Texture::ALBEDO;
+		Texture flatNormal("resources/textures/test/flat_normal.jpg");
+		flatNormal.m_Type = Texture::NORMAL;
+
+		// ____________________________________________________
+		// Materials
+		// ____________________________________________________
+
+		Material basicMat;
+		basicMat.SetShader(PBRShader);
+		basicMat.AddTexture(greyAlbedo);
+		basicMat.AddTexture(flatNormal);
+
+
+		// ____________________________________________________
+		// Entities
+		// ____________________________________________________
+		IEntity* SponzaEntity = new Entity;
+		SponzaEntity->SetName("Sponza");
+		Chroma::Scene::AddEntity(SponzaEntity);
+
+		// ____________________________________________________
+		// Components
+		// ____________________________________________________
+
+		// Mesh component
+		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Buddha/buddha.fbx");
+		SponzaMeshComponent->SetMaterial(basicMat);
+		SponzaEntity->AddComponent(SponzaMeshComponent);
+	}
+
+	void Editor::StanfordBunny()
+	{
+		// POINT LIGHTS
+		std::vector<Light*> Lights;
+
+		// SUNLIGHT
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Sun->setDiffuse(glm::vec3(1.0));
+		Sun->setIntensity(3.0);
+		Lights.push_back(Sun);
+		Chroma::Scene::SetLights(Lights);
+
+
+		// ____________________________________________________
+		// SHADERS
+		// ____________________________________________________
+
+		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+
+		// ____________________________________________________
+		// TEXTURES
+		// ____________________________________________________
+
+		// Default
+		// Generic
+		Texture greyAlbedo("resources/textures/colors/grey.jpg");
+		greyAlbedo.m_Type = Texture::ALBEDO;
+		Texture gridAlbedo("resources/animation/textures/grid.jpg");
+		gridAlbedo.m_Type = Texture::ALBEDO;
+		Texture flatNormal("resources/textures/test/flat_normal.jpg");
+		flatNormal.m_Type = Texture::NORMAL;
+
+		// ____________________________________________________
+		// Materials
+		// ____________________________________________________
+
+		Material basicMat;
+		basicMat.SetShader(PBRShader);
+		basicMat.AddTexture(greyAlbedo);
+		basicMat.AddTexture(flatNormal);
+
+
+
+		// ____________________________________________________
+		// Entities
+		// ____________________________________________________
+		IEntity* SponzaEntity = new Entity;
+		SponzaEntity->SetName("Sponza");
+		Chroma::Scene::AddEntity(SponzaEntity);
+
+		// ____________________________________________________
+		// Components
+		// ____________________________________________________
+
+		// Mesh component
+		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/StanfordBunny/bunny.fbx");
+		SponzaMeshComponent->SetMaterial(basicMat);
+		SponzaEntity->AddComponent(SponzaMeshComponent);
+	}
+
+
 	void Editor::Tick()
 	{
 		// UI

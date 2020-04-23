@@ -13,6 +13,14 @@ namespace Chroma
 		static void PopulateTestScene();
 		static void PopulateTestScene2();
 		static void PopulateTestScene3();
+
+		// Test Scenes
+		static void CornellBox();
+		static void Sponza();
+		static void Dragon();
+		static void Buddha();
+		static void StanfordBunny();
+
 		static void Tick();
 	private:
 		static void DrawUI();
