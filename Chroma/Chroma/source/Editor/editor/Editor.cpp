@@ -750,6 +750,12 @@ namespace Chroma
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
 		flatNormal.m_Type = Texture::NORMAL;
 
+		Texture materialRedAlbedo("resources/lookdev/Sponza/textures/sponza_fabric_diff.png");
+		materialRedAlbedo.m_Type = Texture::ALBEDO;
+		Texture materialNormal("resources/lookdev/Sponza/textures/sponza_fabric_diff_NRM.jpg");
+		materialNormal.m_Type = Texture::NORMAL;
+		
+	
 
 		// ____________________________________________________
 		// Materials
@@ -759,6 +765,11 @@ namespace Chroma
 		basicMat.SetShader(PBRShader);
 		basicMat.AddTexture(greyAlbedo);
 		basicMat.AddTexture(flatNormal);
+
+		Material ClothMaterial;
+		ClothMaterial.SetShader(PBRShader);
+		ClothMaterial.AddTexture(materialRedAlbedo);
+		ClothMaterial.AddTexture(materialNormal);
 
 
 		// ____________________________________________________
@@ -777,6 +788,10 @@ namespace Chroma
 		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza.obj");
 		SponzaMeshComponent->SetMaterial(basicMat);
 		SponzaEntity->AddComponent(SponzaMeshComponent);
+
+		MeshComponent* SponzaMaterialMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_material.obj");
+		SponzaMaterialMeshComponent->SetMaterial(ClothMaterial);
+		SponzaEntity->AddComponent(SponzaMaterialMeshComponent);
 	}
 
 	void Editor::Dragon()
