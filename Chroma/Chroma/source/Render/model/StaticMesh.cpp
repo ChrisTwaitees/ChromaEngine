@@ -203,9 +203,6 @@ void StaticMesh::UpdateTransformUniforms(Shader& shader, Camera& renderCam)
 
 void StaticMesh::UpdateMaterialUniforms(Shader& shader)
 {
-	shader.SetUniform("roughness", 0.5f);
-	shader.SetUniform("color", glm::vec4(1, 0, 0, 0.5));
-	shader.SetUniform("metalness", 0.0f);
 	shader.SetUniform("UseAlbedoMap", false);
 	shader.SetUniform("UseNormalMap", false);
 	shader.SetUniform("UseMetRoughAOMap", false);

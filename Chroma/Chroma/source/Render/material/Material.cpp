@@ -51,6 +51,9 @@ void Material::AddTexture(Texture& newTexture)
 Material::Material()
 {
 	m_Shader = Shader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+	m_Uniforms.AddUniform("roughness", m_Roughness);
+	m_Uniforms.AddUniform("color", m_Color);
+	m_Uniforms.AddUniform("metalness", m_Metalness);
 }
 
 Material::~Material()

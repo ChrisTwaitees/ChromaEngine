@@ -162,12 +162,24 @@ int main()
 
 	// TERRAIN
 	// ____________________________________________________
+
+	Texture groundAlbedo("resources/lookdev/Sponza/textures_final/ground_Albedo.png");
+	groundAlbedo.m_Type = Texture::ALBEDO;
+	Texture groundNormal("resources/lookdev/Sponza/textures_final/ground_Normal.jpg");
+	groundNormal.m_Type = Texture::NORMAL;
+	Texture groundMetRoughAO("resources/lookdev/Sponza/textures_final/ground_MetRoughAO.jpg");
+	groundMetRoughAO.m_Type = Texture::METROUGHAO;
+
+	Material groundMat;
+	groundMat.AddTexture(groundAlbedo);
+	groundMat.AddTexture(groundNormal);
+	groundMat.AddTexture(groundMetRoughAO);
+	groundMat.SetUVMultiply(10.0 * 2);
+
 	IEntity* TerrainEntity = new Entity;
 	Chroma::Scene::AddEntity(TerrainEntity);
 	MeshComponent* TerrainMeshComponent = new Terrain;
-	TerrainMeshComponent->SetShader(PBRSkinShaderExperimental);
-	//TerrainMeshComponent->AddTexture(gridAlbedo);
-	TerrainMeshComponent->AddTexture(flatNormal);
+	TerrainMeshComponent->SetMaterial(groundMat);
 	TerrainEntity->AddComponent(TerrainMeshComponent);
 	TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));
 	// ____________________________________________________

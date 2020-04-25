@@ -26,9 +26,19 @@ public:
 	void SetTextureSet(std::vector<Texture> newTextureSet);
 	void AddTexture(Texture& newTexture);
 
+	// Default Properties
 	inline glm::vec2 GetUVMultiply() { return m_UVMultiply; }
 	inline void SetUVMultiply(const glm::vec2& newUV) { m_UVMultiply = newUV; }
 	inline void SetUVMultiply(const float& newUVFactor) { m_UVMultiply = glm::vec2(newUVFactor); };
+
+	inline glm::vec4 GetColor() { return m_Color; }
+	inline void SetColor(const glm::vec4& newColor) { m_Color = newColor; }
+
+	inline float GetMetalness() { return m_Metalness; }
+	inline void SetMetalness(const float& newMetalness) { m_Metalness = newMetalness; }
+
+	inline float GetRoughness() { return m_Roughness; }
+	inline void SetRoughness(const float& newRoughness) { m_Roughness = newRoughness; }
 
 	// Uniform
 	UniformArray& GetUniformArray() { return m_Uniforms; };
@@ -67,10 +77,24 @@ public:
 	~Material();
 
 private:
+	// Shader
 	Shader m_Shader;
-	UniformArray m_Uniforms;
+
+	// TextureSet
 	std::vector<Texture> m_TextureSet;
+
+	// Uniforms
+	UniformArray m_Uniforms;
+
+	// Defaults
 	glm::vec2 m_UVMultiply{ 1.0 };
+	float m_Roughness{ 0.5f };
+	glm::vec4 m_Color{ 1.0, 0.0, 0.0, 0.5 };
+	float m_Metalness{ 0.0f };
+	float m_Metalness{ 0.0f };
+
+
+
 
 	// Render Flags
 	bool m_IsRenderable{ true };
