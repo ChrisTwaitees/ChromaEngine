@@ -37,16 +37,19 @@ void ForwardBuffer::RenderForwardComponents()
 	for (UID const& uid : Chroma::Scene::GetUnlitComponentUIDs())
 	{
 		// render unlit components
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
 	}
 
 	// Render Forward Lit Components
 	for (UID const& uid : Chroma::Scene::GetForwardLitComponentUIDs())
 	{
+		// Check whether component is transparent
+		if (static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsTransparent())
+			continue;
 		// update the light view matrix
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->SetMat4("lightSpaceMatrix", Chroma::Render::GetLightSpaceMatrix());
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetMat4("lightSpaceMatrix", Chroma::Render::GetLightSpaceMatrix());
 		// render forward lit components
-		((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
 
 	}
 
@@ -62,22 +65,30 @@ void ForwardBuffer::RenderTransparency()
 	// Disable Back Face Culling to allow interior of transparent objects to be seen
 	glDisable(GL_CULL_FACE);
 	// Sorting for Transparency Shading
-	std::map<float, UID> alpha_sorted;
-	for (UID const& uid : Chroma::Scene::GetTransparentEntityUIDs())
+	//std::map<float, UID> alpha_sorted;
+	//for (UID const& uid : Chroma::Scene::GetTransparentEntityUIDs())
+	//{
+	//	float distance = Chroma::Scene::GetEntityDistanceToCamera(uid);
+	//	alpha_sorted[distance] = uid;
+	//}
+	//// iterating from furthest to closest
+	//for (std::map<float, UID>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
+	//{
+	//	for (UID const& uid : Chroma::Scene::GetTransparentComponentUIDs())
+	//	{
+	//		if (static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsForwardLit()) // draw lit transparent components
+	//			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
+	//		else // draw unlit transparent components
+	//			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
+	//	}
+	//}
+
+	for (UID const& uid : Chroma::Scene::GetTransparentComponentUIDs())
 	{
-		float distance = Chroma::Scene::GetEntityDistanceToCamera(uid);
-		alpha_sorted[distance] = uid;
-	}
-	// iterating from furthest to closest
-	for (std::map<float, UID>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
-	{
-		for (UID const& uid : Chroma::Scene::GetTransparentComponentUIDs())
-		{
-			if (((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetIsForwardLit()) // draw lit transparent components
-				((MeshComponent*)Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
-			else // draw unlit transparent components
-				((MeshComponent*)Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
-		}
+		if (static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsForwardLit()) // draw lit transparent components
+			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
+		else // draw unlit transparent components
+			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
 	}
 	// set to default blending
 	glBlendFunc(GL_ONE, GL_ZERO);

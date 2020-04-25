@@ -115,7 +115,7 @@ void main()
 	//float alpha = 0.5;
 	if(Alpha > 0.1)
 	{
-		FragColor = vec4(vec3(Albedo), Alpha);
+		FragColor = vec4(vec3(0.1), Alpha);
 	}
 	else
 		discard;

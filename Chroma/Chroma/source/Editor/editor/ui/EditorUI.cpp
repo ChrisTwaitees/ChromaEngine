@@ -800,7 +800,7 @@ namespace Chroma
 		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "WS Positions", NULL, 0.0f);
 		ImGui::EndChild();
 
-		// Positions
+		// SunlightShadowMap
 		ImGui::BeginChild("SunlightShadowMap", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
 		p = ImGui::GetCursorScreenPos();
 		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetShadowBufferTexture(),
@@ -809,6 +809,17 @@ namespace Chroma
 		ImGui::EndChild();
 		ImGui::BeginChild("SunlightShadowMap");
 		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "Sunlight ShadowMap", NULL, 0.0f);
+		ImGui::EndChild();
+
+		// ForwardBuffer
+		ImGui::BeginChild("ForwardBuffer", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
+		p = ImGui::GetCursorScreenPos();
+		ImGui::Image((void*)(intptr_t)Chroma::Render::GetForwardBuffer()->GetTexture(),
+			ImGui::GetWindowSize(),
+			ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+		ImGui::BeginChild("ForwardBuffer");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "ForwardBuffer", NULL, 0.0f);
 		ImGui::EndChild();
 
 

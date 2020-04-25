@@ -723,11 +723,20 @@ namespace Chroma
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.0, -1.0, -0.1), 2.0f);
 		Sun->setDiffuse(glm::vec3(1.0));
 		Sun->setIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
+
+
+		// ____________________________________________________
+		// Entities
+		// ____________________________________________________
+		IEntity* SponzaEntity = new Entity;
+		SponzaEntity->SetName("Sponza");
+		SponzaEntity->SetScale(glm::vec3(0.01));
+		Chroma::Scene::AddEntity(SponzaEntity);
 
 
 		// ____________________________________________________
@@ -736,6 +745,7 @@ namespace Chroma
 
 		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRAlphaShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
 		// ____________________________________________________
 		// TEXTURES
@@ -750,48 +760,105 @@ namespace Chroma
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
 		flatNormal.m_Type = Texture::NORMAL;
 
+
+		// CLOTH
+		//red
 		Texture materialRedAlbedo("resources/lookdev/Sponza/textures/sponza_fabric_diff.png");
 		materialRedAlbedo.m_Type = Texture::ALBEDO;
 		Texture materialNormal("resources/lookdev/Sponza/textures/sponza_fabric_diff_NRM.jpg");
 		materialNormal.m_Type = Texture::NORMAL;
-		
-	
 
-		// ____________________________________________________
-		// Materials
-		// ____________________________________________________
+		Material RedClothMaterial;
+		RedClothMaterial.SetShader(PBRShader);
+		RedClothMaterial.AddTexture(materialRedAlbedo);
+		RedClothMaterial.AddTexture(materialNormal);
 
-		Material basicMat;
-		basicMat.SetShader(PBRShader);
-		basicMat.AddTexture(greyAlbedo);
-		basicMat.AddTexture(flatNormal);
+		MeshComponent* SponzaMaterialMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_cloth_red.fbx");
+		SponzaMaterialMeshComponent->SetMaterial(RedClothMaterial);
+		SponzaEntity->AddComponent(SponzaMaterialMeshComponent);
 
-		Material ClothMaterial;
-		ClothMaterial.SetShader(PBRShader);
-		ClothMaterial.AddTexture(materialRedAlbedo);
-		ClothMaterial.AddTexture(materialNormal);
+		// VASE GROUND
+		// flowers
+		Texture vaseGroundFlowerAlbedo("resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png");
+		vaseGroundFlowerAlbedo.m_Type = Texture::ALBEDO;
+		Texture vaseGroundFlowerNormal("resources/lookdev/Sponza/textures_final/vase_ground_normal.jpg");
+		vaseGroundFlowerNormal.m_Type = Texture::NORMAL;
+		Texture vaseGroundFlowerMetRoughAO("resources/lookdev/Sponza/textures_final/vase_ground_MetRoughAO.png");
+		vaseGroundFlowerMetRoughAO.m_Type = Texture::METROUGHAO;
+		Texture vaseGroundFlowerTransp("resources/lookdev/Sponza/textures_final/vase_ground_transparency.png");
+		vaseGroundFlowerTransp.m_Type = Texture::TRANSLUCENCY;
 
-
-		// ____________________________________________________
-		// Entities
-		// ____________________________________________________
-		IEntity* SponzaEntity = new Entity;
-		SponzaEntity->SetName("Sponza");
-		SponzaEntity->SetScale(glm::vec3(0.01));
-		Chroma::Scene::AddEntity(SponzaEntity);
-
-		// ____________________________________________________
-		// Components
-		// ____________________________________________________
+		Material vaseGroundPlant;
+		vaseGroundPlant.SetShader(PBRAlphaShader);
+		vaseGroundPlant.AddTexture(vaseGroundFlowerAlbedo);
+		vaseGroundPlant.AddTexture(vaseGroundFlowerNormal);
+		vaseGroundPlant.AddTexture(vaseGroundFlowerMetRoughAO);
+		vaseGroundPlant.AddTexture(vaseGroundFlowerTransp);
 
 		// Mesh component
-		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza.obj");
-		SponzaMeshComponent->SetMaterial(basicMat);
-		SponzaEntity->AddComponent(SponzaMeshComponent);
+		MeshComponent* VaseFlowerMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_vase_ground_plants.obj");
+		VaseFlowerMeshComponent->SetMaterial(vaseGroundPlant);
+		//VaseFlowerMeshComponent->SetIsDoubleSided(true);
+		VaseFlowerMeshComponent->SetIsLit(false);
+		//VaseFlowerMeshComponent->SetIsTransparent(true);
+		VaseFlowerMeshComponent->SetIsForwardLit(true);
+		SponzaEntity->AddComponent(VaseFlowerMeshComponent);
 
-		MeshComponent* SponzaMaterialMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_material.obj");
-		SponzaMaterialMeshComponent->SetMaterial(ClothMaterial);
-		SponzaEntity->AddComponent(SponzaMaterialMeshComponent);
+		// vase
+		Texture vaseGroundAlbedo("resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO_Albedo.png");
+		vaseGroundAlbedo.m_Type = Texture::ALBEDO;
+		Texture vaseGroundNormal("resources/lookdev/Sponza/textures_final/vase_groundBase_normal.jpg");
+		vaseGroundNormal.m_Type = Texture::NORMAL;
+		Texture vaseGroundMetRoughAO("resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO.png");
+		vaseGroundMetRoughAO.m_Type = Texture::METROUGHAO;
+
+		Material vaseGroundMat;
+		vaseGroundMat.AddTexture(vaseGroundAlbedo);
+		vaseGroundMat.AddTexture(vaseGroundNormal);
+		vaseGroundMat.AddTexture(vaseGroundMetRoughAO);
+
+		// Mesh component
+		MeshComponent* SponzaVaseComponent = new StaticMesh("resources/lookdev/Sponza/sponza_vase_ground_base.obj");
+		SponzaVaseComponent->SetMaterial(vaseGroundMat);
+		SponzaEntity->AddComponent(SponzaVaseComponent);
+
+		// GROUND
+		Texture groundAlbedo("resources/lookdev/Sponza/textures_final/ground_Albedo.png");
+		groundAlbedo.m_Type = Texture::ALBEDO;
+		Texture groundNormal("resources/lookdev/Sponza/textures_final/ground_Normal.jpg");
+		groundNormal.m_Type = Texture::NORMAL;
+		Texture groundMetRoughAO("resources/lookdev/Sponza/textures_final/ground_MetRoughAO.jpg");
+		groundMetRoughAO.m_Type = Texture::METROUGHAO;
+
+		Material groundMat;
+		groundMat.AddTexture(groundAlbedo);
+		groundMat.AddTexture(groundNormal);
+		groundMat.AddTexture(groundMetRoughAO);
+
+		// Mesh component
+		MeshComponent* GroundMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_ground.fbx");
+		GroundMeshComponent->SetMaterial(groundMat);
+		SponzaEntity->AddComponent(GroundMeshComponent);
+
+		// WALLS
+		Texture wallsAlbedo("resources/lookdev/Sponza/textures_final/bricks_Albedo.png");
+		wallsAlbedo.m_Type = Texture::ALBEDO;
+		Texture wallsNormal("resources/lookdev/Sponza/textures_final/bricks_Normal.jpg");
+		wallsNormal.m_Type = Texture::NORMAL;
+		Texture wallsMetRoughAO("resources/lookdev/Sponza/textures_final/bricks_MetRoughAO.jpg");
+		wallsMetRoughAO.m_Type = Texture::METROUGHAO;
+
+		Material wallsMat;
+		wallsMat.AddTexture(wallsAlbedo);
+		wallsMat.AddTexture(wallsNormal);
+		wallsMat.AddTexture(wallsMetRoughAO);
+
+		// Mesh component
+		MeshComponent* WallsMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_walls.fbx");
+		WallsMeshComponent->SetMaterial(wallsMat);
+		SponzaEntity->AddComponent(WallsMeshComponent);
+
+
 	}
 
 	void Editor::Dragon()
