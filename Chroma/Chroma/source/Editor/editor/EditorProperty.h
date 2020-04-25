@@ -8,8 +8,8 @@ class EditorProperty
 public:
 	// MinMax
 
-	std::pair<float, float> m_FloatMinMax{ std::make_pair(0.0,1.0) };
-	std::pair<int, int> m_IntMinMax{ std::make_pair(0,10) };
+	std::pair<float, float> m_FloatMinMax{ std::make_pair(0.0f, 1.0f) };
+	std::pair<int, int> m_IntMinMax{ std::make_pair(0, 10) };
 
 	std::pair<glm::vec2, glm::vec2> m_Vec2MinMax{ std::make_pair(glm::vec2(0.0), glm::vec2(1.0)) };
 	std::pair<glm::vec3, glm::vec3> m_Vec3MinMax{ std::make_pair(glm::vec3(0.0), glm::vec3(1.0)) };

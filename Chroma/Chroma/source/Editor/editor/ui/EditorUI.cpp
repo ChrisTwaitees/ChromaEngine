@@ -633,6 +633,7 @@ namespace Chroma
 
 	void EditorUI::DrawIcons()
 	{
+#ifdef EDITOR
 
 		// lights
 		for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
@@ -655,6 +656,7 @@ namespace Chroma
 				break;
 			}
 		}
+#endif
 
 
 	}

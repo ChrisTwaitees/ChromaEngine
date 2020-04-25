@@ -65,7 +65,7 @@ void main()
 	Albedo = UseAlbedoMap? vec4(texture(material.texture_albedo1, fs_in.TexCoords)) : color;
 	float Alpha = Albedo.a;
 	// normals
-	if (UseNormalMap && length(fs_in.TBN[1]) >= 0.5 ){
+	if (UseNormalMap){
 		Normal = vec3(texture(material.texture_normal1, fs_in.TexCoords));
 		Normal = normalize(Normal * 2.0 - 1.0);
 		Normal = normalize(fs_in.TBN * Normal);
@@ -87,7 +87,7 @@ void main()
 	}
 	
 	// TODO : fetch SSAO from GBuffer
-	float SSAO = 0.1;
+	float SSAO = 1.0;
 
 	// LIGHTING
 	//------------------------------------------------------------------------
@@ -112,10 +112,9 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	//float alpha = 0.5;
 	if(Alpha > 0.1)
 	{
-		FragColor = vec4(vec3(0.1), Alpha);
+		FragColor = vec4(vec3(color), Alpha);
 	}
 	else
 		discard;

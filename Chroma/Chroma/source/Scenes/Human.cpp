@@ -154,7 +154,6 @@ int main2()
 	TerrainMeshComponent->SetShader(PBRSkinShaderExperimental);
 	TerrainMeshComponent->AddTexture(gridAlbedo);
 	TerrainMeshComponent->AddTexture(flatNormal);
-	TerrainMeshComponent->m_UVMultiply = glm::vec2(8.0f);
 	TerrainEntity->AddComponent(TerrainMeshComponent);
 	TerrainEntity->SetScale(glm::vec3(10.0, 1.0, 10.0));
 	// ____________________________________________________

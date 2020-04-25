@@ -66,6 +66,7 @@ void DebugBuffer::DrawShapes()
 	{
 #else
 	if (Chroma::Scene::GetUIComponentUIDs().size() > 0)
+	{
 #endif
 		// Set to alpha blending
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
