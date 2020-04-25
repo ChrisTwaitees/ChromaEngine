@@ -154,33 +154,6 @@ int main2()
 	AnimConstraintComponent* AnimModelIKComponent = new IKAnimConstraint();
 	AnimModelEntity->AddComponent(AnimModelIKComponent);
 
-	// ____________________________________________________
-			// VASE GROUND
-		// flowers
-	Texture vaseGroundFlowerAlbedo("resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png");
-	vaseGroundFlowerAlbedo.m_Type = Texture::ALBEDO;
-	Texture vaseGroundFlowerNormal("resources/lookdev/Sponza/textures_final/vase_ground_normal.jpg");
-	vaseGroundFlowerNormal.m_Type = Texture::NORMAL;
-	Texture vaseGroundFlowerMetRoughAO("resources/lookdev/Sponza/textures_final/vase_ground_MetRoughAO.png");
-	vaseGroundFlowerMetRoughAO.m_Type = Texture::METROUGHAO;
-	Texture vaseGroundFlowerTransp("resources/lookdev/Sponza/textures_final/vase_ground_transparency.png");
-	vaseGroundFlowerTransp.m_Type = Texture::TRANSLUCENCY;
-	Shader PBRAlphaShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-	Material vaseGroundPlant;
-	vaseGroundPlant.SetShader(PBRAlphaShader);
-	vaseGroundPlant.AddTexture(vaseGroundFlowerAlbedo);
-	vaseGroundPlant.AddTexture(vaseGroundFlowerNormal);
-	vaseGroundPlant.AddTexture(vaseGroundFlowerMetRoughAO);
-	vaseGroundPlant.AddTexture(vaseGroundFlowerTransp);
-
-	// Mesh component
-	MeshComponent* VaseFlowerMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_vase_ground_plants.obj");
-	VaseFlowerMeshComponent->SetMaterial(vaseGroundPlant);
-	VaseFlowerMeshComponent->SetIsDoubleSided(true);
-	VaseFlowerMeshComponent->SetIsLit(false);
-	VaseFlowerMeshComponent->SetIsTransparent(true);
-	VaseFlowerMeshComponent->SetIsForwardLit(true);
-	AnimModelEntity->AddComponent(VaseFlowerMeshComponent);
 
 
 	// ____________________________________________________

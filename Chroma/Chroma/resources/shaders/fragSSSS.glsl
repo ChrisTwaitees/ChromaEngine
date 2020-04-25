@@ -67,15 +67,25 @@ void main()
 {
 	// MATERIAL PROPERTIES
 	vec3 Albedo, Normal;
-	float Metalness, Roughness, AO, Translucency;
+	float Alpha, Metalness, Roughness, AO, Translucency;
 	// albedo
-	Albedo = UseAlbedoMap? vec3(texture(material.texture_albedo1, fs_in.TexCoords * UVMultiply).rgb) : color;
+	if(UseAlbedoMap)
+	{
+		vec4 texMap = texture(material.texture_albedo1, fs_in.TexCoords * UVMultiply);
+		Albedo = texMap.rgb;
+		Alpha = texMap.w;
+	}
+	else{
+		Albedo = color;
+		Alpha = 1.0;
+	}
+
 	// translucency
 	Translucency = UseTranslucencyMap ? texture(material.texture_translucency1, fs_in.TexCoords * UVMultiply).r : 0.0;
 
 	// normals
 	if (UseNormalMap){
-		Normal = vec3(texture(material.texture_normal1, fs_in.TexCoords));
+		Normal = vec3(texture(material.texture_normal1, fs_in.TexCoords * UVMultiply));
 		Normal = normalize(Normal * 2.0 - 1.0);
 		Normal = normalize(fs_in.TBN * Normal);
 	}
@@ -84,7 +94,7 @@ void main()
 	}
 	// metalness roughness ao
 	if(UseMetRoughAOMap){
-		vec3 MetRoughAO = texture(material.texture_MetRoughAO1, fs_in.TexCoords).rgb;
+		vec3 MetRoughAO = texture(material.texture_MetRoughAO1, fs_in.TexCoords * UVMultiply).rgb;
 		Metalness = MetRoughAO.r ;
 		Roughness = MetRoughAO.g;
 		AO = MetRoughAO.b;
@@ -136,7 +146,12 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	FragColor = vec4(vec3(color), 1.0);
+	if(Alpha > 0.1)
+	{
+		FragColor = vec4(vec3(color), Alpha);
+	}
+	else
+		discard;
 
 	// POST FX
 	float brightness = dot(FragColor.rgb, vec3(0.2126, 0.7152, 0.0722));

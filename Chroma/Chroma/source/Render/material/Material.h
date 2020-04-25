@@ -18,7 +18,7 @@ public:
 	inline void SetShader(Shader& newShader) {  m_Shader = newShader; }
 	inline void SetShader(const char* shaderFRAGSourcePath, const char* shaderVTXSourcePath, const char* shaderGEOMSourcePath = "") 
 	{
-		m_Shader.Destroy();  m_Shader = Shader(shaderFRAGSourcePath, shaderVTXSourcePath, shaderGEOMSourcePath);
+		m_Shader = Shader(shaderFRAGSourcePath, shaderVTXSourcePath, shaderGEOMSourcePath);
 	}
 
 	// Texture

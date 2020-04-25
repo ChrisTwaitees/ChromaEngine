@@ -128,7 +128,7 @@ namespace Chroma
 			else if (textData.nrComponents == 3)
 				wrapping = GL_REPEAT;
 			else if (textData.nrComponents == 4)
-				wrapping = GL_CLAMP_TO_EDGE;
+				wrapping = GL_REPEAT;
 
 			glBindTexture(GL_TEXTURE_2D, textData.ID);
 			glTexImage2D(GL_TEXTURE_2D, 0, format, textData.width, textData.height, 0, format, GL_UNSIGNED_BYTE, data);

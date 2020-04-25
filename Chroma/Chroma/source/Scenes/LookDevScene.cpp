@@ -94,6 +94,28 @@ int main()
 	// Materials
 	// ____________________________________________________
 
+	// ____________________________________________________
+	// flowers
+	Texture vaseGroundFlowerAlbedo("resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png");
+	vaseGroundFlowerAlbedo.m_Type = Texture::ALBEDO;
+	Texture vaseGroundFlowerNormal("resources/lookdev/Sponza/textures_final/vase_ground_normal.jpg");
+	vaseGroundFlowerNormal.m_Type = Texture::NORMAL;
+	Texture vaseGroundFlowerMetRoughAO("resources/lookdev/Sponza/textures_final/vase_ground_MetRoughAO.png");
+	vaseGroundFlowerMetRoughAO.m_Type = Texture::METROUGHAO;
+	Texture vaseGroundFlowerTransp("resources/lookdev/Sponza/textures_final/vase_ground_transparency.png");
+	vaseGroundFlowerTransp.m_Type = Texture::TRANSLUCENCY;
+	Material plantMat;
+	plantMat.SetIsDoubleSided(true);
+	plantMat.SetIsTransparent(true);
+	plantMat.SetIsForwardLit(true);
+	plantMat.SetIsLit(false);
+	plantMat.SetUVMultiply(glm::vec2(2.0));
+	plantMat.SetShader(PBRSkinShaderExperimental);
+	plantMat.AddTexture(vaseGroundFlowerAlbedo);
+	plantMat.AddTexture(vaseGroundFlowerNormal);
+	plantMat.AddTexture(vaseGroundFlowerMetRoughAO);
+	plantMat.AddTexture(vaseGroundFlowerTransp);
+
 	Material testMat;
 	testMat.SetShader(PBRShader);
 	testMat.AddTexture(lookDevAlbedo);
@@ -103,7 +125,8 @@ int main()
 	Material testMat2;
 	testMat2.SetIsLit(false);
 	testMat2.SetIsForwardLit(true);
-	testMat2.SetShader(PBRSkinShaderExperimental);
+	testMat2.SetShader(ColoredShader);
+	testMat2.AddUniform("color", glm::vec3(0.5, 0.0, 0.5));
 	testMat2.AddTexture(gridAlbedo);
 	testMat2.AddTexture(flatNormal);
 	Material testMat3;
@@ -111,7 +134,7 @@ int main()
 	Material testMat5;
 
 	//std::vector<Material> materialList{ testMat, testMat2 , testMat3, testMat4, testMat5 };
-	std::vector<Material> materialList{ testMat2 };
+	std::vector<Material> materialList{ plantMat, testMat2, testMat };
 
 	const float spacing{ 3.0 };
 
