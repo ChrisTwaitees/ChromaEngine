@@ -91,9 +91,6 @@ private:
 	float m_Roughness{ 0.5f };
 	glm::vec4 m_Color{ 1.0, 0.0, 0.0, 0.5 };
 	float m_Metalness{ 0.0f };
-	float m_Metalness{ 0.0f };
-
-
 
 
 	// Render Flags

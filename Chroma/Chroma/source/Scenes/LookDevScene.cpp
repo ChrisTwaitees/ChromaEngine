@@ -171,10 +171,10 @@ int main()
 	groundMetRoughAO.m_Type = Texture::METROUGHAO;
 
 	Material groundMat;
-	groundMat.AddTexture(groundAlbedo);
+	//groundMat.AddTexture(groundAlbedo);
 	groundMat.AddTexture(groundNormal);
 	groundMat.AddTexture(groundMetRoughAO);
-	groundMat.SetUVMultiply(10.0 * 2);
+	groundMat.SetUVMultiply(10.0 * 4);
 
 	IEntity* TerrainEntity = new Entity;
 	Chroma::Scene::AddEntity(TerrainEntity);
