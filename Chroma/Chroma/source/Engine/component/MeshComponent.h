@@ -18,29 +18,34 @@ public:
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
 
-	// attrs
-	virtual void SetIsRenderable(bool const& check) { m_IsRenderable = check; };
-	inline bool& GetIsRenderable() { return m_IsRenderable; }
-	virtual void SetIsTransparent(bool const& check) { m_IsTransparent = check; };
-	inline bool& GetIsTransparent() { return m_IsTransparent; }
-	virtual void SetIsLit(bool const& check) { m_IsLit = check; };
-	inline bool& GetIsLit() { return m_IsLit; }
-	virtual void SetIsUnlit(bool const& check) { m_IsUnlit = check; };
-	inline bool& GetIsUnlit() { return m_IsUnlit; }
-	virtual void SetIsForwardLit(bool const& check) { m_IsForwardLit = check; };
-	inline bool& GetIsForwardLit() { return m_IsForwardLit; }
+	// Mesh Attrs
 	virtual void SetIsSkinned(bool const& check) { m_IsSkinned = check; };
 	inline bool& GetIsSkinned() { return m_IsSkinned; }
-	virtual void SetIsDoubleSided(bool const& check) { m_IsDoubleSided = check; };
-	inline bool& GetIsDoubleSided() { return m_IsDoubleSided; }
-	virtual void SetCastsShadows(bool const& check) { m_CastShadows = check; };
-	inline bool& GetCastsShadows() { return m_CastShadows; }
+
+	// RenderFlags
+	virtual void SetIsRenderable(bool const& check) { m_Material.SetIsRenderable(check);  ProcessRenderFlags(); };
+	inline bool GetIsRenderable() { return m_Material.GetIsRenderable(); }
+	virtual void SetIsTransparent(bool const& check) { m_Material.SetIsTransparent(check);  ProcessRenderFlags(); };
+	inline bool GetIsTransparent() { return m_Material.GetIsTransparent(); }
+	virtual void SetIsLit(bool const& check) { m_Material.SetIsLit(check); ProcessRenderFlags(); };
+	inline bool GetIsLit() { return m_Material.GetIsLit(); }
+	virtual void SetIsUnlit(bool const& check) { m_Material.SetIsUnlit(check);  ProcessRenderFlags();};
+	inline bool GetIsUnlit() { return m_Material.GetIsUnlit(); }
+	virtual void SetIsForwardLit(bool const& check) { m_Material.SetIsForwardLit(check);  ProcessRenderFlags();};
+	inline bool GetIsForwardLit() { return m_Material.GetIsForwardLit(); }
+	virtual void SetIsDoubleSided(bool const& check) { m_Material.SetIsDoubleSided(check);  ProcessRenderFlags();};
+	inline bool GetIsDoubleSided() { return m_Material.GetIsDoubleSided(); }
+	virtual void SetCastsShadows(bool const& check) { m_Material.SetCastsShadows(check);  ProcessRenderFlags(); };
+	inline bool GetCastsShadows() { return m_Material.GetCastsShadows(); }
+	virtual void SetReceivesShadows(bool const& check) { m_Material.SetReceivesShadows(check);  ProcessRenderFlags();};
+	inline bool GetReceivesShadows() { return m_Material.GetReceivesShadows(); }
 
 	// Transforms
 	virtual glm::mat4 GetWorldTransform();
 	virtual void SetTransform(glm::mat4 const& newTransformMat);
 	virtual inline void SetScale(glm::vec3 const& newscale) { m_Scale = newscale; RebuildTransform(); }
 	virtual inline void SetTranslation(glm::vec3 const& newposition) { m_Translation = newposition; RebuildTransform(); }
+	virtual inline glm::vec3& GetTranslation() { return m_Translation; };
 	virtual void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; RebuildTransform(); }
 
 	// Dimensions
@@ -67,10 +72,10 @@ public:
 	virtual void SetJointUniforms(Shader& shader) {};
 
 	// Materials
-	virtual void SetMaterial(const Material& newMaterial) { m_Material = newMaterial; };
+	virtual void SetMaterial(const Material& newMaterial);
 	virtual Material& GetMaterial() { return m_Material; };
 
-	virtual void SetShader(Shader const& shader) { m_Material.SetShader(shader); };
+	virtual void SetShader(Shader& shader) { m_Material.SetShader(shader); };
 	virtual Shader& GetShader() { return m_Material.GetShader(); };
 
 	virtual void SetTextureSet(std::vector<Texture>& textures_val) { m_Material.SetTextureSet(textures_val); };
@@ -99,15 +104,10 @@ protected:
 	//Material
 	Material m_Material;
 	void SerializeMaterial(ISerializer*& serializer);
-	// Render Attrs
-	bool m_IsRenderable{ false };
-	bool m_IsTransparent{ false };
-	bool m_IsLit{ true };
-	bool m_IsUnlit{ false };
-	bool m_IsForwardLit{ false };
-	bool m_CastShadows{ true };
+	void ProcessRenderFlags();
+
+	// attrs
 	bool m_IsSkinned{ false };
-	bool m_IsDoubleSided{ false };
 };
 
 #endif

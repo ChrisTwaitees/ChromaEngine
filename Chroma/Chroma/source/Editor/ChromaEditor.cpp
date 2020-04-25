@@ -32,6 +32,12 @@ int main()
 		// ENGINE TICK
 		Chroma::Engine::Tick();
 		
+		// Physics debug
+		if (Chroma::Input::IsPressed(Chroma::Input::P))
+		{
+			Chroma::Physics::ToggleDrawDebug();
+		}
+
 		// EDITOR TICK
 		Chroma::Editor::Tick();
 	}

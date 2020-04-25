@@ -31,7 +31,7 @@ public:
 
 	// render components
 	Shader& GetShader();
-	void SetShader(Shader const& shader) override;
+	void SetShader(Shader& shader) override;
 	std::vector<UID>& GetMeshUIDs() { return m_MeshUIDs; }
 	// verts
 	std::vector<ChromaVertex> GetVertices() override;

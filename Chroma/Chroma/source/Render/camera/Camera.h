@@ -52,7 +52,9 @@ public:
 
 	// Accessors
 	inline glm::vec3 GetPosition() const { return m_CameraPosition; };
+	inline void SetPosition(const glm::vec3& newPosition) { m_CameraPosition = newPosition; UpdateViewMatrix(); }
 	inline glm::vec3 GetDirection() const { return m_CameraDirection; };
+	inline void SetDirection(const glm::vec3& newDirection) { m_CameraDirection = newDirection; UpdateViewMatrix(); }
 	// matrices
 	inline glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; };
 	inline glm::mat4 GetViewMatrix() const { return m_ViewMatrix; };

@@ -18,7 +18,7 @@ namespace Chroma
 	// UIDs
 	//entities
 	std::set<UID> Scene::m_EntityUIDs;
-	std::set<UID> Scene::m_TransparentEntityUIDs;
+	std::set<UID> Scene::m_AnimatedEntityUIDs;
 
 	//components
 	std::set<UID> Scene::m_ComponentUIDs;
@@ -26,7 +26,6 @@ namespace Chroma
 	//components - animation
 	std::set<UID> Scene::m_AnimationComponentUIDs;
 	std::set<UID> Scene::m_CharacterControllerUIDs;
-	std::set<UID> Scene::m_AnimatedEntityUIDs;
 	std::set<UID> Scene::m_AnimConstraintComponentUIDs;
 
 	//components - visual
@@ -35,6 +34,7 @@ namespace Chroma
 	std::set<UID> Scene::m_RenderableComponentUIDs;
 	std::set<UID> Scene::m_LitComponentUIDs;
 	std::set<UID> Scene::m_ShadowCastingComponentUIDs;
+	std::set<UID> Scene::m_ShadowReceivingComponentUIDs;
 	std::set<UID> Scene::m_TransparentComponentUIDs;
 	std::set<UID> Scene::m_UnLitComponentUIDs;
 	std::set<UID> Scene::m_ForwardLitComponentUIDs;
@@ -47,6 +47,9 @@ namespace Chroma
 
 	std::set<UID> Scene::m_LightUIDs;
 
+	// Scene State
+	Scene::SceneState Scene::m_SceneState{ Scene::SceneState::kSceneNotBuilt };
+
 	// timing
 	std::chrono::steady_clock::time_point Scene::m_SceneBuildStartTime;
 	std::chrono::steady_clock::time_point Scene::m_SceneBuildEndTime;
@@ -55,37 +58,42 @@ namespace Chroma
 	{
 		// check for rendering features
 		// renderable
-		if (((MeshComponent*)newMeshComponent)->GetIsRenderable())
+		if ( static_cast<MeshComponent*>(newMeshComponent)->GetIsRenderable())
 			m_RenderableComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_RenderableComponentUIDs, newMeshComponent->GetUID());
 		// islit
-		if (((MeshComponent*)newMeshComponent)->GetIsLit())
+		if (static_cast<MeshComponent*>(newMeshComponent)->GetIsLit())
 			m_LitComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_LitComponentUIDs, newMeshComponent->GetUID());
 		// unlit
-		if (((MeshComponent*)newMeshComponent)->GetIsUnlit())
+		if (static_cast<MeshComponent*>(newMeshComponent)->GetIsUnlit())
 			m_UnLitComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_UnLitComponentUIDs, newMeshComponent->GetUID());
 		// casts shadows
-		if (((MeshComponent*)newMeshComponent)->GetCastsShadows())
+		if (static_cast<MeshComponent*>(newMeshComponent)->GetCastsShadows())
 			m_ShadowCastingComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_ShadowCastingComponentUIDs, newMeshComponent->GetUID());
+		// receives shadows
+		if (static_cast<MeshComponent*>(newMeshComponent)->GetReceivesShadows())
+			m_ShadowReceivingComponentUIDs.insert(newMeshComponent->GetUID());
+		else
+			SafeRemoveComponentUID(m_ShadowReceivingComponentUIDs, newMeshComponent->GetUID());
 		// transparent
-		if (((MeshComponent*)newMeshComponent)->GetIsTransparent())
+		if (static_cast<MeshComponent*>(newMeshComponent)->GetIsTransparent())
 			m_TransparentComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_TransparentComponentUIDs, newMeshComponent->GetUID());
 		// is skinned
-		if (((MeshComponent*)newMeshComponent)->GetIsSkinned())
+		if (static_cast<MeshComponent*>(newMeshComponent)->GetIsSkinned())
 			m_SkinnedMeshComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_SkinnedMeshComponentUIDs, newMeshComponent->GetUID());
 		// forward lit
-		if (((MeshComponent*)newMeshComponent)->GetIsForwardLit())
+		if (static_cast<MeshComponent*>(newMeshComponent)->GetIsForwardLit())
 			m_ForwardLitComponentUIDs.insert(newMeshComponent->GetUID());
 		else
 			SafeRemoveComponentUID(m_ForwardLitComponentUIDs, newMeshComponent->GetUID());
@@ -108,12 +116,17 @@ namespace Chroma
 
 	void Scene::RemoveEntity(UID const& UID)
 	{
-		m_AnimatedEntityUIDs.erase(UID);
-		m_TransparentEntityUIDs.erase(UID);
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsRemoving)
+		
+		// UIDs
 		m_EntityUIDs.erase(UID);
 
 		// root entity list
 		m_Entities.erase(UID);
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	IComponent* Scene::GetComponent(UID const& UID)
@@ -128,10 +141,13 @@ namespace Chroma
 
 	void Scene::RemoveComponent(UID const& UID)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsRemoving)
+
 		m_ComponentUIDs.erase(UID);
 
 		m_AnimationComponentUIDs.erase(UID);
-		m_AnimatedEntityUIDs.erase(UID);
+
 		m_AnimConstraintComponentUIDs.erase(UID);
 
 		m_PhysicsComponentUIDs.erase(UID);
@@ -159,6 +175,9 @@ namespace Chroma
 
 		// root component list
 		m_Components.erase(UID);
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::SafeRemoveComponentUID(std::set<UID>& componentUIDList, UID const& removeUID)
@@ -176,13 +195,20 @@ namespace Chroma
 
 	void Scene::LoadIBL(std::string const& sourcePath)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		m_IBL->LoadIBL(sourcePath); // image based lighting
 		m_Skybox->setCubeMapID(m_IBL->GetEnvCubeMapID());
 
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::Init()
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsInitializing)
 		// init members
 		m_RenderCamera = new Camera();
 		m_SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
@@ -192,6 +218,9 @@ namespace Chroma
 		// setting skybox to IBL environment map
 		m_Skybox->setColorSpace(HDR);
 		m_Skybox->setCubeMapID(m_IBL->GetEnvCubeMapID());
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::PreSceneBuild()
@@ -201,12 +230,18 @@ namespace Chroma
 		CHROMA_INFO("CHROMA SCENE:: Scene Loading...");
 		CHROMA_INFO_UNDERLINE;
 
+		// State
+		m_SceneState = SceneState::kSceneNotBuilt;
+
 		// timing
 		m_SceneBuildStartTime = std::chrono::high_resolution_clock::now();
 	}
 
 	void Scene::PostSceneBuild()
 	{
+		// State
+		m_SceneState = SceneState::kSceneIsInitializing;
+
 		// entities
 		for (UID const& entityUID : m_EntityUIDs)
 			GetEntity(entityUID)->Init();
@@ -220,47 +255,82 @@ namespace Chroma
 		// Debug
 		CHROMA_INFO_UNDERLINE;
 		CHROMA_INFO("CHROMA SCENE:: Scene Successfully Loaded.");
+
 		// timing
 		m_SceneBuildEndTime = std::chrono::high_resolution_clock::now();
 		auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(m_SceneBuildEndTime - m_SceneBuildStartTime);
 		CHROMA_INFO("CHROMA SCENE:: Scene Load Took : {0} seconds", (float)duration.count()/1000.0f);
 		CHROMA_INFO_UNDERLINE;
+
+		// State
+		m_SceneState = SceneState::kSceneBuilt;
 	}
 
 	void Scene::AddEntity(IEntity* const& newEntity)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// collect UID
 		m_EntityUIDs.insert(newEntity->GetUID());
 
 		// collect entity
 		m_Entities[newEntity->GetUID()] = newEntity;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::AddAnimatedEntity(IEntity* const& newAnimatedEntity)
 	{
-		// add UID to animated entity UIDs
-		m_AnimatedEntityUIDs.insert(newAnimatedEntity->GetUID());
-	}
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
 
-	void Scene::AddTransparentEntity(IEntity* const& newTransparentEntity)
-	{
-		// add UID to transparent entity UIDs
-		m_TransparentEntityUIDs.insert(newTransparentEntity->GetUID());
+		// collect UID
+		m_AnimatedEntityUIDs.insert(newAnimatedEntity->GetUID());
+
+		// collect entity
+		m_Entities[newAnimatedEntity->GetUID()] = newAnimatedEntity;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::RemoveEntity(IEntity& RemoveEntity)
 	{
-		m_Entities.erase(RemoveEntity.GetUID());
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsRemoving)
+
+		// Search for element 
+		std::set<UID>::iterator it = m_EntityUIDs.find(RemoveEntity.GetUID());
+
+		// Check if Iterator is valid
+		if (it != m_EntityUIDs.end())
+		{
+			// Deletes the element pointing by iterator it
+			m_EntityUIDs.erase(it);
+			m_Entities.erase(RemoveEntity.GetUID());
+		}
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	float Scene::GetEntityDistanceToCamera(UID const& UID)
 	{
-		return glm::length(GetEntity(UID)->GetTranslation() - m_RenderCamera->GetPosition());
+		return glm::distance(GetEntity(UID)->GetTranslation(), m_RenderCamera->GetPosition());
 	}
 
 
+	float Scene::GetMeshComponentDistanceToCamera(const UID& uid)
+	{
+		return glm::distance(static_cast<MeshComponent*>(GetComponent(uid))->GetTranslation(), m_RenderCamera->GetPosition());
+	}
+
 	void Scene::AddAnimationComponent(IComponent* const& newAnimationComponent)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// add to global component UIDs
 		m_ComponentUIDs.insert(newAnimationComponent->GetUID());
 
@@ -269,10 +339,16 @@ namespace Chroma
 
 		// add component
 		m_Components[newAnimationComponent->GetUID()] = newAnimationComponent;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::AddCharacterControllerComponent(IComponent* const& newCharacterControllerComponent)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// add to global component UIDs
 		m_ComponentUIDs.insert(newCharacterControllerComponent->GetUID());
 
@@ -281,10 +357,16 @@ namespace Chroma
 
 		// add component
 		m_Components[newCharacterControllerComponent->GetUID()] = newCharacterControllerComponent;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::AddMeshComponent(IComponent* const& newMeshComponent)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// add to global component UIDs
 		m_ComponentUIDs.insert(newMeshComponent->GetUID());
 
@@ -307,10 +389,16 @@ namespace Chroma
 			ProcessMeshComponentRenderFlags(newMeshComponent);
 		}
 
+		// State 
+		SCENE_RESETSTATE
+
 	}
 
 	void Scene::AddPhysicsComponent(IComponent* const& newPhysicsComponent)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// add to global component UIDs
 		m_ComponentUIDs.insert(newPhysicsComponent->GetUID());
 
@@ -319,10 +407,16 @@ namespace Chroma
 
 		// add component
 		m_Components[newPhysicsComponent->GetUID()] = newPhysicsComponent;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::AddUIComponent(IComponent* const& newUIComponent)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// add to global component UIDs
 		m_ComponentUIDs.insert(newUIComponent->GetUID());
 
@@ -331,10 +425,16 @@ namespace Chroma
 
 		// add component
 		m_Components[newUIComponent->GetUID()] = newUIComponent;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::AddStateMachineComponent(IComponent* const& newStateMachineComponent)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// add to global component UIDs
 		m_ComponentUIDs.insert(newStateMachineComponent->GetUID());
 
@@ -343,10 +443,16 @@ namespace Chroma
 
 		// add component
 		m_Components[newStateMachineComponent->GetUID()] = newStateMachineComponent;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::AddAnimConstraintComponent(IComponent* const& newAnimConstraintComponent)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// add to global component UIDs
 		m_ComponentUIDs.insert(newAnimConstraintComponent->GetUID());
 
@@ -355,10 +461,16 @@ namespace Chroma
 
 		// add component
 		m_Components[newAnimConstraintComponent->GetUID()] = newAnimConstraintComponent;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::AddLight(IComponent* const& newLight)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		// add to global component UIDs
 		m_ComponentUIDs.insert(newLight->GetUID());
 
@@ -367,6 +479,9 @@ namespace Chroma
 
 		// add component
 		m_Components[newLight->GetUID()] = newLight;
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::RemoveLight(Light& RemoveLight)
@@ -376,6 +491,9 @@ namespace Chroma
 
 	void Scene::SetLights(std::vector<Light*> newLights)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		for (Light*& light : newLights)
 		{
 			if (light->type == Light::SUNLIGHT)
@@ -385,15 +503,22 @@ namespace Chroma
 			}
 			else
 				AddLight(light);
-
 		}
-			
+
+		// State 
+		SCENE_RESETSTATE
 	}
 
 	void Scene::SetEntities(std::vector<IEntity*> const& newEntities)
 	{
+		// State 
+		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
+
 		for (IEntity* entity : newEntities)
 			AddEntity(entity);
+
+		// State 
+		SCENE_RESETSTATE
 	}
 }
 

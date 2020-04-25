@@ -15,7 +15,11 @@
 #include <thirdperson/ThirdPersonCharacterController.h>
 #include <thirdperson/ThirdPersonCameraController.h>
 
-int main()
+#ifdef EDITOR
+int main2()
+#else
+int main2()
+#endif
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();

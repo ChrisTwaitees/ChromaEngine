@@ -41,7 +41,7 @@ Shader& Model::GetShader()
 		return static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetShader();
 }
 
-void Model::SetShader(Shader const& shader)
+void Model::SetShader(Shader& shader)
 {
 	for (UID const& uid : m_MeshUIDs)
 		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetShader(shader);

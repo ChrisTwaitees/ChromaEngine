@@ -106,6 +106,13 @@ void Shader::LoadShaderSource()
 	}
 }
 
+void Shader::CleanUp()
+{
+	fragCode.clear();
+	vertexCode.clear();
+	geometryCode.clear();
+}
+
 void Shader::Replace(std::string& sourceString, std::string const& from, std::string const& to)
 {
 	size_t start_pos = sourceString.find(from);
@@ -125,12 +132,14 @@ Shader::Shader(std::string fragmentPath, std::string vertexPath, std::string geo
 
 	// compile and link shaders
 	CompileAndLink();
-}
 
+	// Clean up expanded source
+	CleanUp();
+}
 
 Shader::~Shader()
 {
-	Destroy();
+	
 }
 
 void Shader::Destroy()

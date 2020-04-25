@@ -64,32 +64,26 @@ void ForwardBuffer::RenderTransparency()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Disable Back Face Culling to allow interior of transparent objects to be seen
 	glDisable(GL_CULL_FACE);
-	// Sorting for Transparency Shading
-	//std::map<float, UID> alpha_sorted;
-	//for (UID const& uid : Chroma::Scene::GetTransparentEntityUIDs())
-	//{
-	//	float distance = Chroma::Scene::GetEntityDistanceToCamera(uid);
-	//	alpha_sorted[distance] = uid;
-	//}
-	//// iterating from furthest to closest
-	//for (std::map<float, UID>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
-	//{
-	//	for (UID const& uid : Chroma::Scene::GetTransparentComponentUIDs())
-	//	{
-	//		if (static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsForwardLit()) // draw lit transparent components
-	//			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
-	//		else // draw unlit transparent components
-	//			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
-	//	}
-	//}
 
+	// Sorting for Transparency Shading
+	std::map<float, UID> alpha_sorted;
 	for (UID const& uid : Chroma::Scene::GetTransparentComponentUIDs())
 	{
-		if (static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsForwardLit()) // draw lit transparent components
-			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
-		else // draw unlit transparent components
-			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
+		float distance = Chroma::Scene::GetMeshComponentDistanceToCamera(uid);
+		alpha_sorted[distance] = uid;
 	}
+	// iterating from furthest to closest
+	for (std::map<float, UID>::reverse_iterator it = alpha_sorted.rbegin(); it != alpha_sorted.rend(); ++it)
+	{
+		for (UID const& uid : Chroma::Scene::GetTransparentComponentUIDs())
+		{
+			if (static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsForwardLit()) // draw lit transparent components
+				static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
+			else // draw unlit transparent components
+				static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
+		}
+	}
+
 	// set to default blending
 	glBlendFunc(GL_ONE, GL_ZERO);
 	// Re enable backface culling for preventing unecessary rendering

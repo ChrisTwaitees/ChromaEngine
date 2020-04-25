@@ -171,7 +171,7 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 
 	}
 
-	if (m_IsForwardLit)
+	if (m_Material.GetIsForwardLit())
 		UpdatePBRLightingTextureUniforms(shader);
 
 	glActiveTexture(GL_TEXTURE0);
@@ -203,7 +203,7 @@ void StaticMesh::UpdateTransformUniforms(Shader& shader, Camera& renderCam)
 
 void StaticMesh::UpdateMaterialUniforms(Shader& shader)
 {
-	shader.SetUniform("roughness", 0.4f);
+	shader.SetUniform("roughness", 0.5f);
 	shader.SetUniform("color", glm::vec4(1, 0, 0, 0.5));
 	shader.SetUniform("metalness", 0.0f);
 	shader.SetUniform("UseAlbedoMap", false);
@@ -222,7 +222,7 @@ void StaticMesh::Draw(Shader& shader)
 
 void StaticMesh::Draw(Camera& RenderCamera)
 {
-	m_Material.Use();
+	GetShader().Use();
 	UpdateUniforms(GetShader(), RenderCamera);
 	BindDrawVAO();
 }
@@ -327,7 +327,6 @@ void StaticMesh::SetFloat(std::string name, float value)
 
 StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
 {
-	m_IsRenderable = true;
 	m_vertices = vertices_val;
 	m_Indices = indices_val;
 	m_Material.SetTextureSet(textures_val);
@@ -337,7 +336,6 @@ StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsig
 
 StaticMesh::StaticMesh(MeshData const& newMeshData)
 {
-	m_IsRenderable = true;
 	m_vertices = newMeshData.verts;
 	m_Indices = newMeshData.indices;
 	m_Material.SetTextureSet(newMeshData.textures);
@@ -349,7 +347,6 @@ StaticMesh::StaticMesh(const std::string& sourcePath)
 {
 	for (MeshData const& newMeshData : Chroma::ModelLoader::Load(sourcePath))
 	{
-		m_IsRenderable = true;
 		m_vertices = newMeshData.verts;
 		m_Indices = newMeshData.indices;
 		m_Material.SetTextureSet(newMeshData.textures);
@@ -361,7 +358,6 @@ StaticMesh::StaticMesh(const std::string& sourcePath)
 
 StaticMesh::StaticMesh()
 {
-	m_IsRenderable = true;
 }
 
 StaticMesh::~StaticMesh()

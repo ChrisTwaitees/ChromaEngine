@@ -32,7 +32,7 @@ namespace Chroma
 
 	protected:
 
-		static enum FileBrowserMode { kSceneOpen, kSceneSave, kLoadIBL };
+		enum FileBrowserMode { kSceneOpen, kSceneSave, kLoadIBL };
 
 		static void OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters, FileBrowserMode fileBrowserFlags = FileBrowserMode::kSceneOpen);
 		static void DrawFileBrowser();

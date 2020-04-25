@@ -119,7 +119,6 @@ void SkinnedMesh::Serialize(ISerializer*& serializer)
 SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val)
 {
 	// Renderables
-	m_IsRenderable = true;
 	m_IsSkinned = true;
 	// Skeleton
 	m_Skeleton = skeleton_val;
@@ -139,7 +138,6 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 SkinnedMesh::SkinnedMesh(MeshData const& newMeshData)
 {
 	// Renderables
-	m_IsRenderable = true;
 	m_IsSkinned = true;
 	// Skeleton
 	m_Skeleton = newMeshData.skeleton;
@@ -157,7 +155,6 @@ SkinnedMesh::SkinnedMesh(std::string const& sourcePath)
 {
 	MeshData newMeshData = Chroma::ModelLoader::Load(sourcePath)[0];
 	// Renderables
-	m_IsRenderable = true;
 	m_IsSkinned = true;
 	// Skeleton
 	m_Skeleton = newMeshData.skeleton;

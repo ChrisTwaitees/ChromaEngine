@@ -15,7 +15,7 @@ public:
 
 	// Shader
 	Shader& GetShader() { return m_Shader; };
-	inline void SetShader(const Shader& newShader) { m_Shader = newShader; }
+	inline void SetShader(Shader& newShader) {  m_Shader = newShader; }
 	inline void SetShader(const char* shaderFRAGSourcePath, const char* shaderVTXSourcePath, const char* shaderGEOMSourcePath = "") 
 	{
 		m_Shader.Destroy();  m_Shader = Shader(shaderFRAGSourcePath, shaderVTXSourcePath, shaderGEOMSourcePath);
@@ -44,14 +44,43 @@ public:
 		m_Shader.SetUniform(uniformName, uniformValue);
 	};
 
-	Material() {};
-	~Material() {};
+	// Render Flags
+	inline void SetIsRenderable(bool const& check) { m_IsRenderable = check; };
+	inline bool GetIsRenderable() { return m_IsRenderable; }
+	inline void SetIsTransparent(bool const& check) { m_IsTransparent = check; };
+	inline bool GetIsTransparent() { return m_IsTransparent; }
+	inline void SetIsLit(bool const& check) { m_IsLit = check; };
+	inline bool GetIsLit() { return m_IsLit; }
+	inline void SetIsUnlit(bool const& check) { m_IsUnlit = check; };
+	inline bool GetIsUnlit() { return m_IsUnlit; }
+	inline void SetIsForwardLit(bool const& check) { m_IsForwardLit = check; };
+	inline bool GetIsForwardLit() { return m_IsForwardLit; }
+	inline void SetIsDoubleSided(bool const& check) { m_IsDoubleSided = check; };
+	inline bool GetIsDoubleSided() { return m_IsDoubleSided; }
+	inline void SetCastsShadows(bool const& check) { m_CastShadows = check; };
+	inline bool GetCastsShadows() { return m_CastShadows; }
+	inline void SetReceivesShadows(bool const& check) { m_ReceivesShadows = check; };
+	inline bool GetReceivesShadows() { return m_ReceivesShadows; }
+
+
+	Material();
+	~Material();
 
 private:
-	Shader m_Shader{ "resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl" };
+	Shader m_Shader;
 	UniformArray m_Uniforms;
 	std::vector<Texture> m_TextureSet;
 	glm::vec2 m_UVMultiply{ 1.0 };
+
+	// Render Flags
+	bool m_IsRenderable{ true };
+	bool m_IsLit{ true };
+	bool m_IsTransparent{ false };
+	bool m_IsUnlit{ false };
+	bool m_IsForwardLit{ false };
+	bool m_CastShadows{ true };
+	bool m_ReceivesShadows{ true };
+	bool m_IsDoubleSided{ false };
 };
 
 #endif

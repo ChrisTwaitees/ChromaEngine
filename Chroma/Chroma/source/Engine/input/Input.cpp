@@ -98,8 +98,14 @@ namespace Chroma
 		case H:
 			return glfwGetKey(Chroma::Screen::GetWindow(), GLFW_KEY_H) == GLFW_PRESS;
 			break;
+		case I:
+			return glfwGetKey(Chroma::Screen::GetWindow(), GLFW_KEY_I) == GLFW_PRESS;
+			break;
 		case J:
 			return glfwGetKey(Chroma::Screen::GetWindow(), GLFW_KEY_J) == GLFW_PRESS;
+			break;
+		case O:
+			return glfwGetKey(Chroma::Screen::GetWindow(), GLFW_KEY_O) == GLFW_PRESS;
 			break;
 		case P:
 			return glfwGetKey(Chroma::Screen::GetWindow(), GLFW_KEY_P) == GLFW_PRESS;

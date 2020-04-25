@@ -19,7 +19,7 @@ public:
 	void Destroy();
 
 	//program ID
-	unsigned int ShaderID;
+	unsigned int ShaderID{ 0 };
 
 	// Rendering
 	void Use() const;
@@ -43,6 +43,7 @@ private:
 	void CheckCompileErrors(GLuint shader, std::string type);
 	void CompileAndLink();
 	void LoadShaderSource();
+	void CleanUp();
 	void Replace(std::string& sourceString, std::string const& from, std::string const& to);
 	std::string ExpandShaderSource(std::string shaderSourcePath);
 

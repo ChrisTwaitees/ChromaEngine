@@ -31,7 +31,7 @@ public:
 	SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val);
 	SkinnedMesh(MeshData const& newMeshData);
 	SkinnedMesh(std::string const& sourcePath);
-	SkinnedMesh() { m_IsRenderable = true; };
+	SkinnedMesh() {};
 	~SkinnedMesh();
 	
 private:

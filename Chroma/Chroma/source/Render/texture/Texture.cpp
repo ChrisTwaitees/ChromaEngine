@@ -39,7 +39,7 @@ Texture::Texture(std::string sourcepath)
 	InitTextureData(newTex);
 }
 
-Texture::Texture(TextureData textData)
+Texture::Texture(TextureData const& textData)
 {
 	InitTextureData(textData);
 }

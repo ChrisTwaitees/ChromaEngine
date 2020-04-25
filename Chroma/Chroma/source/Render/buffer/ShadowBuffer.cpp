@@ -100,7 +100,7 @@ void ShadowBuffer::DrawShadowMaps()
 
 void ShadowBuffer::BindShadowMaps()
 {
-	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
+	for (UID const& uid : Chroma::Scene::GetShadowReceivingComponentUIDs())
 	{
 		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->AddTexture(ShadowMapTexture);
 	}

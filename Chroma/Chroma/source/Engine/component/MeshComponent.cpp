@@ -1,12 +1,9 @@
 #include "MeshComponent.h"
 #include <entity/IEntity.h>
+#include <scene/Scene.h>
 
 MeshComponent::MeshComponent()
 {
-	m_IsRenderable = true;
-	m_IsLit = true;
-	m_CastShadows = true;
-	m_IsTransparent = false;
 	Init();
 }
 
@@ -84,6 +81,11 @@ void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 
 }
 
+void MeshComponent::ProcessRenderFlags()
+{
+	Chroma::Scene::ProcessMeshComponentRenderFlags(this);
+}
+
 
 void MeshComponent::Init()
 {
@@ -131,4 +133,13 @@ void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)
 glm::mat4 MeshComponent::GetWorldTransform()
 {
 	return GetParentEntity()->GetTransform() * GetTransform();
+}
+
+void MeshComponent::SetMaterial(const Material& newMaterial)
+{
+	// Set Material
+	m_Material = newMaterial;
+
+	// Refilter RenderPaths according to newMaterial Settings
+	ProcessRenderFlags();
 }

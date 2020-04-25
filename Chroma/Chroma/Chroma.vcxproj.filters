@@ -477,6 +477,9 @@
     <ClCompile Include="source\Render\material\Material.cpp">
       <Filter>Render\material</Filter>
     </ClCompile>
+    <ClCompile Include="source\Scenes\LookDevScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -945,6 +948,9 @@
     </None>
     <None Include="resources\shaders\vertexGridDebug.glsl">
       <Filter>Resources\shaders\debug</Filter>
+    </None>
+    <None Include="resources\shaders\fragSSSS_backup.glsl">
+      <Filter>Resources\shaders\ssss</Filter>
     </None>
   </ItemGroup>
 </Project>

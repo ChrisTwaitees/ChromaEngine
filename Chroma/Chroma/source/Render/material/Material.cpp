@@ -47,3 +47,12 @@ void Material::AddTexture(Texture& newTexture)
 		m_TextureSet.push_back(newTexture);
 	}
 }
+
+Material::Material()
+{
+	m_Shader = Shader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+}
+
+Material::~Material()
+{
+}

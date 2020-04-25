@@ -66,7 +66,6 @@ public:
 	~Uniform() {};
 
 protected:
-
 	// Uniform Updating
 	static void SetBool(const std::string& name, bool value, unsigned int const& shaderID);
 	static void SetInt(const std::string& name, int value, unsigned int const& shaderID);
@@ -76,7 +75,6 @@ protected:
 	static void SetVec4(const std::string& name, glm::vec4 const& value, unsigned int const& shaderID);
 	static void SetMat4(const std::string& name, glm::mat4 matrix, unsigned int const& shaderID);
 	unsigned int* ShaderID;
-
 };
 
 

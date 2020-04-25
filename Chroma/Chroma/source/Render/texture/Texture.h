@@ -33,7 +33,7 @@ public:
 	/* Constructors */
 	Texture(unsigned int newID);
 	Texture(std::string sourcePath);
-	Texture(TextureData textData);
+	Texture(TextureData const& textData);
 	bool operator <(const Texture& rhs) const;
 	Texture() {};
 	~Texture();
