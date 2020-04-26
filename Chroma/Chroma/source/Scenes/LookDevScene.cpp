@@ -148,15 +148,15 @@ int main()
 		//lookDevEntity->SetScale(glm::vec3(0.1f));
 		lookDevEntity->SetTranslation(glm::vec3(totalSpace + (spacing * (float)i), 0, 0));
 		// mesh component
-		MeshComponent* lookDevMeshComponent = new StaticMesh("resources/lookdev/sphere.fbx");
+		MeshComponent* lookDevMeshComponent = new StaticMesh("resources/lookdev/sphere.obj");
 		lookDevMeshComponent->SetMaterial(materialList[i]);
 		lookDevEntity->AddComponent(lookDevMeshComponent);
 
 		// LookDev Physics
-		PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
-		LookDevPhysicsComponent->SetColliderShape(Box);
-		LookDevPhysicsComponent->SetCollisionState(Kinematic);
-		lookDevEntity->AddComponent(LookDevPhysicsComponent);
+		//PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
+		//LookDevPhysicsComponent->SetColliderShape(Box);
+		//LookDevPhysicsComponent->SetCollisionState(Kinematic);
+		//lookDevEntity->AddComponent(LookDevPhysicsComponent);
 	}
 
 
@@ -208,6 +208,38 @@ int main()
 			Chroma::Scene::GetIBL()->LoadIBL("resources/textures/ibl/ditchriver_ibl/river_sharp.hdr");
 		if (Chroma::Input::IsPressed(Chroma::Input::P))
 			Chroma::Scene::GetIBL()->LoadIBL("resources/textures/ibl/grey_ibl/grey.hdr");
+
+		if (Chroma::Input::IsPressed(Chroma::Input::H))
+		{
+			for (const UID& meshComp : Chroma::Scene::GetMeshComponentUIDs())
+			{
+				static_cast<MeshComponent*>(Chroma::Scene::GetComponent(meshComp))->SetMaterial(plantMat);
+			}
+		}
+
+		if (Chroma::Input::IsPressed(Chroma::Input::J))
+		{
+			for (const UID& meshComp : Chroma::Scene::GetMeshComponentUIDs())
+			{
+				static_cast<MeshComponent*>(Chroma::Scene::GetComponent(meshComp))->SetMaterial(testMat);
+			}
+		}
+
+		if (Chroma::Input::IsPressed(Chroma::Input::W))
+		{
+			for (const UID& meshComp : Chroma::Scene::GetMeshComponentUIDs())
+			{
+				static_cast<MeshComponent*>(Chroma::Scene::GetComponent(meshComp))->SetCastsShadows(true);
+			}
+		}
+
+		if (Chroma::Input::IsPressed(Chroma::Input::S))
+		{
+			for (const UID& meshComp : Chroma::Scene::GetMeshComponentUIDs())
+			{
+				static_cast<MeshComponent*>(Chroma::Scene::GetComponent(meshComp))->SetCastsShadows(false);
+			}
+		}
 
 		//Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// GAME TICK

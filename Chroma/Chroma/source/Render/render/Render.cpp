@@ -113,8 +113,6 @@ namespace Chroma
 			break;
 		}
 		}
-
-
 	}
 
 	void Render::Init()
@@ -148,7 +146,6 @@ namespace Chroma
 
 		// Set to Default dimensions
 		Chroma::Screen::SetDimensions(SCREEN_WIDTH, SCREEN_HEIGHT);
-
 	}
 
 	void Render::RenderScene()
@@ -156,16 +153,16 @@ namespace Chroma
 		// Deferred
 		RenderDefferedComponents();
 
-		m_SSRBuffer->Draw();
-
 		// Forward
-		//RenderForwardComponents();
+		RenderForwardComponents();
 
-		//// Debug
-		//RenderDebug();
+		// Debug
+		RenderDebug();
 
 		//// Post FX
-		//RenderPostFX();
+		RenderPostFX();
+
+		m_SSRBuffer->Draw();
 
 		// Graphics Debug
 		if (Chroma::UI::m_DrawGraphicsDebug)
