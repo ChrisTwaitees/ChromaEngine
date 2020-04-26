@@ -19,16 +19,17 @@ void SSRBuffer::Draw()
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetVSPositionTexture());
 	m_ScreenShader->SetUniform("vsPositions", 1);
-	// 2 Depth
+	// 2 testColor
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetDepthTexture());
-	m_ScreenShader->SetUniform("gDepth", 2);
-	// 2 Depth
-	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetAlbedoTexture());
-	m_ScreenShader->SetUniform("gAlbedo", 3);
+	m_ScreenShader->SetUniform("vAlbedo", 2);
+	// 3 Depth
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetDepthTexture());
+	m_ScreenShader->SetUniform("vDepth", 3);
+
 	// uniforms
-	m_ScreenShader->SetUniform("viewMat", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
+	m_ScreenShader->SetUniform("vProjection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	// using color attachment
 	// setting transform uniforms
 	UpdateTransformUniforms();
