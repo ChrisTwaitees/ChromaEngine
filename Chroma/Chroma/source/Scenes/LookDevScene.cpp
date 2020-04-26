@@ -148,7 +148,7 @@ int main()
 		//lookDevEntity->SetScale(glm::vec3(0.1f));
 		lookDevEntity->SetTranslation(glm::vec3(totalSpace + (spacing * (float)i), 0, 0));
 		// mesh component
-		MeshComponent* lookDevMeshComponent = new StaticMesh("resources/lookdev/sphere.obj");
+		MeshComponent* lookDevMeshComponent = new StaticMesh("resources/lookdev/sphere.fbx");
 		lookDevMeshComponent->SetMaterial(materialList[i]);
 		lookDevEntity->AddComponent(lookDevMeshComponent);
 
@@ -173,6 +173,7 @@ int main()
 	Material groundMat;
 	groundMat.AddTexture(groundAlbedo);
 	groundMat.AddTexture(groundNormal);
+	//groundMat.AddTexture(flatNormal);
 	groundMat.AddTexture(groundMetRoughAO);
 	groundMat.SetUVMultiply(10.0 * 4);
 
