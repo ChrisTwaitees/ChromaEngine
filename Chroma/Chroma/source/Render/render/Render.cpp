@@ -22,6 +22,22 @@ namespace Chroma
 	// Graphics Debug
 	IFramebuffer* Render::m_GraphicsDebugBuffer;
 
+	// Buffer Textures
+	// - positions
+	unsigned int Render::m_WSPositions;
+	unsigned int Render::m_VSPositions;
+	// - normals 
+	unsigned int Render::m_WSNormals;
+	unsigned int Render::m_VSNormals;
+	// - lightSpace 
+	unsigned int Render::m_FragPosLightSpace;
+	// - albedo	
+	unsigned int Render::m_Albedo;
+	// - MetRoughAO
+	unsigned int Render::m_MetRoughAO;
+	// - Depth	 
+	unsigned int Render::m_Depth;
+
 	void Render::CleanUp()
 	{
 		// DEBUG BUFFER
@@ -64,21 +80,21 @@ namespace Chroma
 		case (0):
 		{
 			// Albedo
-			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetAlbedoTexture());
+			m_GraphicsDebugBuffer->SetTexture(m_Albedo);
 			m_GraphicsDebugBuffer->Draw();
 			break;
 		}
 		case (1):
 		{
 			// Normals
-			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetWSNormalTexture());
+			m_GraphicsDebugBuffer->SetTexture(m_WSNormals);
 			m_GraphicsDebugBuffer->Draw();
 			break;
 		}
 		case (2):
 		{
 			// Met Rough AO 
-			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetMetalRoughnessAO());
+			m_GraphicsDebugBuffer->SetTexture(m_MetRoughAO);
 			m_GraphicsDebugBuffer->Draw();
 			break;
 		}
@@ -119,6 +135,9 @@ namespace Chroma
 		//glEnable(GL_FRAMEBUFFER_SRGB);
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 
+		// Buffer Textures
+		GenerateBufferTextures();
+
 		// Buffers
 		m_PostFXBuffer = new PostFXBuffer();
 		m_GBuffer = new GBuffer(m_PostFXBuffer);
@@ -129,6 +148,7 @@ namespace Chroma
 
 		// Set to Default dimensions
 		Chroma::Screen::SetDimensions(SCREEN_WIDTH, SCREEN_HEIGHT);
+
 	}
 
 	void Render::RenderScene()
@@ -169,6 +189,7 @@ namespace Chroma
 		Chroma::Scene::GetRenderCamera()->SetASPECT((float)width/(float)height);
 
 		// update buffers
+		ResizeBufferTextures(width, height);
 		m_PostFXBuffer->ScreenResizeCallback(width, height);
 		m_GBuffer->ScreenResizeCallback(width, height);
 		m_ForwardBuffer->ScreenResizeCallback(width, height);
@@ -188,6 +209,109 @@ namespace Chroma
 	void Render::BindShadowMaps()
 	{
 		((GBuffer*)m_GBuffer)->BindShadownMaps();
+	}
+
+	void Render::GenerateBufferTextures()
+	{
+		// - WS Positions
+		glGenTextures(1, &m_WSPositions);
+		glBindTexture(GL_TEXTURE_2D, m_WSPositions);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// - gViewPosition for SSAO viewspace position 
+		glGenTextures(1, &m_VSPositions);
+		glBindTexture(GL_TEXTURE_2D, m_VSPositions);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// - fragposLightSpace color buffer for shadowmapping
+		glGenTextures(1, &m_FragPosLightSpace);
+		glBindTexture(GL_TEXTURE_2D, m_FragPosLightSpace);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// SURFACE DATA
+		// - albebo buffer
+		glGenTextures(1, &m_Albedo);
+		glBindTexture(GL_TEXTURE_2D, m_Albedo);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// - WS normal
+		glGenTextures(1, &m_WSNormals);
+		glBindTexture(GL_TEXTURE_2D, m_WSNormals);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// - VS Normal
+		glGenTextures(1, &m_VSNormals);
+		glBindTexture(GL_TEXTURE_2D, m_VSNormals);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// - metalness/rougness/ambient occlusion buffer
+		glGenTextures(1, &m_MetRoughAO);
+		glBindTexture(GL_TEXTURE_2D, m_MetRoughAO);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// - depth
+		glGenTextures(1, &m_Depth);
+		glBindTexture(GL_TEXTURE_2D, m_Depth);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+
+
+	}
+
+	void Render::ResizeBufferTextures(const int& newWidth, const int& newHeight)
+	{
+		// gbuffer textures
+		// - position color buffer
+		glBindTexture(GL_TEXTURE_2D, m_WSPositions);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, newWidth, newHeight, 0, GL_RGB, GL_FLOAT, NULL);
+
+		// - gViewPosition for SSAO viewspace position 
+		glBindTexture(GL_TEXTURE_2D, m_VSPositions);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, newWidth, newHeight, 0, GL_RGB, GL_FLOAT, NULL);
+
+		// - fragposLightSpace color buffer for shadowmapping
+		glBindTexture(GL_TEXTURE_2D, m_FragPosLightSpace);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, newWidth, newHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+
+		// - depth buffer
+		glBindTexture(GL_TEXTURE_2D, m_Depth);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, newWidth, newHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+
+		// SURFACE DATA
+		// - albebo buffer
+		glBindTexture(GL_TEXTURE_2D, m_Albedo);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newWidth, newHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+		// - normal buffer
+		glBindTexture(GL_TEXTURE_2D, m_WSNormals);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, newWidth, newHeight, 0, GL_RGB, GL_FLOAT, NULL);
+
+		// - gViewPosition for SSAO viewspace position 
+		glBindTexture(GL_TEXTURE_2D, m_VSNormals);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newWidth, newHeight, 0, GL_RGB, GL_FLOAT, NULL);
+
+
+		// - metalness/rougness/ambient occlusion buffer
+		glBindTexture(GL_TEXTURE_2D, m_MetRoughAO);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newWidth, newHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
 	}
 
 }

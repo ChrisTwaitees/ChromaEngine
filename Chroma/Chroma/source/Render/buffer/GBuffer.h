@@ -22,15 +22,9 @@ public:
 	void BindShadownMaps();
 	glm::mat4 GetLightSpaceMatrix();
 
-	inline unsigned int GetWSPositionTexture() const { return gPosition; }
-	inline unsigned int GetVSPositionTexture() const { return gViewPosition; }
-	inline unsigned int GetAlbedoTexture() const { return gAlbedo; }
-	inline unsigned int GetWSNormalTexture() const { return gNormal; }
-	inline unsigned int GetVSNormalTexture() const { return gViewNormal; }
-	inline unsigned int GetMetalRoughnessAO() const { return gMetRoughAO; }
 	inline unsigned int GetSSAOTexture() const { return m_SSAOBuffer->GetTexture(); }
 	inline unsigned int GetShadowBufferTexture() const { return m_Shadowbuffer->GetTexture(); }
-	inline unsigned int GetDepthTexture() const { return gDepth; }
+
 
 	// structors
 	GBuffer(IFramebuffer*& m_PostFXBuffer);

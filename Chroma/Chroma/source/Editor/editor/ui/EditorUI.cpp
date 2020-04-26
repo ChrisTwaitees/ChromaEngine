@@ -750,7 +750,7 @@ namespace Chroma
 		// Albedo
 		ImGui::BeginChild("Albedo", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale ), true);
 		ImVec2 p = ImGui::GetCursorScreenPos();
-		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetAlbedoTexture(),
+		ImGui::Image((void*)(intptr_t)Chroma::Render::GetAlbedo(),
 			ImGui::GetWindowSize(),
 			ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::EndChild();
@@ -761,7 +761,7 @@ namespace Chroma
 		// Normals
 		ImGui::BeginChild("Normals", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
 		p = ImGui::GetCursorScreenPos();
-		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetWSNormalTexture(),
+		ImGui::Image((void*)(intptr_t)Chroma::Render::GetWSNormals(),
 			ImGui::GetWindowSize(),
 			ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::EndChild();
@@ -772,7 +772,7 @@ namespace Chroma
 		// MetRoughAO
 		ImGui::BeginChild("MetRoughAO", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
 		p = ImGui::GetCursorScreenPos();
-		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetMetalRoughnessAO(),
+		ImGui::Image((void*)(intptr_t)Chroma::Render::GetMetRoughAO(),
 			ImGui::GetWindowSize(),
 			ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::EndChild();
@@ -794,7 +794,7 @@ namespace Chroma
 		// Positions
 		ImGui::BeginChild("Positions", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
 		p = ImGui::GetCursorScreenPos();
-		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetWSPositionTexture(),
+		ImGui::Image((void*)(intptr_t)Chroma::Render::GetWSPositions(),
 			ImGui::GetWindowSize(),
 			ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::EndChild();

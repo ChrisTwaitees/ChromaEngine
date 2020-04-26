@@ -33,9 +33,42 @@ namespace Chroma
 		static IFramebuffer*& GetGBuffer() { return m_GBuffer; }
 		static glm::mat4 GetLightSpaceMatrix();
 
+		// Buffers
+		inline static unsigned int GetWSPositions() { return m_WSPositions; };
+		inline static unsigned int GetVSPositions() { return m_VSPositions; };
+
+		inline static unsigned int GetVSNormals() { return m_VSNormals; };
+		inline static unsigned int GetWSNormals() { return m_WSNormals; };
+
+		inline static unsigned int GetFragPosLightSpace() { return m_FragPosLightSpace; };
+
+		inline static unsigned int GetAlbedo() { return m_Albedo; }
+
+		inline static unsigned int GetMetRoughAO() { return m_MetRoughAO; }
+
+		inline static unsigned int GetDepth() { return m_Depth; }
+
 		// Functions
 		static void BindShadowMaps();
 	private:
+
+		// BUFFER TEXTURES
+		static void GenerateBufferTextures();
+		static void ResizeBufferTextures(const int& newWidth, const int& newHeight);
+		// - positions
+		static unsigned int m_WSPositions;
+		static unsigned int m_VSPositions;
+		// - normals
+		static unsigned int m_WSNormals;
+		static unsigned int m_VSNormals;
+		// - lightSpace 
+		static unsigned int m_FragPosLightSpace;
+		// - albedo
+		static unsigned int m_Albedo;
+		// - MetRoughAO
+		static unsigned int m_MetRoughAO;
+		// - Depth
+		static unsigned int m_Depth;
 
 		// Start of Frame
 		static void CleanUp();

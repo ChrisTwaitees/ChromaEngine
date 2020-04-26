@@ -13,19 +13,19 @@ void SSRBuffer::Draw()
 	// Bind Textures
 	// 0 VsNormals
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetVSNormalTexture());
+	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetVSNormals());
 	m_ScreenShader->SetUniform("vsNormals", 0);
 	// 1 VsPositions
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetVSPositionTexture());
+	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetVSPositions());
 	m_ScreenShader->SetUniform("vsPositions", 1);
 	// 2 testColor
 	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetAlbedoTexture());
+	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetAlbedo());
 	m_ScreenShader->SetUniform("vAlbedo", 2);
 	// 3 Depth
 	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetDepthTexture());
+	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetDepth());
 	m_ScreenShader->SetUniform("vDepth", 3);
 
 	// uniforms
