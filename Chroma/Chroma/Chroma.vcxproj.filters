@@ -480,6 +480,9 @@
     <ClCompile Include="source\Scenes\LookDevScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\buffer\SSRBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -779,6 +782,9 @@
     <ClInclude Include="source\Render\material\Material.h">
       <Filter>Render\material</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\buffer\SSRBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">
@@ -951,6 +957,9 @@
     </None>
     <None Include="resources\shaders\fragSSSS_backup.glsl">
       <Filter>Resources\shaders\ssss</Filter>
+    </None>
+    <None Include="resources\shaders\fragSSRBuffer.glsl">
+      <Filter>Resources\shaders\buffer</Filter>
     </None>
   </ItemGroup>
 </Project>

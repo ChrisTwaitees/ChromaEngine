@@ -761,7 +761,7 @@ namespace Chroma
 		// Normals
 		ImGui::BeginChild("Normals", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
 		p = ImGui::GetCursorScreenPos();
-		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetNormalTexture(),
+		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetWSNormalTexture(),
 			ImGui::GetWindowSize(),
 			ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::EndChild();
@@ -794,7 +794,7 @@ namespace Chroma
 		// Positions
 		ImGui::BeginChild("Positions", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
 		p = ImGui::GetCursorScreenPos();
-		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetPositionTexture(),
+		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetWSPositionTexture(),
 			ImGui::GetWindowSize(),
 			ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::EndChild();

@@ -390,6 +390,7 @@
     <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\ShadowBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\SSRBuffer.cpp" />
     <ClCompile Include="source\Render\camera\Camera.cpp" />
     <ClCompile Include="source\Render\camera\FlyCameraController.cpp" />
     <ClCompile Include="source\Render\camera\MayaCameraController.cpp" />
@@ -488,6 +489,7 @@
     <ClInclude Include="source\Render\buffer\PostFXBuffer.h" />
     <ClInclude Include="source\Render\buffer\ShadowBuffer.h" />
     <ClInclude Include="source\Render\buffer\SSAOBuffer.h" />
+    <ClInclude Include="source\Render\buffer\SSRBuffer.h" />
     <ClInclude Include="source\Render\camera\Camera.h" />
     <ClInclude Include="source\Render\camera\ICameraController.h" />
     <ClInclude Include="source\Render\camera\FlyCameraController.h" />
@@ -542,6 +544,7 @@
     <None Include="resources\shaders\fragSkyBox.glsl" />
     <None Include="resources\shaders\fragSSAO.glsl" />
     <None Include="resources\shaders\fragSSAOBlur.glsl" />
+    <None Include="resources\shaders\fragSSRBuffer.glsl" />
     <None Include="resources\shaders\fragSSSS.glsl" />
     <None Include="resources\shaders\fragSSSS_backup.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />

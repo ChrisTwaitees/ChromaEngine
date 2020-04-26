@@ -16,6 +16,9 @@ namespace Chroma
 	// Post FX
 	IFramebuffer* Render::m_PostFXBuffer;
 
+	// SSR Buffer
+	IFramebuffer* Render::m_SSRBuffer;
+
 	// Graphics Debug
 	IFramebuffer* Render::m_GraphicsDebugBuffer;
 
@@ -68,7 +71,7 @@ namespace Chroma
 		case (1):
 		{
 			// Normals
-			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetNormalTexture());
+			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetWSNormalTexture());
 			m_GraphicsDebugBuffer->Draw();
 			break;
 		}
@@ -121,6 +124,7 @@ namespace Chroma
 		m_GBuffer = new GBuffer(m_PostFXBuffer);
 		m_ForwardBuffer = new ForwardBuffer(m_PostFXBuffer);
 		m_DebugBuffer = new DebugBuffer(m_PostFXBuffer);
+		m_SSRBuffer = new SSRBuffer();
 		m_GraphicsDebugBuffer = new IFramebuffer();
 
 		// Set to Default dimensions
@@ -132,14 +136,16 @@ namespace Chroma
 		// Deferred
 		RenderDefferedComponents();
 
+		m_SSRBuffer->Draw();
+
 		// Forward
-		RenderForwardComponents();
+		//RenderForwardComponents();
 
-		// Debug
-		RenderDebug();
+		//// Debug
+		//RenderDebug();
 
-		// Post FX
-		RenderPostFX();
+		//// Post FX
+		//RenderPostFX();
 
 		// Graphics Debug
 		if (Chroma::UI::m_DrawGraphicsDebug)

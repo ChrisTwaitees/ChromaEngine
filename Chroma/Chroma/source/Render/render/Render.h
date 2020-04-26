@@ -10,6 +10,7 @@
 #include <buffer/PostFXBuffer.h>
 #include <buffer/DebugBuffer.h>
 #include <buffer/ForwardBuffer.h>
+#include <buffer/SSRBuffer.h>
 #include <jobsystem/JobSystem.h>
 
 namespace Chroma
@@ -62,12 +63,17 @@ namespace Chroma
 
 		// Debug Buffer
 		static DebugBuffer* m_DebugBuffer;
-
+		
+		// SSR Buffer
+		static IFramebuffer* m_SSRBuffer;
+		
 		// Post FX
 		static IFramebuffer* m_PostFXBuffer;
 
 		// Graphics Debug Buffer
 		static IFramebuffer* m_GraphicsDebugBuffer;
+
+		
 
 
 
