@@ -45,7 +45,8 @@ public:
 	virtual void SetTransform(glm::mat4 const& newTransformMat);
 	virtual inline void SetScale(glm::vec3 const& newscale) { m_Scale = newscale; RebuildTransform(); }
 	virtual inline void SetTranslation(glm::vec3 const& newposition) { m_Translation = newposition; RebuildTransform(); }
-	virtual inline glm::vec3& GetTranslation() { return m_Translation; };
+	virtual inline glm::vec3& GetLocalTranslation() { return m_Translation; };
+	virtual glm::vec3 GetWSTranslation();
 	virtual void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; RebuildTransform(); }
 
 	// Dimensions

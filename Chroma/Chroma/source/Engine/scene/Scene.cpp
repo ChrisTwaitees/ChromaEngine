@@ -323,7 +323,7 @@ namespace Chroma
 
 	float Scene::GetMeshComponentDistanceToCamera(const UID& uid)
 	{
-		return glm::distance(static_cast<MeshComponent*>(GetComponent(uid))->GetTranslation(), m_RenderCamera->GetPosition());
+		return glm::distance(static_cast<MeshComponent*>(GetComponent(uid))->GetWSTranslation(), m_RenderCamera->GetPosition());
 	}
 
 	void Scene::AddAnimationComponent(IComponent* const& newAnimationComponent)

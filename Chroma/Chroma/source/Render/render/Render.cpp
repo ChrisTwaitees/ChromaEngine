@@ -159,7 +159,7 @@ namespace Chroma
 		// Debug
 		RenderDebug();
 
-		//// Post FX
+		// Post FX
 		RenderPostFX();
 
 		m_SSRBuffer->Draw();

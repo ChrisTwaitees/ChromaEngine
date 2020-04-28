@@ -130,6 +130,11 @@ void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)
 	m_Rotation = Chroma::Math::GetQuatRotation(newTransformMat);
 }
 
+glm::vec3 MeshComponent::GetWSTranslation()
+{
+	return GetParentEntity()->GetTranslation() + m_Translation;
+}
+
 glm::mat4 MeshComponent::GetWorldTransform()
 {
 	return GetParentEntity()->GetTransform() * GetTransform();
