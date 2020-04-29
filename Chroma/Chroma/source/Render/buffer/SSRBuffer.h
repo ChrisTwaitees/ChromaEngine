@@ -22,6 +22,7 @@ protected:
 
 	// funcs
 	void Initialize() override;
+	void ResizeBuffers() override;
 
 	// shader
 	Shader* m_ScreenShader{ new Shader(fragSource, vtxSource) };

@@ -1,5 +1,7 @@
 #include "PostFXBuffer.h"
 #include <screen/Screen.h>
+#include <render/Render.h>
+#include <buffer/SSRBuffer.h>
 
 void PostFXBuffer::Initialize()
 {
@@ -60,6 +62,7 @@ void PostFXBuffer::ConfigureShaders()
 	m_ScreenShader->Use();
 	m_ScreenShader->SetUniform("scene", 0);
 	m_ScreenShader->SetUniform("bloomBlur", 1);
+	m_ScreenShader->SetUniform("ssr", 2);
 }
 
 void PostFXBuffer::ResizeBuffers()
@@ -126,11 +129,20 @@ void PostFXBuffer::blurFragments()
 
 void PostFXBuffer::Draw()
 {
+	// Set to default buffer
 	UnBind();
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	// Draw
 	m_ScreenShader->Use();
+	// textures
+	// scene texture
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
+	// ssr
+	glActiveTexture(GL_TEXTURE2);
+	glBindTexture(GL_TEXTURE_2D, static_cast<SSRBuffer*>(Chroma::Render::GetSSRBuffer())->GetSSRReflectedUVTexture());
+	// bloom
 	m_ScreenShader->SetUniform("bloom", 0);
 	// setting transform uniforms
 	UpdateTransformUniforms();

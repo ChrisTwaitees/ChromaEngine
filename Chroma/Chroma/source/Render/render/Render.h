@@ -31,6 +31,7 @@ namespace Chroma
 		static IFramebuffer*& GetPostFXBuffer() { return m_PostFXBuffer; }
 		static IFramebuffer*& GetForwardBuffer() { return m_ForwardBuffer; }
 		static IFramebuffer*& GetGBuffer() { return m_GBuffer; }
+		static IFramebuffer*& GetSSRBuffer() { return m_SSRBuffer; }
 		static glm::mat4 GetLightSpaceMatrix();
 
 		// Buffers

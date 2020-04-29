@@ -64,6 +64,9 @@ namespace Chroma
 
 	void Render::RenderPostFX()
 	{
+		// SSR
+		m_SSRBuffer->Draw();
+
 		// POSTFX BUFFER
 		m_PostFXBuffer->SetUniform("exposure", 1.0f);
 		m_PostFXBuffer->SetUniform("gamma", 2.2f);
@@ -162,7 +165,6 @@ namespace Chroma
 		// Post FX
 		RenderPostFX();
 
-		m_SSRBuffer->Draw();
 
 		// Graphics Debug
 		if (Chroma::UI::m_DrawGraphicsDebug)
@@ -192,6 +194,7 @@ namespace Chroma
 		m_ForwardBuffer->ScreenResizeCallback(width, height);
 		m_DebugBuffer->ScreenResizeCallback(width, height);
 		m_GraphicsDebugBuffer->ScreenResizeCallback(width, height);
+		m_SSRBuffer->ScreenResizeCallback(width, height);
 
 		// Draw while resizing
 		RenderScene();

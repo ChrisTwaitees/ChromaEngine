@@ -4,34 +4,22 @@
 
 void SSRBuffer::Draw()
 {
-	//Bind();
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	// draw
-	//glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	m_ScreenShader->Use();
+	Bind();
 	// Bind Textures
 	// 0 VsNormals
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetVSNormals());
-	m_ScreenShader->SetUniform("vsNormals", 0);
 	// 1 VsPositions
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetVSPositions());
-	m_ScreenShader->SetUniform("vsPositions", 1);
 	// 2 testColor
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetAlbedo());
-	m_ScreenShader->SetUniform("vAlbedo", 2);
-	// 3 Depth
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetDepth());
-	m_ScreenShader->SetUniform("vDepth", 3);
 
+	// Draw
+	m_ScreenShader->Use();
 	// uniforms
 	m_ScreenShader->SetUniform("vProjection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
-	// using color attachment
-	// setting transform uniforms
 	UpdateTransformUniforms();
 	RenderQuad();
 
@@ -47,30 +35,40 @@ void SSRBuffer::Initialize()
 {
 	glGenFramebuffers(1, &m_FBO);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
-	// create floating point color buffer
-	GenTexture();
-	SetTextureParameters();
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_FBOTexture, 0);
 
 	// - Reflected UV Texture
 	glGenTextures(1, &m_SSRReflectedUVs);
 	glBindTexture(GL_TEXTURE_2D, m_SSRReflectedUVs);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_SSRReflectedUVs, 0);
 
-	// create depth buffer (renderbuffer)
-	glGenRenderbuffers(1, &m_RBO);
-	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
-	// msaa 
-	// attach buffers
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
-	//glRenderbufferStorageMultisample(GL_RENDERBUFFER, MSAA_SAMPLES, GL_DEPTH_COMPONENT, m_Width, m_Height);
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
+	//// create depth buffer (renderbuffer)
+	//glGenRenderbuffers(1, &m_RBO);
+	//glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
+
+	//// attach buffers
+	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
+
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		CHROMA_WARN("Framebuffer not complete!");
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+	// reset to default framebuffer
+	UnBind();
+
+	// Set Shader Uniforms
+	m_ScreenShader->Use();
+	m_ScreenShader->SetUniform("vsNormals", 0);
+	m_ScreenShader->SetUniform("vsPositions", 1);
+	m_ScreenShader->SetUniform("vAlbedo", 2);
+
+}
+
+void SSRBuffer::ResizeBuffers()
+{
+	glBindTexture(GL_TEXTURE_2D, m_SSRReflectedUVs);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL);
 
 }

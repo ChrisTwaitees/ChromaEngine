@@ -2,7 +2,6 @@
 
 // IMPLEMENTATION : 
 //http://imanolfotia.com/blog/update/2017/03/11/ScreenSpaceReflections.html
-
 // more resources : 
 // https://lettier.github.io/3d-game-shaders-for-beginners/screen-space-reflection.html
 // TODO : Investigate cone roughness
@@ -18,7 +17,6 @@ in vec2 TexCoords;
 uniform sampler2D vsNormals;
 uniform sampler2D vsPositions;
 uniform sampler2D vAlbedo;
-uniform sampler2D vDepth;
 
 uniform mat4 vProjection;
 
@@ -43,28 +41,28 @@ void main()
 
     vec3 viewNormal = texture2D(vsNormals, TexCoords).xyz;
     vec3 viewPos = texture2D(vsPositions, TexCoords).xyz;
-    float Depth = texture2D(vDepth, TexCoords).x;
     vec3 reflected = normalize(reflect(normalize(viewPos), normalize(viewNormal)));
 
     vec3 hitPos = viewPos;
 	float dDepth;
-    vec4 coords = RayMarch((reflected * maxDistance), hitPos, dDepth);
+    vec4 ReflectedCoords = RayMarch((reflected * maxDistance), hitPos, dDepth);
 
-    //vec2 dCoords = smoothstep(0.2, 0.6, abs(vec2(0.5, 0.5) - coords.xy));
+	// Masking
 	vec2 dCoords = smoothstep(0.2, 0.6, abs(vec2(0.5, 0.5) - TexCoords.xy));
-    float screenEdgefactor = clamp(1.0 - (dCoords.x + dCoords.y), 0.0, 1.0);
+    float maskScreenEdge = clamp(1.0 - (dCoords.x + dCoords.y), 0.0, 1.0);
 
-    //float mask =  screenEdgefactor *  -reflected.z;
 	//float depthThicknessMask = 1.0 - clamp(hitPos.z / step , 0.0, 1.0);
 	float maskCamFacing = 1.0 - max(dot(-normalize(viewPos), reflected), 0.0);
 	float maskFromDist =  1.0 - clamp( length(viewPos - hitPos) / maxDistance, 0.0,1.0 );
 	float maskFromCameraDist =  1.0 - smoothstep(maxCameraDistance, maxCameraDistance +  maxCameraDistance / 2.0, length(viewPos));
-	float uvOutOfBoundsMask =  (coords.x < 0 || coords.x > 1 ? 0 : 1)  * (coords.y < 0 || coords.y > 1 ? 0 : 1);
-	float mask =  screenEdgefactor *  -reflected.z * maskFromDist * uvOutOfBoundsMask * maskCamFacing * maskFromCameraDist;
+	float uvOutOfBoundsMask =  (ReflectedCoords.x < 0 || ReflectedCoords.x > 1 ? 0 : 1)  * (ReflectedCoords.y < 0 || ReflectedCoords.y > 1 ? 0 : 1);
+	float mask =  maskScreenEdge *  -reflected.z * maskFromDist * uvOutOfBoundsMask * maskCamFacing * maskFromCameraDist;
 
 
-    FragColor = texture(vAlbedo, TexCoords) + vec4(texture(vAlbedo, coords.xy)) * vec4(mask);
+    //FragColor = texture(vAlbedo, TexCoords) + vec4(texture(vAlbedo, ReflectedCoords.xy)) * vec4(mask);
 	//FragColor = vec4(mask);
+	// FINAL
+	FragColor = vec4(ReflectedCoords.xy, mask, mask);
 
 }
 
