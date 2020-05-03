@@ -44,12 +44,16 @@ void SkinnedMesh::SetupMesh()
 	// vertex bone weights
 	glEnableVertexAttribArray(6);
 	glVertexAttribPointer(6, MAX_VERT_INFLUENCES, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_jointWeights));
+	// vertex colors 
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_color));
 
 	glBindVertexArray(0);
 
 	// BBOX
 	CalculateBBox();
 	CalculateCentroid();
+	CleanUp();
 
 }
 
@@ -113,6 +117,13 @@ void SkinnedMesh::Serialize(ISerializer*& serializer)
 
 	// Material 
 	SerializeMaterial(serializer);
+}
+
+void SkinnedMesh::CleanUp()
+{
+	m_vertices.clear();
+	m_SkinnedVertices.clear();
+	CHROMA_INFO("Skinned Mesh Component : {0} Cleaned Up", m_UID.data);
 }
 
 

@@ -483,6 +483,9 @@
     <ClCompile Include="source\Render\buffer\SSRBuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
+    <ClCompile Include="source\Scenes\ForestScene.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -960,6 +963,12 @@
     </None>
     <None Include="resources\shaders\fragSSRBuffer.glsl">
       <Filter>Resources\shaders\buffer</Filter>
+    </None>
+    <None Include="resources\shaders\vertexLitVegetation.glsl">
+      <Filter>Resources\shaders</Filter>
+    </None>
+    <None Include="resources\shaders\fragVegetation.glsl">
+      <Filter>Resources\shaders</Filter>
     </None>
   </ItemGroup>
 </Project>

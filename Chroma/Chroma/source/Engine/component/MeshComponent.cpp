@@ -122,6 +122,11 @@ void MeshComponent::Serialize(ISerializer*& serializer)
 
 }
 
+void MeshComponent::CleanUp()
+{
+	CHROMA_INFO("Mesh Component : {}, Cleaned Up.", m_UID.data);
+}
+
 void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)
 {
 	m_Transform = newTransformMat;

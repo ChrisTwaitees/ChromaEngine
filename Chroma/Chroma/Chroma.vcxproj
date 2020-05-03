@@ -416,6 +416,7 @@
     <ClCompile Include="source\Render\texture\HDRTexture.cpp" />
     <ClCompile Include="source\Render\ui\core\UI.cpp" />
     <ClCompile Include="source\Render\ui\uicomponents\Icon.cpp" />
+    <ClCompile Include="source\Scenes\ForestScene.cpp" />
     <ClCompile Include="source\Scenes\Human.cpp" />
     <ClCompile Include="source\Scenes\LookDevScene.cpp" />
   </ItemGroup>
@@ -547,6 +548,7 @@
     <None Include="resources\shaders\fragSSRBuffer.glsl" />
     <None Include="resources\shaders\fragSSSS.glsl" />
     <None Include="resources\shaders\fragSSSS_backup.glsl" />
+    <None Include="resources\shaders\fragVegetation.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\geometryBoxDebug.glsl" />
@@ -564,6 +566,7 @@
     <None Include="resources\shaders\vertexCubeMap.glsl" />
     <None Include="resources\shaders\vertexGridDebug.glsl" />
     <None Include="resources\shaders\vertexJointDebug.glsl" />
+    <None Include="resources\shaders\vertexLitVegetation.glsl" />
     <None Include="resources\shaders\vertexSkyBox.glsl" />
     <None Include="resources\shaders\util\BlinnPhongLightingCalculations.glsl" />
     <None Include="resources\shaders\util\lightingStructs.glsl" />

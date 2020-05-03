@@ -1,6 +1,8 @@
 #include "StaticMesh.h"
 #include <scene/Scene.h>
 #include <resources/ModelLoader.h>
+#include <render/Render.h>
+#include <buffer/GBuffer.h>
 
 
 void StaticMesh::CalculateBBox()
@@ -60,12 +62,16 @@ void StaticMesh::SetupMesh()
 	// vertex bitangents
 	glEnableVertexAttribArray(4);
 	glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, sizeof(ChromaVertex), (void*)offsetof(ChromaVertex, ChromaVertex::m_bitangent));
+	// vertex colors // is at the 7th index as 5 and 6 are used for skinning
+	glEnableVertexAttribArray(7);
+	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(ChromaVertex), (void*)offsetof(ChromaVertex, ChromaVertex::m_color));
 
 	glBindVertexArray(0);
 
 	// BBOX
 	CalculateBBox();
 	CalculateCentroid();
+	CleanUp();
 }
 
 void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)
@@ -172,7 +178,12 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 	}
 
 	if (m_Material.GetIsForwardLit())
+	{
+		// Set LightSpace Matrix
+		shader.SetUniform("lightSpaceMatrix", static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetLightSpaceMatrix());
+		// Set PBR Lighting Texture Uniforms
 		UpdatePBRLightingTextureUniforms(shader);
+	}
 
 	glActiveTexture(GL_TEXTURE0);
 
@@ -289,6 +300,12 @@ void StaticMesh::Serialize(ISerializer*& serializer)
 
 	// Material 
 	SerializeMaterial(serializer);
+}
+
+void StaticMesh::CleanUp()
+{
+	m_vertices.clear();
+	CHROMA_INFO("Static Mesh Component : {0} Cleaned Up", m_UID.data );
 }
 
 

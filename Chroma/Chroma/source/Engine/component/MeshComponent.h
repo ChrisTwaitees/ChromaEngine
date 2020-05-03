@@ -17,6 +17,7 @@ public:
 	void Update() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
+	virtual void CleanUp();
 
 	// Mesh Attrs
 	virtual void SetIsSkinned(bool const& check) { m_IsSkinned = check; };

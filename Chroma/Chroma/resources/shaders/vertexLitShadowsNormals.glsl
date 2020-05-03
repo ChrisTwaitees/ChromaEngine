@@ -6,6 +6,7 @@ layout (location = 3) in vec3 aTangent;
 layout (location = 4) in vec3 aBitangent;  
 layout (location = 5) in int[#MAX_VERT_INFLUENCES] aJointIDs;
 layout (location = 6) in float[#MAX_VERT_INFLUENCES] aJointWeights;
+layout (location = 7) in vec4 aColor;
 
 out VS_OUT{
 	vec3 FragPos;
@@ -13,6 +14,7 @@ out VS_OUT{
 	vec2 TexCoords;
 	vec4 FragPosLightSpace;
 	mat3 TBN;
+	vec4 Color;
 } vs_out;
 
 // CONSTS
@@ -52,6 +54,10 @@ void main()
     vec3 N = normalize(vec3(model * vec4(aNormal,    0.0)));
 
 	vs_out.TBN = mat3(T, B, N);
+
+	vs_out.Color = aColor;
+
+
 
     gl_Position = projection * view * model * LocalPosition;
 }

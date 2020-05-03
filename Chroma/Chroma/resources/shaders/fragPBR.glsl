@@ -3,11 +3,12 @@ layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
 in VS_OUT {
-    vec3 FragPos;
-    vec3 Normal;
-    vec2 TexCoords;
-    vec4 FragPosLightSpace;
+	vec3 FragPos;
+	vec3 Normal;
+	vec2 TexCoords;
+	vec4 FragPosLightSpace;
 	mat3 TBN;
+	vec4 Color;
 } fs_in;
 
 // LIGHTS

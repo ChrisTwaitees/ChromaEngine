@@ -3,11 +3,12 @@ layout (location = 0) out vec4 FragColor;
 layout (location = 1) out vec4 BrightColor;
 
 in VS_OUT {
-    vec3 FragPos;
-    vec3 Normal;
-    vec2 TexCoords;
-    vec4 FragPosLightSpace;
+	vec3 FragPos;
+	vec3 Normal;
+	vec2 TexCoords;
+	vec4 FragPosLightSpace;
 	mat3 TBN;
+	vec4 Color;
 } fs_in;
 
 // LIGHTS
@@ -15,12 +16,6 @@ in VS_OUT {
 #define NR_POINT_LIGHTS 3
 #define NR_DIR_LIGHTS 1
 #define NR_SPOT_LIGHTS 1
-
-// SHADOWMAPS
-struct ShadowMap
-{
-	sampler2D shadowmap1;
-};
 
 // UNIFORMS
 
@@ -42,10 +37,11 @@ uniform vec2 UVMultiply;
 uniform ShadowMap shadowmaps;
 
 // UNIFORMS
-// backscatter
-//uniform float bckScttrScale;
-//uniform float bckScttrPow;
-//uniform float bckScttrDistortion;
+// BACK SCATTER
+ float bckScttrAmount;
+const float bckScttrScale      = 0.8;
+const float bckScttrPow        = 0.695;
+const float bckScttrDistortion = 0.695;
 
 uniform vec3 viewPos;
 //IBL
@@ -120,25 +116,22 @@ void main()
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
 		Lo += CalcPointLight(pointLights[i], Normal, viewDir, fs_in.FragPos, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmaps.shadowmap1);
 
-	// BACK SCATTER
-	float bckScttrAmount;
-	float bckScttrScale      = 1.1;
-	float bckScttrPow        = 0.695;
-	float bckScttrDistortion = 0.695;
-
+	// TRANSLUCENCY
 	// Directional Lights
-	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
+	if(UseTranslucencyMap)
 	{
-		vec3 HlfWaySSDistortion = normalize(-dirLights[i].direction + Normal * bckScttrDistortion );
-		bckScttrAmount += pow(clamp(dot(viewDir, -HlfWaySSDistortion), 0.0, 1.0), bckScttrPow ) * bckScttrScale * Translucency ; 
-		Lo += vec4(dirLights[i].diffuse.rgb, 1.0) * vec4(Albedo, 1.0) * bckScttrAmount;
+		for(int i = 0; i < NR_DIR_LIGHTS ; i++)
+		{
+			vec3 HlfWaySSDistortion = normalize(-dirLights[i].direction + Normal * bckScttrDistortion );
+			bckScttrAmount += pow(clamp(dot(viewDir, -HlfWaySSDistortion), 0.0, 1.0), bckScttrPow ) * bckScttrScale * Translucency ; 
+			Lo += vec4(dirLights[i].diffuse.rgb, 1.0) * vec4(Albedo, 1.0) * bckScttrAmount;
+		}
 	}
-		
-
+	
 	// AMBIENT
 	//------------------------------------------------------------------------
 	// Adding ambient and SSAO
-	vec3 Ambient = CalcAmbientLight(irradianceMap, prefilterMap, brdfLUT, Normal, viewDir, Albedo, Roughness, Metalness, AO, Lo.a) * SSAO;
+	vec3 Ambient = CalcAmbientLight(irradianceMap, prefilterMap, brdfLUT, Normal, viewDir, Albedo, Roughness, Metalness, AO, Lo.a);
 
 	// COMBINE
 	//------------------------------------------------------------------------
@@ -146,7 +139,7 @@ void main()
 
 	// OUT
 	//------------------------------------------------------------------------
-	if(Alpha > 0.1)
+	if(Alpha > 0.65)
 	{
 		FragColor = vec4(vec3(color), Alpha);
 	}
