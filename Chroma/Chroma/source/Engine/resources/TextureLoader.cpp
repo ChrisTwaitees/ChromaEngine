@@ -139,6 +139,12 @@ namespace Chroma
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+			// Antisotropic filtering
+			GLfloat value, max_anisotropy = 4.0f; /* don't exceed this value...*/
+			glGetFloatv( GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
+			value = glm::min(value, max_anisotropy);
+			glTexParameterf(GL_TEXTURE_2D, GL_MAX_TEXTURE_MAX_ANISOTROPY, value);
+
 			stbi_image_free(data);
 			CHROMA_TRACE("TEXTURE LOADER : Loaded 2D Texture successfully. ");
 		}

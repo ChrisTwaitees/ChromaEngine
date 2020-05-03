@@ -20,7 +20,7 @@ void ShadowBuffer::Initialize()
 	// create texture to write shadow map to
 	glGenTextures(1, &ShadowMapTexture.ID);
 	glBindTexture(GL_TEXTURE_2D, ShadowMapTexture.ID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 	width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, 	width * 2.0, height*2.0, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -52,7 +52,7 @@ void ShadowBuffer::ResizeBuffers()
 
 	// textures
 	glBindTexture(GL_TEXTURE_2D, ShadowMapTexture.ID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width *2.0, height * 2.0, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 
 }
 
@@ -67,7 +67,7 @@ void ShadowBuffer::DrawShadowMaps()
 	depthShader.SetUniform("lightSpaceMatrix", lightSpaceMatrix);
 
 	// Set map resolution
-	glViewport(0, 0, width, height);
+	glViewport(0, 0, width * 2.0, height * 2.0);
 	glBindFramebuffer(GL_FRAMEBUFFER, depthMapFBO);
 	glClear(GL_DEPTH_BUFFER_BIT);
 
