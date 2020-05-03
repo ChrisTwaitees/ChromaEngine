@@ -56,22 +56,27 @@ public:
 
 	// Render Flags
 	inline void SetIsRenderable(bool const& check) { m_IsRenderable = check; };
-	inline bool GetIsRenderable() { return m_IsRenderable; }
+	inline bool GetIsRenderable() const { return m_IsRenderable; }
 	inline void SetIsTransparent(bool const& check) { m_IsTransparent = check; };
-	inline bool GetIsTransparent() { return m_IsTransparent; }
+	inline bool GetIsTransparent() const { return m_IsTransparent; }
 	inline void SetIsLit(bool const& check) { m_IsLit = check; };
-	inline bool GetIsLit() { return m_IsLit; }
+	inline bool GetIsLit() const { return m_IsLit; }
 	inline void SetIsUnlit(bool const& check) { m_IsUnlit = check; };
-	inline bool GetIsUnlit() { return m_IsUnlit; }
+	inline bool GetIsUnlit() const { return m_IsUnlit; }
 	inline void SetIsForwardLit(bool const& check) { m_IsForwardLit = check; };
-	inline bool GetIsForwardLit() { return m_IsForwardLit; }
+	inline bool GetIsForwardLit() const { return m_IsForwardLit; }
 	inline void SetIsDoubleSided(bool const& check) { m_IsDoubleSided = check; };
-	inline bool GetIsDoubleSided() { return m_IsDoubleSided; }
+	inline bool GetIsDoubleSided() const { return m_IsDoubleSided; }
 	inline void SetCastsShadows(bool const& check) { m_CastShadows = check; };
-	inline bool GetCastsShadows() { return m_CastShadows; }
+	inline bool GetCastsShadows() const { return m_CastShadows; }
 	inline void SetReceivesShadows(bool const& check) { m_ReceivesShadows = check; };
-	inline bool GetReceivesShadows() { return m_ReceivesShadows; }
+	inline bool GetReceivesShadows() const { return m_ReceivesShadows; }
 
+	// Scene Globals
+	inline void SetUsesSceneNoise(bool const& check) { m_UsesSceneNoise = check; };
+	inline bool GetUsesSceneNoise() const { return m_UsesSceneNoise; }
+	inline void SetUsesGameTime(bool const& check) { m_UsesGameTime = check; };
+	inline bool GetUsesGameTime() const { return m_UsesGameTime; }
 
 	Material();
 	~Material();
@@ -102,6 +107,8 @@ private:
 	bool m_CastShadows{ true };
 	bool m_ReceivesShadows{ true };
 	bool m_IsDoubleSided{ false };
+	bool m_UsesSceneNoise{ false };
+	bool m_UsesGameTime{ false };
 };
 
 #endif

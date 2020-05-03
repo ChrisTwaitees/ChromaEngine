@@ -126,7 +126,7 @@ namespace Chroma
 				bitangent.z = mesh->mBitangents[i].z;
 			}
 
-			// texture coords
+			// texture coords 1
 			glm::vec2 UV1;
 			if (mesh->mTextureCoords[0])
 			{
@@ -135,6 +135,16 @@ namespace Chroma
 			}
 			else
 				UV1 = glm::vec2(0.0f, 0.0f);
+
+			// texture coords 2
+			glm::vec2 UV2;
+			if (mesh->mTextureCoords[1])
+			{
+				UV2.x = mesh->mTextureCoords[1][i].x;
+				UV2.y = mesh->mTextureCoords[1][i].y;
+			}
+			else
+				UV2 = glm::vec2(0.0f, 0.0f);
 
 			// colors
 			glm::vec4 color1{ 0.0f };
@@ -155,6 +165,7 @@ namespace Chroma
 				vertex.m_tangent = tangent;
 				vertex.m_bitangent = bitangent;
 				vertex.m_texCoords = UV1;
+				vertex.m_texCoords2 = UV2;
 				vertex.m_color = color1;
 				newMeshData.skinnedVerts.push_back(vertex);
 			}
@@ -166,6 +177,7 @@ namespace Chroma
 				vertex.m_tangent = tangent;
 				vertex.m_bitangent = bitangent;
 				vertex.m_texCoords = UV1;
+				vertex.m_texCoords2 = UV2;
 				vertex.m_color = color1;
 				newMeshData.verts.push_back(vertex);
 			}

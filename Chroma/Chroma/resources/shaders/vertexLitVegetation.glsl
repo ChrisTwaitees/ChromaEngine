@@ -5,6 +5,7 @@ layout (location = 2 ) in vec2 aTexCoords;
 layout (location = 3) in vec3 aTangent;
 layout (location = 4) in vec3 aBitangent;  
 layout (location = 7) in vec4 aColor;
+layout (location = 8) in vec2 aTexCoords2;
 
 out VS_OUT{
 	vec3 FragPos;
@@ -25,18 +26,21 @@ uniform mat4 lightSpaceMatrix;
 // Vegetation Features
 uniform float gameTime;
 uniform sampler2D noise;
-uniform float period;
-uniform vec2 noiseFrequency;
+uniform vec2 windFrequency;
 uniform vec3 windDirection;
+uniform float windSpeed;
+uniform float windStrength;
 
 
 void main()
 {    
 
-	float noiseAmount = (texture(noise, mod((vec2(gameTime) + aPos.xz * noiseFrequency), 1.0)).r * 2) - 1.0;
+	//float noiseAmount = (texture(noise, mod((vec2(gameTime) + aPos.xz * noiseFrequency), 1.0)).r * 2) - 1.0;
+	float macroNoise = sin(gameTime * windSpeed);
+	float microNoise =  (texture(noise, aPos.xz + mod(vec2(gameTime * windFrequency), 1.0)).r * 2 - 1.0) ;
 	
-	//localPosition = vec4(aPos + ((normalize(windDirection) * aColor.rrr * noiseAmount)), 1.0);
-	localPosition = vec4(aPos + ((normalize(windDirection) * sin(gameTime * noiseFrequency.x) * aColor.rrr )), 1.0);
+	localPosition = vec4(aPos + ((normalize(windDirection) * windStrength * aColor.rrr * macroNoise * microNoise)), 1.0);
+	//localPosition = vec4(aPos + ((normalize(windDirection) * sin(gameTime * noiseFrequency.x) * aColor.rrr )), 1.0);
     vs_out.FragPos = vec3(model * localPosition);
     vs_out.Normal = transpose(inverse(mat3(model))) * aNormal;
     vs_out.TexCoords = aTexCoords;

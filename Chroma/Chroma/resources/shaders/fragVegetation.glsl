@@ -59,6 +59,7 @@ vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float 
 vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
 vec3 CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao, float shadows);
 
+
 void main()
 {
 	// MATERIAL PROPERTIES

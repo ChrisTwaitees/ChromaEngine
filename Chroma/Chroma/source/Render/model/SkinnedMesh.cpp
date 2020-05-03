@@ -47,6 +47,9 @@ void SkinnedMesh::SetupMesh()
 	// vertex colors 
 	glEnableVertexAttribArray(7);
 	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_color));
+	// second UV set
+	glEnableVertexAttribArray(8);
+	glVertexAttribPointer(8, 2, GL_FLOAT, GL_FALSE, sizeof(ChromaSkinnedVertex), (void*)offsetof(ChromaSkinnedVertex, ChromaSkinnedVertex::m_texCoords2));
 
 	glBindVertexArray(0);
 

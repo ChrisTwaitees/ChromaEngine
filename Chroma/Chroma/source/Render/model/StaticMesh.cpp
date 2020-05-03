@@ -65,6 +65,9 @@ void StaticMesh::SetupMesh()
 	// vertex colors // is at the 7th index as 5 and 6 are used for skinning
 	glEnableVertexAttribArray(7);
 	glVertexAttribPointer(7, 4, GL_FLOAT, GL_FALSE, sizeof(ChromaVertex), (void*)offsetof(ChromaVertex, ChromaVertex::m_color));
+	// second UV set
+	glEnableVertexAttribArray(8);
+	glVertexAttribPointer(8, 2, GL_FLOAT, GL_FALSE, sizeof(ChromaVertex), (void*)offsetof(ChromaVertex, ChromaVertex::m_texCoords2));
 
 	glBindVertexArray(0);
 
@@ -173,8 +176,6 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 		glBindTexture(GL_TEXTURE_2D, GetTextureSet()[i].ID);
 		// Set Unitform
 		shader.SetUniform(( name + texturenum).c_str(), i);
-
-
 	}
 
 	if (m_Material.GetIsForwardLit())
@@ -183,6 +184,13 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 		shader.SetUniform("lightSpaceMatrix", static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetLightSpaceMatrix());
 		// Set PBR Lighting Texture Uniforms
 		UpdatePBRLightingTextureUniforms(shader);
+	}
+	if (m_Material.GetUsesSceneNoise())
+	{
+		// BRDF LUT
+		glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 4);
+		shader.SetUniform("noise", GetNumTextures() + 4);
+		glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetSceneNoiseTex().ID);
 	}
 
 	glActiveTexture(GL_TEXTURE0);
@@ -218,6 +226,11 @@ void StaticMesh::UpdateMaterialUniforms(Shader& shader)
 	shader.SetUniform("UseNormalMap", false);
 	shader.SetUniform("UseMetRoughAOMap", false);
 	m_Material.GetUniformArray().SetUniforms(shader.ShaderID);
+
+	if (m_Material.GetUsesGameTime())
+	{
+		shader.SetUniform("gameTime", (float)GAMETIME);
+	}
 }
 
 void StaticMesh::Draw(Shader& shader)

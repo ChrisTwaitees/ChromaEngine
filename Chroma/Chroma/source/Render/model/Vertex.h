@@ -17,6 +17,7 @@ struct ChromaVertex
 	glm::vec3 m_bitangent{ 0.0 };
 	// uvs
 	glm::vec2 m_texCoords{ 0.0 };
+	glm::vec2 m_texCoords2{ 0.0 };
 	// colors
 	glm::vec4 m_color{ 0.0 };
 };

@@ -85,7 +85,7 @@ int main()
 	flatNormal.m_Type = Texture::NORMAL;
 
 	// Noise
-	Texture noiseTexture = Chroma::ResourceManager::LoadTexture("resources/textures/noise/noise_01.jpg");
+	//Texture noiseTexture = Chroma::ResourceManager::LoadTexture("resources/textures/noise/noise_01.jpg");
 
 	// Lookdev Sphere
 	Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
@@ -145,6 +145,8 @@ int main()
 	yellowFlowerMaterial.SetIsTransparent(true);
 	yellowFlowerMaterial.SetIsForwardLit(true);
 	yellowFlowerMaterial.SetIsLit(false);
+	yellowFlowerMaterial.SetUsesSceneNoise(true);
+	yellowFlowerMaterial.SetUsesGameTime(true);
 	//yellowFlowerMaterial.SetUVMultiply(glm::vec2(2.0));
 	yellowFlowerMaterial.SetShader(foliageShader);
 	yellowFlowerMaterial.AddTexture(yellowFlowerAlbedo);
@@ -175,6 +177,8 @@ int main()
 	cloverMaterial.SetIsTransparent(true);
 	cloverMaterial.SetIsForwardLit(true);
 	cloverMaterial.SetIsLit(false);
+	cloverMaterial.SetUsesSceneNoise(true);
+	cloverMaterial.SetUsesGameTime(true);
 	cloverMaterial.SetShader(foliageShader);
 	cloverMaterial.AddTexture(cloversAlbedo);
 	cloverMaterial.AddTexture(cloversNormal);
@@ -280,18 +284,10 @@ int main()
 		}
 		// Vegetation Uniforms
 		foliageShader.Use();
-		// Activate Texture before binding
-		glActiveTexture(GL_TEXTURE0 + 6);
-		// Bind Texture
-		glBindTexture(GL_TEXTURE_2D, noiseTexture.ID);
-		foliageShader.SetUniform("gameTime", (float)GAMETIME);
-		foliageShader.SetUniform("noise", 6);
-		foliageShader.SetUniform("period", 1.0f);
-		foliageShader.SetUniform("noiseFrequency", glm::vec2(2.0));
+		foliageShader.SetUniform("windFrequency", glm::vec2(0.01));
 		foliageShader.SetUniform("windDirection", Chroma::Scene::GetSunLight()->GetDirection());
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-
+		foliageShader.SetUniform("windSpeed", 0.2f);
+		foliageShader.SetUniform("windStrength", 3.0f);
 		//Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// GAME TICK
 		Chroma::Engine::Tick();

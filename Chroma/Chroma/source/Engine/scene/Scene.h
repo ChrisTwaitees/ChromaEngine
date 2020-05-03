@@ -90,6 +90,9 @@ namespace Chroma
 		static void SetSkyBox(SkyBox* const& newSkyBox) { m_Skybox = newSkyBox; };
 		static SkyBox*& GetSkyBox() { return m_Skybox; };
 
+		// SCENE GLOBALS
+		static inline Texture& GetSceneNoiseTex() { return m_SceneNoise; };
+
 		// CAMERA
 		static void SetRenderCamera(Camera* const& newRenderCamera) { m_RenderCamera = newRenderCamera; };
 		static Camera*& GetRenderCamera() { return m_RenderCamera; };
@@ -133,6 +136,9 @@ namespace Chroma
 		static Light* m_SunLight;
 		static SkyBox* m_Skybox;
 		static IBL* m_IBL; // image based lighting
+
+		// Scene Globals
+		static Texture m_SceneNoise;
 
 		// funcs
 		static glm::vec3 CalculateAmbientLightColor();
