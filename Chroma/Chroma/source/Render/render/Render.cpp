@@ -185,7 +185,7 @@ namespace Chroma
 		glViewport(0, 0, width, height);
 
 		// update scene camera projection to window aspect ratio
-		Chroma::Scene::GetRenderCamera()->SetASPECT((float)width/(float)height);
+		Chroma::Scene::GetRenderCamera()->SetAspectRatio((float)width/(float)height);
 
 		// update buffers
 		ResizeBufferTextures(width, height);

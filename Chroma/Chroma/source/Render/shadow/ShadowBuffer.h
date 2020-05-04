@@ -14,12 +14,12 @@ public:
 	void ResizeBuffers() override;
 
 	// Cascade Splits
-	unsigned int GetNumCascadeSplits() { return m_NumSplits; };
-	void SetNumCascadeSplits(unsigned int const& newNumSplits) { m_NumSplits = newNumSplits; BuildCSMTextureArray(); };
+	unsigned int GetNumCascadeSplits() { return m_NumCascadeSplits; };
+	void SetNumCascadeSplits(unsigned int const& newNumSplits) { m_NumCascadeSplits = newNumSplits; BuildCSMTextureArray(); };
 
 	// getters and setters
-	glm::mat4 GetLightSpaceMatrix() { return lightSpaceMatrix; };
-	glm::mat4 GetCascadeLightSpaceMatrices() { return lightSpaceMatrix; };
+	glm::mat4 GetLightSpaceMatrix() { return m_LightSpaceMatrix; };
+	glm::mat4 GetCascadeLightSpaceMatrices() { return m_LightSpaceMatrix; };
 	unsigned int GetTexture() override { return 0; }
 
 	// calculate shadows
@@ -34,20 +34,23 @@ private:
 	// resolution
 	unsigned int m_ShadowMapSize{ 2048 };
 	// Textures
-	unsigned int m_NumSplits;
+	unsigned int m_NumCascadeSplits;
 	unsigned int m_CascadedTexureArray;
 	void BuildCSMTextureArray();
 	// Dimensions
 	std::vector<glm::mat4> m_CascadeLightSpaceMatrices;
+	void CalcCascadeLightSpaceMatrices();
 	std::vector<float> m_CascadeSplitDistances;
-	glm::mat4 lightSpaceMatrix;
+	float m_CascadeSplitDistanceRatio{0.5f};
+	glm::mat4 m_LightSpaceMatrix;
+	glm::mat4 m_LightOrthoMatrix;
 	void CalcCascadeSplitDistances();
 
 	void calcLightSpaceMatrix();
 	// shaders
 	std::string depthVtxSource = "resources/shaders/vertexDepthMap.glsl";
 	std::string depthFragSource = "resources/shaders/fragEmpty.glsl";
-	Shader depthShader{ depthFragSource , depthVtxSource };
+	Shader m_DepthShader{ depthFragSource , depthVtxSource };
 	// setup 
 	void Initialize();
 
