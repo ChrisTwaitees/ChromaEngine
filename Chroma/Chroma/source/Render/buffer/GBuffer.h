@@ -4,7 +4,7 @@
 
 #include <buffer/IFramebuffer.h>
 #include <buffer/PostFXBuffer.h>
-#include <buffer/ShadowBuffer.h>
+#include <shadow/ShadowBuffer.h>
 #include <buffer/SSAOBuffer.h>
 #include <ibl/IBL.h>
 #include <scene/Scene.h>

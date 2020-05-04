@@ -388,7 +388,6 @@
     <ClCompile Include="source\Render\buffer\IFramebuffer.cpp" />
     <ClCompile Include="source\Render\buffer\GBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp" />
-    <ClCompile Include="source\Render\buffer\ShadowBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp" />
     <ClCompile Include="source\Render\buffer\SSRBuffer.cpp" />
     <ClCompile Include="source\Render\camera\Camera.cpp" />
@@ -410,6 +409,7 @@
     <ClCompile Include="source\Render\render\Render.cpp" />
     <ClCompile Include="source\Render\shader\Shader.cpp" />
     <ClCompile Include="source\Render\shader\Uniform.cpp" />
+    <ClCompile Include="source\Render\shadow\ShadowBuffer.cpp" />
     <ClCompile Include="source\Render\terrain\Terrain.cpp" />
     <ClCompile Include="source\Render\texture\CubeMap.cpp" />
     <ClCompile Include="source\Render\texture\Texture.cpp" />
@@ -488,7 +488,6 @@
     <ClInclude Include="source\Render\buffer\IFramebuffer.h" />
     <ClInclude Include="source\Render\buffer\GBuffer.h" />
     <ClInclude Include="source\Render\buffer\PostFXBuffer.h" />
-    <ClInclude Include="source\Render\buffer\ShadowBuffer.h" />
     <ClInclude Include="source\Render\buffer\SSAOBuffer.h" />
     <ClInclude Include="source\Render\buffer\SSRBuffer.h" />
     <ClInclude Include="source\Render\camera\Camera.h" />
@@ -514,6 +513,7 @@
     <ClInclude Include="source\Render\render\Render.h" />
     <ClInclude Include="source\Render\shader\Shader.h" />
     <ClInclude Include="source\Render\shader\Uniform.h" />
+    <ClInclude Include="source\Render\shadow\ShadowBuffer.h" />
     <ClInclude Include="source\Render\terrain\Terrain.h" />
     <ClInclude Include="source\Render\texture\CubeMap.h" />
     <ClInclude Include="source\Render\texture\stb_image.h" />

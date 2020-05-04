@@ -202,6 +202,9 @@
     <Filter Include="Render\material">
       <UniqueIdentifier>{0bec43ed-93bd-42d6-8b8f-96d3d99d4a3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\shadow">
+      <UniqueIdentifier>{07258e01-09e1-4bb6-b366-98f789016afb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -223,9 +226,6 @@
       <Filter>Render\buffer</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp">
-      <Filter>Render\buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\buffer\ShadowBuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp">
@@ -486,6 +486,9 @@
     <ClCompile Include="source\Scenes\ForestScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\shadow\ShadowBuffer.cpp">
+      <Filter>Render\shadow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -513,9 +516,6 @@
       <Filter>Render\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\buffer\PostFXBuffer.h">
-      <Filter>Render\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\buffer\ShadowBuffer.h">
       <Filter>Render\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\buffer\SSAOBuffer.h">
@@ -787,6 +787,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\buffer\SSRBuffer.h">
       <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\shadow\ShadowBuffer.h">
+      <Filter>Render\shadow</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
