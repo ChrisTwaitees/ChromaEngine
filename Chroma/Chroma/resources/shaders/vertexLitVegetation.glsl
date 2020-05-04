@@ -37,9 +37,9 @@ void main()
 
 	//float noiseAmount = (texture(noise, mod((vec2(gameTime) + aPos.xz * noiseFrequency), 1.0)).r * 2) - 1.0;
 	float macroNoise = sin(gameTime * windSpeed);
-	float microNoise =  (texture(noise, aPos.xz + mod(vec2(gameTime * windFrequency), 1.0)).r * 2 - 1.0) ;
+	float microNoise =  (texture(noise, aTexCoords2 + mod(vec2(gameTime * windFrequency), 1.0)).r * 2 - 1.0) ;
 	
-	localPosition = vec4(aPos + ((normalize(windDirection) * windStrength * aColor.rrr * macroNoise * microNoise)), 1.0);
+	localPosition = vec4(aPos + ((normalize(windDirection) * windStrength * pow(aColor.r,3) * macroNoise * microNoise)), 1.0);
 	//localPosition = vec4(aPos + ((normalize(windDirection) * sin(gameTime * noiseFrequency.x) * aColor.rrr )), 1.0);
     vs_out.FragPos = vec3(model * localPosition);
     vs_out.Normal = transpose(inverse(mat3(model))) * aNormal;

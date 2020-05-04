@@ -284,10 +284,10 @@ int main()
 		}
 		// Vegetation Uniforms
 		foliageShader.Use();
-		foliageShader.SetUniform("windFrequency", glm::vec2(0.01));
+		foliageShader.SetUniform("windFrequency", glm::vec2(0.005));
 		foliageShader.SetUniform("windDirection", Chroma::Scene::GetSunLight()->GetDirection());
-		foliageShader.SetUniform("windSpeed", 0.2f);
-		foliageShader.SetUniform("windStrength", 3.0f);
+		foliageShader.SetUniform("windSpeed", 0.05f);
+		foliageShader.SetUniform("windStrength", 0.5f);
 		//Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// GAME TICK
 		Chroma::Engine::Tick();
