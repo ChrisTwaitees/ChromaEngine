@@ -39,83 +39,95 @@ void ShadowBuffer::CalcCascadeLightSpaceMatrices()
 
 	// 2. Calculate the light's view projection of each split plane
 	// First we transform the Cameara Normalized Device Coordinates of our Frustrum into WS
-	glm::vec3 frustumCornersWS[8] =
+	for (unsigned i = 0; i < m_CascadeSplitDistances.size(); i++)
 	{
-		glm::vec3(-1.0f, 1.0f, -1.0f),
-		glm::vec3(1.0f, 1.0f, -1.0f),
-		glm::vec3(1.0f, -1.0f, -1.0f),
-		glm::vec3(-1.0f, -1.0f, -1.0f),
-		glm::vec3(-1.0f, 1.0f, 1.0f),
-		glm::vec3(1.0f, 1.0f, 1.0f),
-		glm::vec3(1.0f, -1.0f, 1.0f),
-		glm::vec3(-1.0f, -1.0f, 1.0f),
-	};
 
-	glm::mat4 invViewProj = glm::inverse( Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
-	for (unsigned int i = 0; i < 8; ++i)
-	{
-		glm::vec4 inversePoint = invViewProj * glm::vec4(frustumCornersWS[i], 1.0f);
-		frustumCornersWS[i] = glm::vec3(inversePoint / inversePoint.w);
+		glm::vec3 frustumCornersWS[8] =
+		{
+			glm::vec3(-1.0f, 1.0f, -1.0f),
+			glm::vec3(1.0f, 1.0f, -1.0f),
+			glm::vec3(1.0f, -1.0f, -1.0f),
+			glm::vec3(-1.0f, -1.0f, -1.0f),
+			glm::vec3(-1.0f, 1.0f, 1.0f),
+			glm::vec3(1.0f, 1.0f, 1.0f),
+			glm::vec3(1.0f, -1.0f, 1.0f),
+			glm::vec3(-1.0f, -1.0f, 1.0f),
+		};
+
+		glm::mat4 invViewProj = glm::inverse( Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+		for (unsigned int j = 0; j < 8; ++i)
+		{
+			glm::vec4 inversePoint = invViewProj * glm::vec4(frustumCornersWS[j], 1.0f);
+			frustumCornersWS[j] = glm::vec3(inversePoint / inversePoint.w);
+		}
+
+		// We'll create a ray between the corresponding near and corresponding far corner, normalize
+		// then multiply by our current partition's distance to our next partition
+		glm::vec3 farCornerRay = glm::vec3(0.0);
+		glm::vec3 nearCornerRay = glm::vec3(0.0);
+		for (unsigned int j = 0; j < 4; ++j)
+		{
+			glm::vec3 cornerRay = frustumCornersWS[j + 4] - frustumCornersWS[j];
+			if (i == 0) { // if this is the firs split the near corner is the camera near
+				farCornerRay = cornerRay * m_CascadeSplitDistances[i];
+				nearCornerRay = cornerRay * Chroma::Scene::GetRenderCamera()->GetNearDist();
+			}
+			else{
+				farCornerRay = cornerRay * m_CascadeSplitDistances[i];
+				nearCornerRay = cornerRay * m_CascadeSplitDistances[i-1];
+			}
+			frustumCornersWS[j + 4] = frustumCornersWS[j] + farCornerRay;
+			frustumCornersWS[j] = frustumCornersWS[j] + nearCornerRay;
+		}
+
+		glm::vec3 frustumCenter = glm::vec3(0.0f);
+		for (unsigned int j = 0; j < 8; ++j)
+			frustumCenter += frustumCornersWS[j];
+
+		frustumCenter /= 8.0f;
+
+		GLfloat shadowFar = -INFINITY;
+		GLfloat shadowNear = INFINITY;
+
+		// We then Get the largest radius of this slice and use it as a basis for our AABB
+		GLfloat radius = 0.0f;
+		for (unsigned int j = 0; j < 8; ++j)
+		{
+			GLfloat distance = glm::length(frustumCornersWS[j] - frustumCenter);
+			radius = glm::max(radius, distance);
+		}
+		radius = std::ceil(radius * 16.0f) / 16.0f;
+
+		glm::vec3 maxExtents = glm::vec3(radius, radius, radius);
+		glm::vec3 minExtents = -maxExtents;
+
+		//Position the viewmatrix looking down the center of the frustum using the light direction
+		glm::vec3 lightDirection = frustumCenter - glm::normalize(Chroma::Scene::GetSunLight()->GetDirection()) * -minExtents.z;
+		m_LightSpaceMatrix = glm::lookAt(lightDirection, frustumCenter, CHROMA_UP);
+
+		glm::vec3 cascadeExtents = maxExtents - minExtents;
+
+		m_LightOrthoMatrix = glm::ortho(minExtents.x, maxExtents.x, minExtents.y, maxExtents.y, 0.0f, cascadeExtents.z);
+
+		//In order to avoid light shimmering we need to create a rounding matrix so we move in texel sized increments.
+		//You can think of it as finding out how much we need to move the orthographic matrix so it matches up with shadow map, it is done like this:
+		glm::mat4 shadowMatrix = m_LightOrthoMatrix * m_LightSpaceMatrix;
+		glm::vec4 shadowOrigin = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
+		shadowOrigin = shadowMatrix * shadowOrigin;
+		shadowOrigin = shadowOrigin * static_cast<float>(m_ShadowMapSize) / 2.0f;
+
+		glm::vec4 roundedOrigin = glm::round(shadowOrigin);
+		glm::vec4 roundOffset = roundedOrigin - shadowOrigin;
+		roundOffset = roundOffset * 2.0f / static_cast<float>(m_ShadowMapSize);
+		roundOffset.z = 0.0f;
+		roundOffset.w = 0.0f;
+
+		glm::mat4 shadowProj = m_LightOrthoMatrix;
+		shadowProj[3] += roundOffset;
+		m_LightOrthoMatrix = shadowProj;
+
+		// 3. Render Shadow Textures with the appropriate shadow resolutions
 	}
-
-	// We'll create a ray between the corresponding near and corresponding far corner, normalize
-	// then multiply by our current partition's distance to our next partition
-	for (unsigned int i = 0; i < 4; ++i)
-	{
-		glm::vec3 cornerRay = frustumCornersWS[i + 4] - frustumCornersWS[i];
-		glm::vec3 nearCornerRay = cornerRay * prevSplitDistance;
-		glm::vec3 farCornerRay = cornerRay * splitDistance;
-		frustumCornersWS[i + 4] = frustumCornersWS[i] + farCornerRay;
-		frustumCornersWS[i] = frustumCornersWS[i] + nearCornerRay;
-	}
-
-	glm::vec3 frustumCenter = glm::vec3(0.0f);
-	for (unsigned int i = 0; i < 8; ++i)
-		frustumCenter += frustumCornersWS[i];
-
-	frustumCenter /= 8.0f;
-
-	GLfloat shadowFar = -INFINITY;
-	GLfloat shadowNear = INFINITY;
-
-	// We then Get the largest radius of this slice and use it as a basis for our AABB
-	GLfloat radius = 0.0f;
-	for (unsigned int i = 0; i < 8; ++i)
-	{
-		GLfloat distance = glm::length(frustumCornersWS[i] - frustumCenter);
-		radius = glm::max(radius, distance);
-	}
-	radius = std::ceil(radius * 16.0f) / 16.0f;
-
-	glm::vec3 maxExtents = glm::vec3(radius, radius, radius);
-	glm::vec3 minExtents = -maxExtents;
-
-	//Position the viewmatrix looking down the center of the frustum with an arbitrary lighht direction
-	glm::vec3 lightDirection = frustumCenter - glm::normalize(Chroma::Scene::GetRenderCamera()->GetDirection()) * -minExtents.z;
-	m_LightSpaceMatrix = glm::lookAt(lightDirection, frustumCenter, CHROMA_UP);
-
-	glm::vec3 cascadeExtents = maxExtents - minExtents;
-
-	m_LightOrthoMatrix = glm::ortho(minExtents.x, maxExtents.x, minExtents.y, maxExtents.y, 0.0f, cascadeExtents.z);
-
-	//In order to avoid light shimmering we need to create a rounding matrix so we move in texel sized increments.
-	//You can think of it as finding out how much we need to move the orthographic matrix so it matches up with shadow map, it is done like this:
-	glm::mat4 shadowMatrix = m_LightOrthoMatrix * m_LightSpaceMatrix;
-	glm::vec4 shadowOrigin = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
-	shadowOrigin = shadowMatrix * shadowOrigin;
-	shadowOrigin = shadowOrigin * static_cast<float>(m_ShadowMapSize) / 2.0f;
-
-	glm::vec4 roundedOrigin = glm::round(shadowOrigin);
-	glm::vec4 roundOffset = roundedOrigin - shadowOrigin;
-	roundOffset = roundOffset * 2.0f / static_cast<float>(m_ShadowMapSize);
-	roundOffset.z = 0.0f;
-	roundOffset.w = 0.0f;
-
-	glm::mat4 shadowProj = m_LightOrthoMatrix;
-	shadowProj[3] += roundOffset;
-	m_LightOrthoMatrix = shadowProj;
-
-	// 3. Render Shadow Textures with the appropriate shadow resolutions
 
 
 }

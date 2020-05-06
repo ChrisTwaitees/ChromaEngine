@@ -45,6 +45,7 @@ private:
 	glm::mat4 m_LightSpaceMatrix;
 	glm::mat4 m_LightOrthoMatrix;
 	void CalcCascadeSplitDistances();
+	float m_ShadowNear{ 0.0f }, m_ShadowFar{ 50.0f };
 
 	void calcLightSpaceMatrix();
 	// shaders
