@@ -19,12 +19,7 @@ public:
 	void Draw() override;
 	void ResizeBuffers() override;
 
-	void BindShadownMaps();
-	glm::mat4 GetLightSpaceMatrix();
-
 	inline unsigned int GetSSAOTexture() const { return m_SSAOBuffer->GetTexture(); }
-	inline unsigned int GetShadowBufferTexture() const { return m_Shadowbuffer->GetTexture(); }
-
 
 	// structors
 	GBuffer(IFramebuffer*& m_PostFXBuffer);
@@ -45,7 +40,6 @@ private:
 	IFramebuffer* m_SSAOBuffer{ new SSAOBuffer };
 
 	// scene
-	ShadowBuffer* m_Shadowbuffer;
 	IFramebuffer* m_PostFXBuffer;
 
 	// functions
@@ -58,7 +52,6 @@ private:
 	unsigned int gDepth;
 
 	// passes
-	void DrawShadowMaps();
 	void DrawGeometryPass();
 	void DrawLightingPass();
 	void BlitDepthBuffer();

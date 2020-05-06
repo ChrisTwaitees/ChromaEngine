@@ -251,9 +251,6 @@ namespace Chroma
 		for (UID const& componentUID : m_ComponentUIDs)
 			GetComponent(componentUID)->Init();
 
-		// shadowmap attachment
-		Chroma::Render::BindShadowMaps();
-
 		// Debug
 		CHROMA_INFO_UNDERLINE;
 		CHROMA_INFO("CHROMA SCENE:: Scene Successfully Loaded.");

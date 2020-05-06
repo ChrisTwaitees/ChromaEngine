@@ -805,7 +805,7 @@ namespace Chroma
 		// SunlightShadowMap
 		ImGui::BeginChild("SunlightShadowMap", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
 		p = ImGui::GetCursorScreenPos();
-		ImGui::Image((void*)(intptr_t)static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetShadowBufferTexture(),
+		ImGui::Image((void*)(intptr_t)static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetTexture(),
 			ImGui::GetWindowSize(),
 			ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::EndChild();

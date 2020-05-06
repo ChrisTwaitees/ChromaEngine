@@ -181,7 +181,7 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 	if (m_Material.GetIsForwardLit())
 	{
 		// Set LightSpace Matrix
-		shader.SetUniform("lightSpaceMatrix", static_cast<GBuffer*>(Chroma::Render::GetGBuffer())->GetLightSpaceMatrix());
+		shader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetLightSpaceMatrix());
 		// Set PBR Lighting Texture Uniforms
 		UpdatePBRLightingTextureUniforms(shader);
 	}

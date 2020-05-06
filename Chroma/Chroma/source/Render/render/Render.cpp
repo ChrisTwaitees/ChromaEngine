@@ -19,6 +19,9 @@ namespace Chroma
 	// SSR Buffer
 	IFramebuffer* Render::m_SSRBuffer;
 
+	// Shadow Buffer
+	IFramebuffer* Render::m_ShadowBuffer;
+
 	// Graphics Debug
 	IFramebuffer* Render::m_GraphicsDebugBuffer;
 
@@ -108,13 +111,6 @@ namespace Chroma
 			m_GraphicsDebugBuffer->Draw();
 			break;
 		}
-		case (4) :
-		{
-			// Shadow depth buffer
-			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetShadowBufferTexture());
-			m_GraphicsDebugBuffer->Draw();
-			break;
-		}
 		}
 	}
 
@@ -146,6 +142,7 @@ namespace Chroma
 		m_DebugBuffer = new DebugBuffer(m_PostFXBuffer);
 		m_SSRBuffer = new SSRBuffer();
 		m_GraphicsDebugBuffer = new IFramebuffer();
+		m_ShadowBuffer = new ShadowBuffer();
 
 		// Set to Default dimensions
 		Chroma::Screen::SetDimensions(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -153,6 +150,9 @@ namespace Chroma
 
 	void Render::RenderScene()
 	{
+		// Shadows
+		static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
+
 		// Deferred
 		RenderDefferedComponents();
 
@@ -203,12 +203,7 @@ namespace Chroma
 
 	glm::mat4 Render::GetLightSpaceMatrix()
 	{
-		return ((GBuffer*)m_GBuffer)->GetLightSpaceMatrix();
-	}
-
-	void Render::BindShadowMaps()
-	{
-		((GBuffer*)m_GBuffer)->BindShadownMaps();
+		return static_cast<ShadowBuffer*>(m_ShadowBuffer)->GetLightSpaceMatrix();
 	}
 
 	void Render::GenerateBufferTextures()

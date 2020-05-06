@@ -8,7 +8,7 @@
 #include <buffer/IFramebuffer.h>
 #include <scene/Scene.h>
 
-class ShadowBuffer : IFramebuffer
+class ShadowBuffer : public IFramebuffer
 {
 public:
 	void ResizeBuffers() override;
@@ -19,40 +19,41 @@ public:
 
 	// getters and setters
 	glm::mat4 GetLightSpaceMatrix() { return m_LightSpaceMatrix; };
-	glm::mat4 GetCascadeLightSpaceMatrices() { return m_LightSpaceMatrix; };
 	unsigned int GetTexture() override { return 0; }
 
 	// calculate shadows
 	void DrawShadowMaps();
-	void BindShadowMaps();
 
 	// constructors
 	ShadowBuffer();
 	~ShadowBuffer();
 
 private:
-	// resolution
+	// Resolution
 	unsigned int m_ShadowMapSize{ 2048 };
+
 	// Textures
+	void BuildCSMTextureArray();
 	unsigned int m_NumCascadeSplits;
 	unsigned int m_CascadedTexureArray;
-	void BuildCSMTextureArray();
+	
 	// Dimensions
-	std::vector<glm::mat4> m_CascadeLightSpaceMatrices;
-	void CalcCascadeLightSpaceMatrices();
-	std::vector<float> m_CascadeSplitDistances;
-	float m_CascadeSplitDistanceRatio{0.5f};
 	glm::mat4 m_LightSpaceMatrix;
-	glm::mat4 m_LightOrthoMatrix;
-	void CalcCascadeSplitDistances();
-	float m_ShadowNear{ 0.0f }, m_ShadowFar{ 50.0f };
 
-	void calcLightSpaceMatrix();
-	// shaders
+	void CalculateCascadeLightSpaceMatrices();
+	std::vector<glm::mat4> m_CascadeLightSpaceMatrices;
+
+	void CalculateCascadeSplitDistances();
+	float m_CascadeSplitDistanceRatio{0.5f};
+	std::vector<float> m_CascadeSplitDistances;
+
+	//float m_ShadowNear{ 0.0f }, m_ShadowFar{ 50.0f };
+	// Depth Shader
 	std::string depthVtxSource = "resources/shaders/vertexDepthMap.glsl";
 	std::string depthFragSource = "resources/shaders/fragEmpty.glsl";
 	Shader m_DepthShader{ depthFragSource , depthVtxSource };
-	// setup 
+
+	// Setup 
 	void Initialize();
 
 };

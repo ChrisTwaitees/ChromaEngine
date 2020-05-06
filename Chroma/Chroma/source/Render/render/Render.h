@@ -11,6 +11,7 @@
 #include <buffer/DebugBuffer.h>
 #include <buffer/ForwardBuffer.h>
 #include <buffer/SSRBuffer.h>
+#include <shadow/ShadowBuffer.h>
 #include <jobsystem/JobSystem.h>
 
 namespace Chroma
@@ -32,6 +33,7 @@ namespace Chroma
 		static IFramebuffer*& GetForwardBuffer() { return m_ForwardBuffer; }
 		static IFramebuffer*& GetGBuffer() { return m_GBuffer; }
 		static IFramebuffer*& GetSSRBuffer() { return m_SSRBuffer; }
+		static IFramebuffer*& GetShadowBuffer() { return m_ShadowBuffer; }
 		static glm::mat4 GetLightSpaceMatrix();
 
 		// Buffers
@@ -100,6 +102,9 @@ namespace Chroma
 		
 		// SSR Buffer
 		static IFramebuffer* m_SSRBuffer;
+
+		// Shadow Buffer
+		static IFramebuffer* m_ShadowBuffer;
 		
 		// Post FX
 		static IFramebuffer* m_PostFXBuffer;

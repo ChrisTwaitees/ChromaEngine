@@ -46,7 +46,7 @@ public:
 	Camera();
 	Camera(glm::vec3 camerPos, glm::vec3 cameraTarget);
 	~Camera() { delete m_MayaCamController; delete m_FlyCamController; if (m_CustomCameraController != nullptr) { delete m_CustomCameraController; } };
-
+protected:
 	// Camera Attrs
 	glm::vec3 m_CameraPosition{ glm::vec3(0.0, 10.0, 30.0) };
 	glm::vec3 m_CameraUp{ CHROMA_UP };

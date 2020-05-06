@@ -1,6 +1,7 @@
 #include "GBuffer.h"
 #include <component/MeshComponent.h>
 #include <render/Render.h>
+#include <shadow/ShadowBuffer.h>
 
 void GBuffer::Initialize()
 {
@@ -90,7 +91,7 @@ void GBuffer::BindGBufferTextures()
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetFragPosLightSpace());
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, m_Shadowbuffer->GetTexture());
+	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetShadowBuffer()->GetTexture());
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, m_SSAOBuffer->GetTexture());
 	glActiveTexture(GL_TEXTURE7);
@@ -110,11 +111,6 @@ void GBuffer::SetLightingUniforms()
 	m_lightingPassShader.SetUniform("ambient", Chroma::Scene::GetAmbientColor());
 }
 
-void GBuffer::DrawShadowMaps()
-{
-	// 1. calculate shadows
-	m_Shadowbuffer->DrawShadowMaps();
-}
 
 void GBuffer::DrawGeometryPass()
 {
@@ -123,7 +119,7 @@ void GBuffer::DrawGeometryPass()
 	m_geometryPassShader.Use();
 	m_geometryPassShader.SetUniform("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
 	m_geometryPassShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
-	m_geometryPassShader.SetUniform("lightSpaceMatrix", m_Shadowbuffer->GetLightSpaceMatrix());
+	m_geometryPassShader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetLightSpaceMatrix());
 
 	// Render Lit Components
 	for (UID const& uid : Chroma::Scene::GetLitComponentUIDs())
@@ -175,9 +171,6 @@ void GBuffer::BlitDepthBuffer()
 
 void GBuffer::Draw()
 {
-	// 0. draw shadow textures
-	DrawShadowMaps();
-
 	// 1. geometry pass: render scene's geometry/color data into gbuffer
 	DrawGeometryPass();
 
@@ -200,9 +193,6 @@ void GBuffer::Draw()
 
 void GBuffer::ResizeBuffers()
 {
-	// resize shadow maps
-	m_Shadowbuffer->ResizeBuffers();
-
 	// resize SSAO
 	m_SSAOBuffer->ScreenResizeCallback(m_Width, m_Height);
 
@@ -213,20 +203,9 @@ void GBuffer::ResizeBuffers()
 }
 
 
-void GBuffer::BindShadownMaps()
-{
-	m_Shadowbuffer->BindShadowMaps();
-}
-
-glm::mat4 GBuffer::GetLightSpaceMatrix()
-{
-	return m_Shadowbuffer->GetLightSpaceMatrix(); 
-}
-
 GBuffer::GBuffer(IFramebuffer*& PostFXBuffer)
 {
 	Initialize();
-	m_Shadowbuffer = new ShadowBuffer();
 	m_PostFXBuffer = PostFXBuffer;
 }
 
