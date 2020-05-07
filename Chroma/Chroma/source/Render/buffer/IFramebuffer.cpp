@@ -83,8 +83,8 @@ void IFramebuffer::Initialize()
 	glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 	// msaa 
 	// attach buffers
-	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
-	glRenderbufferStorageMultisample(GL_RENDERBUFFER, MSAA_SAMPLES, GL_DEPTH_COMPONENT, m_Width, m_Height);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
+	//glRenderbufferStorageMultisample(GL_RENDERBUFFER, MSAA_SAMPLES, GL_DEPTH_COMPONENT, m_Width, m_Height);
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_RBO);
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		CHROMA_WARN("Framebuffer not complete!");
@@ -118,12 +118,12 @@ void IFramebuffer::ClearColorAndDepth()
 void IFramebuffer::Draw()
 {
 	m_ScreenShader->Use();
-	//m_ScreenShader->SetUniform("screenTexture", m_FBOTexture);
+	m_ScreenShader->SetUniform("screenTexture", 0);
 	// draw
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	// using color attachment
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
+	glBindTexture(GL_TEXTURE_2D_ARRAY, m_FBOTexture);
 	// setting transform uniforms
 	UpdateTransformUniforms();
 	RenderQuad();

@@ -29,6 +29,9 @@ public:
 	~ShadowBuffer();
 
 private:
+	// Buffer
+	unsigned int m_CascadeShadowFBO;
+
 	// Resolution
 	unsigned int m_ShadowMapSize{ 2048 };
 

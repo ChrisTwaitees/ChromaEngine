@@ -15,7 +15,7 @@
 
 
 
-int main4()
+int main()
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();

@@ -153,25 +153,25 @@ namespace Chroma
 		// Shadows
 		static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
 
-		// Deferred
-		RenderDefferedComponents();
+		//// Deferred
+		//RenderDefferedComponents();
 
-		// Forward
-		RenderForwardComponents();
+		//// Forward
+		//RenderForwardComponents();
 
-		// Debug
-		RenderDebug();
+		//// Debug
+		//RenderDebug();
 
-		// Post FX
-		RenderPostFX();
+		//// Post FX
+		//RenderPostFX();
 
 
-		// Graphics Debug
-		if (Chroma::UI::m_DrawGraphicsDebug)
-			RenderGraphicsDebug();
+		//// Graphics Debug
+		//if (Chroma::UI::m_DrawGraphicsDebug)
+		//	RenderGraphicsDebug();
 
-		// Clear
-		CleanUp();
+		//// Clear
+		//CleanUp();
 	}
 
 	void Render::ResizeBuffers(int const& width, int const& height)

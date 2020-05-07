@@ -155,12 +155,6 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 				texturenum = std::to_string(aoNr++);
 				break;
 			}
-		case Texture::SHADOWMAP:
-			{	
-				name = "shadowmaps.shadowmap";
-				texturenum = std::to_string(shadowmapNr++);
-				break;
-			}
 		case Texture::TRANSLUCENCY:
 		{
 			name = "material.texture_translucency";
