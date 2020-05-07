@@ -25,7 +25,8 @@ void ShadowBuffer::CalculateCascadeLightSpaceMatrices()
 	m_CascadeLightSpaceMatrices.clear();
 	for (unsigned i = 0; i < m_CascadeSplitDistances.size(); i++)
 	{
-		// First we transform the Cameara Normalized Device Coordinates of our Frustrum into WS
+		// First we transform the Normalized Device Coordinates of a unit 1 Frustrum into WS using the 
+		// invViewProjection of our camera
 		glm::vec3 frustumCornersWS[8] =
 		{
 			glm::vec3(-1.0f, 1.0f, -1.0f),
@@ -37,6 +38,7 @@ void ShadowBuffer::CalculateCascadeLightSpaceMatrices()
 			glm::vec3(1.0f, -1.0f, 1.0f),
 			glm::vec3(-1.0f, -1.0f, 1.0f),
 		};
+		// transform NDC of frustrum to WS
 
 		glm::mat4 invViewProj = glm::inverse( Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 		for (unsigned int j = 0; j < 8; ++j)
@@ -49,9 +51,10 @@ void ShadowBuffer::CalculateCascadeLightSpaceMatrices()
 		// then multiply by our current partition's distance to our next partition
 		glm::vec3 farCornerRay = glm::vec3(0.0);
 		glm::vec3 nearCornerRay = glm::vec3(0.0);
+
 		for (unsigned int j = 0; j < 4; ++j)
 		{
-			glm::vec3 cornerRay = frustumCornersWS[j + 4] - frustumCornersWS[j];
+			glm::vec3 cornerRay = glm::normalize(frustumCornersWS[j + 4] - frustumCornersWS[j]);
 			if (i == 0) { // if this is the firs split the near corner is the camera near
 				farCornerRay = cornerRay * m_CascadeSplitDistances[i];
 				nearCornerRay = cornerRay * Chroma::Scene::GetRenderCamera()->GetNearDist();
@@ -64,6 +67,7 @@ void ShadowBuffer::CalculateCascadeLightSpaceMatrices()
 			frustumCornersWS[j] = frustumCornersWS[j] + nearCornerRay;
 		}
 
+		// Then we get the longest radius of this slice and use it as the basis for our AABB.
 		glm::vec3 frustumCenter = glm::vec3(0.0f);
 		for (unsigned int j = 0; j < 8; ++j)
 			frustumCenter += frustumCornersWS[j];
@@ -73,7 +77,6 @@ void ShadowBuffer::CalculateCascadeLightSpaceMatrices()
 		GLfloat shadowFar = -INFINITY;
 		GLfloat shadowNear = INFINITY;
 
-		// We then Get the largest radius of this slice and use it as a basis for our AABB
 		GLfloat radius = 0.0f;
 		for (unsigned int j = 0; j < 8; ++j)
 		{
@@ -98,11 +101,11 @@ void ShadowBuffer::CalculateCascadeLightSpaceMatrices()
 		glm::mat4 shadowMatrix = m_LightOrthoMatrix * m_LightSpaceMatrix;
 		glm::vec4 shadowOrigin = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 		shadowOrigin = shadowMatrix * shadowOrigin;
-		shadowOrigin = shadowOrigin * static_cast<float>(m_ShadowMapSize) / 2.0f;
+		shadowOrigin = shadowOrigin * (float)(m_ShadowMapSize) / 2.0f;
 
 		glm::vec4 roundedOrigin = glm::round(shadowOrigin);
 		glm::vec4 roundOffset = roundedOrigin - shadowOrigin;
-		roundOffset = roundOffset * 2.0f / static_cast<float>(m_ShadowMapSize);
+		roundOffset = roundOffset * 2.0f / (float)(m_ShadowMapSize);
 		roundOffset.z = 0.0f;
 		roundOffset.w = 0.0f;
 
@@ -205,9 +208,9 @@ void ShadowBuffer::DrawShadowMaps()
 
 		// Set up depth shader
 		m_DepthShader.Use();
-		if(i == 0)
-			m_DepthShader.SetUniform("lightSpaceMatrix", m_LightSpaceMatrix);
-		else
+		//if(i == 0)
+		//	m_DepthShader.SetUniform("lightSpaceMatrix", m_LightSpaceMatrix);
+		//else
 			m_DepthShader.SetUniform("lightSpaceMatrix", m_CascadeLightSpaceMatrices[i]);
 		//m_DepthShader.SetUniform("lightSpaceMatrix", m_CascadeLightSpaceMatrices[0]);
 
@@ -231,30 +234,30 @@ void ShadowBuffer::DrawShadowMaps()
 	glCullFace(GL_BACK); // reset to original culling mode
 	UnBind();
 
-	// TEST
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	//// TEST
+	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// Reset back to Screen Resolution
-	glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
-	m_ScreenShader->Use();
+	//// Reset back to Screen Resolution
+	//glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
+	//m_ScreenShader->Use();
 
-	if(Chroma::Input::IsPressed(Chroma::Input::NUM0))
-		m_ScreenShader->SetUniform("layer", 0);
-	if (Chroma::Input::IsPressed(Chroma::Input::NUM1))
-		m_ScreenShader->SetUniform("layer", 1);
-	if (Chroma::Input::IsPressed(Chroma::Input::NUM2))
-		m_ScreenShader->SetUniform("layer", 2);
-	if (Chroma::Input::IsPressed(Chroma::Input::NUM3))
-		m_ScreenShader->SetUniform("layer", 3);
+	//if(Chroma::Input::IsPressed(Chroma::Input::NUM0))
+	//	m_ScreenShader->SetUniform("layer", 0);
+	//if (Chroma::Input::IsPressed(Chroma::Input::NUM1))
+	//	m_ScreenShader->SetUniform("layer", 1);
+	//if (Chroma::Input::IsPressed(Chroma::Input::NUM2))
+	//	m_ScreenShader->SetUniform("layer", 2);
+	//if (Chroma::Input::IsPressed(Chroma::Input::NUM3))
+	//	m_ScreenShader->SetUniform("layer", 3);
 
-	m_ScreenShader->SetUniform("screenTexture", 0);
+	//m_ScreenShader->SetUniform("screenTexture", 0);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D_ARRAY, m_CascadedTexureArray);
+	//glActiveTexture(GL_TEXTURE0);
+	//glBindTexture(GL_TEXTURE_2D_ARRAY, m_CascadedTexureArray);
 
-	// setting transform uniforms
-	UpdateTransformUniforms();
-	RenderQuad();
+	//// setting transform uniforms
+	//UpdateTransformUniforms();
+	//RenderQuad();
 
 }
 
