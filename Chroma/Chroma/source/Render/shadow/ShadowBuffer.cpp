@@ -2,17 +2,16 @@
 #include <component/MeshComponent.h>
 #include <screen/Screen.h>
 #include <scene/Scene.h>
+#include <input/Input.h>
 
 void ShadowBuffer::BuildCSMTextureArray()
 {
 	glBindTexture(GL_TEXTURE_2D_ARRAY, m_CascadedTexureArray);
 	glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32F, m_ShadowMapSize, m_ShadowMapSize, m_NumCascadeSplits, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_REF_TO_TEXTURE);
-	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_COMPARE_FUNC, GL_LEQUAL);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 	float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	glTexParameterfv(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_BORDER_COLOR, borderColor);
 }
@@ -20,16 +19,13 @@ void ShadowBuffer::BuildCSMTextureArray()
 void ShadowBuffer::CalculateCascadeLightSpaceMatrices()
 {
 	// 1. Calculate cascade split distances
-	m_CascadeSplitDistances.clear();
 	CalculateCascadeSplitDistances();
 
 	// 2. Calculate the light's view projection of each split plane
-
-	// First we transform the Cameara Normalized Device Coordinates of our Frustrum into WS
 	m_CascadeLightSpaceMatrices.clear();
 	for (unsigned i = 0; i < m_CascadeSplitDistances.size(); i++)
 	{
-
+		// First we transform the Cameara Normalized Device Coordinates of our Frustrum into WS
 		glm::vec3 frustumCornersWS[8] =
 		{
 			glm::vec3(-1.0f, 1.0f, -1.0f),
@@ -118,15 +114,19 @@ void ShadowBuffer::CalculateCascadeLightSpaceMatrices()
 
 void ShadowBuffer::CalculateCascadeSplitDistances()
 {
-
 	// 1.1 Calculate the distances of the Cascade Splits
 	// Using the practical split scheme we'll shorten the distances to the split planes near to the camera
 	// as proposed here : https://developer.nvidia.com/gpugems/gpugems3/part-ii-light-and-shadows/chapter-10-parallel-split-shadow-maps-programmable-gpus
 	// this proposes the distances based on logirithmic and linear distances
 
+	// Empty array
+	m_CascadeSplitDistances.clear();
+
+	// Get the camera near and far
 	float camNear = Chroma::Scene::GetRenderCamera()->GetNearDist();
 	float camFar = Chroma::Scene::GetRenderCamera()->GetFarDist();
 
+	// Calculate the Cascade Split distances
 	for (unsigned int i = 0; i < m_NumCascadeSplits; ++i)
 	{
 		float step = static_cast<float>(i + 1) / static_cast<float>(m_NumCascadeSplits);
@@ -138,37 +138,25 @@ void ShadowBuffer::CalculateCascadeSplitDistances()
 
 void ShadowBuffer::Initialize()
 {
-	// create frame buffer to store depth to
+	// Create frame buffer to store depth to
 	glGenFramebuffers(1, &m_CascadeShadowFBO);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_CascadeShadowFBO);
 
-	// create texture to write shadow map to
+	// Generate cascade textures
 	glGenTextures(1, &m_CascadedTexureArray);
-	glBindTexture(GL_TEXTURE_2D, m_CascadedTexureArray);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_ShadowMapSize, m_ShadowMapSize, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
+	BuildCSMTextureArray();
 
-	// bindShadowMapToBuffer the texture to the framebuffer
+	// Set texture array as depth attachment
+	glBindFramebuffer(GL_FRAMEBUFFER, m_CascadeShadowFBO);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_CascadedTexureArray, 0);
-	// m_RBO are not complete without a color buffer
-	// setting the following to NONE mitigates this
+	
+	// Setting Color to NONE
 	glDrawBuffer(GL_NONE);
 	glReadBuffer(GL_NONE);
 
-	// Check status of frambuffer
-	GLenum Status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
-	if (Status != GL_FRAMEBUFFER_COMPLETE) 
-		CHROMA_ERROR("SHADOWBUFFER :: FB error, status: {0}", Status);
-
-	// restore default FBO
+	// Set back to default FBO
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	// build split distances
+	// Calculate split distances
 	CalculateCascadeSplitDistances();
 }
 
@@ -195,58 +183,75 @@ void ShadowBuffer::DrawShadowMaps()
 	glViewport(0, 0, m_ShadowMapSize, m_ShadowMapSize);
 
 
-	//// calculate LightSpaceMatrix
-	//float near_plane = 0.01f, far_plane = 50.0f;
-	//glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
-	//glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetSunLight()->GetDirection() * -15.0f,
-	//	glm::vec3(0.0),
-	//	glm::vec3(0.0f, 1.0f, 0.0f));
-	//m_LightSpaceMatrix = lightProjection * lightView;
+	// calculate LightSpaceMatrix
+	float near_plane = 0.01f, far_plane = 50.0f;
+	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
+	glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetSunLight()->GetDirection() * -15.0f,
+		glm::vec3(0.0),
+		glm::vec3(0.0f, 1.0f, 0.0f));
+	m_LightSpaceMatrix = lightProjection * lightView;
 
-	// Iterate over each cascade frustrum
-	//for (unsigned int i = 0; i < m_NumCascadeSplits; i++)
-	//{
-		// Set and Clear 
-	glClear(GL_DEPTH_BUFFER_BIT);
+	// Set gl depth settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);
 	glCullFace(GL_FRONT);
-
-	//glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_CascadedTexureArray, 0, i);
-	m_DepthShader.Use();
-	//glm::mat4 lightViewProjection = m_LightOrthoMatrix * m_LightSpaceMatrix;
-	//m_DepthShader.SetUniform("lightSpaceMatrix", m_LightSpaceMatrix);
-	m_DepthShader.SetUniform("lightSpaceMatrix", m_CascadeLightSpaceMatrices[0]);
-
-	// render scene
-	for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
+	// Iterate over each cascade frustrum
+	for (unsigned int i = 0; i < m_NumCascadeSplits; i++)
 	{
-		m_DepthShader.SetUniform("model", static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetWorldTransform());
+		// Set to current texture in array
+		glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_CascadedTexureArray, 0, i);
+		// Clear previous frame's depth 
+		glClear(GL_DEPTH_BUFFER_BIT);
 
-		// check if mesh skinned
-		bool isSkinned = static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsSkinned();
-		m_DepthShader.SetUniform("isSkinned", isSkinned);
-		if (isSkinned)
-			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetJointUniforms(m_DepthShader);
+		// Set up depth shader
+		m_DepthShader.Use();
+		if(i == 0)
+			m_DepthShader.SetUniform("lightSpaceMatrix", m_LightSpaceMatrix);
+		else
+			m_DepthShader.SetUniform("lightSpaceMatrix", m_CascadeLightSpaceMatrices[i]);
+		//m_DepthShader.SetUniform("lightSpaceMatrix", m_CascadeLightSpaceMatrices[0]);
 
-		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(m_DepthShader);
+		// render scene
+		for (UID const& uid : Chroma::Scene::GetShadowCastingComponentUIDs())
+		{
+			m_DepthShader.SetUniform("model", static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetWorldTransform());
+
+			// check if mesh skinned
+			bool isSkinned = static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetIsSkinned();
+			m_DepthShader.SetUniform("isSkinned", isSkinned);
+			if (isSkinned)
+				static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetJointUniforms(m_DepthShader);
+
+			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(m_DepthShader);
+		}
 	}
-	//}
 
 	// Reset back to previous render settings
-	UnBind();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_CLAMP);
 	glCullFace(GL_BACK); // reset to original culling mode
+	UnBind();
+
+	// TEST
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// Reset back to Screen Resolution
 	glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 	m_ScreenShader->Use();
-//	m_ScreenShader->SetUniform("txLayer", 0);
-	// using color attachment
-	glActiveTexture(GL_TEXTURE0);
+
+	if(Chroma::Input::IsPressed(Chroma::Input::NUM0))
+		m_ScreenShader->SetUniform("layer", 0);
+	if (Chroma::Input::IsPressed(Chroma::Input::NUM1))
+		m_ScreenShader->SetUniform("layer", 1);
+	if (Chroma::Input::IsPressed(Chroma::Input::NUM2))
+		m_ScreenShader->SetUniform("layer", 2);
+	if (Chroma::Input::IsPressed(Chroma::Input::NUM3))
+		m_ScreenShader->SetUniform("layer", 3);
+
 	m_ScreenShader->SetUniform("screenTexture", 0);
-	glBindTexture(GL_TEXTURE_2D, m_CascadedTexureArray);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D_ARRAY, m_CascadedTexureArray);
+
 	// setting transform uniforms
 	UpdateTransformUniforms();
 	RenderQuad();
