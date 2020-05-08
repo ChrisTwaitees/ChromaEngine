@@ -985,5 +985,8 @@
     <None Include="resources\shaders\fragVegetation.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
+    <None Include="resources\shaders\util\uniformBuffers.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
   </ItemGroup>
 </Project>

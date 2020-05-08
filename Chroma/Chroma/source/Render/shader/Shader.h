@@ -40,6 +40,7 @@ public:
 
 private:
 	// Functions
+	void BindUniformBufferBlockIndices();
 	void CheckCompileErrors(GLuint shader, std::string type);
 	void CompileAndLink();
 	void LoadShaderSource();

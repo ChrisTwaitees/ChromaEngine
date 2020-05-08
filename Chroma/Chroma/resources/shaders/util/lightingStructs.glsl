@@ -32,10 +32,3 @@ struct SpotLight
 	float penumbraSize;
 	vec3 diffuse;
 };
-
-
-// SHADOWS
-struct ShadowMap
-{
-	sampler2D shadowmap1;
-};

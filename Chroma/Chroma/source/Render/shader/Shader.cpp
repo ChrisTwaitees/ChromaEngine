@@ -1,5 +1,6 @@
 #include "Shader.h"
 #include <scene/Scene.h>
+#include <render/Render.h>
 
 void Shader::CompileAndLink()
 {
@@ -135,6 +136,9 @@ Shader::Shader(std::string fragmentPath, std::string vertexPath, std::string geo
 
 	// Clean up expanded source
 	CleanUp();
+
+	// Bind Uniform Buffer Objects
+	BindUniformBufferBlockIndices();
 }
 
 Shader::~Shader()
@@ -205,6 +209,14 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 		this->SetUniform("viewPos", renderCam.GetPosition());
 
 //		delete light;
+	}
+}
+
+void Shader::BindUniformBufferBlockIndices()
+{
+	for (UniformBuffer& ubo : Chroma::Render::GetUniformBufferObjects())
+	{
+		ubo.BindUniformBlockIndex(*this);
 	}
 }
 

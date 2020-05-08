@@ -25,6 +25,9 @@ namespace Chroma
 	// Graphics Debug
 	IFramebuffer* Render::m_GraphicsDebugBuffer;
 
+	// Uniform Buffer Objects
+	std::vector<UniformBuffer> Render::m_UniformBufferObjects;
+
 	// Buffer Textures
 	// - positions
 	unsigned int Render::m_WSPositions;
@@ -118,6 +121,20 @@ namespace Chroma
 		}
 	}
 
+	void Render::GenerateUniformBufferObjects()
+	{
+		// Camera View and Projection Matrices
+		UniformBuffer cameraUBO("CameraMatrices");
+		m_UniformBufferObjects.push_back(cameraUBO);
+	}
+
+	void Render::UpdateUniformBufferObjects()
+	{
+		for (UniformBuffer& ubo : m_UniformBufferObjects)
+			ubo.Update();
+
+	}
+
 	void Render::Init()
 	{
 		// Enabling Render Features
@@ -135,6 +152,9 @@ namespace Chroma
 		// enabled srgb framebuffers
 		//glEnable(GL_FRAMEBUFFER_SRGB);
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
+
+		// Uniform Buffer Objects
+		GenerateUniformBufferObjects();
 
 		// Buffer Textures
 		GenerateBufferTextures();
@@ -155,6 +175,10 @@ namespace Chroma
 	void Render::RenderScene()
 	{
 		CHROMA_PROFILE_FUNCTION();
+
+		// Update UBOs
+		UpdateUniformBufferObjects();
+
 		// Shadows
 		static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
 

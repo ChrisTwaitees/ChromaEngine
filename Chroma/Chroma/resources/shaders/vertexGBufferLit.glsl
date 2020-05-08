@@ -23,8 +23,9 @@ out VS_OUT{
 const int MAX_JOINTS = #MAX_JOINTS;
 
 // UNIFORMS
-uniform mat4 projection;
-uniform mat4 view;
+//uniform mat4 projection;
+//uniform mat4 view;
+#include "util/uniformBuffers.glsl"
 uniform mat4 model;
 uniform mat4 lightSpaceMatrix;
 // skinning

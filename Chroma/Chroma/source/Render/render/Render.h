@@ -35,6 +35,7 @@ namespace Chroma
 		static IFramebuffer*& GetSSRBuffer() { return m_SSRBuffer; }
 		static IFramebuffer*& GetShadowBuffer() { return m_ShadowBuffer; }
 		static glm::mat4 GetLightSpaceMatrix();
+		static inline std::vector<UniformBuffer>& GetUniformBufferObjects() { return m_UniformBufferObjects; };
 
 		// Buffers
 		inline static unsigned int GetWSPositions() { return m_WSPositions; };
@@ -51,8 +52,6 @@ namespace Chroma
 
 		inline static unsigned int GetDepth() { return m_Depth; }
 
-		// Functions
-		static void BindShadowMaps();
 	private:
 
 		// BUFFER TEXTURES
@@ -112,9 +111,10 @@ namespace Chroma
 		// Graphics Debug Buffer
 		static IFramebuffer* m_GraphicsDebugBuffer;
 
-		
-
-
+		// Uniform Buffer Objects
+		static void GenerateUniformBufferObjects();
+		static std::vector<UniformBuffer> m_UniformBufferObjects;
+		static void UpdateUniformBufferObjects();
 
 	};
 }

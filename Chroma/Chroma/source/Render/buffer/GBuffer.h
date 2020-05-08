@@ -10,6 +10,8 @@
 #include <scene/Scene.h>
 #include <model/Model.h>
 #include <core/Core.h>
+#include <shader/UniformBuffer.h>
+
 
 
 class GBuffer : public IFramebuffer
@@ -26,6 +28,10 @@ public:
 	~GBuffer();
 
 private:
+	// TEST
+	UniformBuffer m_UBOTEST{ "Matrices" };
+	UniformBuffer m_UBOTEST2{ "Test" };
+
 	// shaders
 	const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
 	const char* vtxLightingSoure{ "resources/shaders/frameBufferVertex.glsl" };
