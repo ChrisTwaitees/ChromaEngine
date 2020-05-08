@@ -17,9 +17,6 @@
 #include <thirdperson/ThirdPersonCameraController.h>
 
 
-
-
-
 namespace Chroma
 {
 	void Editor::Init()
@@ -777,6 +774,35 @@ namespace Chroma
 		SponzaMaterialMeshComponent->SetMaterial(RedClothMaterial);
 		SponzaEntity->AddComponent(SponzaMaterialMeshComponent);
 
+
+		//green
+		Texture materialGreenAlbedo("resources/lookdev/Sponza/textures/sponza_fabric_green_diff.png");
+		materialRedAlbedo.m_Type = Texture::ALBEDO;
+
+		Material GreenClothMaterial;
+		GreenClothMaterial.SetShader(PBRShader);
+		GreenClothMaterial.AddTexture(materialGreenAlbedo);
+		GreenClothMaterial.AddTexture(materialNormal);
+
+		MeshComponent* SponzaGreenMaterialMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_cloth_green.fbx");
+		SponzaGreenMaterialMeshComponent->SetMaterial(GreenClothMaterial);
+		SponzaEntity->AddComponent(SponzaGreenMaterialMeshComponent);
+
+
+		//blue
+		Texture materialBlueAlbedo("resources/lookdev/Sponza/textures/sponza_fabric_blue_diff.png");
+		materialBlueAlbedo.m_Type = Texture::ALBEDO;
+
+		Material BlueClothMaterial;
+		BlueClothMaterial.SetShader(PBRShader);
+		BlueClothMaterial.AddTexture(materialBlueAlbedo);
+		BlueClothMaterial.AddTexture(materialNormal);
+
+		MeshComponent* SponzaBlueMaterialMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_cloth_blue.fbx");
+		SponzaBlueMaterialMeshComponent->SetMaterial(BlueClothMaterial);
+		SponzaEntity->AddComponent(SponzaBlueMaterialMeshComponent);
+
+
 		// VASE GROUND
 		// flowers
 		Texture vaseGroundFlowerAlbedo("resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png");
@@ -840,6 +866,42 @@ namespace Chroma
 		GroundMeshComponent->SetMaterial(groundMat);
 		SponzaEntity->AddComponent(GroundMeshComponent);
 
+		// ARCHES
+		Texture archAlbedo("resources/lookdev/Sponza/textures_final/arch_Albedo.png");
+		archAlbedo.m_Type = Texture::ALBEDO;
+		Texture archNormal("resources/lookdev/Sponza/textures_final/arch_Normal.jpg");
+		archNormal.m_Type = Texture::NORMAL;
+		Texture archMetRoughAO("resources/lookdev/Sponza/textures_final/arch_MetRoughAO.jpg");
+		archMetRoughAO.m_Type = Texture::METROUGHAO;
+
+		Material archMat;
+		archMat.AddTexture(archAlbedo);
+		archMat.AddTexture(archNormal);
+		archMat.AddTexture(archMetRoughAO);
+
+		// Mesh component
+		MeshComponent* ArchMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_arches.fbx");
+		ArchMeshComponent->SetMaterial(archMat);
+		SponzaEntity->AddComponent(ArchMeshComponent);
+
+		// ROOF
+		Texture roofAlbedo("resources/lookdev/Sponza/textures_final/roof_Albedo.png");
+		roofAlbedo.m_Type = Texture::ALBEDO;
+		Texture roofNormal("resources/lookdev/Sponza/textures_final/roof_Normal.jpg");
+		roofNormal.m_Type = Texture::NORMAL;
+		Texture roofMetRoughAO("resources/lookdev/Sponza/textures_final/roof_MetRoughAO.jpg");
+		roofMetRoughAO.m_Type = Texture::METROUGHAO;
+
+		Material roofMat;
+		roofMat.AddTexture(roofAlbedo);
+		roofMat.AddTexture(roofNormal);
+		roofMat.AddTexture(roofMetRoughAO);
+
+		// Mesh component
+		MeshComponent* roofMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_roof.fbx");
+		roofMeshComponent->SetMaterial(roofMat);
+		SponzaEntity->AddComponent(roofMeshComponent);
+
 		// WALLS
 		Texture wallsAlbedo("resources/lookdev/Sponza/textures_final/bricks_Albedo.png");
 		wallsAlbedo.m_Type = Texture::ALBEDO;
@@ -857,6 +919,24 @@ namespace Chroma
 		MeshComponent* WallsMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_walls.fbx");
 		WallsMeshComponent->SetMaterial(wallsMat);
 		SponzaEntity->AddComponent(WallsMeshComponent);
+
+		// COLUMNS
+		Texture columnAAlbedo("resources/lookdev/Sponza/textures_final/columnA_Albedo.png");
+		columnAAlbedo.m_Type = Texture::ALBEDO;
+		Texture columnANormal("resources/lookdev/Sponza/textures_final/columnA_Normal.jpg");
+		columnANormal.m_Type = Texture::NORMAL;
+		Texture columnAMetRoughAO("resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg");
+		columnAMetRoughAO.m_Type = Texture::METROUGHAO;
+
+		Material columnAMat;
+		columnAMat.AddTexture(columnAAlbedo);
+		columnAMat.AddTexture(columnANormal);
+		columnAMat.AddTexture(columnAMetRoughAO);
+
+		// Mesh component
+		MeshComponent* columnAMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_columns_ground.fbx");
+		columnAMeshComponent->SetMaterial(columnAMat);
+		SponzaEntity->AddComponent(columnAMeshComponent);
 
 
 	}

@@ -174,7 +174,7 @@ void GBuffer::Draw()
 	DrawGeometryPass();
 
 	// 1.5 SSAO Pass : draw SSAO in ViewSpace to be used during lighting pass
-	static_cast<SSAOBuffer*>(m_SSAOBuffer)->Draw(gViewPosition, gViewNormal);
+	static_cast<SSAOBuffer*>(m_SSAOBuffer)->Draw();
 
 	// 2. Render pass to PostFX buffer
 	m_PostFXBuffer->Bind();

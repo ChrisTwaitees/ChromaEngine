@@ -1,4 +1,5 @@
 #include "SSAOBuffer.h"
+#include <render/Render.h>
 
 float lerp(float a, float b, float f)
 {
@@ -110,7 +111,7 @@ void SSAOBuffer::ConfigureShaders()
 	SSAOBlurShader.SetUniform("offset", m_Offset);
 }
 
-void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
+void SSAOBuffer::Draw()
 {
 	// binding frame buffer and clearing color buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
@@ -121,9 +122,9 @@ void SSAOBuffer::Draw(unsigned int& gViewPosition, unsigned int& gNormal)
 	SSAOShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 	//sending textures
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, gViewPosition);
+	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetVSPositions());
 	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, gNormal);
+	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetVSNormals());
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, noiseTexture);
 	RenderQuad();
