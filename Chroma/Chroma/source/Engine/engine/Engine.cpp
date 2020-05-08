@@ -5,6 +5,7 @@ namespace Chroma
 {
 	void Engine::Update()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		// Physics
 		Chroma::Physics::Update();
 
@@ -15,6 +16,7 @@ namespace Chroma
 
 	void Engine::UpdateComponents()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		//// Animation Components
 		//Chroma::JobSystem::Execute([] {
 		//	for (UID const& ComponentUID : Chroma::Scene::GetAnimationComponentUIDs()) 
@@ -63,13 +65,17 @@ namespace Chroma
 
 	void Engine::Draw()
 	{
+		CHROMA_PROFILE_FUNCTION();
+		//if (Chroma::Scene::GetSceneState() == Chroma::Scene::kSceneBuilt)
 		Chroma::Render::RenderScene();
+
 		Chroma::UI::Draw();
 		Chroma::Screen::Update();
 	}
 
 	void Engine::Tick()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		// update time
 		Chroma::Time::Update();
 
@@ -143,6 +149,7 @@ namespace Chroma
 
 	void Engine::ProcessInput()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		// update input
 		Chroma::Input::Update();
 

@@ -29,6 +29,9 @@ int main()
 
 	while (Chroma::Screen::IsRunning())
 	{
+		// PROFILING
+		CHROMA_PROFILE_BEGIN_SESSION("Editor");
+
 		// ENGINE TICK
 		Chroma::Engine::Tick();
 		
@@ -40,6 +43,9 @@ int main()
 
 		// EDITOR TICK
 		Chroma::Editor::Tick();
+
+		// PROFILING
+		CHROMA_PROFILE_END_SESSION();
 	}
 
 	// glfw: terminate, clearing all previously allocated GLFW resources.

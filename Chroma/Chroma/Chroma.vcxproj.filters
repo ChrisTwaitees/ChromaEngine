@@ -205,6 +205,9 @@
     <Filter Include="Render\shadow">
       <UniqueIdentifier>{07258e01-09e1-4bb6-b366-98f789016afb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\profiling">
+      <UniqueIdentifier>{325d7170-2073-45e6-bd76-edeef9d14f39}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -790,6 +793,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\shadow\ShadowBuffer.h">
       <Filter>Render\shadow</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\profiling\Instrumentor.h">
+      <Filter>Engine\profiling</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

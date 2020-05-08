@@ -4,6 +4,7 @@
 
 void SSRBuffer::Draw()
 {
+	CHROMA_PROFILE_FUNCTION();
 	Bind();
 	// Bind Textures
 	// 0 VsNormals

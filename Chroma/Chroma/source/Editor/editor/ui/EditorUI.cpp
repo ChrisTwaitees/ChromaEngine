@@ -18,6 +18,7 @@ namespace Chroma
 	bool EditorUI::m_MouseIsOverViewport;
 	bool EditorUI::EditorViewportOpen;
 	bool EditorUI::m_IconsVisible;
+	bool EditorUI::m_DrawViewportGrid;
 
 	int EditorUI::m_IconSize;
 
@@ -56,6 +57,9 @@ namespace Chroma
 	float EditorUI::DebugAnimClipPos;
 	// graphics
 	bool EditorUI::m_DrawGraphicsDebugMenu;
+	// profiling 
+	bool EditorUI::m_DrawProfilerWindow;
+	bool EditorUI::m_ShowProfilerStatsOverlay;
 
 	int  EditorUI::m_GraphicsDebugSelected;
 	static const char* GraphicsDebugs[5]{ "Alebdo", "Normals", "MetRoughAO", "SSAO", "Shadows" };
@@ -69,7 +73,8 @@ namespace Chroma
 		AddUICall(ParentDockWindow);
 		// viewport
 		AddUICall(Draw3DViewportTab);
-		Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
+		if(m_DrawViewportGrid)
+			Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// content browser
 		AddUICall(DrawContentBrowser);
 		// world outliner
@@ -110,6 +115,7 @@ namespace Chroma
 		timeSpeed = 1.0f;
 		// GRAPHICS
 		m_DrawGraphicsDebugMenu = false;
+		m_DrawViewportGrid = true;
 		m_GraphicsDebugSelected = 0;
 		exposure = 1.0f;
 		gamma = 2.2f;
@@ -118,6 +124,10 @@ namespace Chroma
 		// GRAPHICS - DEBUG
 		drawPhysicsDebug = false;
 		m_DrawGraphicsDebug = false;
+
+		// PROFILING
+		m_DrawProfilerWindow = false;
+		m_ShowProfilerStatsOverlay = true;
 
 		// ANIMATION
 		// anim
@@ -629,6 +639,9 @@ namespace Chroma
 
 		if (m_DrawGraphicsDebugMenu)
 			AddUICall(DrawGraphicsDebugMenu);
+
+		if (m_DrawProfilerWindow)
+			AddUICall(DrawProfilingWindow);
 	}
 
 	void EditorUI::DrawIcons()
@@ -659,6 +672,13 @@ namespace Chroma
 #endif
 
 
+	}
+
+	void EditorUI::DrawProfilingWindow()
+	{
+		ImGui::Begin("Profiling Tools");
+
+		ImGui::End();
 	}
 
 	void EditorUI::DrawFileBrowser()
@@ -850,9 +870,13 @@ namespace Chroma
 		ImGui::Begin("Viewport", &EditorViewportOpen, m_ViewportWindowFlags);
 		{
 			// Settings
+			// Graphics
 			ImGui::Checkbox("Draw Icons", &m_IconsVisible); ImGui::SameLine();
-			if (ImGui::Button("Graphics Debug"))
-				m_DrawGraphicsDebugMenu = m_DrawGraphicsDebugMenu ? false : true;
+			ImGui::Checkbox("Draw Grid", &m_DrawViewportGrid); ImGui::SameLine();
+			if (ImGui::Button("Graphics Debug")) m_DrawGraphicsDebugMenu = m_DrawGraphicsDebugMenu ? false : true; ImGui::SameLine();
+			//Profiling
+			ImGui::Checkbox("Profiling Stats", &m_ShowProfilerStatsOverlay); ImGui::SameLine();
+			if (ImGui::Button("Profiling Window"))	ToggleBool(m_DrawProfilerWindow);
 
 			// Check if mouse hovering
 			m_MouseIsOverViewport = ImGui::IsWindowHovered();
@@ -867,9 +891,43 @@ namespace Chroma
 			}
 
 			// Set Viewport to  Render Buffer Texture
+			ImGui::BeginChild("Main3dViewport", ImVec2((float)m_ViewportWidth , (float)m_ViewportHeight), true);
+			ImVec2 p = ImGui::GetCursorScreenPos();
 			ImGui::Image((void*)(intptr_t)Chroma::Render::GetPostFXBuffer()->GetTexture(),
 				ImVec2(m_ViewportWidth, m_ViewportHeight),
 				ImVec2(0, 1), ImVec2(1, 0));
+			ImGui::EndChild();
+			// Profiler Stats
+			if (m_ShowProfilerStatsOverlay)
+			{
+				ImGui::BeginChild("Main3dViewport");
+				std::vector<std::string> debugStrings;
+
+				// FPS
+				std::string FPS("FPS : ");
+				FPS.append(std::to_string(1.0 / DELTATIME));
+				debugStrings.push_back(FPS);
+
+				// DeltaTime
+				std::string DeltaTime("Delta Time : ");
+				DeltaTime.append(std::to_string(DELTATIME));
+				debugStrings.push_back(DeltaTime);
+				// Game Time
+				std::string GameTime("Game Time : ");
+				GameTime.append(std::to_string(GAMETIME));
+				debugStrings.push_back(GameTime);
+				
+				for (unsigned int i =0 ; i < debugStrings.size() ; i ++)
+				{
+					ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize() * 1.25, ImVec2(p.x + 10, p.y + (i* ImGui::GetFontSize() * 1.25 + 5)), IM_COL32(255, 255, 255, 255), debugStrings[i].c_str(), NULL, 0.0f);
+
+				}
+				ImGui::EndChild();
+			}
+
+
+
+
 
 			// Set prev attrs
 			m_PrevViewportHeight = m_ViewportHeight;

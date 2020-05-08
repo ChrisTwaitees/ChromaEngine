@@ -429,6 +429,7 @@
     <ClInclude Include="source\Engine\component\animation\IKAnimConstraint.h" />
     <ClInclude Include="source\Engine\component\CharacterPhysicsComponent.h" />
     <ClInclude Include="source\Engine\component\StateMachineComponent.h" />
+    <ClInclude Include="source\Engine\profiling\Instrumentor.h" />
     <ClInclude Include="source\Engine\serialization\formats\JSONDeserializer.h" />
     <ClInclude Include="source\Engine\serialization\formats\JSONSerializer.h" />
     <ClInclude Include="source\Engine\serialization\IDeserializer.h" />

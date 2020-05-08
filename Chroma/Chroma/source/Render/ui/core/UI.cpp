@@ -1,10 +1,12 @@
 #include "UI.h"
+#include <render/Render.h>
 
 
 namespace Chroma
 {
 	// locals
-	std::vector<void(*)() > UI::m_UICalls;
+	std::vector<std::function<void()>> UI::m_UICalls;
+	//std::vector<std::function<void()> > UI::m_TextOverlayCalls;
 
 	// FileBrowser
 	std::string UI::m_FileBrowserKey;
@@ -54,11 +56,6 @@ namespace Chroma
 		DrawUICalls();
 
 		End();
-	}
-
-	void UI::AddUICall(void(*UICall)())
-	{
-		m_UICalls.push_back(UICall);
 	}
 
 
@@ -132,13 +129,15 @@ namespace Chroma
 
 	void UI::DrawUICalls()
 	{
-		for (void(*uiCall)()  : m_UICalls)
+
+		for (auto& m_UICall : m_UICalls)
 		{
-			uiCall();
+			m_UICall();
 		}
 
 		// Clear buffered calls once complete
 		m_UICalls.clear();
+
 	}
 
 }

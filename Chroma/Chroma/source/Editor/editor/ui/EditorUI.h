@@ -40,8 +40,10 @@ namespace Chroma
 		// viewport
 		static void Draw3DViewportTab();
 		static void DrawGraphicsDebugMenu();
-
 		static void DrawIcons();
+		// profiling
+		static void DrawProfilingWindow();
+		// utils
 		static void DrawFileBrowser();
 
 		// Viewport Functions
@@ -68,6 +70,10 @@ namespace Chroma
 		static float DebugAnimClipPos;
 		// graphics
 		static bool m_DrawGraphicsDebugMenu;
+		static bool m_DrawViewportGrid;
+		// profiling
+		static bool m_DrawProfilerWindow;
+		static bool m_ShowProfilerStatsOverlay;
 
 		static void ToggleBool(bool& toToggle);
 

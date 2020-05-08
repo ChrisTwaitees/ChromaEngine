@@ -1,3 +1,4 @@
+#ifndef EDITOR
 //common
 #include <common/PrecompiledHeader.h>
 
@@ -15,11 +16,10 @@
 #include <thirdperson/ThirdPersonCharacterController.h>
 #include <thirdperson/ThirdPersonCameraController.h>
 
-#ifdef EDITOR
+
+
+
 int main2()
-#else
-int main2()
-#endif
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();
@@ -371,3 +371,5 @@ int main2()
 	Chroma::Screen::Close();
 	return 0;
 }
+
+#endif

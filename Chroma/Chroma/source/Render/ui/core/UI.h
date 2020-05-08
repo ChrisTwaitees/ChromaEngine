@@ -21,12 +21,18 @@ namespace Chroma
 		static void Init();
 		static void Draw();
 
-		static void AddUICall(void (*UICall)());
+		template<typename Fn>
+		static void AddUICall(Fn func)
+		{
+			m_UICalls.push_back(func);
+		}
+
 
 		// graphics
 		static bool m_Bloom;
 		static bool m_DrawGraphicsDebug;
 		static int m_GraphicsDebugSelected;
+		
 
 		inline static void SetSelectedEntityName(std::string const& newEntity) { };
 
@@ -44,7 +50,8 @@ namespace Chroma
 		static void End();
 		static void DrawUICalls();
 
-		static std::vector<void(*)() > m_UICalls;
+
+		static std::vector<std::function<void()>> m_UICalls;
 
 		static std::string m_FileBrowserKey;
 		static std::string m_FilePathName;

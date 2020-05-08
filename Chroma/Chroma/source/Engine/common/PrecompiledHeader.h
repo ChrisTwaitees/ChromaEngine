@@ -53,3 +53,4 @@
 // Logging
 #include <logging/Log.h>
 #include <types/Types.h>
+#include <profiling/Instrumentor.h>

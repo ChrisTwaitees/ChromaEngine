@@ -49,24 +49,28 @@ namespace Chroma
 
 	void Render::RenderDefferedComponents()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		// DEFFERED BUFFER
 		m_GBuffer->Draw();
 	}
 
 	void Render::RenderForwardComponents()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		// FORWARD BUFFER
 		m_ForwardBuffer->Draw();
 	}
 
 	void Render::RenderDebug()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		// DEBUG BUFFER
 		m_DebugBuffer->Draw();
 	}
 
 	void Render::RenderPostFX()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		// SSR
 		m_SSRBuffer->Draw();
 
@@ -150,6 +154,7 @@ namespace Chroma
 
 	void Render::RenderScene()
 	{
+		CHROMA_PROFILE_FUNCTION();
 		// Shadows
 		static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
 

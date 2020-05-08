@@ -37,7 +37,7 @@ private:
 
 	// Textures
 	void BuildCSMTextureArray();
-	unsigned int m_NumCascadeSplits{4};
+	unsigned int m_NumCascadeSplits{2};
 	unsigned int m_CascadedTexureArray;
 	
 	// Dimensions

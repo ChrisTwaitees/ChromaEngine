@@ -182,9 +182,9 @@ vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 	// calculate PBR diffuse and specular components
 	vec4 lighting = PBRLighting(radiance, normal, H, viewDir, L, albedo, metalness, roughness);
 	// shadows
-	float shadow = ShadowCascadeCalculation(FragPosLightSpace, shadowmap, 0, normal, L);
+//	float shadow = ShadowCascadeCalculation(FragPosLightSpace, shadowmap, 0, normal, L);
 	// return 
-	return vec4((1.0 - shadow) * lighting);
+	return vec4(lighting);
 }
 // ----------------------------------------------------------------------------
 // FresnelSchlickRougness

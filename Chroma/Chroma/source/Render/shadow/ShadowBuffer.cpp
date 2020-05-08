@@ -177,6 +177,7 @@ void ShadowBuffer::ResizeBuffers()
 
 void ShadowBuffer::DrawShadowMaps()
 {
+	CHROMA_PROFILE_FUNCTION();
 	// Calc light Space Matrices
 	CalculateCascadeLightSpaceMatrices();
 	

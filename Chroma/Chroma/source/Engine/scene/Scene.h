@@ -23,6 +23,10 @@ namespace Chroma
 		static void PostSceneBuild();
 		static void PreSceneBuild();
 
+		// States
+		enum SceneState {kSceneNotBuilt, kSceneIsBuilding, kSceneBuilt, kSceneIsAdding, kSceneIsRemoving, kSceneIsLoading, kSceneIsSaving, kSceneIsInitializing};
+		static inline SceneState GetSceneState() { return m_SceneState; };
+
 		// ENTITIES
 		// funcs
 		static float GetEntityDistanceToCamera(UID const& UID);
@@ -148,14 +152,11 @@ namespace Chroma
 		static std::chrono::steady_clock::time_point m_SceneBuildEndTime;
 
 		// Scene State
-		enum SceneState {kSceneNotBuilt, kSceneIsBuilding, kSceneBuilt, kSceneIsAdding, kSceneIsRemoving, kSceneIsLoading, kSceneIsSaving, kSceneIsInitializing};
 		static SceneState m_SceneState;
 	};
 
 #define SCENE_TEMPSTATE(...)		SceneState prevState = m_SceneState; m_SceneState = (__VA_ARGS__);
 #define SCENE_RESETSTATE			m_SceneState = prevState;
 }
-
-
 
 #endif
