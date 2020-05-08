@@ -18,8 +18,8 @@ public:
 	void SetNumCascadeSplits(unsigned int const& newNumSplits) { m_NumCascadeSplits = newNumSplits; BuildCSMTextureArray(); };
 
 	// getters and setters
-	glm::mat4 GetLightSpaceMatrix() { return m_LightSpaceMatrix; };
-	unsigned int GetTexture() override { return 0; }
+	glm::mat4 GetLightSpaceMatrix() { return m_CascadeLightSpaceMatrices[0]; };
+	unsigned int GetTexture() override { return m_CascadedTexureArray; }
 
 	// calculate shadows
 	void DrawShadowMaps();
@@ -33,7 +33,7 @@ private:
 	unsigned int m_CascadeShadowFBO;
 
 	// Resolution
-	unsigned int m_ShadowMapSize{ 2048 };
+	unsigned int m_ShadowMapSize{ 4096 };
 
 	// Textures
 	void BuildCSMTextureArray();

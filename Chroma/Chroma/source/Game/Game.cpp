@@ -6,7 +6,7 @@
 #include <entity/Entity.h>
 #include <terrain/Terrain.h>
 #include <component/AnimationComponent.h>
-#include <component/CharacterPhysicsComponent.h>
+#include <component/PhysicsComponent.h>
 #include <model/SkinnedMesh.h>
 #include <bipedal/BipedalAnimationStateMachine.h>
 #include <component/animation/IKAnimConstraint.h>
@@ -123,7 +123,7 @@ int main2()
 	AnimModelMeshComponent->SetIsDoubleSided(true);
 	AnimModelEntity->AddComponent(AnimModelMeshComponent);
 	// rigid
-	PhysicsComponent* AnimModelRigidComponent = new CharacterPhysicsComponent();
+	PhysicsComponent* AnimModelRigidComponent = new PhysicsComponent();
 	AnimModelRigidComponent->SetColliderShape(ColliderShape::Capsule);
 	AnimModelRigidComponent->SetCollisionState(ColliderState::Kinematic);
 	AnimModelEntity->AddComponent(AnimModelRigidComponent);
@@ -313,24 +313,24 @@ int main2()
 	};
 
 	
-	for (int i =0; i < 5; i++ )
-	{
-		IEntity* SphereEntity = new Entity;
-		Chroma::Scene::AddEntity(SphereEntity);
-		SphereEntity->SetName("Sphere");
-		MeshComponent* SphereMeshComponent = new SpherePrimitive();
-		PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
-		SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
-		SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
-		SphereRigidComponent->SetMass(1.0f);
-		SphereRigidComponent->SetFriction(3.0f);
-		//SphereMeshComponent->AddTexture(sandyNormal);
-		SphereMeshComponent->AddTexture(greyAlbedo);
-		SphereMeshComponent->SetShader(PBRShader);
-		SphereEntity->SetTranslation(spherePositions[i]);
-		SphereEntity->AddComponent(SphereMeshComponent);
-		SphereEntity->AddComponent(SphereRigidComponent);
-	}
+	//for (int i =0; i < 5; i++ )
+	//{
+	//	IEntity* SphereEntity = new Entity;
+	//	Chroma::Scene::AddEntity(SphereEntity);
+	//	SphereEntity->SetName("Sphere");
+	//	MeshComponent* SphereMeshComponent = new SpherePrimitive();
+	//	PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
+	//	SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
+	//	SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
+	//	SphereRigidComponent->SetMass(1.0f);
+	//	SphereRigidComponent->SetFriction(3.0f);
+	//	//SphereMeshComponent->AddTexture(sandyNormal);
+	//	SphereMeshComponent->AddTexture(greyAlbedo);
+	//	SphereMeshComponent->SetShader(PBRShader);
+	//	SphereEntity->SetTranslation(spherePositions[i]);
+	//	SphereEntity->AddComponent(SphereMeshComponent);
+	//	SphereEntity->AddComponent(SphereRigidComponent);
+	//}
 
 
 	Chroma::Scene::PostSceneBuild();

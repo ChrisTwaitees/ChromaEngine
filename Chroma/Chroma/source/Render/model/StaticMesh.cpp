@@ -97,7 +97,6 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 
 	// updating shader's texture uniforms
 	unsigned int diffuseNr{ 1 };
-	unsigned int shadowmapNr{ 1 };
 	unsigned int normalNr{ 1 };
 	unsigned int roughnessNr{ 1 };
 	unsigned int metalnessNr{ 1 };
@@ -178,6 +177,10 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 		shader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetLightSpaceMatrix());
 		// Set PBR Lighting Texture Uniforms
 		UpdatePBRLightingTextureUniforms(shader);
+		// Shadows
+		glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 4);
+		shader.SetUniform("shadowmap", GetNumTextures() + 4);
+		glBindTexture(GL_TEXTURE_2D_ARRAY, static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetTexture());
 	}
 	if (m_Material.GetUsesSceneNoise())
 	{

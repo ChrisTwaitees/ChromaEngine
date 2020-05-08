@@ -42,9 +42,9 @@ void main()
     //result = pow(result, vec3(1.0 / 2.2));
 
 	// TEST
-	//vec4 SSR = texture(ssr, TexCoords);
-    //FragColor = vec4(hdrColor, 1.0) + texture(scene, SSR.rg) * SSR.aaaa;
-	FragColor = vec4(hdrColor, 1.0) ;
+	vec4 SSR = texture(ssr, TexCoords);
+    FragColor = vec4(hdrColor, 1.0) + texture(scene, SSR.rg) * SSR.aaaa;
+	//FragColor = vec4(hdrColor, 1.0) ;
 	// FINAL
     //FragColor = vec4(hdrColor, 1.0);
 	

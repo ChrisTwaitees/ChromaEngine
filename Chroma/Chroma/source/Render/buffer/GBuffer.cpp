@@ -91,7 +91,7 @@ void GBuffer::BindGBufferTextures()
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetFragPosLightSpace());
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, Chroma::Render::GetShadowBuffer()->GetTexture());
+	glBindTexture(GL_TEXTURE_2D_ARRAY, Chroma::Render::GetShadowBuffer()->GetTexture());
 	glActiveTexture(GL_TEXTURE6);
 	glBindTexture(GL_TEXTURE_2D, m_SSAOBuffer->GetTexture());
 	glActiveTexture(GL_TEXTURE7);
@@ -108,7 +108,6 @@ void GBuffer::BindGBufferTextures()
 void GBuffer::SetLightingUniforms()
 {
 	m_lightingPassShader.SetLightingUniforms(*Chroma::Scene::GetRenderCamera());
-	m_lightingPassShader.SetUniform("ambient", Chroma::Scene::GetAmbientColor());
 }
 
 

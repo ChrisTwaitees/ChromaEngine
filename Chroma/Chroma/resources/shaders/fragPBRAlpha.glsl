@@ -18,11 +18,7 @@ in VS_OUT {
 #define NR_SPOT_LIGHTS 1
 
 // SHADOWMAPS
-struct ShadowMap
-{
-	sampler2D shadowmap1;
-};
-
+uniform sampler2DArray shadowmap;
 // UNIFORMS
 // Texture Checks
 uniform bool UseAlbedoMap;
@@ -38,8 +34,6 @@ uniform float metalness;
 #include "util/materialStruct.glsl"
 uniform Material material;
 
-uniform ShadowMap shadowmaps;
-
 // UNIFORMS
 uniform vec3 viewPos;
 //IBL
@@ -52,8 +46,8 @@ uniform DirLight dirLights[NR_DIR_LIGHTS];
 uniform SpotLight spotLights[NR_SPOT_LIGHTS];
 
 // Lighting Functions
-vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
-vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2D shadowmap);
+vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap);
+vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap);
 vec3 CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao, float shadows);
 
 void main()
@@ -97,10 +91,10 @@ void main()
 	vec3 viewDir = normalize(viewPos - fs_in.FragPos);
 	// Directional Lights
 	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo.rgb, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmaps.shadowmap1);
+		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo.rgb, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
 	// Point Lights
 	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
-		Lo += CalcPointLight(pointLights[i], Normal, viewDir, fs_in.FragPos, Albedo.rgb, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmaps.shadowmap1);
+		Lo += CalcPointLight(pointLights[i], Normal, viewDir, fs_in.FragPos, Albedo.rgb, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
 
 	// AMBIENT
 	//------------------------------------------------------------------------

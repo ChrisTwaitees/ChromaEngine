@@ -12,6 +12,8 @@
 
 #include <entity/Entity.h>
 #include <model/SkinnedMesh.h>
+#include <model/BoxPrimitive.h>
+#include <model/SpherePrimitive.h>
 
 
 
@@ -157,6 +159,31 @@ int main()
 		//LookDevPhysicsComponent->SetColliderShape(Box);
 		//LookDevPhysicsComponent->SetCollisionState(Kinematic);
 		//lookDevEntity->AddComponent(LookDevPhysicsComponent);
+	}
+
+
+	for (unsigned int i = 0; i < 50; i++)
+	{
+		IEntity* lookDevEntity = new Entity;
+		lookDevEntity->SetName("LookDev Sphere : " + std::to_string(i));
+		Chroma::Scene::AddEntity(lookDevEntity);
+		//lookDevEntity->SetScale(glm::vec3(0.1f));
+
+		lookDevEntity->SetTranslation(glm::vec3(i, 1, i));
+		// mesh component
+		if (i % 2)
+		{
+			MeshComponent* lookDevMeshComponent = new SpherePrimitive();
+			lookDevMeshComponent->SetMaterial(testMat);
+			lookDevEntity->AddComponent(lookDevMeshComponent);
+		}
+		else
+		{
+			MeshComponent* lookDevMeshComponent = new BoxPrimitive();
+			lookDevMeshComponent->SetMaterial(testMat);
+			lookDevEntity->AddComponent(lookDevMeshComponent);
+		}
+
 	}
 
 

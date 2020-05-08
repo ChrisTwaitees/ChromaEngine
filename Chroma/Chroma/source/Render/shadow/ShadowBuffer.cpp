@@ -186,13 +186,7 @@ void ShadowBuffer::DrawShadowMaps()
 	glViewport(0, 0, m_ShadowMapSize, m_ShadowMapSize);
 
 
-	// calculate LightSpaceMatrix
-	float near_plane = 0.01f, far_plane = 50.0f;
-	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
-	glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetSunLight()->GetDirection() * -15.0f,
-		glm::vec3(0.0),
-		glm::vec3(0.0f, 1.0f, 0.0f));
-	m_LightSpaceMatrix = lightProjection * lightView;
+
 
 	// Set gl depth settings
 	glEnable(GL_DEPTH_TEST);
@@ -208,10 +202,21 @@ void ShadowBuffer::DrawShadowMaps()
 
 		// Set up depth shader
 		m_DepthShader.Use();
-		//if(i == 0)
+		//if (i == 0)
+		//{
+		//	//calculate LightSpaceMatrix
+		//	float near_plane = 0.01f, far_plane = 50.0f;
+		//	glm::mat4 lightProjection = glm::ortho(-15.0f, 15.0f, -15.0f, 15.0f, near_plane, far_plane);
+		//	glm::mat4 lightView = glm::lookAt(Chroma::Scene::GetSunLight()->GetDirection() * -15.0f,
+		//		glm::vec3(0.0),
+		//		glm::vec3(0.0f, 1.0f, 0.0f));
+		//	m_LightSpaceMatrix = lightProjection * lightView;
 		//	m_DepthShader.SetUniform("lightSpaceMatrix", m_LightSpaceMatrix);
-		//else
-			m_DepthShader.SetUniform("lightSpaceMatrix", m_CascadeLightSpaceMatrices[i]);
+		//	m_CascadeLightSpaceMatrices[i] = m_LightSpaceMatrix;
+
+		//}
+		
+		m_DepthShader.SetUniform("lightSpaceMatrix", m_CascadeLightSpaceMatrices[i]);
 		//m_DepthShader.SetUniform("lightSpaceMatrix", m_CascadeLightSpaceMatrices[0]);
 
 		// render scene
@@ -232,13 +237,13 @@ void ShadowBuffer::DrawShadowMaps()
 	// Reset back to previous render settings
 	glDisable(GL_DEPTH_CLAMP);
 	glCullFace(GL_BACK); // reset to original culling mode
+	glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 	UnBind();
 
 	//// TEST
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	//// Reset back to Screen Resolution
-	//glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
 	//m_ScreenShader->Use();
 
 	//if(Chroma::Input::IsPressed(Chroma::Input::NUM0))
