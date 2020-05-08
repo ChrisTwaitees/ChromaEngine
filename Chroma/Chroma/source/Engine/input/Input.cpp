@@ -27,6 +27,9 @@ namespace Chroma
 	float Input::m_ControllerLeftBumper;
 	float Input::m_ControllerRightBumper;
 
+	// Keyboard
+	bool Input::m_KeyPressedThisFrame{ false };
+
 	// Mouse
 	bool   Input::m_CursorEnabled;
 
@@ -216,6 +219,11 @@ namespace Chroma
 		return false;
 	}
 
+	bool Input::GetKeyPressedThisFrame()
+	{
+		return false;
+	}
+
 	void Input::Update()
 	{
 		// Should Close?
@@ -230,6 +238,11 @@ namespace Chroma
 		// Camera
 		UpdateCamera();
 
+	}
+
+	bool Input::GetMouseMovedThisFrame()
+	{
+		return m_MouseXYOffset.x != 0.0 || m_MouseXYOffset.y != 0.0;
 	}
 
 	void Input::ToggleCursorEnabledState()

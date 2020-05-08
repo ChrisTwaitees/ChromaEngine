@@ -23,6 +23,8 @@ public:
 	inline void SetPosition(const glm::vec3& newPosition) { m_CameraPosition = newPosition; UpdateViewMatrix(); }
 	inline glm::vec3 GetDirection() const { return m_CameraDirection; };
 	inline void SetDirection(const glm::vec3& newDirection) { m_CameraDirection = newDirection; UpdateViewMatrix(); }
+	inline glm::vec3 GetVelocity() const { return m_CamVelocity; };
+	inline bool GetChangedThisFrame() const { return m_ChangedThisFrame; };
 	// matrices
 	inline glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; };
 	inline glm::mat4 GetViewMatrix() const { return m_ViewMatrix; };
@@ -48,7 +50,12 @@ public:
 	~Camera() { delete m_MayaCamController; delete m_FlyCamController; if (m_CustomCameraController != nullptr) { delete m_CustomCameraController; } };
 protected:
 	// Camera Attrs
+	glm::vec3 m_PrevCameraPosition{ glm::vec3(0.0) };
 	glm::vec3 m_CameraPosition{ glm::vec3(0.0, 10.0, 30.0) };
+	glm::vec3 m_CamVelocity{ glm::vec3(0.0) };
+
+	bool m_ChangedThisFrame{ false };
+
 	glm::vec3 m_CameraUp{ CHROMA_UP };
 	glm::vec3 m_CameraDirection{ CHROMA_BACK };
 

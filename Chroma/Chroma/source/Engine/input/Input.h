@@ -35,6 +35,7 @@ namespace Chroma
 			SHARE, TOUCHPAD
 		};
 		bool static IsPressed(Key KeySelection);
+		bool static GetKeyPressedThisFrame();
 
 		//  functions
 		static void Init();
@@ -42,6 +43,8 @@ namespace Chroma
 
 		// getters and setters
 		// MOUSE
+		// has moved
+		static bool GetMouseMovedThisFrame();
 		// mouse xy
 		inline static glm::vec2 GetMouseXY() { return glm::vec2(m_MouseX, m_MouseY); }
 		inline static glm::vec2 GetMouseXYOffset() { return m_MouseXYOffset; }
@@ -92,6 +95,9 @@ namespace Chroma
 
 		static int m_ScreenWidth, m_ScreenHeight;
 		static void m_MousePickerCallback();
+
+		// KEYBOARD
+		static bool m_KeyPressedThisFrame;
 
 		// CONTROLLER
 		static bool m_ControllerEnabled;

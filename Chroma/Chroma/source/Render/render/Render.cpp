@@ -130,8 +130,11 @@ namespace Chroma
 
 	void Render::UpdateUniformBufferObjects()
 	{
-		for (UniformBuffer& ubo : m_UniformBufferObjects)
-			ubo.Update();
+		if (Chroma::Scene::GetRenderCamera()->GetChangedThisFrame())
+		{
+			for (UniformBuffer& ubo : m_UniformBufferObjects)
+				ubo.Update();
+		}
 
 	}
 

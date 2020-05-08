@@ -19,8 +19,7 @@ out VS_OUT{
 vec4 localPosition;
 
 // UNIFORMS
-uniform mat4 projection;
-uniform mat4 view;
+#include "util/uniformBuffers.glsl"
 uniform mat4 model;
 uniform mat4 lightSpaceMatrix;
 // Vegetation Features

@@ -208,6 +208,9 @@
     <Filter Include="Engine\profiling">
       <UniqueIdentifier>{325d7170-2073-45e6-bd76-edeef9d14f39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\ubo">
+      <UniqueIdentifier>{85f86dde-0dbd-47dd-9613-a189edd8cbbe}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -492,8 +495,8 @@
     <ClCompile Include="source\Render\shadow\ShadowBuffer.cpp">
       <Filter>Render\shadow</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\shader\UniformBuffer.cpp">
-      <Filter>Render\shader</Filter>
+    <ClCompile Include="source\Render\ubo\UniformBuffer.cpp">
+      <Filter>Render\ubo</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -800,8 +803,8 @@
     <ClInclude Include="source\Engine\profiling\Instrumentor.h">
       <Filter>Engine\profiling</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\shader\UniformBuffer.h">
-      <Filter>Render\shader</Filter>
+    <ClInclude Include="source\Render\ubo\UniformBuffer.h">
+      <Filter>Render\ubo</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

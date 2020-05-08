@@ -11,8 +11,6 @@ public:
 	~UniformBuffer() {};
 
 	void BindUniformBlockIndex(const Shader& shaderToBind);
-
-	void AppendVec3(const glm::vec3& newVec3);
 	void Update();
 
 private:

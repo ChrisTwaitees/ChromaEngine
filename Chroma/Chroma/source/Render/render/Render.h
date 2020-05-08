@@ -13,6 +13,7 @@
 #include <buffer/SSRBuffer.h>
 #include <shadow/ShadowBuffer.h>
 #include <jobsystem/JobSystem.h>
+#include <ubo/UniformBuffer.h>
 
 namespace Chroma
 {
