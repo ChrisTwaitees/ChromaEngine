@@ -419,6 +419,7 @@
     <ClCompile Include="source\Scenes\ForestScene.cpp" />
     <ClCompile Include="source\Scenes\Human.cpp" />
     <ClCompile Include="source\Scenes\LookDevScene.cpp" />
+    <ClCompile Include="source\Render\shader\UniformBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
@@ -522,6 +523,7 @@
     <ClInclude Include="source\Render\texture\HDRTexture.h" />
     <ClInclude Include="source\Render\ui\core\UI.h" />
     <ClInclude Include="source\Render\ui\uicomponents\Icon.h" />
+    <ClInclude Include="source\Render\shader\UniformBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl" />

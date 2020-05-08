@@ -492,6 +492,9 @@
     <ClCompile Include="source\Render\shadow\ShadowBuffer.cpp">
       <Filter>Render\shadow</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\shader\UniformBuffer.cpp">
+      <Filter>Render\shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -796,6 +799,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\profiling\Instrumentor.h">
       <Filter>Engine\profiling</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\shader\UniformBuffer.h">
+      <Filter>Render\shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
