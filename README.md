@@ -24,4 +24,4 @@ Basic Bullet Physics Implementation.
 Skeletal Animation.
 
 ## Editor
-![](resources/)
+![](Chroma/Chroma/resources/textures/editor/ChromaEditor_00.png)
