@@ -17,6 +17,10 @@ namespace Chroma
 		std::string Name;
 		long long Start, End;
 		uint32_t ThreadID;
+		float GetMS()
+		{
+			return (float)(End - Start) / 1000.0f;
+		}
 	};
 
 	struct InstrumentationSession

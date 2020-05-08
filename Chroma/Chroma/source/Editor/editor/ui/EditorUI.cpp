@@ -678,6 +678,11 @@ namespace Chroma
 	{
 		ImGui::Begin("Profiling Tools");
 
+		for (Chroma::ProfileResult& result : Chroma::Instrumentor::Get().GetProfileResults())
+		{
+			ImGui::Text("%f ms : %s", result.GetMS(), result.Name.c_str());
+		}
+
 		ImGui::End();
 	}
 
