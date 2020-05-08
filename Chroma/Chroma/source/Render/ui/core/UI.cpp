@@ -82,6 +82,31 @@ namespace Chroma
 		}
 	}
 
+	void UI::DrawProfilingWindow()
+	{
+		ImGui::Begin("Profiling Tools");
+
+		// Frame Stats
+		ImGui::Separator();
+		ImGui::Text("Frame Stats");
+		ImGui::Separator(); 
+		ImGui::Text("FPS : %f", 1.0 / DELTATIME);
+		ImGui::Text("Delta Time : %f", DELTATIME);
+		ImGui::Text("Game Time : %f", GAMETIME);
+
+		// Func Calls
+		ImGui::Separator();
+		ImGui::Text("Func Calls");
+		ImGui::Separator();
+
+		for (Chroma::ProfileResult& result : Chroma::Instrumentor::Get().GetProfileResults())
+		{
+			ImGui::Text("%f ms : %s", result.GetMS(), result.Name.c_str());
+		}
+
+		ImGui::End();
+	}
+
 	void UI::DrawColorPicker(glm::vec3& color)
 	{
 		ImVec4 tempColor(color.x, color.y, color.z, 1.0);

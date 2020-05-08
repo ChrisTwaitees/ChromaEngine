@@ -41,8 +41,6 @@ namespace Chroma
 		static void Draw3DViewportTab();
 		static void DrawGraphicsDebugMenu();
 		static void DrawIcons();
-		// profiling
-		static void DrawProfilingWindow();
 		// utils
 		static void DrawFileBrowser();
 

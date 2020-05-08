@@ -71,6 +71,9 @@ namespace Chroma
 		case RIGHT_ALT:
 			return glfwGetKey(Chroma::Screen::GetWindow(), GLFW_KEY_RIGHT_ALT) == GLFW_PRESS;
 			break;
+		case TAB:
+			return glfwGetKey(Chroma::Screen::GetWindow(), GLFW_KEY_TAB) == GLFW_PRESS;
+			break;
 		case SPACEBAR:
 			return glfwGetKey(Chroma::Screen::GetWindow(), GLFW_KEY_SPACE) == GLFW_PRESS;
 			break;

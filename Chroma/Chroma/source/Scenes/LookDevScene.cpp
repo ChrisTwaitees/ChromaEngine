@@ -19,7 +19,6 @@
 
 int main()
 {
-	//CHROMA_PROFILE_BEGIN_SESSION("Startup", "ChromaProfile-Startup.json");
 	// INIT CHROMA
 	Chroma::Engine::Init();
 
@@ -219,12 +218,10 @@ int main()
 	Chroma::Scene::GetRenderCamera()->SetPosition(glm::vec3(0.0, 4.0, -totalSpace * 2.5));
 
 	Chroma::Scene::PostSceneBuild();
-	//CHROMA_PROFILE_END_SESSION();
 
 
 	// RENDER LOOP
 	// -----------
-	//CHROMA_PROFILE_BEGIN_SESSION("Runtime", "ChromaProfile-Runtime.json");
 	while (Chroma::Screen::IsRunning())
 	{
 		//Sunlight Rotation	
@@ -280,7 +277,6 @@ int main()
 	// glfw: terminate, clearing all previously allocated GLFW resources.
 	// ------------------------------------------------------------------
 	Chroma::Screen::Close();
-	//CHROMA_PROFILE_END_SESSION();
 
 	return 0;
 }

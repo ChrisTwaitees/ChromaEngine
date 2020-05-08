@@ -27,6 +27,7 @@ namespace Chroma
 			m_UICalls.push_back(func);
 		}
 
+		static void ShowProfilingWindow() { AddUICall(DrawProfilingWindow); };
 
 		// graphics
 		static bool m_Bloom;
@@ -42,6 +43,7 @@ namespace Chroma
 
 		static void OpenFileBrowser(const std::string& fileBrowserName, const char* fileFilters, FileBrowserMode fileBrowserFlags = FileBrowserMode::kSceneOpen);
 		static void DrawFileBrowser();
+		static void DrawProfilingWindow();
 
 		static void DrawColorPicker(glm::vec3& color);
 		static void DrawColorPicker(glm::vec4& color);

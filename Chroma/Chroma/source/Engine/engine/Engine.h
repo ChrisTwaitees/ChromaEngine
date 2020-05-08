@@ -23,6 +23,9 @@ namespace Chroma
 		static void UpdateComponents();
 		static void ProcessInput();
 		static void Draw();
+#ifdef DEBUG
+		static bool m_DrawProfilingWindow;
+#endif
 
 	public:
 		static void Init();
