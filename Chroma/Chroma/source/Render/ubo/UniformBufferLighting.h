@@ -15,6 +15,8 @@ public:
 private:
 
 	void Setup() override;
+	unsigned int CalculateBufferSize();
+	void PopulateBufferWithSceneLights();
 };
 
 #endif // CHROMA_UNIFORMBUFFER_LIGHTING_H

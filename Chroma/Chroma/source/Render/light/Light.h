@@ -56,7 +56,7 @@ public:
 	glm::vec3 GetDirection() { return m_Direction; };
 	// getters - pointlights
 	glm::vec3 GetPosition() { return m_Position; };
-	float getIntensity() { return m_Intensity; };
+	float GetIntensity() { return m_Intensity; };
 	glm::vec3 getDiffuse() { return m_Diffuse; };
 	float getRadius() { updatePointRadius(); return m_Radius; };
 	// getters - spotlights

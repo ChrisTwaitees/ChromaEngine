@@ -102,7 +102,7 @@ namespace Chroma
 
 	glm::vec3 Scene::CalculateAmbientLightColor()
 	{
-		return m_SunLight->getDiffuse() * m_SunLight->getIntensity() * glm::vec3(.5f);
+		return m_SunLight->getDiffuse() * m_SunLight->GetIntensity() * glm::vec3(.5f);
 	}
 
 	IEntity* Scene::GetEntity(UID const& UID)

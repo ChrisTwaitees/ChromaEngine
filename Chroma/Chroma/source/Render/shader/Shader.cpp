@@ -202,7 +202,7 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 			break;
 		}
 		// lights all
-		this->SetUniform(lightIndex + ".intensity", light->getIntensity());
+		this->SetUniform(lightIndex + ".intensity", light->GetIntensity());
 		this->SetUniform(lightIndex + ".diffuse", light->getDiffuse());
 		this->SetUniform(lightIndex + ".position", light->GetPosition());
 		// lights view pos

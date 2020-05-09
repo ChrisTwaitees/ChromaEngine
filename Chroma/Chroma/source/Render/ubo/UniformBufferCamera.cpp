@@ -1,6 +1,5 @@
 #include "UniformBufferCamera.h"
 #include <scene/Scene.h>
-#include <render/Render.h>
 
 void UniformBufferCamera::Update()
 {

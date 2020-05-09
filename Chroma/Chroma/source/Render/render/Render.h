@@ -114,8 +114,11 @@ namespace Chroma
 
 		// Uniform Buffer Objects
 		static void GenerateUniformBufferObjects();
-		static std::vector<UniformBuffer*> m_UniformBufferObjects;
 		static void UpdateUniformBufferObjects();
+
+		static std::vector<UniformBuffer*> m_UniformBufferObjects;
+		static UniformBuffer* m_UBOCamera;
+		static UniformBuffer* m_UBOLighting;
 
 	};
 }

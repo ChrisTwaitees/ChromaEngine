@@ -2,6 +2,7 @@
 #include <screen/Screen.h>
 #include <Editor/ui/EditorUI.h>
 #include <ubo/UniformBufferCamera.h>
+#include <ubo/UniformBufferLighting.h>
 
 namespace Chroma
 {
@@ -27,6 +28,8 @@ namespace Chroma
 	IFramebuffer* Render::m_GraphicsDebugBuffer;
 
 	// Uniform Buffer Objects
+	UniformBuffer* Render::m_UBOCamera;
+	UniformBuffer* Render::m_UBOLighting;
 	std::vector<UniformBuffer*> Render::m_UniformBufferObjects;
 
 	// Buffer Textures
@@ -125,18 +128,20 @@ namespace Chroma
 	void Render::GenerateUniformBufferObjects()
 	{
 		// Camera View and Projection Matrices
-		UniformBuffer* uboCamera = new UniformBufferCamera();
-		m_UniformBufferObjects.push_back(uboCamera);
+		m_UBOCamera = new UniformBufferCamera();
+		m_UniformBufferObjects.push_back(m_UBOCamera);
+
+		// Lighting and Shadow Uniforms
+		m_UBOLighting = new UniformBufferLighting();
+		m_UniformBufferObjects.push_back(m_UBOLighting);
 	}
 
 	void Render::UpdateUniformBufferObjects()
 	{
 		if (Chroma::Scene::GetRenderCamera()->GetChangedThisFrame())
-		{
-			for (UniformBuffer*& ubo : m_UniformBufferObjects)
-				ubo->Update();
-		}
+			m_UBOCamera->Update();
 
+		m_UBOLighting->Update();
 	}
 
 	void Render::Init()
