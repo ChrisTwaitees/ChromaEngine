@@ -501,6 +501,9 @@
     <ClCompile Include="source\Render\ubo\UniformBufferCamera.cpp">
       <Filter>Render\ubo</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\ubo\UniformBufferLighting.cpp">
+      <Filter>Render\ubo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -810,6 +813,9 @@
       <Filter>Render\ubo</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\ubo\UniformBufferCamera.h">
+      <Filter>Render\ubo</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\ubo\UniformBufferLighting.h">
       <Filter>Render\ubo</Filter>
     </ClInclude>
   </ItemGroup>

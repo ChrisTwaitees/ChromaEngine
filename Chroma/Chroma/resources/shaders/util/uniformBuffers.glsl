@@ -1,22 +1,23 @@
-layout (std140) uniform CameraMatrices
+layout (std140) uniform CameraUBO
 {
 	mat4 projection;
 	mat4 view;
 };
 
-//layout (std140) uniform Lights
-//{
-//	int numPointLights;
-//	int numDirectionalLights;
-//	int numSpotLights;
-//};
-//
-//layout (std140) uniform Shadows
-//{
-//	int numCascades;
-//	float cascadeDistances[3];
-//	mat4 cascadeLightMatrices[3];
-//};
+layout (std140) uniform LightingUBO
+{
+	// lights
+	int numPointLights;
+	int numDirectionalLights;
+	int numSpotLights;
+
+	// shadows
+	int numCascades;
+	float cascadeDistances[3];
+	mat4 cascadeLightMatrices[3];
+};
+
+
 
 //layout (std140) uniform ExampleBlock
 //{

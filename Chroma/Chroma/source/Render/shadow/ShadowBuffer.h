@@ -11,12 +11,6 @@
 class ShadowBuffer : public IFramebuffer
 {
 public:
-	void ResizeBuffers() override;
-
-	// Cascade Splits
-	unsigned int GetNumCascadeSplits() { return m_NumCascadeSplits; };
-	void SetNumCascadeSplits(unsigned int const& newNumSplits) { m_NumCascadeSplits = newNumSplits; BuildCSMTextureArray(); };
-
 	// getters and setters
 	glm::mat4 GetLightSpaceMatrix() { return m_CascadeLightSpaceMatrices[0]; };
 	unsigned int GetTexture() override { return m_CascadedTexureArray; }
@@ -37,7 +31,6 @@ private:
 
 	// Textures
 	void BuildCSMTextureArray();
-	unsigned int m_NumCascadeSplits{2};
 	unsigned int m_CascadedTexureArray;
 	
 	// Dimensions

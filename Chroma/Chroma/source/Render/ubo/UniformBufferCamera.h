@@ -8,7 +8,7 @@ class UniformBufferCamera : public UniformBuffer
 {
 public:
 
-	UniformBufferCamera() { m_Name = "CameraMatrices"; 	Setup();};
+	UniformBufferCamera() { m_Name = "CameraUBO"; 	Setup();};
 	~UniformBufferCamera() {};
 
 	void Update() override;
