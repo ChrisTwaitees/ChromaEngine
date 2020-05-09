@@ -708,6 +708,13 @@ namespace Chroma
 			glm::vec3(3.5f,  1.2f,  2.0f),
 			glm::vec3(0.5f,  0.2f,  -2.0f),
 			glm::vec3(-3.5f,  1.2f,  4.0f),
+			glm::vec3(-4.5f,  2.2f,  4.0f),
+			glm::vec3(-5.5f,  3.2f,  4.0f),
+			glm::vec3(-6.5f,  4.2f,  4.0f),
+			glm::vec3(-7.5f,  5.2f,  4.0f),
+			glm::vec3(-7.5f,  5.2f,  4.0f),
+			glm::vec3(-7.5f,  5.2f,  4.0f)
+
 		};
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)

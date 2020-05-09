@@ -3,60 +3,127 @@
 
 void UniformBufferLighting::Update()
 {
-	//// Bind and allocate memory
-	//Bind();
-	//// Calculate the current number of lights and structs needed
-	//m_Size = CalculateBufferSize(); // view , projection and lightspace matrices
-	//glBufferData(GL_UNIFORM_BUFFER, m_Size, NULL, GL_DYNAMIC_DRAW);
-	//// Now the buffer has been resized we'll repopulate it
-	//PopulateBufferWithSceneLights();
-	//UnBind();
+	Bind();
+	PopulateBufferWithSceneLights();
+	UnBind();
 }
 
 void UniformBufferLighting::Setup()
 {
-	// Bind and allocate memory
-	Bind();
-	// Calculate the current number of lights and structs needed
-	m_Size = CalculateBufferSize();
-	glBufferData(GL_UNIFORM_BUFFER, m_Size, NULL, GL_DYNAMIC_DRAW);
-	// Set to default uniform buffer
-	UnBind();
+	// First we'll set the Lighting Struct Sizes
 
+	// NOTES
+	// GLSL treats vec3 as vec4 hence 4 * 4 byte length for vec3
+	// These are found in resources/shaders/utils/lightingStructs.glsl
+
+	// DIRECTIONAL
+	//struct DirLight
+	//{
+	//float intensity;
+	//vec3 diffuse;
+	//vec3 direction;
+	//};
+	m_DirectionalLightStructSize = 36;
+
+	// POINT  
+	//struct PointLight
+	//{
+	//float intensity;
+	//vec3 diffuse;
+	//vec3 position;
+	//// attenuation
+	//float constant;
+	//float linear;
+	//float quadratic;
+	//float radius;
+	//};
+	m_PointLightStructSize = 651651651;
+	
+	// SPOT 
+	//float intensity;
+	//vec3 diffuse;
+	//vec3 direction;
+	//vec3 position;
+	//// attenuation
+	//float constant;
+	//float linear;
+	//float quadratic;
+	//// spotlight
+	//float spotSize;
+	//float penumbraSize;
+	m_SpotLightStructSize = 561681621;
+
+	// Now we've created a buffer we'll set the size according to our 
+	// structs and number of lights, populating the buffer 
+	Bind();
+	PopulateBufferWithSceneLights();
 	// Then we need to bind the uniform buffer object to the same binding point 
 	// We've bound the shaders to
 	glBindBufferRange(GL_UNIFORM_BUFFER, m_BindingPointIndex, m_UBO, 0, m_Size);
-
-	// Now we've created a buffer with enough space we'll fill the buffer
-	Bind();
-	PopulateBufferWithSceneLights();
 	UnBind();
 
 	// Debug
 	CHROMA_INFO("Uniform Buffer Object : {} Setup.", m_Name);
 }
 
-unsigned int UniformBufferLighting::CalculateBufferSize()
-{
-	for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
-	{
-		CHROMA_INFO("LightIntensity : {}", static_cast<Light*>(Chroma::Scene::GetComponent(lightUID))->GetIntensity());
-	}
-	return 16;
-}
 
 void UniformBufferLighting::PopulateBufferWithSceneLights()
 {
+	// Calculate the current number of lights and structs needed
+
+	// DIRECTIONAL
+	int numDirectionalLights{ 0 };
+	// POINT
+	int numPointLights{ 0 };
+	// SPOT
+	int numSpotLights{ 0 };
+
 	for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 	{
-
+		Light* currentLight = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
+		switch (currentLight->type)
+		{
+		case(Light::DIRECTIONAL):
+		{
+			numDirectionalLights++;
+			break;
+		}
+		case(Light::SUNLIGHT):
+		{
+			numDirectionalLights++;
+			break;
+		}
+		case(Light::POINT):
+		{
+			numPointLights++;
+			break;
+		}
+		case(Light::SPOT):
+		{
+			numSpotLights++;
+			break;
+		}
+		default:
+		{
+			CHROMA_ERROR("Light Type {0} Not Supported!", currentLight->type);
+			break;
+		}
+		}
 	}
+	
 
-	// projection
-	//glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(glm::mat4), glm::value_ptr(Chroma::Scene::GetRenderCamera()->GetProjectionMatrix()));
-	// view
-	//glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4), sizeof(glm::mat4), glm::value_ptr(Chroma::Scene::GetRenderCamera()->GetViewMatrix()));
-	//// lightspacematrix
-	//glBufferSubData(GL_UNIFORM_BUFFER, sizeof(glm::mat4)*2, sizeof(glm::mat4), glm::value_ptr(static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetLightSpaceMatrix()));
+	// With the size updated, we'll need to resize the buffer data 
+	// and the Buffer Bind Attach Point for the shaders.
+	glBufferData(GL_UNIFORM_BUFFER, m_Size, NULL, GL_DYNAMIC_DRAW);
+	glBindBufferRange(GL_UNIFORM_BUFFER, m_BindingPointIndex, m_UBO, 0, m_Size);
+
+	// Now with the GPU memory allocated we need to fill the data
+	// numDirectionalLights
+	glBufferSubData(GL_UNIFORM_BUFFER, 0, 4, &numDirectionalLights);
+	// numPointLights
+	glBufferSubData(GL_UNIFORM_BUFFER, 4, 4, &numPointLights);
+	// numSpotLights
+	glBufferSubData(GL_UNIFORM_BUFFER, 8, 4, &numSpotLights);
+	
 
 }

@@ -568,7 +568,8 @@
     <None Include="resources\shaders\geometrySphereDebug.glsl" />
     <None Include="resources\shaders\ui\icon\frgIcon.glsl" />
     <None Include="resources\shaders\ui\icon\vtxIcon.glsl" />
-    <None Include="resources\shaders\util\uniformBuffers.glsl" />
+    <None Include="resources\shaders\util\uniformBufferCamera.glsl" />
+    <None Include="resources\shaders\util\uniformBufferLighting.glsl" />
     <None Include="resources\shaders\vertexCoordinatesDebug.glsl" />
     <None Include="resources\shaders\vertexCrossDebug.glsl" />
     <None Include="resources\shaders\vertexCubeMap.glsl" />

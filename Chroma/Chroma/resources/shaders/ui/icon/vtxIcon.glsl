@@ -5,8 +5,7 @@ layout (location = 2) in vec2 aTexCoords;
 
 // matrix uniforms
 uniform mat4 modelView;
-uniform mat4 projection;
-uniform mat4 view;
+#include "util/uniformBufferCamera.glsl"
 
 // uniforms
 uniform float scale;

@@ -15,8 +15,12 @@ public:
 private:
 
 	void Setup() override;
-	unsigned int CalculateBufferSize();
 	void PopulateBufferWithSceneLights();
+
+	// Lighting Struct Sizes
+	int m_DirectionalLightStructSize{ 0 };
+	int m_PointLightStructSize{ 0 };
+	int m_SpotLightStructSize{ 0 };
 };
 
 #endif // CHROMA_UNIFORMBUFFER_LIGHTING_H

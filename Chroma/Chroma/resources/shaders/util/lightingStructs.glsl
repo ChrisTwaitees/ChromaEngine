@@ -1,16 +1,16 @@
 // LIGHTS
 struct DirLight 
 {
-	vec3 direction;
-	vec3 diffuse;
 	float intensity;
+	vec3 diffuse;
+	vec3 direction;
 };
 
 struct PointLight
 {
-	vec3 position;
-	vec3 diffuse;
 	float intensity;
+	vec3 diffuse;
+	vec3 position;
 	// attenuation
 	float constant;
 	float linear;
@@ -20,9 +20,10 @@ struct PointLight
 
 struct SpotLight
 {
-	vec3 position;
-	vec3 direction;
 	float intensity;
+	vec3 diffuse;
+	vec3 direction;
+	vec3 position;
 	// attenuation
 	float constant;
 	float linear;
@@ -30,5 +31,4 @@ struct SpotLight
 	// spotlight
 	float spotSize;
 	float penumbraSize;
-	vec3 diffuse;
 };

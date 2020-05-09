@@ -10,8 +10,7 @@ uniform vec3 end;
 uniform float thickness;
 
 
-uniform mat4 projection;
-uniform mat4 view;
+#include "util/uniformBufferCamera.glsl"
 
 
 void main()

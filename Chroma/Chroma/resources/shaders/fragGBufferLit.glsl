@@ -15,9 +15,8 @@ uniform sampler2D SSAO;
 
 // LIGHTS
 #include "util/lightingStructs.glsl"
-#define NR_POINT_LIGHTS 3
-#define NR_DIR_LIGHTS 1
-#define NR_SPOT_LIGHTS 1
+// ubos
+#include "util/uniformBufferLighting.glsl"
 
 // UNIFORMS
 uniform vec3 viewPos;
@@ -26,9 +25,9 @@ uniform samplerCube irradianceMap;
 uniform samplerCube prefilterMap;
 uniform sampler2D   brdfLUT;
 // Lights
-uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform DirLight dirLights[NR_DIR_LIGHTS];
-uniform SpotLight spotLights[NR_SPOT_LIGHTS];
+uniform PointLight pointLights[10];
+uniform DirLight dirLights[10];
+uniform SpotLight spotLights[10];
 
 // Lighting Functions
 vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap);
@@ -56,10 +55,10 @@ void main()
 	// PBR calculates irradiance, denoted by Lo
 	vec4 Lo;
 	// Directional Lights
-	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
+	for(int i = 0; i < numDirectionalLights ; i++)
 		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
 	// Point Lights
-	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
+	for(int i = 0; i < numPointLights ; i++)
 		Lo += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
 
 	// AMBIENT
