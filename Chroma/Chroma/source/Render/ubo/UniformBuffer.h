@@ -7,18 +7,20 @@ class UniformBuffer
 {
 public:
 
-	UniformBuffer(const std::string& name) : m_Name(name) { Initialize(); };
+	UniformBuffer() { Initialize(); };
 	~UniformBuffer() {};
 
 	void BindUniformBlockIndex(const Shader& shaderToBind);
-	void Update();
+	virtual void Update() = 0;
 
-private:
+protected:
 
 	void Initialize();
 	void Bind() { glBindBuffer(GL_UNIFORM_BUFFER, m_UBO); };
 	void UnBind() { glBindBuffer(GL_UNIFORM_BUFFER, 0); };
-	
+
+	virtual void Setup() = 0;
+
 	std::string m_Name;
 	unsigned int m_UBO;
 	unsigned int m_Size{152};

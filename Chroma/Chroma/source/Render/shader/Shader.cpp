@@ -214,9 +214,9 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 
 void Shader::BindUniformBufferBlockIndices()
 {
-	for (UniformBuffer& ubo : Chroma::Render::GetUniformBufferObjects())
+	for (UniformBuffer*& ubo : Chroma::Render::GetUniformBufferObjects())
 	{
-		ubo.BindUniformBlockIndex(*this);
+		ubo->BindUniformBlockIndex(*this);
 	}
 }
 

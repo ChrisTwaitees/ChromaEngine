@@ -414,6 +414,7 @@
     <ClCompile Include="source\Render\texture\CubeMap.cpp" />
     <ClCompile Include="source\Render\texture\Texture.cpp" />
     <ClCompile Include="source\Render\texture\HDRTexture.cpp" />
+    <ClCompile Include="source\Render\ubo\UniformBufferCamera.cpp" />
     <ClCompile Include="source\Render\ui\core\UI.cpp" />
     <ClCompile Include="source\Render\ui\uicomponents\Icon.cpp" />
     <ClCompile Include="source\Scenes\ForestScene.cpp" />
@@ -521,6 +522,7 @@
     <ClInclude Include="source\Render\texture\stb_image.h" />
     <ClInclude Include="source\Render\texture\Texture.h" />
     <ClInclude Include="source\Render\texture\HDRTexture.h" />
+    <ClInclude Include="source\Render\ubo\UniformBufferCamera.h" />
     <ClInclude Include="source\Render\ui\core\UI.h" />
     <ClInclude Include="source\Render\ui\uicomponents\Icon.h" />
     <ClInclude Include="source\Render\ubo\UniformBuffer.h" />

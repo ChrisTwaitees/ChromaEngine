@@ -36,7 +36,7 @@ namespace Chroma
 		static IFramebuffer*& GetSSRBuffer() { return m_SSRBuffer; }
 		static IFramebuffer*& GetShadowBuffer() { return m_ShadowBuffer; }
 		static glm::mat4 GetLightSpaceMatrix();
-		static inline std::vector<UniformBuffer>& GetUniformBufferObjects() { return m_UniformBufferObjects; };
+		static inline std::vector<UniformBuffer*>& GetUniformBufferObjects() { return m_UniformBufferObjects; };
 
 		// Buffers
 		inline static unsigned int GetWSPositions() { return m_WSPositions; };
@@ -114,7 +114,7 @@ namespace Chroma
 
 		// Uniform Buffer Objects
 		static void GenerateUniformBufferObjects();
-		static std::vector<UniformBuffer> m_UniformBufferObjects;
+		static std::vector<UniformBuffer*> m_UniformBufferObjects;
 		static void UpdateUniformBufferObjects();
 
 	};
