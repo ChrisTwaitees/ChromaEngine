@@ -46,6 +46,14 @@ void JSONScene::AddNewComponent(ISerializer*& serialized)
 
 }
 
+void JSONScene::AddIBL(IBL* ibl)
+{
+	rapidjson::Value newIBL(rapidjson::kObjectType);
+	rapidjson::Value newIBLKey(CHROMA_IBL_KEY, m_Document.GetAllocator());
+	rapidjson::Value newiblSourcePath(ibl->GetSourcePath().c_str(), m_Document.GetAllocator());
+	GetLevel().AddMember(newIBLKey, newiblSourcePath, m_Document.GetAllocator());
+}
+
 rapidjson::Value& JSONScene::GetRoot()
 {
 	return m_Document[CHROMA_ROOT];
@@ -64,6 +72,11 @@ rapidjson::Value& JSONScene::GetEntities()
 rapidjson::Value& JSONScene::GetComponents()
 {
 	return m_Document[CHROMA_ROOT][CHROMA_LEVEL][CHROMA_COMPONENTS];
+}
+
+rapidjson::Value& JSONScene::GetIBL()
+{
+	return GetLevel()[CHROMA_IBL_KEY];
 }
 
 JSONScene::JSONScene()

@@ -186,9 +186,6 @@ void ShadowBuffer::DrawShadowMaps()
 	// Set Viewport to Texture dimenstions
 	glViewport(0, 0, m_ShadowMapSize, m_ShadowMapSize);
 
-
-
-
 	// Set gl depth settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_DEPTH_CLAMP);

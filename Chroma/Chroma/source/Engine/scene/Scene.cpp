@@ -9,7 +9,7 @@ namespace Chroma
 	Camera*             Scene::m_RenderCamera;
 	Light*              Scene::m_SunLight;
 	SkyBox*             Scene::m_Skybox;
-	IBL*				Scene::m_IBL;
+	IBL* 				Scene::m_IBL;
 	Texture				Scene::m_SceneNoise;
 
 	// Entities Components
@@ -49,7 +49,7 @@ namespace Chroma
 	std::set<UID> Scene::m_LightUIDs;
 
 	// Scene State
-	Scene::SceneState Scene::m_SceneState{ Scene::SceneState::kSceneNotBuilt };
+	Scene::SceneState Scene::m_SceneState{ kSceneNotBuilt };
 
 	// timing
 	std::chrono::steady_clock::time_point Scene::m_SceneBuildStartTime;
@@ -210,11 +210,12 @@ namespace Chroma
 	{
 		// State 
 		SCENE_TEMPSTATE(SceneState::kSceneIsInitializing)
+
 		// init members
 		m_RenderCamera = new Camera();
 		m_SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
+		m_IBL = new IBL();
 		m_Skybox = new SkyBox();
-		m_IBL =  new IBL(); // image based lighting
 		m_SceneNoise = Texture("resources/textures/noise/noise_00.jpg");
 
 		// setting skybox to IBL environment map

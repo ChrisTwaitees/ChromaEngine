@@ -4,18 +4,23 @@
 #include <serialization/formats/Json.h>
 #include <common/PrecompiledHeader.h>
 #include <serialization/ISerializer.h>
+#include <scene/Scene.h>
 
 class JSONScene : public JSON
 {
 public:
-
+	// ECS
 	void AddNewEntity(ISerializer*& serialized);
 	void AddNewComponent(ISerializer*& serialized);
+
+	// Scene Entities
+	void AddIBL(IBL* ibl);
 
 	rapidjson::Value& GetRoot();
 	rapidjson::Value& GetLevel();
 	rapidjson::Value& GetEntities();
 	rapidjson::Value& GetComponents();
+	rapidjson::Value& GetIBL();
 
 	JSONScene();
 	JSONScene(const char* loadScenePath);
@@ -36,5 +41,6 @@ private:
 #define CHROMA_LEVEL       "Level"
 #define CHROMA_ENTITIES    "Entities"
 #define CHROMA_COMPONENTS  "Components"
+#define CHROMA_IBL_KEY	   "IBL"
 
 #endif
