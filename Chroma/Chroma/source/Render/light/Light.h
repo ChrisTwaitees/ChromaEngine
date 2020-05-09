@@ -6,6 +6,38 @@
 #include <component/IComponent.h>
 #include <texture/Texture.h>
 
+struct DirLight
+{
+	glm::vec4 diffuse;
+	glm::vec3 direction;
+	float intensity;
+};
+
+struct PointLight
+{
+	glm::vec4 diffuse;
+	glm::vec3 position;
+	float intensity;
+	float constant;
+	float linear;
+	float quadratic;
+	float radius;
+};
+
+struct SpotLight
+{
+	glm::vec4 diffuse;
+	glm::vec3 direction;
+	float intensity;
+	glm::vec3 position;
+	float constant;
+	float linear;
+	float quadratic;
+	float spotSize;
+	float penumbraSize;
+};
+
+
 class Light : public IComponent
 {
 
@@ -37,10 +69,10 @@ public:
 	// methods
 	// setters
 	void SetType(Light::TYPE light_type) { type = light_type; };
-	void setDiffuse(glm::vec3 color) { m_Diffuse = color; };
-	void setIntensity(float intensity_val) { m_Intensity = intensity_val; };
+	void SetDiffuse(glm::vec3 color) { m_Diffuse = color; };
+	void SetIntensity(float intensity_val) { m_Intensity = intensity_val; };
 	void SetTranslation(glm::vec3 newPosition) { m_Position = newPosition; };
-	void setDirection(glm::vec3 direction_val) { m_Direction = glm::normalize(direction_val); };
+	void SetDirection(glm::vec3 direction_val) { m_Direction = glm::normalize(direction_val); };
 	// setters- attenuation
 	void setConstant(float constant_val) { m_Constant = constant_val;  };
 	void setLinear(float linear_val) { m_Linear = linear_val; };
@@ -56,8 +88,8 @@ public:
 	glm::vec3 GetDirection() { return m_Direction; };
 	// getters - pointlights
 	glm::vec3 GetPosition() { return m_Position; };
-	float getIntensity() { return m_Intensity; };
-	glm::vec3 getDiffuse() { return m_Diffuse; };
+	float GetIntensity() { return m_Intensity; };
+	glm::vec3 GetDiffuse() { return m_Diffuse; };
 	float getRadius() { updatePointRadius(); return m_Radius; };
 	// getters - spotlights
 	float getSpotSize() { return spotSize; };

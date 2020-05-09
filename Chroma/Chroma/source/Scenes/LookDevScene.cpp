@@ -17,7 +17,7 @@
 
 
 
-int main7()
+int main()
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();
@@ -39,15 +39,21 @@ int main7()
 
 	// point light positions
 	glm::vec3 pointLightPositions[] = {
-		glm::vec3(3.5f,  1.2f,  2.0f),
-		glm::vec3(0.5f,  0.2f,  -2.0f),
-		glm::vec3(-3.5f,  1.2f,  4.0f),
+			glm::vec3(3.5f,  1.2f,  2.0f),
+			glm::vec3(0.5f,  0.2f,  -2.0f),
+			glm::vec3(-3.5f,  1.2f,  4.0f),
+			glm::vec3(-4.5f,  2.2f,  4.0f),
+			glm::vec3(-5.5f,  3.2f,  4.0f),
+			glm::vec3(-6.5f,  4.2f,  4.0f),
+			glm::vec3(-7.5f,  5.2f,  4.0f),
+			glm::vec3(-7.5f,  5.2f,  4.0f),
+			glm::vec3(-7.5f,  5.2f,  4.0f)
 	};
 	// point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		Light* pointLight = new Light(pos, Light::POINT);
-		pointLight->setIntensity(0.51f);
+		pointLight->SetIntensity(0.51f);
 		pointLight->m_Quadratic *= 4.0f;
 		pointLight->m_Linear *= 2.0f;
 		Lights.push_back(pointLight);
@@ -55,8 +61,8 @@ int main7()
 
 	// SUNLIGHT
 	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
-	Sun->setDiffuse(glm::vec3(1.0));
-	Sun->setIntensity(3.0);
+	Sun->SetDiffuse(glm::vec3(1.0));
+	Sun->SetIntensity(3.0);
 	Lights.push_back(Sun);
 	Chroma::Scene::SetLights(Lights);
 
@@ -162,29 +168,29 @@ int main7()
 	}
 
 
-	for (unsigned int i = 0; i < 50; i++)
-	{
-		IEntity* lookDevEntity = new Entity;
-		lookDevEntity->SetName("LookDev Sphere : " + std::to_string(i));
-		Chroma::Scene::AddEntity(lookDevEntity);
-		//lookDevEntity->SetScale(glm::vec3(0.1f));
+	//for (unsigned int i = 0; i < 50; i++)
+	//{
+	//	IEntity* lookDevEntity = new Entity;
+	//	lookDevEntity->SetName("LookDev Sphere : " + std::to_string(i));
+	//	Chroma::Scene::AddEntity(lookDevEntity);
+	//	//lookDevEntity->SetScale(glm::vec3(0.1f));
 
-		lookDevEntity->SetTranslation(glm::vec3(i, 1, i));
-		// mesh component
-		if (i % 2)
-		{
-			MeshComponent* lookDevMeshComponent = new SpherePrimitive();
-			lookDevMeshComponent->SetMaterial(testMat);
-			lookDevEntity->AddComponent(lookDevMeshComponent);
-		}
-		else
-		{
-			MeshComponent* lookDevMeshComponent = new BoxPrimitive();
-			lookDevMeshComponent->SetMaterial(testMat);
-			lookDevEntity->AddComponent(lookDevMeshComponent);
-		}
+	//	lookDevEntity->SetTranslation(glm::vec3(i + 3, 1, i));
+	//	// mesh component
+	//	if (i % 2)
+	//	{
+	//		MeshComponent* lookDevMeshComponent = new SpherePrimitive();
+	//		lookDevMeshComponent->SetMaterial(testMat);
+	//		lookDevEntity->AddComponent(lookDevMeshComponent);
+	//	}
+	//	else
+	//	{
+	//		MeshComponent* lookDevMeshComponent = new BoxPrimitive();
+	//		lookDevMeshComponent->SetMaterial(testMat);
+	//		lookDevEntity->AddComponent(lookDevMeshComponent);
+	//	}
 
-	}
+	//}
 
 
 	// TERRAIN
@@ -226,7 +232,7 @@ int main7()
 	{
 		//Sunlight Rotation	
 		Chroma::Scene::GetSunLight()->SetTranslation(glm::vec3(std::sin(GAMETIME * SUNLIGHT_SPIN_SPEED) * SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GAMETIME * SUNLIGHT_SPIN_SPEED) * SUNLIGHT_DISTANCE));
-		Sun->setDirection(-normalize(Sun->GetPosition()));
+		Sun->SetDirection(-normalize(Sun->GetPosition()));
 
 		// IBL Switching
 		if (Chroma::Input::IsPressed(Chroma::Input::I))

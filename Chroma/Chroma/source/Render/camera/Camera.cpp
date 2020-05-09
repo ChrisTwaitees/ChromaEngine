@@ -7,7 +7,7 @@ void Camera::Initialize()
 	//m_CamAspect = (float)Chroma::Screen::GetWidthHeight().first / (float)Chroma::Screen::GetWidthHeight().second;
 	UpdateProjectionMatrix();
 	UpdateViewMatrix();
-	m_ChangedThisFrame = true;
+	m_Dirty = true;
 }
 
 void Camera::ProcessCustomCameraController()
@@ -19,7 +19,7 @@ void Camera::ProcessCustomCameraController()
 void Camera::Update()
 {
 	// Reset Camera Update
-	m_ChangedThisFrame = false;
+	m_Dirty = false;
 
 	// Capture last frame's Position
 	m_PrevCameraPosition = m_CameraPosition;
@@ -54,7 +54,7 @@ void Camera::Update()
 
 	//Debug
 	//CHROMA_INFO("Camera Velocity : {}, {}, {}", m_CamVelocity.x, m_CamVelocity.y, m_CamVelocity.z);
-	//CHROMA_INFO("Camera Changed this Frame : {}", m_ChangedThisFrame);
+	//CHROMA_INFO("Camera Changed this Frame : {}", m_Dirty);
 	
 }
 
@@ -62,14 +62,14 @@ void Camera::UpdateViewMatrix()
 {
 	m_ViewMatrix = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraDirection, m_CameraUp);
 	m_ViewProjMatrix = m_ProjectionMatrix * m_ViewMatrix;
-	m_ChangedThisFrame = true;
+	m_Dirty = true;
 }
 
 void Camera::UpdateProjectionMatrix()
 {
 	m_ProjectionMatrix = glm::perspective(glm::radians(m_CamFOV), m_CamAspect, m_CamNear, m_CamFar);
 	m_ViewProjMatrix = m_ProjectionMatrix * m_ViewMatrix;
-	m_ChangedThisFrame = true;
+	m_Dirty = true;
 }
 
 void Camera::SetCustomCameraController(ICameraController*& newCameraController)

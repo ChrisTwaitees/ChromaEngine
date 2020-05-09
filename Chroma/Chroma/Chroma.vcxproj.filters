@@ -498,6 +498,12 @@
     <ClCompile Include="source\Render\ubo\UniformBuffer.cpp">
       <Filter>Render\ubo</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\ubo\UniformBufferCamera.cpp">
+      <Filter>Render\ubo</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\ubo\UniformBufferLighting.cpp">
+      <Filter>Render\ubo</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -806,6 +812,12 @@
     <ClInclude Include="source\Render\ubo\UniformBuffer.h">
       <Filter>Render\ubo</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\ubo\UniformBufferCamera.h">
+      <Filter>Render\ubo</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\ubo\UniformBufferLighting.h">
+      <Filter>Render\ubo</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">
@@ -875,9 +887,6 @@
       <Filter>Resources\shaders\util</Filter>
     </None>
     <None Include="resources\shaders\util\BlinnPhongLightingCalculations.glsl">
-      <Filter>Resources\shaders\util</Filter>
-    </None>
-    <None Include="resources\shaders\util\PBRLightingCalculations.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
     <None Include="resources\shaders\fragPBR.glsl">
@@ -988,7 +997,16 @@
     <None Include="resources\shaders\fragVegetation.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
-    <None Include="resources\shaders\util\uniformBuffers.glsl">
+    <None Include="resources\shaders\util\uniformBufferCamera.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\uniformBufferLighting.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\PBRLightingFuncsDeclaration.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\PBRLightingFuncsImplementation.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
   </ItemGroup>

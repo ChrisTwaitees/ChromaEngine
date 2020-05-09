@@ -25,12 +25,15 @@
 #define SCREEN_DEFAULT_COLOR glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
 
 // SHADOWS
-#define SHADOW_WIDTH 2048
-#define SHADOW_HEIGHT 2048
+#define SHADOW_NUMCASCADES 3
+
+// LIGHTING
+#define MAX_POINT_LIGHTS 20
+#define MAX_DIRECTIONAL_LIGHTS 3
+#define MAX_SPOT_LIGHTS 20
 
 // OPENGL CONFIG
 #define OPENGL_VERSION std::string( "330 core" )
-
 
 
 #endif

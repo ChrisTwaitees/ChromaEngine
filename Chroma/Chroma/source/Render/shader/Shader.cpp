@@ -202,8 +202,8 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 			break;
 		}
 		// lights all
-		this->SetUniform(lightIndex + ".intensity", light->getIntensity());
-		this->SetUniform(lightIndex + ".diffuse", light->getDiffuse());
+		this->SetUniform(lightIndex + ".intensity", light->GetIntensity());
+		this->SetUniform(lightIndex + ".diffuse", light->GetDiffuse());
 		this->SetUniform(lightIndex + ".position", light->GetPosition());
 		// lights view pos
 		this->SetUniform("viewPos", renderCam.GetPosition());
@@ -214,9 +214,9 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 
 void Shader::BindUniformBufferBlockIndices()
 {
-	for (UniformBuffer& ubo : Chroma::Render::GetUniformBufferObjects())
+	for (UniformBuffer*& ubo : Chroma::Render::GetUniformBufferObjects())
 	{
-		ubo.BindUniformBlockIndex(*this);
+		ubo->BindUniformBlockIndex(*this);
 	}
 }
 

@@ -7,7 +7,7 @@
 void ShadowBuffer::BuildCSMTextureArray()
 {
 	glBindTexture(GL_TEXTURE_2D_ARRAY, m_CascadedTexureArray);
-	glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32F, m_ShadowMapSize, m_ShadowMapSize, m_NumCascadeSplits, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+	glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_DEPTH_COMPONENT32F, m_ShadowMapSize, m_ShadowMapSize, SHADOW_NUMCASCADES, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 	glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
@@ -130,9 +130,9 @@ void ShadowBuffer::CalculateCascadeSplitDistances()
 	float camFar = Chroma::Scene::GetRenderCamera()->GetFarDist();
 
 	// Calculate the Cascade Split distances
-	for (unsigned int i = 0; i < m_NumCascadeSplits; ++i)
+	for (unsigned int i = 0; i < SHADOW_NUMCASCADES; ++i)
 	{
-		float step = static_cast<float>(i + 1) / static_cast<float>(m_NumCascadeSplits);
+		float step = static_cast<float>(i + 1) / static_cast<float>(SHADOW_NUMCASCADES);
 		float log = camNear * glm::pow((camFar / camNear), step);
 		float uniform = camNear + (camFar - camNear) * step;
 		m_CascadeSplitDistances.push_back((m_CascadeSplitDistanceRatio * log) + ((1.0 - m_CascadeSplitDistanceRatio) * uniform));
@@ -163,27 +163,18 @@ void ShadowBuffer::Initialize()
 	CalculateCascadeSplitDistances();
 }
 
-void ShadowBuffer::ResizeBuffers()
-{
-	//// Resize to half the screen resolution
-	//width = Chroma::Screen::GetWidthHeight().first;
-	//height = Chroma::Screen::GetWidthHeight().second;
-
-	//// textures
-	//glBindTexture(GL_TEXTURE_2D, m_ShadowMapTexture.ID);
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, width *2.0, height * 2.0, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-}
-
 
 void ShadowBuffer::DrawShadowMaps()
 {
 	CHROMA_PROFILE_FUNCTION();
-	// Calc light Space Matrices
-	CalculateCascadeLightSpaceMatrices();
+
+	// Calc light Space Matrices if Camera has changed
+	if (Chroma::Scene::GetRenderCamera()->GetDirty())
+		CalculateCascadeLightSpaceMatrices();
 	
 	// Bind Shadow Depth Framebuffer
 	glBindFramebuffer(GL_FRAMEBUFFER, m_CascadeShadowFBO);
-	// Set Viewport to Texture dimenstions
+	// Set Viewport to Texture dimensions
 	glViewport(0, 0, m_ShadowMapSize, m_ShadowMapSize);
 
 	// Set gl depth settings
@@ -191,7 +182,7 @@ void ShadowBuffer::DrawShadowMaps()
 	glEnable(GL_DEPTH_CLAMP);
 	glCullFace(GL_FRONT);
 	// Iterate over each cascade frustrum
-	for (unsigned int i = 0; i < m_NumCascadeSplits; i++)
+	for (unsigned int i = 0; i < SHADOW_NUMCASCADES; i++)
 	{
 		// Set to current texture in array
 		glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_CascadedTexureArray, 0, i);

@@ -8,7 +8,23 @@ enum ColorSpace { LINEAR, HDR };
 
 class SkyBox
 {
+
+public:
+	// getters and setters
+	void setCubeMapID(int const& newCubeMapID) { m_cubeMapID = newCubeMapID; };
+	unsigned int getCubeMapID() { return m_cubeMap.ID; };
+
+	void setColorSpace(ColorSpace newColorSpace) { m_colorSpace = newColorSpace; };
+	ColorSpace getColorSpace() { return m_colorSpace; };
+
+	void Draw();
+	SkyBox();
+	~SkyBox();
+
 private:
+
+	void Initialize();
+	ColorSpace m_colorSpace = LINEAR;
 	unsigned int VAO, VBO;
 
 	CubeMap m_cubeMap;
@@ -62,20 +78,8 @@ private:
 		 1.0f, -1.0f,  1.0f
 	};
 
-	void Initialize();
-	ColorSpace m_colorSpace = LINEAR;
 
-public:
-	// getters and setters
-	void setCubeMapID(int const& newCubeMapID) { m_cubeMapID = newCubeMapID; };
-	unsigned int getCubeMapID() { return m_cubeMap.ID; };
 
-	void setColorSpace(ColorSpace newColorSpace) { m_colorSpace = newColorSpace; };
-	ColorSpace getColorSpace() { return m_colorSpace; };
-
-	void Draw();
-	SkyBox();
-	~SkyBox();
 };
 
 #endif

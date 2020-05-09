@@ -24,7 +24,7 @@ const int MAX_JOINTS = #MAX_JOINTS;
 
 // UNIFORMS
 // ubos
-#include "util/uniformBuffers.glsl"
+#include "util/uniformBufferCamera.glsl"
 uniform mat4 model;
 uniform mat4 lightSpaceMatrix;
 // skinning

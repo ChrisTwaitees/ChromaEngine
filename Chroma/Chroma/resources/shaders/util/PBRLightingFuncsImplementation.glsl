@@ -152,7 +152,7 @@ vec4 PBRLighting(vec3 lightRadiance, vec3 Normal, vec3 H, vec3 ViewDir, vec3 Lig
 }
 // ----------------------------------------------------------------------------
 // DIRECTIONAL LIGHT
-vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap)
+vec4 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap)
 {
 	// light direction
 	vec3 L = normalize(-light.direction);

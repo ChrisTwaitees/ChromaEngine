@@ -21,7 +21,7 @@ out VS_OUT{
 const int MAX_JOINTS = #MAX_JOINTS;
 
 // UNIFORMS
-#include "util/uniformBuffers.glsl"
+#include "util/uniformBufferCamera.glsl"
 uniform mat4 model;
 uniform mat4 lightSpaceMatrix;
 // skinning

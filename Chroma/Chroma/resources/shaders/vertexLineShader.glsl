@@ -4,8 +4,7 @@ layout (line_strip, max_vertices=2) out;
 
 // matrix uniforms
 uniform mat4 model;
-uniform mat4 view;
-uniform mat4 projection;
+#include "util/uniformBufferCamera.glsl"
 
 
 void main() {    
