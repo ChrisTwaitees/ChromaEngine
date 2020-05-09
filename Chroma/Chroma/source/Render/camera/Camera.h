@@ -24,7 +24,7 @@ public:
 	inline glm::vec3 GetDirection() const { return m_CameraDirection; };
 	inline void SetDirection(const glm::vec3& newDirection) { m_CameraDirection = newDirection; UpdateViewMatrix(); }
 	inline glm::vec3 GetVelocity() const { return m_CamVelocity; };
-	inline bool GetChangedThisFrame() const { return m_ChangedThisFrame; };
+	inline bool GetDirty() const { return m_Dirty; };
 	// matrices
 	inline glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; };
 	inline glm::mat4 GetViewMatrix() const { return m_ViewMatrix; };
@@ -54,7 +54,7 @@ protected:
 	glm::vec3 m_CameraPosition{ glm::vec3(0.0, 10.0, 30.0) };
 	glm::vec3 m_CamVelocity{ glm::vec3(0.0) };
 
-	bool m_ChangedThisFrame{ false };
+	bool m_Dirty{ false };
 
 	glm::vec3 m_CameraUp{ CHROMA_UP };
 	glm::vec3 m_CameraDirection{ CHROMA_BACK };

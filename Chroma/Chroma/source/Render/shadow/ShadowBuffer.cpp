@@ -169,7 +169,7 @@ void ShadowBuffer::DrawShadowMaps()
 	CHROMA_PROFILE_FUNCTION();
 
 	// Calc light Space Matrices if Camera has changed
-	if (Chroma::Scene::GetRenderCamera()->GetChangedThisFrame())
+	if (Chroma::Scene::GetRenderCamera()->GetDirty())
 		CalculateCascadeLightSpaceMatrices();
 	
 	// Bind Shadow Depth Framebuffer

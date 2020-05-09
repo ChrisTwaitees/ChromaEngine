@@ -53,7 +53,7 @@ int main()
 	for (glm::vec3 pos : pointLightPositions)
 	{
 		Light* pointLight = new Light(pos, Light::POINT);
-		pointLight->setIntensity(0.51f);
+		pointLight->SetIntensity(0.51f);
 		pointLight->m_Quadratic *= 4.0f;
 		pointLight->m_Linear *= 2.0f;
 		Lights.push_back(pointLight);
@@ -61,8 +61,8 @@ int main()
 
 	// SUNLIGHT
 	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
-	Sun->setDiffuse(glm::vec3(1.0));
-	Sun->setIntensity(3.0);
+	Sun->SetDiffuse(glm::vec3(1.0));
+	Sun->SetIntensity(3.0);
 	Lights.push_back(Sun);
 	Chroma::Scene::SetLights(Lights);
 
@@ -232,7 +232,7 @@ int main()
 	{
 		//Sunlight Rotation	
 		Chroma::Scene::GetSunLight()->SetTranslation(glm::vec3(std::sin(GAMETIME * SUNLIGHT_SPIN_SPEED) * SUNLIGHT_DISTANCE, SUNLIGHT_DISTANCE, std::cos(GAMETIME * SUNLIGHT_SPIN_SPEED) * SUNLIGHT_DISTANCE));
-		Sun->setDirection(-normalize(Sun->GetPosition()));
+		Sun->SetDirection(-normalize(Sun->GetPosition()));
 
 		// IBL Switching
 		if (Chroma::Input::IsPressed(Chroma::Input::I))

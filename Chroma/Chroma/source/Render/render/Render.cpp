@@ -138,7 +138,7 @@ namespace Chroma
 
 	void Render::UpdateUniformBufferObjects()
 	{
-		if (Chroma::Scene::GetRenderCamera()->GetChangedThisFrame())
+		if (Chroma::Scene::GetRenderCamera()->GetDirty())
 			m_UBOCamera->Update();
 
 		m_UBOLighting->Update();

@@ -43,7 +43,7 @@ namespace Chroma
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
-			pointLight->setIntensity(0.51f);
+			pointLight->SetIntensity(0.51f);
 			pointLight->m_Quadratic *= 4.0f;
 			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
@@ -51,8 +51,8 @@ namespace Chroma
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 2.0f);
-		Sun->setDiffuse(glm::vec3(1.0));
-		Sun->setIntensity(3.0);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 
@@ -351,7 +351,7 @@ namespace Chroma
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
-			pointLight->setIntensity(0.51f);
+			pointLight->SetIntensity(0.51f);
 			pointLight->m_Quadratic *= 4.0f;
 			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
@@ -359,8 +359,8 @@ namespace Chroma
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
-		Sun->setDiffuse(glm::vec3(1.0));
-		Sun->setIntensity(3.0);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 
@@ -489,7 +489,7 @@ namespace Chroma
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
-			pointLight->setIntensity(0.51f);
+			pointLight->SetIntensity(0.51f);
 			pointLight->m_Quadratic *= 4.0f;
 			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
@@ -497,8 +497,8 @@ namespace Chroma
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
-		Sun->setDiffuse(glm::vec3(1.0));
-		Sun->setIntensity(3.0);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 
@@ -594,7 +594,7 @@ namespace Chroma
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
-			pointLight->setIntensity(0.51f);
+			pointLight->SetIntensity(0.51f);
 			pointLight->m_Quadratic *= 4.0f;
 			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
@@ -602,8 +602,8 @@ namespace Chroma
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
-		Sun->setDiffuse(glm::vec3(1.0));
-		Sun->setIntensity(3.0);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 
@@ -720,7 +720,7 @@ namespace Chroma
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
-			pointLight->setIntensity(0.51f);
+			pointLight->SetIntensity(0.51f);
 			pointLight->m_Quadratic *= 4.0f;
 			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
@@ -728,8 +728,8 @@ namespace Chroma
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.0, -1.0, -0.1), 2.0f);
-		Sun->setDiffuse(glm::vec3(1.0));
-		Sun->setIntensity(3.0);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 
@@ -981,7 +981,7 @@ namespace Chroma
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
-			pointLight->setIntensity(0.51f);
+			pointLight->SetIntensity(0.51f);
 			pointLight->m_Quadratic *= 4.0f;
 			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
@@ -989,8 +989,8 @@ namespace Chroma
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
-		Sun->setDiffuse(glm::vec3(1.0));
-		Sun->setIntensity(3.0);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 
@@ -1057,7 +1057,7 @@ namespace Chroma
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
-			pointLight->setIntensity(0.51f);
+			pointLight->SetIntensity(0.51f);
 			pointLight->m_Quadratic *= 4.0f;
 			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
@@ -1065,8 +1065,8 @@ namespace Chroma
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
-		Sun->setDiffuse(glm::vec3(1.0));
-		Sun->setIntensity(3.0);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 
@@ -1138,7 +1138,7 @@ namespace Chroma
 		for (glm::vec3 pos : pointLightPositions)
 		{
 			Light* pointLight = new Light(pos, Light::POINT);
-			pointLight->setIntensity(0.51f);
+			pointLight->SetIntensity(0.51f);
 			pointLight->m_Quadratic *= 4.0f;
 			pointLight->m_Linear *= 2.0f;
 			Lights.push_back(pointLight);
@@ -1146,8 +1146,8 @@ namespace Chroma
 
 		// SUNLIGHT
 		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
-		Sun->setDiffuse(glm::vec3(1.0));
-		Sun->setIntensity(3.0);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
 

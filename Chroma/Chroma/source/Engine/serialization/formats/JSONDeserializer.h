@@ -190,7 +190,7 @@ public:
 				newDirection.x = lightValue->value.GetArray()[0].GetFloat();
 				newDirection.y = lightValue->value.GetArray()[1].GetFloat();
 				newDirection.z = lightValue->value.GetArray()[2].GetFloat();
-				newLight->setDirection(newDirection);
+				newLight->SetDirection(newDirection);
 			}
 
 			// color
@@ -200,12 +200,12 @@ public:
 				newDiffuse.x = lightValue->value.GetArray()[0].GetFloat();
 				newDiffuse.y = lightValue->value.GetArray()[1].GetFloat();
 				newDiffuse.z = lightValue->value.GetArray()[2].GetFloat();
-				newLight->setDiffuse(newDiffuse);
+				newLight->SetDiffuse(newDiffuse);
 			}
 
 			// falloffs
 			if (lightValueName == "m_Intensity")
-				newLight->setIntensity(lightValue->value.GetFloat());
+				newLight->SetIntensity(lightValue->value.GetFloat());
 
 			if (lightValueName == "m_Linear") 
 				newLight->setLinear(lightValue->value.GetFloat());
