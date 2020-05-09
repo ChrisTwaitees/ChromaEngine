@@ -178,6 +178,7 @@ namespace Chroma
 
 	void Render::RenderScene()
 	{
+
 		CHROMA_PROFILE_FUNCTION();
 
 		// Update UBOs

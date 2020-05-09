@@ -920,6 +920,24 @@ namespace Chroma
 		WallsMeshComponent->SetMaterial(wallsMat);
 		SponzaEntity->AddComponent(WallsMeshComponent);
 
+		// LION
+		Texture lionAlbedo("resources/lookdev/Sponza/textures_final/lion_Albedo.png");
+		lionAlbedo.m_Type = Texture::ALBEDO;
+		Texture lionNormal("resources/lookdev/Sponza/textures_final/lion_Normal.jpg");
+		lionNormal.m_Type = Texture::NORMAL;
+		Texture lionMetRoughAO("resources/lookdev/Sponza/textures_final/lion_MetRoughAO.jpg");
+		lionMetRoughAO.m_Type = Texture::METROUGHAO;
+
+		Material lionMat;
+		lionMat.AddTexture(lionAlbedo);
+		lionMat.AddTexture(lionNormal);
+		lionMat.AddTexture(lionMetRoughAO);
+
+		// Mesh component
+		MeshComponent* lionMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_LionHead.fbx");
+		lionMeshComponent->SetMaterial(lionMat);
+		SponzaEntity->AddComponent(lionMeshComponent);
+
 		// COLUMNS
 		Texture columnAAlbedo("resources/lookdev/Sponza/textures_final/columnA_Albedo.png");
 		columnAAlbedo.m_Type = Texture::ALBEDO;

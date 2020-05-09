@@ -18,12 +18,13 @@ public:
 
 	void SetIBLTexture(HDRTexture newHDRTexture);
 	void LoadIBL(std::string const& newHDRTexturePath);
+	inline std::string  GetSourcePath() { return m_HDRtexture.GetSourcePath(); };
 
-	inline unsigned int GetEnvCubeMapID() { return m_envCubeMap; };
-	inline unsigned int GetIrradianceMapID() { return m_irradianceMap; };
-	inline unsigned int GetPrefilterMapID() { return m_prefilterMap; };
-	inline unsigned int GetHDRTextureID() { return m_HDRtexture.ID; };
-	inline unsigned int GetBRDFLUTID() { return m_brdfLUTTexture; };
+	inline unsigned int GetEnvCubeMapID() const { return m_envCubeMap; };
+	inline unsigned int GetIrradianceMapID() const { return m_irradianceMap; };
+	inline unsigned int GetPrefilterMapID() const { return m_prefilterMap; };
+	inline unsigned int GetHDRTextureID() const { return m_HDRtexture.ID; };
+	inline unsigned int GetBRDFLUTID() const { return m_brdfLUTTexture; };
 
 	template <typename UniformType>
 	void SetUniform(std::string uniformName, UniformType uniform)
@@ -35,7 +36,6 @@ public:
 	~IBL() {};
 
 private:
-
 	glm::mat4 captureProjection = glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 10.0f);
 	glm::mat4 captureViews[6] = {
 	   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f,  0.0f,  0.0f), glm::vec3(0.0f, -1.0f,  0.0f)),

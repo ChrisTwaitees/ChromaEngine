@@ -30,6 +30,9 @@ namespace Chroma
 			SceneJSON.AddNewComponent(serializer);
 		}
 
+		// Serialize Scene Entities
+		SceneJSON.AddIBL(Chroma::Scene::GetIBL());
+
 		// Write JSON
 		SceneJSON.Write(sourceScenePath);
 	}
@@ -112,7 +115,12 @@ namespace Chroma
 			};
 		}
 	
-	
+		// Scene Entities
+		// IBL
+		rapidjson::Value& ibl = jsonScene.GetIBL();
+		std::string iblSourcePath = ibl.GetString();
+		Chroma::Scene::GetIBL()->LoadIBL(iblSourcePath);
+		
 		// Init all entities
 		Chroma::Scene::PostSceneBuild();
 	}

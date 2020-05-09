@@ -113,6 +113,7 @@ void SSAOBuffer::ConfigureShaders()
 
 void SSAOBuffer::Draw()
 {
+	CHROMA_PROFILE_FUNCTION();
 	// binding frame buffer and clearing color buffer
 	glBindFramebuffer(GL_FRAMEBUFFER, ssaoFBO);
 	glClear(GL_COLOR_BUFFER_BIT);

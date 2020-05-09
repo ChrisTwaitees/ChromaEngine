@@ -87,7 +87,7 @@ namespace Chroma
 		static void SetLights(std::vector<Light*> newLights);
 		static Light*& GetSunLight() { return m_SunLight; };
 		static glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
-		static IBL*& GetIBL() { return m_IBL; };
+		static IBL* GetIBL() { return m_IBL; };
 		static void LoadIBL(std::string const& sourcePath);
 
 		// SKYBOX
