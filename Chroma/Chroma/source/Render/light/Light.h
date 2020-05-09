@@ -57,7 +57,7 @@ public:
 	// getters - pointlights
 	glm::vec3 GetPosition() { return m_Position; };
 	float GetIntensity() { return m_Intensity; };
-	glm::vec3 getDiffuse() { return m_Diffuse; };
+	glm::vec3 GetDiffuse() { return m_Diffuse; };
 	float getRadius() { updatePointRadius(); return m_Radius; };
 	// getters - spotlights
 	float getSpotSize() { return spotSize; };

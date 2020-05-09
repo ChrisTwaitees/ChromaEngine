@@ -27,9 +27,13 @@
 // SHADOWS
 #define SHADOW_NUMCASCADES 3
 
+// LIGHTING
+#define MAX_POINT_LIGHTS 20
+#define MAX_DIRECTIONAL_LIGHTS 3
+#define MAX_SPOT_LIGHTS 20
+
 // OPENGL CONFIG
 #define OPENGL_VERSION std::string( "330 core" )
-
 
 
 #endif

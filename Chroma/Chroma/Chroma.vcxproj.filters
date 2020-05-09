@@ -889,9 +889,6 @@
     <None Include="resources\shaders\util\BlinnPhongLightingCalculations.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
-    <None Include="resources\shaders\util\PBRLightingCalculations.glsl">
-      <Filter>Resources\shaders\util</Filter>
-    </None>
     <None Include="resources\shaders\fragPBR.glsl">
       <Filter>Resources\shaders</Filter>
     </None>
@@ -1004,6 +1001,12 @@
       <Filter>Resources\shaders\util</Filter>
     </None>
     <None Include="resources\shaders\util\uniformBufferLighting.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\PBRLightingFuncsDeclaration.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\PBRLightingFuncsImplementation.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
   </ItemGroup>

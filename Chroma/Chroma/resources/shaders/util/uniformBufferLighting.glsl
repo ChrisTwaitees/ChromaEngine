@@ -1,3 +1,8 @@
+// LIGHTS
+#define MAX_POINT_LIGHTS 20
+#define MAX_DIRECTIONAL_LIGHTS 3
+#define MAX_SPOT_LIGHTS 20
+
 layout (std140) uniform LightingUBO
 {
 	// lights
@@ -5,7 +10,9 @@ layout (std140) uniform LightingUBO
 	int numPointLights;
 	int numSpotLights;
 	// light structs
-	//DirLight dirLights[1];
+	DirectionLight UBO_DirLights[MAX_DIRECTIONAL_LIGHTS];
+	PointLight UBO_PointLights[MAX_POINT_LIGHTS];
+	SpotLight UBO_SpotLights[MAX_SPOT_LIGHTS];
 
 
 //	// shadows

@@ -1,16 +1,17 @@
-// LIGHTS
-struct DirLight 
+// DIRECTIONAL
+struct DirectionLight 
 {
-	float intensity;
 	vec3 diffuse;
 	vec3 direction;
+	float intensity;
 };
 
+// POINTS
 struct PointLight
 {
-	float intensity;
 	vec3 diffuse;
 	vec3 position;
+	float intensity;
 	// attenuation
 	float constant;
 	float linear;
@@ -18,11 +19,12 @@ struct PointLight
 	float radius;
 };
 
+// SPOTLIGHTS
 struct SpotLight
 {
-	float intensity;
 	vec3 diffuse;
 	vec3 direction;
+	float intensity;
 	vec3 position;
 	// attenuation
 	float constant;

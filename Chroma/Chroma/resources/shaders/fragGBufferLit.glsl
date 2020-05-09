@@ -13,26 +13,19 @@ uniform sampler2D gFragPosLightSpace;
 uniform sampler2DArray gShadowmap;
 uniform sampler2D SSAO;
 
-// LIGHTS
-#include "util/lightingStructs.glsl"
-// ubos
-#include "util/uniformBufferLighting.glsl"
-
 // UNIFORMS
-uniform vec3 viewPos;
 //IBL
 uniform samplerCube irradianceMap;
 uniform samplerCube prefilterMap;
 uniform sampler2D   brdfLUT;
-// Lights
-uniform PointLight pointLights[10];
-uniform DirLight dirLights[10];
-uniform SpotLight spotLights[10];
 
+// LIGHTING
+#include "util/lightingStructs.glsl"
+// ubos
+#include "util/uniformBufferLighting.glsl"
+#include "util/uniformBufferCamera.glsl"
 // Lighting Functions
-vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap);
-vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap);
-vec3 CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao, float shadows);
+#include "util/PBRLightingFuncsDeclaration.glsl"
 
 void main()
 {         
@@ -48,7 +41,7 @@ void main()
 	float SSAO = texture(SSAO, TexCoords).r;
 
 	// Attrs
-	vec3 viewDir = normalize(viewPos - FragPos);
+	vec3 viewDir = normalize(cameraPosition - FragPos);
 
 	// LIGHTING
 	//------------------------------------------------------------------------
@@ -56,14 +49,13 @@ void main()
 	vec4 Lo;
 	// Directional Lights
 	for(int i = 0; i < numDirectionalLights ; i++)
-		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
+		Lo += CalcDirLight(UBO_DirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
 	// Point Lights
-	for(int i = 0; i < numPointLights ; i++)
-		Lo += CalcPointLight(pointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
+	//for(int i = 0; i < numPointLights ; i++)
+	//	Lo += CalcPointLight(UBO_PointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
 
 	// AMBIENT
 	//------------------------------------------------------------------------
-	// Adding ambient and SSAO
 	vec3 Ambient = CalcAmbientLight(irradianceMap, prefilterMap, brdfLUT, Normal, viewDir, Albedo, Roughness, Metalness, AO, Lo.a);
 
 	// COMBINE
@@ -83,4 +75,4 @@ void main()
 		BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 }  
 
-#include "util/PBRLightingCalculations.glsl"
+#include "util/PBRLightingFuncsImplementation.glsl"

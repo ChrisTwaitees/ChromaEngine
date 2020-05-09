@@ -11,11 +11,6 @@ in VS_OUT {
 	vec4 Color;
 } fs_in;
 
-// LIGHTS
-#include "util/lightingStructs.glsl"
-#define NR_POINT_LIGHTS 3
-#define NR_DIR_LIGHTS 1
-#define NR_SPOT_LIGHTS 1
 
 // UNIFORMS
 
@@ -38,27 +33,23 @@ uniform sampler2DArray shadowmap;
 
 // UNIFORMS
 // BACK SCATTER
- float bckScttrAmount;
+float bckScttrAmount;
 const float bckScttrScale      = 0.8;
 const float bckScttrPow        = 0.695;
 const float bckScttrDistortion = 0.695;
 
-uniform vec3 viewPos;
 //IBL
 uniform samplerCube irradianceMap;
 uniform samplerCube prefilterMap;
 uniform sampler2D   brdfLUT;
 
-// Lights
-uniform PointLight pointLights[NR_POINT_LIGHTS];
-uniform DirLight dirLights[NR_DIR_LIGHTS];
-uniform SpotLight spotLights[NR_SPOT_LIGHTS];
-
+// LIGHTING
+#include "util/lightingStructs.glsl"
+// ubos
+#include "util/uniformBufferLighting.glsl"
+#include "util/uniformBufferCamera.glsl"
 // Lighting Functions
-vec4 CalcDirLight(DirLight light, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap);
-vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap);
-vec3 CalcAmbientLight(samplerCube irradianceMap, samplerCube prefilterMap, sampler2D brdfLUT, vec3 normal, vec3 viewDir, vec3 albedo, float roughness, float metalness, float ao, float shadows);
-
+#include "util/PBRLightingFuncsDeclaration.glsl"
 
 void main()
 {
@@ -109,23 +100,23 @@ void main()
 	//------------------------------------------------------------------------
 	// PBR calculates irradiance, denoted by Lo
 	vec4 Lo;
-	vec3 viewDir = normalize(viewPos - fs_in.FragPos);
+	vec3 viewDir = normalize(cameraPosition - fs_in.FragPos);
 	// Directional Lights
-	for(int i = 0; i < NR_DIR_LIGHTS ; i++)
-		Lo += CalcDirLight(dirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
+	for(int i = 0; i < numDirectionalLights ; i++)
+		Lo += CalcDirLight(UBO_DirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
 	// Point Lights
-	for(int i = 0; i < NR_POINT_LIGHTS ; i++)
-		Lo += CalcPointLight(pointLights[i], Normal, viewDir, fs_in.FragPos, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
+	for(int i = 0; i < numPointLights ; i++)
+		Lo += CalcPointLight(UBO_PointLights[i], Normal, viewDir, fs_in.FragPos, Albedo, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
 
 	// TRANSLUCENCY
 	// Directional Lights
 	if(UseTranslucencyMap)
 	{
-		for(int i = 0; i < NR_DIR_LIGHTS ; i++)
+		for(int i = 0; i < numDirectionalLights ; i++)
 		{
-			vec3 HlfWaySSDistortion = normalize(-dirLights[i].direction + Normal * bckScttrDistortion );
+			vec3 HlfWaySSDistortion = normalize(-UBO_DirLights[i].direction + Normal * bckScttrDistortion );
 			bckScttrAmount += pow(clamp(dot(viewDir, -HlfWaySSDistortion), 0.0, 1.0), bckScttrPow ) * bckScttrScale * Translucency ; 
-			Lo += vec4(dirLights[i].diffuse.rgb, 1.0) * vec4(Albedo, 1.0) * bckScttrAmount;
+			Lo += vec4(UBO_DirLights[i].diffuse.rgb, 1.0) * vec4(Albedo, 1.0) * bckScttrAmount;
 		}
 	}
 	
@@ -155,4 +146,4 @@ void main()
 		BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
-#include "util/PBRLightingCalculations.glsl"
+#include "util/PBRLightingFuncsImplementation.glsl"

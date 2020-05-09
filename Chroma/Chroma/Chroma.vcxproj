@@ -568,6 +568,8 @@
     <None Include="resources\shaders\geometrySphereDebug.glsl" />
     <None Include="resources\shaders\ui\icon\frgIcon.glsl" />
     <None Include="resources\shaders\ui\icon\vtxIcon.glsl" />
+    <None Include="resources\shaders\util\PBRLightingFuncsDeclaration.glsl" />
+    <None Include="resources\shaders\util\PBRLightingFuncsImplementation.glsl" />
     <None Include="resources\shaders\util\uniformBufferCamera.glsl" />
     <None Include="resources\shaders\util\uniformBufferLighting.glsl" />
     <None Include="resources\shaders\vertexCoordinatesDebug.glsl" />
@@ -580,7 +582,6 @@
     <None Include="resources\shaders\util\BlinnPhongLightingCalculations.glsl" />
     <None Include="resources\shaders\util\lightingStructs.glsl" />
     <None Include="resources\shaders\util\materialStruct.glsl" />
-    <None Include="resources\shaders\util\PBRLightingCalculations.glsl" />
     <None Include="resources\shaders\vertexBoxDebug.glsl" />
     <None Include="resources\shaders\vertexDebugNormals.glsl" />
     <None Include="resources\shaders\vertexDepthMap.glsl" />
