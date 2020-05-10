@@ -44,6 +44,8 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 	int test3 = sizeof(glm::vec4);
 	int test4 = sizeof(glm::vec3);
 
+
+
 	DirLight tests[3];
 
 	tests[0].diffuse = glm::vec4(1.0,0.0, 0.0, 0.5);
@@ -106,7 +108,7 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 	glBufferSubData(GL_UNIFORM_BUFFER, 4, 4, &numPointLights);
 	// numSpotLights
 	glBufferSubData(GL_UNIFORM_BUFFER, 8, 4, &numSpotLights);
-	glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &numSpotLights);
+	glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &numSpotLights); //  Padding for lighting structs
 	// structs
 	// DirectionalLightStructs
 	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(tests), &tests);

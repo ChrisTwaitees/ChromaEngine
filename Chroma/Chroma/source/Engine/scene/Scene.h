@@ -20,6 +20,7 @@ namespace Chroma
 	{
 	public:
 		static void Init();
+		static void Update();
 		static void PostSceneBuild();
 		static void PreSceneBuild();
 
@@ -82,12 +83,12 @@ namespace Chroma
 		static inline std::set<UID>& GetUIComponentUIDs() { return m_UIComponentUIDs; }
 
 		// LIGHTS
+		static bool GetLightsDirty() { return m_LightsDirty; };
 		static void AddLight(IComponent* const& newLight);
 		static void RemoveLight(Light& RemoveLight);
 		static void SetLights(std::vector<Light*> newLights);
 		static Light*& GetSunLight() { return m_SunLight; };
-		static glm::vec3 GetAmbientColor() { return CalculateAmbientLightColor(); };
-		static IBL* GetIBL() { return m_IBL; };
+		static IBL*& GetIBL() { return m_IBL; };
 		static void LoadIBL(std::string const& sourcePath);
 
 		// SKYBOX
@@ -132,8 +133,10 @@ namespace Chroma
 		static std::set<UID> m_UIComponentUIDs;
 		// state machine components
 		static std::set<UID> m_StateMachineUIDs;
+
 		// light uids
 		static std::set<UID> m_LightUIDs;
+		static bool m_LightsDirty;
 
 		// RENDER components
 		static Camera* m_RenderCamera;
@@ -144,8 +147,6 @@ namespace Chroma
 		// Scene Globals
 		static Texture m_SceneNoise;
 
-		// funcs
-		static glm::vec3 CalculateAmbientLightColor();
 
 		// timing
 		static std::chrono::steady_clock::time_point m_SceneBuildStartTime;

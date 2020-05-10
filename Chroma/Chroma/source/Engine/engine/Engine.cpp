@@ -11,6 +11,9 @@ namespace Chroma
 	void Engine::Update()
 	{
 		CHROMA_PROFILE_FUNCTION();
+		// Scene
+		Chroma::Scene::Update();
+
 		// Physics
 		Chroma::Physics::Update();
 
