@@ -82,13 +82,8 @@ void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)
 	UpdateTransformUniforms(shader, RenderCam);
 	UpdateMaterialUniforms(shader);
 	updateTextureUniforms(shader);
-	UpdateLightingUniforms(shader, RenderCam);
 }
 
-void StaticMesh::UpdateLightingUniforms(Shader& shader, Camera& renderCam)
-{
-	shader.SetLightingUniforms(renderCam);
-}
 
 void StaticMesh::updateTextureUniforms(Shader& shader)
 {

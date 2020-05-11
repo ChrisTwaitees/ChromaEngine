@@ -58,7 +58,6 @@ private:
 
 	// uniforms
 	void ConfigureShaders();
-	void SetLightingUniforms();
 	void UpdateTransformUniforms() override;
 
 
