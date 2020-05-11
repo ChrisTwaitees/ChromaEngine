@@ -52,7 +52,10 @@ void main()
 		Lo += CalcDirLight(UBO_DirLights[i], Normal, viewDir, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
 	// Point Lights
 	for(int i = 0; i < numPointLights ; i++)
-		Lo += CalcPointLight(UBO_PointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
+	{
+		if(length(UBO_PointLights[i].position - FragPos) < UBO_PointLights[i].radius)
+			Lo += CalcPointLight(UBO_PointLights[i], Normal, viewDir, FragPos, Albedo, Roughness, Metalness, FragPosLightSpace, gShadowmap);
+	}
 
 	// AMBIENT
 	//------------------------------------------------------------------------

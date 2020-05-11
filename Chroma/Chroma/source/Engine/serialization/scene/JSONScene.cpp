@@ -12,7 +12,7 @@ void JSONScene::AddNewEntity(ISerializer*& serialized)
 	// Serialize Entity
 	SerializeEntity(serialized, newEntity);
 
-	// Check if entity type already created
+	// Check if entity m_Type already created
 	rapidjson::Value::ConstMemberIterator itr = GetEntities().FindMember(entityTypeName);
 	if (itr == GetComponents().MemberEnd())
 	{
@@ -34,7 +34,7 @@ void JSONScene::AddNewComponent(ISerializer*& serialized)
 	// Serialize Component
 	SerializeComponent(serialized, newComponent);
 
-	// Check if entity type already created
+	// Check if entity m_Type already created
 	rapidjson::Value::ConstMemberIterator itr = GetComponents().FindMember(componentTypeName);
 	if (itr == GetComponents().MemberEnd())
 	{

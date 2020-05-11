@@ -221,16 +221,16 @@ public:
 				int lightType = lightValue->value.GetInt();
 
 				if (lightType == Light::TYPE::DIRECTIONAL)
-					newLight->SetType(Light::TYPE::DIRECTIONAL);
+					newLight->SetLightType(Light::TYPE::DIRECTIONAL);
 				
 				else if (lightType == Light::TYPE::POINT)
-					newLight->SetType(Light::TYPE::POINT);
+					newLight->SetLightType(Light::TYPE::POINT);
 				
 				else if (lightType == Light::TYPE::SUNLIGHT)
-					newLight->SetType(Light::TYPE::SUNLIGHT);
+					newLight->SetLightType(Light::TYPE::SUNLIGHT);
 
 				else if (lightType == Light::TYPE::SPOT)
-					newLight->SetType(Light::TYPE::SPOT);
+					newLight->SetLightType(Light::TYPE::SPOT);
 
 			}
 		}

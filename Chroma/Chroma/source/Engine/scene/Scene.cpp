@@ -499,7 +499,7 @@ namespace Chroma
 
 		for (Light*& light : newLights)
 		{
-			if (light->type == Light::SUNLIGHT)
+			if (light->GetLightType() == Light::SUNLIGHT)
 			{
 				m_SunLight = light;
 				AddLight(light);

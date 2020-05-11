@@ -85,7 +85,10 @@ void main()
 		Lo += CalcDirLight(UBO_DirLights[i], Normal, viewDir, Albedo.rgb, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
 	// Point Lights
 	for(int i = 0; i < numPointLights ; i++)
-		Lo += CalcPointLight(UBO_PointLights[i], Normal, viewDir, fs_in.FragPos, Albedo.rgb, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
+	{
+		if(length(UBO_PointLights[i].position - fs_in.FragPos) < UBO_PointLights[i].radius)
+			Lo += CalcPointLight(UBO_PointLights[i], Normal, viewDir, fs_in.FragPos, Albedo.rgb, Roughness, Metalness, fs_in.FragPosLightSpace, shadowmap);
+	}
 
 	// AMBIENT
 	//------------------------------------------------------------------------

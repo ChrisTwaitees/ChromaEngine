@@ -13,10 +13,25 @@ void UniformBufferLighting::Setup()
 	// Now we've created a buffer we'll set the size according to our 
 	// structs and number of lights, populating the buffer 
 	Bind();
-	PopulateBufferWithSceneLights();
+	// Calculate the current number of lights and structs needed
+	m_Size = 0;
+	// Directional Lights (num dir lights (int) and structs)
+	m_Size += sizeof(int);
+	m_Size += sizeof(m_DirLightStructs);
+	// Point Lights (num point lights (int) and structs)
+	m_Size += sizeof(int);
+	m_Size += sizeof(m_PointLightStructs);
+	// Spot Lights (num spot lights (int) and structs) and padding for latout 140 which requires vec4 spacing between data 
+	m_Size += sizeof(int);
+	m_Size += sizeof(int);
+	m_Size += sizeof(m_SpotLightStructs);
+	// With the size updated, we'll need to resize the buffer data 	
+	glBufferData(GL_UNIFORM_BUFFER, m_Size, NULL, GL_DYNAMIC_DRAW);
 	// Then we need to bind the uniform buffer object to the same binding point 
 	// We've bound the shaders to
 	glBindBufferRange(GL_UNIFORM_BUFFER, m_BindingPointIndex, m_UBO, 0, m_Size);
+	// Attach current lights to buffer
+	PopulateBufferWithSceneLights();
 	UnBind();
 
 	// Debug
@@ -26,28 +41,21 @@ void UniformBufferLighting::Setup()
 
 void UniformBufferLighting::PopulateBufferWithSceneLights()
 {
-	// Calculate the current number of lights and structs needed
-	m_Size = 0;
+
 	// DIRECTIONAL
 	int numDirectionalLights{ 0 };
-	m_Size += sizeof(int);
-	m_Size += sizeof(m_DirLightStructs);
+
 	// POINT
 	int numPointLights{ 0 };
-	m_Size += sizeof(int);
-	m_Size += sizeof(m_PointLightStructs);
+
 	// SPOT
 	int numSpotLights{ 0 };
-	m_Size += sizeof(int);
-	m_Size += sizeof(int);
-	m_Size += sizeof(m_SpotLightStructs);
-
 	
 	// Iter through lights populating light structs
 	for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 	{
 		Light* currentLight = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
-		switch (currentLight->type)
+		switch (currentLight->GetLightType())
 		{
 		case(Light::DIRECTIONAL):
 		{
@@ -73,6 +81,7 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 			m_PointLightStructs[numPointLights].constant = currentLight->GetConstant();
 			m_PointLightStructs[numPointLights].linear = currentLight->GetLinear();
 			m_PointLightStructs[numPointLights].quadratic = currentLight->GetQuadratic();
+			m_PointLightStructs[numPointLights].radius = currentLight->GetRadius();
 			numPointLights++;
 			break;
 		}
@@ -92,23 +101,12 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 		}
 		default:
 		{
-			CHROMA_ERROR("Light Type {0} Not Supported!", currentLight->type);
+			CHROMA_ERROR("Light Type {0} Not Supported!", currentLight->GetLightType());
 			break;
 		}
 		}
 	}
 	
-
-	// With the size updated, we'll need to resize the buffer data 
-	// and the Buffer Bind Attach Point for the shaders.
-	glBufferData(GL_UNIFORM_BUFFER, m_Size, NULL, GL_DYNAMIC_DRAW);
-	glBindBufferRange(GL_UNIFORM_BUFFER, m_BindingPointIndex, m_UBO, 0, m_Size);
-
-	int test{ 0 };
-	glGetIntegerv(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT, &test);
-
-	// Now with the GPU memory allocated we need to fill the data
-	// cameraPosition
 	// numDirectionalLights
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, 4, &numDirectionalLights);
 	// numPointLights
@@ -124,7 +122,5 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 	// PointLightStructs
 	glBufferSubData(GL_UNIFORM_BUFFER, 16 + sizeof(m_DirLightStructs) + sizeof(m_PointLightStructs), sizeof(m_SpotLightStructs), &m_SpotLightStructs);
 
-	/*glBufferSubData(GL_UNIFORM_BUFFER, 28, 12, &test.diffuse);
-	glBufferSubData(GL_UNIFORM_BUFFER, 44, 16, &test.direction);*/
 	
 }

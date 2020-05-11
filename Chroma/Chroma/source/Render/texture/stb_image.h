@@ -351,7 +351,7 @@ extern "C" {
 
 	//////////////////////////////////////////////////////////////////////////////
 	//
-	// PRIMARY API - works on images of any type
+	// PRIMARY API - works on images of any m_Type
 	//
 
 	//
@@ -5481,12 +5481,12 @@ static int stbi__tga_info(stbi__context * s, int* x, int* y, int* comp)
 	int tga_w, tga_h, tga_comp, tga_image_type, tga_bits_per_pixel, tga_colormap_bpp;
 	int sz, tga_colormap_type;
 	stbi__get8(s);                   // discard Offset
-	tga_colormap_type = stbi__get8(s); // colormap type
+	tga_colormap_type = stbi__get8(s); // colormap m_Type
 	if (tga_colormap_type > 1) {
 		stbi__rewind(s);
 		return 0;      // only RGB or indexed allowed
 	}
-	tga_image_type = stbi__get8(s); // image type
+	tga_image_type = stbi__get8(s); // image m_Type
 	if (tga_colormap_type == 1) { // colormapped (paletted) image
 		if (tga_image_type != 1 && tga_image_type != 9) {
 			stbi__rewind(s);
@@ -5548,11 +5548,11 @@ static int stbi__tga_test(stbi__context * s)
 	int res = 0;
 	int sz, tga_color_type;
 	stbi__get8(s);      //   discard Offset
-	tga_color_type = stbi__get8(s);   //   color type
+	tga_color_type = stbi__get8(s);   //   color m_Type
 	if (tga_color_type > 1) goto errorEnd;   //   only RGB or indexed allowed
-	sz = stbi__get8(s);   //   image type
+	sz = stbi__get8(s);   //   image m_Type
 	if (tga_color_type == 1) { // colormapped (paletted) image
-		if (sz != 1 && sz != 9) goto errorEnd; // colortype 1 demands image type 1 or 9
+		if (sz != 1 && sz != 9) goto errorEnd; // colortype 1 demands image m_Type 1 or 9
 		stbi__skip(s, 4);       // skip index of first colormap entry and number of entries
 		sz = stbi__get8(s);    //   check bits per palette color entry
 		if ((sz != 8) && (sz != 15) && (sz != 16) && (sz != 24) && (sz != 32)) goto errorEnd;
@@ -5864,7 +5864,7 @@ static void* stbi__psd_load(stbi__context * s, int* x, int* y, int* comp, int re
 	if (stbi__get32be(s) != 0x38425053)   // "8BPS"
 		return stbi__errpuc("not PSD", "Corrupt PSD image");
 
-	// Check file type version.
+	// Check file m_Type version.
 	if (stbi__get16be(s) != 1)
 		return stbi__errpuc("wrong version", "Unsupported version of PSD image");
 
@@ -7561,7 +7561,7 @@ STBIDEF int stbi_is_16_bit_from_callbacks(stbi_io_callbacks const* c, void* user
 	  1.24  (2010-07-12)
 			  perf improvements reading from files on platforms with lock-heavy fgetc()
 			  minor perf improvements for jpeg
-			  deprecated type-specific functions so we'll get feedback if they're needed
+			  deprecated m_Type-specific functions so we'll get feedback if they're needed
 			  attempt to fix trans_data warning (Won Chun)
 	  1.23    fixed bug in iPhone support
 	  1.22  (2010-07-10)
@@ -7617,7 +7617,7 @@ STBIDEF int stbi_is_16_bit_from_callbacks(stbi_io_callbacks const* c, void* user
 	  0.53    fix bug in png 3->4; speedup png decoding
 	  0.52    png handles req_comp=3,4 directly; minor cleanup; jpeg comments
 	  0.51    obey req_comp requests, 1-component jpegs return as 1-component,
-			  on 'test' only check type, not whether we support this variant
+			  on 'test' only check m_Type, not whether we support this variant
 	  0.50  (2006-11-19)
 			  first released version
 */

@@ -83,7 +83,6 @@ namespace Chroma
 	void Engine::Draw()
 	{
 		CHROMA_PROFILE_FUNCTION();
-		//if (Chroma::Scene::GetSceneState() == Chroma::Scene::kSceneBuilt)
 		Chroma::Render::RenderScene();
 
 		Chroma::UI::Draw();

@@ -57,7 +57,7 @@ namespace Chroma
 			// Get Deserializer
 			JSONDeserializer* deserializer = new JSONDeserializer;
 
-			// Create based on type
+			// Create based on m_Type
 			switch (Type::GetType<Type::Component>(componentTypes->name.GetString()))
 			{
 			case(Type::Component::kStaticMeshComponent) :
@@ -100,7 +100,7 @@ namespace Chroma
 			// Get Deserializer
 			JSONDeserializer* deserializer = new JSONDeserializer;
 
-			// Create based on type
+			// Create based on m_Type
 			switch (Type::GetType<Type::Entity>(entityTypes->name.GetString()))
 			{
 			case(Type::Entity::kIEntity || Type::Entity::kEntity):
