@@ -6,36 +6,6 @@
 #include <component/IComponent.h>
 #include <texture/Texture.h>
 
-struct DirLight
-{
-	glm::vec4 diffuse;
-	glm::vec3 direction;
-	float intensity;
-};
-
-struct PointLight
-{
-	glm::vec4 diffuse;
-	glm::vec3 position;
-	float intensity;
-	float constant;
-	float linear;
-	float quadratic;
-	float radius;
-};
-
-struct SpotLight
-{
-	glm::vec4 diffuse;
-	glm::vec3 direction;
-	float intensity;
-	glm::vec3 position;
-	float constant;
-	float linear;
-	float quadratic;
-	float spotSize;
-	float penumbraSize;
-};
 
 
 class Light : public IComponent
@@ -90,7 +60,10 @@ public:
 	glm::vec3 GetPosition() { return m_Position; };
 	float GetIntensity() { return m_Intensity; };
 	glm::vec3 GetDiffuse() { return m_Diffuse; };
-	float getRadius() { updatePointRadius(); return m_Radius; };
+	float GetRadius() { UpdatePointRadius(); return m_Radius; };
+	inline float GetConstant() const { return m_Constant; }
+	inline float GetLinear() const { return m_Linear; }
+	inline float GetQuadratic() const { return m_Quadratic; }
 	// getters - spotlights
 	float getSpotSize() { return spotSize; };
 	float getPenumbraSize() { return penumbraSize; };
@@ -107,9 +80,9 @@ public:
 
 protected:
 
-	void updatePointRadius();
+	void UpdatePointRadius();
 
-	float m_Intensity{ 1.0f };
+	float m_Intensity{ 10.0f };
 	// transforms
 	glm::vec3 m_Position{ 0.0f, 0.0f, 0.0f };
 	glm::vec3 m_Direction{ 0.0f, -1.0f, 0.0f };

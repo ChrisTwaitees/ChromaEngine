@@ -31,32 +31,19 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 	// DIRECTIONAL
 	int numDirectionalLights{ 0 };
 	m_Size += sizeof(int);
+	m_Size += sizeof(m_DirLightStructs);
 	// POINT
 	int numPointLights{ 0 };
 	m_Size += sizeof(int);
+	m_Size += sizeof(m_PointLightStructs);
 	// SPOT
 	int numSpotLights{ 0 };
 	m_Size += sizeof(int);
 	m_Size += sizeof(int);
+	m_Size += sizeof(m_SpotLightStructs);
 
-	int test1 = sizeof(int);
-	int test2 = sizeof(float);
-	int test3 = sizeof(glm::vec4);
-	int test4 = sizeof(glm::vec3);
-
-
-
-	DirLight tests[3];
-
-	tests[0].diffuse = glm::vec4(1.0,0.0, 0.0, 0.5);
-	tests[0].direction = glm::vec4(0.0, 1.0, 0.0, 0.5);
-	tests[0].intensity = glm::abs(glm::sin(GAMETIME));
-	tests[1].diffuse = glm::vec4(0.0,0.0, 1.0, 0.5);
-	tests[1].direction = glm::vec4(1.0, 0.0, 1.0, 0.5);
-	tests[1].intensity = glm::abs(0.25);
-	m_Size += sizeof(tests);
-
-
+	
+	// Iter through lights populating light structs
 	for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 	{
 		Light* currentLight = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
@@ -64,25 +51,39 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 		{
 		case(Light::DIRECTIONAL):
 		{
+			m_DirLightStructs[numDirectionalLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
+			m_DirLightStructs[numDirectionalLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);
+			m_DirLightStructs[numDirectionalLights].intensity = currentLight->GetIntensity() ;
 			numDirectionalLights++;
 			break;
 		}
 		case(Light::SUNLIGHT):
 		{
+			m_DirLightStructs[numDirectionalLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
+			m_DirLightStructs[numDirectionalLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);
+			m_DirLightStructs[numDirectionalLights].intensity = currentLight->GetIntensity();
 			numDirectionalLights++;
-			//test.diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
-			//test.diffuse = currentLight->GetDiffuse();
-			//test.intensity = currentLight->GetIntensity() *0.5 ;
-			//test.direction = glm::vec4(currentLight->GetDirection(), 1.0);
 			break;
 		}
 		case(Light::POINT):
 		{
+			m_PointLightStructs[numPointLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
+			m_PointLightStructs[numPointLights].position = currentLight->GetPosition();
+			m_PointLightStructs[numPointLights].intensity = currentLight->GetIntensity();
+			m_PointLightStructs[numPointLights].constant = currentLight->GetConstant();
+			m_PointLightStructs[numPointLights].linear = currentLight->GetLinear();
+			m_PointLightStructs[numPointLights].quadratic = currentLight->GetQuadratic();
 			numPointLights++;
 			break;
 		}
 		case(Light::SPOT):
 		{
+			m_SpotLightStructs[numSpotLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
+			m_SpotLightStructs[numSpotLights].position = currentLight->GetPosition();
+			m_SpotLightStructs[numSpotLights].intensity = currentLight->GetIntensity();
+			m_SpotLightStructs[numSpotLights].constant = currentLight->GetConstant();
+			m_SpotLightStructs[numSpotLights].linear = currentLight->GetLinear();
+			m_SpotLightStructs[numSpotLights].quadratic = currentLight->GetQuadratic();
 			numSpotLights++;
 			break;
 		}
@@ -111,7 +112,9 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 	glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &numSpotLights); //  Padding for lighting structs
 	// structs
 	// DirectionalLightStructs
-	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(tests), &tests);
+	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(m_DirLightStructs), &m_DirLightStructs);
+	// PointLightStructs
+	glBufferSubData(GL_UNIFORM_BUFFER, 16 + sizeof(m_DirLightStructs), sizeof(m_PointLightStructs), &m_PointLightStructs);
 
 	/*glBufferSubData(GL_UNIFORM_BUFFER, 28, 12, &test.diffuse);
 	glBufferSubData(GL_UNIFORM_BUFFER, 44, 16, &test.direction);*/

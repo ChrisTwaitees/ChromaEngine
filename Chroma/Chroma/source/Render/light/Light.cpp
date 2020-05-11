@@ -3,7 +3,7 @@
 #include <scene/Scene.h>
 
 
-void Light::updatePointRadius()
+void Light::UpdatePointRadius()
 {
 	m_Diffuse *= m_Intensity;
 	m_LightMax = std::fmaxf(std::fmaxf(m_Diffuse.r, m_Diffuse.g), m_Diffuse.b);
@@ -104,7 +104,7 @@ std::string Light::GetTypeString() const
 
 Light::Light()
 {
-	updatePointRadius();
+	UpdatePointRadius();
 	Init();
 }
 
