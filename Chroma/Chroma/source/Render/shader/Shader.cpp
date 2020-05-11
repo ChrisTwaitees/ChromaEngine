@@ -195,8 +195,8 @@ void Shader::SetLightingUniforms(Camera const& renderCam)
 			spotlights++;
 			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
 			//// lights spotlight
-			this->SetUniform(lightIndex + ".spotSize", light->getSpotSize());
-			this->SetUniform(lightIndex + ".penumbraSize", light->getPenumbraSize());
+			this->SetUniform(lightIndex + ".spotSize", light->GetSpotSize());
+			this->SetUniform(lightIndex + ".penumbraSize", light->GetPenumbraSize());
 			break;
 		default:
 			break;

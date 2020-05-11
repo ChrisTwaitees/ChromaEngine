@@ -48,8 +48,8 @@ public:
 	void setLinear(float linear_val) { m_Linear = linear_val; };
 	void setQuadratic(float quadratic_val) { m_Quadratic = quadratic_val; };
 	// setters - spotlight
-	void setPenumbraSize(float penumbra_val) { penumbraSize = penumbra_val; };
-	void setSpotSize(float spotSize_val) {spotSize = spotSize_val;};
+	void setPenumbraSize(float penumbra_val) { m_PenumbraSize = penumbra_val; };
+	void setSpotSize(float spotSize_val) {m_SpotSize = spotSize_val;};
 
 	// getters
 	TYPE getType() const { return type; };
@@ -65,8 +65,8 @@ public:
 	inline float GetLinear() const { return m_Linear; }
 	inline float GetQuadratic() const { return m_Quadratic; }
 	// getters - spotlights
-	float getSpotSize() { return spotSize; };
-	float getPenumbraSize() { return penumbraSize; };
+	float GetSpotSize() { return m_SpotSize; };
+	float GetPenumbraSize() { return m_PenumbraSize; };
 
 	// constructors
 	Light();
@@ -89,7 +89,7 @@ protected:
 	glm::vec3 m_Diffuse{ 1.0f, 1.0f, 1.0f };
 
 	// spotlight
-	float spotSize{ glm::cos(glm::radians(8.5f)) };
-	float penumbraSize{ glm::cos(glm::radians(17.5f)) };
+	float m_SpotSize{ glm::cos(glm::radians(8.5f)) };
+	float m_PenumbraSize{ glm::cos(glm::radians(17.5f)) };
 };
 #endif

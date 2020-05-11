@@ -79,11 +79,14 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 		case(Light::SPOT):
 		{
 			m_SpotLightStructs[numSpotLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
-			m_SpotLightStructs[numSpotLights].position = currentLight->GetPosition();
+			m_SpotLightStructs[numSpotLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);
 			m_SpotLightStructs[numSpotLights].intensity = currentLight->GetIntensity();
+			m_SpotLightStructs[numSpotLights].position = currentLight->GetPosition();
 			m_SpotLightStructs[numSpotLights].constant = currentLight->GetConstant();
 			m_SpotLightStructs[numSpotLights].linear = currentLight->GetLinear();
 			m_SpotLightStructs[numSpotLights].quadratic = currentLight->GetQuadratic();
+			m_SpotLightStructs[numSpotLights].spotSize = currentLight->GetSpotSize();
+			m_SpotLightStructs[numSpotLights].penumbraSize = currentLight->GetPenumbraSize();
 			numSpotLights++;
 			break;
 		}
@@ -101,6 +104,9 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 	glBufferData(GL_UNIFORM_BUFFER, m_Size, NULL, GL_DYNAMIC_DRAW);
 	glBindBufferRange(GL_UNIFORM_BUFFER, m_BindingPointIndex, m_UBO, 0, m_Size);
 
+	int test{ 0 };
+	glGetIntegerv(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT, &test);
+
 	// Now with the GPU memory allocated we need to fill the data
 	// cameraPosition
 	// numDirectionalLights
@@ -115,6 +121,8 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(m_DirLightStructs), &m_DirLightStructs);
 	// PointLightStructs
 	glBufferSubData(GL_UNIFORM_BUFFER, 16 + sizeof(m_DirLightStructs), sizeof(m_PointLightStructs), &m_PointLightStructs);
+	// PointLightStructs
+	glBufferSubData(GL_UNIFORM_BUFFER, 16 + sizeof(m_DirLightStructs) + sizeof(m_PointLightStructs), sizeof(m_SpotLightStructs), &m_SpotLightStructs);
 
 	/*glBufferSubData(GL_UNIFORM_BUFFER, 28, 12, &test.diffuse);
 	glBufferSubData(GL_UNIFORM_BUFFER, 44, 16, &test.direction);*/
