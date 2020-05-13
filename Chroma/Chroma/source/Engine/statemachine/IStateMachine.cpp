@@ -18,4 +18,5 @@ IStateMachine::IStateMachine()
 
 IStateMachine::~IStateMachine()
 {
+	CHROMA_WARN("IStateMachine Deleted.");
 }

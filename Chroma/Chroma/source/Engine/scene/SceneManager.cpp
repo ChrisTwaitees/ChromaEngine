@@ -50,49 +50,6 @@ namespace Chroma
 		// Start Scene Build
 		Chroma::Scene::PreSceneBuild();
 
-		// Components
-		rapidjson::Value& componentsRoot = jsonScene.GetComponents();
-		for (rapidjson::Value::ConstMemberIterator componentTypes = componentsRoot.MemberBegin(); componentTypes != componentsRoot.MemberEnd(); ++componentTypes)
-		{
-			// Get Deserializer
-			JSONDeserializer* deserializer = new JSONDeserializer;
-
-			// Create based on m_Type
-			switch (Type::GetType<Type::Component>(componentTypes->name.GetString()))
-			{
-			case(Type::Component::kStaticMeshComponent) :
-			{
-				for (rapidjson::Value::ConstMemberIterator staticMeshComponent = componentTypes->value.MemberBegin(); staticMeshComponent != componentTypes->value.MemberEnd(); ++staticMeshComponent)
-				{
-					StaticMesh* newStaticMeshComponent = deserializer->CreateObject<StaticMesh*>(Chroma::Type::Component::kStaticMeshComponent, staticMeshComponent->value);
-					newStaticMeshComponent->SetUID(UID(staticMeshComponent->name.GetString()));
-					//Chroma::Scene::AddMeshComponent(newStaticMeshComponent);
-				}
-				break;
-			}
-			case(Type::Component::kSkinnedMeshComponent):
-			{
-				for (rapidjson::Value::ConstMemberIterator skinnedMeshComponent = componentTypes->value.MemberBegin(); skinnedMeshComponent != componentTypes->value.MemberEnd(); ++skinnedMeshComponent)
-				{
-					SkinnedMesh* newSkinnedMeshComponent = deserializer->CreateObject<SkinnedMesh*>(Chroma::Type::Component::kSkinnedMeshComponent, skinnedMeshComponent->value);
-					newSkinnedMeshComponent->SetUID(UID(skinnedMeshComponent->name.GetString()));
-					//Chroma::Scene::AddMeshComponent(newSkinnedMeshComponent);
-				}
-				break;
-			}
-			case(Type::Component::kLightComponent):
-			{
-				for (rapidjson::Value::ConstMemberIterator lightComponent = componentTypes->value.MemberBegin(); lightComponent != componentTypes->value.MemberEnd(); ++lightComponent)
-				{
-					Light* newLight = deserializer->CreateObject<Light*>(Chroma::Type::Component::kLightComponent, lightComponent->value);
-					newLight->SetUID(UID(lightComponent->name.GetString()));
-					Chroma::Scene::AddLight(newLight);
-				}
-				break;
-			}
-			};
-		}
-		
 		// Entities
 		rapidjson::Value& entitiesRoot = jsonScene.GetEntities();
 		for (rapidjson::Value::ConstMemberIterator entityTypes = entitiesRoot.MemberBegin(); entityTypes != entitiesRoot.MemberEnd(); ++entityTypes)
@@ -114,6 +71,50 @@ namespace Chroma
 			}
 			};
 		}
+
+		// Components
+		rapidjson::Value& componentsRoot = jsonScene.GetComponents();
+		for (rapidjson::Value::ConstMemberIterator componentTypes = componentsRoot.MemberBegin(); componentTypes != componentsRoot.MemberEnd(); ++componentTypes)
+		{
+			// Get Deserializer
+			JSONDeserializer* deserializer = new JSONDeserializer;
+
+			// Create based on m_Type
+			switch (Type::GetType<Type::Component>(componentTypes->name.GetString()))
+			{
+			case(Type::Component::kStaticMeshComponent) :
+			{
+				for (rapidjson::Value::ConstMemberIterator staticMeshComponent = componentTypes->value.MemberBegin(); staticMeshComponent != componentTypes->value.MemberEnd(); ++staticMeshComponent)
+				{
+					StaticMesh* newStaticMeshComponent = deserializer->CreateObject<StaticMesh*>(Chroma::Type::Component::kStaticMeshComponent, staticMeshComponent->value);
+					newStaticMeshComponent->SetUID(UID(staticMeshComponent->name.GetString()));
+					Chroma::Scene::GetEntity(newStaticMeshComponent->GetParentEntityUID())->AddComponent(newStaticMeshComponent);
+				}
+				break;
+			}
+			case(Type::Component::kSkinnedMeshComponent):
+			{
+				for (rapidjson::Value::ConstMemberIterator skinnedMeshComponent = componentTypes->value.MemberBegin(); skinnedMeshComponent != componentTypes->value.MemberEnd(); ++skinnedMeshComponent)
+				{
+					SkinnedMesh* newSkinnedMeshComponent = deserializer->CreateObject<SkinnedMesh*>(Chroma::Type::Component::kSkinnedMeshComponent, skinnedMeshComponent->value);
+					newSkinnedMeshComponent->SetUID(UID(skinnedMeshComponent->name.GetString()));
+					Chroma::Scene::GetEntity(newSkinnedMeshComponent->GetParentEntityUID())->AddComponent(newSkinnedMeshComponent);
+				}
+				break;
+			}
+			case(Type::Component::kLightComponent):
+			{
+				for (rapidjson::Value::ConstMemberIterator lightComponent = componentTypes->value.MemberBegin(); lightComponent != componentTypes->value.MemberEnd(); ++lightComponent)
+				{
+					Light* newLight = deserializer->CreateObject<Light*>(Chroma::Type::Component::kLightComponent, lightComponent->value);
+					newLight->SetUID(UID(lightComponent->name.GetString()));
+					Chroma::Scene::AddLight(newLight);
+				}
+				break;
+			}
+			};
+		}
+		
 	
 		// Scene Entities
 		// IBL

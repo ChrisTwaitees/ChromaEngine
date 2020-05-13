@@ -107,7 +107,6 @@ void MeshComponent::Destroy()
 void MeshComponent::Serialize(ISerializer*& serializer)
 {
 	CMPNT_SERIALIZE_BEGIN
-
 	// Properties
 	// Transform
 	serializer->AddProperty("m_Translation", &m_Translation);

@@ -136,6 +136,15 @@ public:
 		for (rapidjson::Value::ConstMemberIterator componentValue = jsonData.MemberBegin(); componentValue != jsonData.MemberEnd(); ++componentValue)
 		{
 			CHROMA_INFO("Component attr : {0}", componentValue->name.GetString());
+			std::string componentAttrKey(componentValue->name.GetString());
+			if (componentAttrKey == "m_ParentEntityUID")
+			{
+				newStaticMesh->SetParentEntityUID(UID(componentValue->value.GetString()));
+			}
+			else
+			{
+				CHROMA_WARN("{} Serialized Attribute Not Accounted for!", componentValue->name.GetString());
+			}
 		}
 
 		return newStaticMesh;

@@ -137,6 +137,13 @@ void JSONScene::SerializeComponent(ISerializer*& serialized, rapidjson::Value& j
 
 void JSONScene::SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonValue)
 {
+	// UID Properties
+	for (auto& uid : serialized->m_UIDs)
+	{
+		rapidjson::Value stringKey(uid.first.m_Name, m_Document.GetAllocator());
+		rapidjson::Value stringValue(uid.second.data.c_str(), m_Document.GetAllocator());
+		jsonValue.AddMember(stringKey, stringValue, m_Document.GetAllocator());
+	}
 
 	// String Properties
 	for (auto& str : serialized->m_StringProperties)
