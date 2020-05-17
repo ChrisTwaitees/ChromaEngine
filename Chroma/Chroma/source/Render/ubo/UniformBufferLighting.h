@@ -49,7 +49,7 @@ private:
 	void PopulateBufferWithSceneLights();
 
 	// Lighting Struct Sizes
-	DirLight m_DirLightStrucs[MAX_DIRECTIONAL_LIGHTS];
+	DirLight m_DirLightStructs[MAX_DIRECTIONAL_LIGHTS];
 	PointLight m_PointLightStructs[MAX_POINT_LIGHTS];
 	SpotLight m_SpotLightStructs[MAX_SPOT_LIGHTS];
 

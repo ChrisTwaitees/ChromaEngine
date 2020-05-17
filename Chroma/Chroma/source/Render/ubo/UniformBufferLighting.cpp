@@ -13,10 +13,25 @@ void UniformBufferLighting::Setup()
 	// Now we've created a buffer we'll set the size according to our 
 	// structs and number of lights, populating the buffer 
 	Bind();
-	PopulateBufferWithSceneLights();
+	// Calculate the current number of lights and structs needed
+	m_Size = 0;
+	// Directional Lights (num dir lights (int) and structs)
+	m_Size += sizeof(int);
+	m_Size += sizeof(m_DirLightStructs);
+	// Point Lights (num point lights (int) and structs)
+	m_Size += sizeof(int);
+	m_Size += sizeof(m_PointLightStructs);
+	// Spot Lights (num spot lights (int) and structs) and padding for latout 140 which requires vec4 spacing between data 
+	m_Size += sizeof(int);
+	m_Size += sizeof(int);
+	m_Size += sizeof(m_SpotLightStructs);
+	// With the size updated, we'll need to resize the buffer data 	
+	glBufferData(GL_UNIFORM_BUFFER, m_Size, NULL, GL_DYNAMIC_DRAW);
 	// Then we need to bind the uniform buffer object to the same binding point 
 	// We've bound the shaders to
 	glBindBufferRange(GL_UNIFORM_BUFFER, m_BindingPointIndex, m_UBO, 0, m_Size);
+	// Attach current lights to buffer
+	PopulateBufferWithSceneLights();
 	UnBind();
 
 	// Debug
@@ -26,92 +41,86 @@ void UniformBufferLighting::Setup()
 
 void UniformBufferLighting::PopulateBufferWithSceneLights()
 {
-	// Calculate the current number of lights and structs needed
-	m_Size = 0;
+
 	// DIRECTIONAL
 	int numDirectionalLights{ 0 };
-	m_Size += sizeof(int);
+
 	// POINT
 	int numPointLights{ 0 };
-	m_Size += sizeof(int);
+
 	// SPOT
 	int numSpotLights{ 0 };
-	m_Size += sizeof(int);
-	m_Size += sizeof(int);
-
-	int test1 = sizeof(int);
-	int test2 = sizeof(float);
-	int test3 = sizeof(glm::vec4);
-	int test4 = sizeof(glm::vec3);
-
-	DirLight tests[3];
-
-	tests[0].diffuse = glm::vec4(1.0,0.0, 0.0, 0.5);
-	tests[0].direction = glm::vec4(0.0, 1.0, 0.0, 0.5);
-	tests[0].intensity = glm::abs(glm::sin(GAMETIME));
-	tests[1].diffuse = glm::vec4(0.0,0.0, 1.0, 0.5);
-	tests[1].direction = glm::vec4(1.0, 0.0, 1.0, 0.5);
-	tests[1].intensity = glm::abs(0.25);
-	m_Size += sizeof(tests);
-
-
+	
+	// Iter through lights populating light structs
 	for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 	{
 		Light* currentLight = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
-		switch (currentLight->type)
+		switch (currentLight->GetLightType())
 		{
 		case(Light::DIRECTIONAL):
 		{
+			m_DirLightStructs[numDirectionalLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
+			m_DirLightStructs[numDirectionalLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);
+			m_DirLightStructs[numDirectionalLights].intensity = currentLight->GetIntensity() ;
 			numDirectionalLights++;
 			break;
 		}
 		case(Light::SUNLIGHT):
 		{
+			m_DirLightStructs[numDirectionalLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
+			m_DirLightStructs[numDirectionalLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);
+			m_DirLightStructs[numDirectionalLights].intensity = currentLight->GetIntensity();
 			numDirectionalLights++;
-			//test.diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
-			//test.diffuse = currentLight->GetDiffuse();
-			//test.intensity = currentLight->GetIntensity() *0.5 ;
-			//test.direction = glm::vec4(currentLight->GetDirection(), 1.0);
 			break;
 		}
 		case(Light::POINT):
 		{
+			m_PointLightStructs[numPointLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
+			m_PointLightStructs[numPointLights].position = currentLight->GetPosition();
+			m_PointLightStructs[numPointLights].intensity = currentLight->GetIntensity();
+			m_PointLightStructs[numPointLights].constant = currentLight->GetConstant();
+			m_PointLightStructs[numPointLights].linear = currentLight->GetLinear();
+			m_PointLightStructs[numPointLights].quadratic = currentLight->GetQuadratic();
+			m_PointLightStructs[numPointLights].radius = currentLight->GetRadius();
 			numPointLights++;
 			break;
 		}
 		case(Light::SPOT):
 		{
+			m_SpotLightStructs[numSpotLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
+			m_SpotLightStructs[numSpotLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);
+			m_SpotLightStructs[numSpotLights].intensity = currentLight->GetIntensity();
+			m_SpotLightStructs[numSpotLights].position = currentLight->GetPosition();
+			m_SpotLightStructs[numSpotLights].constant = currentLight->GetConstant();
+			m_SpotLightStructs[numSpotLights].linear = currentLight->GetLinear();
+			m_SpotLightStructs[numSpotLights].quadratic = currentLight->GetQuadratic();
+			m_SpotLightStructs[numSpotLights].spotSize = currentLight->GetSpotSize();
+			m_SpotLightStructs[numSpotLights].penumbraSize = currentLight->GetPenumbraSize();
 			numSpotLights++;
 			break;
 		}
 		default:
 		{
-			CHROMA_ERROR("Light Type {0} Not Supported!", currentLight->type);
+			CHROMA_ERROR("Light Type {0} Not Supported!", currentLight->GetLightType());
 			break;
 		}
 		}
 	}
 	
-
-	// With the size updated, we'll need to resize the buffer data 
-	// and the Buffer Bind Attach Point for the shaders.
-	glBufferData(GL_UNIFORM_BUFFER, m_Size, NULL, GL_DYNAMIC_DRAW);
-	glBindBufferRange(GL_UNIFORM_BUFFER, m_BindingPointIndex, m_UBO, 0, m_Size);
-
-	// Now with the GPU memory allocated we need to fill the data
-	// cameraPosition
 	// numDirectionalLights
 	glBufferSubData(GL_UNIFORM_BUFFER, 0, 4, &numDirectionalLights);
 	// numPointLights
 	glBufferSubData(GL_UNIFORM_BUFFER, 4, 4, &numPointLights);
 	// numSpotLights
 	glBufferSubData(GL_UNIFORM_BUFFER, 8, 4, &numSpotLights);
-	glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &numSpotLights);
+	glBufferSubData(GL_UNIFORM_BUFFER, 12, 4, &numSpotLights); //  Padding for lighting structs
 	// structs
 	// DirectionalLightStructs
-	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(tests), &tests);
+	glBufferSubData(GL_UNIFORM_BUFFER, 16, sizeof(m_DirLightStructs), &m_DirLightStructs);
+	// PointLightStructs
+	glBufferSubData(GL_UNIFORM_BUFFER, 16 + sizeof(m_DirLightStructs), sizeof(m_PointLightStructs), &m_PointLightStructs);
+	// PointLightStructs
+	glBufferSubData(GL_UNIFORM_BUFFER, 16 + sizeof(m_DirLightStructs) + sizeof(m_PointLightStructs), sizeof(m_SpotLightStructs), &m_SpotLightStructs);
 
-	/*glBufferSubData(GL_UNIFORM_BUFFER, 28, 12, &test.diffuse);
-	glBufferSubData(GL_UNIFORM_BUFFER, 44, 16, &test.direction);*/
 	
 }

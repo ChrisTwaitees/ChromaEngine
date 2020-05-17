@@ -199,7 +199,7 @@ void PhysicsComponent::SetCollisionFlags()
 
 void PhysicsComponent::Init()
 {
-	// Set type
+	// Set m_Type
 	m_Type = Chroma::Type::Component::kPhysicsComponent;
 
 	// build rigidBody

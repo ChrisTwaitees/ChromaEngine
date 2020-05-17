@@ -194,7 +194,7 @@ void Model::Init()
 		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetParentEntityUID(GetParentEntityUID());
 	}
 
-	// set component type
+	// set component m_Type
 	m_Type = Chroma::Type::Component::kModelComponent;
 
 	CMPNT_INITIALIZED

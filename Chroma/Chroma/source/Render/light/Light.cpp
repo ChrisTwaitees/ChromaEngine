@@ -3,11 +3,15 @@
 #include <scene/Scene.h>
 
 
-void Light::updatePointRadius()
+void Light::UpdatePointRadius()
 {
-	m_Diffuse *= m_Intensity;
-	m_LightMax = std::fmaxf(std::fmaxf(m_Diffuse.r, m_Diffuse.g), m_Diffuse.b);
-	m_Radius = (-m_Linear + std::sqrtf(m_Linear * m_Linear - 4 * m_Quadratic * (m_Constant - (256.0 / 5.0) * m_LightMax))) / (2 * m_Quadratic);
+	if (m_LightType == POINT)
+	{
+		glm::vec3 brightness = m_Diffuse * m_Intensity;
+		m_LightMax = std::fmaxf(std::fmaxf(brightness.r, brightness.g), brightness.b);
+		m_Radius = (-m_Linear + std::sqrtf(m_Linear * m_Linear - 4 * m_Quadratic * (m_Constant - (256.0 / 5.0) * m_LightMax)))	/ (2 * m_Quadratic);
+		CHROMA_INFO("PointLightRadius Updated");
+	}
 }
 
 void Light::Init()
@@ -22,6 +26,8 @@ void Light::Init()
 		m_IconUID = lightIconComponent->GetUID();
 	}
 #endif
+	// Set Point Radius
+	UpdatePointRadius();
 
 	CMPNT_INITIALIZED
 }
@@ -30,7 +36,7 @@ void Light::Update()
 {
 #ifdef EDITOR
 	{
-
+		UpdatePointRadius();
 	}
 #endif
 }
@@ -63,8 +69,8 @@ void Light::Serialize(ISerializer*& serializer)
 
 	editorProperty.m_Type = Chroma::Type::EditorProperty::kColorProperty;
 	serializer->AddProperty("m_Diffuse", &m_Diffuse, editorProperty);
-	// type
-	serializer->AddProperty("m_Type", &m_Type, editorProperty);
+	// m_Type
+	serializer->AddProperty("m_Type", &m_LightType, editorProperty);
 }
 
 #ifdef EDITOR
@@ -77,7 +83,7 @@ void Light::DrawIcon(Texture& iconTexture)
 
 std::string Light::GetTypeString() const
 {
-	switch (type)
+	switch (m_LightType)
 	{
 	case(TYPE::DIRECTIONAL) :
 	{
@@ -104,7 +110,7 @@ std::string Light::GetTypeString() const
 
 Light::Light()
 {
-	updatePointRadius();
+	UpdatePointRadius();
 	Init();
 }
 

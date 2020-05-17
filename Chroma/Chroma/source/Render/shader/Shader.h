@@ -30,9 +30,6 @@ public:
 		m_Uniforms.SetUniform(uniformName, uniformValue);
 	};
 
-	void SetLightingUniforms(Camera const& renderCam);
-
-
 	//constructor reads and builds the shader
 	Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");
 	Shader() {};

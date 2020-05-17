@@ -155,7 +155,7 @@ namespace Chroma
 	}
 	void TexureLoader::GenerateHDRTexture(TextureData& textData)
 	{
-		//textData.type = Texture::HDR;
+		//textData.m_Type = Texture::HDR;
 		glGenTextures(1, &textData.ID);
 		stbi_set_flip_vertically_on_load(true);
 		float* data = stbi_loadf(textData.sourcePath.c_str(), &textData.width, &textData.height, &textData.nrComponents, 0);

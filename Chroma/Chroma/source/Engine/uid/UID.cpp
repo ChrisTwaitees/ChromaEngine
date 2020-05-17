@@ -14,8 +14,8 @@ unsigned int UIDRandomChar()
 std::string UIDNewUID()
 {
 	std::stringstream ss;
-	for (auto i = 0; i < CHROMA_UID_LENGTH; i++) {
-		const auto rc = UIDRandomChar();
+	for (unsigned int i = 0; i < CHROMA_UID_LENGTH; i++) {
+		unsigned int rc = UIDRandomChar();
 		std::stringstream hexstream;
 		hexstream << std::hex << rc;
 		auto hex = hexstream.str();
@@ -32,7 +32,7 @@ std::string UID::GenerateNewUID()
 
 bool UID::operator<(const UID& rhs) const
 {
-	return data < rhs.data;
+	return this->data < rhs.data;
 }
 
 UID::UID()

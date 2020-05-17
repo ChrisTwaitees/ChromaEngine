@@ -6,36 +6,6 @@
 #include <component/IComponent.h>
 #include <texture/Texture.h>
 
-struct DirLight
-{
-	glm::vec4 diffuse;
-	glm::vec3 direction;
-	float intensity;
-};
-
-struct PointLight
-{
-	glm::vec4 diffuse;
-	glm::vec3 position;
-	float intensity;
-	float constant;
-	float linear;
-	float quadratic;
-	float radius;
-};
-
-struct SpotLight
-{
-	glm::vec4 diffuse;
-	glm::vec3 direction;
-	float intensity;
-	glm::vec3 position;
-	float constant;
-	float linear;
-	float quadratic;
-	float spotSize;
-	float penumbraSize;
-};
 
 
 class Light : public IComponent
@@ -56,33 +26,26 @@ public:
 
 	//members
 	enum TYPE { POINT = 0, DIRECTIONAL = 1, SPOT= 2, SUNLIGHT=3 };
-	// type
-	TYPE type{ TYPE::POINT };
+	// m_Type
 
-	// attenuation
-	float m_Constant{ 1.0f };
-	float m_Linear{ 0.07f };
-	float m_Quadratic{ 1.8f };
-	float m_LightMax = {1.0f};
-	float m_Radius = { 2.5f };
 
 	// methods
 	// setters
-	void SetType(Light::TYPE light_type) { type = light_type; };
-	void SetDiffuse(glm::vec3 color) { m_Diffuse = color; };
-	void SetIntensity(float intensity_val) { m_Intensity = intensity_val; };
+	void SetLightType(Light::TYPE light_type) { m_LightType = light_type; UpdatePointRadius();};
+	void SetDiffuse(glm::vec3 color) { m_Diffuse = color; UpdatePointRadius();};
+	void SetIntensity(float intensity_val) { m_Intensity = intensity_val; UpdatePointRadius();};
 	void SetTranslation(glm::vec3 newPosition) { m_Position = newPosition; };
 	void SetDirection(glm::vec3 direction_val) { m_Direction = glm::normalize(direction_val); };
 	// setters- attenuation
-	void setConstant(float constant_val) { m_Constant = constant_val;  };
-	void setLinear(float linear_val) { m_Linear = linear_val; };
-	void setQuadratic(float quadratic_val) { m_Quadratic = quadratic_val; };
+	void setConstant(float constant_val) { m_Constant = constant_val; UpdatePointRadius();};
+	void setLinear(float linear_val) { m_Linear = linear_val; UpdatePointRadius();};
+	void setQuadratic(float quadratic_val) { m_Quadratic = quadratic_val; UpdatePointRadius();};
 	// setters - spotlight
-	void setPenumbraSize(float penumbra_val) { penumbraSize = penumbra_val; };
-	void setSpotSize(float spotSize_val) {spotSize = spotSize_val;};
+	void setPenumbraSize(float penumbra_val) { m_PenumbraSize = penumbra_val; };
+	void setSpotSize(float spotSize_val) {m_SpotSize = spotSize_val;};
 
 	// getters
-	TYPE getType() const { return type; };
+	TYPE GetLightType() const { return m_LightType; };
 	std::string GetTypeString() const;
 	// getters - directional
 	glm::vec3 GetDirection() { return m_Direction; };
@@ -90,24 +53,35 @@ public:
 	glm::vec3 GetPosition() { return m_Position; };
 	float GetIntensity() { return m_Intensity; };
 	glm::vec3 GetDiffuse() { return m_Diffuse; };
-	float getRadius() { updatePointRadius(); return m_Radius; };
+	float GetRadius() { return m_Radius; };
+	inline float GetConstant() const { return m_Constant; }
+	inline float GetLinear() const { return m_Linear; }
+	inline float GetQuadratic() const { return m_Quadratic; }
 	// getters - spotlights
-	float getSpotSize() { return spotSize; };
-	float getPenumbraSize() { return penumbraSize; };
+	float GetSpotSize() { return m_SpotSize; };
+	float GetPenumbraSize() { return m_PenumbraSize; };
 
 	// constructors
 	Light();
-	Light(TYPE type_val) : type{ type_val } { Init(); };
-	Light(TYPE type_val, float intensity_val) : type{ type_val }, m_Intensity{ intensity_val }{ Init(); };
-	Light(glm::vec3 position_val, TYPE type_val) : type{ type_val }, m_Position{ position_val } { Init(); };
-	Light(TYPE type_val, glm::vec3 direction_val) : type{ type_val }, m_Direction{ direction_val } {Init(); };
-	Light(TYPE type_val, glm::vec3 position_val, glm::vec3 direction_val, float intensity_val) : m_Position{ position_val }, m_Direction{ direction_val }, m_Intensity{ intensity_val }, type{type_val} {Init(); };
-	Light(TYPE type_val, glm::vec3 direction_val, float intensity_val) :  m_Direction{ direction_val }, m_Intensity{ intensity_val }, type{ type_val } { Init(); };
+	Light(TYPE type_val) : m_LightType{ type_val } { Init(); };
+	Light(TYPE type_val, float intensity_val) : m_LightType{ type_val }, m_Intensity{ intensity_val }{ Init(); };
+	Light(glm::vec3 position_val, TYPE type_val) : m_LightType{ type_val }, m_Position{ position_val } { Init(); };
+	Light(TYPE type_val, glm::vec3 direction_val) : m_LightType{ type_val }, m_Direction{ direction_val } {Init(); };
+	Light(TYPE type_val, glm::vec3 position_val, glm::vec3 direction_val, float intensity_val) : m_Position{ position_val }, m_Direction{ direction_val }, m_Intensity{ intensity_val }, m_LightType{type_val} {Init(); };
+	Light(TYPE type_val, glm::vec3 direction_val, float intensity_val) :  m_Direction{ direction_val }, m_Intensity{ intensity_val }, m_LightType{ type_val } { Init(); };
 	~Light();
 
 protected:
+	// type
+	TYPE m_LightType{ TYPE::POINT };
 
-	void updatePointRadius();
+	// attenuation
+	float m_Constant{ 1.0f };
+	float m_Linear{ 1.0f };
+	float m_Quadratic{ 1.0f };
+	float m_LightMax = {1.0f};
+	float m_Radius = { 2.5f };
+	void UpdatePointRadius();
 
 	float m_Intensity{ 1.0f };
 	// transforms
@@ -116,7 +90,7 @@ protected:
 	glm::vec3 m_Diffuse{ 1.0f, 1.0f, 1.0f };
 
 	// spotlight
-	float spotSize{ glm::cos(glm::radians(8.5f)) };
-	float penumbraSize{ glm::cos(glm::radians(17.5f)) };
+	float m_SpotSize{ glm::cos(glm::radians(8.5f)) };
+	float m_PenumbraSize{ glm::cos(glm::radians(17.5f)) };
 };
 #endif

@@ -428,6 +428,8 @@ namespace Chroma
 		if (Chroma::Scene::GetComponent(m_SelectedObjectUID) != nullptr)
 		{
 			Chroma::Scene::GetComponent(m_SelectedObjectUID)->Serialize(objectSerializer);
+			if(Chroma::Scene::GetComponent(m_SelectedObjectUID)->GetType() == Chroma::Type::kLightComponent)
+				Chroma::Scene::GetComponent(m_SelectedObjectUID)->Update();
 		}
 
 		// attempt to fetch entity
@@ -653,7 +655,7 @@ namespace Chroma
 		{
 			Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
 			// set uniforms
-			switch (light->type) {
+			switch (light->GetLightType()) {
 			case Light::POINT:
 				light->DrawIcon(m_LightPointIcon);
 			case Light::SUNLIGHT:

@@ -152,6 +152,15 @@ public:
 		m_UIDVectors.emplace(std::make_pair(serializeKey, value));
 	}
 
+	template<>
+	void AddProperty<UID>(const char* key, UID value, EditorProperty editorPrpty)
+	{
+		ISerializerKey serializeKey;
+		serializeKey.m_Name = key;
+		serializeKey.m_EditorProperty = editorPrpty;
+		m_UIDs.emplace(std::make_pair(serializeKey, value));
+	}
+
 
 	std::map<ISerializerKey, float*> m_FloatProperties;
 	std::map<ISerializerKey, glm::vec2*> m_Vec2Properties;
@@ -171,6 +180,7 @@ public:
 	std::map<ISerializerKey, glm::mat4*> m_Mat4Properties;
 
 	std::map<ISerializerKey, std::vector<UID>> m_UIDVectors;
+	std::map<ISerializerKey, UID> m_UIDs;
 
 	ISerializer() {};
 	virtual ~ISerializer() {};

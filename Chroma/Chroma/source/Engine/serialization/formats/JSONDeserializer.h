@@ -136,6 +136,15 @@ public:
 		for (rapidjson::Value::ConstMemberIterator componentValue = jsonData.MemberBegin(); componentValue != jsonData.MemberEnd(); ++componentValue)
 		{
 			CHROMA_INFO("Component attr : {0}", componentValue->name.GetString());
+			std::string componentAttrKey(componentValue->name.GetString());
+			if (componentAttrKey == "m_ParentEntityUID")
+			{
+				newStaticMesh->SetParentEntityUID(UID(componentValue->value.GetString()));
+			}
+			else
+			{
+				CHROMA_WARN("{} Serialized Attribute Not Accounted for!", componentValue->name.GetString());
+			}
 		}
 
 		return newStaticMesh;
@@ -221,16 +230,16 @@ public:
 				int lightType = lightValue->value.GetInt();
 
 				if (lightType == Light::TYPE::DIRECTIONAL)
-					newLight->SetType(Light::TYPE::DIRECTIONAL);
+					newLight->SetLightType(Light::TYPE::DIRECTIONAL);
 				
 				else if (lightType == Light::TYPE::POINT)
-					newLight->SetType(Light::TYPE::POINT);
+					newLight->SetLightType(Light::TYPE::POINT);
 				
 				else if (lightType == Light::TYPE::SUNLIGHT)
-					newLight->SetType(Light::TYPE::SUNLIGHT);
+					newLight->SetLightType(Light::TYPE::SUNLIGHT);
 
 				else if (lightType == Light::TYPE::SPOT)
-					newLight->SetType(Light::TYPE::SPOT);
+					newLight->SetLightType(Light::TYPE::SPOT);
 
 			}
 		}

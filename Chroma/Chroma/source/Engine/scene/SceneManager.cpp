@@ -50,6 +50,28 @@ namespace Chroma
 		// Start Scene Build
 		Chroma::Scene::PreSceneBuild();
 
+		// Entities
+		rapidjson::Value& entitiesRoot = jsonScene.GetEntities();
+		for (rapidjson::Value::ConstMemberIterator entityTypes = entitiesRoot.MemberBegin(); entityTypes != entitiesRoot.MemberEnd(); ++entityTypes)
+		{
+			// Get Deserializer
+			JSONDeserializer* deserializer = new JSONDeserializer;
+
+			// Create based on m_Type
+			switch (Type::GetType<Type::Entity>(entityTypes->name.GetString()))
+			{
+			case(Type::Entity::kIEntity || Type::Entity::kEntity):
+			{
+				for (rapidjson::Value::ConstMemberIterator entity = entityTypes->value.MemberBegin(); entity != entityTypes->value.MemberEnd(); ++entity)
+				{
+					Entity* newEntity = deserializer->CreateObject<Entity*>(Chroma::Type::Entity::kEntity, entity->value);
+					newEntity->SetUID(UID(entity->name.GetString()));
+					Chroma::Scene::AddEntity(newEntity);
+				}
+			}
+			};
+		}
+
 		// Components
 		rapidjson::Value& componentsRoot = jsonScene.GetComponents();
 		for (rapidjson::Value::ConstMemberIterator componentTypes = componentsRoot.MemberBegin(); componentTypes != componentsRoot.MemberEnd(); ++componentTypes)
@@ -57,7 +79,7 @@ namespace Chroma
 			// Get Deserializer
 			JSONDeserializer* deserializer = new JSONDeserializer;
 
-			// Create based on type
+			// Create based on m_Type
 			switch (Type::GetType<Type::Component>(componentTypes->name.GetString()))
 			{
 			case(Type::Component::kStaticMeshComponent) :
@@ -66,7 +88,7 @@ namespace Chroma
 				{
 					StaticMesh* newStaticMeshComponent = deserializer->CreateObject<StaticMesh*>(Chroma::Type::Component::kStaticMeshComponent, staticMeshComponent->value);
 					newStaticMeshComponent->SetUID(UID(staticMeshComponent->name.GetString()));
-					//Chroma::Scene::AddMeshComponent(newStaticMeshComponent);
+					Chroma::Scene::GetEntity(newStaticMeshComponent->GetParentEntityUID())->AddComponent(newStaticMeshComponent);
 				}
 				break;
 			}
@@ -76,7 +98,7 @@ namespace Chroma
 				{
 					SkinnedMesh* newSkinnedMeshComponent = deserializer->CreateObject<SkinnedMesh*>(Chroma::Type::Component::kSkinnedMeshComponent, skinnedMeshComponent->value);
 					newSkinnedMeshComponent->SetUID(UID(skinnedMeshComponent->name.GetString()));
-					//Chroma::Scene::AddMeshComponent(newSkinnedMeshComponent);
+					Chroma::Scene::GetEntity(newSkinnedMeshComponent->GetParentEntityUID())->AddComponent(newSkinnedMeshComponent);
 				}
 				break;
 			}
@@ -93,27 +115,6 @@ namespace Chroma
 			};
 		}
 		
-		// Entities
-		rapidjson::Value& entitiesRoot = jsonScene.GetEntities();
-		for (rapidjson::Value::ConstMemberIterator entityTypes = entitiesRoot.MemberBegin(); entityTypes != entitiesRoot.MemberEnd(); ++entityTypes)
-		{
-			// Get Deserializer
-			JSONDeserializer* deserializer = new JSONDeserializer;
-
-			// Create based on type
-			switch (Type::GetType<Type::Entity>(entityTypes->name.GetString()))
-			{
-			case(Type::Entity::kIEntity || Type::Entity::kEntity):
-			{
-				for (rapidjson::Value::ConstMemberIterator entity = entityTypes->value.MemberBegin(); entity != entityTypes->value.MemberEnd(); ++entity)
-				{
-					Entity* newEntity = deserializer->CreateObject<Entity*>(Chroma::Type::Entity::kEntity, entity->value);
-					newEntity->SetUID(UID(entity->name.GetString()));
-					Chroma::Scene::AddEntity(newEntity);
-				}
-			}
-			};
-		}
 	
 		// Scene Entities
 		// IBL

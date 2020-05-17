@@ -46,7 +46,9 @@ namespace Chroma
 
 	std::set<UID> Scene::m_StateMachineUIDs;
 
+	// Lights
 	std::set<UID> Scene::m_LightUIDs;
+	bool Scene::m_LightsDirty{ false };
 
 	// Scene State
 	Scene::SceneState Scene::m_SceneState{ kSceneNotBuilt };
@@ -100,10 +102,6 @@ namespace Chroma
 			SafeRemoveComponentUID(m_ForwardLitComponentUIDs, newMeshComponent->GetUID());
 	}
 
-	glm::vec3 Scene::CalculateAmbientLightColor()
-	{
-		return m_SunLight->GetDiffuse() * m_SunLight->GetIntensity() * glm::vec3(.5f);
-	}
 
 	IEntity* Scene::GetEntity(UID const& UID)
 	{
@@ -224,6 +222,11 @@ namespace Chroma
 
 		// State 
 		SCENE_RESETSTATE
+	}
+
+	void Scene::Update()
+	{
+		m_LightsDirty = false;
 	}
 
 	void Scene::PreSceneBuild()
@@ -496,7 +499,7 @@ namespace Chroma
 
 		for (Light*& light : newLights)
 		{
-			if (light->type == Light::SUNLIGHT)
+			if (light->GetLightType() == Light::SUNLIGHT)
 			{
 				m_SunLight = light;
 				AddLight(light);

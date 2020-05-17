@@ -105,10 +105,6 @@ void GBuffer::BindGBufferTextures()
 	glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->GetBRDFLUTID());
 }
 
-void GBuffer::SetLightingUniforms()
-{
-	m_lightingPassShader.SetLightingUniforms(*Chroma::Scene::GetRenderCamera());
-}
 
 
 void GBuffer::DrawGeometryPass()
@@ -155,8 +151,6 @@ void GBuffer::DrawLightingPass()
 	UpdateTransformUniforms();
 	// activating textures
 	BindGBufferTextures();
-	// set lighting uniforms
-	SetLightingUniforms();
 }
 
 void GBuffer::BlitDepthBuffer()

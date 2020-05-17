@@ -158,60 +158,6 @@ void Shader::Use() const
 }
 
 
-void Shader::SetLightingUniforms(Camera const& renderCam)
-{
-	int pointlights{ 0 };
-	int dirlights{ 0 };
-	int spotlights{ 0 };
-
-	for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
-	{
-		Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
-		std::string lightIndex;
-		// set uniforms
-		switch (light->type) {
-		case Light::POINT:
-			pointlights++;
-			lightIndex = "pointLights[" + std::to_string(pointlights - 1) + "]";
-			//// lights point light falloff
-			this->SetUniform(lightIndex + ".constant", light->m_Constant);
-			this->SetUniform(lightIndex + ".linear", light->m_Linear);
-			this->SetUniform(lightIndex + ".quadratic", light->m_Quadratic);
-			//this->SetFloat(lightIndex + ".radius", light->getRadius());
-			break;
-		case Light::SUNLIGHT:
-			dirlights++;
-			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
-			//// lights directional
-			this->SetUniform(lightIndex + ".direction", light->GetDirection());
-			break;
-		case Light::DIRECTIONAL:
-			dirlights++;
-			lightIndex = "dirLights[" + std::to_string(dirlights - 1) + "]";
-			//// lights directional
-			this->SetUniform(lightIndex + ".direction", light->GetDirection());
-			break;
-		case Light::SPOT:
-			spotlights++;
-			lightIndex = "spotLights[" + std::to_string(spotlights - 1) + "]";
-			//// lights spotlight
-			this->SetUniform(lightIndex + ".spotSize", light->getSpotSize());
-			this->SetUniform(lightIndex + ".penumbraSize", light->getPenumbraSize());
-			break;
-		default:
-			break;
-		}
-		// lights all
-		this->SetUniform(lightIndex + ".intensity", light->GetIntensity());
-		this->SetUniform(lightIndex + ".diffuse", light->GetDiffuse());
-		this->SetUniform(lightIndex + ".position", light->GetPosition());
-		// lights view pos
-		this->SetUniform("viewPos", renderCam.GetPosition());
-
-//		delete light;
-	}
-}
-
 void Shader::BindUniformBufferBlockIndices()
 {
 	for (UniformBuffer*& ubo : Chroma::Render::GetUniformBufferObjects())
