@@ -15,6 +15,7 @@ public:
 	void Init() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
+	void LoadFromFile(const std::string& sourcePath) override;
 	void CleanUp() override;
 
 	glm::mat4 GetWorldTransform() override;

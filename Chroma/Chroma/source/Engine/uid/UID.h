@@ -15,6 +15,7 @@ private:
 	static unsigned int GlobalUIDCount;
 public:
 	//friend std::ostream& operator << (std::ostream& out, const UID& c);
+	static void ResetGlobalUIDs() { UID::GlobalUIDCount = 0; }
 	unsigned int m_Data;
 	bool operator <(const UID& rhs) const { return this->m_Data < rhs.m_Data; };
 	bool operator ==(const UID& rhs) const { return this->m_Data == rhs.m_Data; }

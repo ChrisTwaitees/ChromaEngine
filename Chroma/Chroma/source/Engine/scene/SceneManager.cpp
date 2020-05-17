@@ -89,7 +89,8 @@ namespace Chroma
 				{
 					StaticMesh* newStaticMeshComponent = deserializer->CreateObject<StaticMesh*>(Chroma::Type::Component::kStaticMeshComponent, staticMeshComponent->value);
 					newStaticMeshComponent->SetUID(UID(staticMeshComponent->name.GetString()));
-					Chroma::Scene::GetEntity(newStaticMeshComponent->GetParentEntityUID())->AddComponent(newStaticMeshComponent);
+					Chroma::Scene::AddMeshComponent(newStaticMeshComponent);
+					//Chroma::Scene::GetEntity(newStaticMeshComponent->GetParentEntityUID())->AddComponent(newStaticMeshComponent);
 				}
 				break;
 			}

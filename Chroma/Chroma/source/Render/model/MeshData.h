@@ -9,6 +9,7 @@
 struct MeshData
 {
 	std::string sourceDirectory{ "" };
+	std::string sourcePath{ "" };
 	bool isSkinned{ false };
 	std::vector<ChromaSkinnedVertex> skinnedVerts;
 	std::vector<ChromaVertex> verts;

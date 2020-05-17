@@ -307,6 +307,19 @@ void StaticMesh::Serialize(ISerializer*& serializer)
 	SerializeMaterial(serializer);
 }
 
+void StaticMesh::LoadFromFile(const std::string& sourcePath)
+{
+	for (MeshData const& newMeshData : Chroma::ModelLoader::Load(sourcePath))
+	{
+		m_SourcePath = newMeshData.sourcePath;
+		m_vertices = newMeshData.verts;
+		m_Indices = newMeshData.indices;
+		m_Material.SetTextureSet(newMeshData.textures);
+
+		return;
+	}
+}
+
 void StaticMesh::CleanUp()
 {
 	m_vertices.clear();
@@ -364,15 +377,8 @@ StaticMesh::StaticMesh(MeshData const& newMeshData)
 
 StaticMesh::StaticMesh(const std::string& sourcePath)
 {
-	for (MeshData const& newMeshData : Chroma::ModelLoader::Load(sourcePath))
-	{
-		m_vertices = newMeshData.verts;
-		m_Indices = newMeshData.indices;
-		m_Material.SetTextureSet(newMeshData.textures);
-
-		SetupMesh();
-		return;
-	}
+	LoadFromFile(sourcePath);
+	SetupMesh();
 }
 
 StaticMesh::StaticMesh()

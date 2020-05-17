@@ -1,6 +1,7 @@
 #include "MeshComponent.h"
 #include <entity/IEntity.h>
 #include <scene/Scene.h>
+#include <resources/ModelLoader.h>
 
 MeshComponent::MeshComponent()
 {
@@ -93,6 +94,16 @@ void MeshComponent::Init()
 	m_Type = Chroma::Type::Component::kMeshComponent ;
 
 	CMPNT_INITIALIZED
+}
+
+void MeshComponent::SetupMesh()
+{
+	CHROMA_INFO("Mesh Component : {}, Setting Up.", m_UID.m_Data);
+}
+
+void MeshComponent::LoadFromFile(const std::string& sourcePath)
+{
+	CHROMA_INFO("Mesh Component : {0}, Loading from source path : {1}.", m_UID.m_Data, sourcePath);
 }
 
 void MeshComponent::Update()

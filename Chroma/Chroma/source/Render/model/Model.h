@@ -13,7 +13,9 @@ class Model : public MeshComponent
 public:
 	// Init
 	virtual void Init() override;
+	void RebuildMesh() override;
 	void Destroy() override;
+	void CleanUp() override;
 
 	// Serialization
 	virtual void Serialize(ISerializer*& serializer) override;

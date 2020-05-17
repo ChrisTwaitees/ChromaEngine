@@ -323,7 +323,7 @@ namespace Chroma
 			{
 				for (std::pair<UID, IEntity*> uidEntity : Chroma::Scene::GetAllEntities())
 				{
-					std::string EntityNameUIDHeading = uidEntity.second->GetName() + " : (" + (const char*)uidEntity.first.m_Data + ")";
+					std::string EntityNameUIDHeading = uidEntity.second->GetName() + " : (" + std::to_string(uidEntity.first.m_Data) + ")";
 					
 					// Enities Components
 					if (ImGui::TreeNodeEx(EntityNameUIDHeading.c_str(), m_SelectedObjectString == EntityNameUIDHeading ? ImGuiTreeNodeFlags_Selected : node_flags))
@@ -338,7 +338,7 @@ namespace Chroma
 						ImGui::Indent();
 						for (UID componentUID : Chroma::Scene::GetEntity(uidEntity.first)->GetComponentUIDs())
 						{
-							std::string ComponentTypeUID = Chroma::Type::GetName(Chroma::Scene::GetComponent(componentUID)->GetType()) + " : (" + (const char*)componentUID.m_Data + ")";
+							std::string ComponentTypeUID = Chroma::Type::GetName(Chroma::Scene::GetComponent(componentUID)->GetType()) + " : (" + std::to_string(componentUID.m_Data) + ")";
 
 							if (ImGui::Selectable(ComponentTypeUID.c_str(), m_SelectedObjectString == ComponentTypeUID))
 							{
@@ -365,7 +365,7 @@ namespace Chroma
 			{
 				for (std::pair<UID, IComponent*> uidComponent : Chroma::Scene::GetAllComponents())
 				{
-					std::string ComponentTypeUID = Chroma::Type::GetName(uidComponent.second->GetType()) + " : (" + (const char*)uidComponent.first.m_Data + ")";
+					std::string ComponentTypeUID = Chroma::Type::GetName(uidComponent.second->GetType()) + " : (" + std::to_string(uidComponent.first.m_Data) + ")";
 					// Enities Components
 					if (ImGui::Selectable(ComponentTypeUID.c_str(), m_SelectedObjectString == ComponentTypeUID))
 					{
@@ -389,7 +389,7 @@ namespace Chroma
 				for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 				{
 					std::string lightTypeName = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID))->GetTypeString();
-					std::string LightTypeUID = lightTypeName + " : (" + (const char*)lightUID.m_Data + ")";
+					std::string LightTypeUID = lightTypeName + " : (" + std::to_string(lightUID.m_Data) + ")";
 
 					if (ImGui::Selectable(LightTypeUID.c_str(), m_SelectedObjectString == LightTypeUID ))
 					{

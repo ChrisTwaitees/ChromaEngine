@@ -141,12 +141,37 @@ public:
 			{
 				newStaticMesh->SetParentEntityUID(UID(componentValue->value.GetString()));
 			}
+			if (componentAttrKey == "m_SourcePath")
+			{
+				newStaticMesh->SetSourcePath(componentValue->value.GetString());
+			}
+			if (componentAttrKey == "m_Rotation")
+			{
+				glm::quat newRotation;
+				newRotation.x = componentValue->value.GetArray()[0].GetFloat();
+				newRotation.y = componentValue->value.GetArray()[1].GetFloat();
+				newRotation.z = componentValue->value.GetArray()[2].GetFloat();
+				newRotation.w = componentValue->value.GetArray()[3].GetFloat();
+				newStaticMesh->SetRotation(newRotation);
+			}
+			if (componentAttrKey == "m_Translation")
+			{
+				glm::vec3 newTranslation;
+				newTranslation.x = componentValue->value.GetArray()[0].GetFloat();
+				newTranslation.y = componentValue->value.GetArray()[1].GetFloat();
+				newTranslation.z = componentValue->value.GetArray()[2].GetFloat();
+				newStaticMesh->SetTranslation(newTranslation);
+			}
 			else
 			{
 				CHROMA_WARN("{} Serialized Attribute Not Accounted for!", componentValue->name.GetString());
 			}
 		}
 
+		// Rebuild Mesh
+		newStaticMesh->RebuildMesh();
+
+		// Return
 		return newStaticMesh;
 	}
 

@@ -200,6 +200,13 @@ void Model::Init()
 	CMPNT_INITIALIZED
 }
 
+void Model::RebuildMesh()
+{
+	for (UID const& uid : m_MeshUIDs)
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->RebuildMesh();
+}
+
+
 void Model::Destroy()
 {
 	// Material
@@ -209,6 +216,12 @@ void Model::Destroy()
 	m_IsSkinned ? m_SkinnedVertices.clear() : m_vertices.clear();
 
 	CMPNT_DESTROYED
+}
+
+void Model::CleanUp()
+{
+	for (UID const& uid : m_MeshUIDs)
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->CleanUp();
 }
 
 void Model::Serialize(ISerializer*& serializer)
