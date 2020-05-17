@@ -29,25 +29,24 @@ void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 	{
 		switch (texture.m_Type)
 		{
-		case(Texture::ALBEDO):
+		case(Chroma::Type::Texture::kAlbedo):
 		{
-			serializer->AddProperty("ALBEDO", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("kAlbedo", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
-		case(Texture::NORMAL):
+		case(Chroma::Type::Texture::kNormal):
 		{
-			serializer->AddProperty("NORMAL", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("kNormal", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
-		case(Texture::METROUGHAO):
+		case(Chroma::Type::Texture::kMetRoughAO):
 		{
-			serializer->AddProperty("METROUGHAO", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("kMetRoughAO", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
-		case(Texture::TRANSLUCENCY):
+		case(Chroma::Type::Texture::kTranslucency):
 		{
-			serializer->AddProperty("TRANSLUCENCY", &texture.GetSourcePath(), editorPrpty);
-
+			serializer->AddProperty("kTranslucency", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
 		default : 

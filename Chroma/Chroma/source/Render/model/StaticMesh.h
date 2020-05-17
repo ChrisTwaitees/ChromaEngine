@@ -58,7 +58,7 @@ protected:
 	virtual void UpdateUniforms(Shader& shader, Camera& RenderCam);
 	virtual void UpdateTransformUniforms(Shader& shader, Camera& renderCam);
 	virtual void UpdateMaterialUniforms(Shader& shader);
-	virtual void updateTextureUniforms(Shader& shader);
+	virtual void UpdateTextureUniforms(Shader& shader);
 	void UpdatePBRLightingTextureUniforms(Shader& shader);
 };
 

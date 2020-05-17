@@ -226,7 +226,7 @@ namespace Chroma
 		return newMeshData;
 	}
 
-	void ModelLoader::GetTexturesFromMaterial(aiMaterial * mat, aiTextureType type, Texture::TYPE typeName, MeshData& meshData)
+	void ModelLoader::GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Chroma::Type::Texture typeName, MeshData& meshData)
 	{
 		// iterate through meshes textures
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)

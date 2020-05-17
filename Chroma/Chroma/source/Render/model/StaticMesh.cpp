@@ -81,11 +81,11 @@ void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)
 {
 	UpdateTransformUniforms(shader, RenderCam);
 	UpdateMaterialUniforms(shader);
-	updateTextureUniforms(shader);
+	UpdateTextureUniforms(shader);
 }
 
 
-void StaticMesh::updateTextureUniforms(Shader& shader)
+void StaticMesh::UpdateTextureUniforms(Shader& shader)
 {
 	// UV Modifiers
 	shader.SetUniform("UVMultiply", m_Material.GetUVMultiply());
@@ -103,11 +103,11 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 		// building the uniform name
 		std::string name;
 		std::string texturenum;
-		Texture::TYPE textureType = GetTextureSet()[i].m_Type;
+		Chroma::Type::Texture textureType = GetTextureSet()[i].m_Type;
 
 		switch(textureType)
 		{
-		case Texture::ALBEDO :
+		case Chroma::Type::Texture::kAlbedo:
 			{
 				name = "material.texture_albedo";
 				texturenum = std::to_string(diffuseNr++);
@@ -115,7 +115,7 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 				shader.SetUniform("UseAlbedoMap", true);
 				break;
 			}
-		case Texture::NORMAL:
+		case Chroma::Type::Texture::kNormal:
 			{
 				name = "material.texture_normal";
 				texturenum = std::to_string(normalNr++);
@@ -123,7 +123,7 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 				shader.SetUniform("UseNormalMap", true);
 				break;
 			}
-		case Texture::METROUGHAO:
+		case Chroma::Type::Texture::kMetRoughAO:
 			{
 				name = "material.texture_MetRoughAO";
 				texturenum = std::to_string(metroughaoNr++);
@@ -131,25 +131,25 @@ void StaticMesh::updateTextureUniforms(Shader& shader)
 				shader.SetUniform("UseMetRoughAOMap", true);
 				break;
 			}
-		case Texture::METALNESS:
+		case Chroma::Type::Texture::kMetalness:
 			{
 				name = "material.texture_metalness";
 				texturenum = std::to_string(metalnessNr++);
 				break;
 			}
-		case Texture::ROUGHNESS:
+		case Chroma::Type::Texture::kRoughness:
 			{
 				name = "material.texture_roughness";
 				texturenum = std::to_string(roughnessNr++);
 				break;
 			}
-		case Texture::AO:
+		case Chroma::Type::Texture::kAO:
 			{
 				name = "material.texture_ao";
 				texturenum = std::to_string(aoNr++);
 				break;
 			}
-		case Texture::TRANSLUCENCY:
+		case Chroma::Type::Texture::kTranslucency:
 		{
 			name = "material.texture_translucency";
 			texturenum = std::to_string(translucencyNr++);
@@ -251,7 +251,7 @@ void StaticMesh::DrawUpdateMaterials(Shader& shader)
 {
 	shader.Use();
 	UpdateMaterialUniforms(shader);
-	updateTextureUniforms(shader);
+	UpdateTextureUniforms(shader);
 	BindDrawVAO();
 }
 

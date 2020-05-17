@@ -38,7 +38,7 @@ namespace Chroma {
 		static void NormalizeSkinningWeights(MeshData& meshData);
 		static std::vector<IKConstraint> GetIKConstraints(JSON& metaData, Skeleton const& skeleton);
 		// textures
-		static void GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Texture::TYPE typeName, MeshData& meshData);
+		static void GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Chroma::Type::Texture typeName, MeshData& meshData);
 	};
 }
 

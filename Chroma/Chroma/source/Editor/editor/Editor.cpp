@@ -68,11 +68,11 @@ namespace Chroma
 
 		// Lookdev Sphere
 		Texture lookdevAlbedo("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-		lookdevAlbedo.m_Type = Texture::ALBEDO;
+		lookdevAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture lookdevNormal("resources/textures/pbr/lookdev_pbr/normal.jpg");
-		lookdevNormal.m_Type = Texture::NORMAL;
+		lookdevNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture lookdevMetRoughAO("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-		lookdevMetRoughAO.m_Type = Texture::METROUGHAO;
+		lookdevMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 		// ____________________________________________________
 		// TEXTURES
 		// ____________________________________________________
@@ -82,24 +82,23 @@ namespace Chroma
 		Texture whiteAlbedo("resources/textures/colors/white.jpg");
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.m_Type = Texture::NORMAL;
-		Texture alphaTestAlbedo("resources/textures/test/grass.png");
+		flatNormal.m_Type = Chroma::Type::Texture::kNormal;
 
 		// Animated Model
 		Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
-		walkingAlbedo.m_Type = Texture::ALBEDO;
+		walkingAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture walkingNormal("resources/animation/vampire_textures/normal.jpg");
-		walkingNormal.m_Type = Texture::NORMAL;
+		walkingNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture walkingMetRoughAO("resources/animation/vampire_textures/MetRoughAO.jpg");
-		walkingMetRoughAO.m_Type = Texture::METROUGHAO;
+		walkingMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		// Floor Panels
 		Texture woodBoardsAlbedo("resources/textures/pbr/hardwood_pbr/albedo.jpg");
-		woodBoardsAlbedo.m_Type = Texture::ALBEDO;
+		woodBoardsAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture woodBoardsNormal("resources/textures/pbr/hardwood_pbr/normal.jpg");
-		woodBoardsNormal.m_Type = Texture::NORMAL;
+		woodBoardsNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture woodBoardsMetRoughAO("resources/textures/pbr/hardwood_pbr/MetRoughAO.jpg");
-		woodBoardsMetRoughAO.m_Type = Texture::METROUGHAO;
+		woodBoardsMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 		// ____________________________________________________
 
 		// ANIMATED MODEL
@@ -398,13 +397,13 @@ namespace Chroma
 
 		// Head
 		Texture headAlbedo = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_albedo.jpg");
-		headAlbedo.m_Type = Texture::ALBEDO;
+		headAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture headNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_normal.jpg");
-		headNormal.m_Type = Texture::NORMAL;
+		headNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
-		headMetRoughAO.m_Type = Texture::METROUGHAO;
+		headMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 		Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
-		headTranslucency.m_Type = Texture::TRANSLUCENCY;
+		headTranslucency.m_Type = Chroma::Type::Texture::kTranslucency;
 
 		// Lookdev Sphere
 		//Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
@@ -519,11 +518,11 @@ namespace Chroma
 
 		// Lookdev Sphere
 		Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-		lookDevAlbedo.m_Type = Texture::ALBEDO;
+		lookDevAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
-		lookDevNormal.m_Type = Texture::NORMAL;
+		lookDevNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-		lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
+		lookDevMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		// ____________________________________________________
 		// Materials
@@ -620,19 +619,19 @@ namespace Chroma
 		// Default
 		// Generic
 		Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		greyAlbedo.m_Type = Texture::ALBEDO;
+		greyAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
-		gridAlbedo.m_Type = Texture::ALBEDO;
+		gridAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.m_Type = Texture::NORMAL;
+		flatNormal.m_Type = Chroma::Type::Texture::kNormal;
 
 		// Lookdev Sphere
 		Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-		lookDevAlbedo.m_Type = Texture::ALBEDO;
+		lookDevAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
-		lookDevNormal.m_Type = Texture::NORMAL;
+		lookDevNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-		lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
+		lookDevMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		// ____________________________________________________
 		// Materials
@@ -751,19 +750,19 @@ namespace Chroma
 		// Default
 		// Generic
 		Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		greyAlbedo.m_Type = Texture::ALBEDO;
+		greyAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
-		gridAlbedo.m_Type = Texture::ALBEDO;
+		gridAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.m_Type = Texture::NORMAL;
+		flatNormal.m_Type = Chroma::Type::Texture::kNormal;
 
 
 		// CLOTH
 		//red
 		Texture materialRedAlbedo("resources/lookdev/Sponza/textures/sponza_fabric_diff.png");
-		materialRedAlbedo.m_Type = Texture::ALBEDO;
+		materialRedAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture materialNormal("resources/lookdev/Sponza/textures/sponza_fabric_diff_NRM.jpg");
-		materialNormal.m_Type = Texture::NORMAL;
+		materialNormal.m_Type = Chroma::Type::Texture::kNormal;
 
 		Material RedClothMaterial;
 		RedClothMaterial.SetShader(PBRShader);
@@ -777,7 +776,7 @@ namespace Chroma
 
 		//green
 		Texture materialGreenAlbedo("resources/lookdev/Sponza/textures/sponza_fabric_green_diff.png");
-		materialRedAlbedo.m_Type = Texture::ALBEDO;
+		materialRedAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 
 		Material GreenClothMaterial;
 		GreenClothMaterial.SetShader(PBRShader);
@@ -791,7 +790,7 @@ namespace Chroma
 
 		//blue
 		Texture materialBlueAlbedo("resources/lookdev/Sponza/textures/sponza_fabric_blue_diff.png");
-		materialBlueAlbedo.m_Type = Texture::ALBEDO;
+		materialBlueAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 
 		Material BlueClothMaterial;
 		BlueClothMaterial.SetShader(PBRShader);
@@ -806,13 +805,13 @@ namespace Chroma
 		// VASE GROUND
 		// flowers
 		Texture vaseGroundFlowerAlbedo("resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png");
-		vaseGroundFlowerAlbedo.m_Type = Texture::ALBEDO;
+		vaseGroundFlowerAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture vaseGroundFlowerNormal("resources/lookdev/Sponza/textures_final/vase_ground_normal.jpg");
-		vaseGroundFlowerNormal.m_Type = Texture::NORMAL;
+		vaseGroundFlowerNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture vaseGroundFlowerMetRoughAO("resources/lookdev/Sponza/textures_final/vase_ground_MetRoughAO.png");
-		vaseGroundFlowerMetRoughAO.m_Type = Texture::METROUGHAO;
+		vaseGroundFlowerMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 		Texture vaseGroundFlowerTransp("resources/lookdev/Sponza/textures_final/vase_ground_transparency.png");
-		vaseGroundFlowerTransp.m_Type = Texture::TRANSLUCENCY;
+		vaseGroundFlowerTransp.m_Type = Chroma::Type::Texture::kTranslucency;
 
 		Material vaseGroundPlant;
 		vaseGroundPlant.SetShader(PBRAlphaShader);
@@ -832,11 +831,11 @@ namespace Chroma
 
 		// vase
 		Texture vaseGroundAlbedo("resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO_Albedo.png");
-		vaseGroundAlbedo.m_Type = Texture::ALBEDO;
+		vaseGroundAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture vaseGroundNormal("resources/lookdev/Sponza/textures_final/vase_groundBase_normal.jpg");
-		vaseGroundNormal.m_Type = Texture::NORMAL;
+		vaseGroundNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture vaseGroundMetRoughAO("resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO.png");
-		vaseGroundMetRoughAO.m_Type = Texture::METROUGHAO;
+		vaseGroundMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		Material vaseGroundMat;
 		vaseGroundMat.AddTexture(vaseGroundAlbedo);
@@ -850,11 +849,11 @@ namespace Chroma
 
 		// GROUND
 		Texture groundAlbedo("resources/lookdev/Sponza/textures_final/ground_Albedo.png");
-		groundAlbedo.m_Type = Texture::ALBEDO;
+		groundAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture groundNormal("resources/lookdev/Sponza/textures_final/ground_Normal.jpg");
-		groundNormal.m_Type = Texture::NORMAL;
+		groundNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture groundMetRoughAO("resources/lookdev/Sponza/textures_final/ground_MetRoughAO.jpg");
-		groundMetRoughAO.m_Type = Texture::METROUGHAO;
+		groundMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		Material groundMat;
 		groundMat.AddTexture(groundAlbedo);
@@ -868,11 +867,11 @@ namespace Chroma
 
 		// ARCHES
 		Texture archAlbedo("resources/lookdev/Sponza/textures_final/arch_Albedo.png");
-		archAlbedo.m_Type = Texture::ALBEDO;
+		archAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture archNormal("resources/lookdev/Sponza/textures_final/arch_Normal.jpg");
-		archNormal.m_Type = Texture::NORMAL;
+		archNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture archMetRoughAO("resources/lookdev/Sponza/textures_final/arch_MetRoughAO.jpg");
-		archMetRoughAO.m_Type = Texture::METROUGHAO;
+		archMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		Material archMat;
 		archMat.AddTexture(archAlbedo);
@@ -886,11 +885,11 @@ namespace Chroma
 
 		// ROOF
 		Texture roofAlbedo("resources/lookdev/Sponza/textures_final/roof_Albedo.png");
-		roofAlbedo.m_Type = Texture::ALBEDO;
+		roofAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture roofNormal("resources/lookdev/Sponza/textures_final/roof_Normal.jpg");
-		roofNormal.m_Type = Texture::NORMAL;
+		roofNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture roofMetRoughAO("resources/lookdev/Sponza/textures_final/roof_MetRoughAO.jpg");
-		roofMetRoughAO.m_Type = Texture::METROUGHAO;
+		roofMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		Material roofMat;
 		roofMat.AddTexture(roofAlbedo);
@@ -904,11 +903,11 @@ namespace Chroma
 
 		// WALLS
 		Texture wallsAlbedo("resources/lookdev/Sponza/textures_final/bricks_Albedo.png");
-		wallsAlbedo.m_Type = Texture::ALBEDO;
+		wallsAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture wallsNormal("resources/lookdev/Sponza/textures_final/bricks_Normal.jpg");
-		wallsNormal.m_Type = Texture::NORMAL;
+		wallsNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture wallsMetRoughAO("resources/lookdev/Sponza/textures_final/bricks_MetRoughAO.jpg");
-		wallsMetRoughAO.m_Type = Texture::METROUGHAO;
+		wallsMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		Material wallsMat;
 		wallsMat.AddTexture(wallsAlbedo);
@@ -922,11 +921,11 @@ namespace Chroma
 
 		// LION
 		Texture lionAlbedo("resources/lookdev/Sponza/textures_final/lion_Albedo.png");
-		lionAlbedo.m_Type = Texture::ALBEDO;
+		lionAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture lionNormal("resources/lookdev/Sponza/textures_final/lion_Normal.jpg");
-		lionNormal.m_Type = Texture::NORMAL;
+		lionNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture lionMetRoughAO("resources/lookdev/Sponza/textures_final/lion_MetRoughAO.jpg");
-		lionMetRoughAO.m_Type = Texture::METROUGHAO;
+		lionMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		Material lionMat;
 		lionMat.AddTexture(lionAlbedo);
@@ -940,11 +939,11 @@ namespace Chroma
 
 		// COLUMNS
 		Texture columnAAlbedo("resources/lookdev/Sponza/textures_final/columnA_Albedo.png");
-		columnAAlbedo.m_Type = Texture::ALBEDO;
+		columnAAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture columnANormal("resources/lookdev/Sponza/textures_final/columnA_Normal.jpg");
-		columnANormal.m_Type = Texture::NORMAL;
+		columnANormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture columnAMetRoughAO("resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg");
-		columnAMetRoughAO.m_Type = Texture::METROUGHAO;
+		columnAMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		Material columnAMat;
 		columnAMat.AddTexture(columnAAlbedo);
@@ -999,11 +998,11 @@ namespace Chroma
 		// Default
 		// Generic
 		Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		greyAlbedo.m_Type = Texture::ALBEDO;
+		greyAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
-		gridAlbedo.m_Type = Texture::ALBEDO;
+		gridAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.m_Type = Texture::NORMAL;
+		flatNormal.m_Type = Chroma::Type::Texture::kNormal;
 
 		// ____________________________________________________
 		// Materials
@@ -1073,13 +1072,13 @@ namespace Chroma
 		// Default
 		// Generic
 		Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		greyAlbedo.m_Type = Texture::ALBEDO;
+		greyAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
-		gridAlbedo.m_Type = Texture::ALBEDO;
+		gridAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.m_Type = Texture::NORMAL;
+		flatNormal.m_Type = Chroma::Type::Texture::kNormal;
 		Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-		lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
+		lookDevMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 		// ____________________________________________________
 		// Materials
@@ -1150,11 +1149,11 @@ namespace Chroma
 		// Default
 		// Generic
 		Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		greyAlbedo.m_Type = Texture::ALBEDO;
+		greyAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture gridAlbedo("resources/animation/textures/grid.jpg");
-		gridAlbedo.m_Type = Texture::ALBEDO;
+		gridAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.m_Type = Texture::NORMAL;
+		flatNormal.m_Type = Chroma::Type::Texture::kNormal;
 
 		// ____________________________________________________
 		// Materials
