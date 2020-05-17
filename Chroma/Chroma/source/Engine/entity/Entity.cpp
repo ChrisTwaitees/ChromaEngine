@@ -225,7 +225,7 @@ void Entity::Rotate(float degrees, glm::vec3 rotationaxis)
 void Entity::Update()
 {
 #ifdef EDITOR
-	CHROMA_TRACE("{0} Updating. UID : {0} Updating.", GetTypeName(),  m_UID.data);
+	CHROMA_TRACE("{0} Updating. UID : {0} Updating.", GetTypeName(),  m_UID.m_Data);
 	RebuildTransform();
 #endif
 }

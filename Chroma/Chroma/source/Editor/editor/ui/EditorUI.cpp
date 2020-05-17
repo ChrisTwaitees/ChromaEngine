@@ -165,13 +165,13 @@ namespace Chroma
 		// attempt to fetch component
 		if (Chroma::Scene::GetComponent(m_SelectedObjectUID) != nullptr)
 		{
-			m_SelectedObjectString = Chroma::Type::GetName(Chroma::Scene::GetComponent(m_SelectedObjectUID)->GetType()) + " : (" + m_SelectedObjectUID.data + ")";
+			m_SelectedObjectString = Chroma::Type::GetName(Chroma::Scene::GetComponent(m_SelectedObjectUID)->GetType()) + " : (" + (const char*)m_SelectedObjectUID.m_Data + ")";
 		}
 
 		// attempt to fetch entity
 		if (Chroma::Scene::GetEntity(m_SelectedObjectUID) != nullptr)
 		{
-			m_SelectedObjectString = Chroma::Scene::GetEntity(m_SelectedObjectUID)->GetName() + " : (" + selectedUID.data + ")";
+			m_SelectedObjectString = Chroma::Scene::GetEntity(m_SelectedObjectUID)->GetName() + " : (" + (const char*)selectedUID.m_Data + ")";
 		}
 	}
 
@@ -323,7 +323,7 @@ namespace Chroma
 			{
 				for (std::pair<UID, IEntity*> uidEntity : Chroma::Scene::GetAllEntities())
 				{
-					std::string EntityNameUIDHeading = uidEntity.second->GetName() + " : (" + uidEntity.first.data + ")";
+					std::string EntityNameUIDHeading = uidEntity.second->GetName() + " : (" + (const char*)uidEntity.first.m_Data + ")";
 					
 					// Enities Components
 					if (ImGui::TreeNodeEx(EntityNameUIDHeading.c_str(), m_SelectedObjectString == EntityNameUIDHeading ? ImGuiTreeNodeFlags_Selected : node_flags))
@@ -338,7 +338,7 @@ namespace Chroma
 						ImGui::Indent();
 						for (UID componentUID : Chroma::Scene::GetEntity(uidEntity.first)->GetComponentUIDs())
 						{
-							std::string ComponentTypeUID = Chroma::Type::GetName(Chroma::Scene::GetComponent(componentUID)->GetType()) + " : (" + componentUID.data + ")";
+							std::string ComponentTypeUID = Chroma::Type::GetName(Chroma::Scene::GetComponent(componentUID)->GetType()) + " : (" + (const char*)componentUID.m_Data + ")";
 
 							if (ImGui::Selectable(ComponentTypeUID.c_str(), m_SelectedObjectString == ComponentTypeUID))
 							{
@@ -365,7 +365,7 @@ namespace Chroma
 			{
 				for (std::pair<UID, IComponent*> uidComponent : Chroma::Scene::GetAllComponents())
 				{
-					std::string ComponentTypeUID = Chroma::Type::GetName(uidComponent.second->GetType()) + " : (" + uidComponent.first.data + ")";
+					std::string ComponentTypeUID = Chroma::Type::GetName(uidComponent.second->GetType()) + " : (" + (const char*)uidComponent.first.m_Data + ")";
 					// Enities Components
 					if (ImGui::Selectable(ComponentTypeUID.c_str(), m_SelectedObjectString == ComponentTypeUID))
 					{
@@ -389,7 +389,7 @@ namespace Chroma
 				for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 				{
 					std::string lightTypeName = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID))->GetTypeString();
-					std::string LightTypeUID = lightTypeName + " : (" + lightUID.data + ")";
+					std::string LightTypeUID = lightTypeName + " : (" + (const char*)lightUID.m_Data + ")";
 
 					if (ImGui::Selectable(LightTypeUID.c_str(), m_SelectedObjectString == LightTypeUID ))
 					{

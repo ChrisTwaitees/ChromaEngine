@@ -66,6 +66,7 @@ namespace Chroma
 				{
 					Entity* newEntity = deserializer->CreateObject<Entity*>(Chroma::Type::Entity::kEntity, entity->value);
 					newEntity->SetUID(UID(entity->name.GetString()));
+					std::string test = entity->name.GetString();
 					Chroma::Scene::AddEntity(newEntity);
 				}
 			}

@@ -13,7 +13,7 @@ void AnimConstraintComponent::Init()
 
 void AnimConstraintComponent::Update()
 {
-	CHROMA_INFO("Updating AnimConstraint Component : {0}", m_UID.data);
+	CHROMA_INFO("Updating AnimConstraint Component : {0}", m_UID.m_Data);
 }
 
 void AnimConstraintComponent::Destroy()

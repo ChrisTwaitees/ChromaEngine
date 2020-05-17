@@ -72,42 +72,42 @@ public:
 					{
 					case(Type::kMeshComponent):
 					{
-						newIEntity->AddMeshComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddMeshComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kSkinnedMeshComponent):
 					{
-						newIEntity->AddMeshComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddMeshComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kModelComponent):
 					{
-						newIEntity->AddMeshComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddMeshComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kPhysicsComponent):
 					{
-						newIEntity->AddPhysicsComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddPhysicsComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kCharacterControllerComponent):
 					{
-						newIEntity->AddCharacterControllerComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddCharacterControllerComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kAnimationComponent):
 					{
-						newIEntity->AddAnimationComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddAnimationComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kAnimationConstraintComponent):
 					{
-						newIEntity->AddAnimConstraintComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddAnimConstraintComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kStateMachineComponent):
 					{
-						newIEntity->AddStateMachineComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddStateMachineComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					default :

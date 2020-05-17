@@ -8,7 +8,7 @@ void JSONScene::AddNewEntity(ISerializer*& serialized)
 	std::string entityType = Chroma::Type::GetName(serialized->m_EntityType);
 	rapidjson::Value entityTypeName(entityType.c_str(), m_Document.GetAllocator());
 	// Get UID
-	std::string uidKey = serialized->m_UID.data;
+	unsigned int uidKey = serialized->m_UID.m_Data;
 	// Serialize Entity
 	SerializeEntity(serialized, newEntity);
 
@@ -19,8 +19,8 @@ void JSONScene::AddNewEntity(ISerializer*& serialized)
 		rapidjson::Value newEntityTypeObject(rapidjson::kObjectType);
 		GetEntities().AddMember(entityTypeName, newEntityTypeObject, m_Document.GetAllocator());
 	}
-
-	GetEntities()[entityType.c_str()].AddMember(rapidjson::StringRef(uidKey.c_str()), newEntity, m_Document.GetAllocator());
+	rapidjson::Value uidValue(std::to_string(uidKey).c_str(), m_Document.GetAllocator());
+	GetEntities()[entityType.c_str()].AddMember(uidValue, newEntity, m_Document.GetAllocator());
 }
 
 void JSONScene::AddNewComponent(ISerializer*& serialized)
@@ -30,7 +30,7 @@ void JSONScene::AddNewComponent(ISerializer*& serialized)
 	std::string componentType = Chroma::Type::GetName(serialized->m_ComponentType);
 	rapidjson::Value componentTypeName(componentType.c_str(), m_Document.GetAllocator());
 	// Get UID
-	std::string uidKey = serialized->m_UID.data;
+	unsigned int uidKey = serialized->m_UID.m_Data;
 	// Serialize Component
 	SerializeComponent(serialized, newComponent);
 
@@ -42,7 +42,8 @@ void JSONScene::AddNewComponent(ISerializer*& serialized)
 		GetComponents().AddMember(componentTypeName, newComponentTypeObject, m_Document.GetAllocator());
 	}
 
-	GetComponents()[componentType.c_str()].AddMember(rapidjson::StringRef(uidKey.c_str()), newComponent, m_Document.GetAllocator());
+	rapidjson::Value uidValue(std::to_string(uidKey).c_str(), m_Document.GetAllocator());
+	GetComponents()[componentType.c_str()].AddMember(uidValue, newComponent, m_Document.GetAllocator());
 
 }
 
@@ -124,7 +125,7 @@ void JSONScene::SerializeEntity(ISerializer*& serialized, rapidjson::Value& json
 			jsonValue.AddMember(componentTypeName, newComponentTypeArray, m_Document.GetAllocator());
 		}
 		// add component uid
-		jsonValue[componentType.c_str()].PushBack(rapidjson::StringRef(componentUID.data.c_str()), m_Document.GetAllocator());
+		jsonValue[componentType.c_str()].PushBack(componentUID.m_Data, m_Document.GetAllocator());
 	}
 
 }
@@ -141,7 +142,7 @@ void JSONScene::SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonV
 	for (auto& uid : serialized->m_UIDs)
 	{
 		rapidjson::Value stringKey(uid.first.m_Name, m_Document.GetAllocator());
-		rapidjson::Value stringValue(uid.second.data.c_str(), m_Document.GetAllocator());
+		rapidjson::Value stringValue(std::to_string(uid.second.m_Data).c_str(), m_Document.GetAllocator());
 		jsonValue.AddMember(stringKey, stringValue, m_Document.GetAllocator());
 	}
 

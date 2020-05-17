@@ -11,14 +11,17 @@
 struct UID
 {
 private:
-	std::string GenerateNewUID();
+	unsigned int GenerateNewUID();
+	static unsigned int GlobalUIDCount;
 public:
 	//friend std::ostream& operator << (std::ostream& out, const UID& c);
-	std::string data;
-	bool operator <(const UID& rhs) const;
-	bool operator ==(const UID& rhs) const { return this->data == rhs.data; }
+	unsigned int m_Data;
+	bool operator <(const UID& rhs) const { return this->m_Data < rhs.m_Data; };
+	bool operator ==(const UID& rhs) const { return this->m_Data == rhs.m_Data; }
 	UID();
-	UID(std::string UIDData);
+	UID(unsigned int UIDData) : m_Data(UIDData) { };
+	UID(std::string UIDData) : m_Data(std::stoi(UIDData)) { };
+	UID(const char* UIDData) : m_Data(std::stoi(UIDData)) { };
 	~UID() {};
 };
 

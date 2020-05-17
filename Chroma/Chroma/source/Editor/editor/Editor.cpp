@@ -499,9 +499,9 @@ namespace Chroma
 		// SHADERS
 		// ____________________________________________________
 
-		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-		Shader PBRSkinShaderExperimental("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-		Shader PBRSkinShader("resources/shaders/fragSSSS_backup.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		//Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		//Shader PBRSkinShaderExperimental("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		//Shader PBRSkinShader("resources/shaders/fragSSSS_backup.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
 
 		// ____________________________________________________
@@ -510,12 +510,12 @@ namespace Chroma
 
 		// Default
 		// Generic
-		Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		greyAlbedo.m_Type = Texture::ALBEDO;
-		Texture gridAlbedo("resources/animation/textures/grid.jpg");
-		gridAlbedo.m_Type = Texture::ALBEDO;
-		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		flatNormal.m_Type = Texture::NORMAL;
+		//Texture greyAlbedo("resources/textures/colors/grey.jpg");
+		//greyAlbedo.m_Type = Texture::ALBEDO;
+		//Texture gridAlbedo("resources/animation/textures/grid.jpg");
+		//gridAlbedo.m_Type = Texture::ALBEDO;
+		//Texture flatNormal("resources/textures/test/flat_normal.jpg");
+		//flatNormal.m_Type = Texture::NORMAL;
 
 		// Lookdev Sphere
 		Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
@@ -544,23 +544,29 @@ namespace Chroma
 
 		float spacing{ 3.0 };
 
+		IEntity* lookDevEntity = new Entity;
+		lookDevEntity->SetName("LookDev Sphere : ");
+		Chroma::Scene::AddEntity(lookDevEntity);
+		lookDevEntity->SetScale(glm::vec3(1.5f));
+
 		for (unsigned int i = 0; i < materialList.size(); i++)
 		{
-			IEntity* lookDevEntity = new Entity;
-			lookDevEntity->SetName("LookDev Sphere : " + i);
-			Chroma::Scene::AddEntity(lookDevEntity);
-			lookDevEntity->SetScale(glm::vec3(0.2f));
-			lookDevEntity->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
+			//IEntity* lookDevEntity = new Entity;
+			//lookDevEntity->SetName("LookDev Sphere : " + i);
+			//Chroma::Scene::AddEntity(lookDevEntity);
+			//lookDevEntity->SetScale(glm::vec3(0.2f));
+			//lookDevEntity->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
 			// mesh component
 			MeshComponent* lookDevMeshComponent = new StaticMesh("resources/lookdev/sphere.obj");
 			lookDevMeshComponent->SetMaterial(testMat);
+			lookDevMeshComponent->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
 			lookDevEntity->AddComponent(lookDevMeshComponent);
 
 			// LookDev Physics
-			PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
-			LookDevPhysicsComponent->SetColliderShape(Box);
-			LookDevPhysicsComponent->SetCollisionState(Kinematic);
-			lookDevEntity->AddComponent(LookDevPhysicsComponent);
+			//PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
+			//LookDevPhysicsComponent->SetColliderShape(Box);
+			//LookDevPhysicsComponent->SetCollisionState(Kinematic);
+			//lookDevEntity->AddComponent(LookDevPhysicsComponent);
 		}
 
 	}

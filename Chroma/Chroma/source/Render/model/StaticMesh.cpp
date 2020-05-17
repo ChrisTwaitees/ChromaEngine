@@ -310,7 +310,7 @@ void StaticMesh::Serialize(ISerializer*& serializer)
 void StaticMesh::CleanUp()
 {
 	m_vertices.clear();
-	CHROMA_INFO("Static Mesh Component : {0} Cleaned Up", m_UID.data );
+	CHROMA_INFO("Static Mesh Component : {0} Cleaned Up", m_UID.m_Data );
 }
 
 

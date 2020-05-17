@@ -126,7 +126,7 @@ void SkinnedMesh::CleanUp()
 {
 	m_vertices.clear();
 	m_SkinnedVertices.clear();
-	CHROMA_INFO("Skinned Mesh Component : {0} Cleaned Up", m_UID.data);
+	CHROMA_INFO("Skinned Mesh Component : {0} Cleaned Up", m_UID.m_Data);
 }
 
 
