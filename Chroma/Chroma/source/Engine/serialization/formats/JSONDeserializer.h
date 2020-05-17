@@ -265,22 +265,8 @@ public:
 				newLight->setConstant(lightValue->value.GetFloat());
 
 			if (lightValueName == "m_Type")
-			{
-				int lightType = lightValue->value.GetInt();
+				newLight->SetLightType(Chroma::Type::GetType<Chroma::Type::Light>(lightValue->value.GetString()));
 
-				if (lightType == Light::TYPE::DIRECTIONAL)
-					newLight->SetLightType(Light::TYPE::DIRECTIONAL);
-				
-				else if (lightType == Light::TYPE::POINT)
-					newLight->SetLightType(Light::TYPE::POINT);
-				
-				else if (lightType == Light::TYPE::SUNLIGHT)
-					newLight->SetLightType(Light::TYPE::SUNLIGHT);
-
-				else if (lightType == Light::TYPE::SPOT)
-					newLight->SetLightType(Light::TYPE::SPOT);
-
-			}
 		}
 		// UID is set after creation
 		return newLight;

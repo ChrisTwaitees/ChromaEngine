@@ -42,13 +42,13 @@ namespace Chroma
 		// dancing point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
-			Light* pointLight = new Light(pos, Light::POINT);
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 			pointLight->SetIntensity(10.0f);
 			Lights.push_back(pointLight);
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(0.2, -0.8, 0.3), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
@@ -347,12 +347,12 @@ namespace Chroma
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
-			Light* pointLight = new Light(pos, Light::POINT);
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 			Lights.push_back(pointLight);
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
@@ -482,12 +482,12 @@ namespace Chroma
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
-			Light* pointLight = new Light(pos, Light::POINT);
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 			Lights.push_back(pointLight);
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
@@ -591,12 +591,12 @@ namespace Chroma
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
-			Light* pointLight = new Light(pos, Light::POINT);
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 			Lights.push_back(pointLight);
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
@@ -714,12 +714,12 @@ namespace Chroma
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
-			Light* pointLight = new Light(pos, Light::POINT);
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 			Lights.push_back(pointLight);
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(0.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
@@ -972,12 +972,12 @@ namespace Chroma
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
-			Light* pointLight = new Light(pos, Light::POINT);
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 			Lights.push_back(pointLight);
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
@@ -1045,12 +1045,12 @@ namespace Chroma
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
-			Light* pointLight = new Light(pos, Light::POINT);
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 			Lights.push_back(pointLight);
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
@@ -1123,12 +1123,12 @@ namespace Chroma
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)
 		{
-			Light* pointLight = new Light(pos, Light::POINT);
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 			Lights.push_back(pointLight);
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);

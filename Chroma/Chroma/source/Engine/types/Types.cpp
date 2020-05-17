@@ -64,6 +64,15 @@ namespace Chroma
 		{"kAO",							  Type::Texture::kAO},
 		{"kHDR",						  Type::Texture::kHDR}
 	};
+
+	std::map<std::string, Type::Light> Type::m_LightTypeMap =
+	{
+		{"<NULL>",                        Type::Light::kNullLight},
+		{"kPointLight",					  Type::Light::kPointLight},
+		{"kDirectionalLight",			  Type::Light::kDirectionalLight},
+		{"kSpotLight",                    Type::Light::kSpotLight},
+		{"kSunlight",                     Type::Light::kSunlight}
+	};
 }
 
 
@@ -244,6 +253,44 @@ std::string Chroma::Type::GetName(Texture textureType)
 	{
 		CHROMA_ERROR("Unsupported Texture Type!");
 		return "Unsupported Texture Type!";
+		break;
+	}
+	}
+}
+
+std::string Chroma::Type::GetName(Light lightType)
+{
+	switch (lightType)
+	{
+	case(Light::kNullLight):
+	{
+		return "<NULL>";
+		break;
+	}
+	case(Light::kPointLight):
+	{
+		return "kPointLight";
+		break;
+	}
+	case(Light::kDirectionalLight):
+	{
+		return "kDirectionalLight";
+		break;
+	}
+	case(Light::kSpotLight):
+	{
+		return "kSpotLight";
+		break;
+	}
+	case(Light::kSunlight):
+	{
+		return "kSunlight";
+		break;
+	}
+	default:
+	{
+		CHROMA_ERROR("Unsupported Light Type!");
+		return "Unsupported Light Type!";
 		break;
 	}
 	}

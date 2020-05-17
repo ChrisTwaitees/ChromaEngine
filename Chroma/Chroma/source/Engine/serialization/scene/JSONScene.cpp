@@ -209,6 +209,19 @@ void JSONScene::SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonV
 			jsonValue.AddMember(stringKey, stringValue, m_Document.GetAllocator());
 	}
 
+	// Const String Properties
+	for (auto& str : serialized->m_ConstStringProperties)
+	{
+		rapidjson::Value stringKey(str.first.m_Name, m_Document.GetAllocator());
+		rapidjson::Value stringValue(str.second.c_str(), m_Document.GetAllocator());
+
+		// Check which value type
+		if (Chroma::Type::IsMaterialEditorProperty(str.first.m_EditorProperty.m_Type))
+			continue;
+		else
+			jsonValue.AddMember(stringKey, stringValue, m_Document.GetAllocator());
+	}
+
 	// Float Properties
 	for (auto& floatVal : serialized->m_FloatProperties)
 	{

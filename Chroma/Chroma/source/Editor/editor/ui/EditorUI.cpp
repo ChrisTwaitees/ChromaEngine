@@ -388,7 +388,7 @@ namespace Chroma
 			{
 				for (UID const& lightUID : Chroma::Scene::GetLightUIDs())
 				{
-					std::string lightTypeName = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID))->GetTypeString();
+					std::string lightTypeName = Chroma::Type::GetName(static_cast<Light*>(Chroma::Scene::GetComponent(lightUID))->GetLightType());
 					std::string LightTypeUID = lightTypeName + " : (" + std::to_string(lightUID.m_Data) + ")";
 
 					if (ImGui::Selectable(LightTypeUID.c_str(), m_SelectedObjectString == LightTypeUID ))
@@ -656,15 +656,14 @@ namespace Chroma
 			Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
 			// set uniforms
 			switch (light->GetLightType()) {
-			case Light::POINT:
+			case Chroma::Type::Light::kSunlight:
+				light->DrawIcon(m_LightSunIcon);
+			case Chroma::Type::Light::kDirectionalLight:
+				light->DrawIcon(m_LightSunIcon);
+			case Chroma::Type::Light::kPointLight:
 				light->DrawIcon(m_LightPointIcon);
-			case Light::SUNLIGHT:
-				light->DrawIcon(m_LightSunIcon);
 				break;
-			case Light::DIRECTIONAL:
-				light->DrawIcon(m_LightSunIcon);
-				break;
-			case Light::SPOT:
+			case Chroma::Type::Light::kSpotLight:
 				light->DrawIcon(m_LightPointIcon);
 				break;
 			default:

@@ -45,6 +45,15 @@ public:
 	}
 
 	template<>
+	void AddProperty<std::string>(const char* key, std::string value, EditorProperty editorPrpty)
+	{
+		ISerializerKey serializeKey;
+		serializeKey.m_Name = key;
+		serializeKey.m_EditorProperty = editorPrpty;
+		m_ConstStringProperties.emplace(std::make_pair(serializeKey, value));
+	}
+
+	template<>
 	void AddProperty<const char*>(const char* key, const char* value, EditorProperty editorPrpty)
 	{
 		ISerializerKey serializeKey;
@@ -169,6 +178,7 @@ public:
 
 	std::map<ISerializerKey, const char*> m_CharProperties;
 	std::map<ISerializerKey, std::string*> m_StringProperties;
+	std::map<ISerializerKey, std::string> m_ConstStringProperties;
 
 	std::map<ISerializerKey, int*> m_IntProperties;
 	std::map<ISerializerKey, unsigned int*> m_UIntProperties;
