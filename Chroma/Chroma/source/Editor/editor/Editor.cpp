@@ -540,7 +540,8 @@ namespace Chroma
 		Material testMat4;
 		Material testMat5;
 
-		std::vector<Material> materialList{ testMat, testMat2 , testMat3, testMat4, testMat5 };
+		//::vector<Material> materialList{ testMat, testMat2 , testMat3, testMat4, testMat5 };
+		std::vector<Material> materialList{ testMat};
 
 		float spacing{ 3.0 };
 

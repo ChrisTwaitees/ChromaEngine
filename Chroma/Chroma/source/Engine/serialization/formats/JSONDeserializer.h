@@ -162,6 +162,14 @@ public:
 				newTranslation.z = componentValue->value.GetArray()[2].GetFloat();
 				newStaticMesh->SetTranslation(newTranslation);
 			}
+			if (componentAttrKey == "m_Scale")
+			{
+				glm::vec3 newScale;
+				newScale.x = componentValue->value.GetArray()[0].GetFloat();
+				newScale.y = componentValue->value.GetArray()[1].GetFloat();
+				newScale.z = componentValue->value.GetArray()[2].GetFloat();
+				newStaticMesh->SetScale(newScale);
+			}
 			else
 			{
 				CHROMA_WARN("{} Serialized Attribute Not Accounted for!", componentValue->name.GetString());

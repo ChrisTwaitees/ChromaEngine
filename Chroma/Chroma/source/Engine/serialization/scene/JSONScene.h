@@ -35,12 +35,15 @@ private:
 	void SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonValue);
 	void SerializeEntity(ISerializer*& serialized, rapidjson::Value& jsonValue);
 	void SerializeComponent(ISerializer*& serialized, rapidjson::Value& jsonValue);
+	void SerializeMaterialTypes(ISerializer*& serialized, rapidjson::Value& jsonValue);
 };
 
-#define CHROMA_ROOT        "Root"
-#define CHROMA_LEVEL       "Level"
-#define CHROMA_ENTITIES    "Entities"
-#define CHROMA_COMPONENTS  "Components"
-#define CHROMA_IBL_KEY	   "IBL"
-
+#define CHROMA_ROOT                  "Root"
+#define CHROMA_LEVEL                 "Level"
+#define CHROMA_ENTITIES              "Entities"
+#define CHROMA_COMPONENTS            "Components"
+#define CHROMA_IBL_KEY	             "IBL"
+#define CHROMA_MATERIAL_KEY          "Material"
+#define CHROMA_MATERIAL_TEXTURES_KEY "Textures"
+#define CHROMA_MATERIAL_PROPERTY_FLAGS 	Chroma::Type::EditorProperty::kMaterialProperty | Chroma::Type::EditorProperty::kMaterialTextureProperty | Chroma::Type::EditorProperty::kMaterialUniformProperty | Chroma::Type::EditorProperty::kMaterialUniformColorProperty
 #endif

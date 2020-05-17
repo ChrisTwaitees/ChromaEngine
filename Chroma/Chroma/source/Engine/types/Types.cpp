@@ -51,6 +51,19 @@ namespace Chroma
 		{"kMaterialTextureProperty",      Type::EditorProperty::kMaterialTextureProperty},
 		{"kMaterialUniformProperty",      Type::EditorProperty::kMaterialUniformProperty}
 	};
+
+	std::map<std::string, Type::Texture> Type::m_TextureTypeMap =
+	{
+		{"<NULL>",                        Type::Texture::kNullTexture},
+		{"kAlbedo",						  Type::Texture::kAlbedo},
+		{"kNormal",						  Type::Texture::kNormal},
+		{"kMetRoughAO",                   Type::Texture::kMetRoughAO},
+		{"kTranslucency",                 Type::Texture::kTranslucency},
+		{"kMetalness",					  Type::Texture::kMetalness},
+		{"kRoughness",					  Type::Texture::kRoughness},
+		{"kAO",							  Type::Texture::kAO},
+		{"kHDR",						  Type::Texture::kHDR}
+	};
 }
 
 
@@ -181,4 +194,57 @@ std::string Chroma::Type::GetName(DataType dataType)
 std::string Chroma::Type::GetName(EditorProperty editorPropertyType)
 {
 	return std::string();
+}
+
+std::string Chroma::Type::GetName(Texture textureType)
+{
+	switch (textureType)
+	{
+	case(Texture::kAlbedo):
+	{
+		return "kAlbedo";
+		break;
+	}
+	case(Texture::kNormal):
+	{
+		return "kNormal";
+		break;
+	}
+	case(Texture::kMetRoughAO):
+	{
+		return "kMetRoughAO";
+		break;
+	}
+	case(Texture::kTranslucency):
+	{
+		return "kTranslucency";
+		break;
+	}
+	case(Texture::kHDR):
+	{
+		return "kHDR";
+		break;
+	}
+	case(Texture::kMetalness):
+	{
+		return "kMetalness";
+		break;
+	}
+	case(Texture::kAO):
+	{
+		return "kAO";
+		break;
+	}
+	case(Texture::kRoughness):
+	{
+		return "kRoughness";
+		break;
+	}
+	default:
+	{
+		CHROMA_ERROR("Unsupported Texture Type!");
+		return "Unsupported Texture Type!";
+		break;
+	}
+	}
 }

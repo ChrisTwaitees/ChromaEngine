@@ -31,26 +31,28 @@ void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 		{
 		case(Texture::ALBEDO):
 		{
-			serializer->AddProperty("Texture_ALBEDO", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("ALBEDO", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
 		case(Texture::NORMAL):
 		{
-			serializer->AddProperty("Texture_NORMAL", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("NORMAL", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
 		case(Texture::METROUGHAO):
 		{
-			serializer->AddProperty("Texture_METROUGHAO", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("METROUGHAO", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
 		case(Texture::TRANSLUCENCY):
 		{
-			serializer->AddProperty("Texture_TRANSLUCENCY", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("TRANSLUCENCY", &texture.GetSourcePath(), editorPrpty);
+
 			break;
 		}
 		default : 
 		{
+			CHROMA_ERROR("Texture not supported for Serialization : {0}", "NONE");
 			break;
 		}
 		}
