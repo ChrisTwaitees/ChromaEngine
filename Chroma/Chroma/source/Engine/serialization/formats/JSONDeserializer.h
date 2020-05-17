@@ -3,12 +3,14 @@
 
 #include <serialization/IDeserializer.h>
 #include <serialization/formats/Json.h>
+#include <serialization/scene/JSONScene.h>
 
 using namespace Chroma;
 
 class JSONDeserializer : public IDeserializer
 {
 public:
+
 
 	template <class objectType, typename ChromaType>
 	objectType CreateObject(ChromaType type, const rapidjson::Value& jsonData)
@@ -141,11 +143,11 @@ public:
 			{
 				newStaticMesh->SetParentEntityUID(UID(componentValue->value.GetString()));
 			}
-			if (componentAttrKey == "m_SourcePath")
+			else if (componentAttrKey == "m_SourcePath")
 			{
 				newStaticMesh->SetSourcePath(componentValue->value.GetString());
 			}
-			if (componentAttrKey == "m_Rotation")
+			else if (componentAttrKey == "m_Rotation")
 			{
 				glm::quat newRotation;
 				newRotation.x = componentValue->value.GetArray()[0].GetFloat();
@@ -154,7 +156,7 @@ public:
 				newRotation.w = componentValue->value.GetArray()[3].GetFloat();
 				newStaticMesh->SetRotation(newRotation);
 			}
-			if (componentAttrKey == "m_Translation")
+			else if (componentAttrKey == "m_Translation")
 			{
 				glm::vec3 newTranslation;
 				newTranslation.x = componentValue->value.GetArray()[0].GetFloat();
@@ -162,13 +164,17 @@ public:
 				newTranslation.z = componentValue->value.GetArray()[2].GetFloat();
 				newStaticMesh->SetTranslation(newTranslation);
 			}
-			if (componentAttrKey == "m_Scale")
+			else if (componentAttrKey == "m_Scale")
 			{
 				glm::vec3 newScale;
 				newScale.x = componentValue->value.GetArray()[0].GetFloat();
 				newScale.y = componentValue->value.GetArray()[1].GetFloat();
 				newScale.z = componentValue->value.GetArray()[2].GetFloat();
 				newStaticMesh->SetScale(newScale);
+			}
+			else if (componentAttrKey == CHROMA_MATERIAL_KEY)
+			{
+				DeserializeMaterial(newStaticMesh, componentValue->value);
 			}
 			else
 			{
@@ -283,6 +289,40 @@ public:
 
 	JSONDeserializer() {};
 	~JSONDeserializer() {};
+
+private:
+
+	// Materials 
+
+		// add
+	template<typename meshComponent>
+	void DeserializeMaterial(meshComponent meshComponent, const rapidjson::Value& jsonData) {
+		CHROMA_FATAL("MeshComponent Type Not Supported For Material Deserialization!");
+	};
+
+	template<>
+	void DeserializeMaterial<StaticMesh*>(StaticMesh* meshComponent, const rapidjson::Value& jsonData) {
+		CHROMA_INFO("Deserializing Material");
+		for (rapidjson::Value::ConstMemberIterator materialValue = jsonData.MemberBegin(); materialValue != jsonData.MemberEnd(); ++materialValue)
+		{
+			std::string materialAttrKey(materialValue->name.GetString());
+			CHROMA_INFO("Material attr : {0}", materialAttrKey);
+
+			// Textures
+			if (materialAttrKey == CHROMA_MATERIAL_TEXTURES_KEY)
+			{
+				for (rapidjson::Value::ConstMemberIterator textureValue = materialValue->value.MemberBegin(); textureValue != materialValue->value.MemberEnd(); ++textureValue)
+				{
+					// Create Texture and set type
+					Texture newTexture(textureValue->value.GetString());
+					newTexture.m_Type = Chroma::Type::GetType<Chroma::Type::Texture>(textureValue->name.GetString());
+					// Add Texture
+					meshComponent->AddTexture(newTexture);
+				}
+			}
+		}
+	};
+
 };
 
 #endif // CHROMA_JSON_DESERIALIZER_H
