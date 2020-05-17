@@ -21,8 +21,7 @@ public:
 	/*  Texture Data  */
 	unsigned int ID {0} ;
 
-	enum TYPE { ALBEDO, NORMAL, METROUGHAO, METALNESS, ROUGHNESS, AO, HDR, TRANSLUCENCY};
-	TYPE m_Type {ALBEDO};
+	Chroma::Type::Texture m_Type { Chroma::Type::Texture::kAlbedo };
 
 	std::string& GetSourcePath() { return m_SourcePath; }
 

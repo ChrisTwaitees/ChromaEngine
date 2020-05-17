@@ -14,6 +14,9 @@ class MeshComponent : public IComponent
 public:
 	// Component Functions
 	void Init() override;
+	virtual void SetupMesh();
+	virtual void LoadFromFile(const std::string& sourcePath);
+	virtual void RebuildMesh() { LoadFromFile(m_SourcePath); SetupMesh(); };
 	void Update() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;

@@ -61,9 +61,9 @@ protected:
 
 
 #ifdef DEBUG
-#define CMPNT_SERIALIZE_BEGIN CHROMA_INFO("Serializing : {} , UID : {}", GetTypeName(), m_UID.data); serializer->StartObject(GetType(), m_UID); serializer->AddProperty("m_ParentEntityUID", m_ParentEntityUID);
-#define CMPNT_DESTROYED CHROMA_INFO("{} Destroyed. UID : {}", GetTypeName(), m_UID.data );
-#define CMPNT_INITIALIZED CHROMA_INFO("{} Intialized. UID : {}", GetTypeName(), m_UID.data );
+#define CMPNT_SERIALIZE_BEGIN CHROMA_INFO("Serializing : {} , UID : {}", GetTypeName(), m_UID.m_Data); serializer->StartObject(GetType(), m_UID); serializer->AddProperty("m_ParentEntityUID", m_ParentEntityUID);
+#define CMPNT_DESTROYED CHROMA_INFO("{} Destroyed. UID : {}", GetTypeName(), m_UID.m_Data );
+#define CMPNT_INITIALIZED CHROMA_INFO("{} Intialized. UID : {}", GetTypeName(), m_UID.m_Data );
 #else
 #define CMPNT_SERIALIZE_BEGIN serializer->StartObject(GetType(), m_UID);
 #define CMPNT_DESTROYED

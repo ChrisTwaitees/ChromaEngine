@@ -16,6 +16,7 @@ public:
 	void Init() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
+	void LoadFromFile(const std::string& sourcePath) override;
 	void CleanUp() override;
 
 	// Functions
@@ -52,12 +53,12 @@ protected:
 	// functions
 	virtual void CalculateBBox();
 	virtual void CalculateCentroid();
-	virtual void SetupMesh();
+	virtual void SetupMesh() override;
 	// render functions
 	virtual void UpdateUniforms(Shader& shader, Camera& RenderCam);
 	virtual void UpdateTransformUniforms(Shader& shader, Camera& renderCam);
 	virtual void UpdateMaterialUniforms(Shader& shader);
-	virtual void updateTextureUniforms(Shader& shader);
+	virtual void UpdateTextureUniforms(Shader& shader);
 	void UpdatePBRLightingTextureUniforms(Shader& shader);
 };
 

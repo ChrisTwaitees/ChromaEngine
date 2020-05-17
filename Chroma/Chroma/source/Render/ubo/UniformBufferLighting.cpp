@@ -57,7 +57,7 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 		Light* currentLight = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
 		switch (currentLight->GetLightType())
 		{
-		case(Light::DIRECTIONAL):
+		case(Chroma::Type::Light::kSunlight):
 		{
 			m_DirLightStructs[numDirectionalLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
 			m_DirLightStructs[numDirectionalLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);
@@ -65,7 +65,7 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 			numDirectionalLights++;
 			break;
 		}
-		case(Light::SUNLIGHT):
+		case(Chroma::Type::Light::kDirectionalLight):
 		{
 			m_DirLightStructs[numDirectionalLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
 			m_DirLightStructs[numDirectionalLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);
@@ -73,7 +73,7 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 			numDirectionalLights++;
 			break;
 		}
-		case(Light::POINT):
+		case(Chroma::Type::Light::kPointLight):
 		{
 			m_PointLightStructs[numPointLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
 			m_PointLightStructs[numPointLights].position = currentLight->GetPosition();
@@ -85,7 +85,7 @@ void UniformBufferLighting::PopulateBufferWithSceneLights()
 			numPointLights++;
 			break;
 		}
-		case(Light::SPOT):
+		case(Chroma::Type::Light::kSpotLight):
 		{
 			m_SpotLightStructs[numSpotLights].diffuse = glm::vec4(currentLight->GetDiffuse(), 1.0);
 			m_SpotLightStructs[numSpotLights].direction = glm::vec4(currentLight->GetDirection(), 1.0);

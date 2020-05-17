@@ -66,6 +66,7 @@ namespace Chroma
 				{
 					Entity* newEntity = deserializer->CreateObject<Entity*>(Chroma::Type::Entity::kEntity, entity->value);
 					newEntity->SetUID(UID(entity->name.GetString()));
+					std::string test = entity->name.GetString();
 					Chroma::Scene::AddEntity(newEntity);
 				}
 			}
@@ -86,8 +87,9 @@ namespace Chroma
 			{
 				for (rapidjson::Value::ConstMemberIterator staticMeshComponent = componentTypes->value.MemberBegin(); staticMeshComponent != componentTypes->value.MemberEnd(); ++staticMeshComponent)
 				{
-					StaticMesh* newStaticMeshComponent = deserializer->CreateObject<StaticMesh*>(Chroma::Type::Component::kStaticMeshComponent, staticMeshComponent->value);
+					MeshComponent* newStaticMeshComponent = deserializer->CreateObject<StaticMesh*>(Chroma::Type::Component::kStaticMeshComponent, staticMeshComponent->value);
 					newStaticMeshComponent->SetUID(UID(staticMeshComponent->name.GetString()));
+					//Chroma::Scene::AddMeshComponent(newStaticMeshComponent);
 					Chroma::Scene::GetEntity(newStaticMeshComponent->GetParentEntityUID())->AddComponent(newStaticMeshComponent);
 				}
 				break;

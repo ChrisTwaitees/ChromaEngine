@@ -24,14 +24,9 @@ public:
 	UID m_IconUID;
 #endif
 
-	//members
-	enum TYPE { POINT = 0, DIRECTIONAL = 1, SPOT= 2, SUNLIGHT=3 };
-	// m_Type
-
-
 	// methods
 	// setters
-	void SetLightType(Light::TYPE light_type) { m_LightType = light_type; UpdatePointRadius();};
+	void SetLightType(Chroma::Type::Light light_type) { m_LightType = light_type; UpdatePointRadius();};
 	void SetDiffuse(glm::vec3 color) { m_Diffuse = color; UpdatePointRadius();};
 	void SetIntensity(float intensity_val) { m_Intensity = intensity_val; UpdatePointRadius();};
 	void SetTranslation(glm::vec3 newPosition) { m_Position = newPosition; };
@@ -45,8 +40,7 @@ public:
 	void setSpotSize(float spotSize_val) {m_SpotSize = spotSize_val;};
 
 	// getters
-	TYPE GetLightType() const { return m_LightType; };
-	std::string GetTypeString() const;
+	Chroma::Type::Light GetLightType() const { return m_LightType; };
 	// getters - directional
 	glm::vec3 GetDirection() { return m_Direction; };
 	// getters - pointlights
@@ -63,17 +57,17 @@ public:
 
 	// constructors
 	Light();
-	Light(TYPE type_val) : m_LightType{ type_val } { Init(); };
-	Light(TYPE type_val, float intensity_val) : m_LightType{ type_val }, m_Intensity{ intensity_val }{ Init(); };
-	Light(glm::vec3 position_val, TYPE type_val) : m_LightType{ type_val }, m_Position{ position_val } { Init(); };
-	Light(TYPE type_val, glm::vec3 direction_val) : m_LightType{ type_val }, m_Direction{ direction_val } {Init(); };
-	Light(TYPE type_val, glm::vec3 position_val, glm::vec3 direction_val, float intensity_val) : m_Position{ position_val }, m_Direction{ direction_val }, m_Intensity{ intensity_val }, m_LightType{type_val} {Init(); };
-	Light(TYPE type_val, glm::vec3 direction_val, float intensity_val) :  m_Direction{ direction_val }, m_Intensity{ intensity_val }, m_LightType{ type_val } { Init(); };
+	Light(Chroma::Type::Light type_val) : m_LightType{ type_val } { Init(); };
+	Light(Chroma::Type::Light type_val, float intensity_val) : m_LightType{ type_val }, m_Intensity{ intensity_val }{ Init(); };
+	Light(glm::vec3 position_val, Chroma::Type::Light type_val) : m_LightType{ type_val }, m_Position{ position_val } { Init(); };
+	Light(Chroma::Type::Light type_val, glm::vec3 direction_val) : m_LightType{ type_val }, m_Direction{ direction_val } {Init(); };
+	Light(Chroma::Type::Light type_val, glm::vec3 position_val, glm::vec3 direction_val, float intensity_val) : m_Position{ position_val }, m_Direction{ direction_val }, m_Intensity{ intensity_val }, m_LightType{type_val} {Init(); };
+	Light(Chroma::Type::Light type_val, glm::vec3 direction_val, float intensity_val) :  m_Direction{ direction_val }, m_Intensity{ intensity_val }, m_LightType{ type_val } { Init(); };
 	~Light();
 
 protected:
 	// type
-	TYPE m_LightType{ TYPE::POINT };
+	Chroma::Type::Light m_LightType{ Chroma::Type::Light::kPointLight};
 
 	// attenuation
 	float m_Constant{ 1.0f };

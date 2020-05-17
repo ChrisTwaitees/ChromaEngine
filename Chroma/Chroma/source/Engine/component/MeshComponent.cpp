@@ -1,6 +1,7 @@
 #include "MeshComponent.h"
 #include <entity/IEntity.h>
 #include <scene/Scene.h>
+#include <resources/ModelLoader.h>
 
 MeshComponent::MeshComponent()
 {
@@ -28,28 +29,29 @@ void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 	{
 		switch (texture.m_Type)
 		{
-		case(Texture::ALBEDO):
+		case(Chroma::Type::Texture::kAlbedo):
 		{
-			serializer->AddProperty("Texture_ALBEDO", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("kAlbedo", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
-		case(Texture::NORMAL):
+		case(Chroma::Type::Texture::kNormal):
 		{
-			serializer->AddProperty("Texture_NORMAL", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("kNormal", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
-		case(Texture::METROUGHAO):
+		case(Chroma::Type::Texture::kMetRoughAO):
 		{
-			serializer->AddProperty("Texture_METROUGHAO", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("kMetRoughAO", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
-		case(Texture::TRANSLUCENCY):
+		case(Chroma::Type::Texture::kTranslucency):
 		{
-			serializer->AddProperty("Texture_TRANSLUCENCY", &texture.GetSourcePath(), editorPrpty);
+			serializer->AddProperty("kTranslucency", &texture.GetSourcePath(), editorPrpty);
 			break;
 		}
 		default : 
 		{
+			CHROMA_ERROR("Texture not supported for Serialization : {0}", "NONE");
 			break;
 		}
 		}
@@ -95,6 +97,16 @@ void MeshComponent::Init()
 	CMPNT_INITIALIZED
 }
 
+void MeshComponent::SetupMesh()
+{
+	CHROMA_INFO("Mesh Component : {}, Setting Up.", m_UID.m_Data);
+}
+
+void MeshComponent::LoadFromFile(const std::string& sourcePath)
+{
+	CHROMA_INFO("Mesh Component : {0}, Loading from source path : {1}.", m_UID.m_Data, sourcePath);
+}
+
 void MeshComponent::Update()
 {
 }
@@ -123,7 +135,7 @@ void MeshComponent::Serialize(ISerializer*& serializer)
 
 void MeshComponent::CleanUp()
 {
-	CHROMA_INFO("Mesh Component : {}, Cleaned Up.", m_UID.data);
+	CHROMA_INFO("Mesh Component : {}, Cleaned Up.", m_UID.m_Data);
 }
 
 void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)

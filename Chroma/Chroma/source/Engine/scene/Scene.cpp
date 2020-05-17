@@ -211,7 +211,7 @@ namespace Chroma
 
 		// init members
 		m_RenderCamera = new Camera();
-		m_SunLight = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.0), 1.0f);
+		m_SunLight = new Light(Chroma::Type::Light::kSunlight, glm::vec3(0.2, -0.8, 0.0), 1.0f);
 		m_IBL = new IBL();
 		m_Skybox = new SkyBox();
 		m_SceneNoise = Texture("resources/textures/noise/noise_00.jpg");
@@ -499,7 +499,7 @@ namespace Chroma
 
 		for (Light*& light : newLights)
 		{
-			if (light->GetLightType() == Light::SUNLIGHT)
+			if (light->GetLightType() == Chroma::Type::Light::kSunlight)
 			{
 				m_SunLight = light;
 				AddLight(light);

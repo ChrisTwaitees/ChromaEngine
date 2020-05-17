@@ -3,12 +3,14 @@
 
 #include <serialization/IDeserializer.h>
 #include <serialization/formats/Json.h>
+#include <serialization/scene/JSONScene.h>
 
 using namespace Chroma;
 
 class JSONDeserializer : public IDeserializer
 {
 public:
+
 
 	template <class objectType, typename ChromaType>
 	objectType CreateObject(ChromaType type, const rapidjson::Value& jsonData)
@@ -72,42 +74,42 @@ public:
 					{
 					case(Type::kMeshComponent):
 					{
-						newIEntity->AddMeshComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddMeshComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kSkinnedMeshComponent):
 					{
-						newIEntity->AddMeshComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddMeshComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kModelComponent):
 					{
-						newIEntity->AddMeshComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddMeshComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kPhysicsComponent):
 					{
-						newIEntity->AddPhysicsComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddPhysicsComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kCharacterControllerComponent):
 					{
-						newIEntity->AddCharacterControllerComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddCharacterControllerComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kAnimationComponent):
 					{
-						newIEntity->AddAnimationComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddAnimationComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kAnimationConstraintComponent):
 					{
-						newIEntity->AddAnimConstraintComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddAnimConstraintComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					case(Type::kStateMachineComponent):
 					{
-						newIEntity->AddStateMachineComponentUID(UID(componentUID->GetString()));
+						newIEntity->AddStateMachineComponentUID(UID(componentUID->GetInt()));
 						break;
 					}
 					default :
@@ -141,12 +143,49 @@ public:
 			{
 				newStaticMesh->SetParentEntityUID(UID(componentValue->value.GetString()));
 			}
+			else if (componentAttrKey == "m_SourcePath")
+			{
+				newStaticMesh->SetSourcePath(componentValue->value.GetString());
+			}
+			else if (componentAttrKey == "m_Rotation")
+			{
+				glm::quat newRotation;
+				newRotation.x = componentValue->value.GetArray()[0].GetFloat();
+				newRotation.y = componentValue->value.GetArray()[1].GetFloat();
+				newRotation.z = componentValue->value.GetArray()[2].GetFloat();
+				newRotation.w = componentValue->value.GetArray()[3].GetFloat();
+				newStaticMesh->SetRotation(newRotation);
+			}
+			else if (componentAttrKey == "m_Translation")
+			{
+				glm::vec3 newTranslation;
+				newTranslation.x = componentValue->value.GetArray()[0].GetFloat();
+				newTranslation.y = componentValue->value.GetArray()[1].GetFloat();
+				newTranslation.z = componentValue->value.GetArray()[2].GetFloat();
+				newStaticMesh->SetTranslation(newTranslation);
+			}
+			else if (componentAttrKey == "m_Scale")
+			{
+				glm::vec3 newScale;
+				newScale.x = componentValue->value.GetArray()[0].GetFloat();
+				newScale.y = componentValue->value.GetArray()[1].GetFloat();
+				newScale.z = componentValue->value.GetArray()[2].GetFloat();
+				newStaticMesh->SetScale(newScale);
+			}
+			else if (componentAttrKey == CHROMA_MATERIAL_KEY)
+			{
+				DeserializeMaterial(newStaticMesh, componentValue->value);
+			}
 			else
 			{
 				CHROMA_WARN("{} Serialized Attribute Not Accounted for!", componentValue->name.GetString());
 			}
 		}
 
+		// Rebuild Mesh
+		newStaticMesh->RebuildMesh();
+
+		// Return
 		return newStaticMesh;
 	}
 
@@ -226,22 +265,8 @@ public:
 				newLight->setConstant(lightValue->value.GetFloat());
 
 			if (lightValueName == "m_Type")
-			{
-				int lightType = lightValue->value.GetInt();
+				newLight->SetLightType(Chroma::Type::GetType<Chroma::Type::Light>(lightValue->value.GetString()));
 
-				if (lightType == Light::TYPE::DIRECTIONAL)
-					newLight->SetLightType(Light::TYPE::DIRECTIONAL);
-				
-				else if (lightType == Light::TYPE::POINT)
-					newLight->SetLightType(Light::TYPE::POINT);
-				
-				else if (lightType == Light::TYPE::SUNLIGHT)
-					newLight->SetLightType(Light::TYPE::SUNLIGHT);
-
-				else if (lightType == Light::TYPE::SPOT)
-					newLight->SetLightType(Light::TYPE::SPOT);
-
-			}
 		}
 		// UID is set after creation
 		return newLight;
@@ -250,6 +275,40 @@ public:
 
 	JSONDeserializer() {};
 	~JSONDeserializer() {};
+
+private:
+
+	// Materials 
+
+		// add
+	template<typename meshComponent>
+	void DeserializeMaterial(meshComponent meshComponent, const rapidjson::Value& jsonData) {
+		CHROMA_FATAL("MeshComponent Type Not Supported For Material Deserialization!");
+	};
+
+	template<>
+	void DeserializeMaterial<StaticMesh*>(StaticMesh* meshComponent, const rapidjson::Value& jsonData) {
+		CHROMA_INFO("Deserializing Material");
+		for (rapidjson::Value::ConstMemberIterator materialValue = jsonData.MemberBegin(); materialValue != jsonData.MemberEnd(); ++materialValue)
+		{
+			std::string materialAttrKey(materialValue->name.GetString());
+			CHROMA_INFO("Material attr : {0}", materialAttrKey);
+
+			// Textures
+			if (materialAttrKey == CHROMA_MATERIAL_TEXTURES_KEY)
+			{
+				for (rapidjson::Value::ConstMemberIterator textureValue = materialValue->value.MemberBegin(); textureValue != materialValue->value.MemberEnd(); ++textureValue)
+				{
+					// Create Texture and set type
+					Texture newTexture(textureValue->value.GetString());
+					newTexture.m_Type = Chroma::Type::GetType<Chroma::Type::Texture>(textureValue->name.GetString());
+					// Add Texture
+					meshComponent->AddTexture(newTexture);
+				}
+			}
+		}
+	};
+
 };
 
 #endif // CHROMA_JSON_DESERIALIZER_H

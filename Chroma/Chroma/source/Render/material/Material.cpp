@@ -14,19 +14,22 @@ void Material::Destroy()
 
 void Material::SetTextureSet(std::vector<Texture> newTextureSet)
 {
-	for (unsigned int i = 0; m_TextureSet.size(); i++)
+	if (newTextureSet.size() > 0)
 	{
-		bool skip{ false };
-		for (unsigned int j = 0; j < m_TextureSet.size(); j++)
+		for (unsigned int i = 0; m_TextureSet.size(); i++)
 		{
-			if (std::strcmp(m_TextureSet[j].GetSourcePath().data(), newTextureSet[j].GetSourcePath().data()) == 0)
+			bool skip{ false };
+			for (unsigned int j = 0; j < m_TextureSet.size(); j++)
 			{
-				skip = true;
-				break;
+				if (std::strcmp(m_TextureSet[j].GetSourcePath().data(), newTextureSet[j].GetSourcePath().data()) == 0)
+				{
+					skip = true;
+					break;
+				}
 			}
+			if (!skip)
+				m_TextureSet.push_back(m_TextureSet[i]);
 		}
-		if (!skip)
-			m_TextureSet.push_back(m_TextureSet[i]);
 	}
 }
 

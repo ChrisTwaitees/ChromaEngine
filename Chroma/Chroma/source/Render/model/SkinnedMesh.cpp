@@ -122,11 +122,27 @@ void SkinnedMesh::Serialize(ISerializer*& serializer)
 	SerializeMaterial(serializer);
 }
 
+void SkinnedMesh::LoadFromFile(const std::string& sourcePath)
+{
+	MeshData newMeshData = Chroma::ModelLoader::Load(sourcePath)[0];
+	// Renderables
+	m_IsSkinned = true;
+	// Skeleton
+	m_Skeleton = newMeshData.skeleton;
+	m_Skeleton.SetParentComponentUID(m_UID);
+	// Verts
+	m_SkinnedVertices = newMeshData.skinnedVerts;
+	m_Indices = newMeshData.indices;
+	// Textures
+	m_Material.SetTextureSet(newMeshData.textures);
+
+}
+
 void SkinnedMesh::CleanUp()
 {
 	m_vertices.clear();
 	m_SkinnedVertices.clear();
-	CHROMA_INFO("Skinned Mesh Component : {0} Cleaned Up", m_UID.data);
+	CHROMA_INFO("Skinned Mesh Component : {0} Cleaned Up", m_UID.m_Data);
 }
 
 
@@ -167,20 +183,9 @@ SkinnedMesh::SkinnedMesh(MeshData const& newMeshData)
 
 SkinnedMesh::SkinnedMesh(std::string const& sourcePath)
 {
-	MeshData newMeshData = Chroma::ModelLoader::Load(sourcePath)[0];
-	// Renderables
-	m_IsSkinned = true;
-	// Skeleton
-	m_Skeleton = newMeshData.skeleton;
-	m_Skeleton.SetParentComponentUID(m_UID);
-	// Verts
-	m_SkinnedVertices = newMeshData.skinnedVerts;
-	m_Indices = newMeshData.indices;
-	// Textures
-	m_Material.SetTextureSet(newMeshData.textures);
+	LoadFromFile(sourcePath);
 	// Build Mesh
 	SetupMesh();
-
 }
 
 

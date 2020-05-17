@@ -1,7 +1,7 @@
 #include "UID.h"
 
 
-
+unsigned int UID::GlobalUIDCount{ 0 };
 
 unsigned int UIDRandomChar()
 {
@@ -11,7 +11,7 @@ unsigned int UIDRandomChar()
 	return dis(gen);
 }
 
-std::string UIDNewUID()
+const char* UIDNewUID()
 {
 	std::stringstream ss;
 	for (unsigned int i = 0; i < CHROMA_UID_LENGTH; i++) {
@@ -21,26 +21,18 @@ std::string UIDNewUID()
 		auto hex = hexstream.str();
 		ss << (hex.length() < 2 ? '0' + hex : hex);
 	}
-	return ss.str();
+	return ss.str().c_str();
 }
 
 
-std::string UID::GenerateNewUID()
+unsigned int UID::GenerateNewUID()
 {
-	return UIDNewUID();
+	GlobalUIDCount++;
+	return UID::GlobalUIDCount;
 }
 
-bool UID::operator<(const UID& rhs) const
-{
-	return this->data < rhs.data;
-}
 
 UID::UID()
 {
-	data = GenerateNewUID();
-}
-
-UID::UID(std::string UIDData)
-{
-	data = UIDData;
+	m_Data = GenerateNewUID();
 }

@@ -35,6 +35,26 @@ namespace Chroma
 			kEntity = 1
 		};
 
+		enum Texture {
+			kNullTexture = -99,
+			kAlbedo = 0,
+			kNormal = 1,
+			kMetRoughAO = 2,
+			kTranslucency = 3,
+			kMetalness = 4, 
+			kRoughness = 5,
+			kAO = 6,
+			kHDR = 7
+		};
+
+		enum Light {
+			kNullLight = -99,
+			kPointLight = 0,
+			kDirectionalLight = 1,
+			kSpotLight = 2,
+			kSunlight = 3
+		};
+
 		enum Serialization {
 			kNullSerialization = -99,
 			kJSON = 0
@@ -65,6 +85,19 @@ namespace Chroma
 		static std::string GetName(Serialization serializedType);
 		static std::string GetName(DataType dataType);
 		static std::string GetName(EditorProperty editorPropertyType);
+		static std::string GetName(Texture textureType);
+		static std::string GetName(Light lightType);
+
+		// Checks
+		static bool IsMaterialEditorProperty(Chroma::Type::EditorProperty editorProperty)
+		{
+			return editorProperty == Type::EditorProperty::kMaterialProperty || editorProperty == Type::EditorProperty::kMaterialTextureProperty || editorProperty == Type::EditorProperty::kMaterialUniformProperty || editorProperty == Type::EditorProperty::kMaterialUniformColorProperty; 
+		}
+
+		static bool IsMeshComponent(Chroma::Type::Component componentProperty)
+		{
+			return componentProperty == Type::Component::kMeshComponent || componentProperty == Type::Component::kModelComponent || componentProperty == Type::Component::kSkinnedMeshComponent || componentProperty == Type::Component::kStaticMeshComponent;
+		}
 
 		// Type
 		template<typename T>
@@ -99,6 +132,24 @@ namespace Chroma
 			else
 				return Type::Serialization::kNullSerialization;
 		}
+		// textures
+		template<>
+		static Type::Texture GetType<Type::Texture>(const std::string& objectTypeName)
+		{
+			if (m_TextureTypeMap.find(objectTypeName) != m_TextureTypeMap.end())
+				return m_TextureTypeMap.find(objectTypeName)->second;
+			else
+				return Type::Texture::kNullTexture;
+		}
+		// lights
+		template<>
+		static Type::Light GetType<Type::Light>(const std::string& objectTypeName)
+		{
+			if (m_LightTypeMap.find(objectTypeName) != m_LightTypeMap.end())
+				return m_LightTypeMap.find(objectTypeName)->second;
+			else
+				return Type::Light::kNullLight;
+		}
 
 	private:
 		// Type string maps
@@ -107,6 +158,9 @@ namespace Chroma
 		static std::map<std::string, Type::Serialization> m_SerializationMap;
 		static std::map<std::string, Type::DataType> m_DataTypeMap;
 		static std::map<std::string, Type::EditorProperty> m_EditorPropertiesMap;
+		static std::map<std::string, Type::Texture> m_TextureTypeMap;
+		static std::map<std::string, Type::Light> m_LightTypeMap;
+
 	};
 
 }

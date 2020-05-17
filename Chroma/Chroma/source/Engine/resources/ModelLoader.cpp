@@ -30,8 +30,11 @@ namespace Chroma
 		// iterate through the scenes meshes
 		GetChildMeshNodes(scene->mRootNode, scene, meshDatas);
 		// set the source path on all discovered mesh datas
-		for(MeshData& meshData : meshDatas)
+		for (MeshData& meshData : meshDatas)
+		{
 			meshData.sourceDirectory = m_SourceDir;
+			meshData.sourcePath = sourcePath;
+		}
 
 		// Debug
 		CHROMA_TRACE("MODEL LOADER :: MeshData Loaded");
@@ -223,7 +226,7 @@ namespace Chroma
 		return newMeshData;
 	}
 
-	void ModelLoader::GetTexturesFromMaterial(aiMaterial * mat, aiTextureType type, Texture::TYPE typeName, MeshData& meshData)
+	void ModelLoader::GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Chroma::Type::Texture typeName, MeshData& meshData)
 	{
 		// iterate through meshes textures
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); i++)
