@@ -5,6 +5,7 @@
 #include <render/Render.h>
 #include <screen/Screen.h>
 #include <buffer/GBuffer.h>
+#include <entity/Entity.h>
 
 namespace Chroma
 {
@@ -299,7 +300,10 @@ namespace Chroma
 	void EditorUI::DrawBuildTab()
 	{
 		ImGui::Begin("Build");
-		ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightsIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize));
+		ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightsIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)); ImGui::SameLine;
+		if(ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightPointIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)))
+			OpenFileBrowser("Choose Mesh File", ".fbx\0.obj\0", UI::FileBrowserMode::kLoadMesh);
+
 		ImGui::End();
 	}
 
@@ -542,6 +546,16 @@ namespace Chroma
 			}
 		}
 
+		for (auto& stringProperty : objectSerializer->m_ConstStringProperties)
+		{
+			if (stringProperty.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kMaterialTextureProperty)
+			{
+				ImGui::Text(stringProperty.first.m_Name);
+				ImGui::Text(stringProperty.second.c_str());
+				ImGui::Separator();
+			}
+		}
+
 
 
 		// UNCATEGORIZED
@@ -701,6 +715,14 @@ namespace Chroma
 				case(UI::FileBrowserMode::kLoadIBL):
 				{
 					Chroma::Scene::LoadIBL(m_FilePathName);
+					break;
+				}
+				case(UI::FileBrowserMode::kLoadMesh):
+				{
+					IEntity* newMeshEntity = new Entity();
+					MeshComponent* newMeshComponent = new StaticMesh(m_FilePathName);
+					Chroma::Scene::AddEntity(newMeshEntity);
+					newMeshEntity->AddComponent(newMeshComponent);
 					break;
 				}
 				default :

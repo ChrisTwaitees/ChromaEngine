@@ -282,12 +282,12 @@ private:
 
 		// add
 	template<typename meshComponent>
-	void DeserializeMaterial(meshComponent meshComponent, const rapidjson::Value& jsonData) {
+	void DeserializeMaterial(meshComponent mesh, const rapidjson::Value& jsonData) {
 		CHROMA_FATAL("MeshComponent Type Not Supported For Material Deserialization!");
 	};
 
 	template<>
-	void DeserializeMaterial<StaticMesh*>(StaticMesh* meshComponent, const rapidjson::Value& jsonData) {
+	void DeserializeMaterial<StaticMesh*>(StaticMesh* meshCmp, const rapidjson::Value& jsonData) {
 		CHROMA_INFO("Deserializing Material");
 		for (rapidjson::Value::ConstMemberIterator materialValue = jsonData.MemberBegin(); materialValue != jsonData.MemberEnd(); ++materialValue)
 		{
@@ -303,7 +303,7 @@ private:
 					Texture newTexture(textureValue->value.GetString());
 					newTexture.m_Type = Chroma::Type::GetType<Chroma::Type::Texture>(textureValue->name.GetString());
 					// Add Texture
-					meshComponent->AddTexture(newTexture);
+					meshCmp->AddTexture(newTexture);
 				}
 			}
 		}
