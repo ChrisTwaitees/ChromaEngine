@@ -107,6 +107,8 @@ namespace Chroma
 		static Texture m_LightsIcon;
 		static Texture m_LightSunIcon;
 		static Texture m_LightPointIcon;
+		static Texture m_ImportIcon;
+		static Texture m_TextureIcon;
 
 		// Helpers
 		static void DrawContentRegionDebug();

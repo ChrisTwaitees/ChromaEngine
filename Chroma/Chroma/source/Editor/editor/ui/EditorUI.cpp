@@ -21,11 +21,16 @@ namespace Chroma
 	bool EditorUI::m_IconsVisible;
 	bool EditorUI::m_DrawViewportGrid;
 
+	// Icons
 	int EditorUI::m_IconSize;
 
 	Texture EditorUI::m_LightsIcon;
 	Texture EditorUI::m_LightSunIcon;
 	Texture EditorUI::m_LightPointIcon;
+	
+	Texture EditorUI::m_ImportIcon;
+	Texture EditorUI::m_TextureIcon;
+
 
 	int EditorUI::m_ViewportWidth;
 	int EditorUI::m_ViewportHeight;
@@ -142,6 +147,10 @@ namespace Chroma
 		m_LightsIcon = Texture("resources/icons/lights_icon.png");
 		m_LightSunIcon = Texture("resources/icons/light_sun.png");
 		m_LightPointIcon = Texture("resources/icons/light_point.png");
+		m_ImportIcon = Texture("resources/icons/import_icon.png");
+		m_TextureIcon = Texture("resources/icons/texture_icon.png");
+
+
 		m_IconSize = 20;
 
 		// WORLD OUTLINER
@@ -300,8 +309,13 @@ namespace Chroma
 	void EditorUI::DrawBuildTab()
 	{
 		ImGui::Begin("Build");
-		ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightsIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)); ImGui::SameLine;
-		if(ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightPointIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)))
+		ImGui::SameLine;
+		ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightsIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize));
+		ImGui::SameLine;
+		if(ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_ImportIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)))
+			OpenFileBrowser("Choose Mesh File", ".fbx\0.obj\0", UI::FileBrowserMode::kLoadMesh);
+		ImGui::SameLine;
+		if (ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_TextureIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)))
 			OpenFileBrowser("Choose Mesh File", ".fbx\0.obj\0", UI::FileBrowserMode::kLoadMesh);
 
 		ImGui::End();
