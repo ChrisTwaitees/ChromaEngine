@@ -483,6 +483,10 @@ namespace Chroma
 		// add component
 		m_Components[newLight->GetUID()] = newLight;
 
+		// check whether type sunlight
+		if (static_cast<Light*>(newLight)->GetLightType() == Chroma::Type::Light::kSunlight)
+			m_SunLight = static_cast<Light*>(newLight);
+
 		// State 
 		SCENE_RESETSTATE
 	}
