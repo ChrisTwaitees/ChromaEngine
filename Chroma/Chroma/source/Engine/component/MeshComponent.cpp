@@ -51,69 +51,6 @@ void MeshComponent::CalculateCentroid()
 	m_Centroid = (m_BBoxMin - m_BBoxMax) * glm::vec3(0.5);
 }
 
-void MeshComponent::SerializeMaterial(ISerializer*& serializer)
-{
-	// Texture Editor Property
-	EditorProperty editorPrpty(Chroma::Type::EditorProperty::kMaterialTextureProperty);
-
-	// Textures
-	for (Texture& texture : GetTextureSet())
-	{
-		switch (texture.m_Type)
-		{
-		case(Chroma::Type::Texture::kAlbedo):
-		{
-			serializer->AddProperty("kAlbedo", &texture.GetSourcePath(), editorPrpty);
-			break;
-		}
-		case(Chroma::Type::Texture::kNormal):
-		{
-			serializer->AddProperty("kNormal", &texture.GetSourcePath(), editorPrpty);
-			break;
-		}
-		case(Chroma::Type::Texture::kMetRoughAO):
-		{
-			serializer->AddProperty("kMetRoughAO", &texture.GetSourcePath(), editorPrpty);
-			break;
-		}
-		case(Chroma::Type::Texture::kTranslucency):
-		{
-			serializer->AddProperty("kTranslucency", &texture.GetSourcePath(), editorPrpty);
-			break;
-		}
-		default : 
-		{
-			CHROMA_ERROR("Texture not supported for Serialization : {0}", "NONE");
-			break;
-		}
-		}
-	}
-
-	// Material Uniform Property
-	editorPrpty.m_Type = Chroma::Type::EditorProperty::kMaterialUniformProperty;
-	// Uniforms
-	// float
-	for (auto& floatUniform : m_Material.GetUniformArray().m_FloatUniforms)
-		serializer->AddProperty(floatUniform.first.c_str(), &floatUniform.second, editorPrpty);
-	// int
-	for (auto& intUniform : m_Material.GetUniformArray().m_IntUniforms)
-		serializer->AddProperty(intUniform.first.c_str(), &intUniform.second, editorPrpty);
-	// uInt
-	for (auto& uIntUniform : m_Material.GetUniformArray().m_UIntUniforms)
-		serializer->AddProperty(uIntUniform.first.c_str(), &uIntUniform.second, editorPrpty);
-	// vec2
-	for (auto& vec2Uniform : m_Material.GetUniformArray().m_Vec2Uniforms)
-		serializer->AddProperty(vec2Uniform.first.c_str(), &vec2Uniform.second, editorPrpty);
-
-	editorPrpty.m_Type = Chroma::Type::EditorProperty::kMaterialUniformColorProperty;
-	// vec3
-	for (auto& vec3Uniform : m_Material.GetUniformArray().m_Vec3Uniforms)
-		serializer->AddProperty(vec3Uniform.first.c_str(), &vec3Uniform.second, editorPrpty);
-	// vec4
-	for (auto& vec4Uniform : m_Material.GetUniformArray().m_Vec4Uniforms)
-		serializer->AddProperty(vec4Uniform.first.c_str(), &vec4Uniform.second, editorPrpty);
-
-}
 
 void MeshComponent::ProcessRenderFlags()
 {
@@ -158,10 +95,10 @@ void MeshComponent::Serialize(ISerializer*& serializer)
 	serializer->AddProperty("m_Scale", &m_Scale);
 
 	// File Properties
-	serializer->AddProperty("m_SourcePath", &m_SourcePath);
+	serializer->AddProperty("m_SourcePath", &m_MeshData.sourcePath);
 
 	// Material 
-	SerializeMaterial(serializer);
+	m_Material.Serialize(serializer);
 
 }
 
@@ -186,7 +123,12 @@ glm::vec3 MeshComponent::GetWSTranslation()
 std::pair<glm::vec3, glm::vec3> MeshComponent::GetBBox()
 {
 	glm::vec3 wsTranslation = GetParentEntity()->GetTranslation();
-	return std::make_pair(m_BBoxMin + wsTranslation, m_BBoxMax + wsTranslation);
+	return std::make_pair(m_MeshData.bboxMin + wsTranslation, m_MeshData.bboxMax + wsTranslation);
+}
+
+glm::vec3 MeshComponent::GetCentroid()
+{
+	return GetParentEntity()->GetTranslation() + m_MeshData.centroid;
 }
 
 glm::mat4 MeshComponent::GetWorldTransform()

@@ -154,10 +154,10 @@ void JSONScene::SerializeMaterialTypes(ISerializer*& serialized, rapidjson::Valu
 	}
 
 	// String Properties
-	for (auto& str : serialized->m_StringProperties)
+	for (auto& str : serialized->m_ConstStringProperties)
 	{
 		rapidjson::Value stringKey(str.first.m_Name, m_Document.GetAllocator());
-		rapidjson::Value stringValue(str.second->c_str(), m_Document.GetAllocator());
+		rapidjson::Value stringValue(str.second.c_str(), m_Document.GetAllocator());
 
 		// Check which value type
 		if (str.first.m_EditorProperty.m_Type == Chroma::Type::EditorProperty::kMaterialTextureProperty)

@@ -30,6 +30,8 @@ public:
 	// Accessors	
 	std::pair<glm::vec3, glm::vec3> GetBBox() override;
 	glm::vec3 GetCentroid();
+	std::string& GetSourcePath() override { return m_SourcePath; }
+	void SetSourcePath(const std::string& newSourcePath) override { m_SourcePath = newSourcePath; }
 
 	// render components
 	Shader& GetShader();
@@ -66,6 +68,8 @@ protected:
 	std::vector<ChromaVertex> m_vertices;
 	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
 
+	//sourcePath
+	std::string m_SourcePath;
 	// Functions
 	void LoadModel(std::string path);
 };

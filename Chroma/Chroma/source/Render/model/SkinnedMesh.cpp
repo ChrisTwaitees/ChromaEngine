@@ -123,10 +123,10 @@ void SkinnedMesh::Serialize(ISerializer*& serializer)
 	serializer->AddProperty("m_Scale", &m_Scale);
 
 	// File Properties
-	serializer->AddProperty("m_SourcePath", &m_SourcePath);
+	serializer->AddProperty("m_SourcePath", &m_MeshData.sourcePath);
 
 	// Material 
-	SerializeMaterial(serializer);
+	m_Material.Serialize(serializer);
 }
 
 void SkinnedMesh::LoadFromFile(const std::string& sourcePath)

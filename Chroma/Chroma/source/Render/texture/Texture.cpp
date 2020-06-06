@@ -36,6 +36,7 @@ Texture::Texture(std::string sourcepath)
 {
 	m_SourcePath = sourcepath;
 	TextureData newTex = Chroma::TexureLoader::Load2DTextureData(sourcepath);
+	
 	InitTextureData(newTex);
 }
 

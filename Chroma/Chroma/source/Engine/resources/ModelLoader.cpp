@@ -69,6 +69,7 @@ namespace Chroma
 		for (MeshData& meshData : meshList)
 		{
 			meshData.sourceDirectory = m_SourceDir;
+			meshData.sourcePath = sourcePath;
 			ModelLoader::CalculateBBoxCentroid(meshData);
 			meshData.isLoaded = true;
 		}

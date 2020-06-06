@@ -18,24 +18,29 @@ class Texture
 {
 
 public:
+	Texture(unsigned int newID);
+	Texture(std::string sourcePath);
+	Texture(TextureData const& textData);
+
+	bool operator <(const Texture& rhs) const;
+
+	Texture() {};
+	~Texture();
+
+
 	/*  Texture Data  */
 	unsigned int ID {0} ;
 
 	Chroma::Type::Texture m_Type { Chroma::Type::Texture::kAlbedo };
 
-	std::string& GetSourcePath() { return m_SourcePath; }
+	std::string GetSourcePath() { return m_SourcePath; }
 
 	void Bind();
 	void Destroy();
 
 	static void ClearTexureMemory(unsigned int const& TextureID);
-	/* Constructors */
-	Texture(unsigned int newID);
-	Texture(std::string sourcePath);
-	Texture(TextureData const& textData);
-	bool operator <(const Texture& rhs) const;
-	Texture() {};
-	~Texture();
+
+
 
 protected:
 	// paths

@@ -30,7 +30,6 @@ public:
 	// Getters/Setters
 	virtual glm::mat4 GetTransform() override { return m_Transform; };
 	virtual std::vector<ChromaVertex> GetVertices() { return m_MeshData.verts; };
-	virtual glm::vec3 GetCentroid();
 
 	// Shader Uniforms
 	virtual void SetMat4(std::string name, glm::mat4 value) override;
@@ -52,11 +51,6 @@ protected:
 	virtual void UpdateTransformUniforms(Shader& shader, Camera& renderCam);
 	virtual void UpdateMaterialUniforms(Shader& shader);
 	virtual void UpdateTextureUniforms(Shader& shader);
-	void UpdatePBRLightingTextureUniforms(Shader& shader);
-
-	bool meshReady{false};
-	static std::mutex m_Mutex;
-	static std::vector<std::future<void>> m_Futures;
 };
 
 #endif

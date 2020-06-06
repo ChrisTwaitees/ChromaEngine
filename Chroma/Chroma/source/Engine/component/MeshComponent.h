@@ -16,7 +16,7 @@ public:
 	void Init() override;
 	virtual void SetupMesh();
 	virtual void LoadFromFile(const std::string& sourcePath);
-	virtual void RebuildMesh() { LoadFromFile(m_SourcePath); };
+	virtual void RebuildMesh() { LoadFromFile(m_MeshData.sourcePath); };
 	void Update() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
@@ -56,13 +56,13 @@ public:
 
 	// Dimensions
 	virtual std::pair<glm::vec3, glm::vec3> GetBBox();
-	virtual glm::vec3 GetCentroid() = 0;
+	virtual glm::vec3 GetCentroid();
 	virtual glm::mat4 GetTransform() { return m_Transform; };
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
 
 	// Filepaths
-	virtual std::string& GetSourcePath() { return m_SourcePath; }
-	virtual void SetSourcePath(const std::string& newSourcePath) { m_SourcePath = newSourcePath; }
+	virtual std::string& GetSourcePath() { return m_MeshData.sourcePath; }
+	virtual void SetSourcePath(const std::string& newSourcePath) { m_MeshData.sourcePath = newSourcePath; }
 
 	// Draw
 	virtual void Draw(Shader& shader) = 0;
@@ -99,11 +99,7 @@ protected:
 
 	//Material
 	Material m_Material;
-	void SerializeMaterial(ISerializer*& serializer);
 	void ProcessRenderFlags();
-
-	// Resources
-	std::string m_SourcePath{ "" };
 
 	// Transforms
 	glm::mat4 m_Transform{ glm::mat4(1.0f) };
@@ -111,6 +107,8 @@ protected:
 	glm::quat m_Rotation{ glm::quat() };
 	glm::vec3 m_Scale{ glm::vec3(1.0f) };
 	void RebuildTransform();
+
+	// Dimensions
 	glm::vec3 m_BBoxMin{ 0.0 }, m_BBoxMax{ 0.0 };
 	glm::vec3 m_Centroid{ 0.0 };
 

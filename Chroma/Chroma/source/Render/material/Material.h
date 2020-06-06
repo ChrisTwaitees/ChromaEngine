@@ -12,6 +12,7 @@ public:
 	//Funcs
 	inline void Use() { m_Shader.Use(); };
 	void Destroy();
+	void Serialize(ISerializer* serializer);
 
 	// Shader
 	Shader& GetShader() { return m_Shader; };
@@ -23,6 +24,7 @@ public:
 
 	// Texture
 	std::vector<Texture>& GetTextureSet() { return m_TextureSet; };
+	unsigned int GetNumTextures() { return (unsigned int)m_TextureSet.size(); }
 	void SetTextureSet(std::vector<Texture> newTextureSet);
 	void AddTexture(Texture& newTexture);
 
@@ -40,7 +42,14 @@ public:
 	inline float GetRoughness() { return m_Roughness; }
 	inline void SetRoughness(const float& newRoughness) { m_Roughness = newRoughness; }
 
-	// Uniform
+	// Uniform - update
+	void UpdateUniforms(Shader& shader, Camera& RenderCam, const glm::mat4& modelTransform);
+	void UpdateTransformUniforms(Shader& shader, Camera& renderCam, const glm::mat4& modelTransfrom);
+	void UpdateMaterialUniforms(Shader& shader);
+	void UpdateTextureUniforms(Shader& shader);
+	void UpdatePBRLightingTextureUniforms(Shader& shader);
+
+	// Uniform - store
 	UniformArray& GetUniformArray() { return m_Uniforms; };
 	inline void SetUniforms() { m_Uniforms.SetUniforms(m_Shader.ShaderID); }
 
