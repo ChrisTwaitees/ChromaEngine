@@ -477,9 +477,6 @@
     <ClCompile Include="source\Engine\serialization\formats\JSONSerializer.cpp">
       <Filter>Engine\serialization\formats\json</Filter>
     </ClCompile>
-    <ClCompile Include="source\Editor\editor\EditorProperty.cpp">
-      <Filter>Editor\editor</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\material\Material.cpp">
       <Filter>Render\material</Filter>
     </ClCompile>
@@ -823,6 +820,9 @@
     </ClInclude>
     <ClInclude Include="source\Engine\jobsystem\JobSystemTest.h">
       <Filter>Engine\jobsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\time\Timer.h">
+      <Filter>Engine\time</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

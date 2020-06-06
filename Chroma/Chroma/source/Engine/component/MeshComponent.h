@@ -16,7 +16,7 @@ public:
 	void Init() override;
 	virtual void SetupMesh();
 	virtual void LoadFromFile(const std::string& sourcePath);
-	virtual void RebuildMesh() { LoadFromFile(m_SourcePath); SetupMesh(); };
+	virtual void RebuildMesh() { LoadFromFile(m_SourcePath); };
 	void Update() override;
 	void Destroy() override;
 	void Serialize(ISerializer*& serializer) override;
@@ -87,7 +87,7 @@ public:
 	virtual void SetTextureSet(std::vector<Texture>& textures_val) { m_Material.SetTextureSet(textures_val); };
 	virtual std::vector<Texture>& GetTextureSet() { return m_Material.GetTextureSet(); };
 	virtual void AddTexture(Texture& texture_val) { m_Material.AddTexture(texture_val); };
-	virtual int GetNumTextures() { return m_Material.GetTextureSet().size(); };
+	virtual int GetNumTextures() { return (int)m_Material.GetTextureSet().size(); };
 
 	// Constructors
 	MeshComponent();
@@ -110,6 +110,9 @@ protected:
 	// calculate attrs
 	virtual void CalculateBBox() = 0;
 	virtual void CalculateCentroid() = 0;
+
+	// MeshData
+	MeshData m_MeshData;
 
 	//Material
 	Material m_Material;

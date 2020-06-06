@@ -374,14 +374,13 @@ StaticMesh::StaticMesh(MeshData const& newMeshData)
 	SetupMesh();
 }
 
-void StaticMesh::LoadFromFile(std::string sourcePath)
+void StaticMesh::LoadFromFile(const std::string& sourcePath)
 {
 	m_MeshInitialized = false;
 
-
-
-	for (MeshData const& newMeshData : Chroma::ModelLoader::Load(sourcePath))
+	for (MeshData const& newMeshData : Chroma::ResourceManager::LoadModels(sourcePath))
 	{
+
 		m_SourcePath = newMeshData.sourcePath;
 		m_vertices = newMeshData.verts;
 		m_Indices = newMeshData.indices;
@@ -417,8 +416,6 @@ StaticMesh::StaticMesh(const std::string& sourcePath)
 	//	});
 
 	LoadFromFile(sourcePath);
-	SetupMesh();
-
 }
 
 StaticMesh::StaticMesh()

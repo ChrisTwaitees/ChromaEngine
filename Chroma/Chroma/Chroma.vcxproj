@@ -320,7 +320,6 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="source\Engine\jobsystem\JobSystemTest.cpp" />
-    <ClCompile Include="source\Editor\editor\EditorProperty.cpp" />
     <ClCompile Include="source\Engine\animation\SkeletonUtils.cpp" />
     <ClCompile Include="source\Engine\component\animation\AnimConstraintComponent.cpp" />
     <ClCompile Include="source\Engine\component\animation\IKAnimConstraint.cpp" />
@@ -439,6 +438,7 @@
     <ClInclude Include="source\Engine\serialization\formats\JSONSerializer.h" />
     <ClInclude Include="source\Engine\serialization\IDeserializer.h" />
     <ClInclude Include="source\Engine\serialization\scene\JSONScene.h" />
+    <ClInclude Include="source\Engine\time\Timer.h" />
     <ClInclude Include="source\Engine\types\Types.h" />
     <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h" />
     <ClInclude Include="source\Editor\editor\Editor.h" />
