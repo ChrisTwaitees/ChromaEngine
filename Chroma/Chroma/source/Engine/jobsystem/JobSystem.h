@@ -39,4 +39,4 @@ namespace Chroma
 }
 
 
-#endif
+#endif //CHROMA_JOB_SYSTEM_H
