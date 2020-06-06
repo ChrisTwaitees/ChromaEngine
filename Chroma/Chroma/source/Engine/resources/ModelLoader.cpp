@@ -210,6 +210,8 @@ namespace Chroma
 		if (newMeshData.isSkinned)
 		{
 			CHROMA_TRACE("MODEL LOADER :: Model contains skinning data, processing Skeleton.");
+			// Marking Meshdata as skinned
+			newMeshData.isSkinned = true;
 			// Process Skeleton
 			Skeleton skeleton;			
 			// Process Joint Hierarchy

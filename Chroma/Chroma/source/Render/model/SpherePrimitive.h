@@ -9,9 +9,6 @@
 
 class SpherePrimitive : public StaticMesh
 {
-
-	std::vector<ChromaVertex> verts;
-
 public:
 	// ctor/dtor
 	SpherePrimitive(float m_Radius = 1.0f, int sectorCount = 36, int stackCount = 18);
@@ -39,7 +36,7 @@ public:
 	unsigned int getIndexSize() const { return (unsigned int)m_Indices.size() * sizeof(unsigned int); }
 	unsigned int getLineIndexSize() const { return (unsigned int)lineIndices.size() * sizeof(unsigned int); }
 
-	std::vector<ChromaVertex> GetVertices() override { return verts; };
+	std::vector<ChromaVertex> GetVertices() override { return m_MeshData.verts; };
 	const float* getNormals() const { return normals.data(); }
 	const float* getTexCoords() const { return texCoords.data(); }
 	const unsigned int* getIndices() const { return m_Indices.data(); }

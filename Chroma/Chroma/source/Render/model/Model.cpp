@@ -139,7 +139,7 @@ void Model::CalculateBBox()
 	// collecting all bboxes within mesh components of entity and returning overall
 	std::vector<std::pair<glm::vec3, glm::vec3>> bboxes;
 	for (UID const& uid : m_MeshUIDs)
-		bboxes.push_back(((MeshComponent*)Chroma::Scene::GetComponent(uid))->GetBBox());
+		bboxes.push_back((static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->GetBBox()));
 
 	// once collected, calculate new min and max bbox
 	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
@@ -169,7 +169,6 @@ void Model::LoadModel(std::string path)
 	{
 		if (meshData.isSkinned)
 		{
-			m_IsSkinned = true;
 			SkinnedMesh* newSkinnedMesh = new SkinnedMesh(meshData);
 			newSkinnedMesh->SetSourcePath(path);
 			Chroma::Scene::AddMeshComponent(newSkinnedMesh);
@@ -212,8 +211,8 @@ void Model::Destroy()
 	// Material
 	m_Material.Destroy();
 
-	// verts
-	m_IsSkinned ? m_SkinnedVertices.clear() : m_vertices.clear();
+	for (UID const& uid : m_MeshUIDs)
+		static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Destroy();
 
 	CMPNT_DESTROYED
 }

@@ -80,10 +80,10 @@ void PlanePrimitive::SetupQuad()
 	};
 
 	// configure plane VAO
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glGenVertexArrays(1, &m_MeshData.VAO);
+	glGenBuffers(1, &m_MeshData.VBO);
+	glBindVertexArray(m_MeshData.VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_MeshData.VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(quadVertices), &quadVertices, GL_STATIC_DRAW);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)0);
@@ -100,7 +100,7 @@ void PlanePrimitive::SetupQuad()
 
 void PlanePrimitive::BindDrawVAO()
 {
-	glBindVertexArray(VAO);
+	glBindVertexArray(m_MeshData.VAO);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glBindVertexArray(0); // reset to default
 }

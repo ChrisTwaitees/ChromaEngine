@@ -14,6 +14,7 @@
 #include <model/SkinnedMesh.h>
 
 
+#ifdef BUILD
 
 int main6()
 {
@@ -296,5 +297,5 @@ int main6()
 	Chroma::Screen::Close();
 	return 0;
 }
-
+#endif
 #endif

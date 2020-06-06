@@ -26,58 +26,58 @@ namespace Chroma
 	{
 		CHROMA_PROFILE_FUNCTION();
 		// Animation Components
-		Chroma::JobSystem::Execute([] {
-			for (UID const& ComponentUID : Chroma::Scene::GetAnimationComponentUIDs()) 
-			{
-				Chroma::Scene::GetComponent(ComponentUID)->Update();
-			}});
+		//Chroma::JobSystem::Execute([] {
+		//	for (UID const& ComponentUID : Chroma::Scene::GetAnimationComponentUIDs()) 
+		//	{
+		//		Chroma::Scene::GetComponent(ComponentUID)->Update();
+		//	}});
 
 		// Character Controller Components
-		Chroma::JobSystem::Execute([] {
-			for (UID const& ComponentUID : Chroma::Scene::GetCharacterControllerUIDs())
-			{
-				Chroma::Scene::GetComponent(ComponentUID)->Update();
-			}});
+		//Chroma::JobSystem::Execute([] {
+		//	for (UID const& ComponentUID : Chroma::Scene::GetCharacterControllerUIDs())
+		//	{
+		//		Chroma::Scene::GetComponent(ComponentUID)->Update();
+		//	}});
 
-
-		// IK Components
-		Chroma::JobSystem::Execute([] {
-			for (UID const& ComponentUID : Chroma::Scene::GetIKComponentUIDs())
-			{
-				Chroma::Scene::GetComponent(ComponentUID)->Update();
-			}});
-
-
-		// UI Components
-		Chroma::JobSystem::Execute([] {
-			for (UID const& ComponentUID : Chroma::Scene::GetUIComponentUIDs())
-			{
-				Chroma::Scene::GetComponent(ComponentUID)->Update();
-			}});
-
-		//// Animation Components
-		//for (UID const& ComponentUID : Chroma::Scene::GetAnimationComponentUIDs())
-		//{
-		//	Chroma::Scene::GetComponent(ComponentUID)->Update();
-		//}
-
-		//// Character Controller Components
-		//for (UID const& ComponentUID : Chroma::Scene::GetCharacterControllerUIDs())
-		//{
-		//	Chroma::Scene::GetComponent(ComponentUID)->Update();
-		//}
 
 		//// IK Components
-		//for (UID const& ComponentUID : Chroma::Scene::GetIKComponentUIDs())
-		//{
-		//	Chroma::Scene::GetComponent(ComponentUID)->Update();
-		//}
+		//Chroma::JobSystem::Execute([] {
+		//	for (UID const& ComponentUID : Chroma::Scene::GetIKComponentUIDs())
+		//	{
+		//		Chroma::Scene::GetComponent(ComponentUID)->Update();
+		//	}});
+
 
 		//// UI Components
-		//for (UID const& ComponentUID : Chroma::Scene::GetUIComponentUIDs())
-		//{
-		//	Chroma::Scene::GetComponent(ComponentUID)->Update();
-		//}
+		//Chroma::JobSystem::Execute([] {
+		//	for (UID const& ComponentUID : Chroma::Scene::GetUIComponentUIDs())
+		//	{
+		//		Chroma::Scene::GetComponent(ComponentUID)->Update();
+		//	}});
+
+		// Animation Components
+		for (UID const& ComponentUID : Chroma::Scene::GetAnimationComponentUIDs())
+		{
+			Chroma::Scene::GetComponent(ComponentUID)->Update();
+		}
+
+		// Character Controller Components
+		for (UID const& ComponentUID : Chroma::Scene::GetCharacterControllerUIDs())
+		{
+			Chroma::Scene::GetComponent(ComponentUID)->Update();
+		}
+
+		// IK Components
+		for (UID const& ComponentUID : Chroma::Scene::GetIKComponentUIDs())
+		{
+			Chroma::Scene::GetComponent(ComponentUID)->Update();
+		}
+
+		// UI Components
+		for (UID const& ComponentUID : Chroma::Scene::GetUIComponentUIDs())
+		{
+			Chroma::Scene::GetComponent(ComponentUID)->Update();
+		}
 	}
 
 	void Engine::Draw()
@@ -105,14 +105,14 @@ namespace Chroma
 		ProcessInput();
 
 		// Update components
-		Update();
+		//Update();
 
 		// update while lag is less than framerate cap
-		//while (Chroma::Time::GetLag() >= Chroma::Time::GetMSPerFrame())
-		//{
-		//	Update();
-		//	Chroma::Time::DecreaseLag(Chroma::Time::GetMSPerFrame());
-		//}
+		while (Chroma::Time::GetLag() >= Chroma::Time::GetMSPerFrame())
+		{
+			Update();
+			Chroma::Time::DecreaseLag(Chroma::Time::GetMSPerFrame());
+		}
 		// consider Sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
 
 		// Render Scene

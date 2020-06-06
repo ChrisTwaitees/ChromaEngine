@@ -13,7 +13,7 @@ std::vector<ChromaVertex> Entity::GetVertices()
 	std::vector<ChromaVertex> verts;
 	for (UID const& meshUID : m_MeshComponentUIDs)
 	{
-		std::vector<ChromaVertex> m_vertices = ((MeshComponent*)Chroma::Scene::GetComponent(meshUID))->GetVertices();
+		std::vector<ChromaVertex> m_vertices = (static_cast<MeshComponent*>(Chroma::Scene::GetComponent(meshUID))->GetVertices());
 		for (ChromaVertex vert : m_vertices)
 			verts.push_back(vert);
 	}

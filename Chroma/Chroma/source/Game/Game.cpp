@@ -19,7 +19,7 @@
 
 
 
-int main2()
+int main()
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();
@@ -46,12 +46,12 @@ int main2()
 	// dancing point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
-		Light* pointLight = new Light(pos, Light::POINT);
+		Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 		Lights.push_back(pointLight);
 	}
 
 	// SUNLIGHT
-	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 2.0f);
+	Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(0.2, -0.8, 0.3), 2.0f);
 	Sun->SetDiffuse(glm::vec3(1.0));
 	Sun->SetIntensity(3.0);
 	Lights.push_back(Sun);
@@ -71,11 +71,11 @@ int main2()
 
 	// Lookdev Sphere
 	Texture lookdevAlbedo("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-	lookdevAlbedo.m_Type = Texture::ALBEDO;
+	lookdevAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture lookdevNormal("resources/textures/pbr/lookdev_pbr/normal.jpg");
-	lookdevNormal.m_Type = Texture::NORMAL;
+	lookdevNormal.m_Type = Chroma::Type::Texture::kNormal;
 	Texture lookdevMetRoughAO("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-	lookdevMetRoughAO.m_Type = Texture::METROUGHAO;
+	lookdevMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 	// ____________________________________________________
 	// TEXTURES
 	// ____________________________________________________
@@ -85,24 +85,24 @@ int main2()
 	Texture whiteAlbedo("resources/textures/colors/white.jpg");
 	Texture gridAlbedo("resources/animation/textures/grid.jpg");
 	Texture flatNormal("resources/textures/test/flat_normal.jpg");
-	flatNormal.m_Type = Texture::NORMAL;
+	flatNormal.m_Type = Chroma::Type::Texture::kNormal;
 	Texture alphaTestAlbedo("resources/textures/test/grass.png");
 
 	// Animated Model
 	Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
-	walkingAlbedo.m_Type = Texture::ALBEDO;
+	walkingAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture walkingNormal("resources/animation/vampire_textures/normal.jpg");
-	walkingNormal.m_Type = Texture::NORMAL;
+	walkingNormal.m_Type = Chroma::Type::Texture::kNormal;
 	Texture walkingMetRoughAO("resources/animation/vampire_textures/MetRoughAO.jpg");
-	walkingMetRoughAO.m_Type = Texture::METROUGHAO;
+	walkingMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 	// Floor Panels
 	Texture woodBoardsAlbedo("resources/textures/pbr/hardwood_pbr/albedo.jpg");
-	woodBoardsAlbedo.m_Type = Texture::ALBEDO;
+	woodBoardsAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture woodBoardsNormal("resources/textures/pbr/hardwood_pbr/normal.jpg");
-	woodBoardsNormal.m_Type = Texture::NORMAL;
+	woodBoardsNormal.m_Type = Chroma::Type::Texture::kNormal;
 	Texture woodBoardsMetRoughAO("resources/textures/pbr/hardwood_pbr/MetRoughAO.jpg");
-	woodBoardsMetRoughAO.m_Type = Texture::METROUGHAO;
+	woodBoardsMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 	// ____________________________________________________
 
 	// ANIMATED MODEL
@@ -134,19 +134,19 @@ int main2()
 	AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Jump.fbx");
 	AnimModelAnimator.LoadAnimations("resources/animation/locomotion/Roll.fbx");
 	AnimModelAnimator.CompressAnimations();
-	AnimationStateMachine* AnimModelAnimationStateMachine = new BipedalAnimationStateMachine;
-	// animation state
-	AnimModelAnimationComponent->SetAnimator(AnimModelAnimator);
-	AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimationStateMachine);
-	AnimModelEntity->AddComponent(AnimModelAnimationComponent);
-	//// character controller
-	CharacterControllerComponent* AnimModelCharacterController = new ThirdPersonCharacterController();
-	// camera controller
-	ICameraController* AnimModelCameraController = new ThirdPersonCameraController();
-	Chroma::Scene::GetRenderCamera()->SetCustomCameraController(AnimModelCameraController);
-	AnimModelCharacterController->SetCustomCameraController(AnimModelCameraController);
-	// adding the component
-	AnimModelEntity->AddComponent(AnimModelCharacterController);
+	//AnimationStateMachine* AnimModelAnimationStateMachine = new BipedalAnimationStateMachine;
+	//// animation state
+	//AnimModelAnimationComponent->SetAnimator(AnimModelAnimator);
+	//AnimModelAnimationComponent->SetAnimationStateMachine(AnimModelAnimationStateMachine);
+	//AnimModelEntity->AddComponent(AnimModelAnimationComponent);
+	////// character controller
+	//CharacterControllerComponent* AnimModelCharacterController = new ThirdPersonCharacterController();
+	//// camera controller
+	//ICameraController* AnimModelCameraController = new ThirdPersonCameraController();
+	//Chroma::Scene::GetRenderCamera()->SetCustomCameraController(AnimModelCameraController);
+	//AnimModelCharacterController->SetCustomCameraController(AnimModelCameraController);
+	//// adding the component
+	//AnimModelEntity->AddComponent(AnimModelCharacterController);
 	// ik
 	AnimConstraintComponent* AnimModelIKComponent = new IKAnimConstraint();
 	AnimModelEntity->AddComponent(AnimModelIKComponent);
@@ -185,38 +185,6 @@ int main2()
 	// ik
 	AnimConstraintComponent* IKTestIKComponent = new IKAnimConstraint();
 	IKTestEntity->AddComponent(IKTestIKComponent);
-	// ____________________________________________________
-
-
-
-	//// CAPSULE
-	//// ____________________________________________________
-	//IEntity* CapsuleEntity = new Entity;
-	//Chroma::Scene::AddEntity(CapsuleEntity);
-	//// mesh
-	//MeshComponent* CapsuleMeshComponent = new Model("resources/primitives/capsule.fbx");
-	//CapsuleMeshComponent->SetShader(&PBRShader);
-	//CapsuleMeshComponent->AddTexture(walkingAlbedo);
-	//CapsuleMeshComponent->AddTexture(walkingNormal);
-	//CapsuleMeshComponent->AddTexture(walkingMetRoughAO);
-	////CapsuleMeshComponent->SetShader(&PBRShader);
-	////CapsuleMeshComponent->AddTexture(greyAlbedo);
-	//CapsuleEntity->AddComponent(CapsuleMeshComponent);
-	//// rigid
-	//PhysicsComponent* CapsuleRigidComponent = new PhysicsComponent();
-	//CapsuleRigidComponent->SetColliderShape(ColliderShape::Box);
-	//CapsuleRigidComponent->SetCollisionState(ColliderState::Kinematic);
-	//CapsuleEntity->AddComponent(CapsuleRigidComponent);
-	//// transform
-	//CapsuleEntity->SetTranslation(glm::vec3(0,1.75,0.0));
-	//// character controller
-	//CharacterControllerComponent* CapsuleCharacterController = new ThirdPersonCharacterController();
-	//// camera controller
-	//ICameraController* CapsuleCameraController = new ThirdPersonCameraController();
-	//Chroma::Scene::GetRenderCamera()->SetCustomCameraController(CapsuleCameraController);
-	//CapsuleCharacterController->SetCustomCameraController(CapsuleCameraController);
-	//// adding the component
-	//CapsuleEntity->AddComponent(CapsuleCharacterController);
 	// ____________________________________________________
 
 
@@ -310,24 +278,22 @@ int main2()
 	};
 
 	
-	//for (int i =0; i < 5; i++ )
-	//{
-	//	IEntity* SphereEntity = new Entity;
-	//	Chroma::Scene::AddEntity(SphereEntity);
-	//	SphereEntity->SetName("Sphere");
-	//	MeshComponent* SphereMeshComponent = new SpherePrimitive();
-	//	PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
-	//	SphereRigidComponent->SetColliderShape(ColliderShape::Convex);
-	//	SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
-	//	SphereRigidComponent->SetMass(1.0f);
-	//	SphereRigidComponent->SetFriction(3.0f);
-	//	//SphereMeshComponent->AddTexture(sandyNormal);
-	//	SphereMeshComponent->AddTexture(greyAlbedo);
-	//	SphereMeshComponent->SetShader(PBRShader);
-	//	SphereEntity->SetTranslation(spherePositions[i]);
-	//	SphereEntity->AddComponent(SphereMeshComponent);
-	//	SphereEntity->AddComponent(SphereRigidComponent);
-	//}
+	for (int i =0; i < 5; i++ )
+	{
+		IEntity* SphereEntity = new Entity;
+		Chroma::Scene::AddEntity(SphereEntity);
+		SphereEntity->SetName("Sphere");
+		MeshComponent* SphereMeshComponent = new SpherePrimitive();
+		PhysicsComponent* SphereRigidComponent = new PhysicsComponent();
+		SphereRigidComponent->SetColliderShape(ColliderShape::Sphere);
+		SphereRigidComponent->SetCollisionState(ColliderState::Dynamic);
+		SphereRigidComponent->SetMass(1.0f);
+		SphereRigidComponent->SetFriction(3.0f);
+		SphereMeshComponent->AddTexture(greyAlbedo);
+		SphereEntity->SetTranslation(spherePositions[i]);
+		SphereEntity->AddComponent(SphereMeshComponent);
+		SphereEntity->AddComponent(SphereRigidComponent);
+	}
 
 
 	Chroma::Scene::PostSceneBuild();

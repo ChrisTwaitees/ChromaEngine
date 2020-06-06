@@ -6,11 +6,11 @@ void BoxPrimitive::setupBox()
 	int stride = 8;
 	GLsizei verts_size = boxData.size() * sizeof(boxData[0]);
 	// VAO
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	glGenVertexArrays(1, &m_MeshData.VAO);
+	glBindVertexArray(m_MeshData.VAO);
 	// VBO
-	glGenBuffers(1, &VBO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glGenBuffers(1, &m_MeshData.VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_MeshData.VBO);
 	glBufferData(GL_ARRAY_BUFFER, verts_size, &boxData[0], GL_STATIC_DRAW);
 
 	// Vertex Shader Attribs
@@ -29,7 +29,8 @@ void BoxPrimitive::setupBox()
 
 void BoxPrimitive::BindDrawVAO()
 {
-	glBindVertexArray(VAO);
+	glBindVertexArray(m_MeshData.VAO);
+	glBindVertexArray(m_MeshData.VAO);
 	glDrawArrays(GL_TRIANGLES, 0, boxData.size() / 8);
 	glBindVertexArray(0); // reset to default
 }

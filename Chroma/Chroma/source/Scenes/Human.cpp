@@ -43,12 +43,12 @@ int main3()
 	// point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
-		Light* pointLight = new Light(pos, Light::POINT);
+		Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 		Lights.push_back(pointLight);
 	}
 
 	// SUNLIGHT
-	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(0.2, -0.8, 0.3), 2.0f);
+	Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(0.2, -0.8, 0.3), 2.0f);
 	Sun->SetDiffuse(glm::vec3(1.0));
 	Sun->SetIntensity(3.0);
 	Lights.push_back(Sun);
@@ -98,13 +98,13 @@ int main3()
 
 	// Head
 	Texture headAlbedo = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_albedo.jpg");
-	headAlbedo.m_Type = Texture::ALBEDO;
+	headAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture headNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_normal.jpg");
-	headNormal.m_Type = Texture::NORMAL;
+	headNormal.m_Type = Chroma::Type::Texture::kNormal;
 	Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
-	headMetRoughAO.m_Type = Texture::METROUGHAO;
+	headMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 	Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
-	headTranslucency.m_Type = Texture::TRANSLUCENCY;
+	headTranslucency.m_Type = Chroma::Type::Texture::kTranslucency;
 
 
 

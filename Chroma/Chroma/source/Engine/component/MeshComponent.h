@@ -7,7 +7,7 @@
 #include <light/Light.h>
 #include <shader/Shader.h>
 #include <material/Material.h>
-#include <model/MeshData.h>
+#include <resources/ResourceManager.h>
 
 class MeshComponent : public IComponent
 {
@@ -23,9 +23,9 @@ public:
 	virtual void CleanUp();
 
 	// Mesh Attrs
-	virtual bool GetMeshInitialized() { return m_MeshInitialized; };
-	virtual void SetIsSkinned(bool const& check) { m_IsSkinned = check; };
-	inline bool& GetIsSkinned() { return m_IsSkinned; }
+	virtual bool GetMeshInitialized() { return m_MeshData.isInitialized; };
+	virtual void SetIsSkinned(bool const& check) { m_MeshData.isSkinned = check; };
+	inline bool GetIsSkinned() { return  m_MeshData.isSkinned; }
 
 	// RenderFlags
 	virtual void SetIsRenderable(bool const& check) { m_Material.SetIsRenderable(check);  ProcessRenderFlags(); };
@@ -55,7 +55,7 @@ public:
 	virtual void SetRotation(glm::quat const& newRotation) { m_Rotation = newRotation; RebuildTransform(); }
 
 	// Dimensions
-	virtual std::pair<glm::vec3, glm::vec3> GetBBox() = 0;
+	virtual std::pair<glm::vec3, glm::vec3> GetBBox();
 	virtual glm::vec3 GetCentroid() = 0;
 	virtual glm::mat4 GetTransform() { return m_Transform; };
 	virtual std::vector<ChromaVertex> GetVertices() = 0;
@@ -94,6 +94,13 @@ public:
 	virtual ~MeshComponent();
 
 protected:
+	// MeshData
+	MeshData m_MeshData;
+
+	//Material
+	Material m_Material;
+	void SerializeMaterial(ISerializer*& serializer);
+	void ProcessRenderFlags();
 
 	// Resources
 	std::string m_SourcePath{ "" };
@@ -108,20 +115,8 @@ protected:
 	glm::vec3 m_Centroid{ 0.0 };
 
 	// calculate attrs
-	virtual void CalculateBBox() = 0;
-	virtual void CalculateCentroid() = 0;
-
-	// MeshData
-	MeshData m_MeshData;
-
-	//Material
-	Material m_Material;
-	void SerializeMaterial(ISerializer*& serializer);
-	void ProcessRenderFlags();
-
-	// attrs
-	bool m_IsSkinned{ false };
-	bool m_MeshInitialized{ false };
+	virtual void CalculateBBox();
+	virtual void CalculateCentroid();
 };
 
 #endif

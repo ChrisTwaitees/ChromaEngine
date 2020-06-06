@@ -29,8 +29,7 @@ public:
 
 	// Getters/Setters
 	virtual glm::mat4 GetTransform() override { return m_Transform; };
-	virtual std::vector<ChromaVertex> GetVertices() { return m_vertices; };
-	virtual std::pair<glm::vec3, glm::vec3> GetBBox();
+	virtual std::vector<ChromaVertex> GetVertices() { return m_MeshData.verts; };
 	virtual glm::vec3 GetCentroid();
 
 	// Shader Uniforms
@@ -45,15 +44,9 @@ public:
 	virtual ~StaticMesh();
 
 protected:
-	// mesh data
-	unsigned int VAO{ 0 }, VBO{ 0 }, EBO{ 0 };
-	std::vector<ChromaVertex> m_vertices;
-	std::vector<unsigned int> m_Indices;
-
 	// functions
-	virtual void CalculateBBox();
-	virtual void CalculateCentroid();
 	virtual void SetupMesh() override;
+
 	// render functions
 	virtual void UpdateUniforms(Shader& shader, Camera& RenderCam);
 	virtual void UpdateTransformUniforms(Shader& shader, Camera& renderCam);

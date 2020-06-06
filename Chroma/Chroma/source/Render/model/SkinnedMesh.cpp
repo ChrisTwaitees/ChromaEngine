@@ -7,21 +7,23 @@
 
 void SkinnedMesh::SetupMesh()
 {
+	m_MeshData.isInitialized = false;
+
 	// Generate buffers
 	// Vertex Array Object Buffer
-	glGenVertexArrays(1, &VAO);
+	glGenVertexArrays(1, &m_MeshData.VAO);
 	// Vertex Buffer and Element Buffer
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	glGenBuffers(1, &m_MeshData.VBO);
+	glGenBuffers(1, &m_MeshData.EBO);
 
 	// Bind buffers
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_SkinnedVertices.size() * sizeof(ChromaSkinnedVertex), &m_SkinnedVertices[0], GL_STATIC_DRAW);
+	glBindVertexArray(m_MeshData.VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_MeshData.VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_MeshData.skinnedVerts.size() * sizeof(ChromaSkinnedVertex), &m_MeshData.skinnedVerts[0], GL_STATIC_DRAW);
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int),
-		&m_Indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_MeshData.EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_MeshData.indices.size() * sizeof(unsigned int),
+		&m_MeshData.indices[0], GL_STATIC_DRAW);
 
 	// vertex positions
 	glEnableVertexAttribArray(0);
@@ -56,8 +58,12 @@ void SkinnedMesh::SetupMesh()
 	// BBOX
 	CalculateBBox();
 	CalculateCentroid();
+
+	// Cleanup
 	CleanUp();
 
+	// Mark Meshdata initialized
+	m_MeshData.isInitialized = true;
 }
 
 glm::mat4 SkinnedMesh::GetWorldTransform()
@@ -67,14 +73,12 @@ glm::mat4 SkinnedMesh::GetWorldTransform()
 
 std::vector<ChromaVertex> SkinnedMesh::GetVertices()
 {
-
 	std::vector<ChromaVertex> verts;
-	for (ChromaSkinnedVertex const& vert : m_SkinnedVertices)
+	for (ChromaSkinnedVertex const& vert : m_MeshData.skinnedVerts)
 	{
 		verts.push_back(static_cast<ChromaVertex>(vert));
 	}
 	return verts;
-
 }
 
 void SkinnedMesh::SetJointUniforms(Shader& skinnedShader)
@@ -93,14 +97,16 @@ void SkinnedMesh::Destroy()
 	// Material
 	m_Material.Destroy();
 	// verts
-	m_SkinnedVertices.clear();
+	m_MeshData.skinnedVerts.clear();
+	// indices
+	m_MeshData.indices.clear();
 	// Skeleton
 	m_Skeleton.Destroy();
 	// vao
-	glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(1, &m_MeshData.VAO);
 	// buffers
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	glDeleteBuffers(1, &m_MeshData.VBO);
+	glDeleteBuffers(1, &m_MeshData.EBO);
 
 	CMPNT_DESTROYED
 }
@@ -124,24 +130,31 @@ void SkinnedMesh::Serialize(ISerializer*& serializer)
 
 void SkinnedMesh::LoadFromFile(const std::string& sourcePath)
 {
-	MeshData newMeshData = Chroma::ModelLoader::Load(sourcePath)[0];
-	// Renderables
-	m_IsSkinned = true;
+	// Resource Manager
+	m_MeshData = Chroma::ResourceManager::LoadModel(sourcePath);
+
 	// Skeleton
-	m_Skeleton = newMeshData.skeleton;
+	m_Skeleton = m_MeshData.skeleton;
 	m_Skeleton.SetParentComponentUID(m_UID);
-	// Verts
-	m_SkinnedVertices = newMeshData.skinnedVerts;
-	m_Indices = newMeshData.indices;
+
 	// Textures
-	m_Material.SetTextureSet(newMeshData.textures);
+	m_Material.SetTextureSet(m_MeshData.textures);
+
+	// Initialize Mesh
+	SetupMesh();
 
 }
 
 void SkinnedMesh::CleanUp()
 {
-	m_vertices.clear();
-	m_SkinnedVertices.clear();
+	// verts
+	m_MeshData.verts.clear();
+	m_MeshData.skinnedVerts.clear();
+	// skeleton
+	m_MeshData.skeleton.Destroy();
+	// textures
+	m_MeshData.textures.clear();
+
 	CHROMA_INFO("Skinned Mesh Component : {0} Cleaned Up", m_UID.m_Data);
 }
 
@@ -149,13 +162,14 @@ void SkinnedMesh::CleanUp()
 SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::vector<unsigned int>& indices_val, std::vector<Texture>& textures_val, Skeleton& skeleton_val, glm::mat4 rootTransform_val)
 {
 	// Renderables
-	m_IsSkinned = true;
+	m_MeshData.isSkinned = true;
 	// Skeleton
+	m_MeshData.skeleton = skeleton_val;
 	m_Skeleton = skeleton_val;
 	m_Skeleton.SetParentComponentUID(m_UID);
 	// Verts
-	m_SkinnedVertices = vertices_val;
-	m_Indices = indices_val;
+	m_MeshData.skinnedVerts = vertices_val;
+	m_MeshData.indices = indices_val;
 	// Transforms
 	m_RootTransform = rootTransform_val;
 	m_RootTransformInversed = glm::inverse(rootTransform_val);
@@ -168,15 +182,15 @@ SkinnedMesh::SkinnedMesh(std::vector<ChromaSkinnedVertex>& vertices_val, std::ve
 SkinnedMesh::SkinnedMesh(MeshData const& newMeshData)
 {
 	// Renderables
-	m_IsSkinned = true;
+	m_MeshData = newMeshData;
+	
 	// Skeleton
-	m_Skeleton = newMeshData.skeleton;
+	m_Skeleton = m_MeshData.skeleton;
 	m_Skeleton.SetParentComponentUID(m_UID);
-	// Verts
-	m_SkinnedVertices = newMeshData.skinnedVerts;
-	m_Indices = newMeshData.indices;
+
 	// Textures
-	m_Material.SetTextureSet(newMeshData.textures);
+	m_Material.SetTextureSet(m_MeshData.textures);
+
 	// Build Mesh
 	SetupMesh();
 }
@@ -184,8 +198,6 @@ SkinnedMesh::SkinnedMesh(MeshData const& newMeshData)
 SkinnedMesh::SkinnedMesh(std::string const& sourcePath)
 {
 	LoadFromFile(sourcePath);
-	// Build Mesh
-	SetupMesh();
 }
 
 

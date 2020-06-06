@@ -5,47 +5,23 @@
 #include <buffer/GBuffer.h>
 
 
-void StaticMesh::CalculateBBox()
-{
-	// collect verts
-	m_vertices = GetVertices();
-
-	// calculate new min and max bbox
-	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
-	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
-
-	for (ChromaVertex& vert : m_vertices)
-	{
-		newMinBBox = glm::min(newMinBBox, vert.m_position);
-		newMaxBBox = glm::max(newMaxBBox, vert.m_position);
-	}
-	// re-establishing min and max bboxes
-	m_BBoxMin = newMinBBox;
-	m_BBoxMax = newMaxBBox;
-}
-
-void StaticMesh::CalculateCentroid()
-{
-	m_Centroid = (m_BBoxMin - m_BBoxMax) * glm::vec3(0.5);
-}
-
 void StaticMesh::SetupMesh()
 {
 	// Generate buffers
 	// Vertex Array Object Buffer
-	glGenVertexArrays(1, &VAO);
+	glGenVertexArrays(1, &m_MeshData.VAO);
 	// Vertex Buffer and Element Buffer
-	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
+	glGenBuffers(1, &m_MeshData.VBO);
+	glGenBuffers(1, &m_MeshData.EBO);
 
 	// Bind buffers
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
-	glBufferData(GL_ARRAY_BUFFER, m_vertices.size() * sizeof(ChromaVertex), &m_vertices[0], GL_STATIC_DRAW);
+	glBindVertexArray(m_MeshData.VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_MeshData.VBO);
+	glBufferData(GL_ARRAY_BUFFER, m_MeshData.verts.size() * sizeof(ChromaVertex), &m_MeshData.verts[0], GL_STATIC_DRAW);
 	
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(unsigned int),
-		&m_Indices[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_MeshData.EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_MeshData.indices.size() * sizeof(unsigned int),
+		&m_MeshData.indices[0], GL_STATIC_DRAW);
 
 	// vertex positions
 	glEnableVertexAttribArray(0);
@@ -79,7 +55,7 @@ void StaticMesh::SetupMesh()
 	CleanUp();
 
 	// Mesh complete
-	m_MeshInitialized = true;
+	m_MeshData.isInitialized = true;
 }
 
 void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)
@@ -269,10 +245,10 @@ void StaticMesh::DrawUpdateTransforms(Camera& renderCam)
 
 void StaticMesh::BindDrawVAO()
 {
-	if (m_MeshInitialized)
+	if (m_MeshData.isInitialized)
 	{
-		glBindVertexArray(VAO);
-		glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(m_MeshData.VAO);
+		glDrawElements(GL_TRIANGLES, m_MeshData.indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0); // reset to default
 	}
 }
@@ -288,12 +264,14 @@ void StaticMesh::Destroy()
 	// Material 
 	m_Material.Destroy();
 	// verts
-	m_vertices.clear();
+	m_MeshData.verts.clear();
+	// indices
+	m_MeshData.indices.clear();
 	// vao
-	glDeleteVertexArrays(1, &VAO);
+	glDeleteVertexArrays(1, &m_MeshData.VAO);
 	// buffers
-	glDeleteBuffers(1, &VBO);
-	glDeleteBuffers(1, &EBO);
+	glDeleteBuffers(1, &m_MeshData.VBO);
+	glDeleteBuffers(1, &m_MeshData.EBO);
 
 	CMPNT_DESTROYED
 }
@@ -318,24 +296,17 @@ void StaticMesh::Serialize(ISerializer*& serializer)
 
 void StaticMesh::CleanUp()
 {
-	m_vertices.clear();
+	// verts
+	m_MeshData.verts.clear();
+	// textures
+	m_MeshData.textures.clear();
 	CHROMA_INFO("Static Mesh Component : {0} Cleaned Up", m_UID.m_Data );
 }
 
 
-std::pair<glm::vec3, glm::vec3> StaticMesh::GetBBox()
-{
-	glm::vec3 wsTranslation = GetParentEntity()->GetTranslation();
-	return std::make_pair(m_BBoxMin + wsTranslation, m_BBoxMax + wsTranslation);
-	//CalculateBBox();
-	//return std::make_pair(m_BBoxMin, m_BBoxMax);
-}
-
 glm::vec3 StaticMesh::GetCentroid()
 {
 	return GetParentEntity()->GetTranslation() +  m_Centroid;
-	//CalculateCentroid();
-	//return m_Centroid;
 }
 
 void StaticMesh::SetMat4(std::string name, glm::mat4 value)
@@ -358,8 +329,8 @@ void StaticMesh::SetFloat(std::string name, float value)
 
 StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsigned int> indices_val, std::vector<Texture> textures_val)
 {
-	m_vertices = vertices_val;
-	m_Indices = indices_val;
+	m_MeshData.verts = vertices_val;
+	m_MeshData.indices = indices_val;
 	m_Material.SetTextureSet(textures_val);
 
 	SetupMesh();
@@ -367,8 +338,7 @@ StaticMesh::StaticMesh(std::vector<ChromaVertex> vertices_val, std::vector<unsig
 
 StaticMesh::StaticMesh(MeshData const& newMeshData)
 {
-	m_vertices = newMeshData.verts;
-	m_Indices = newMeshData.indices;
+	m_MeshData = newMeshData;
 	m_Material.SetTextureSet(newMeshData.textures);
 
 	SetupMesh();
@@ -376,16 +346,11 @@ StaticMesh::StaticMesh(MeshData const& newMeshData)
 
 void StaticMesh::LoadFromFile(const std::string& sourcePath)
 {
-	m_MeshInitialized = false;
+	m_MeshData.isInitialized = false;
 
 	for (MeshData const& newMeshData : Chroma::ResourceManager::LoadModels(sourcePath))
 	{
-
-		m_SourcePath = newMeshData.sourcePath;
-		m_vertices = newMeshData.verts;
-		m_Indices = newMeshData.indices;
-		m_Material.SetTextureSet(newMeshData.textures);
-
+		m_MeshData = newMeshData;
 		break;
 	}
 

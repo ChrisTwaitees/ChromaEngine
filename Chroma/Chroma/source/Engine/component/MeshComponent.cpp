@@ -19,6 +19,38 @@ void MeshComponent::RebuildTransform()
 	m_Transform = Chroma::Math::BuildMat4(m_Translation, m_Rotation, m_Scale);
 }
 
+void MeshComponent::CalculateBBox()
+{
+	// calculate new min and max bbox
+	glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
+	glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
+
+	if (m_MeshData.isSkinned)
+	{
+		for (ChromaVertex& vert : m_MeshData.skinnedVerts)
+		{
+			newMinBBox = glm::min(newMinBBox, vert.m_position);
+			newMaxBBox = glm::max(newMaxBBox, vert.m_position);
+		}
+	}
+	else
+	{
+		for (ChromaVertex& vert : m_MeshData.verts)
+		{
+			newMinBBox = glm::min(newMinBBox, vert.m_position);
+			newMaxBBox = glm::max(newMaxBBox, vert.m_position);
+		}
+	}
+	// re-establishing min and max bboxes
+	m_BBoxMin = newMinBBox;
+	m_BBoxMax = newMaxBBox;
+}
+
+void MeshComponent::CalculateCentroid()
+{
+	m_Centroid = (m_BBoxMin - m_BBoxMax) * glm::vec3(0.5);
+}
+
 void MeshComponent::SerializeMaterial(ISerializer*& serializer)
 {
 	// Texture Editor Property
@@ -149,6 +181,12 @@ void MeshComponent::SetTransform(glm::mat4 const& newTransformMat)
 glm::vec3 MeshComponent::GetWSTranslation()
 {
 	return GetParentEntity()->GetTranslation() + m_Translation;
+}
+
+std::pair<glm::vec3, glm::vec3> MeshComponent::GetBBox()
+{
+	glm::vec3 wsTranslation = GetParentEntity()->GetTranslation();
+	return std::make_pair(m_BBoxMin + wsTranslation, m_BBoxMax + wsTranslation);
 }
 
 glm::mat4 MeshComponent::GetWorldTransform()

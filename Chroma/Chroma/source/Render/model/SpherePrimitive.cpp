@@ -54,21 +54,21 @@ void SpherePrimitive::setStackCount(int stacks)
 void SpherePrimitive::SetupMesh()
 {
 	// Vertex Array Object Buffer
-	glGenVertexArrays(1, &VAO);
+	glGenVertexArrays(1, &m_MeshData.VAO);
 	// copy interleaved vertex data (V/N/T) to VBO
-	glGenBuffers(1, &VBO);
+	glGenBuffers(1, &m_MeshData.VBO);
 	// copy index data to VBO
-	glGenBuffers(1, &EBO);
+	glGenBuffers(1, &m_MeshData.EBO);
 
 	// Bind buffers
-	glBindVertexArray(VAO);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);           // for vertex data
+	glBindVertexArray(m_MeshData.VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, m_MeshData.VBO);           // for vertex data
 	glBufferData(GL_ARRAY_BUFFER,                   // target
 		getInterleavedVertexSize(), // data size, # of bytes
 		getInterleavedVertices(),   // ptr to vertex data
 		GL_STATIC_DRAW);                   // usage
 
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);   // for index data
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_MeshData.EBO);   // for index data
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER,           // target
 		getIndexSize(),             // data size, # of bytes
 		getIndices(),               // ptr to index data
@@ -89,11 +89,15 @@ void SpherePrimitive::SetupMesh()
 
 
 	glBindVertexArray(0);
+
+	// BBox
+	CalculateBBox();
+	CalculateCentroid();
 }
 
 void SpherePrimitive::BindDrawVAO()
 {
-	glBindVertexArray(VAO);
+	glBindVertexArray(m_MeshData.VAO);
 	glDrawElements(GL_TRIANGLES, getIndexCount(), GL_UNSIGNED_INT, (void*)0);
 	glBindVertexArray(0); // reset to default
 }
@@ -237,7 +241,7 @@ void SpherePrimitive::buildVerticesSmooth()
 void SpherePrimitive::buildInterleavedVertices()
 {
 	std::vector<float>().swap(interleavedVertices);
-	verts.clear();
+	m_MeshData.verts.clear();
 
 
 	std::size_t i, j;
@@ -260,7 +264,7 @@ void SpherePrimitive::buildInterleavedVertices()
 		interleavedVertices.push_back(texCoords[j + 1]);
 		newVert.m_texCoords = (glm::vec2(texCoords[j], texCoords[j + 1]));
 
-		verts.push_back(newVert);
+		m_MeshData.verts.push_back(newVert);
 	}
 }
 

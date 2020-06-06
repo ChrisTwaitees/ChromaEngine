@@ -17,7 +17,7 @@
 
 
 
-int main()
+int main9()
 {
 	// INIT CHROMA
 	Chroma::Engine::Init();
@@ -52,12 +52,12 @@ int main()
 	// point lights
 	for (glm::vec3 pos : pointLightPositions)
 	{
-		Light* pointLight = new Light(pos, Light::POINT);
+		Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
 		Lights.push_back(pointLight);
 	}
 
 	// SUNLIGHT
-	Light* Sun = new Light(Light::SUNLIGHT, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+	Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
 	Sun->SetDiffuse(glm::vec3(1.0));
 	Sun->SetIntensity(3.0);
 	Lights.push_back(Sun);
@@ -81,19 +81,19 @@ int main()
 	// Default
 	// Generic
 	Texture greyAlbedo("resources/textures/colors/grey.jpg");
-	greyAlbedo.m_Type = Texture::ALBEDO;
+	greyAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture gridAlbedo("resources/animation/textures/grid.jpg");
-	gridAlbedo.m_Type = Texture::ALBEDO;
+	gridAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture flatNormal("resources/textures/test/flat_normal.jpg");
-	flatNormal.m_Type = Texture::NORMAL;
+	flatNormal.m_Type = Chroma::Type::Texture::kNormal;
 
 	// Lookdev Sphere
 	Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-	lookDevAlbedo.m_Type = Texture::ALBEDO;
+	lookDevAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
-	lookDevNormal.m_Type = Texture::NORMAL;
+	lookDevNormal.m_Type = Chroma::Type::Texture::kNormal;
 	Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-	lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
+	lookDevMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 	// ____________________________________________________
 	// Materials
@@ -102,13 +102,13 @@ int main()
 	// ____________________________________________________
 	// flowers
 	Texture vaseGroundFlowerAlbedo("resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png");
-	vaseGroundFlowerAlbedo.m_Type = Texture::ALBEDO;
+	vaseGroundFlowerAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture vaseGroundFlowerNormal("resources/lookdev/Sponza/textures_final/vase_ground_normal.jpg");
-	vaseGroundFlowerNormal.m_Type = Texture::NORMAL;
+	vaseGroundFlowerNormal.m_Type = Chroma::Type::Texture::kNormal;
 	Texture vaseGroundFlowerMetRoughAO("resources/lookdev/Sponza/textures_final/vase_ground_MetRoughAO.png");
-	vaseGroundFlowerMetRoughAO.m_Type = Texture::METROUGHAO;
+	vaseGroundFlowerMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 	Texture vaseGroundFlowerTransp("resources/lookdev/Sponza/textures_final/vase_ground_transparency.png");
-	vaseGroundFlowerTransp.m_Type = Texture::TRANSLUCENCY;
+	vaseGroundFlowerTransp.m_Type = Chroma::Type::Texture::kTranslucency;
 	Material plantMat;
 	plantMat.SetIsDoubleSided(true);
 	plantMat.SetIsTransparent(true);
@@ -194,11 +194,11 @@ int main()
 	// ____________________________________________________
 
 	Texture groundAlbedo("resources/lookdev/Sponza/textures_final/ground_Albedo.png");
-	groundAlbedo.m_Type = Texture::ALBEDO;
+	groundAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
 	Texture groundNormal("resources/lookdev/Sponza/textures_final/ground_Normal.jpg");
-	groundNormal.m_Type = Texture::NORMAL;
+	groundNormal.m_Type = Chroma::Type::Texture::kNormal;
 	Texture groundMetRoughAO("resources/lookdev/Sponza/textures_final/ground_MetRoughAO.jpg");
-	groundMetRoughAO.m_Type = Texture::METROUGHAO;
+	groundMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
 
 	Material groundMat;
 	groundMat.AddTexture(groundAlbedo);

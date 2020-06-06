@@ -248,12 +248,12 @@ namespace Chroma
 		// State
 		m_SceneState = SceneState::kSceneIsInitializing;
 
-		// entities
-		for (UID const& entityUID : m_EntityUIDs)
-			GetEntity(entityUID)->Init();
 		// components
 		for (UID const& componentUID : m_ComponentUIDs)
 			GetComponent(componentUID)->Init();
+		// entities
+		for (UID const& entityUID : m_EntityUIDs)
+			GetEntity(entityUID)->Init();
 
 		// Debug
 		CHROMA_INFO_UNDERLINE;
