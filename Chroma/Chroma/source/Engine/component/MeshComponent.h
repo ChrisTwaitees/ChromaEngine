@@ -23,6 +23,7 @@ public:
 	virtual void CleanUp();
 
 	// Mesh Attrs
+	virtual bool GetMeshInitialized() { return m_MeshInitialized; };
 	virtual void SetIsSkinned(bool const& check) { m_IsSkinned = check; };
 	inline bool& GetIsSkinned() { return m_IsSkinned; }
 
@@ -93,8 +94,10 @@ public:
 	virtual ~MeshComponent();
 
 protected:
+
 	// Resources
 	std::string m_SourcePath{ "" };
+
 	// Transforms
 	glm::mat4 m_Transform{ glm::mat4(1.0f) };
 	glm::vec3 m_Translation{ glm::vec3(0.0f) };
@@ -103,9 +106,11 @@ protected:
 	void RebuildTransform();
 	glm::vec3 m_BBoxMin{ 0.0 }, m_BBoxMax{ 0.0 };
 	glm::vec3 m_Centroid{ 0.0 };
+
 	// calculate attrs
 	virtual void CalculateBBox() = 0;
 	virtual void CalculateCentroid() = 0;
+
 	//Material
 	Material m_Material;
 	void SerializeMaterial(ISerializer*& serializer);
@@ -113,6 +118,7 @@ protected:
 
 	// attrs
 	bool m_IsSkinned{ false };
+	bool m_MeshInitialized{ false };
 };
 
 #endif

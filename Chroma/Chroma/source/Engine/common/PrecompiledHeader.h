@@ -14,6 +14,7 @@
 #include <assert.h>
 
 // Threading
+#include <future>
 #include <atomic>
 #include <thread>
 #include <condition_variable>

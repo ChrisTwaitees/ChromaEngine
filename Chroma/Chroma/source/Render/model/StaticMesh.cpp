@@ -74,7 +74,12 @@ void StaticMesh::SetupMesh()
 	// BBOX
 	CalculateBBox();
 	CalculateCentroid();
+
+	// Cleanup
 	CleanUp();
+
+	// Mesh complete
+	m_MeshInitialized = true;
 }
 
 void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)
@@ -264,9 +269,12 @@ void StaticMesh::DrawUpdateTransforms(Camera& renderCam)
 
 void StaticMesh::BindDrawVAO()
 {
-	glBindVertexArray(VAO);
-	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
-	glBindVertexArray(0); // reset to default
+	if (m_MeshInitialized)
+	{
+		glBindVertexArray(VAO);
+		glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0); // reset to default
+	}
 }
 
 void StaticMesh::Init()
@@ -307,18 +315,6 @@ void StaticMesh::Serialize(ISerializer*& serializer)
 	SerializeMaterial(serializer);
 }
 
-void StaticMesh::LoadFromFile(const std::string& sourcePath)
-{
-	for (MeshData const& newMeshData : Chroma::ModelLoader::Load(sourcePath))
-	{
-		m_SourcePath = newMeshData.sourcePath;
-		m_vertices = newMeshData.verts;
-		m_Indices = newMeshData.indices;
-		m_Material.SetTextureSet(newMeshData.textures);
-
-		return;
-	}
-}
 
 void StaticMesh::CleanUp()
 {
@@ -329,14 +325,17 @@ void StaticMesh::CleanUp()
 
 std::pair<glm::vec3, glm::vec3> StaticMesh::GetBBox()
 {
-	CalculateBBox();
-	return std::make_pair(m_BBoxMin, m_BBoxMax);
+	glm::vec3 wsTranslation = GetParentEntity()->GetTranslation();
+	return std::make_pair(m_BBoxMin + wsTranslation, m_BBoxMax + wsTranslation);
+	//CalculateBBox();
+	//return std::make_pair(m_BBoxMin, m_BBoxMax);
 }
 
 glm::vec3 StaticMesh::GetCentroid()
 {
-	CalculateCentroid();
-	return m_Centroid;
+	return GetParentEntity()->GetTranslation() +  m_Centroid;
+	//CalculateCentroid();
+	//return m_Centroid;
 }
 
 void StaticMesh::SetMat4(std::string name, glm::mat4 value)
@@ -375,10 +374,51 @@ StaticMesh::StaticMesh(MeshData const& newMeshData)
 	SetupMesh();
 }
 
+void StaticMesh::LoadFromFile(std::string sourcePath)
+{
+	m_MeshInitialized = false;
+
+
+
+	for (MeshData const& newMeshData : Chroma::ModelLoader::Load(sourcePath))
+	{
+		m_SourcePath = newMeshData.sourcePath;
+		m_vertices = newMeshData.verts;
+		m_Indices = newMeshData.indices;
+		m_Material.SetTextureSet(newMeshData.textures);
+
+		break;
+	}
+
+	SetupMesh();
+}
+
+
+static void testFunc(std::string arg)
+{
+	CHROMA_INFO("Test {0}", arg);
+}
+
 StaticMesh::StaticMesh(const std::string& sourcePath)
 {
+	// IDEA
+	// Use MeshData to check whether mesh is initialized
+	// Use MeshDatat for VAO, Indices and VBO
+	// Pass this around as a pointer to threads to allow 
+	// async resource fetching essentially streaming resources
+	// Remove local vertices indice, etc data in favour of working with MeshData struct
+
+
+	//JobSystemTest::SendJob(testFunc, sourcePath );
+
+	//Chroma::JobSystem::Execute([&](std::string) {
+	//		LoadFromFile(sourcePath);
+	//		SetupMesh();
+	//	});
+
 	LoadFromFile(sourcePath);
 	SetupMesh();
+
 }
 
 StaticMesh::StaticMesh()

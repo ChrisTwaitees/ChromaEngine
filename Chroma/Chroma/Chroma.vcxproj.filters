@@ -504,6 +504,9 @@
     <ClCompile Include="source\Render\ubo\UniformBufferLighting.cpp">
       <Filter>Render\ubo</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\jobsystem\JobSystemTest.cpp">
+      <Filter>Engine\jobsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -817,6 +820,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\ubo\UniformBufferLighting.h">
       <Filter>Render\ubo</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\jobsystem\JobSystemTest.h">
+      <Filter>Engine\jobsystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
