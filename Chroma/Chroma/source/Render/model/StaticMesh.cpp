@@ -4,6 +4,9 @@
 #include <render/Render.h>
 #include <buffer/GBuffer.h>
 
+std::mutex StaticMesh::m_Mutex;
+std::vector<std::future<void>> StaticMesh::m_Futures;
+
 
 void StaticMesh::SetupMesh()
 {
@@ -48,14 +51,14 @@ void StaticMesh::SetupMesh()
 	glBindVertexArray(0);
 
 	// BBOX
-	CalculateBBox();
-	CalculateCentroid();
+	//CalculateBBox();
+	//CalculateCentroid();
 
 	// Cleanup
 	CleanUp();
 
 	// Mesh complete
-	m_MeshData.isInitialized = true;
+	m_MeshData.isRenderBuffersInitialized = true;
 }
 
 void StaticMesh::UpdateUniforms(Shader& shader, Camera& RenderCam)
@@ -245,12 +248,14 @@ void StaticMesh::DrawUpdateTransforms(Camera& renderCam)
 
 void StaticMesh::BindDrawVAO()
 {
-	if (m_MeshData.isInitialized)
+	if (m_MeshData.isRenderBuffersInitialized)
 	{
 		glBindVertexArray(m_MeshData.VAO);
 		glDrawElements(GL_TRIANGLES, m_MeshData.indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0); // reset to default
 	}
+	else if (m_MeshData.isRenderBuffersInitialized == false && m_MeshData.isLoaded)
+		SetupMesh();
 }
 
 void StaticMesh::Init()
@@ -346,16 +351,9 @@ StaticMesh::StaticMesh(MeshData const& newMeshData)
 
 void StaticMesh::LoadFromFile(const std::string& sourcePath)
 {
-	m_MeshData.isInitialized = false;
-
-	for (MeshData const& newMeshData : Chroma::ResourceManager::LoadModels(sourcePath))
-	{
-		m_MeshData = newMeshData;
-		break;
-	}
-
-	SetupMesh();
+	Chroma::ResourceManager::LoadModel(sourcePath, &m_MeshData);
 }
+
 
 
 static void testFunc(std::string arg)
@@ -365,22 +363,8 @@ static void testFunc(std::string arg)
 
 StaticMesh::StaticMesh(const std::string& sourcePath)
 {
-	// IDEA
-	// Use MeshData to check whether mesh is initialized
-	// Use MeshDatat for VAO, Indices and VBO
-	// Pass this around as a pointer to threads to allow 
-	// async resource fetching essentially streaming resources
-	// Remove local vertices indice, etc data in favour of working with MeshData struct
-
-
-	//JobSystemTest::SendJob(testFunc, sourcePath );
-
-	//Chroma::JobSystem::Execute([&](std::string) {
-	//		LoadFromFile(sourcePath);
-	//		SetupMesh();
-	//	});
-
 	LoadFromFile(sourcePath);
+
 }
 
 StaticMesh::StaticMesh()

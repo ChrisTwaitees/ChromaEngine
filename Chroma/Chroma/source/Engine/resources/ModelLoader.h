@@ -21,6 +21,7 @@ namespace Chroma {
 	public:
 		static std::vector<MeshData> Load(std::string const& sourcePath);
 		static void LoadThreadSafe(std::string const& sourcePath, std::vector<MeshData>& meshList);
+		static void CalculateBBoxCentroid(MeshData& meshData);
 
 	private:
 		// sourceDir of last import
@@ -39,6 +40,7 @@ namespace Chroma {
 		static std::vector<IKConstraint> GetIKConstraints(JSON& metaData, Skeleton const& skeleton);
 		// textures
 		static void GetTexturesFromMaterial(aiMaterial* mat, aiTextureType type, Chroma::Type::Texture typeName, MeshData& meshData);
+		// clean up
 	};
 }
 

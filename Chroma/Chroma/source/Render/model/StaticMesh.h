@@ -53,6 +53,10 @@ protected:
 	virtual void UpdateMaterialUniforms(Shader& shader);
 	virtual void UpdateTextureUniforms(Shader& shader);
 	void UpdatePBRLightingTextureUniforms(Shader& shader);
+
+	bool meshReady{false};
+	static std::mutex m_Mutex;
+	static std::vector<std::future<void>> m_Futures;
 };
 
 #endif

@@ -319,7 +319,6 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="source\Engine\jobsystem\JobSystemTest.cpp" />
     <ClCompile Include="source\Engine\animation\SkeletonUtils.cpp" />
     <ClCompile Include="source\Engine\component\animation\AnimConstraintComponent.cpp" />
     <ClCompile Include="source\Engine\component\animation\IKAnimConstraint.cpp" />
@@ -426,7 +425,6 @@
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
-    <ClInclude Include="source\Engine\jobsystem\JobSystemTest.h" />
     <ClInclude Include="source\Editor\editor\EditorProperty.h" />
     <ClInclude Include="source\Engine\animation\SkeletonUtils.h" />
     <ClInclude Include="source\Engine\component\animation\AnimConstraintComponent.h" />

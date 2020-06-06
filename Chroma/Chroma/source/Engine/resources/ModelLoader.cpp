@@ -67,12 +67,19 @@ namespace Chroma
 		GetChildMeshNodes(scene->mRootNode, scene, meshList);
 		// set the source path on all discovered mesh datas
 		for (MeshData& meshData : meshList)
+		{
 			meshData.sourceDirectory = m_SourceDir;
+			ModelLoader::CalculateBBoxCentroid(meshData);
+			meshData.isLoaded = true;
+		}
 
 		// Debug
 		CHROMA_TRACE("MODEL LOADER :: MeshData Loaded");
 		CHROMA_TRACE_UNDERLINE;
 	}
+
+
+
 
 	void ModelLoader::GetChildMeshNodes(aiNode* node, const aiScene*& scene, std::vector<MeshData>& meshList)
 	{
@@ -253,6 +260,37 @@ namespace Chroma
 				meshData.textures.push_back(texture);
 			}
 		}
+	}
+
+	void ModelLoader::CalculateBBoxCentroid(MeshData& meshData)
+	{
+		// BBOX
+		// calculate new min and max bbox
+		glm::vec3 newMinBBox(99999.00, 99999.00, 99999.00);
+		glm::vec3 newMaxBBox(0.0, 0.0, 0.0);
+
+		if (meshData.isSkinned)
+		{
+			for (const ChromaVertex& vert : meshData.skinnedVerts)
+			{
+				newMinBBox = glm::min(newMinBBox, vert.m_position);
+				newMaxBBox = glm::max(newMaxBBox, vert.m_position);
+			}
+		}
+		else
+		{
+			for (const ChromaVertex& vert : meshData.verts)
+			{
+				newMinBBox = glm::min(newMinBBox, vert.m_position);
+				newMaxBBox = glm::max(newMaxBBox, vert.m_position);
+			}
+		}
+		// re-establishing min and max bboxes
+		meshData.bboxMin = newMinBBox;
+		meshData.bboxMax = newMaxBBox;
+
+		// CENTROID
+		meshData.centroid = (newMinBBox - newMaxBBox) * glm::vec3(0.5);
 	}
 
 	void ModelLoader::SetVertSkinningData(ChromaSkinnedVertex & vert, std::pair<int, float> const& jointIDWeight)

@@ -23,7 +23,7 @@ public:
 	virtual void CleanUp();
 
 	// Mesh Attrs
-	virtual bool GetMeshInitialized() { return m_MeshData.isInitialized; };
+	virtual bool GetMeshLoaded() { return m_MeshData.isLoaded; };
 	virtual void SetIsSkinned(bool const& check) { m_MeshData.isSkinned = check; };
 	inline bool GetIsSkinned() { return  m_MeshData.isSkinned; }
 

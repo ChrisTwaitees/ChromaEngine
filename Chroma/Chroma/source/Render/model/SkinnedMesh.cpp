@@ -7,7 +7,7 @@
 
 void SkinnedMesh::SetupMesh()
 {
-	m_MeshData.isInitialized = false;
+	m_MeshData.isRenderBuffersInitialized = false;
 
 	// Generate buffers
 	// Vertex Array Object Buffer
@@ -55,15 +55,16 @@ void SkinnedMesh::SetupMesh()
 
 	glBindVertexArray(0);
 
-	// BBOX
-	CalculateBBox();
-	CalculateCentroid();
+
+	// Skeleton
+	m_Skeleton = m_MeshData.skeleton;
+	m_Skeleton.SetParentComponentUID(m_UID);
 
 	// Cleanup
 	CleanUp();
 
 	// Mark Meshdata initialized
-	m_MeshData.isInitialized = true;
+	m_MeshData.isRenderBuffersInitialized = true;
 }
 
 glm::mat4 SkinnedMesh::GetWorldTransform()
@@ -130,19 +131,11 @@ void SkinnedMesh::Serialize(ISerializer*& serializer)
 
 void SkinnedMesh::LoadFromFile(const std::string& sourcePath)
 {
-	// Resource Manager
-	m_MeshData = Chroma::ResourceManager::LoadModel(sourcePath);
-
-	// Skeleton
-	m_Skeleton = m_MeshData.skeleton;
-	m_Skeleton.SetParentComponentUID(m_UID);
-
-	// Textures
-	m_Material.SetTextureSet(m_MeshData.textures);
+	// Resource Manager Async
+	Chroma::ResourceManager::LoadModel(sourcePath, &m_MeshData);
 
 	// Initialize Mesh
 	SetupMesh();
-
 }
 
 void SkinnedMesh::CleanUp()

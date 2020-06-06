@@ -8,15 +8,34 @@
 
 struct MeshData
 {
+	// File Source Data
 	std::string sourceDirectory{ "" };
 	std::string sourcePath{ "" };
-	bool isSkinned{ false };
-	std::vector<ChromaSkinnedVertex> skinnedVerts;
+
+	// Vertices
 	std::vector<ChromaVertex> verts;
+	std::vector<ChromaSkinnedVertex> skinnedVerts;
 	std::vector<unsigned int> indices;
-	std::vector<Texture> textures;
+
+	// Animation
+	bool isSkinned{ false };
+
+	// Loaded
+	bool isLoaded{ false };
+	bool isRenderBuffersInitialized{ false };
+
+	// Dimensions	
+	glm::vec3 centroid;
+	glm::vec3 bboxMin;
+	glm::vec3 bboxMax;
+
+	// Animation
 	Skeleton skeleton;
-	bool isInitialized{ false };
+
+	// Textures
+	std::vector<Texture> textures;
+
+	// Render Buffers
 	unsigned int VAO{ 0 }, VBO{ 0 }, EBO{ 0 };
 };
 
