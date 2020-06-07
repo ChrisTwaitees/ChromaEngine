@@ -122,7 +122,8 @@ void Texture::LoadFromFile(const std::string& sourcePath)
 	m_TextureData.isInitialized = false;
 	m_TextureData.isLoaded = false;
 	// Load
-	Chroma::ResourceManager::Load2DTexture(sourcePath, &m_TextureData);
+	m_TextureData = Chroma::TexureLoader::Load2DTextureData(sourcePath);
+	//Chroma::ResourceManager::Load2DTexture(sourcePath, &m_TextureData);
 }
 
 unsigned int Texture::GetID()

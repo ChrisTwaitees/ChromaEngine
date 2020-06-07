@@ -29,7 +29,8 @@ void HDRTexture::LoadFromFile(const std::string& sourcePath)
 	m_TextureData.isInitialized = false;
 	m_TextureData.isLoaded = false;
 	// Load
-	Chroma::ResourceManager::LoadHDRTexture(sourcePath, &m_TextureData);
+	m_TextureData = Chroma::TexureLoader::Load2DTextureData(sourcePath);
+	//Chroma::ResourceManager::LoadHDRTexture(sourcePath, &m_TextureData);
 }
 
 void HDRTexture::SetupTexture()
