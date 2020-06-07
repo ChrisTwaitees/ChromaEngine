@@ -6,46 +6,76 @@
 #include <common/CoreCommon.h>
 
 
+
 struct TextureData
 {
-	unsigned int ID;
-	int width, height, nrComponents;
-	std::string sourcePath;
+	// RenderID
+	unsigned int ID{ 0 };
+
+	// Dimensions
+	int width{ 0 }, height{ 0 };
+	int nrComponents{ 0 };
+
+	// Source
+	std::string sourcePath{ "" };
+
+	// Data
+	unsigned char* imageData{ nullptr };
+
+	// Status
+	bool isInitialized{ false };
+	bool isLoaded{ false };
+
+	TextureData& operator=(const TextureData& rhs);
+
+	// Type
+	Chroma::Type::Texture type{Chroma::Type::Texture::kAlbedo};
 };
 
 
 class Texture
 {
-
 public:
+
 	Texture(unsigned int newID);
 	Texture(std::string sourcePath);
+	Texture(std::string sourcePath, Chroma::Type::Texture type);
 	Texture(TextureData const& textData);
-
 	bool operator <(const Texture& rhs) const;
 
 	Texture() {};
 	~Texture();
 
+	// load
+	virtual void LoadFromFile(const std::string& sourcePath);
 
-	/*  Texture Data  */
-	unsigned int ID {0} ;
+	// texture data
+	TextureData GetTextureData() { return m_TextureData; }
 
-	Chroma::Type::Texture m_Type { Chroma::Type::Texture::kAlbedo };
+	// render id
+	unsigned int GetID();
+	virtual void SetID(const unsigned int& newID) { m_TextureData.ID = newID; m_TextureData.isLoaded = true; m_TextureData.isInitialized = true; };
+	virtual void SetID(Texture& refTexture);
 
-	std::string GetSourcePath() { return m_SourcePath; }
+	// type
+	Chroma::Type::Texture GetType() { return m_TextureData.type; }
+	void SetType(const Chroma::Type::Texture& newType) { m_TextureData.type = newType; }
 
-	void Bind();
+	std::string GetSourcePath() { return m_TextureData.sourcePath; }
+
+	// draw
+	virtual void Bind();
+
+	// clear
+	static void ClearTexureMemory(unsigned int const& TextureID);
 	void Destroy();
 
-	static void ClearTexureMemory(unsigned int const& TextureID);
-
-
-
 protected:
-	// paths
-	std::string m_SourcePath;
-	int width{ 0 }, height{ 0 }, nrComponents{ 0 };
-	void InitTextureData(TextureData const& textData);
+
+	// TextureData
+	TextureData m_TextureData;
+
+	// Init
+	virtual void SetupTexture();
 };
 #endif

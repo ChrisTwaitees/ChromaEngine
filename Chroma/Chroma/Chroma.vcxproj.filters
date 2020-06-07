@@ -818,6 +818,9 @@
     <ClInclude Include="source\Engine\time\Timer.h">
       <Filter>Engine\time</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\texture\TextureAsync.h">
+      <Filter>Render\texture</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">

@@ -301,7 +301,7 @@ private:
 				{
 					// Create Texture and set type
 					Texture newTexture(textureValue->value.GetString());
-					newTexture.m_Type = Chroma::Type::GetType<Chroma::Type::Texture>(textureValue->name.GetString());
+					newTexture.SetType(Chroma::Type::GetType<Chroma::Type::Texture>(textureValue->name.GetString()));
 					// Add Texture
 					meshCmp->AddTexture(newTexture);
 				}

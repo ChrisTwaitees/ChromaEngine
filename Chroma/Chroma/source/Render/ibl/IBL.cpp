@@ -60,7 +60,7 @@ void IBL::GenerateEnvCubeMap()
 	m_envMapShader.SetUniform("equirectangularMap", 0);
 	m_envMapShader.SetUniform("projection", captureProjection);
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_HDRtexture.ID);
+	glBindTexture(GL_TEXTURE_2D, m_HDRtexture.GetID());
 
 	glViewport(0, 0, 512, 512); // don't forget to configure the viewport to the capture dimensions.
 	glBindFramebuffer(GL_FRAMEBUFFER, m_captureFBO);
@@ -211,7 +211,7 @@ void IBL::GenerateBRDFLUTMap()
 void IBL::Draw()
 {
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_HDRtexture.ID);
+	glBindTexture(GL_TEXTURE_2D, m_HDRtexture.GetID());
 	m_captureCube.Draw(m_envMapShader);
 }
 

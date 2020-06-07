@@ -12,10 +12,30 @@ namespace Chroma
 		return std::vector<Texture>();
 	}
 
-	Texture ResourceManager::LoadTexture(std::string const& sourcePath)
+	Texture ResourceManager::Load2DTexture(std::string const& sourcePath)
 	{
 		RESOURCEMANAGER_LOADTEXTURE;
-		return Chroma::TexureLoader::Load2DTexture(sourcePath);
+		return TexureLoader::Load2DTexture(sourcePath);
+	}
+
+	void ResourceManager::Load2DTexture(const std::string& sourcePath, TextureData* textureData)
+	{
+		textureData->sourcePath = sourcePath;
+		// lock resources from accessing to prevent read/write conflicts
+		std::unique_lock<std::mutex> lock(m_Mutex);
+		// send asynchronous job, storing in futures
+		m_Futures.push_back(std::async(std::launch::async, Load2DTextureAsync, sourcePath, textureData));
+		lock.unlock();
+	}
+
+	void ResourceManager::LoadHDRTexture(const std::string& sourcePath, TextureData* textureData)
+	{
+		textureData->sourcePath = sourcePath;
+		// lock resources from accessing to prevent read/write conflicts
+		std::unique_lock<std::mutex> lock(m_Mutex);
+		// send asynchronous job, storing in futures
+		m_Futures.push_back(std::async(std::launch::async, LoadHDRTextureAsync, sourcePath, textureData));
+		lock.unlock();
 	}
 
 	MeshData ResourceManager::LoadModel(std::string const& sourcePath)
@@ -94,8 +114,35 @@ namespace Chroma
 		RESOURCEMANAGER_LOADMODEL;
 		ModelLoader::LoadThreadSafe(sourcePath, *meshdatas);
 		if (meshdatas->size() == 0)
-
 			CHROMA_ERROR("RESOURCE MANAGER :: LoadModel :: Cannot find model at : {}", sourcePath);
+	}
+
+	void ResourceManager::Load2DTextureAsync(const std::string& sourcePath, TextureData* textureData)
+	{
+		RESOURCEMANAGER_LOADTEXTURE;
+		TextureData newTexData;
+
+		TexureLoader::Load2DTextureDataThreadSafe(sourcePath, newTexData);
+		newTexData.sourcePath = sourcePath;
+
+		if (!newTexData.imageData)
+			CHROMA_ERROR("RESOURCE MANAGER :: Load2DTexture :: Cannot find texture at : {}", sourcePath);
+		else
+			*textureData = newTexData;
+	}
+
+	void ResourceManager::LoadHDRTextureAsync(const std::string& sourcePath, TextureData* textureData)
+	{
+		RESOURCEMANAGER_LOADTEXTURE;
+		TextureData newTexData;
+
+		TexureLoader::LoadHDRTextureDataThreadSafe(sourcePath, newTexData);
+		newTexData.sourcePath = sourcePath;
+
+		if (!newTexData.imageData)
+			CHROMA_ERROR("RESOURCE MANAGER :: LoadHDRTexture :: Cannot find texture at : {}", sourcePath);
+		else
+			*textureData = newTexData;
 	}
 
 

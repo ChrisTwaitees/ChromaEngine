@@ -11,11 +11,12 @@ class SkyBox
 
 public:
 	// getters and setters
-	void setCubeMapID(int const& newCubeMapID) { m_cubeMapID = newCubeMapID; };
-	unsigned int getCubeMapID() { return m_cubeMap.ID; };
+	unsigned int getCubeMapID() { return m_cubeMap.GetID(); };
 
-	void setColorSpace(ColorSpace newColorSpace) { m_colorSpace = newColorSpace; };
+	void SetColorSpace(ColorSpace newColorSpace) { m_colorSpace = newColorSpace; };
 	ColorSpace getColorSpace() { return m_colorSpace; };
+
+	void SetCubeMapID(const unsigned int& newID) { m_cubeMap.SetID(newID); }
 
 	void Draw();
 	SkyBox();
@@ -28,7 +29,7 @@ private:
 	unsigned int VAO, VBO;
 
 	CubeMap m_cubeMap;
-	int m_cubeMapID;
+
 	Shader m_linearShader{ "resources/shaders/fragSkyBox.glsl" , "resources/shaders/vertexSkyBox.glsl" };
 	Shader m_HDRShader{ "resources/shaders/fragHDRSkyBox.glsl" , "resources/shaders/vertexSkyBox.glsl" };
 	std::string defaultImageDir{ "resources/textures/skybox/blueskywater" };

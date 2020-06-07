@@ -310,12 +310,12 @@ namespace Chroma
 	{
 		ImGui::Begin("Build");
 		ImGui::SameLine;
-		ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightsIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize));
+		ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_LightsIcon.GetID(), ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize));
 		ImGui::SameLine;
-		if(ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_ImportIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)))
+		if(ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_ImportIcon.GetID(), ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)))
 			OpenFileBrowser("Choose Mesh File", ".fbx\0.obj\0", UI::FileBrowserMode::kLoadMesh);
 		ImGui::SameLine;
-		if (ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_TextureIcon.ID, ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)))
+		if (ImGui::ImageButton((void*)(intptr_t)Chroma::EditorUI::m_TextureIcon.GetID(), ImVec2(Chroma::EditorUI::m_IconSize, Chroma::EditorUI::m_IconSize)))
 			OpenFileBrowser("Choose Mesh File", ".fbx\0.obj\0", UI::FileBrowserMode::kLoadMesh);
 
 		ImGui::End();

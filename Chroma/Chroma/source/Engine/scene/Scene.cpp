@@ -198,7 +198,7 @@ namespace Chroma
 		SCENE_TEMPSTATE(SceneState::kSceneIsAdding)
 
 		m_IBL->LoadIBL(sourcePath); // image based lighting
-		m_Skybox->setCubeMapID(m_IBL->GetEnvCubeMapID());
+		m_Skybox->SetCubeMapID(m_IBL->GetEnvCubeMapID());
 
 		// State 
 		SCENE_RESETSTATE
@@ -217,8 +217,8 @@ namespace Chroma
 		m_SceneNoise = Texture("resources/textures/noise/noise_00.jpg");
 
 		// setting skybox to IBL environment map
-		m_Skybox->setColorSpace(HDR);
-		m_Skybox->setCubeMapID(m_IBL->GetEnvCubeMapID());
+		m_Skybox->SetColorSpace(HDR);
+		m_Skybox->SetCubeMapID(m_IBL->GetEnvCubeMapID());
 
 		// State 
 		SCENE_RESETSTATE

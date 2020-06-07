@@ -6,7 +6,7 @@ void Icon::SetIconTexture(std::string const& iconPath)
 {
 	m_IconTexture.Destroy();
 	m_IconSourcePath = iconPath;
-	m_IconTexture = Chroma::ResourceManager::LoadTexture(m_IconSourcePath);
+	m_IconTexture = Texture(m_IconSourcePath);
 }
 
 void Icon::SetIconTexture(Texture& newTexture)
@@ -16,9 +16,9 @@ void Icon::SetIconTexture(Texture& newTexture)
 	m_IconTexture = newTexture;
 }
 
-void Icon::DrawWithIconTexture(Texture const& newTexture)
+void Icon::DrawWithIconTexture(Texture& newTexture)
 {
-	m_IconTexture.ID = newTexture.ID;
+	m_IconTexture.SetID(newTexture);
 }
 
 void Icon::Draw()
@@ -28,7 +28,7 @@ void Icon::Draw()
 
 	// use icons texture
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, m_IconTexture.ID);
+	glBindTexture(GL_TEXTURE_2D, m_IconTexture.GetID());
 
 	// Uniforms
 	m_IconShader.SetUniform("Texture", 0);
@@ -45,7 +45,7 @@ void Icon::Draw()
 Icon::Icon(std::string const& iconPath)
 {
 	m_IconSourcePath = iconPath;
-	m_IconTexture = Chroma::ResourceManager::LoadTexture(m_IconSourcePath);
+	m_IconTexture = Texture(m_IconSourcePath);
 
 	Initialize();
 }

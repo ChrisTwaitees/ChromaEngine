@@ -21,7 +21,7 @@ public:
 
 	void SetIconTexture(std::string const& iconPath);
 	void SetIconTexture(Texture& newTexture);
-	void DrawWithIconTexture(Texture const& newTexture);
+	void DrawWithIconTexture(Texture& newTexture);
 
 	void Draw() override;
 

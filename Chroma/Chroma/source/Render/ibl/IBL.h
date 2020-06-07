@@ -23,7 +23,7 @@ public:
 	inline unsigned int GetEnvCubeMapID() const { return m_envCubeMap; };
 	inline unsigned int GetIrradianceMapID() const { return m_irradianceMap; };
 	inline unsigned int GetPrefilterMapID() const { return m_prefilterMap; };
-	inline unsigned int GetHDRTextureID() const { return m_HDRtexture.ID; };
+	inline unsigned int GetHDRTextureID() { return m_HDRtexture.GetID(); };
 	inline unsigned int GetBRDFLUTID() const { return m_brdfLUTTexture; };
 
 	template <typename UniformType>

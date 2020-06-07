@@ -6,12 +6,12 @@
 
 class CubeMap : public Texture
 {
-
 public:
 	CubeMap(std::string cubeMapsDirectory);
 	CubeMap(TextureData const& textData);
 	CubeMap() {};
 	~CubeMap();
+
 };
 
 #endif

@@ -1,5 +1,5 @@
-#ifndef _CHROMA_HDRTEXTURE_
-#define _CHROMA_HDRTEXTURE_
+#ifndef CHROMA_HDRTEXTURE_H
+#define CHROMA_HDRTEXTURE_H
 
 #include <texture/Texture.h>
 
@@ -7,9 +7,16 @@ class HDRTexture :	public Texture
 {
 public:
 	HDRTexture(TextureData const& textData);
-	HDRTexture(std::string sourcepath);
+	HDRTexture(const std::string& sourcepath);
 	HDRTexture() {};
 	~HDRTexture();
+
+	// load	
+	void LoadFromFile(const std::string& sourcePath) override;
+
+private:
+	// Init
+	void SetupTexture() override;
 };
 
-#endif
+#endif //CHROMA_HDRTEXTURE_H

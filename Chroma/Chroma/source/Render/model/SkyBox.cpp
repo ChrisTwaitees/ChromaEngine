@@ -48,7 +48,7 @@ void SkyBox::Draw()
 	}
 	// texture 
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMapID);
+	glBindTexture(GL_TEXTURE_CUBE_MAP, m_cubeMap.GetID());
 	// change depth function so depth test passes when values are equal to depth buffer's content
 	glDepthFunc(GL_LEQUAL);
 	// draw vao

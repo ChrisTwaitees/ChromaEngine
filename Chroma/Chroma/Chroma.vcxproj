@@ -523,6 +523,7 @@
     <ClInclude Include="source\Render\texture\stb_image.h" />
     <ClInclude Include="source\Render\texture\Texture.h" />
     <ClInclude Include="source\Render\texture\HDRTexture.h" />
+    <ClInclude Include="source\Render\texture\TextureAsync.h" />
     <ClInclude Include="source\Render\ubo\UniformBufferCamera.h" />
     <ClInclude Include="source\Render\ubo\UniformBufferLighting.h" />
     <ClInclude Include="source\Render\ui\core\UI.h" />

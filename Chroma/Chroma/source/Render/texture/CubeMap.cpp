@@ -3,17 +3,16 @@
 
 CubeMap::CubeMap(std::string cubeMapsDirectory)
 {
-	TextureData newTex = Chroma::TexureLoader::LoadCubeMapTextureData(cubeMapsDirectory);
-	InitTextureData(newTex);
+	m_TextureData = Chroma::TexureLoader::LoadCubeMapTextureData(cubeMapsDirectory);
 }
 
 CubeMap::CubeMap(TextureData const& textData)
 {
-	InitTextureData(textData);
+	m_TextureData = textData;
 }
 
 
 CubeMap::~CubeMap()
 {
-	glDeleteTextures(1, &ID);
+	Destroy();
 }

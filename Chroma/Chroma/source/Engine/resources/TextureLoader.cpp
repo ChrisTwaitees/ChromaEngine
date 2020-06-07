@@ -44,6 +44,44 @@ namespace Chroma
 		return newTex;
 	}
 
+	void TexureLoader::Load2DTextureDataThreadSafe(std::string sourcePath, TextureData& textureData)
+	{
+		CHROMA_TRACE_UNDERLINE;
+		CHROMA_TRACE("TEXTURE LOADER : Loading 2D Texture from : {0} ", sourcePath);
+		
+		// Mark not Loaded
+		textureData.isInitialized = false;
+		textureData.isLoaded = false;
+
+		// Load
+		textureData.imageData = stbi_load(sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
+
+		// Mark ready to initialize
+		textureData.isLoaded = true;
+
+		CHROMA_TRACE_UNDERLINE;
+	}
+
+
+	void TexureLoader::LoadHDRTextureDataThreadSafe(std::string sourcePath, TextureData& textureData)
+	{
+		CHROMA_TRACE_UNDERLINE;
+		CHROMA_TRACE("TEXTURE LOADER : Loading 2D Texture from : {0} ", sourcePath);
+
+		// Mark not Loaded
+		textureData.isInitialized = false;
+		textureData.isLoaded = false;
+
+		// Load
+		stbi_set_flip_vertically_on_load(true);
+		textureData.imageData = stbi_load(sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
+
+		// Mark ready to initialize
+		textureData.isLoaded = true;
+
+		CHROMA_TRACE_UNDERLINE;
+	}
+
 	HDRTexture TexureLoader::LoadHDRTexture(std::string sourcePath)
 	{
 		CHROMA_TRACE_UNDERLINE;
@@ -108,13 +146,17 @@ namespace Chroma
 
 	void TexureLoader::Generate2DTexture(TextureData& textData)
 	{
-		// ID
-		glGenTextures(1, &textData.ID);
+		// Mark uninitialized
+		textData.isInitialized = false;
+		textData.isLoaded = false;
 
 		// Texture
 		unsigned char* data = stbi_load(textData.sourcePath.c_str(), &textData.width, &textData.height, &textData.nrComponents, 0);
 		if (data)
 		{
+			// ID
+			glGenTextures(1, &textData.ID);
+
 			GLenum format;
 			if (textData.nrComponents == 1)
 				format = GL_RED;
@@ -145,6 +187,10 @@ namespace Chroma
 			value = glm::min(value, max_anisotropy);
 			glTexParameterf(GL_TEXTURE_2D, GL_MAX_TEXTURE_MAX_ANISOTROPY, value);
 
+			// Mark initialized
+			textData.isInitialized = true;
+			textData.isLoaded = true;
+
 			stbi_image_free(data);
 			CHROMA_TRACE("TEXTURE LOADER : Loaded 2D Texture successfully. ");
 		}
@@ -155,12 +201,16 @@ namespace Chroma
 	}
 	void TexureLoader::GenerateHDRTexture(TextureData& textData)
 	{
-		//textData.m_Type = Texture::HDR;
-		glGenTextures(1, &textData.ID);
+		// Mark uninitialized
+		textData.isInitialized = false;
+		textData.isLoaded = false;
+
 		stbi_set_flip_vertically_on_load(true);
 		float* data = stbi_loadf(textData.sourcePath.c_str(), &textData.width, &textData.height, &textData.nrComponents, 0);
 		if (data)
 		{
+			glGenTextures(1, &textData.ID);
+
 			glBindTexture(GL_TEXTURE_2D, textData.ID);
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, textData.width, textData.height, 0, GL_RGB, GL_FLOAT, data);
 
@@ -171,6 +221,10 @@ namespace Chroma
 
 			stbi_image_free(data);
 			CHROMA_TRACE("TEXTURE LOADER : Loaded HDR Texture successfully. ");
+
+			// Mark initialized
+			textData.isInitialized = true;
+			textData.isLoaded = true;
 		}
 		else
 			CHROMA_ERROR("TEXTURE :: Failed to Load HDR Texture : {0}", textData.sourcePath);
@@ -179,6 +233,10 @@ namespace Chroma
 	}
 	void TexureLoader::GenerateCubeMapTexture(TextureData& textData)
 	{
+		// Mark uninitialized
+		textData.isInitialized = false;
+		textData.isLoaded = false;
+
 		std::vector<std::string> faces
 		{
 			"right.jpg",
@@ -233,6 +291,10 @@ namespace Chroma
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 		}
+
+		// Mark uninitialized
+		textData.isInitialized = true;
+		textData.isLoaded = true;
 
 	}
 }
