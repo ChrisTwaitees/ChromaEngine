@@ -3,7 +3,7 @@
 
 CubeMap::CubeMap(std::string cubeMapsDirectory)
 {
-	m_TextureData = Chroma::TexureLoader::LoadCubeMapTextureData(cubeMapsDirectory);
+	m_TextureData = Chroma::TextureLoader::LoadCubeMapTextureData(cubeMapsDirectory);
 }
 
 CubeMap::CubeMap(TextureData const& textData)

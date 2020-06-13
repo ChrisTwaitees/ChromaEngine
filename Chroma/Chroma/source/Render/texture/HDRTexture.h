@@ -16,7 +16,7 @@ public:
 
 private:
 	// Init
-	void SetupTexture() override;
+	void InitializeTexture() override;
 };
 
 #endif //CHROMA_HDRTEXTURE_H

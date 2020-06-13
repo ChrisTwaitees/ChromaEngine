@@ -6,61 +6,9 @@
 #include <texture/stb_image.h>
 #endif
 
-void Texture::SetupTexture()
+void Texture::InitializeTexture()
 {
-	// Mark uninitialized
-	m_TextureData.isInitialized = false;
-
-
-	// Check for Data
-	if (m_TextureData.imageData)
-	{
-		// ID
-		glGenTextures(1, &m_TextureData.ID);
-
-		GLenum format;
-		if (m_TextureData.nrComponents == 1)
-			format = GL_RED;
-		else if (m_TextureData.nrComponents == 3)
-			format = GL_RGB;
-		else if (m_TextureData.nrComponents == 4)
-			format = GL_RGBA;
-		GLenum wrapping;
-		if (m_TextureData.nrComponents == 1)
-			wrapping = GL_REPEAT;
-		else if (m_TextureData.nrComponents == 3)
-			wrapping = GL_REPEAT;
-		else if (m_TextureData.nrComponents == 4)
-			wrapping = GL_REPEAT;
-
-		glBindTexture(GL_TEXTURE_2D, m_TextureData.ID);
-		glTexImage2D(GL_TEXTURE_2D, 0, format, m_TextureData.width, m_TextureData.height, 0, format, GL_UNSIGNED_BYTE, m_TextureData.imageData);
-		glGenerateMipmap(GL_TEXTURE_2D);
-
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-		// Antisotropic filtering
-		GLfloat value, max_anisotropy = 4.0f; /* don't exceed this value...*/
-		glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
-		value = glm::min(value, max_anisotropy);
-		glTexParameterf(GL_TEXTURE_2D, GL_MAX_TEXTURE_MAX_ANISOTROPY, value);
-
-		// Mark initialized
-		m_TextureData.isInitialized = true;
-
-		// Cleanup
-		stbi_image_free(m_TextureData.imageData);
-
-		// Log
-		CHROMA_INFO("2D Texture Initialized : {0}", m_TextureData.sourcePath);
-	}
-	else
-	{
-		CHROMA_ERROR("ImageData not Loaded from : {0}", m_TextureData.sourcePath);
-	}
+	Chroma::TextureLoader::Initialize2DTexture(m_TextureData);
 }
 
 
@@ -69,7 +17,7 @@ void Texture::Bind()
 	if (m_TextureData.isInitialized)
 		glBindTexture(GL_TEXTURE_2D, m_TextureData.ID);
 	else if (m_TextureData.isLoaded && m_TextureData.isInitialized == false)
-		SetupTexture();
+		InitializeTexture();
 }
 
 void Texture::Destroy()
@@ -111,6 +59,28 @@ bool Texture::operator<(const Texture& rhs) const
 	return true;
 }
 
+Texture::Texture(const Texture& rhs)
+{
+	CHROMA_INFO("COPY OPERATOR CALLED");
+	if (this != &rhs) { // self-assignment check expected
+		m_TextureData = rhs.m_TextureData;
+	}
+}
+
+Texture& Texture::operator=(const Texture& rhs)
+{
+	CHROMA_INFO("COPY ASSIGNMENT OPERATOR CALLED");
+	if (this != &rhs) { // self-assignment check expected
+		m_TextureData = rhs.m_TextureData;
+	}
+	return *this;
+}
+
+Texture::Texture(Texture&& rhs)
+{
+	CHROMA_INFO("MOVE CONSTRUCTOR CALLED");
+}
+
 Texture::~Texture()
 {
 	//Destroy();
@@ -121,8 +91,9 @@ void Texture::LoadFromFile(const std::string& sourcePath)
 	// Mark uninitialized
 	m_TextureData.isInitialized = false;
 	m_TextureData.isLoaded = false;
+	m_TextureData.sourcePath = sourcePath;
 	// Load
-	Chroma::ResourceManager::Load2DTexture(sourcePath, &m_TextureData);
+	Chroma::ResourceManager::Load2DTexture(sourcePath, m_TextureData);
 }
 
 unsigned int Texture::GetID()
@@ -130,7 +101,7 @@ unsigned int Texture::GetID()
 	if (m_TextureData.isInitialized)
 		return m_TextureData.ID;
 	else if (m_TextureData.isLoaded && m_TextureData.isInitialized == false)
-		SetupTexture();
+		InitializeTexture();
 	else
 		return 0;
 }
@@ -144,25 +115,67 @@ void Texture::SetID(Texture& refTexture)
 
 TextureData& TextureData::operator=(const TextureData& rhs)
 {
-	CHROMA_INFO("COPY CONSTRUCTOR CALLED");
+	CHROMA_INFO("COPY ASSIGNMENT OPERATOR CALLED");
 	if (this != &rhs) { // self-assignment check expected
+	// RenderID
+		ID = rhs.ID;
+
+		// Dimensions
+		width = rhs.ID;
+		height = rhs.height;
+		nrComponents = rhs.nrComponents;
+
+		sourcePath = rhs.sourcePath;
+
 		if (rhs.imageData)
 		{
-			this->imageData = new unsigned char;
-			*this->imageData = *rhs.imageData;
-			//memcpy(imageData, rhs.imageData, sizeof(rhs.imageData));
-
+			imageData = new unsigned char;
+			*imageData = *rhs.imageData;
 		}
-		height = rhs.height;
-		width = rhs.width;
-		nrComponents = rhs.nrComponents;
+
 		isInitialized = rhs.isInitialized;
 		isLoaded = rhs.isLoaded;
-		ID = rhs.ID;
-		//sourcePath = rhs.sourcePath;
-		//this->type = Chroma::Type::Texture::kAlbedo;
-	}
 
+		type = rhs.type;
+	}
 	// TODO: insert return statement here
 	return *this;
+}
+
+TextureData::TextureData(const TextureData& rhs)
+{
+	CHROMA_INFO("COPY CONSTRUCTOR CALLED");
+	// RenderID
+	ID = rhs.ID;
+
+	// Dimensions
+	width = rhs.ID;
+	height = rhs.height;
+	nrComponents = rhs.nrComponents;
+
+	sourcePath = rhs.sourcePath;
+
+	if (rhs.imageData)
+	{
+		imageData = new unsigned char;
+		*imageData = *rhs.imageData;
+	}
+
+	isInitialized = rhs.isInitialized;
+	isLoaded = rhs.isLoaded;
+
+	type = rhs.type;
+}
+
+TextureData::TextureData(TextureData&& rhs)
+{
+	CHROMA_INFO("MOVE CONSTRUCTOR CALLED");
+}
+
+TextureData::~TextureData()
+{
+	if (imageData) 
+		delete imageData;
+
+	CHROMA_INFO("DESTRUCTOR CALLED");
 }

@@ -5,7 +5,6 @@
 #include <resources/ModelLoader.h>
 #include <resources/TextureLoader.h>
 
-#include <jobsystem/JobSystem.h>
 #include <time/Timer.h>
 
 namespace Chroma
@@ -13,17 +12,20 @@ namespace Chroma
 	class ResourceManager
 	{
 	public:
+		// Update
+		static void Update();
+
 		// Textures
-		static std::vector<Texture> LoadTextures(std::string const& sourcePath);
-		static Texture Load2DTexture(std::string const& sourcePath);
-		static void Load2DTexture(const std::string& sourcePath, TextureData* textureData);
-		static void LoadHDRTexture(const std::string& sourcePath, TextureData* textureData);
+		static Texture Create2DTexture(std::string const& sourcePath);
+		static void Load2DTexture(const std::string& sourcePath, TextureData& textureData);
+		static void LoadHDRTexture(const std::string& sourcePath, TextureData& textureData);
 
 		// Models
 		static std::vector<MeshData> LoadModels(std::string const& sourcePath);
 		static MeshData LoadModel(std::string const& sourcePath);
 		static void LoadModels(std::string const& sourcePath, std::vector<MeshData>* meshDatas);
 		static void LoadModel(std::string const& sourcePath, MeshData* meshData);
+
 		// Animations
 		static std::vector<Take> LoadAnimations(std::string const& sourcePath);
 		static Take LoadAnimation(std::string const& sourcePath);
@@ -36,11 +38,6 @@ namespace Chroma
 		// async - model
 		static void LoadModelAsync(const std::string& sourcePath, MeshData* meshdata);
 		static void LoadModelsAsync(const std::string& sourcePath, std::vector<MeshData>* meshdatas);
-
-		// async - textures
-		static void Load2DTextureAsync(const std::string& sourcePath, TextureData* textureData);
-		static void LoadHDRTextureAsync(const std::string& sourcePath, TextureData* textureData);
-
 
 
 	};

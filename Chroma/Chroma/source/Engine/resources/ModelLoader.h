@@ -10,7 +10,6 @@
 // chroma
 #include <math/Math.h>
 #include <model/MeshData.h>
-#include <resources/TextureLoader.h>
 #include <jobSystem/JobSystem.h>
 #include <animation/Skeleton.h>
 #include <serialization/formats/Json.h>

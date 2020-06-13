@@ -1,5 +1,5 @@
 #include "ModelLoader.h"
-
+#include <resources/TextureLoader.h>
 
 namespace Chroma 
 {
@@ -255,7 +255,7 @@ namespace Chroma
 			}
 			if (!skip)
 			{
-				Texture texture = Chroma::TexureLoader::Load2DTexture(textureName.C_Str(), m_SourceDir);
+				Texture texture = Chroma::TextureLoader::Create2DTexture(textureName.C_Str(), m_SourceDir);
 				texture.SetType(typeName);
 				meshData.textures.push_back(texture);
 				meshData.textures.push_back(texture);

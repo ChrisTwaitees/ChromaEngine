@@ -436,6 +436,7 @@
     <ClInclude Include="source\Engine\serialization\formats\JSONSerializer.h" />
     <ClInclude Include="source\Engine\serialization\IDeserializer.h" />
     <ClInclude Include="source\Engine\serialization\scene\JSONScene.h" />
+    <ClInclude Include="source\Engine\threading\ThreadSafeQueue.h" />
     <ClInclude Include="source\Engine\time\Timer.h" />
     <ClInclude Include="source\Engine\types\Types.h" />
     <ClInclude Include="source\Game\bipedal\BipedalAnimationStateMachine.h" />

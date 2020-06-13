@@ -10,7 +10,7 @@ namespace Chroma
 	Light*              Scene::m_SunLight;
 	SkyBox*             Scene::m_Skybox;
 	IBL* 				Scene::m_IBL;
-	Texture				Scene::m_SceneNoise;
+	Texture				Scene::m_SceneNoise{ "resources/textures/noise/noise_00.jpg" };
 
 	// Entities Components
 	std::map<UID, IEntity*>    Scene::m_Entities;
@@ -214,7 +214,6 @@ namespace Chroma
 		m_SunLight = new Light(Chroma::Type::Light::kSunlight, glm::vec3(0.2, -0.8, 0.0), 1.0f);
 		m_IBL = new IBL();
 		m_Skybox = new SkyBox();
-		m_SceneNoise = Texture("resources/textures/noise/noise_00.jpg");
 
 		// setting skybox to IBL environment map
 		m_Skybox->SetColorSpace(HDR);

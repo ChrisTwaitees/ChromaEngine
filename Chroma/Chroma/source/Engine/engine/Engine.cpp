@@ -19,6 +19,9 @@ namespace Chroma
 
 		// Update Components
 		UpdateComponents();
+		
+		// Resources 
+		Chroma::ResourceManager::Update();
 
 	}
 
@@ -105,14 +108,14 @@ namespace Chroma
 		ProcessInput();
 
 		// Update components
-		//Update();
+		Update();
 
 		// update while lag is less than framerate cap
-		while (Chroma::Time::GetLag() >= Chroma::Time::GetMSPerFrame())
-		{
-			Update();
-			Chroma::Time::DecreaseLag(Chroma::Time::GetMSPerFrame());
-		}
+		//while (Chroma::Time::GetLag() >= Chroma::Time::GetMSPerFrame())
+		//{
+		//	Update();
+		//	Chroma::Time::DecreaseLag(Chroma::Time::GetMSPerFrame());
+		//}
 		// consider Sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
 
 		// Render Scene

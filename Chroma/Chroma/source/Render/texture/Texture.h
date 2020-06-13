@@ -5,8 +5,6 @@
 #include <common/PrecompiledHeader.h>
 #include <common/CoreCommon.h>
 
-
-
 struct TextureData
 {
 	// RenderID
@@ -26,7 +24,12 @@ struct TextureData
 	bool isInitialized{ false };
 	bool isLoaded{ false };
 
-	TextureData& operator=(const TextureData& rhs);
+	// Constructors
+	TextureData() {};
+	TextureData(const TextureData& rhs); // copy
+	TextureData& operator=(const TextureData& rhs); // copy
+	TextureData(TextureData&& rhs); // copy
+	~TextureData(); // delete
 
 	// Type
 	Chroma::Type::Texture type{Chroma::Type::Texture::kAlbedo};
@@ -43,6 +46,10 @@ public:
 	Texture(TextureData const& textData);
 	bool operator <(const Texture& rhs) const;
 
+	// Constructors
+	Texture(const Texture& rhs); // copy
+	Texture& operator=(const Texture& rhs); // copy
+	Texture(Texture&& rhs); // copy
 	Texture() {};
 	~Texture();
 
@@ -50,7 +57,7 @@ public:
 	virtual void LoadFromFile(const std::string& sourcePath);
 
 	// texture data
-	TextureData GetTextureData() { return m_TextureData; }
+	TextureData& GetTextureData() { return m_TextureData; }
 
 	// render id
 	unsigned int GetID();
@@ -76,6 +83,6 @@ protected:
 	TextureData m_TextureData;
 
 	// Init
-	virtual void SetupTexture();
+	virtual void InitializeTexture();
 };
 #endif

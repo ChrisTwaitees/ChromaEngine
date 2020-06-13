@@ -560,6 +560,99 @@ namespace Chroma
 
 	}
 
+	void Editor::Test(std::vector<Texture*>& textures)
+	{
+
+		// SUNLIGHT
+		IComponent* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		/*Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);*/
+
+		Chroma::Scene::AddLight(Sun);
+
+
+		std::vector<std::string> texturePaths = {
+	"resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/vase_ground_MetRoughAO.png",
+	"resources/lookdev/Sponza/textures_final/vase_ground_transparency.png",
+	"resources/lookdev/Sponza/textures_final/arch_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/arch_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/bricks_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/bricks_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/bricks_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/columnA_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/columnA_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/ground_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/ground_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/ground_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/lion_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/lion_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/lion_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/roof_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/roof_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/roof_Normal.",
+	"resources/lookdev/Sponza/textures_final/vase_ground_normal.jpg",
+	"resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO.png",
+	"resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO_Albedo.png",
+		"resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/vase_ground_MetRoughAO.png",
+	"resources/lookdev/Sponza/textures_final/vase_ground_transparency.png",
+	"resources/lookdev/Sponza/textures_final/arch_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/arch_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/bricks_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/bricks_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/bricks_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/columnA_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/columnA_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/ground_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/ground_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/ground_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/lion_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/lion_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/lion_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/roof_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/roof_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/roof_Normal.",
+	"resources/lookdev/Sponza/textures_final/vase_ground_normal.jpg",
+	"resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO.png",
+	"resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO_Albedo.png",
+		"resources/lookdev/Sponza/textures_final/vase_ground_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/vase_ground_MetRoughAO.png",
+	"resources/lookdev/Sponza/textures_final/vase_ground_transparency.png",
+	"resources/lookdev/Sponza/textures_final/arch_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/arch_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/bricks_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/bricks_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/bricks_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/columnA_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/columnA_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/ground_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/ground_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/ground_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/lion_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/lion_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/lion_Normal.jpg",
+	"resources/lookdev/Sponza/textures_final/roof_Albedo.png",
+	"resources/lookdev/Sponza/textures_final/roof_MetRoughAO.jpg",
+	"resources/lookdev/Sponza/textures_final/roof_Normal.",
+	"resources/lookdev/Sponza/textures_final/vase_ground_normal.jpg",
+	"resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO.png",
+	"resources/lookdev/Sponza/textures_final/vase_groundBase_MetRoughAO_Albedo.png",
+		};
+
+
+		for (const std::string& path : texturePaths)
+		{
+			Texture* newTX = new Texture(path);
+			textures.push_back(newTX);
+		}
+
+
+	}
+
 
 	void Editor::CornellBox()
 	{

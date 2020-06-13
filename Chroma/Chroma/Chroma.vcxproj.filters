@@ -211,6 +211,9 @@
     <Filter Include="Render\ubo">
       <UniqueIdentifier>{85f86dde-0dbd-47dd-9613-a189edd8cbbe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\threading">
+      <UniqueIdentifier>{6fd2906a-d132-41c0-b050-9c4dbdee09ae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -820,6 +823,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\texture\TextureAsync.h">
       <Filter>Render\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\threading\ThreadSafeQueue.h">
+      <Filter>Engine\threading</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

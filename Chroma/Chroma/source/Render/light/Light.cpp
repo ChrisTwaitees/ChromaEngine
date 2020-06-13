@@ -61,11 +61,11 @@ void Light::Serialize(ISerializer*& serializer)
 	// Light and Transform
 	editorProperty.m_Vec3MinMax = std::make_pair(glm::vec3(-20.0), glm::vec3(20.0));
 	serializer->AddProperty("m_Position", &m_Position, editorProperty);
-	editorProperty.m_FloatMinMax = std::make_pair(0.0,5.0);
+	editorProperty.m_FloatMinMax = std::make_pair(0.0f, 5.0f);
 	serializer->AddProperty("m_Intensity", &m_Intensity, editorProperty);
 	editorProperty.m_Vec3MinMax = std::make_pair(glm::vec3(-1.0), glm::vec3(1.0));
 	serializer->AddProperty("m_Direction", &m_Direction, editorProperty);
-	editorProperty.m_FloatMinMax = std::make_pair(0.0, 1.0);
+	editorProperty.m_FloatMinMax = std::make_pair(0.0f, 1.0f);
 	serializer->AddProperty("m_Linear", &m_Linear);
 	serializer->AddProperty("m_Quadratic", &m_Quadratic);
 	serializer->AddProperty("m_Constant", &m_Constant);

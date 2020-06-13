@@ -8,67 +8,90 @@
 
 namespace Chroma
 {
-	Texture TexureLoader::Load2DTexture(std::string sourcePath)
+
+	std::mutex TextureLoader::m_Mutex;
+	ThreadSafeQueue<TextureData> TextureLoader::m_2DInitalizationQueue;
+	ThreadSafeQueue<TextureData> TextureLoader::m_HDRInitalizationQueue;
+
+	Texture TextureLoader::Create2DTexture(std::string sourcePath)
 	{
-		CHROMA_TRACE_UNDERLINE;
-		CHROMA_TRACE("TEXTURE LOADER : Loading 2D Texture from : {0} ", sourcePath);
+		TEXTURELOADER_LOAD
 
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
-		Generate2DTexture(newTex);
-
-		return Texture(newTex);
-	}
-	Texture TexureLoader::Load2DTexture(std::string fileName, std::string dir)
-	{
-		std::string sourcePath = dir + fileName;
-		CHROMA_TRACE_UNDERLINE;
-		CHROMA_TRACE("TEXTURE LOADER : Loading 2D Texture from : {0} ", sourcePath);
-
-		TextureData newTex;
-		newTex.sourcePath = sourcePath;
-		Generate2DTexture(newTex);
+		Load2DTexture(newTex);
+		Initialize2DTexture(&newTex);
 
 		return Texture(newTex);
 	}
 
-	TextureData TexureLoader::Load2DTextureData(std::string sourcePath)
+	Texture TextureLoader::Create2DTexture(std::string sourcePath, std::string dir)
 	{
-		CHROMA_TRACE_UNDERLINE;
-		CHROMA_TRACE("TEXTURE LOADER : Loading 2D Texture Data from : {0} ", sourcePath);
+		TEXTURELOADER_LOAD 
+
+		std::string srcPath = dir + sourcePath;
+
+		TextureData newTex;
+		newTex.sourcePath = srcPath;
+		Load2DTexture(newTex);
+		Initialize2DTexture(&newTex);
+
+		return Texture(newTex);
+	}
+
+	TextureData TextureLoader::Create2DTextureData(std::string sourcePath)
+	{
+		TEXTURELOADER_LOAD
 
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
-		Generate2DTexture(newTex);
+		Load2DTexture(newTex);
+		Initialize2DTexture(&newTex);
 
 		return newTex;
 	}
 
-	void TexureLoader::Load2DTextureDataThreadSafe(std::string sourcePath, TextureData& textureData)
+	void TextureLoader::Update()
 	{
-		CHROMA_TRACE_UNDERLINE;
-		CHROMA_TRACE("TEXTURE LOADER : Loading 2D Texture from : {0} ", sourcePath);
-		
-		// Mark not Loaded
+		// Pop and Initialize uninitialized TextureDatas
+		// These are essentially listeners for completed asynchronously loaded textures
+
+		while (m_2DInitalizationQueue.Size() > 0)
+			Initialize2DTexture(m_2DInitalizationQueue.TryPop().get());
+
+		while (m_HDRInitalizationQueue.Size() > 0)
+			InitializeHDRTexture(m_HDRInitalizationQueue.TryPop().get());
+
+	}
+
+	void TextureLoader::Create2DTextureThreadSafe(std::string sourcePath, TextureData& textureData)
+	{
+		// Protect shared textureData to prevent data race
+		std::lock_guard<std::mutex> lock(m_Mutex);
+
+		// Mark not Loaded or initialized
 		textureData.isInitialized = false;
 		textureData.isLoaded = false;
 
 		// Load
 		textureData.imageData = stbi_load(sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
 
-		// Mark ready to initialize
-		textureData.isLoaded = true;
-
-		CHROMA_TRACE_UNDERLINE;
+		if (textureData.imageData)
+		{
+			textureData.isLoaded = true;
+			// Send to initialization queue in order to be initialized on Main Thread
+			//m_2DInitalizationQueue.Push(textureData);
+		}
 	}
 
 
-	void TexureLoader::LoadHDRTextureDataThreadSafe(std::string sourcePath, TextureData& textureData)
+	void TextureLoader::CreateHDRTextureThreadSafe(std::string sourcePath, TextureData& textureData)
 	{
-		CHROMA_TRACE_UNDERLINE;
-		CHROMA_TRACE("TEXTURE LOADER : Loading 2D Texture from : {0} ", sourcePath);
+		// Load
+		// Protect shared textureData to prevent data race
+		std::lock_guard<std::mutex> lock(m_Mutex);
 
-		// Mark not Loaded
+		// Mark not Loaded or initialized
 		textureData.isInitialized = false;
 		textureData.isLoaded = false;
 
@@ -76,25 +99,28 @@ namespace Chroma
 		stbi_set_flip_vertically_on_load(true);
 		textureData.imageData = stbi_load(sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
 
-		// Mark ready to initialize
-		textureData.isLoaded = true;
-
-		CHROMA_TRACE_UNDERLINE;
+		if (textureData.imageData)
+		{
+			textureData.isLoaded = true;
+			// Send to initialization queue in order to be initialized on Main Thread
+			//m_2DInitalizationQueue.Push(textureData);
+		}
 	}
 
-	HDRTexture TexureLoader::LoadHDRTexture(std::string sourcePath)
+	HDRTexture TextureLoader::LoadHDRTexture(std::string sourcePath)
 	{
 		CHROMA_TRACE_UNDERLINE;
 		CHROMA_TRACE("TEXTURE LOADER : Loading HDR Texture from : {0} ", sourcePath);
 
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
-		GenerateHDRTexture(newTex);
+		LoadHDRTexture(newTex);
+		InitializeHDRTexture(&newTex);
 
 		return HDRTexture(newTex);
 	}
 
-	HDRTexture TexureLoader::LoadHDRTexture(std::string fileName, std::string dir)
+	HDRTexture TextureLoader::LoadHDRTexture(std::string fileName, std::string dir)
 	{
 		std::string sourcePath = dir + fileName;
 		CHROMA_TRACE_UNDERLINE;
@@ -102,78 +128,78 @@ namespace Chroma
 
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
-		GenerateHDRTexture(newTex);
+		LoadHDRTexture(newTex);
+		InitializeHDRTexture(&newTex);
 
 		return HDRTexture(newTex);
 	}
 
-	TextureData TexureLoader::LoadHDRTextureData(std::string sourcePath)
+	TextureData TextureLoader::LoadHDRTextureData(std::string sourcePath)
 	{
 		CHROMA_TRACE_UNDERLINE;
 		CHROMA_TRACE("TEXTURE LOADER : Loading HDR Texture Data from : {0} ", sourcePath);
 
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
-		GenerateHDRTexture(newTex);
+		LoadHDRTexture(newTex);
+		InitializeHDRTexture(&newTex);
 
 		return newTex;
 	}
 
-	CubeMap TexureLoader::LoadCubeMapTexture(std::string sourcePath)
+	CubeMap TextureLoader::LoadCubeMapTexture(std::string sourcePath)
 	{
 		CHROMA_TRACE_UNDERLINE;
 		CHROMA_TRACE("TEXTURE LOADER : Loading Cube Map Texture from : {0} ", sourcePath);
 
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
-		GenerateCubeMapTexture(newTex);
+		LoadCubeMapTexture(newTex);
 
 		return CubeMap(newTex);
 	}
 
 
-	TextureData TexureLoader::LoadCubeMapTextureData(std::string sourcePath)
+	TextureData TextureLoader::LoadCubeMapTextureData(std::string sourcePath)
 	{
 		CHROMA_TRACE_UNDERLINE;
 		CHROMA_TRACE("TEXTURE LOADER : Loading Cube Map Texture from : {0} ", sourcePath);
 
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
-		GenerateCubeMapTexture(newTex);
+		LoadCubeMapTexture(newTex);
 
 		return newTex;
 	}
 
-	void TexureLoader::Generate2DTexture(TextureData& textData)
+	void TextureLoader::Initialize2DTexture(TextureData& textureData)
 	{
 		// Mark uninitialized
-		textData.isInitialized = false;
-		textData.isLoaded = false;
+		textureData.isInitialized = false;
 
-		// Texture
-		unsigned char* data = stbi_load(textData.sourcePath.c_str(), &textData.width, &textData.height, &textData.nrComponents, 0);
-		if (data)
+		// OpenGL init if loaded
+		if (textureData.isLoaded)
 		{
 			// ID
-			glGenTextures(1, &textData.ID);
+			glGenTextures(1, &textureData.ID);
 
 			GLenum format;
-			if (textData.nrComponents == 1)
+			if (textureData.nrComponents == 1)
 				format = GL_RED;
-			else if (textData.nrComponents == 3)
+			else if (textureData.nrComponents == 3)
 				format = GL_RGB;
-			else if (textData.nrComponents == 4)
+			else if (textureData.nrComponents == 4)
 				format = GL_RGBA;
 			GLenum wrapping;
-			if (textData.nrComponents == 1)
+			if (textureData.nrComponents == 1)
 				wrapping = GL_REPEAT;
-			else if (textData.nrComponents == 3)
+			else if (textureData.nrComponents == 3)
 				wrapping = GL_REPEAT;
-			else if (textData.nrComponents == 4)
+			else if (textureData.nrComponents == 4)
 				wrapping = GL_REPEAT;
 
-			glBindTexture(GL_TEXTURE_2D, textData.ID);
-			glTexImage2D(GL_TEXTURE_2D, 0, format, textData.width, textData.height, 0, format, GL_UNSIGNED_BYTE, data);
+			glBindTexture(GL_TEXTURE_2D, textureData.ID);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, textureData.width, textureData.height, 0, format, GL_UNSIGNED_BYTE, textureData.imageData);
 			glGenerateMipmap(GL_TEXTURE_2D);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
@@ -183,55 +209,109 @@ namespace Chroma
 
 			// Antisotropic filtering
 			GLfloat value, max_anisotropy = 4.0f; /* don't exceed this value...*/
-			glGetFloatv( GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
+			glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
 			value = glm::min(value, max_anisotropy);
 			glTexParameterf(GL_TEXTURE_2D, GL_MAX_TEXTURE_MAX_ANISOTROPY, value);
 
 			// Mark initialized
-			textData.isInitialized = true;
-			textData.isLoaded = true;
+			textureData.isInitialized = true;
 
-			stbi_image_free(data);
-			CHROMA_TRACE("TEXTURE LOADER : Loaded 2D Texture successfully. ");
+			// Cleanup
+			stbi_image_free(textureData.imageData);
+			textureData.imageData = nullptr;
+			textureData.isLoaded = false;
+
+			CHROMA_INFO("TEXTURE LOADER : 2D Texture Initialized successfully. ");
 		}
 		else
-			CHROMA_ERROR("TEXTURE LOADER :: Failed to load from path : {0}", textData.sourcePath);
-			CHROMA_TRACE_UNDERLINE;
+			CHROMA_ERROR("TEXTURE LOADER :: Is not Loaded, Cannot initialize : {0}", textureData.sourcePath);
 
+		CHROMA_TRACE_UNDERLINE;
 	}
-	void TexureLoader::GenerateHDRTexture(TextureData& textData)
+
+	void TextureLoader::InitializeHDRTexture(TextureData& textureData)
 	{
 		// Mark uninitialized
-		textData.isInitialized = false;
-		textData.isLoaded = false;
+		textureData.isInitialized = false;
 
-		stbi_set_flip_vertically_on_load(true);
-		float* data = stbi_loadf(textData.sourcePath.c_str(), &textData.width, &textData.height, &textData.nrComponents, 0);
-		if (data)
+		// OpenGL init if loaded
+		if (textureData.isLoaded)
 		{
-			glGenTextures(1, &textData.ID);
+			glGenTextures(1, &textureData.ID);
 
-			glBindTexture(GL_TEXTURE_2D, textData.ID);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, textData.width, textData.height, 0, GL_RGB, GL_FLOAT, data);
+			glBindTexture(GL_TEXTURE_2D, textureData.ID);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, textureData.width, textureData.height, 0, GL_RGB, GL_FLOAT, textureData.imageData);
 
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-			stbi_image_free(data);
-			CHROMA_TRACE("TEXTURE LOADER : Loaded HDR Texture successfully. ");
+			// Cleanup
+			stbi_image_free(textureData.imageData);
+			textureData.imageData = nullptr;
+			textureData.isLoaded = false;
+			CHROMA_TRACE("TEXTURE LOADER : Initialized HDR Texture successfully. ");
 
 			// Mark initialized
-			textData.isInitialized = true;
-			textData.isLoaded = true;
+			textureData.isInitialized = true;
 		}
 		else
-			CHROMA_ERROR("TEXTURE :: Failed to Load HDR Texture : {0}", textData.sourcePath);
-		CHROMA_TRACE_UNDERLINE;
+			CHROMA_ERROR("TEXTURE LOADER :: Is not Loaded, Cannot initialize : {0}", textureData.sourcePath);
 
+		CHROMA_TRACE_UNDERLINE;
 	}
-	void TexureLoader::GenerateCubeMapTexture(TextureData& textData)
+
+	void TextureLoader::Load2DTexture(TextureData& textureData)
+	{
+		CHROMA_TRACE_UNDERLINE;
+		CHROMA_TRACE("TEXTURE LOADER : Loading 2D Texture from : {0} ", textureData.sourcePath);
+
+		// Mark not Loaded
+		textureData.isInitialized = false;
+		textureData.isLoaded = false;
+
+		// Load
+		textureData.imageData = stbi_load(textureData.sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
+
+		// Send to initialization queue for initialization
+		if (textureData.imageData)
+		{
+			CHROMA_INFO("TEXTURE LOADER :: Texture : {0} : Loaded successfully.", textureData.sourcePath);
+			textureData.isLoaded = true;
+		}
+		else
+			CHROMA_ERROR("TEXTURE LOADER :: Unable to load : {0}", textureData.sourcePath);
+
+		CHROMA_TRACE_UNDERLINE;
+	}
+
+	void TextureLoader::LoadHDRTexture(TextureData& textureData)
+	{
+		CHROMA_TRACE_UNDERLINE;
+		CHROMA_TRACE("TEXTURE LOADER : Loading 2D HDR Texture from : {0} ", textureData.sourcePath);
+
+		// Mark not Loaded
+		textureData.isInitialized = false;
+		textureData.isLoaded = false;
+
+		// Load
+		stbi_set_flip_vertically_on_load(true);
+		textureData.imageData = stbi_load(textureData.sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
+
+		// Send to initialization queue for initialization
+		if (textureData.imageData)
+		{
+			CHROMA_INFO("TEXTURE LOADER :: Texture : {0} : Loaded successfully.", textureData.sourcePath);
+			textureData.isLoaded = true;
+		}
+		else
+			CHROMA_ERROR("TEXTURE LOADER :: Unable to load : {0}", textureData.sourcePath);
+
+		CHROMA_TRACE_UNDERLINE;
+	}
+
+	void TextureLoader::LoadCubeMapTexture(TextureData& textData)
 	{
 		// Mark uninitialized
 		textData.isInitialized = false;
@@ -295,6 +375,94 @@ namespace Chroma
 		// Mark uninitialized
 		textData.isInitialized = true;
 		textData.isLoaded = true;
+	}
+
+	void TextureLoader::Initialize2DTexture(TextureData* textureData)
+	{
+		// Mark uninitialized
+		textureData->isInitialized = false;
+
+		// OpenGL init if loaded
+		if (textureData->isLoaded)
+		{
+			// ID
+			glGenTextures(1, &textureData->ID);
+
+			GLenum format;
+			if (textureData->nrComponents == 1)
+				format = GL_RED;
+			else if (textureData->nrComponents == 3)
+				format = GL_RGB;
+			else if (textureData->nrComponents == 4)
+				format = GL_RGBA;
+			GLenum wrapping;
+			if (textureData->nrComponents == 1)
+				wrapping = GL_REPEAT;
+			else if (textureData->nrComponents == 3)
+				wrapping = GL_REPEAT;
+			else if (textureData->nrComponents == 4)
+				wrapping = GL_REPEAT;
+
+			glBindTexture(GL_TEXTURE_2D, textureData->ID);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, textureData->width, textureData->height, 0, format, GL_UNSIGNED_BYTE, textureData->imageData);
+			glGenerateMipmap(GL_TEXTURE_2D);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			// Antisotropic filtering
+			GLfloat value, max_anisotropy = 4.0f; /* don't exceed this value...*/
+			glGetFloatv( GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
+			value = glm::min(value, max_anisotropy);
+			glTexParameterf(GL_TEXTURE_2D, GL_MAX_TEXTURE_MAX_ANISOTROPY, value);
+
+			// Mark initialized
+			textureData->isInitialized = true;
+
+			// free initialized texture Memory
+			stbi_image_free(textureData->imageData);
+			// unmark Loaded
+			textureData->isLoaded = false;
+
+			CHROMA_INFO("TEXTURE LOADER : 2D Texture Initialized successfully. ");
+		}
+		else
+			CHROMA_ERROR("TEXTURE LOADER :: Is not Loaded, Cannot initialize : {0}", textureData->sourcePath);
+			
+		CHROMA_TRACE_UNDERLINE;
+
+	}
+	void TextureLoader::InitializeHDRTexture(TextureData* textureData)
+	{
+		// Mark uninitialized
+		textureData->isInitialized = false;
+
+		// OpenGL init if loaded
+		if (textureData->isLoaded)
+		{
+			glGenTextures(1, &textureData->ID);
+
+			glBindTexture(GL_TEXTURE_2D, textureData->ID);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, textureData->width, textureData->height, 0, GL_RGB, GL_FLOAT, textureData->imageData);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			// free initialized texture Memory
+			stbi_image_free(textureData->imageData);
+			CHROMA_TRACE("TEXTURE LOADER : Loaded HDR Texture successfully. ");
+
+			// Mark initialized
+			textureData->isInitialized = true;
+		}
+		else
+			CHROMA_ERROR("TEXTURE LOADER :: Is not Loaded, Cannot initialize : {0}", textureData->sourcePath);
+		
+		CHROMA_TRACE_UNDERLINE;
 
 	}
 }
