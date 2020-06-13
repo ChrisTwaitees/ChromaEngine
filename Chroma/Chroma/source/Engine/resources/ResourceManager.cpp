@@ -34,7 +34,12 @@ namespace Chroma
 	void ResourceManager::LoadHDRTexture(const std::string& sourcePath, TextureData& textureData)
 	{
 		// send asynchronous job, storing in futures
-		m_Futures.push_back(std::async(std::launch::async, TextureLoader::CreateHDRTextureThreadSafe, sourcePath, std::ref(textureData)));
+		//m_Futures.push_back(std::async(std::launch::async, TextureLoader::CreateHDRTextureThreadSafe, sourcePath, std::ref(textureData)));
+	}
+
+	void ResourceManager::LoadHDRTexture(const std::string& sourcePath, std::shared_ptr<TextureData> textureData)
+	{
+		m_Futures.push_back(std::async(std::launch::async, TextureLoader::CreateHDRTextureThreadSafe, sourcePath, textureData));
 	}
 
 	MeshData ResourceManager::LoadModel(std::string const& sourcePath)

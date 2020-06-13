@@ -26,14 +26,18 @@ HDRTexture::~HDRTexture()
 void HDRTexture::LoadFromFile(const std::string& sourcePath)
 {
 	// Mark uninitialized
+	m_SharedTextureData->isInitialized = false;
 	m_TextureData.isInitialized = false;
 	m_TextureData.isLoaded = false;
+	m_SharedTextureData->isLoaded = false;
 	m_TextureData.sourcePath = sourcePath;
+	m_SharedTextureData->sourcePath = sourcePath;
 	// Load
-	Chroma::ResourceManager::LoadHDRTexture(sourcePath, m_TextureData);
+	//Chroma::ResourceManager::Load2DTexture(sourcePath, m_TextureData);
+	Chroma::ResourceManager::LoadHDRTexture(sourcePath, m_SharedTextureData);
 }
 
 void HDRTexture::InitializeTexture()
 {
-	Chroma::TextureLoader::InitializeHDRTexture(m_TextureData);
+	Chroma::TextureLoader::InitializeHDRTexture(m_SharedTextureData);
 }

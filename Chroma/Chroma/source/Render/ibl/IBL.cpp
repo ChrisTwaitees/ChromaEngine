@@ -227,7 +227,7 @@ void IBL::LoadIBL(std::string const& newHDRTexturePath)
 	m_HDRtexture.Destroy();
 
 	// new texture
-	m_HDRtexture = HDRTexture(newHDRTexturePath);
+	m_HDRtexture = Chroma::TextureLoader::LoadHDRTexture(newHDRTexturePath);
 
 	// clear existing texture buffers
 	ClearTextureBuffers();
@@ -238,5 +238,6 @@ void IBL::LoadIBL(std::string const& newHDRTexturePath)
 
 IBL::IBL()
 {
+	m_HDRtexture = Chroma::TextureLoader::LoadHDRTexture("resources/textures/ibl/grey_ibl/grey.hdr");
 	Initialize();
 }

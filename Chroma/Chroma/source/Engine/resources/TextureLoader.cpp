@@ -20,7 +20,7 @@ namespace Chroma
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
 		Load2DTexture(newTex);
-		Initialize2DTexture(&newTex);
+		Initialize2DTexture(newTex);
 
 		return Texture(newTex);
 	}
@@ -34,7 +34,7 @@ namespace Chroma
 		TextureData newTex;
 		newTex.sourcePath = srcPath;
 		Load2DTexture(newTex);
-		Initialize2DTexture(&newTex);
+		Initialize2DTexture(newTex);
 
 		return Texture(newTex);
 	}
@@ -46,7 +46,7 @@ namespace Chroma
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
 		Load2DTexture(newTex);
-		Initialize2DTexture(&newTex);
+		Initialize2DTexture(newTex);
 
 		return newTex;
 	}
@@ -107,27 +107,27 @@ namespace Chroma
 	}
 
 
-	void TextureLoader::CreateHDRTextureThreadSafe(std::string sourcePath, TextureData& textureData)
-	{
-		// Load
-		// Protect shared textureData to prevent data race
-		std::lock_guard<std::mutex> lock(m_Mutex);
+	//void TextureLoader::CreateHDRTextureThreadSafe(std::string sourcePath, TextureData& textureData)
+	//{
+	//	// Load
+	//	// Protect shared textureData to prevent data race
+	//	std::lock_guard<std::mutex> lock(m_Mutex);
 
-		// Mark not Loaded or initialized
-		textureData.isInitialized = false;
-		textureData.isLoaded = false;
+	//	// Mark not Loaded or initialized
+	//	textureData.isInitialized = false;
+	//	textureData.isLoaded = false;
 
-		// Load
-		stbi_set_flip_vertically_on_load(true);
-		textureData.imageData = stbi_load(sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
+	//	// Load
+	//	stbi_set_flip_vertically_on_load(true);
+	//	textureData.imageData = stbi_load(sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
 
-		if (textureData.imageData)
-		{
-			textureData.isLoaded = true;
-			// Send to initialization queue in order to be initialized on Main Thread
-			//m_2DInitalizationQueue.Push(textureData);
-		}
-	}
+	//	if (textureData.imageData)
+	//	{
+	//		textureData.isLoaded = true;
+	//		// Send to initialization queue in order to be initialized on Main Thread
+	//		//m_2DInitalizationQueue.Push(textureData);
+	//	}
+	//}
 
 	HDRTexture TextureLoader::LoadHDRTexture(std::string sourcePath)
 	{
@@ -137,7 +137,7 @@ namespace Chroma
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
 		LoadHDRTexture(newTex);
-		InitializeHDRTexture(&newTex);
+		//InitializeHDRTexture(newTex);
 
 		return HDRTexture(newTex);
 	}
@@ -151,7 +151,7 @@ namespace Chroma
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
 		LoadHDRTexture(newTex);
-		InitializeHDRTexture(&newTex);
+		InitializeHDRTexture(newTex);
 
 		return HDRTexture(newTex);
 	}
@@ -164,9 +164,32 @@ namespace Chroma
 		TextureData newTex;
 		newTex.sourcePath = sourcePath;
 		LoadHDRTexture(newTex);
-		InitializeHDRTexture(&newTex);
+		InitializeHDRTexture(newTex);
 
 		return newTex;
+	}
+
+	void TextureLoader::CreateHDRTextureThreadSafe(std::string sourcePath, std::shared_ptr<TextureData> textureData)
+	{
+		// Load
+	// Protect shared textureData to prevent data race
+		std::lock_guard<std::mutex> lock(m_Mutex);
+
+		// Mark not Loaded or initialized
+		textureData->isInitialized = false;
+		textureData->isLoaded = false;
+
+		// Load
+		//stbi_set_flip_vertically_on_load(true);
+		textureData->imageData = stbi_load(sourcePath.c_str(), &textureData->width, &textureData->height, &textureData->nrComponents, 0);
+		stbi_set_flip_vertically_on_load(true);
+
+		if (textureData->imageData)
+		{
+			textureData->isLoaded = true;
+			// Send to initialization queue in order to be initialized on Main Thread
+			//m_2DInitalizationQueue.Push(textureData);
+		}
 	}
 
 	CubeMap TextureLoader::LoadCubeMapTexture(std::string sourcePath)
@@ -337,6 +360,37 @@ namespace Chroma
 		}
 		else
 			CHROMA_ERROR("TEXTURE LOADER :: Is not Loaded, Cannot initialize : {0}", textureData.sourcePath);
+
+		CHROMA_TRACE_UNDERLINE;
+	}
+
+	void TextureLoader::InitializeHDRTexture(std::shared_ptr<TextureData> textureData)
+	{
+		// Mark uninitialized
+		textureData->isInitialized = false;
+
+		// OpenGL init if loaded
+		if (textureData->isLoaded)
+		{
+			glGenTextures(1, &textureData->ID);
+
+			glBindTexture(GL_TEXTURE_2D, textureData->ID);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, textureData->width, textureData->height, 0, GL_RGB, GL_FLOAT, textureData->imageData);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			// free initialized texture Memory
+			stbi_image_free(textureData->imageData);
+			CHROMA_TRACE("TEXTURE LOADER : Loaded HDR Texture successfully. ");
+
+			// Mark initialized
+			textureData->isInitialized = true;
+		}
+		else
+			CHROMA_ERROR("TEXTURE LOADER :: Is not Loaded, Cannot initialize : {0}", textureData->sourcePath);
 
 		CHROMA_TRACE_UNDERLINE;
 	}

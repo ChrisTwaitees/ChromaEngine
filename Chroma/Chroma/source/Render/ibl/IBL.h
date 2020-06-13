@@ -46,7 +46,7 @@ private:
 	   glm::lookAt(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f,  0.0f, -1.0f), glm::vec3(0.0f, -1.0f,  0.0f))
 	};
 	// hdr texture
-	HDRTexture m_HDRtexture{ "resources/textures/ibl/grey_ibl/grey.hdr" };
+	HDRTexture m_HDRtexture;
 	// capture primitives
 	BoxPrimitive m_captureCube;
 	NDCPlanePrimitive m_capturePlane;

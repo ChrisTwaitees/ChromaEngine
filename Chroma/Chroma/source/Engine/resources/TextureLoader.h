@@ -27,7 +27,8 @@ namespace Chroma
 		static HDRTexture LoadHDRTexture(std::string sourcePath, std::string dir);
 		static TextureData LoadHDRTextureData(std::string sourcePath);
 		// async
-		static void CreateHDRTextureThreadSafe(std::string sourcePath, TextureData& textureData);
+		//static void CreateHDRTextureThreadSafe(std::string sourcePath, TextureData& textureData);
+		static void CreateHDRTextureThreadSafe(std::string sourcePath, std::shared_ptr<TextureData> textureData);
 
 		static CubeMap LoadCubeMapTexture(std::string directory);
 		static TextureData LoadCubeMapTextureData(std::string sourcePath);
@@ -36,6 +37,7 @@ namespace Chroma
 		static void Initialize2DTexture(TextureData& textureData);
 		static void Initialize2DTexture(std::shared_ptr<TextureData> textureData);
 		static void InitializeHDRTexture(TextureData& textureData);
+		static void InitializeHDRTexture(std::shared_ptr<TextureData> textureData);
 	private:
 
 		// main thread

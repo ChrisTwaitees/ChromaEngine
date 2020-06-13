@@ -20,6 +20,7 @@ namespace Chroma
 		static void Load2DTexture(const std::string& sourcePath, std::shared_ptr<TextureData> textureData);
 		static void Load2DTexture(const std::string& sourcePath, TextureData& textureData);
 		static void LoadHDRTexture(const std::string& sourcePath, TextureData& textureData);
+		static void LoadHDRTexture(const std::string& sourcePath, std::shared_ptr<TextureData> textureData);
 
 		// Models
 		static std::vector<MeshData> LoadModels(std::string const& sourcePath);
