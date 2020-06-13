@@ -17,6 +17,7 @@ namespace Chroma
 
 		// Textures
 		static Texture Create2DTexture(std::string const& sourcePath);
+		static void Load2DTexture(const std::string& sourcePath, std::shared_ptr<TextureData> textureData);
 		static void Load2DTexture(const std::string& sourcePath, TextureData& textureData);
 		static void LoadHDRTexture(const std::string& sourcePath, TextureData& textureData);
 
@@ -38,6 +39,8 @@ namespace Chroma
 		// async - model
 		static void LoadModelAsync(const std::string& sourcePath, MeshData* meshdata);
 		static void LoadModelsAsync(const std::string& sourcePath, std::vector<MeshData>* meshdatas);
+
+		static void Test(std::string test, std::shared_ptr<TextureData> textureData);
 
 
 	};

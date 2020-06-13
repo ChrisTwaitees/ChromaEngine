@@ -64,21 +64,43 @@ namespace Chroma
 
 	}
 
-	void TextureLoader::Create2DTextureThreadSafe(std::string sourcePath, TextureData& textureData)
+	//void TextureLoader::Create2DTextureThreadSafe(std::string sourcePath, TextureData& textureData)
+	//{
+	//	// Protect shared textureData to prevent data race
+	//	std::lock_guard<std::mutex> lock(m_Mutex);
+
+	//	// Mark not Loaded or initialized
+	//	textureData.isInitialized = false;
+	//	textureData.isLoaded = false;
+
+	//	// Load
+	//	textureData.imageData = stbi_load(sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
+
+	//	if (textureData.imageData)
+	//	{
+	//		textureData.isLoaded = true;
+	//		// Send to initialization queue in order to be initialized on Main Thread
+	//		//m_2DInitalizationQueue.Push(textureData);
+	//	}
+	//}
+
+	void TextureLoader::Create2DTextureThreadSafe(std::string sourcePath, std::shared_ptr<TextureData> textureData)
 	{
+		// Load
 		// Protect shared textureData to prevent data race
 		std::lock_guard<std::mutex> lock(m_Mutex);
 
 		// Mark not Loaded or initialized
-		textureData.isInitialized = false;
-		textureData.isLoaded = false;
+		textureData->isInitialized = false;
+		textureData->isLoaded = false;
 
 		// Load
-		textureData.imageData = stbi_load(sourcePath.c_str(), &textureData.width, &textureData.height, &textureData.nrComponents, 0);
+		//stbi_set_flip_vertically_on_load(true);
+		textureData->imageData = stbi_load(sourcePath.c_str(), &textureData->width, &textureData->height, &textureData->nrComponents, 0);
 
-		if (textureData.imageData)
+		if (textureData->imageData)
 		{
-			textureData.isLoaded = true;
+			textureData->isLoaded = true;
 			// Send to initialization queue in order to be initialized on Main Thread
 			//m_2DInitalizationQueue.Push(textureData);
 		}
@@ -225,6 +247,63 @@ namespace Chroma
 		}
 		else
 			CHROMA_ERROR("TEXTURE LOADER :: Is not Loaded, Cannot initialize : {0}", textureData.sourcePath);
+
+		CHROMA_TRACE_UNDERLINE;
+	}
+
+	void TextureLoader::Initialize2DTexture(std::shared_ptr<TextureData> textureData)
+	{
+		// Mark uninitialized
+		textureData->isInitialized = false;
+
+		// OpenGL init if loaded
+		if (textureData->isLoaded)
+		{
+			// ID
+			glGenTextures(1, &textureData->ID);
+
+			GLenum format;
+			if (textureData->nrComponents == 1)
+				format = GL_RED;
+			else if (textureData->nrComponents == 3)
+				format = GL_RGB;
+			else if (textureData->nrComponents == 4)
+				format = GL_RGBA;
+			GLenum wrapping;
+			if (textureData->nrComponents == 1)
+				wrapping = GL_REPEAT;
+			else if (textureData->nrComponents == 3)
+				wrapping = GL_REPEAT;
+			else if (textureData->nrComponents == 4)
+				wrapping = GL_REPEAT;
+
+			glBindTexture(GL_TEXTURE_2D, textureData->ID);
+			glTexImage2D(GL_TEXTURE_2D, 0, format, textureData->width, textureData->height, 0, format, GL_UNSIGNED_BYTE, textureData->imageData);
+			glGenerateMipmap(GL_TEXTURE_2D);
+
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapping);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapping);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			// Antisotropic filtering
+			GLfloat value, max_anisotropy = 4.0f; /* don't exceed this value...*/
+			glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY, &value);
+			value = glm::min(value, max_anisotropy);
+			glTexParameterf(GL_TEXTURE_2D, GL_MAX_TEXTURE_MAX_ANISOTROPY, value);
+
+			// Mark initialized
+			textureData->isInitialized = true;
+
+			// Cleanup
+			stbi_image_free(textureData->imageData);
+			textureData->imageData = nullptr;
+			textureData->isLoaded = false;
+
+			CHROMA_INFO("TEXTURE LOADER : 2D Texture Initialized successfully. ");
+		}
+		else
+			CHROMA_ERROR("TEXTURE LOADER :: Is not Loaded, Cannot initialize : {0}", textureData->sourcePath);
 
 		CHROMA_TRACE_UNDERLINE;
 	}

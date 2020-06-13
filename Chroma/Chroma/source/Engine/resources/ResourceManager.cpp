@@ -19,10 +19,16 @@ namespace Chroma
 		return TextureLoader::Create2DTexture(sourcePath);
 	}
 
+	void ResourceManager::Load2DTexture(const std::string& sourcePath, std::shared_ptr<TextureData> textureData)
+	{
+		// send asynchronous job, storing in futures
+		m_Futures.push_back(std::async(std::launch::async, TextureLoader::Create2DTextureThreadSafe, sourcePath, textureData));
+	}
+
 	void ResourceManager::Load2DTexture(const std::string& sourcePath, TextureData& textureData)
 	{
 		// send asynchronous job, storing in futures
-		m_Futures.push_back(std::async(std::launch::async, TextureLoader::Create2DTextureThreadSafe, sourcePath, std::ref(textureData)));
+	//	m_Futures.push_back(std::async(std::launch::async, TextureLoader::Create2DTextureThreadSafe, sourcePath, std::ref(textureData)));
 	}
 
 	void ResourceManager::LoadHDRTexture(const std::string& sourcePath, TextureData& textureData)
@@ -103,6 +109,11 @@ namespace Chroma
 		ModelLoader::LoadThreadSafe(sourcePath, *meshdatas);
 		if (meshdatas->size() == 0)
 			CHROMA_ERROR("RESOURCE MANAGER :: LoadModel :: Cannot find model at : {}", sourcePath);
+	}
+
+	void ResourceManager::Test(std::string test, std::shared_ptr<TextureData> textureData)
+	{
+		textureData->sourcePath = test;
 	}
 
 

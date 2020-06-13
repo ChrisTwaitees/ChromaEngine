@@ -26,10 +26,10 @@ struct TextureData
 
 	// Constructors
 	TextureData() {};
-	TextureData(const TextureData& rhs); // copy
-	TextureData& operator=(const TextureData& rhs); // copy
-	TextureData(TextureData&& rhs); // copy
-	~TextureData(); // delete
+	//TextureData(const TextureData& rhs); // copy
+	//TextureData& operator=(const TextureData& rhs); // copy
+	//TextureData(TextureData&& rhs); // copy
+	//~TextureData(); // delete
 
 	// Type
 	Chroma::Type::Texture type{Chroma::Type::Texture::kAlbedo};
@@ -47,9 +47,9 @@ public:
 	bool operator <(const Texture& rhs) const;
 
 	// Constructors
-	Texture(const Texture& rhs); // copy
-	Texture& operator=(const Texture& rhs); // copy
-	Texture(Texture&& rhs); // copy
+	//Texture(const Texture& rhs); // copy
+	//Texture& operator=(const Texture& rhs); // copy
+	//Texture(Texture&& rhs); // copy
 	Texture() {};
 	~Texture();
 
@@ -81,6 +81,7 @@ protected:
 
 	// TextureData
 	TextureData m_TextureData;
+	std::shared_ptr<TextureData> m_SharedTextureData{ std::make_shared<TextureData>() };
 
 	// Init
 	virtual void InitializeTexture();

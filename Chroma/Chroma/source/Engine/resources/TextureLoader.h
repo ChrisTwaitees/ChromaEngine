@@ -20,7 +20,8 @@ namespace Chroma
 		static Texture Create2DTexture(std::string sourcePath, std::string dir);
 		static TextureData Create2DTextureData(std::string sourcePath);
 		// async
-		static void Create2DTextureThreadSafe(std::string sourcePath, TextureData& textureData);
+		//static void Create2DTextureThreadSafe(std::string sourcePath, TextureData& textureData);
+		static void Create2DTextureThreadSafe(std::string sourcePath, std::shared_ptr<TextureData> textureData);
 
 		static HDRTexture LoadHDRTexture(std::string sourcePath);
 		static HDRTexture LoadHDRTexture(std::string sourcePath, std::string dir);
@@ -33,6 +34,7 @@ namespace Chroma
 
 		// Initialize
 		static void Initialize2DTexture(TextureData& textureData);
+		static void Initialize2DTexture(std::shared_ptr<TextureData> textureData);
 		static void InitializeHDRTexture(TextureData& textureData);
 	private:
 
