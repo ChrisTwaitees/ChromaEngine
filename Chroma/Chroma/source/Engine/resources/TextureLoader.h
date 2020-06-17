@@ -13,6 +13,9 @@ namespace Chroma
 	class TextureLoader
 	{
 	public:
+		// Init
+		static void Init();
+
 		// update
 		static void Update();
 

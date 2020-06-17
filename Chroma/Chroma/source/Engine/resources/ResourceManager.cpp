@@ -6,6 +6,13 @@ namespace Chroma
 	std::vector<std::future<void>> ResourceManager::m_Futures;
 	std::mutex ResourceManager::m_Mutex;
 
+	void ResourceManager::Init()
+	{
+		// Init Loaders
+		Chroma::TextureLoader::Init();
+		Chroma::ModelLoader::Init();
+	}
+
 	void ResourceManager::Update()
 	{
 		Chroma::TextureLoader::Update();

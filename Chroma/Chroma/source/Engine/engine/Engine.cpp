@@ -150,6 +150,9 @@ namespace Chroma
 		// Job System
 		Chroma::JobSystem::Initialize();
 
+		// Resource Manager
+		Chroma::ResourceManager::Init();
+
 		// Scene
 		Chroma::Scene::Init();
 		CHROMA_INFO("Scene Initialized.");

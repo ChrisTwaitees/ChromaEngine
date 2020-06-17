@@ -18,7 +18,6 @@ int main()
 	// Initialize Scene
 	Chroma::Scene::PreSceneBuild();
 
-	//std::vector<Texture*> test;
 	// POPULATE SCENE CONTENTS
 	Chroma::Editor::Sponza();
 

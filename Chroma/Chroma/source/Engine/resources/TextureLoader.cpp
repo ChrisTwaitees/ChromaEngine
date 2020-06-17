@@ -51,6 +51,12 @@ namespace Chroma
 		return newTex;
 	}
 
+	void TextureLoader::Init()
+	{
+		// init
+		CHROMA_INFO("TEXTURE LOADER :: INITIALIZING.");
+	}
+
 	void TextureLoader::Update()
 	{
 		// Pop and Initialize uninitialized TextureDatas

@@ -12,6 +12,9 @@ namespace Chroma
 	class ResourceManager
 	{
 	public:
+		// Init
+		static void Init();
+
 		// Update
 		static void Update();
 

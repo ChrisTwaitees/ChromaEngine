@@ -18,6 +18,9 @@ namespace Chroma {
 	class ModelLoader
 	{
 	public:
+		// Init
+		static void Init();
+
 		static std::vector<MeshData> Load(std::string const& sourcePath);
 		static void LoadThreadSafe(std::string const& sourcePath, std::vector<MeshData>& meshList);
 		static void CalculateBBoxCentroid(MeshData& meshData);

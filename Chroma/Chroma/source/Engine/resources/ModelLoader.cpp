@@ -5,6 +5,12 @@ namespace Chroma
 {
 	std::string ModelLoader::m_SourceDir;
 
+	void ModelLoader::Init()
+	{
+		// init
+		CHROMA_INFO("MODEL LOADER :: INITIALIZING.");
+	}
+
 	// LOADING
 	std::vector<MeshData> ModelLoader::Load(std::string const& sourcePath)
 	{

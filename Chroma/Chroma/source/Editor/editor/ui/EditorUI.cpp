@@ -24,12 +24,14 @@ namespace Chroma
 	// Icons
 	int EditorUI::m_IconSize;
 
-	Texture EditorUI::m_LightsIcon{ "resources/icons/lights_icon.png" };
-	Texture EditorUI::m_LightSunIcon{ "resources/icons/light_sun.png" };
-	Texture EditorUI::m_LightPointIcon{ "resources/icons/light_point.png" };
-	
-	Texture EditorUI::m_ImportIcon{ "resources/icons/import_icon.png" };
-	Texture EditorUI::m_TextureIcon{ "resources/icons/texture_icon.png" };
+
+
+	Texture EditorUI::m_LightsIcon;
+	Texture EditorUI::m_LightSunIcon;
+	Texture EditorUI::m_LightPointIcon;
+
+	Texture EditorUI::m_ImportIcon;
+	Texture EditorUI::m_TextureIcon;
 
 
 	int EditorUI::m_ViewportWidth;
@@ -116,6 +118,15 @@ namespace Chroma
 		m_ViewportWindowFlags |= ImGuiWindowFlags_NoTitleBar;
 		//ViewportWindowFlags |= ImGuiWindowFlags_NoMove;
 		m_ViewportWindowFlags |= ImGuiWindowFlags_NoScrollbar;
+
+		// ICONS
+		m_LightsIcon = Texture( "resources/icons/lights_icon.png" );
+		m_LightSunIcon = Texture("resources/icons/light_sun.png"); 
+		m_LightPointIcon = Texture("resources/icons/light_point.png");
+		
+		m_ImportIcon = Texture("resources/icons/import_icon.png"); 
+		m_TextureIcon = Texture("resources/icons/texture_icon.png"); 
+
 
 		// GLOBAL
 		timeSpeed = 1.0f;
@@ -893,7 +904,8 @@ namespace Chroma
 	}
 	void EditorUI::Draw3DViewportTab()
 	{
-
+		// remove border
+		ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2{ 0 , 0 });
 		ImGui::Begin("Viewport", &EditorViewportOpen, m_ViewportWindowFlags);
 		{
 			// Settings
@@ -951,7 +963,7 @@ namespace Chroma
 				}
 				ImGui::EndChild();
 			}
-
+			ImGui::PopStyleVar();
 
 
 
