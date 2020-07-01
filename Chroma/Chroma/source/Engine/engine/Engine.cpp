@@ -152,6 +152,7 @@ namespace Chroma
 
 		// Resource Manager
 		Chroma::ResourceManager::Init();
+		CHROMA_INFO("Resource Manager Initialized.");
 
 		// Scene
 		Chroma::Scene::Init();

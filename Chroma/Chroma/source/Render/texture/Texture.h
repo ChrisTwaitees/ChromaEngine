@@ -26,10 +26,6 @@ struct TextureData
 
 	// Constructors
 	TextureData() {};
-	//TextureData(const TextureData& rhs); // copy
-	//TextureData& operator=(const TextureData& rhs); // copy
-	//TextureData(TextureData&& rhs); // copy
-	//~TextureData(); // delete
 
 	// Type
 	Chroma::Type::Texture type{Chroma::Type::Texture::kAlbedo};
