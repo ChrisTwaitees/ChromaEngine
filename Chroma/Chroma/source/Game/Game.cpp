@@ -71,11 +71,11 @@ int main()
 
 	// Lookdev Sphere
 	Texture lookdevAlbedo("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-	lookdevAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
+	lookdevAlbedo.SetType(Chroma::Type::Texture::kAlbedo);
 	Texture lookdevNormal("resources/textures/pbr/lookdev_pbr/normal.jpg");
-	lookdevNormal.m_Type = Chroma::Type::Texture::kNormal;
+	lookdevNormal.SetType(Chroma::Type::Texture::kNormal);
 	Texture lookdevMetRoughAO("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-	lookdevMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
+	lookdevMetRoughAO.SetType(Chroma::Type::Texture::kMetRoughAO);
 	// ____________________________________________________
 	// TEXTURES
 	// ____________________________________________________
@@ -85,24 +85,24 @@ int main()
 	Texture whiteAlbedo("resources/textures/colors/white.jpg");
 	Texture gridAlbedo("resources/animation/textures/grid.jpg");
 	Texture flatNormal("resources/textures/test/flat_normal.jpg");
-	flatNormal.m_Type = Chroma::Type::Texture::kNormal;
+	flatNormal.SetType(Chroma::Type::Texture::kNormal);
 	Texture alphaTestAlbedo("resources/textures/test/grass.png");
 
 	// Animated Model
 	Texture walkingAlbedo("resources/animation/vampire_textures/albedo.jpg");
-	walkingAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
+	walkingAlbedo.SetType(Chroma::Type::Texture::kAlbedo);
 	Texture walkingNormal("resources/animation/vampire_textures/normal.jpg");
-	walkingNormal.m_Type = Chroma::Type::Texture::kNormal;
+	walkingNormal.SetType(Chroma::Type::Texture::kNormal);
 	Texture walkingMetRoughAO("resources/animation/vampire_textures/MetRoughAO.jpg");
-	walkingMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
+	walkingMetRoughAO.SetType(Chroma::Type::Texture::kMetRoughAO);
 
 	// Floor Panels
 	Texture woodBoardsAlbedo("resources/textures/pbr/hardwood_pbr/albedo.jpg");
-	woodBoardsAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
+	woodBoardsAlbedo.SetType(Chroma::Type::Texture::kAlbedo);
 	Texture woodBoardsNormal("resources/textures/pbr/hardwood_pbr/normal.jpg");
-	woodBoardsNormal.m_Type = Chroma::Type::Texture::kNormal;
+	woodBoardsNormal.SetType(Chroma::Type::Texture::kNormal);
 	Texture woodBoardsMetRoughAO("resources/textures/pbr/hardwood_pbr/MetRoughAO.jpg");
-	woodBoardsMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
+	woodBoardsMetRoughAO.SetType(Chroma::Type::Texture::kMetRoughAO);
 	// ____________________________________________________
 
 	// ANIMATED MODEL

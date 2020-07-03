@@ -8,7 +8,7 @@ namespace Chroma
 	void ModelLoader::Init()
 	{
 		// init
-		CHROMA_INFO("MODEL LOADER :: INITIALIZING.");
+		CHROMA_INFO("MODEL LOADER :: INTIALIZED.");
 	}
 
 	// LOADING

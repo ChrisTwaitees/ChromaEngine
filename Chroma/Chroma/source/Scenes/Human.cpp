@@ -97,16 +97,10 @@ int main3()
 	//jacketMetRoughAO.m_Type = Texture::METROUGHAO;
 
 	// Head
-	Texture headAlbedo = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_albedo.jpg");
-	headAlbedo.m_Type = Chroma::Type::Texture::kAlbedo;
-	Texture headNormal = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_normal.jpg");
-	headNormal.m_Type = Chroma::Type::Texture::kNormal;
-	Texture headMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_metroughao.jpg");
-	headMetRoughAO.m_Type = Chroma::Type::Texture::kMetRoughAO;
-	Texture headTranslucency = Chroma::ResourceManager::LoadTexture("resources/human/textures/head/head_translucency.jpg");
-	headTranslucency.m_Type = Chroma::Type::Texture::kTranslucency;
-
-
+	Texture headAlbedo("resources/human/textures/head/head_albedo.jpg", Chroma::Type::Texture::kAlbedo);
+	Texture headNormal("resources/human/textures/head/head_normal.jpg", Chroma::Type::Texture::kNormal);
+	Texture headMetRoughAO("resources/human/textures/head/head_metroughao.jpg", Chroma::Type::Texture::kMetRoughAO);
+	Texture headTranslucency("resources/human/textures/head/head_translucency.jpg", Chroma::Type::Texture::kTranslucency);
 
 	// ____________________________________________________
 	// MODELS

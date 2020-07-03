@@ -39,13 +39,9 @@ public:
 	Texture(unsigned int newID);
 	Texture(std::string sourcePath);
 	Texture(std::string sourcePath, Chroma::Type::Texture type);
-	Texture(TextureData const& textData);
+	Texture(std::shared_ptr<TextureData> textData);
 	bool operator <(const Texture& rhs) const;
 
-	// Constructors
-	//Texture(const Texture& rhs); // copy
-	//Texture& operator=(const Texture& rhs); // copy
-	//Texture(Texture&& rhs); // copy
 	Texture() {};
 	~Texture();
 
@@ -53,18 +49,18 @@ public:
 	virtual void LoadFromFile(const std::string& sourcePath);
 
 	// texture data
-	TextureData& GetTextureData() { return m_TextureData; }
+	std::shared_ptr<TextureData>& GetTextureData() { return m_TextureData; }
 
 	// render id
 	unsigned int GetID();
-	virtual void SetID(const unsigned int& newID) { m_TextureData.ID = newID; m_TextureData.isLoaded = true; m_TextureData.isInitialized = true; };
+	virtual void SetID(const unsigned int& newID) { m_TextureData->ID = newID; m_TextureData->isLoaded = true; m_TextureData->isInitialized = true; };
 	virtual void SetID(Texture& refTexture);
 
 	// type
-	Chroma::Type::Texture GetType() { return m_TextureData.type; }
-	void SetType(const Chroma::Type::Texture& newType) { m_TextureData.type = newType; }
+	Chroma::Type::Texture GetType() { return m_TextureData->type; }
+	void SetType(const Chroma::Type::Texture& newType) { m_TextureData->type = newType; }
 
-	std::string GetSourcePath() { return m_TextureData.sourcePath; }
+	std::string GetSourcePath() { return m_TextureData->sourcePath; }
 
 	// draw
 	virtual void Bind();
@@ -74,10 +70,8 @@ public:
 	void Destroy();
 
 protected:
-
 	// TextureData
-	TextureData m_TextureData;
-	std::shared_ptr<TextureData> m_SharedTextureData{ std::make_shared<TextureData>() };
+	std::shared_ptr<TextureData> m_TextureData{ std::make_shared<TextureData>() };
 
 	// Init
 	virtual void InitializeTexture();

@@ -6,7 +6,7 @@ CubeMap::CubeMap(std::string cubeMapsDirectory)
 	m_TextureData = Chroma::TextureLoader::LoadCubeMapTextureData(cubeMapsDirectory);
 }
 
-CubeMap::CubeMap(TextureData const& textData)
+CubeMap::CubeMap(std::shared_ptr<TextureData> textData)
 {
 	m_TextureData = textData;
 }

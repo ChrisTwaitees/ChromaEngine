@@ -8,7 +8,7 @@ class CubeMap : public Texture
 {
 public:
 	CubeMap(std::string cubeMapsDirectory);
-	CubeMap(TextureData const& textData);
+	CubeMap(std::shared_ptr<TextureData> textData);
 	CubeMap() {};
 	~CubeMap();
 

@@ -238,6 +238,6 @@ void IBL::LoadIBL(std::string const& newHDRTexturePath)
 
 IBL::IBL()
 {
-	m_HDRtexture = Chroma::TextureLoader::LoadHDRTexture("resources/textures/ibl/grey_ibl/grey.hdr");
+	m_HDRtexture = Chroma::TextureLoader::LoadHDRTexture("resources/hdri/BasketballCourt_3k.hdr");
 	Initialize();
 }

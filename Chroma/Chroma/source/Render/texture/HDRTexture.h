@@ -6,7 +6,7 @@
 class HDRTexture :	public Texture
 {
 public:
-	HDRTexture(TextureData const& textData);
+	HDRTexture(std::shared_ptr<TextureData> textData);
 	HDRTexture(const std::string& sourcepath);
 	HDRTexture() {};
 	~HDRTexture();
