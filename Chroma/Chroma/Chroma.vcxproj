@@ -319,6 +319,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="source\Editor\editor\ui\IGizmo.cpp" />
     <ClCompile Include="source\Engine\animation\SkeletonUtils.cpp" />
     <ClCompile Include="source\Engine\component\animation\AnimConstraintComponent.cpp" />
     <ClCompile Include="source\Engine\component\animation\IKAnimConstraint.cpp" />
@@ -421,10 +422,12 @@
     <ClCompile Include="source\Scenes\Human.cpp" />
     <ClCompile Include="source\Scenes\LookDevScene.cpp" />
     <ClCompile Include="source\Render\ubo\UniformBuffer.cpp" />
+    <ClCompile Include="source\Editor\editor\ui\TranslateGizmo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="source\Editor\editor\ui\IGizmo.h" />
     <ClInclude Include="source\Editor\editor\EditorProperty.h" />
     <ClInclude Include="source\Engine\animation\SkeletonUtils.h" />
     <ClInclude Include="source\Engine\component\animation\AnimConstraintComponent.h" />
@@ -529,6 +532,7 @@
     <ClInclude Include="source\Render\ui\core\UI.h" />
     <ClInclude Include="source\Render\ui\uicomponents\Icon.h" />
     <ClInclude Include="source\Render\ubo\UniformBuffer.h" />
+    <ClInclude Include="source\Editor\editor\ui\TranslateGizmo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl" />

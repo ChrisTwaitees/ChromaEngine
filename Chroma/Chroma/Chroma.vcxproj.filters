@@ -504,6 +504,12 @@
     <ClCompile Include="source\Render\ubo\UniformBufferLighting.cpp">
       <Filter>Render\ubo</Filter>
     </ClCompile>
+    <ClCompile Include="source\Editor\editor\ui\IGizmo.cpp">
+      <Filter>Editor\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Editor\editor\ui\TranslateGizmo.cpp">
+      <Filter>Editor\ui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -823,6 +829,12 @@
     </ClInclude>
     <ClInclude Include="source\Engine\threading\ThreadSafeQueue.h">
       <Filter>Engine\threading</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\editor\ui\IGizmo.h">
+      <Filter>Editor\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Editor\editor\ui\TranslateGizmo.h">
+      <Filter>Editor\ui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
