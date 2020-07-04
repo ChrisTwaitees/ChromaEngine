@@ -821,9 +821,6 @@
     <ClInclude Include="source\Engine\time\Timer.h">
       <Filter>Engine\time</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\texture\TextureAsync.h">
-      <Filter>Render\texture</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\threading\ThreadSafeQueue.h">
       <Filter>Engine\threading</Filter>
     </ClInclude>

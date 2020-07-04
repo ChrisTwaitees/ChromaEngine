@@ -18,8 +18,9 @@ namespace Chroma
 		// event types
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
-		KeyPressed, KeyReleased,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+		AppTick, AppUpdate, AppRender,
+		KeyPressed, KeyReleased, KeyHold,
+		MouseButtonPressed, MouseButtonReleased, MouseButtonHold, MouseMoved, MouseScrolled
 	};
 
 	enum EventCategory
