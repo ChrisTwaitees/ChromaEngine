@@ -24,15 +24,12 @@ namespace Chroma
 	// Icons
 	int EditorUI::m_IconSize;
 
-
-
 	Texture EditorUI::m_LightsIcon;
 	Texture EditorUI::m_LightSunIcon;
 	Texture EditorUI::m_LightPointIcon;
 
 	Texture EditorUI::m_ImportIcon;
 	Texture EditorUI::m_TextureIcon;
-
 
 	int EditorUI::m_ViewportWidth;
 	int EditorUI::m_ViewportHeight;
@@ -43,6 +40,9 @@ namespace Chroma
 	std::string EditorUI::m_SelectedObjectString;
 	UID EditorUI::m_SelectedObjectUID;
 	bool EditorUI::m_SceneTreeNodeExpanded;
+
+	// Gizmos
+	TranslateGizmo EditorUI::m_TranslateGizmo;
 
 	// MENUS
 	char EditorUI::m_SceneName[128];
@@ -127,6 +127,8 @@ namespace Chroma
 		m_ImportIcon = Texture("resources/icons/import_icon.png"); 
 		m_TextureIcon = Texture("resources/icons/texture_icon.png"); 
 
+		// GIZMOS
+		m_TranslateGizmo.Init();
 
 		// GLOBAL
 		timeSpeed = 1.0f;

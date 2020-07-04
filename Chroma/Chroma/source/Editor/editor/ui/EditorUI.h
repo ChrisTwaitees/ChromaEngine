@@ -4,7 +4,7 @@
 
 #include <UI/core/UI.h>
 #include <uid/UID.h>
-
+#include <editor/ui/TranslateGizmo.h>
 
 
 namespace Chroma
@@ -22,6 +22,7 @@ namespace Chroma
 		static std::pair<int, int> GetViewportDimensions();
 		static bool m_Bloom;
 		static bool m_IconsVisible;
+		static TranslateGizmo m_TranslateGizmo;
 
 
 	private:
