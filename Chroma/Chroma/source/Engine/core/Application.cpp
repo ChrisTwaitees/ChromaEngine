@@ -32,7 +32,9 @@ namespace Chroma
 		Engine::Init();
 
 		// editor
+#ifdef EDITOR
 		Editor::Init();
+#endif
 
 		// scene
 		Scene::PreSceneBuild();
@@ -53,6 +55,8 @@ namespace Chroma
 	void Application::OnEvent(Event& e)
 	{
 		CHROMA_PROFILE_FUNCTION();
+
+		CHROMA_INFO(e);
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(CHROMA_BIND_EVENT_FN(Application::OnWindowClose));
@@ -80,9 +84,9 @@ namespace Chroma
 			// EDITOR TICK
 			Chroma::Editor::OnUpdate();
 
+			// poll events and swap buffers
 			m_Window->OnUpdate();
 		}
-
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& e)
@@ -94,8 +98,12 @@ namespace Chroma
 
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
-		CHROMA_INFO("Dispatching a WindowResize Command");
-		return false;
+#ifdef EDITOR
+		Chroma::EditorUI::ResizeEditorUI((int)e.GetWidth(), (int)e.GetHeight());
+#else
+		Render::ResizeBuffers((int)e.GetWidth(), (int)e.GetHeight());
+#endif
+		return true;
 	}
 
 	bool Application::OnKeyPressed(KeyPressedEvent& e)

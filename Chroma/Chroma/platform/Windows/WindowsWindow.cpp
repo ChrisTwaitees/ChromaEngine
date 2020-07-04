@@ -56,15 +56,6 @@ namespace Chroma
 		if (Render::GetAPI() == Render::API::OpenGL)
 			glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
 		#endif
-		
-		// configuring glfw window
-		if (Render::GetAPI() == Render::API::OpenGL)
-		{
-			//glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-			//glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
-			//glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-			//glfwWindowHint(GLFW_SAMPLES, MSAA_SAMPLES);
-		}
 
 		// create window
 		CHROMA_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
