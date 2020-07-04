@@ -9,27 +9,31 @@
 #include <animation/AnimationStateMachine.h>
 #include <time/Time.h>
 
-class AnimationComponent : public IComponent
+namespace Chroma
 {
-public:
-	void Init() override;
-	void Update() override;
-	void Destroy() override;
-	void Serialize(ISerializer*& serializer ) override;
 
-	void SetAnimator(Animator& newAnimator);
-	void SetAnimationStateMachine(AnimationStateMachine*& newAnimationStateMachine);
-	AnimationStateMachine*& GetAnimationStateMachine() { return m_AnimationStateMachine; };
+	class AnimationComponent : public IComponent
+	{
+	public:
+		void Init() override;
+		void Update() override;
+		void Destroy() override;
+		void Serialize(ISerializer*& serializer ) override;
 
-	Animator& GetAnimator() { return m_Animator; };
+		void SetAnimator(Animator& newAnimator);
+		void SetAnimationStateMachine(AnimationStateMachine*& newAnimationStateMachine);
+		AnimationStateMachine*& GetAnimationStateMachine() { return m_AnimationStateMachine; };
 
-	AnimationComponent();
-	~AnimationComponent();
+		Animator& GetAnimator() { return m_Animator; };
 
-private:
-	Animator m_Animator;
-	AnimationStateMachine* m_AnimationStateMachine{nullptr};
-	void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
-};
+		AnimationComponent();
+		~AnimationComponent();
 
+	private:
+		Animator m_Animator;
+		AnimationStateMachine* m_AnimationStateMachine{nullptr};
+		void UpdateDebug(std::string const& debugAnimClipName, float const& debugTime);
+	};
+
+}
 #endif

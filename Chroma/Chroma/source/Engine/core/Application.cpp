@@ -20,7 +20,7 @@ namespace Chroma
 		// logging
 		Log::Init();
 
-		// TEMP
+		// TODO: set render api through metadata
 		Render::SetAPI(Render::API::OpenGL);
 
 		// create window
@@ -63,6 +63,8 @@ namespace Chroma
 		dispatcher.Dispatch<WindowResizeEvent>(CHROMA_BIND_EVENT_FN(Application::OnWindowResize));
 		dispatcher.Dispatch<KeyPressedEvent>(CHROMA_BIND_EVENT_FN(Application::OnKeyPressed));
 
+		Scene::OnEvent(e);
+
 	}
 
 	void Application::Close()
@@ -79,10 +81,10 @@ namespace Chroma
 			CHROMA_PROFILE_SCOPE("Main Run Loop");
 			
 			// ENGINE TICK
-			Chroma::Engine::OnUpdate();
+			Engine::OnUpdate();
 
 			// EDITOR TICK
-			Chroma::Editor::OnUpdate();
+			Editor::OnUpdate();
 
 			// poll events and swap buffers
 			m_Window->OnUpdate();
@@ -99,7 +101,7 @@ namespace Chroma
 	bool Application::OnWindowResize(WindowResizeEvent& e)
 	{
 #ifdef EDITOR
-		Chroma::EditorUI::ResizeEditorUI((int)e.GetWidth(), (int)e.GetHeight());
+		EditorUI::ResizeEditorUI((int)e.GetWidth(), (int)e.GetHeight());
 #else
 		Render::ResizeBuffers((int)e.GetWidth(), (int)e.GetHeight());
 #endif

@@ -6,37 +6,40 @@
 #include <serialization/ISerializer.h>
 #include <scene/Scene.h>
 
-class JSONScene : public JSON
+namespace Chroma
 {
-public:
-	// ECS
-	void AddNewEntity(ISerializer*& serialized);
-	void AddNewComponent(ISerializer*& serialized);
+	class JSONScene : public JSON
+	{
+	public:
+		// ECS
+		void AddNewEntity(ISerializer*& serialized);
+		void AddNewComponent(ISerializer*& serialized);
 
-	// Scene Entities
-	void AddIBL(IBL* ibl);
+		// Scene Entities
+		void AddIBL(IBL* ibl);
 
-	rapidjson::Value& GetRoot();
-	rapidjson::Value& GetLevel();
-	rapidjson::Value& GetEntities();
-	rapidjson::Value& GetComponents();
-	rapidjson::Value& GetIBL();
+		rapidjson::Value& GetRoot();
+		rapidjson::Value& GetLevel();
+		rapidjson::Value& GetEntities();
+		rapidjson::Value& GetComponents();
+		rapidjson::Value& GetIBL();
 
-	JSONScene();
-	JSONScene(const char* loadScenePath);
-	~JSONScene() {};
+		JSONScene();
+		JSONScene(const char* loadScenePath);
+		~JSONScene() {};
 
-private:
-	rapidjson::Value m_RootObject{ rapidjson::kObjectType };
-	rapidjson::Value m_LevelObject{ rapidjson::kObjectType };
-	rapidjson::Value m_EntitiesObject{ rapidjson::kObjectType };
-	rapidjson::Value m_ComponentsObject{ rapidjson::kObjectType };
+	private:
+		rapidjson::Value m_RootObject{ rapidjson::kObjectType };
+		rapidjson::Value m_LevelObject{ rapidjson::kObjectType };
+		rapidjson::Value m_EntitiesObject{ rapidjson::kObjectType };
+		rapidjson::Value m_ComponentsObject{ rapidjson::kObjectType };
 
-	void SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonValue);
-	void SerializeEntity(ISerializer*& serialized, rapidjson::Value& jsonValue);
-	void SerializeComponent(ISerializer*& serialized, rapidjson::Value& jsonValue);
-	void SerializeMaterialTypes(ISerializer*& serialized, rapidjson::Value& jsonValue);
-};
+		void SerializeTypes(ISerializer*& serialized, rapidjson::Value& jsonValue);
+		void SerializeEntity(ISerializer*& serialized, rapidjson::Value& jsonValue);
+		void SerializeComponent(ISerializer*& serialized, rapidjson::Value& jsonValue);
+		void SerializeMaterialTypes(ISerializer*& serialized, rapidjson::Value& jsonValue);
+	};
+}
 
 #define CHROMA_ROOT                  "Root"
 #define CHROMA_LEVEL                 "Level"

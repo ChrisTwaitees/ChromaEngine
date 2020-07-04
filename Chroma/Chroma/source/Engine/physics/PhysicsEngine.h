@@ -15,30 +15,31 @@
 #include <buffer/DebugBuffer.h>
 #include <common/CoreCommon.h>
 
-class IEntity;
-
-struct CollisionData
-{
-	glm::vec3 m_ColliderAContactPoint{0.0f};
-	glm::vec3 m_ColliderBContactPoint{ 0.0f };
-
-	glm::vec3 m_ColliderBContactNormal{ 0.0f };
-
-	ColliderState m_ColliderAState;
-	ColliderState m_ColliderBState;
-};
-
-struct RayHitData
-{
-	bool m_Hit{false};
-	glm::vec3 m_RayStart{ 0.0f };
-	glm::vec3 m_RayHitPosition{ 0.0f };
-	glm::vec3 m_RayHitNormal{ 0.0f };
-};
-
 
 namespace Chroma
 {
+	class IEntity;
+
+	struct CollisionData
+	{
+		glm::vec3 m_ColliderAContactPoint{0.0f};
+		glm::vec3 m_ColliderBContactPoint{ 0.0f };
+
+		glm::vec3 m_ColliderBContactNormal{ 0.0f };
+
+		ColliderState m_ColliderAState;
+		ColliderState m_ColliderBState;
+	};
+
+	struct RayHitData
+	{
+		bool m_Hit{false};
+		glm::vec3 m_RayStart{ 0.0f };
+		glm::vec3 m_RayHitPosition{ 0.0f };
+		glm::vec3 m_RayHitNormal{ 0.0f };
+	};
+
+
 	class Physics
 	{
 	public:
@@ -95,7 +96,5 @@ namespace Chroma
 		static void UpdateGravity();
 	};
 }
-
-
 
 #endif

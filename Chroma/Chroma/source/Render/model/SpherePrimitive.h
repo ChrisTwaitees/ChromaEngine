@@ -7,7 +7,7 @@
 #include <model/StaticMesh.h>
 
 
-class SpherePrimitive : public StaticMesh
+class SpherePrimitive : public Chroma::StaticMesh
 {
 public:
 	// ctor/dtor

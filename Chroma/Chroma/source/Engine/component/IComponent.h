@@ -11,52 +11,55 @@
 
 
 // forward declarations
-class IEntity;
 
-class IComponent
+namespace Chroma
 {
-public:
-	// Functions
-	virtual void Init() = 0;
-	virtual void Update() = 0;
-	virtual void Destroy() = 0;
-	virtual void Serialize(ISerializer*& serializer) = 0;
+	class IEntity;
+	class IComponent
+	{
+	public:
+		// Functions
+		virtual void Init() = 0;
+		virtual void Update() = 0;
+		virtual void Destroy() = 0;
+		virtual void Serialize(ISerializer*& serializer) = 0;
 
-	// Acessors
-	// UID
-	UID GetUID() const { return m_UID; };
-	void SetUID(const UID& newUID) { m_UID = newUID; };
+		// Acessors
+		// UID
+		UID GetUID() const { return m_UID; };
+		void SetUID(const UID& newUID) { m_UID = newUID; };
 
-	// Type
-	virtual Chroma::Type::Component GetType() { return m_Type; };
-	virtual std::string GetTypeName() { return Chroma::Type::GetName(m_Type); };
+		// Type
+		virtual Chroma::Type::Component GetType() { return m_Type; };
+		virtual std::string GetTypeName() { return Chroma::Type::GetName(m_Type); };
 
-	// Name
-	std::string GetName() const { return m_Name; };
-	void SetName(std::string newName) { m_Name = newName; };
+		// Name
+		std::string GetName() const { return m_Name; };
+		void SetName(std::string newName) { m_Name = newName; };
 
-	// Entity
-	IEntity* GetParentEntity() const;
-	UID GetParentEntityUID() const;
-	std::string GetParentEntityName() const;
-	virtual void SetParentEntityUID(UID const& newParentEntityUID) { m_ParentEntityUID = newParentEntityUID; }
+		// Entity
+		IEntity* GetParentEntity() const;
+		UID GetParentEntityUID() const;
+		std::string GetParentEntityName() const;
+		virtual void SetParentEntityUID(UID const& newParentEntityUID) { m_ParentEntityUID = newParentEntityUID; }
 
-	IComponent();
-	virtual ~IComponent() {};
+		IComponent();
+		virtual ~IComponent() {};
 
-protected:
-	// UID
-	UID m_UID;
+	protected:
+		// UID
+		UID m_UID;
 
-	//Name
-	std::string m_Name;
+		//Name
+		std::string m_Name;
 
-	// Serialization
-	Chroma::Type::Component m_Type{ Chroma::Type::Component::kIComponent };
+		// Serialization
+		Chroma::Type::Component m_Type{ Chroma::Type::Component::kIComponent };
 
-	// Parent
-	UID m_ParentEntityUID;
-};
+		// Parent
+		UID m_ParentEntityUID;
+	};
+}
 
 
 

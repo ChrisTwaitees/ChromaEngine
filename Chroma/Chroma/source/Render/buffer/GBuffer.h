@@ -11,55 +11,59 @@
 #include <model/Model.h>
 
 
-class GBuffer : public IFramebuffer
+namespace Chroma
 {
-public:
-	// functions
-	void Draw() override;
-	void ResizeBuffers() override;
 
-	inline unsigned int GetSSAOTexture() const { return m_SSAOBuffer->GetTexture(); }
+	class GBuffer : public IFramebuffer
+	{
+	public:
+		// functions
+		void Draw() override;
+		void ResizeBuffers() override;
 
-	// structors
-	GBuffer(IFramebuffer*& m_PostFXBuffer);
-	~GBuffer();
+		inline unsigned int GetSSAOTexture() const { return m_SSAOBuffer->GetTexture(); }
 
-private:
-	// shaders
-	const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
-	const char* vtxLightingSoure{ "resources/shaders/frameBufferVertex.glsl" };
-	Shader m_lightingPassShader{ fragLightingPass, vtxLightingSoure };
+		// structors
+		GBuffer(IFramebuffer*& m_PostFXBuffer);
+		~GBuffer();
 
-	const char* fragGeometryPass{ "resources/shaders/fragGBufferGeometry.glsl" };
-	const char* vtxGeometrySource{ "resources/shaders/vertexGBufferLit.glsl" };
-	Shader m_geometryPassShader{ fragGeometryPass, vtxGeometrySource };
+	private:
+		// shaders
+		const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
+		const char* vtxLightingSoure{ "resources/shaders/frameBufferVertex.glsl" };
+		Shader m_lightingPassShader{ fragLightingPass, vtxLightingSoure };
 
-
-	// buffers
-	IFramebuffer* m_SSAOBuffer{ new SSAOBuffer };
-
-	// scene
-	IFramebuffer* m_PostFXBuffer;
-
-	// functions
-	void Initialize() override;
-	void BindGBufferTextures();
-
-	// gbuffer textures
-	unsigned int gPosition, gViewPosition, gViewNormal, gFragPosLightSpace;
-	unsigned int gAlbedo, gNormal, gMetRoughAO;
-	unsigned int gDepth;
-
-	// passes
-	void DrawGeometryPass();
-	void DrawLightingPass();
-	void BlitDepthBuffer();
-
-	// uniforms
-	void ConfigureShaders();
-	void UpdateTransformUniforms() override;
+		const char* fragGeometryPass{ "resources/shaders/fragGBufferGeometry.glsl" };
+		const char* vtxGeometrySource{ "resources/shaders/vertexGBufferLit.glsl" };
+		Shader m_geometryPassShader{ fragGeometryPass, vtxGeometrySource };
 
 
-};
+		// buffers
+		IFramebuffer* m_SSAOBuffer{ new SSAOBuffer };
+
+		// scene
+		IFramebuffer* m_PostFXBuffer;
+
+		// functions
+		void Initialize() override;
+		void BindGBufferTextures();
+
+		// gbuffer textures
+		unsigned int gPosition, gViewPosition, gViewNormal, gFragPosLightSpace;
+		unsigned int gAlbedo, gNormal, gMetRoughAO;
+		unsigned int gDepth;
+
+		// passes
+		void DrawGeometryPass();
+		void DrawLightingPass();
+		void BlitDepthBuffer();
+
+		// uniforms
+		void ConfigureShaders();
+		void SetTransformUniforms() override;
+
+
+	};
+}
 
 #endif

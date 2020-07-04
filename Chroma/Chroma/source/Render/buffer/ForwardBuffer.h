@@ -5,24 +5,27 @@
 
 #include <ibl/IBL.h>
 
-class ForwardBuffer : public IFramebuffer
+namespace Chroma
 {
-	// scene
-	IFramebuffer* m_PostFXBuffer{ nullptr };
+	class ForwardBuffer : public IFramebuffer
+	{
+		// scene
+		IFramebuffer* m_PostFXBuffer{ nullptr };
 
-	// functions
-	void Initialize() override;
+		// functions
+		void Initialize() override;
 
-	void RenderForwardComponents();
-	void RenderTransparency();
-	void DrawQuad();
+		void RenderForwardComponents();
+		void RenderTransparency();
+		void DrawQuad();
 
-public:
-	void Draw() override;
-	void ResizeBuffers() override;
+	public:
+		void Draw() override;
+		void ResizeBuffers() override;
 
-	ForwardBuffer(IFramebuffer* const& postFXBuffer);
-	~ForwardBuffer();
-};
+		ForwardBuffer(IFramebuffer* const& postFXBuffer);
+		~ForwardBuffer();
+	};
+}
 
 #endif

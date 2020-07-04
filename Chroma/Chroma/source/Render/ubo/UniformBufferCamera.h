@@ -4,21 +4,24 @@
 
 #include <ubo/UniformBuffer.h>
 
-class UniformBufferCamera : public UniformBuffer
+namespace Chroma
 {
-public:
+	class UniformBufferCamera : public UniformBuffer
+	{
+	public:
 
-	UniformBufferCamera() { m_Name = "CameraUBO"; 	Setup();};
-	~UniformBufferCamera() {};
+		UniformBufferCamera() { m_Name = "CameraUBO"; 	Setup();};
+		~UniformBufferCamera() {};
 
-	void Update() override;
+		void Update() override;
 
-private:
+	private:
 
-	void Setup() override;
+		void Setup() override;
 
 
-};
+	};
+}
 
 
 #endif// CHROMA_UNIFORMBUFFER_CAMERA_H

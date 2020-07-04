@@ -3,13 +3,17 @@
 
 
 #include <editor/ui/IGizmo.h>
-class TranslateGizmo :	public IGizmo
-{
-public:
-	TranslateGizmo();
-	void Init() override;
-private:
 
-};
+namespace Chroma
+{
+	class TranslateGizmo :	public IGizmo
+	{
+	public:
+		TranslateGizmo();
+		void Init() override;
+	private:
+
+	};
+}
 
 #endif // CHROMA_TRANSLATEGIZMO_H

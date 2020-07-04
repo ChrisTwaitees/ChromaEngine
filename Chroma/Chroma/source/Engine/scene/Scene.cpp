@@ -2,6 +2,7 @@
 #include <model/Model.h>
 #include <render/Render.h>
 
+
 namespace Chroma
 {
 	// Scene Contents
@@ -243,6 +244,11 @@ namespace Chroma
 
 		// timing
 		m_SceneBuildStartTime = std::chrono::high_resolution_clock::now();
+	}
+
+	void Scene::OnEvent(Event& e)
+	{
+		m_RenderCamera->OnEvent(e);
 	}
 
 	void Scene::PostSceneBuild()

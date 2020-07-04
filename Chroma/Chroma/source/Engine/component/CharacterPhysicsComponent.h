@@ -3,16 +3,18 @@
 
 #include <component/PhysicsComponent.h>
 
-
-class CharacterPhysicsComponent : public PhysicsComponent
+namespace Chroma
 {
-public:
-	void Init() override;
+	class CharacterPhysicsComponent : public PhysicsComponent
+	{
+	public:
+		void Init() override;
 
 
-	CharacterPhysicsComponent() {};
-	~CharacterPhysicsComponent() {};
-protected:
-};
+		CharacterPhysicsComponent() {};
+		~CharacterPhysicsComponent() {};
+	protected:
+	};
+}
 
 #endif //CHROMA_CHARACTER_PHYSICS_COMPONENT_H

@@ -38,7 +38,6 @@ struct NormalizedTimer01
 		return rhs.m_StartTime > m_StartTime;
 	}
 
-	NormalizedTimer01();
 	NormalizedTimer01(float& Duration)
 	{
 		m_StartTime = Duration;

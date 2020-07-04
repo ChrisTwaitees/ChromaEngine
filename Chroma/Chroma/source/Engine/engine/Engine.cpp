@@ -12,7 +12,7 @@ namespace Chroma
 	{
 		CHROMA_PROFILE_FUNCTION();
 		// Scene
-		Chroma::Scene::Update();
+		Scene::Update();
 
 
 		// Physics
@@ -22,7 +22,7 @@ namespace Chroma
 		UpdateComponents();
 		
 		// Resources 
-		Chroma::ResourceManager::Update();
+		ResourceManager::Update();
 
 	}
 
@@ -60,37 +60,36 @@ namespace Chroma
 		//	}});
 
 		// Animation Components
-		for (UID const& ComponentUID : Chroma::Scene::GetAnimationComponentUIDs())
+		for (UID const& ComponentUID : Scene::GetAnimationComponentUIDs())
 		{
-			Chroma::Scene::GetComponent(ComponentUID)->Update();
+			Scene::GetComponent(ComponentUID)->Update();
 		}
 
 		// Character Controller Components
-		for (UID const& ComponentUID : Chroma::Scene::GetCharacterControllerUIDs())
+		for (UID const& ComponentUID : Scene::GetCharacterControllerUIDs())
 		{
-			Chroma::Scene::GetComponent(ComponentUID)->Update();
+			Scene::GetComponent(ComponentUID)->Update();
 		}
 
 		// IK Components
-		for (UID const& ComponentUID : Chroma::Scene::GetIKComponentUIDs())
+		for (UID const& ComponentUID : Scene::GetIKComponentUIDs())
 		{
-			Chroma::Scene::GetComponent(ComponentUID)->Update();
+			Scene::GetComponent(ComponentUID)->Update();
 		}
 
 		// UI Components
-		for (UID const& ComponentUID : Chroma::Scene::GetUIComponentUIDs())
+		for (UID const& ComponentUID : Scene::GetUIComponentUIDs())
 		{
-			Chroma::Scene::GetComponent(ComponentUID)->Update();
+			Scene::GetComponent(ComponentUID)->Update();
 		}
 	}
 
 	void Engine::Draw()
 	{
 		CHROMA_PROFILE_FUNCTION();
-		Chroma::Render::RenderScene();
+		Render::RenderScene();
 
-		Chroma::UI::Draw();
-		//Chroma::Screen::Update();
+		UI::Draw();
 	}
 
 	void Engine::OnUpdate()
@@ -103,7 +102,7 @@ namespace Chroma
 #endif
 		CHROMA_PROFILE_FUNCTION();
 		// update time
-		Chroma::Time::Update();
+		Time::Update();
 
 		// process input
 		ProcessInput();
@@ -120,7 +119,7 @@ namespace Chroma
 		// consider Sleep if Render misaligning with update https://dewitters.com/dewitters-gameloop/
 
 		// Render Scene
-		Chroma::JobSystem::Wait();
+		JobSystem::Wait();
 		Draw();
 
 #ifdef DEBUG
@@ -140,30 +139,29 @@ namespace Chroma
 	void Engine::Init()
 	{
 		// job system
-		Chroma::JobSystem::Initialize();
+		JobSystem::Initialize();
 
 		// resource manager
-		Chroma::ResourceManager::Init();
+		ResourceManager::Init();
 
 		// scene
-		Chroma::Scene::Init();
+		Scene::Init();
 
 		// Time
-		Chroma::JobSystem::Execute(Chroma::Time::Init);
+		JobSystem::Execute(Time::Init);
 		CHROMA_INFO("Time Initialized.");
 
 		// Renderer
-		Chroma::Render::Init();
-		CHROMA_INFO("Renderer Initialized.");
+		Render::Init();
 
 		// GUI
-		Chroma::JobSystem::Execute(Chroma::UI::Init);
+		JobSystem::Execute(UI::Init);
 		CHROMA_INFO("GUI Initialized.");
 
 		// PhysicsEngine
-		Chroma::JobSystem::Execute(Chroma::Physics::Init);
-		Chroma::JobSystem::Wait();
-		Chroma::Physics::BindDebugBuffer(Chroma::Render::GetDebugBuffer());
+		JobSystem::Execute(Physics::Init);
+		JobSystem::Wait();
+		Physics::BindDebugBuffer(Render::GetDebugBuffer());
 		CHROMA_INFO("Physics Initialized.");
 
 		// Final

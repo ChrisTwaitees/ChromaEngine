@@ -3,112 +3,113 @@
 #include <math/Math.h>
 
 
-
-// callbacks
-struct ChromaSimpleContactResultCallback : public btCollisionWorld::ContactResultCallback
-{
-	btVector3 ptA;
-	btVector3 ptB;
-
-	btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
-		ptA = cp.getPositionWorldOnA();
-		ptB = cp.getPositionWorldOnB();
-		return 0.0;
-	}
-
-	bool hasHit()
-	{
-		if (glm::length(BulletToGLM(ptA) - BulletToGLM(ptB)) < 0.05)
-		{
-			return true;
-		}
-		return false;
-	}
-};
-
-struct ChromaContactResultCallback : public btCollisionWorld::ContactResultCallback
-{
-	//! Constructor, pass whatever context you want to have available when processing contacts
-	/*! You may also want to set m_collisionFilterGroup and m_collisionFilterMask
-	 * (supplied by the superclass) for needsCollision() */
-	ChromaContactResultCallback(btRigidBody& tgtBody, std::vector<CollisionData>& collisionData /*, ... */)
-		: btCollisionWorld::ContactResultCallback(), body(tgtBody), collisionData(collisionData){ }
-
-	btRigidBody& body; //!< The body the sensor is monitoring
-	std::vector<CollisionData>& collisionData;
-
-	//! If you don't want to consider collisions where the bodies are joined by a constraint, override needsCollision:
-	/*! However, if you use a btCollisionObject for #body instead of a btRigidBody,
-	 * then this is unnecessary—checkCollideWithOverride isn't available */
-	virtual bool needsCollision(btBroadphaseProxy* proxy) const {
-		// superclass will check m_collisionFilterGroup and m_collisionFilterMask
-		if (!btCollisionWorld::ContactResultCallback::needsCollision(proxy))
-			return false;
-		// if passed filters, may also want to avoid contacts between constraints
-		return body.checkCollideWithOverride(static_cast<btCollisionObject*>(proxy->m_clientObject));
-	}
-
-	//! Called with each contact for your own processing (e.g. test if contacts fall in within sensor parameters)
-	virtual btScalar addSingleResult(btManifoldPoint& cp,
-		const btCollisionObjectWrapper* colObj0, int partId0, int index0,
-		const btCollisionObjectWrapper* colObj1, int partId1, int index1)
-	{
-		CollisionData newColData;
-
-		// fetching contact points and collider normal
-		newColData.m_ColliderAContactPoint = BulletToGLM(cp.getPositionWorldOnA());
-		newColData.m_ColliderBContactPoint = BulletToGLM(cp.getPositionWorldOnB());
-		newColData.m_ColliderBContactNormal = BulletToGLM(cp.m_normalWorldOnB);
-
-		// fetching collision tags
-		// colA
-		if (colObj0->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_STATIC_OBJECT)
-			newColData.m_ColliderAState = Static;
-		else if (colObj0->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_KINEMATIC_OBJECT)
-			newColData.m_ColliderAState = Kinematic;
-		else
-			newColData.m_ColliderAState = Dynamic;
-
-		// colB
-		if (colObj1->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_STATIC_OBJECT)
-			newColData.m_ColliderBState = Static;
-
-		else if (colObj1->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_KINEMATIC_OBJECT)
-			newColData.m_ColliderBState = Kinematic;
-		else
-			newColData.m_ColliderBState = Dynamic;
-
-		// push back new collision data
-		collisionData.push_back(newColData);
-		return 0.0;
-	}
-};
-
-class ClosestNotMeRayResultCallback : public btCollisionWorld::ClosestRayResultCallback
-{
-public:
-	ClosestNotMeRayResultCallback(btCollisionObject* me);
-	virtual btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace);
-protected:
-	btCollisionObject* m_me;
-};
-
-ClosestNotMeRayResultCallback::ClosestNotMeRayResultCallback (btCollisionObject* me) 
-	: ClosestRayResultCallback(btVector3(0.0, 0.0, 0.0), btVector3(0.0, 0.0, 0.0))
-{
-	m_me = me;
-}
-
-btScalar ClosestNotMeRayResultCallback::addSingleResult(btCollisionWorld::LocalRayResult& rayResult,bool normalInWorldSpace)
-{
-	if (rayResult.m_collisionObject == m_me)
-		return 1.0;
-
-	return ClosestNotMeRayResultCallback::ClosestRayResultCallback::addSingleResult (rayResult, normalInWorldSpace);
-}
-
 namespace Chroma
 {
+
+	// callbacks
+	struct ChromaSimpleContactResultCallback : public btCollisionWorld::ContactResultCallback
+	{
+		btVector3 ptA;
+		btVector3 ptB;
+
+		btScalar addSingleResult(btManifoldPoint& cp, const btCollisionObjectWrapper* colObj0Wrap, int partId0, int index0, const btCollisionObjectWrapper* colObj1Wrap, int partId1, int index1) {
+			ptA = cp.getPositionWorldOnA();
+			ptB = cp.getPositionWorldOnB();
+			return 0.0;
+		}
+
+		bool hasHit()
+		{
+			if (glm::length(BulletToGLM(ptA) - BulletToGLM(ptB)) < 0.05)
+			{
+				return true;
+			}
+			return false;
+		}
+	};
+
+	struct ChromaContactResultCallback : public btCollisionWorld::ContactResultCallback
+	{
+		//! Constructor, pass whatever context you want to have available when processing contacts
+		/*! You may also want to set m_collisionFilterGroup and m_collisionFilterMask
+		 * (supplied by the superclass) for needsCollision() */
+		ChromaContactResultCallback(btRigidBody& tgtBody, std::vector<CollisionData>& collisionData /*, ... */)
+			: btCollisionWorld::ContactResultCallback(), body(tgtBody), collisionData(collisionData){ }
+
+		btRigidBody& body; //!< The body the sensor is monitoring
+		std::vector<CollisionData>& collisionData;
+
+		//! If you don't want to consider collisions where the bodies are joined by a constraint, override needsCollision:
+		/*! However, if you use a btCollisionObject for #body instead of a btRigidBody,
+		 * then this is unnecessary—checkCollideWithOverride isn't available */
+		virtual bool needsCollision(btBroadphaseProxy* proxy) const {
+			// superclass will check m_collisionFilterGroup and m_collisionFilterMask
+			if (!btCollisionWorld::ContactResultCallback::needsCollision(proxy))
+				return false;
+			// if passed filters, may also want to avoid contacts between constraints
+			return body.checkCollideWithOverride(static_cast<btCollisionObject*>(proxy->m_clientObject));
+		}
+
+		//! Called with each contact for your own processing (e.g. test if contacts fall in within sensor parameters)
+		virtual btScalar addSingleResult(btManifoldPoint& cp,
+			const btCollisionObjectWrapper* colObj0, int partId0, int index0,
+			const btCollisionObjectWrapper* colObj1, int partId1, int index1)
+		{
+			CollisionData newColData;
+
+			// fetching contact points and collider normal
+			newColData.m_ColliderAContactPoint = BulletToGLM(cp.getPositionWorldOnA());
+			newColData.m_ColliderBContactPoint = BulletToGLM(cp.getPositionWorldOnB());
+			newColData.m_ColliderBContactNormal = BulletToGLM(cp.m_normalWorldOnB);
+
+			// fetching collision tags
+			// colA
+			if (colObj0->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_STATIC_OBJECT)
+				newColData.m_ColliderAState = Static;
+			else if (colObj0->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_KINEMATIC_OBJECT)
+				newColData.m_ColliderAState = Kinematic;
+			else
+				newColData.m_ColliderAState = Dynamic;
+
+			// colB
+			if (colObj1->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_STATIC_OBJECT)
+				newColData.m_ColliderBState = Static;
+
+			else if (colObj1->getCollisionObject()->getCollisionFlags() == btCollisionObject::CF_KINEMATIC_OBJECT)
+				newColData.m_ColliderBState = Kinematic;
+			else
+				newColData.m_ColliderBState = Dynamic;
+
+			// push back new collision data
+			collisionData.push_back(newColData);
+			return 0.0;
+		}
+	};
+
+	class ClosestNotMeRayResultCallback : public btCollisionWorld::ClosestRayResultCallback
+	{
+	public:
+		ClosestNotMeRayResultCallback(btCollisionObject* me);
+		virtual btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace);
+	protected:
+		btCollisionObject* m_me;
+	};
+
+	ClosestNotMeRayResultCallback::ClosestNotMeRayResultCallback (btCollisionObject* me) 
+		: ClosestRayResultCallback(btVector3(0.0, 0.0, 0.0), btVector3(0.0, 0.0, 0.0))
+	{
+		m_me = me;
+	}
+
+	btScalar ClosestNotMeRayResultCallback::addSingleResult(btCollisionWorld::LocalRayResult& rayResult,bool normalInWorldSpace)
+	{
+		if (rayResult.m_collisionObject == m_me)
+			return 1.0;
+
+		return ClosestNotMeRayResultCallback::ClosestRayResultCallback::addSingleResult (rayResult, normalInWorldSpace);
+	}
+
+
 	float Physics::m_TerrainFriction;
 	glm::vec3 Physics::m_Gravity;
 	btCollisionObject* Physics::m_CollisionObject;
@@ -209,7 +210,7 @@ namespace Chroma
 	void Physics::Update()
 	{
 		// step simulation
-		m_World->stepSimulation(Chroma::Time::GetDeltaTime());
+		m_World->stepSimulation(Time::GetDeltaTime());
 		// update transforms of physics entities
 		for (int i = 0; i < m_World->getNumCollisionObjects(); i++)
 		{

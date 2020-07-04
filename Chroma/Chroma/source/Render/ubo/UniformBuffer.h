@@ -3,31 +3,34 @@
 #include <common/PrecompiledHeader.h>
 #include <shader/Shader.h>
 
-class UniformBuffer
+namespace Chroma
 {
-public:
+	class UniformBuffer
+	{
+	public:
 
-	UniformBuffer() { Initialize(); };
-	~UniformBuffer() {};
+		UniformBuffer() { Initialize(); };
+		~UniformBuffer() {};
 
-	void BindUniformBlockIndex(const Shader& shaderToBind);
-	virtual void Update() = 0;
+		void BindUniformBlockIndex(const Shader& shaderToBind);
+		virtual void Update() = 0;
 
-protected:
+	protected:
 
-	void Initialize();
-	void Bind() { glBindBuffer(GL_UNIFORM_BUFFER, m_UBO); };
-	void UnBind() { glBindBuffer(GL_UNIFORM_BUFFER, 0); };
+		void Initialize();
+		void Bind() { glBindBuffer(GL_UNIFORM_BUFFER, m_UBO); };
+		void UnBind() { glBindBuffer(GL_UNIFORM_BUFFER, 0); };
 
-	virtual void Setup() = 0;
+		virtual void Setup() = 0;
 
-	std::string m_Name;
-	unsigned int m_UBO;
-	unsigned int m_Size{152};
-	unsigned int m_BindingPointIndex;
+		std::string m_Name;
+		unsigned int m_UBO;
+		unsigned int m_Size{152};
+		unsigned int m_BindingPointIndex;
 
-	static unsigned int UBO_GlobalBindingPointIndex;
+		static unsigned int UBO_GlobalBindingPointIndex;
 
-};
+	};
+}
 
 #endif // CHROMA_UNIFORM_BUFFER_H

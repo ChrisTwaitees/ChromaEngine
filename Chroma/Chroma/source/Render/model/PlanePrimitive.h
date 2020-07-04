@@ -2,7 +2,7 @@
 #define _PLANEPRIMITIVE_
 #include "model/StaticMesh.h"
 
-class PlanePrimitive : public StaticMesh
+class PlanePrimitive : public Chroma::StaticMesh
 {
 protected:
 	std::vector<float> quadVertices;

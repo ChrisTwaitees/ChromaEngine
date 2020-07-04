@@ -4,11 +4,14 @@
 #include <common/PrecompiledHeader.h>
 #include <animation/Skeleton.h>
 
-namespace SkeletonUtils
+namespace Chroma
 {
-	std::vector<Joint*> GetInbetweenJoints(Skeleton* skeleton, unsigned int const& startJointID, unsigned int const& endJointID);
-	std::vector<unsigned int> GetInbetweenJointIDs(Skeleton* skeleton, unsigned int const& startJointID, unsigned int const& endJointID);
-	void InitIKConstraint(Skeleton* skeleton, IKConstraint& ikConstraint);
+	namespace SkeletonUtils
+	{
+		std::vector<Joint*> GetInbetweenJoints(Skeleton* skeleton, unsigned int const& startJointID, unsigned int const& endJointID);
+		std::vector<unsigned int> GetInbetweenJointIDs(Skeleton* skeleton, unsigned int const& startJointID, unsigned int const& endJointID);
+		void InitIKConstraint(Skeleton* skeleton, IKConstraint& ikConstraint);
+	}
 }
 
 

@@ -5,22 +5,21 @@
 #include <statemachine/IStateMachine.h>
 
 
-
-class StateMachineComponent : public IComponent , public IStateMachine
+namespace Chroma
 {
-public:
+	class StateMachineComponent : public IComponent , public IStateMachine
+	{
+	public:
 
-	// components
-	virtual void Init() override;
-	virtual void Update() override;
-	virtual void Destroy() override;
-	virtual void Serialize(ISerializer*& serializer) override;
+		// components
+		virtual void Init() override;
+		virtual void Update() override;
+		virtual void Destroy() override;
+		virtual void Serialize(ISerializer*& serializer) override;
 
-	// funcs
-	virtual void ProcessConditions() {};
-
-protected:
-	// 
-};
+		// funcs
+		virtual void ProcessConditions() {};
+	};
+}
 
 #endif

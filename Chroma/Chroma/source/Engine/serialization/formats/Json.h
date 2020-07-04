@@ -11,45 +11,47 @@
 #include <rapidJSON/filewritestream.h>
 #include <rapidJSON/stringbuffer.h>
 
-
-class JSON
+namespace Chroma
 {
-public:
-	JSON(const JSON&) {};
-	JSON& operator=(const JSON&) {};
-	JSON( const char* sourcePath, bool isFile=true);
-	JSON() {};
-	~JSON() {};
+	class JSON
+	{
+	public:
+		JSON(const JSON&) {};
+		JSON& operator=(const JSON&) {};
+		JSON( const char* sourcePath, bool isFile=true);
+		JSON() {};
+		~JSON() {};
 
-	bool HasKey(const char* keyString);
+		bool HasKey(const char* keyString);
 
-	rapidjson::Value& GetValue(const char* accessorString) {
-		return m_Document[accessorString];
+		rapidjson::Value& GetValue(const char* accessorString) {
+			return m_Document[accessorString];
+		}
+
+		rapidjson::Document& GetDocument() { return m_Document; }
+
+		static void Write(JSON& sourceJson, const char* destinationPath);
+		void Write(const char* destinationPath);
+
+		friend std::ostream& operator<<(std::ostream& out, JSON& refJson);
+
+	protected:
+		rapidjson::Document m_Document;
+		const char* m_SourcePath;
+		void Load(const char* sourcePath);
+		bool validSourceFile(const char* sourcePath);
+	};
+
+
+	inline std::ostream& operator<<(std::ostream& out, JSON& refJson)
+	{
+		rapidjson::StringBuffer stringBuffer;
+		rapidjson::Writer<rapidjson::StringBuffer> stringWriter(stringBuffer);
+		refJson.GetDocument().Accept(stringWriter);
+
+		out << stringBuffer.GetString();
+		return out;
 	}
-
-	rapidjson::Document& GetDocument() { return m_Document; }
-
-	static void Write(JSON& sourceJson, const char* destinationPath);
-	void Write(const char* destinationPath);
-
-	friend std::ostream& operator<<(std::ostream& out, JSON& refJson);
-
-protected:
-	rapidjson::Document m_Document;
-	const char* m_SourcePath;
-	void Load(const char* sourcePath);
-	bool validSourceFile(const char* sourcePath);
-};
-
-
-inline std::ostream& operator<<(std::ostream& out, JSON& refJson)
-{
-	rapidjson::StringBuffer stringBuffer;
-	rapidjson::Writer<rapidjson::StringBuffer> stringWriter(stringBuffer);
-	refJson.GetDocument().Accept(stringWriter);
-
-	out << stringBuffer.GetString();
-	return out;
 }
 
 #endif

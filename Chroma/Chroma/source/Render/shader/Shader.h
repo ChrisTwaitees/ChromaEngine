@@ -10,47 +10,50 @@
 #include <camera/Camera.h>
 #include <light/Light.h>
 
-class Shader
+namespace Chroma
 {
-public:
-	// Cleanup
-	void Destroy();
+	class Shader
+	{
+	public:
+		// Cleanup
+		void Destroy();
 
-	//program ID
-	unsigned int ShaderID{ 0 };
+		//program ID
+		unsigned int ShaderID{ 0 };
 
-	// Rendering
-	void Use() const;
+		// Rendering
+		void Use() const;
 
-	// Uniforms
-	template<typename UniformType>
-	void SetUniform(std::string uniformName, UniformType uniformValue) {
-		m_Uniforms.SetUniform(uniformName, uniformValue);
+		// Uniforms
+		template<typename UniformType>
+		void SetUniform(std::string uniformName, UniformType uniformValue) {
+			m_Uniforms.SetUniform(uniformName, uniformValue);
+		};
+
+		//constructor reads and builds the shader
+		Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");
+		Shader() {};
+		~Shader();
+
+	private:
+		// Functions
+		void BindUniformBufferBlockIndices();
+		void CheckCompileErrors(GLuint shader, std::string type);
+		void CompileAndLink();
+		void LoadShaderSource();
+		void CleanUp();
+		void Replace(std::string& sourceString, std::string const& from, std::string const& to);
+		std::string ExpandShaderSource(std::string shaderSourcePath);
+
+		//Attrs
+		std::string shaderDir{ "resources/shaders/" };
+		std::string fragSourcePath, vertexSourcePath, geometrySourcePath;
+		std::string fragCode, vertexCode, geometryCode;
+
+		// Uniforms
+		Uniform m_Uniforms{ &ShaderID };
 	};
-
-	//constructor reads and builds the shader
-	Shader(std::string fragmentPath, std::string vertexPath, std::string geometryPath="");
-	Shader() {};
-	~Shader();
-
-private:
-	// Functions
-	void BindUniformBufferBlockIndices();
-	void CheckCompileErrors(GLuint shader, std::string type);
-	void CompileAndLink();
-	void LoadShaderSource();
-	void CleanUp();
-	void Replace(std::string& sourceString, std::string const& from, std::string const& to);
-	std::string ExpandShaderSource(std::string shaderSourcePath);
-
-	//Attrs
-	std::string shaderDir{ "resources/shaders/" };
-	std::string fragSourcePath, vertexSourcePath, geometrySourcePath;
-	std::string fragCode, vertexCode, geometryCode;
-
-	// Uniforms
-	Uniform m_Uniforms{ &ShaderID };
-};
+}
 
 
 #endif

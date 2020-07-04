@@ -11,19 +11,21 @@
 #include <model/SkinnedMesh.h>
 #include <light/Light.h>
 
-
-class IDeserializer
+namespace Chroma
 {
-public:
-	template <class objectType, typename ChromaType> 
-	objectType CreateObject(ChromaType type, std::string data)
+	class IDeserializer
 	{
-		CHROMA_WARN("Could not create Object Based on Deserialization Data!");
-	}
+	public:
+		template <class objectType, typename ChromaType> 
+		objectType CreateObject(ChromaType type, std::string data)
+		{
+			CHROMA_WARN("Could not create Object Based on Deserialization Data!");
+		}
 
-	IDeserializer() {};
-	~IDeserializer() {};
-};
+		IDeserializer() {};
+		~IDeserializer() {};
+	};
+}
 
 
 #ifdef DEBUG

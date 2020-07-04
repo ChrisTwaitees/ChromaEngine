@@ -3,30 +3,33 @@
 
 #include "buffer/IFramebuffer.h"
 
-class SSRBuffer :	public IFramebuffer
+namespace Chroma
 {
-public:
-	unsigned int GetSSRReflectedUVTexture() { return m_SSRReflectedUVs; }
+	class SSRBuffer :	public IFramebuffer
+	{
+	public:
+		unsigned int GetSSRReflectedUVTexture() { return m_SSRReflectedUVs; }
 
-	void Draw() override;
+		void Draw() override;
 
-	SSRBuffer();
-	~SSRBuffer() {};
+		SSRBuffer();
+		~SSRBuffer() {};
 
-protected:
-	// Shader
-	const char* fragSource{ "resources/shaders/fragSSRBuffer.glsl" };
+	protected:
+		// Shader
+		const char* fragSource{ "resources/shaders/fragSSRBuffer.glsl" };
 
-	// Reflected UVs Texture
-	unsigned int m_SSRReflectedUVs;
+		// Reflected UVs Texture
+		unsigned int m_SSRReflectedUVs;
 
-	// funcs
-	void Initialize() override;
-	void ResizeBuffers() override;
+		// funcs
+		void Initialize() override;
+		void ResizeBuffers() override;
 
-	// shader
-	Shader* m_ScreenShader{ new Shader(fragSource, vtxSource) };
+		// shader
+		Shader* m_ScreenShader{ new Shader(fragSource, vtxSource) };
 
-};
+	};
+}
 
 #endif // CHROMA_SSR_BUFFER_H

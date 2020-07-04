@@ -3,20 +3,23 @@
 
 #include <texture/Texture.h>
 
-class HDRTexture :	public Texture
+namespace Chroma
 {
-public:
-	HDRTexture(std::shared_ptr<TextureData> textData);
-	HDRTexture(const std::string& sourcepath);
-	HDRTexture() {};
-	~HDRTexture();
+	class HDRTexture :	public Texture
+	{
+	public:
+		HDRTexture(std::shared_ptr<TextureData> textData);
+		HDRTexture(const std::string& sourcepath);
+		HDRTexture() {};
+		~HDRTexture();
 
-	// load	
-	void LoadFromFile(const std::string& sourcePath) override;
+		// load	
+		void LoadFromFile(const std::string& sourcePath) override;
 
-private:
-	// Init
-	void InitializeTexture() override;
-};
+	private:
+		// Init
+		void InitializeTexture() override;
+	};
+}
 
 #endif //CHROMA_HDRTEXTURE_H

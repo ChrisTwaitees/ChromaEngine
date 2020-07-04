@@ -53,6 +53,7 @@ namespace Chroma
 		m_FileBrowserKey = "ChromaFileBrowserKey";
 		ImGuiFileDialog::Instance()->SetFilterColor(".json", ImVec4(1, 1, 0, 0.5));
 
+
 	}
 
 	void UI::Draw()

@@ -109,9 +109,6 @@
     <Filter Include="Engine\jobsystem">
       <UniqueIdentifier>{715fa53f-0e2f-4d97-8641-fcc9f1463a67}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\memory">
-      <UniqueIdentifier>{e1388c38-c673-4d55-9ee4-767c39ff7017}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Scenes">
       <UniqueIdentifier>{70328e1c-6f3f-4e69-a4a7-7ded12e31d6f}</UniqueIdentifier>
     </Filter>
@@ -550,9 +547,6 @@
     </ClInclude>
     <ClInclude Include="source\Render\texture\Texture.h">
       <Filter>Render\texture</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\memory\packed_freelist.h">
-      <Filter>Engine\memory</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\shader\Shader.h">
       <Filter>Render\shader</Filter>

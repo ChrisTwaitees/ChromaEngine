@@ -3,84 +3,82 @@
 #include "model/StaticMesh.h"
 #include "texture/CubeMap.h"
 
-
-enum ColorSpace { LINEAR, HDR };
-
-class SkyBox
+namespace Chroma
 {
+	enum ColorSpace { LINEAR, HDR };
 
-public:
-	// getters and setters
-	unsigned int getCubeMapID() { return m_cubeMap.GetID(); };
+	class SkyBox
+	{
+	public:
+		// getters and setters
+		unsigned int getCubeMapID() { return m_cubeMap.GetID(); };
 
-	void SetColorSpace(ColorSpace newColorSpace) { m_colorSpace = newColorSpace; };
-	ColorSpace getColorSpace() { return m_colorSpace; };
+		void SetColorSpace(ColorSpace newColorSpace) { m_colorSpace = newColorSpace; };
+		ColorSpace getColorSpace() { return m_colorSpace; };
 
-	void SetCubeMapID(const unsigned int& newID) { m_cubeMap.SetID(newID); }
+		void SetCubeMapID(const unsigned int& newID) { m_cubeMap.SetID(newID); }
 
-	void Draw();
-	SkyBox();
-	~SkyBox();
+		void Draw();
+		SkyBox();
+		~SkyBox();
 
-private:
+	private:
 
-	void Initialize();
-	ColorSpace m_colorSpace = LINEAR;
-	unsigned int VAO, VBO;
+		void Initialize();
+		ColorSpace m_colorSpace = LINEAR;
+		unsigned int VAO, VBO;
 
-	CubeMap m_cubeMap;
+		CubeMap m_cubeMap;
 
-	Shader m_linearShader{ "resources/shaders/fragSkyBox.glsl" , "resources/shaders/vertexSkyBox.glsl" };
-	Shader m_HDRShader{ "resources/shaders/fragHDRSkyBox.glsl" , "resources/shaders/vertexSkyBox.glsl" };
-	std::string defaultImageDir{ "resources/textures/skybox/blueskywater" };
+		Shader m_linearShader{ "resources/shaders/fragSkyBox.glsl" , "resources/shaders/vertexSkyBox.glsl" };
+		Shader m_HDRShader{ "resources/shaders/fragHDRSkyBox.glsl" , "resources/shaders/vertexSkyBox.glsl" };
+		std::string defaultImageDir{ "resources/textures/skybox/blueskywater" };
 
-	std::vector<float> skyBoxVerts = {
-		// positions          
-		-1.0f,  1.0f, -1.0f,
-		-1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
+		std::vector<float> skyBoxVerts = {
+			// positions          
+			-1.0f,  1.0f, -1.0f,
+			-1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
 
-		-1.0f, -1.0f,  1.0f,
-		-1.0f, -1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f,  1.0f,
-		-1.0f, -1.0f,  1.0f,
+			-1.0f, -1.0f,  1.0f,
+			-1.0f, -1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f,  1.0f,
+			-1.0f, -1.0f,  1.0f,
 
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
 
-		-1.0f, -1.0f,  1.0f,
-		-1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f, -1.0f,  1.0f,
-		-1.0f, -1.0f,  1.0f,
+			-1.0f, -1.0f,  1.0f,
+			-1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f, -1.0f,  1.0f,
+			-1.0f, -1.0f,  1.0f,
 
-		-1.0f,  1.0f, -1.0f,
-		 1.0f,  1.0f, -1.0f,
-		 1.0f,  1.0f,  1.0f,
-		 1.0f,  1.0f,  1.0f,
-		-1.0f,  1.0f,  1.0f,
-		-1.0f,  1.0f, -1.0f,
+			-1.0f,  1.0f, -1.0f,
+			 1.0f,  1.0f, -1.0f,
+			 1.0f,  1.0f,  1.0f,
+			 1.0f,  1.0f,  1.0f,
+			-1.0f,  1.0f,  1.0f,
+			-1.0f,  1.0f, -1.0f,
 
-		-1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		 1.0f, -1.0f, -1.0f,
-		 1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		 1.0f, -1.0f,  1.0f
+			-1.0f, -1.0f, -1.0f,
+			-1.0f, -1.0f,  1.0f,
+			 1.0f, -1.0f, -1.0f,
+			 1.0f, -1.0f, -1.0f,
+			-1.0f, -1.0f,  1.0f,
+			 1.0f, -1.0f,  1.0f
+		};
 	};
-
-
-
-};
+}
 
 #endif

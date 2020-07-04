@@ -14,33 +14,34 @@
 #include <math/Math.h>
 
 
-struct JointTransform
-{
-	glm::vec3 m_Translation{ 0.0f };
-	glm::quat m_Rotation{ glm::quat() };
-	glm::vec3 m_Scale{ 1.0f };
-};
-
-
-struct KeyFrame
-{
-	std::string m_JointName;
-	// format is <timeStamp, JointTransform>
-	std::map<float, JointTransform> m_JointTransforms;
-};
-
-
-struct Take
-{
-	std::string m_Name;
-	int m_NumFrames{ 0 };
-	float m_FPS{ 0.0f };
-	float m_Duration{ 0.0f };
-	std::map<std::string, KeyFrame> m_KeyFrames;
-};
 
 namespace Chroma
 {
+	struct JointTransform
+	{
+		glm::vec3 m_Translation{ 0.0f };
+		glm::quat m_Rotation{ glm::quat() };
+		glm::vec3 m_Scale{ 1.0f };
+	};
+
+
+	struct KeyFrame
+	{
+		std::string m_JointName;
+		// format is <timeStamp, JointTransform>
+		std::map<float, JointTransform> m_JointTransforms;
+	};
+
+
+	struct Take
+	{
+		std::string m_Name;
+		int m_NumFrames{ 0 };
+		float m_FPS{ 0.0f };
+		float m_Duration{ 0.0f };
+		std::map<std::string, KeyFrame> m_KeyFrames;
+	};
+
 	class AnimationLoader
 	{
 	public:

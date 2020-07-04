@@ -183,6 +183,7 @@ namespace Chroma
 
 		// Set to Default dimensions
 		Chroma::Screen::SetDimensions(SCREEN_WIDTH, SCREEN_HEIGHT);
+		CHROMA_INFO("Renderer Initialized.");
 	}
 
 	void Render::RenderScene()
@@ -305,8 +306,6 @@ namespace Chroma
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-
 
 	}
 

@@ -1,17 +1,21 @@
 #include "CharacterPhysicsComponent.h"
 #include <physics/PhysicsEngine.h>
 
-void CharacterPhysicsComponent::Init()
+
+namespace Chroma
 {
-	// Set Type
-	m_Type = Chroma::Type::Component::kCharacterPhysicsComponent;
+	void CharacterPhysicsComponent::Init()
+	{
+		// Set Type
+		m_Type = Type::Component::kCharacterPhysicsComponent;
 
-	// build rigidBody
-	BuildRigidBody();
+		// build rigidBody
+		BuildRigidBody();
 
-	// add rigid body to physics world
-	Chroma::Physics::AddBodyToWorld(m_RigidBody);
+		// add rigid body to physics world
+		Chroma::Physics::AddBodyToWorld(m_RigidBody);
 
-	// debug
-	CMPNT_INITIALIZED;
+		// debug
+		CMPNT_INITIALIZED;
+	}
 }

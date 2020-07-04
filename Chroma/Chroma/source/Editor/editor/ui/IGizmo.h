@@ -3,27 +3,30 @@
 
 #include <shader/Shader.h>
 
-class IGizmo
+namespace Chroma
 {
-public : 
-	IGizmo();
-	virtual void Init();
-	virtual void Draw();
+	class IGizmo
+	{
+	public : 
+		IGizmo();
+		virtual void Init();
+		virtual void Draw();
 
-protected : 
-	// attrs
-	unsigned int pointVAO{ 0 }, pointVBO{ 0 };
+	protected : 
+		// attrs
+		unsigned int pointVAO{ 0 }, pointVBO{ 0 };
 
-	// Shader
-	const char* m_VtxSource{ "resources/shaders/vertexLineDebug.glsl" };
-	const char* m_FragSouce{ "resources/shaders/fragBasic.glsl" };
-	const char* m_GeomSource{ "" };
-	Shader m_Shader;
+		// Shader
+		const char* m_VtxSource{ "resources/shaders/vertexLineDebug.glsl" };
+		const char* m_FragSouce{ "resources/shaders/fragBasic.glsl" };
+		const char* m_GeomSource{ "" };
+		Shader m_Shader;
 
-	// point VAO
-	void GeneratePointVAO();
-	void BindPointVAO();
-};
+		// point VAO
+		void GeneratePointVAO();
+		void BindPointVAO();
+	};
+}
 
 
 #endif // CHROMA_IGIZMO_H

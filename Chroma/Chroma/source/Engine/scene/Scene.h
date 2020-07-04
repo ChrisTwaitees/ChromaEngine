@@ -4,13 +4,14 @@
 //common
 #include <common/PrecompiledHeader.h>
 //chroma
-#include <camera/Camera.h>
 #include <light/Light.h>
 #include <model/SkyBox.h>
 #include <ibl/IBL.h>
 // entity component
-class IEntity;
 #include <entity/IEntity.h>
+
+// events
+#include <event/Event.h>
 
 // serialization
 #include <serialization/FactorySerializer.h>
@@ -24,6 +25,9 @@ namespace Chroma
 		static void Update();
 		static void PostSceneBuild();
 		static void PreSceneBuild();
+
+		// event
+		static void OnEvent(Event& e);
 
 		// States
 		enum SceneState {kSceneNotBuilt, kSceneIsBuilding, kSceneBuilt, kSceneIsAdding, kSceneIsRemoving, kSceneIsLoading, kSceneIsSaving, kSceneIsInitializing};

@@ -7,71 +7,74 @@
 #include <component/MeshComponent.h>
 #include <resources/ResourceManager.h>
 
-
-class Model : public MeshComponent
+namespace Chroma
 {
-public:
-	// Init
-	virtual void Init() override;
-	void RebuildMesh() override;
-	void Destroy() override;
-	void CleanUp() override;
 
-	// Serialization
-	virtual void Serialize(ISerializer*& serializer) override;
+	class Model : public MeshComponent
+	{
+	public:
+		// Init
+		virtual void Init() override;
+		void RebuildMesh() override;
+		void Destroy() override;
+		void CleanUp() override;
 
-	// Draw
-	void Draw(Shader& shader) override;
-	void Draw(Camera& RenderCamera) override;
-	void Draw(Shader& shader, Camera& RenderCamera) override;
-	void DrawUpdateMaterials(Shader& shader) override;
-	void DrawUpdateTransforms(Camera& renderCam) override;
+		// Serialization
+		virtual void Serialize(ISerializer*& serializer) override;
 
-	// Accessors	
-	std::pair<glm::vec3, glm::vec3> GetBBox() override;
-	glm::vec3 GetCentroid();
-	std::string& GetSourcePath() override { return m_SourcePath; }
-	void SetSourcePath(const std::string& newSourcePath) override { m_SourcePath = newSourcePath; }
+		// Draw
+		void Draw(Shader& shader) override;
+		void Draw(Camera& RenderCamera) override;
+		void Draw(Shader& shader, Camera& RenderCamera) override;
+		void DrawUpdateMaterials(Shader& shader) override;
+		void DrawUpdateTransforms(Camera& renderCam) override;
 
-	// render components
-	Shader& GetShader();
-	void SetShader(Shader& shader) override;
-	std::vector<UID>& GetMeshUIDs() { return m_MeshUIDs; }
-	// verts
-	std::vector<ChromaVertex> GetVertices() override;
+		// Accessors	
+		std::pair<glm::vec3, glm::vec3> GetBBox() override;
+		glm::vec3 GetCentroid();
+		std::string& GetSourcePath() override { return m_SourcePath; }
+		void SetSourcePath(const std::string& newSourcePath) override { m_SourcePath = newSourcePath; }
 
-	// Material
-	void SetIsLit(bool const& check) override;
-	void SetIsForwardLit(bool const& check) override;
-	void SetTextureSet(std::vector<Texture>& textures_val) override;
-	void AddTexture(Texture& texture_val) override;
-	void SetMaterial(const Material& newMaterial) override;
+		// render components
+		Shader& GetShader();
+		void SetShader(Shader& shader) override;
+		std::vector<UID>& GetMeshUIDs() { return m_MeshUIDs; }
+		// verts
+		std::vector<ChromaVertex> GetVertices() override;
 
-	// Shader Uniforms
-	void SetMat4(std::string name, glm::mat4 value) override;
-	void SetInt(std::string name, int value) override;
-	void SetFloat(std::string name, float value) override;
-	void SetJointUniforms(Shader& skinnedShader) override;
+		// Material
+		void SetIsLit(bool const& check) override;
+		void SetIsForwardLit(bool const& check) override;
+		void SetTextureSet(std::vector<Texture>& textures_val) override;
+		void AddTexture(Texture& texture_val) override;
+		void SetMaterial(const Material& newMaterial) override;
 
-	// Constructors
-	Model(std::string path) { LoadModel(path); };
-	~Model();
+		// Shader Uniforms
+		void SetMat4(std::string name, glm::mat4 value) override;
+		void SetInt(std::string name, int value) override;
+		void SetFloat(std::string name, float value) override;
+		void SetJointUniforms(Shader& skinnedShader) override;
 
-protected:
-	// calculate dimensions
-	virtual void CalculateBBox() override;
-	virtual void CalculateCentroid() override;
+		// Constructors
+		Model(std::string path) { LoadModel(path); };
+		~Model();
 
-	// Model Data
-	std::vector<UID> m_MeshUIDs;
-	// verts
-	std::vector<ChromaVertex> m_vertices;
-	std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
+	protected:
+		// calculate dimensions
+		virtual void CalculateBBox() override;
+		virtual void CalculateCentroid() override;
 
-	//sourcePath
-	std::string m_SourcePath;
-	// Functions
-	void LoadModel(std::string path);
-};
+		// Model Data
+		std::vector<UID> m_MeshUIDs;
+		// verts
+		std::vector<ChromaVertex> m_vertices;
+		std::vector<ChromaSkinnedVertex> m_SkinnedVertices;
+
+		//sourcePath
+		std::string m_SourcePath;
+		// Functions
+		void LoadModel(std::string path);
+	};
+}
 
 #endif

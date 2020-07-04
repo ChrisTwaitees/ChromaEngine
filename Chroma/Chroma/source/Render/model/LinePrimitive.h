@@ -2,7 +2,7 @@
 #define _CHROMA_LINEPRIMITIVE_
 #include "model/StaticMesh.h"
 
-class LinePrimitive : public StaticMesh
+class LinePrimitive : public Chroma::StaticMesh
 {
 private:
 	glm::vec3 start, end;

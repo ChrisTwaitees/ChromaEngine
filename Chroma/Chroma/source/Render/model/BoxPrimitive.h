@@ -3,7 +3,7 @@
 #include "model/StaticMesh.h"
 
 
-class BoxPrimitive : public StaticMesh
+class BoxPrimitive : public Chroma::StaticMesh
 {
 private:
 	std::vector<ChromaVertex> m_vertices;
