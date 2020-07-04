@@ -7,6 +7,7 @@ namespace Chroma
 {
 	void SceneManager::Init()
 	{
+		CHROMA_INFO("Scene Manager Initialized.");
 	}
 
 	void SceneManager::SaveScene(const char* sourceScenePath)

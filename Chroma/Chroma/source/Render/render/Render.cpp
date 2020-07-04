@@ -48,6 +48,9 @@ namespace Chroma
 	// - Depth	 
 	unsigned int Render::m_Depth;
 
+	// API
+	Render::API Render::s_API;
+
 	void Render::CleanUp()
 	{
 		// DEBUG BUFFER
@@ -146,6 +149,7 @@ namespace Chroma
 
 	void Render::Init()
 	{
+		s_API = API::OpenGL;
 		// Enabling Render Features
 		// ---------------------------------------
 		// Enable depth buffer
@@ -205,11 +209,7 @@ namespace Chroma
 		RenderPostFX();
 
 
-		//// Graphics Debug
-		//if (Chroma::UI::m_DrawGraphicsDebug)
-		//	RenderGraphicsDebug();
-
-		//// Clear
+		// Clear
 		CleanUp();
 	}
 
@@ -237,7 +237,7 @@ namespace Chroma
 
 		// Draw while resizing
 		RenderScene();
-		Chroma::Screen::Update();
+		//Chroma::Screen::Update();
 	}
 
 	glm::mat4 Render::GetLightSpaceMatrix()

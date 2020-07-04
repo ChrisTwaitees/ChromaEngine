@@ -263,7 +263,7 @@ int main9()
 
 		//Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// GAME TICK
-		Chroma::Engine::Tick();
+		Chroma::Engine::OnUpdate();
 
 	}
 

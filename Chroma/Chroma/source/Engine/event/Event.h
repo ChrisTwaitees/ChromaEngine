@@ -5,8 +5,6 @@
 #include <common/PrecompiledHeader.h>
 // chroma
 #include <common/CoreCommon.h>
-#include <input/Input.h>
-
 
 namespace Chroma
 {
@@ -15,11 +13,10 @@ namespace Chroma
 
 	enum class EventType
 	{
-		// event types
 		None = 0,
-		WindowClose, WindowResize,
+		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		AppTick, AppUpdate, AppRender,
-		KeyPressed, KeyReleased,
+		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
 	};
 
@@ -68,7 +65,7 @@ namespace Chroma
 		}
 
 		template<typename T>
-		bool Dispatch(EventFn<T> funct)
+		bool Dispatch(EventFn<T> func)
 		{
 			if (m_Event.GetEventType() == T::GetStaticType())
 			{

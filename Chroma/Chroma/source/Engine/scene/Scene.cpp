@@ -219,6 +219,9 @@ namespace Chroma
 		m_Skybox->SetColorSpace(HDR);
 		m_Skybox->SetCubeMapID(m_IBL->GetEnvCubeMapID());
 
+		// log
+		CHROMA_INFO("Scene Initialized.");
+
 		// State 
 		SCENE_RESETSTATE
 	}

@@ -63,6 +63,8 @@ void PostFXBuffer::ConfigureShaders()
 	m_ScreenShader->SetUniform("scene", 0);
 	m_ScreenShader->SetUniform("bloomBlur", 1);
 	m_ScreenShader->SetUniform("ssr", 2);
+
+	UpdateTransformUniforms();
 }
 
 void PostFXBuffer::ResizeBuffers()
@@ -143,7 +145,7 @@ void PostFXBuffer::Draw()
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, static_cast<SSRBuffer*>(Chroma::Render::GetSSRBuffer())->GetSSRReflectedUVTexture());
 	// bloom
-	m_ScreenShader->SetUniform("bloom", 0);
+	m_ScreenShader->SetUniform("bloom", true);
 	// setting transform uniforms
 	UpdateTransformUniforms();
 	RenderQuad();
@@ -151,8 +153,6 @@ void PostFXBuffer::Draw()
 
 void PostFXBuffer::Draw(const bool& useBloom)
 {
-	UpdateTransformUniforms();
-
 	if (useBloom)
 	{
 		// blur BrightFragments

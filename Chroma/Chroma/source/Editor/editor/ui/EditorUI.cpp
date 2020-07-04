@@ -914,6 +914,7 @@ namespace Chroma
 			// Graphics
 			ImGui::Checkbox("Draw Icons", &m_IconsVisible); ImGui::SameLine();
 			ImGui::Checkbox("Draw Grid", &m_DrawViewportGrid); ImGui::SameLine();
+			ImGui::Checkbox("Bloom", &m_Bloom); ImGui::SameLine();
 			if (ImGui::Button("Graphics Debug")) m_DrawGraphicsDebugMenu = m_DrawGraphicsDebugMenu ? false : true; ImGui::SameLine();
 			//Profiling
 			ImGui::Checkbox("Profiling Stats", &m_ShowProfilerStatsOverlay); ImGui::SameLine();

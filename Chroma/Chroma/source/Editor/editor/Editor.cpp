@@ -1230,7 +1230,7 @@ namespace Chroma
 	}
 
 
-	void Editor::Tick()
+	void Editor::OnUpdate()
 	{
 		// UI
 		DrawUI();

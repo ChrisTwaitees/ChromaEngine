@@ -20,10 +20,18 @@ namespace Chroma
 	class Render
 	{
 	public:
-
 		// INITIALIZE
 		static void Init();
 		static void RenderScene();
+
+		// API
+		enum class API
+		{
+			None = 0,
+			OpenGL = 1
+		};
+		static API GetAPI() { return s_API; }
+		static void SetAPI(API api) { s_API = api; }
 
 		// Screen resize
 		static void ResizeBuffers(int const& width, int const& height);
@@ -119,6 +127,9 @@ namespace Chroma
 		static std::vector<UniformBuffer*> m_UniformBufferObjects;
 		static UniformBuffer* m_UBOCamera;
 		static UniformBuffer* m_UBOLighting;
+
+		// API
+		static API s_API;
 
 	};
 }

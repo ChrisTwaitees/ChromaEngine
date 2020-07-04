@@ -6,7 +6,6 @@
 
 #include <ChromaConfig.h>
 #include <math/Math.h>
-#include <core/Core.h>
 
 struct NormalizedTimer10
 {
@@ -19,7 +18,6 @@ struct NormalizedTimer10
 		return rhs.m_StartTime > m_StartTime;
 	}
 
-	NormalizedTimer10();
 	NormalizedTimer10(float& Duration)
 	{
 		m_StartTime = Duration;

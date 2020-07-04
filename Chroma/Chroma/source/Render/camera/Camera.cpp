@@ -1,6 +1,5 @@
 #include "Camera.h"
-#include <input/Input.h>
-#include <screen/Screen.h>
+#include <core/Application.h>
 
 void Camera::Initialize()
 {
@@ -24,7 +23,8 @@ void Camera::Update()
 	// Capture last frame's Position
 	m_PrevCameraPosition = m_CameraPosition;
 
-	if (Chroma::Input::GetCursorEnabled())
+	
+	if (Chroma::Application::Get().GetWindow().GetCursorEnabled())
 	{
 		switch (m_CameraMode)
 		{

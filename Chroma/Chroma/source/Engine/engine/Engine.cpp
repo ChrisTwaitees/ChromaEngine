@@ -14,6 +14,7 @@ namespace Chroma
 		// Scene
 		Chroma::Scene::Update();
 
+
 		// Physics
 		Chroma::Physics::Update();
 
@@ -89,10 +90,10 @@ namespace Chroma
 		Chroma::Render::RenderScene();
 
 		Chroma::UI::Draw();
-		Chroma::Screen::Update();
+		//Chroma::Screen::Update();
 	}
 
-	void Engine::Tick()
+	void Engine::OnUpdate()
 	{
 #ifdef DEBUG
 #ifndef EDITOR
@@ -138,34 +139,14 @@ namespace Chroma
 
 	void Engine::Init()
 	{
-		// Logging
-		Chroma::Log::Init();
-		CHROMA_INFO_UNDERLINE;
-		CHROMA_INFO("Chroma Engine Initializing...");
-		CHROMA_INFO_UNDERLINE;
-
-		// Core
-		Chroma::Core::Init();
-
-		// Job System
+		// job system
 		Chroma::JobSystem::Initialize();
 
-		// Resource Manager
+		// resource manager
 		Chroma::ResourceManager::Init();
-		CHROMA_INFO("Resource Manager Initialized.");
 
-		// Scene
+		// scene
 		Chroma::Scene::Init();
-		CHROMA_INFO("Scene Initialized.");
-
-		// Scene Manager
-		Chroma::SceneManager::Init();
-		CHROMA_INFO("Scene Manager Initialized.");
-
-		// Input
-		Chroma::JobSystem::Execute(Chroma::Input::Init);
-		Chroma::Input::BindCamera(Chroma::Scene::GetRenderCamera());
-		CHROMA_INFO("Input Initialized.");
 
 		// Time
 		Chroma::JobSystem::Execute(Chroma::Time::Init);
@@ -195,8 +176,6 @@ namespace Chroma
 	void Engine::ProcessInput()
 	{
 		CHROMA_PROFILE_FUNCTION();
-		// update input
-		Chroma::Input::Update();
 
 		// Camera
 		Chroma::Scene::GetRenderCamera()->Update();

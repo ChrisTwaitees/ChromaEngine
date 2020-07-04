@@ -11,6 +11,9 @@ namespace Chroma
 		// Init Loaders
 		Chroma::TextureLoader::Init();
 		Chroma::ModelLoader::Init();
+
+		// log
+		CHROMA_INFO("Resource Manager Initialized.");
 	}
 
 	void ResourceManager::Update()

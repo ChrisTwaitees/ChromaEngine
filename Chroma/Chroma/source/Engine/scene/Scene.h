@@ -9,6 +9,7 @@
 #include <model/SkyBox.h>
 #include <ibl/IBL.h>
 // entity component
+class IEntity;
 #include <entity/IEntity.h>
 
 // serialization

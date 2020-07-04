@@ -288,7 +288,7 @@ int main6()
 		foliageShader.SetUniform("windStrength", 0.5f);
 		//Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// GAME TICK
-		Chroma::Engine::Tick();
+		Chroma::Engine::OnUpdate();
 
 	}
 

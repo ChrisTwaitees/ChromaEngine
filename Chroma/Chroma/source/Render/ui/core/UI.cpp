@@ -1,5 +1,6 @@
 #include "UI.h"
 #include <render/Render.h>
+#include <core/Application.h>
 
 
 namespace Chroma
@@ -40,8 +41,13 @@ namespace Chroma
 		}
 
 		// Setup Platform/Renderer bindings
-		ImGui_ImplGlfw_InitForOpenGL(Chroma::Screen::GetWindow(), true);
-		ImGui_ImplOpenGL3_Init("#version 330");
+		if (Render::GetAPI() == Render::API::OpenGL)
+		{
+			ImGui_ImplGlfw_InitForOpenGL(static_cast<GLFWwindow*>(Application::Get().GetWindow().GetNativeWindow()), true);
+			ImGui_ImplOpenGL3_Init("#version 330");
+		}
+		else
+			CHROMA_ASSERT(false, "GraphicsAPI not set up for ImGui use!");
 
 		// Filebrowser
 		m_FileBrowserKey = "ChromaFileBrowserKey";
@@ -133,7 +139,8 @@ namespace Chroma
 	{
 
 		ImGuiIO& io = ImGui::GetIO();
-		io.DisplaySize = ImVec2(Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
+
+		io.DisplaySize = ImVec2(Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

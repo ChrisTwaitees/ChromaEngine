@@ -3,7 +3,6 @@
 
 // chroma
 #include <common/CoreCommon.h>
-#include <core/Core.h>
 #include <screen/Screen.h>
 #include <scene/Scene.h>
 #include <scene/SceneManager.h>
@@ -30,7 +29,7 @@ namespace Chroma
 	public:
 		static void Init();
 		// Game Loop
-		static void Tick();
+		static void OnUpdate();
 	};
 }
 

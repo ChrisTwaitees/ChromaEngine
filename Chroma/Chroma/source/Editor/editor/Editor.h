@@ -22,7 +22,7 @@ namespace Chroma
 		static void Buddha();
 		static void StanfordBunny();
 
-		static void Tick();
+		static void OnUpdate();
 	private:
 		static void DrawUI();
 

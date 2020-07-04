@@ -123,10 +123,11 @@ void ThirdPersonCharacterController::ProcessMovement()
 	{
 		glm::vec3 playerHeadingUnClamped = (sidePlayer * Chroma::Input::GetAxis("Horizontal")) + (toPlayer * -Chroma::Input::GetAxis("Vertical"));
 		m_PlayerHeading = glm::normalize(playerHeadingUnClamped);
-		if (Chroma::Input::IsPressed(Chroma::Input::L3))
+		// TODO: Implement Event System Hook up
+		/*if (Chroma::Input::IsPressed(Chroma::Input::L3))
 			m_ControllerForce += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_WalkSpeed * m_SprintSpeedMultiplier * glm::vec3(DELTATIME);
 		else
-			m_ControllerForce += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_WalkSpeed * glm::vec3(DELTATIME);
+			m_ControllerForce += m_PlayerHeading * glm::min(glm::length(playerHeadingUnClamped), 0.75f) * m_WalkSpeed * glm::vec3(DELTATIME);*/
 	}
 
 	// Orientation
@@ -162,23 +163,24 @@ void ThirdPersonCharacterController::ProcessJump()
 	m_JumpVector = rotateJumpVector * m_JumpVectorStationary;
 
 
+	// TODO: Implement Event System Hookup
 	// Double Jump : if jumped once
-	if (!m_IsOnGround && !m_HasDoubleJumped && ((Chroma::Input::IsPressed(Chroma::Input::CROSS) || Chroma::Input::IsPressed(Chroma::Input::SPACEBAR))))
-	{
-		CHROMA_INFO("Double Jump triggered!");
-		float jumpIntertia = Chroma::Math::InertiaForHeight(m_GravityMax, m_JumpHeight) * DELTATIME;
-		m_GravityForce += m_JumpVector * glm::vec3(jumpIntertia);
-		m_HasDoubleJumped = true;
-	}
+	//if (!m_IsOnGround && !m_HasDoubleJumped && ((Chroma::Input::IsPressed(Chroma::Input::CROSS) || Chroma::Input::IsPressed(Chroma::Input::SPACEBAR))))
+	//{
+	//	CHROMA_INFO("Double Jump triggered!");
+	//	float jumpIntertia = Chroma::Math::InertiaForHeight(m_GravityMax, m_JumpHeight) * DELTATIME;
+	//	m_GravityForce += m_JumpVector * glm::vec3(jumpIntertia);
+	//	m_HasDoubleJumped = true;
+	//}
 
-	// Jump : if on ground and button pressed
-	if (m_IsOnGround && (Chroma::Input::IsPressed(Chroma::Input::CROSS) || Chroma::Input::IsPressed(Chroma::Input::SPACEBAR)))
-	{
-		CHROMA_INFO("Jump triggered!");
-		float jumpIntertia = Chroma::Math::InertiaForHeight(m_GravityMax, m_JumpHeight) * DELTATIME;
-		m_GravityForce += m_JumpVector * glm::vec3(jumpIntertia);
-		m_HasDoubleJumped = false;
-	}
+	//// Jump : if on ground and button pressed
+	//if (m_IsOnGround && (Chroma::Input::IsPressed(Chroma::Input::CROSS) || Chroma::Input::IsPressed(Chroma::Input::SPACEBAR)))
+	//{
+	//	CHROMA_INFO("Jump triggered!");
+	//	float jumpIntertia = Chroma::Math::InertiaForHeight(m_GravityMax, m_JumpHeight) * DELTATIME;
+	//	m_GravityForce += m_JumpVector * glm::vec3(jumpIntertia);
+	//	m_HasDoubleJumped = false;
+	//}
 
 
 	// JumpVector
@@ -251,18 +253,19 @@ void ThirdPersonCharacterController::ProcessInput()
 {
 	// camera context switching
 	// switch between editor cam and player cam
-	if (Chroma::Input::IsPressed(Chroma::Input::R1) && Chroma::Input::IsPressed(Chroma::Input::L1)) 
-	{
-		CHROMA_WARN("Switching Camera Context...");
-		Chroma::Input::ToggleCursorEnabledState();
-		Chroma::Scene::GetRenderCamera()->SetCameraMode(CameraMode::Custom);
-	}
+	// TODO: Implement Event System Hook up 
+	//if (Chroma::Input::IsPressed(Chroma::Input::R1) && Chroma::Input::IsPressed(Chroma::Input::L1)) 
+	//{
+	//	CHROMA_WARN("Switching Camera Context...");
+	//	Chroma::Input::ToggleCursorEnabled();
+	//	Chroma::Scene::GetRenderCamera()->SetCameraMode(CameraMode::Custom);
+	//}
 
-	if (Chroma::Input::IsPressed(Chroma::Input::R3) && Chroma::Input::IsPressed(Chroma::Input::L3))
-	{
-		CHROMA_WARN("Toggling Physics Rendering");
-		Chroma::Physics::ToggleDrawDebug();
-	}
+	//if (Chroma::Input::IsPressed(Chroma::Input::R3) && Chroma::Input::IsPressed(Chroma::Input::L3))
+	//{
+	//	CHROMA_WARN("Toggling Physics Rendering");
+	//	Chroma::Physics::ToggleDrawDebug();
+	//}
 }
 
 void ThirdPersonCharacterController::Update()

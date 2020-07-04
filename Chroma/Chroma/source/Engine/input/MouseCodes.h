@@ -1,8 +1,7 @@
-#ifndef _CHROMA_MOUSE_CODES_H_
-#define _CHROMA_MOUSE_CODES_H_
+#ifndef CHROMA_MOUSE_CODES_H
+#define CHROMA_MOUSE_CODES_H
 
-#include <stdint.h>
-#include <iostream>
+
 
 namespace Chroma
 {

@@ -7,9 +7,6 @@
 #include <ChromaConfig.h>
 #include <shader/Shader.h>
 #include <model/NDCPlanePrimitive.h>
-#include <core/Core.h>
-
-
 
 class IFramebuffer
 {

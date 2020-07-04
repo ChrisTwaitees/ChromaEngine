@@ -10,5 +10,6 @@ namespace Chroma {
 		spdlog::set_pattern("%^[%T] %n: %v%$");
 		m_CoreLogger = spdlog::stdout_color_mt("Chroma");
 		m_CoreLogger->set_level(spdlog::level::trace);
+		CHROMA_INFO("Logging Initialized.");
 	}
 }

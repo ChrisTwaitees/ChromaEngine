@@ -9,8 +9,6 @@
 #include <ChromaConfig.h>
 #include <camera/Camera.h>
 #include <light/Light.h>
-#include <core/Core.h>
-
 
 class Shader
 {

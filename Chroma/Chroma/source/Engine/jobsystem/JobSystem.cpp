@@ -99,6 +99,9 @@ namespace Chroma
 
 				worker.detach(); // forget about this thread, let it do it's job in the infinite loop that we created above
 			}
+
+			// log
+			CHROMA_INFO("Job System Initialized.");
 		}
 
 		// This little helper function will not let the system to be deadlocked while the main thread is waiting for something

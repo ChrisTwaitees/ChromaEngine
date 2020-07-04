@@ -27,29 +27,30 @@ void FlyCameraController::ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDir
 
 void FlyCameraController::processKeyboardInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 {
+	// TODO: Implement Event System Hook up 
 	// MOVEMENT
-	if (Chroma::Input::IsPressed(Chroma::Input::LEFT_SHIFT))
-		cameraSpeed = fastSpeed * (float)Chroma::Time::GetDeltaTime();
-	else
-		cameraSpeed = slowSpeed * (float)Chroma::Time::GetDeltaTime();
+	//if (Chroma::Input::IsPressed(Chroma::Input::LEFT_SHIFT))
+	//	cameraSpeed = fastSpeed * (float)Chroma::Time::GetDeltaTime();
+	//else
+	//	cameraSpeed = slowSpeed * (float)Chroma::Time::GetDeltaTime();
 
-	if (Chroma::Input::IsPressed(Chroma::Input::W))
-		move(FORWARD, camPos, camDir, camUp);
+	//if (Chroma::Input::IsPressed(Chroma::Input::W))
+	//	move(FORWARD, camPos, camDir, camUp);
 
-	if (Chroma::Input::IsPressed(Chroma::Input::S))
-		move(BACK, camPos, camDir, camUp);
+	//if (Chroma::Input::IsPressed(Chroma::Input::S))
+	//	move(BACK, camPos, camDir, camUp);
 
-	if (Chroma::Input::IsPressed(Chroma::Input::D))
-		move(RIGHT, camPos, camDir, camUp);
+	//if (Chroma::Input::IsPressed(Chroma::Input::D))
+	//	move(RIGHT, camPos, camDir, camUp);
 
-	if (Chroma::Input::IsPressed(Chroma::Input::A))
-		move(LEFT, camPos, camDir, camUp);
+	//if (Chroma::Input::IsPressed(Chroma::Input::A))
+	//	move(LEFT, camPos, camDir, camUp);
 
-	if (Chroma::Input::IsPressed(Chroma::Input::Q))
-		move(UP, camPos, camDir, camUp);
+	//if (Chroma::Input::IsPressed(Chroma::Input::Q))
+	//	move(UP, camPos, camDir, camUp);
 
-	if (Chroma::Input::IsPressed(Chroma::Input::E))
-		move(DOWN, camPos, camDir, camUp);
+	//if (Chroma::Input::IsPressed(Chroma::Input::E))
+	//	move(DOWN, camPos, camDir, camUp);
 }
 
 void FlyCameraController::move(Direction dir, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)

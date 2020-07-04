@@ -8,30 +8,32 @@ void MayaCameraController::ProcessMouseInput(glm::vec3& camPos, glm::vec3& camDi
 	mouseXYOffset =  Chroma::Input::GetMouseXYOffset();
 	mouseXYOffset *= glm::vec2(mouseSensitivity);
 
-	// panning
-	if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::MIDDLE_MOUSE))
-	{
-		// maya's camera seems to be pivot-based 
-		pivot += camRight * mouseXYOffset.x;
-		pivot += -camUp * mouseXYOffset.y;
 
-		camPos += camRight * mouseXYOffset.x;
-		camPos += -camUp * mouseXYOffset.y;
-	}
+	// TODO: Implement Event System
+	//// panning
+	//if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::MIDDLE_MOUSE))
+	//{
+	//	// maya's camera seems to be pivot-based 
+	//	pivot += camRight * mouseXYOffset.x;
+	//	pivot += -camUp * mouseXYOffset.y;
 
-	// rotation
-	else if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::LEFT_MOUSE))
-	{
-		camPos += camRight * mouseXYOffset.x;
-		camPos += -camUp * mouseXYOffset.y;
-	}
+	//	camPos += camRight * mouseXYOffset.x;
+	//	camPos += -camUp * mouseXYOffset.y;
+	//}
 
-	// zoom
-	else if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::RIGHT_MOUSE))
-	{
-		camPos += camDir * mouseXYOffset.x;
-		camPos += camDir * -mouseXYOffset.y;
-	}
+	//// rotation
+	//else if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::LEFT_MOUSE))
+	//{
+	//	camPos += camRight * mouseXYOffset.x;
+	//	camPos += -camUp * mouseXYOffset.y;
+	//}
+
+	//// zoom
+	//else if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::RIGHT_MOUSE))
+	//{
+	//	camPos += camDir * mouseXYOffset.x;
+	//	camPos += camDir * -mouseXYOffset.y;
+	//}
 
 	//calc up and dir
 	CalculateUpandDir(camPos, camDir, camUp);

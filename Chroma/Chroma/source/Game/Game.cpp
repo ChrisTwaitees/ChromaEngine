@@ -325,7 +325,7 @@ int main()
 		
 
 		// GAME TICK
-		Chroma::Engine::Tick();
+		Chroma::Engine::OnUpdate();
 
 	}
 

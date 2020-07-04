@@ -214,6 +214,21 @@
     <Filter Include="Engine\log">
       <UniqueIdentifier>{918c6227-a32c-463d-8d94-09277466ee03}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\window">
+      <UniqueIdentifier>{ec66955e-8919-42f4-882e-2826283bcd05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{793af243-24e7-468f-93c1-9dfd582276c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\window">
+      <UniqueIdentifier>{300f3adc-80d8-46ea-bea6-e59875da45b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\OpenGL">
+      <UniqueIdentifier>{41a79b71-0ed4-42c5-8b65-be76d356f2db}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\context">
+      <UniqueIdentifier>{9be21a11-7446-4380-b29a-6c8bc256ea5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -332,9 +347,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\screen\Screen.cpp">
       <Filter>Engine\screen</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\core\Core.cpp">
-      <Filter>Engine\core</Filter>
     </ClCompile>
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCameraController.cpp">
       <Filter>Game\thirdperson</Filter>
@@ -510,6 +522,21 @@
     <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
       <Filter>Engine\common</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\core\Application.cpp">
+      <Filter>Engine\core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\window\Window.cpp">
+      <Filter>Engine\window</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\window</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\context\GraphicsContext.cpp">
+      <Filter>Render\context</Filter>
+    </ClCompile>
+    <ClCompile Include="platform\OpenGL\OpenGLContext.cpp">
+      <Filter>Platform\OpenGL</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -646,9 +673,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\logging\Log.h">
       <Filter>Engine\log</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Engine\core\Core.h">
-      <Filter>Engine\core</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\screen\Screen.h">
       <Filter>Engine\screen</Filter>
@@ -835,6 +859,33 @@
     </ClInclude>
     <ClInclude Include="source\Editor\editor\ui\TranslateGizmo.h">
       <Filter>Editor\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\core\Application.h">
+      <Filter>Engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\window\Window.h">
+      <Filter>Engine\window</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\Windows\WindowsWindow.h">
+      <Filter>Platform\window</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\core\Base.h">
+      <Filter>Engine\core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\input\KeyCodes.h">
+      <Filter>Engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\input\ControllerCodes.h">
+      <Filter>Engine\input</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\event\ControllerEvent.h">
+      <Filter>Engine\event</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\context\GraphicsContext.h">
+      <Filter>Render\context</Filter>
+    </ClInclude>
+    <ClInclude Include="platform\OpenGL\OpenGLContext.h">
+      <Filter>Platform\OpenGL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

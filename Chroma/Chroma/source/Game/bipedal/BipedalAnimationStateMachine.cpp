@@ -177,13 +177,16 @@ bool SprintTransitionCondition(CharacterControllerComponent* characterController
 
 bool JumpTransitionCondition(CharacterControllerComponent* characterController)
 {
-	if (Chroma::Input::IsPressed(Chroma::Input::SPACEBAR) || Chroma::Input::IsPressed(Chroma::Input::CROSS))
-	{
-		CHROMA_INFO("Jump condition met!");
-		return true;
-	}
-	else
-		return false;
+	// TODO: Implement event hookups
+	//if (Chroma::Input::IsPressed(Chroma::Input::SPACEBAR) || Chroma::Input::IsPressed(Chroma::Input::CROSS))
+	//{
+	//	CHROMA_INFO("Jump condition met!");
+	//	return true;
+	//}
+	//else
+	//	return false;
+
+	return false;
 }
 
 void BipedalAnimationStateMachine::Init()

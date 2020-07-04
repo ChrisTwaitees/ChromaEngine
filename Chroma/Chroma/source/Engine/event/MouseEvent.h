@@ -1,18 +1,19 @@
-#ifndef _CHROMA_MOUSE_EVENT_H_
-#define _CHROMA_MOUSE_EVENT_H_
+#ifndef CHROMA_MOUSE_EVENT_H
+#define CHROMA_MOUSE_EVENT_H
 
 #include <event/Event.h>
+#include <input/Input.h>
 
-namespace Chroma {
-
+namespace Chroma 
+{
 	class MouseMovedEvent : public Event
 	{
 	public:
 		MouseMovedEvent(float x, float y)
 			: m_MouseX(x), m_MouseY(y) {}
 
-		inline float GetX() const { return m_MouseX; }
-		inline float GetY() const { return m_MouseY; }
+		float GetX() const { return m_MouseX; }
+		float GetY() const { return m_MouseY; }
 
 		std::string ToString() const override
 		{
@@ -22,7 +23,7 @@ namespace Chroma {
 		}
 
 		EVENT_CLASS_TYPE(MouseMoved)
-		EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
+			EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput)
 	private:
 		float m_MouseX, m_MouseY;
 	};
@@ -33,8 +34,8 @@ namespace Chroma {
 		MouseScrolledEvent(float xOffset, float yOffset)
 			: m_XOffset(xOffset), m_YOffset(yOffset) {}
 
-		inline float GetXOffset() const { return m_XOffset; }
-		inline float GetYOffset() const { return m_YOffset; }
+		float GetXOffset() const { return m_XOffset; }
+		float GetYOffset() const { return m_YOffset; }
 
 		std::string ToString() const override
 		{
@@ -93,7 +94,6 @@ namespace Chroma {
 
 		EVENT_CLASS_TYPE(MouseButtonReleased)
 	};
-
 }
 
 #endif

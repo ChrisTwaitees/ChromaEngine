@@ -176,7 +176,7 @@ int main3()
 		Sun->SetDirection(-normalize(Sun->GetPosition()));
 
 		// GAME TICK
-		Chroma::Engine::Tick();
+		Chroma::Engine::OnUpdate();
 
 	}
 

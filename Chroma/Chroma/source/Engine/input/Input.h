@@ -15,43 +15,28 @@
 #include <camera/Camera.h>
 #include <common/CoreCommon.h>
 #include <input/MouseCodes.h>
+#include <input/KeyCodes.h>
+#include <input/ControllerCodes.h>
 
+#include <event/Event.h>
+#include <event/KeyEvent.h>
+#include <event/MouseEvent.h>
 
-
-
-class Camera;
 
 namespace Chroma
 {
 	class Input
 	{
 	public:
-		enum Key {
-			LEFT_SHIFT, RIGHT_SHIFT, TAB, LEFT_ALT, RIGHT_ALT, SPACEBAR, ESCAPE, A, C, D, E, H, I, J, O, Q, S, W, Y, P,
-			NUM0, NUM1, NUM2, NUM3, NUM4, NUM5, NUM6, NUM7, NUM8, NUM9,
-			LEFT_MOUSE, LEFT_CTRL, RIGHT_CTRL, RIGHT_MOUSE, MIDDLE_MOUSE, LEFT_MOUSE_RELEASE, RIGHT_MOUSE_RELEASE,
-			MIDDLE_MOUSE_RELEASE,
-			CROSS, SQUARE, CIRCLE, TRIANGLE, R1, L1, L3, R3, R2, L2, DPADLEFT, DPADRIGHT, DPADUP, DPADDOWN, OPTIONS,
-			SHARE, TOUCHPAD
-		};
-		bool static IsPressed(Key KeySelection);
-		bool static GetKeyPressedThisFrame();
+		void OnEvent(Event& e);
 
-		//  functions
-		static void Init();
-		static void Update();
-
-		// getters and setters
 		// MOUSE
-		// has moved
-		static bool GetMouseMovedThisFrame();
 		// mouse xy
-		inline static glm::vec2 GetMouseXY() { return glm::vec2(m_MouseX, m_MouseY); }
-		inline static glm::vec2 GetMouseXYOffset() { return m_MouseXYOffset; }
+		static glm::vec2 GetMouseCoordinates();
+		static glm::vec2 GetMouseXYOffset() {return glm::vec2(m_CurrentMouseX - m_LastMouseX, m_CurrentMouseY - m_LastMouseY); }
 		// cursor attrs
-		static void ToggleCursorEnabledState();
+		static void ToggleCursorEnabled();
 		static void SetCursorEnabled(bool const& enabledState) ;
-		inline static bool GetCursorEnabled() { return m_CursorEnabled; }
 		inline static glm::vec3 GetLastRay() { return m_LastMouseRay; }
 
 		// CONTROLLER
@@ -69,35 +54,22 @@ namespace Chroma
 		// Axis
 		static float GetAxis(const char* axis);
 
-		// bind
-		static void BindCamera(Camera* cam) { m_Camera = cam; };
-
 		// constructors
 		Input() {};
-		~Input();
+		~Input() = default;
 
 	private:
-		// components
-		static Camera* m_Camera;
 
-		// attrs
-		// MOUSE
-		static bool m_CursorEnabled;
 
-		static float m_CaptureMouseX, m_CaptureMouseY;
-		static float m_MouseX, m_MouseY;
-		static glm::vec2 m_MouseXYOffset;
+		static bool OnMousePressed(MouseButtonPressedEvent& e);
+		static bool OnMouseMoved(MouseMovedEvent& e);
 
+		static float m_CurrentMouseX, m_CurrentMouseY;
 		static float m_LastMouseX, m_LastMouseY;
-		static float m_PickedMouseX;
-		static float m_PickedMouseY;
+
 		static glm::vec3 m_LastMouseRay;
 
-		static int m_ScreenWidth, m_ScreenHeight;
 		static void m_MousePickerCallback();
-
-		// KEYBOARD
-		static bool m_KeyPressedThisFrame;
 
 		// CONTROLLER
 		static bool m_ControllerEnabled;
@@ -116,19 +88,9 @@ namespace Chroma
 		static float m_ControllerRightBumper;
 
 		// functions 
-		static void UpdateMouseCoordinates();
-		static void UpdateMousePicker();
-		static void UpdateScreen();
-		static void UpdateMouse();
 		static void UpdateController();
-		static void UpdateCamera();
 
-		static glm::vec3 ScreenToWorldRay(float const& mouseX, float const& mouseY);
-
-		// callbacks
-		static void mouse_aim_callback(GLFWwindow* window, double xpos, double ypos);
-		static void mouse_scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
-		static void mouse_click_callback(GLFWwindow* window, int button, int action, int mods);
+		static glm::vec3 ScreenToWorldRay(const glm::vec2& mouseCoordinates);
 	};
 }
 

@@ -3,8 +3,6 @@
 
 //common
 #include <common/PrecompiledHeader.h>
-#include <core/Core.h>
-
 
 class Uniform
 {
