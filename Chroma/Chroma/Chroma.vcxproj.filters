@@ -79,9 +79,6 @@
     <Filter Include="Engine\uid">
       <UniqueIdentifier>{2d2902b3-1bbc-49e8-8323-3955b516950a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\logging">
-      <UniqueIdentifier>{918c6227-a32c-463d-8d94-09277466ee03}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\core">
       <UniqueIdentifier>{bacadcf9-e5ff-4323-8026-0596af866e93}</UniqueIdentifier>
     </Filter>
@@ -214,6 +211,9 @@
     <Filter Include="Engine\threading">
       <UniqueIdentifier>{6fd2906a-d132-41c0-b050-9c4dbdee09ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\log">
+      <UniqueIdentifier>{918c6227-a32c-463d-8d94-09277466ee03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -328,7 +328,7 @@
       <Filter>Engine\time</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\logging\Log.cpp">
-      <Filter>Engine\logging</Filter>
+      <Filter>Engine\log</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\screen\Screen.cpp">
       <Filter>Engine\screen</Filter>
@@ -374,9 +374,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\scene\SceneManager.cpp">
       <Filter>Engine\scene</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
-      <Filter>Engine\common</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\resources\AnimationCompression.cpp">
       <Filter>Engine\resources\compressors</Filter>
@@ -509,6 +506,9 @@
     </ClCompile>
     <ClCompile Include="source\Editor\editor\ui\TranslateGizmo.cpp">
       <Filter>Editor\ui</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
+      <Filter>Engine\common</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -645,7 +645,7 @@
       <Filter>Engine\time</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\logging\Log.h">
-      <Filter>Engine\logging</Filter>
+      <Filter>Engine\log</Filter>
     </ClInclude>
     <ClInclude Include="source\Engine\core\Core.h">
       <Filter>Engine\core</Filter>

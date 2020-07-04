@@ -1,5 +1,6 @@
 #pragma once
 
+
 // STL
 #include <iostream>
 #include <algorithm>
@@ -12,6 +13,10 @@
 #include <fstream>
 #include <sstream>
 #include <assert.h>
+
+// Types
+#include <cstddef>
+#include <cstdint> 
 
 // Threading
 #include <future>
