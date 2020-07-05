@@ -64,6 +64,8 @@ namespace Chroma
 
 		// check window valid
 		CHROMA_ASSERT(m_Window, "Failed to create glfw window");
+		// capture mouse
+		SetCursorEnabled(true);
 
 		// set user pointer
 		glfwSetWindowUserPointer(m_Window, &m_Data);

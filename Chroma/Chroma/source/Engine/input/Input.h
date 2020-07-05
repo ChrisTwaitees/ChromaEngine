@@ -1,13 +1,6 @@
 #ifndef _CHROMA_INPUT_
 #define _CHROMA_INPUT_
 
-//#ifndef PS4_CONTROLLER
-//#define PS4_CONTROLLER
-//#endif
-
-#ifndef XBOX_CONTROLLER
-#define XBOX_CONTROLLER
-#endif
 
 //common
 #include <common/PrecompiledHeader.h>
@@ -18,17 +11,22 @@
 #include <input/KeyCodes.h>
 #include <input/ControllerCodes.h>
 
-#include <event/Event.h>
-#include <event/KeyEvent.h>
-#include <event/MouseEvent.h>
+
+
+
 
 
 namespace Chroma
 {
+	class KeyReleasedEvent;
+	class MouseButtonPressedEvent;
+	class MouseMovedEvent;
+		
+
 	class Input
 	{
 	public:
-		void OnEvent(Event& e);
+		static void OnEvent(Event& e);
 
 		// MOUSE
 		// mouse xy
@@ -59,10 +57,11 @@ namespace Chroma
 		~Input() = default;
 
 	private:
-
-
+		// callbacks
 		static bool OnMousePressed(MouseButtonPressedEvent& e);
 		static bool OnMouseMoved(MouseMovedEvent& e);
+
+		static bool OnKeyReleased(KeyReleasedEvent& e);
 
 		static float m_CurrentMouseX, m_CurrentMouseY;
 		static float m_LastMouseX, m_LastMouseY;
@@ -94,59 +93,6 @@ namespace Chroma
 	};
 }
 
-#ifdef PS4_CONTROLLER
-#define CROSS_MAPPING 1
-#define SQUARE_MAPPING 0
-#define CIRCLE_MAPPING 2
-#define TRIANGLE_MAPPING 3
-#define L1_MAPPING 4
-#define R1_MAPPING 5
-#define L2_MAPPING 6
-#define R2_MAPPING 7
-#define L3_MAPPING 10
-#define R3_MAPPING 11
-#define DPADRIGHT_MAPPING 15
-#define DPADLEFT_MAPPING 17
-#define DPADUP_MAPPING 14
-#define DPADDOWN_MAPPING 16
-#define SHARE_MAPPING 8
-#define OPTIONS_MAPPING 9
-#define TOUCHPAD_MAPPING 13
-// Axes
-#define LH_AXIS 0
-#define LV_AXIS 1
-#define RH_AXIS 2
-#define RV_AXIS 5
-#define L2_AXIS 3
-#define R2_AXIS 4
-#endif
 
-#ifdef XBOX_CONTROLLER
-// Buttons
-#define CROSS_MAPPING 0
-#define SQUARE_MAPPING 2
-#define CIRCLE_MAPPING 1
-#define TRIANGLE_MAPPING 3
-#define L1_MAPPING 4
-#define R1_MAPPING 5
-#define L2_MAPPING 6
-#define R2_MAPPING 7
-#define L3_MAPPING 8
-#define R3_MAPPING 9
-#define DPADRIGHT_MAPPING 11
-#define DPADLEFT_MAPPING 13
-#define DPADUP_MAPPING 10
-#define DPADDOWN_MAPPING 12
-#define SHARE_MAPPING 6
-#define OPTIONS_MAPPING 7
-#define TOUCHPAD_MAPPING 99
-// Axes
-#define LH_AXIS 0
-#define LV_AXIS 1
-#define RH_AXIS 2
-#define RV_AXIS 3
-#define L2_AXIS 4
-#define R2_AXIS 5
-#endif
 
 #endif

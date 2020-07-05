@@ -7,7 +7,8 @@
 #endif
 
 #include <core/Application.h>
-
+#include <event/KeyEvent.h>
+#include <event/MouseEvent.h>
 
 namespace Chroma
 {
@@ -40,6 +41,7 @@ namespace Chroma
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseButtonPressedEvent>(CHROMA_BIND_EVENT_STATIC_FN(Input::OnMousePressed));
 		dispatcher.Dispatch<MouseMovedEvent>(CHROMA_BIND_EVENT_STATIC_FN(Input::OnMouseMoved));
+		dispatcher.Dispatch<KeyReleasedEvent>(CHROMA_BIND_EVENT_STATIC_FN(Input::OnKeyReleased));
 	}
 
 	glm::vec2 Input::GetMouseCoordinates()
@@ -79,6 +81,14 @@ namespace Chroma
 		return true;
 	}
 
+	bool Input::OnKeyReleased(KeyReleasedEvent& e)
+	{
+		if (e.GetKeyCode() == KeyCode::LeftControl)
+			Application::Get().GetWindow().ToggleCursorEnabled();
+		
+		return true;
+	}
+
 	void Input::m_MousePickerCallback()
 	{
 		// Ray Interest Test
@@ -104,23 +114,23 @@ namespace Chroma
 
 		if (m_ControllerEnabled)
 		{
-			// Axes
-			const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &m_ControllerAxesCount);
-			for (int i = 0; i < m_ControllerAxesCount; i++)
-			{
-				// Sticks
-				m_ControllerRightVertical = axes[RV_AXIS];
-				m_ControllerRightHorizontal = axes[RH_AXIS];
+			//// Axes
+			//const float* axes = glfwGetJoystickAxes(GLFW_JOYSTICK_1, &m_ControllerAxesCount);
+			//for (int i = 0; i < m_ControllerAxesCount; i++)
+			//{
+			//	// Sticks
+			//	m_ControllerRightVertical = axes[RV_AXIS];
+			//	m_ControllerRightHorizontal = axes[RH_AXIS];
 
-				m_ControllerLeftVertical = axes[LV_AXIS];
-				m_ControllerLeftHorizontal = axes[LH_AXIS];
+			//	m_ControllerLeftVertical = axes[LV_AXIS];
+			//	m_ControllerLeftHorizontal = axes[LH_AXIS];
 
-				// Bumpers
-				m_ControllerLeftBumper = axes[L2_AXIS];
-				m_ControllerRightBumper = axes[R2_AXIS];
-			}
-			// Buttons
-			m_ControllerButtonsMapping = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &m_ControllerButtonsCount);
+			//	// Bumpers
+			//	m_ControllerLeftBumper = axes[L2_AXIS];
+			//	m_ControllerRightBumper = axes[R2_AXIS];
+			//}
+			//// Buttons
+			//m_ControllerButtonsMapping = glfwGetJoystickButtons(GLFW_JOYSTICK_1, &m_ControllerButtonsCount);
 
 			// DEBUGGING
 			//// BUTTONS

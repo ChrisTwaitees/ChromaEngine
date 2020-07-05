@@ -644,12 +644,7 @@ namespace Chroma
 				ImGui::SliderFloat((quatProperty.first.m_Name + w).c_str(), &quatProperty.second->w, minMax.first.w, minMax.second.w);
 				ImGui::Separator();
 			}
-		}
-
-
-		delete objectSerializer;
-		
-
+		}	
 
 		ImGui::End();
 	}
@@ -919,8 +914,6 @@ namespace Chroma
 			ImGui::Checkbox("Profiling Stats", &m_ShowProfilerStatsOverlay); ImGui::SameLine();
 			if (ImGui::Button("Profiling Window"))	ToggleBool(m_DrawProfilerWindow);
 
-			// Check if mouse hovering
-			m_MouseIsOverViewport = ImGui::IsWindowHovered();
 
 			// Set Dimensions
 			m_ViewportWidth = ImGui::GetWindowSize().x;
@@ -933,6 +926,10 @@ namespace Chroma
 
 			// Set Viewport to  Render Buffer Texture
 			ImGui::BeginChild("Main3dViewport", ImVec2((float)m_ViewportWidth , (float)m_ViewportHeight), true);
+
+			// Check if mouse hovering
+			m_MouseIsOverViewport = ImGui::IsWindowHovered();
+
 			ImVec2 p = ImGui::GetCursorScreenPos();
 			ImGui::Image((void*)(intptr_t)Chroma::Render::GetPostFXBuffer()->GetTexture(),
 				ImVec2(m_ViewportWidth, m_ViewportHeight),

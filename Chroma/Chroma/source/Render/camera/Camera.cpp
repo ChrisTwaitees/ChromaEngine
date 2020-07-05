@@ -3,6 +3,7 @@
 #include <event/CameraEvent.h>
 #include <camera/MayaCameraController.h>
 #include <camera/FlyCameraController.h>
+#include <editor/ui/EditorUI.h>
 
 namespace Chroma
 {
@@ -16,7 +17,11 @@ namespace Chroma
 
 	void Camera::OnEvent(Event& e)
 	{
-		if (Chroma::Application::Get().GetWindow().GetCursorEnabled())
+#ifdef EDITOR
+		if (Application::Get().GetWindow().GetCursorEnabled() && EditorUI::GetIsMouseOverViewport())
+#else
+		if (Application::Get().GetWindow().GetCursorEnabled())
+#endif
 		{
 			m_CameraController->OnEvent(e, m_CameraPosition, m_CameraDirection, m_CameraUp);
 		}

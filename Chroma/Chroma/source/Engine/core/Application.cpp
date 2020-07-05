@@ -1,6 +1,7 @@
 #include "Application.h"
 
 #include <engine/Engine.h>
+#include <input/Input.h>
 #include <editor/Editor.h>
 
 
@@ -64,6 +65,7 @@ namespace Chroma
 		dispatcher.Dispatch<KeyPressedEvent>(CHROMA_BIND_EVENT_FN(Application::OnKeyPressed));
 
 		// dispatch event to the rest of the application
+		Input::OnEvent(e);
 		Scene::OnEvent(e);
 
 	}

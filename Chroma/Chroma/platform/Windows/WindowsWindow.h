@@ -40,7 +40,6 @@ namespace Chroma
 
 		bool m_CursorEnabled{ true };
 
-
 		struct WindowData
 		{
 			std::string Title;
