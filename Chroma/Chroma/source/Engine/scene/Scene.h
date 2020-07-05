@@ -110,7 +110,7 @@ namespace Chroma
 
 	private:
 		// events
-		static bool OnCameraEvent(CameraEvent& e);
+		static bool OnCameraMoved(CameraMovedEvent& e);
 
 		// ENTITIES
 		static std::map<UID, IEntity*> m_Entities;

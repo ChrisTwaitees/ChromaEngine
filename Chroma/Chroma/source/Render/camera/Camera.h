@@ -28,7 +28,7 @@ namespace Chroma
 		// Events
 		enum CameraMode { FlyCam, Maya, Custom };
 		void OnEvent(Event& e);
-		void OnCameraEvent(Event& e);
+		void OnCameraMoved(CameraEvent& e);
 
 		// Accessors
 		inline glm::vec3 GetPosition() const { return m_CameraPosition; };
@@ -36,7 +36,6 @@ namespace Chroma
 		inline glm::vec3 GetDirection() const { return m_CameraDirection; };
 		inline void SetDirection(const glm::vec3& newDirection) { m_CameraDirection = newDirection; UpdateViewMatrix(); }
 		inline glm::vec3 GetVelocity() const { return m_CamVelocity; };
-		inline bool GetDirty() const { return m_Dirty; };
 
 		// matrices
 		inline glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; };
@@ -57,7 +56,6 @@ namespace Chroma
 		// camera controller
 		void SetCustomCameraController(std::shared_ptr<ICameraController> newCamController) {
 			m_CameraController = std::move(newCamController);
-			m_Dirty = true;
 		}
 
 		inline void SetCameraMode(CameraMode newMode);
@@ -72,9 +70,6 @@ namespace Chroma
 
 		glm::vec3 m_CameraUp{ CHROMA_UP };
 		glm::vec3 m_CameraDirection{ CHROMA_BACK };
-
-		bool m_Dirty{ false };
-
 
 		// Modes
 		CameraMode m_CameraMode = Maya;

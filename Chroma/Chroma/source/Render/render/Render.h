@@ -17,12 +17,17 @@
 
 namespace Chroma
 {
+	class CameraMovedEvent;
+
 	class Render
 	{
 	public:
 		// INITIALIZE
 		static void Init();
 		static void RenderScene();
+
+		// events
+		static void OnEvent(Event& e);
 
 		// API
 		enum class API
@@ -62,6 +67,8 @@ namespace Chroma
 		inline static unsigned int GetDepth() { return m_Depth; }
 
 	private:
+		// events
+		static bool OnCameraMoved(CameraMovedEvent& e);
 
 		// BUFFER TEXTURES
 		static void GenerateBufferTextures();

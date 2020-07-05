@@ -2,6 +2,7 @@
 #include <Editor/ui/EditorUI.h>
 #include <ubo/UniformBufferCamera.h>
 #include <ubo/UniformBufferLighting.h>
+#include <event/CameraEvent.h>
 
 namespace Chroma
 {
@@ -140,9 +141,6 @@ namespace Chroma
 
 	void Render::UpdateUniformBufferObjects()
 	{
-		if (Chroma::Scene::GetRenderCamera()->GetDirty())
-			m_UBOCamera->OnUpdate();
-
 		m_UBOLighting->OnUpdate();
 	}
 
@@ -192,7 +190,7 @@ namespace Chroma
 		UpdateUniformBufferObjects();
 
 		// Shadows
-		static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
+		//static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
 
 		// Deferred
 		RenderDefferedComponents();
@@ -209,6 +207,13 @@ namespace Chroma
 
 		// Clear
 		CleanUp();
+	}
+
+	void Render::OnEvent(Event& e)
+	{
+		// dispatch 
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<CameraMovedEvent>(CHROMA_BIND_EVENT_STATIC_FN(Render::OnCameraMoved));
 	}
 
 	void Render::ResizeBuffers(int const& width, int const& height)
@@ -232,15 +237,21 @@ namespace Chroma
 		m_DebugBuffer->ScreenResizeCallback(width, height);
 		m_GraphicsDebugBuffer->ScreenResizeCallback(width, height);
 		m_SSRBuffer->ScreenResizeCallback(width, height);
-
-		// Draw while resizing
-		RenderScene();
-		//Chroma::Screen::Update();
 	}
 
 	glm::mat4 Render::GetLightSpaceMatrix()
 	{
 		return static_cast<ShadowBuffer*>(m_ShadowBuffer)->GetLightSpaceMatrix();
+	}
+
+	bool Render::OnCameraMoved(CameraMovedEvent& e)
+	{
+		m_UBOCamera->OnUpdate();
+
+		static_cast<ShadowBuffer*>(m_ShadowBuffer)->CalculateCascadeLightSpaceMatrices();
+		static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
+
+		return true;
 	}
 
 	void Render::GenerateBufferTextures()

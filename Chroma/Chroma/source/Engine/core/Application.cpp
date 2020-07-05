@@ -2,6 +2,7 @@
 
 #include <engine/Engine.h>
 #include <input/Input.h>
+#include <render/Render.h>
 #include <editor/Editor.h>
 
 
@@ -67,6 +68,7 @@ namespace Chroma
 		// dispatch event to the rest of the application
 		Input::OnEvent(e);
 		Scene::OnEvent(e);
+		Render::OnEvent(e);
 
 	}
 

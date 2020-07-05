@@ -250,16 +250,16 @@ namespace Chroma
 	{
 		// dispatch
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<CameraEvent>(CHROMA_BIND_EVENT_STATIC_FN(Scene::OnCameraEvent));
+		dispatcher.Dispatch<CameraMovedEvent>(CHROMA_BIND_EVENT_STATIC_FN(Scene::OnCameraMoved));
 
 		if (e.GetCategoryFlags() != EventCategory::EventCategoryCamera)
 			m_RenderCamera->OnEvent(e);
 		
 	}
 
-	bool Scene::OnCameraEvent(CameraEvent& e)
+	bool Scene::OnCameraMoved(CameraMovedEvent& e)
 	{
-		m_RenderCamera->OnCameraEvent(e);
+		m_RenderCamera->OnCameraMoved(e);
 		CHROMA_INFO("Camera Event Received in Scene : {0}", e);
 		return true;
 	}

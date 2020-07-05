@@ -177,6 +177,36 @@ namespace Chroma
 		m_Context->SwapBuffers();
 	}
 
+	bool WindowsWindow::IsPressed(const KeyCode& keyCode)
+	{
+		return glfwGetKey(m_Window, (int)keyCode) == GLFW_PRESS;
+	}
+
+	bool WindowsWindow::IsReleased(const KeyCode& keyCode)
+	{
+		return glfwGetKey(m_Window, (int)keyCode) == GLFW_RELEASE;
+	}
+
+	bool WindowsWindow::IsHeld(const KeyCode& keyCode)
+	{
+		return glfwGetKey(m_Window, (int)keyCode) == GLFW_REPEAT;
+	}
+
+	bool WindowsWindow::IsPressed(const MouseCode& mouseCode)
+	{
+		return glfwGetMouseButton(m_Window, (int)mouseCode) == GLFW_PRESS;
+	}
+
+	bool WindowsWindow::IsReleased(const MouseCode& mouseCode)
+	{
+		return glfwGetMouseButton(m_Window, (int)mouseCode) == GLFW_RELEASE;
+	}
+
+	bool WindowsWindow::IsHeld(const MouseCode& mouseCode)
+	{
+		return glfwGetMouseButton(m_Window, (int)mouseCode) == GLFW_REPEAT;
+	}
+
 	void WindowsWindow::ToggleCursorEnabled()
 	{
 		int cursorMode = glfwGetInputMode(m_Window, GLFW_CURSOR);

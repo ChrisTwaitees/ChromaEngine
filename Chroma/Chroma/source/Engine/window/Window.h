@@ -4,6 +4,8 @@
 #include <common/PrecompiledHeader.h>
 #include <core/Base.h>
 #include <event/Event.h>
+#include <input/KeyCodes.h>
+#include <input/MouseCodes.h>
 
 namespace Chroma
 {
@@ -30,6 +32,16 @@ namespace Chroma
 
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
+
+		// keyboard
+		virtual bool IsPressed(const KeyCode& keyCode)  = 0;
+		virtual bool IsReleased(const KeyCode& keyCode) = 0;
+		virtual bool IsHeld(const KeyCode& keyCode)     = 0;
+
+		// mouse
+		virtual bool IsPressed(const MouseCode& mouseCode)  = 0;
+		virtual bool IsReleased(const MouseCode& mouseCode) = 0;
+		virtual bool IsHeld(const MouseCode& mouseCode)     = 0;
 
 		// cursor 
 		virtual bool GetCursorEnabled() = 0;

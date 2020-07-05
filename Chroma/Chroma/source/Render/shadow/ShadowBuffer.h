@@ -13,12 +13,14 @@ namespace Chroma
 	class ShadowBuffer : public IFramebuffer
 	{
 	public:
+		friend class Render;
 		// getters and setters
 		glm::mat4 GetLightSpaceMatrix() { return m_CascadeLightSpaceMatrices[0]; };
 		unsigned int GetTexture() override { return m_CascadedTexureArray; }
 
 		// calculate shadows
 		void DrawShadowMaps();
+
 
 		// constructors
 		ShadowBuffer();
@@ -27,6 +29,9 @@ namespace Chroma
 	private:
 		// Buffer
 		unsigned int m_CascadeShadowFBO;
+
+		// Called from Render on CameraChanged
+		void CalculateCascadeLightSpaceMatrices();
 
 		// Resolution
 		unsigned int m_ShadowMapSize{ 4096 };
@@ -38,7 +43,6 @@ namespace Chroma
 		// Dimensions
 		glm::mat4 m_LightSpaceMatrix;
 
-		void CalculateCascadeLightSpaceMatrices();
 		std::vector<glm::mat4> m_CascadeLightSpaceMatrices;
 
 		void CalculateCascadeSplitDistances();

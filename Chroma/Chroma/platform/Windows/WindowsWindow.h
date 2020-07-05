@@ -20,6 +20,17 @@ namespace Chroma
 		virtual uint32_t GetWidth() const override { return m_Data.Width; }
 		virtual uint32_t GetHeight() const override { return m_Data.Height; }
 
+
+		//input 
+		virtual bool IsPressed(const KeyCode& keyCode) override;
+		virtual bool IsReleased(const KeyCode& keyCode) override;
+		virtual bool IsHeld(const KeyCode& keyCode) override;
+
+		// mouse
+		virtual bool IsPressed(const MouseCode& keyCode) override;
+		virtual bool IsReleased(const MouseCode& keyCode) override;
+		virtual bool IsHeld(const MouseCode& keyCode)  override;
+
 		virtual bool GetCursorEnabled() override { return m_CursorEnabled; }
 		virtual void ToggleCursorEnabled() override;
 		virtual void SetCursorEnabled(const bool& enabled) override;

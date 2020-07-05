@@ -28,10 +28,20 @@ namespace Chroma
 	public:
 		static void OnEvent(Event& e);
 
+		// keyboard
+		static bool IsPressed(const KeyCode& keyCode);
+		static bool IsReleased(const KeyCode& keyCode);
+		static bool IsHeld(const KeyCode& keyCode);
+
+		// mouse
+		static bool IsPressed(const MouseCode& keyCode);
+		static bool IsReleased(const MouseCode& keyCode);
+		static bool IsHeld(const MouseCode& keyCode);
+
 		// MOUSE
 		// mouse xy
 		static glm::vec2 GetMouseCoordinates();
-		static glm::vec2 GetMouseXYOffset() {return glm::vec2(m_CurrentMouseX - m_LastMouseX, m_CurrentMouseY - m_LastMouseY); }
+		static glm::vec2 GetMouseXYOffset() {return glm::vec2(m_CurrentMouseX - m_LastMouseX,  m_LastMouseY - m_CurrentMouseY ); }
 		// cursor attrs
 		static void ToggleCursorEnabled();
 		static void SetCursorEnabled(bool const& enabledState) ;

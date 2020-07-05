@@ -13,6 +13,8 @@ namespace Chroma
 	class IFramebuffer
 	{
 	public:
+		friend class Render;
+
 		// static
 		void CopyColorAndDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);
 		void CopyDepth(unsigned int const& sourceFBO, unsigned int const& targetFBO);

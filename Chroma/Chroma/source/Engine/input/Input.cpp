@@ -44,6 +44,36 @@ namespace Chroma
 		dispatcher.Dispatch<KeyReleasedEvent>(CHROMA_BIND_EVENT_STATIC_FN(Input::OnKeyReleased));
 	}
 
+	bool Input::IsPressed(const KeyCode& keyCode)
+	{
+		return Application::Get().GetWindow().IsPressed(keyCode);
+	}
+
+	bool Input::IsReleased(const KeyCode& keyCode)
+	{
+		return Application::Get().GetWindow().IsReleased(keyCode);
+	}
+
+	bool Input::IsHeld(const KeyCode& keyCode)
+	{
+		return Application::Get().GetWindow().IsHeld(keyCode);
+	}
+
+	bool Input::IsPressed(const MouseCode& mouseCode)
+	{
+		return Application::Get().GetWindow().IsPressed(mouseCode);
+	}
+
+	bool Input::IsReleased(const MouseCode& mouseCode)
+	{
+		return Application::Get().GetWindow().IsReleased(mouseCode);
+	}
+
+	bool Input::IsHeld(const MouseCode& mouseCode)
+	{
+		return Application::Get().GetWindow().IsHeld(mouseCode);
+	}
+
 	glm::vec2 Input::GetMouseCoordinates()
 	{
 		return Application::Get().GetWindow().GetCursorCoordinates();

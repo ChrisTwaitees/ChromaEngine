@@ -162,18 +162,14 @@ namespace Chroma
 		// Set back to default FBO
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-		// Calculate split distances
-		CalculateCascadeSplitDistances();
+		// Calculate split matrices
+		CalculateCascadeLightSpaceMatrices();
 	}
 
 
 	void ShadowBuffer::DrawShadowMaps()
 	{
 		CHROMA_PROFILE_FUNCTION();
-
-		// Calc light Space Matrices if Camera has changed
-		if (Chroma::Scene::GetRenderCamera()->GetDirty())
-			CalculateCascadeLightSpaceMatrices();
 	
 		// Bind Shadow Depth Framebuffer
 		glBindFramebuffer(GL_FRAMEBUFFER, m_CascadeShadowFBO);

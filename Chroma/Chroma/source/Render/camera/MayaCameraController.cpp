@@ -17,51 +17,62 @@ namespace Chroma
 
 	void MayaCameraController::OnEvent(Event& e, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 	{
-		CHROMA_INFO("Maya Camera Controller Receiving Event : {0}", e);
+		bool cameraMoved = false;
 
-		CalculateUpandDir(camPos, camDir, camUp);
+		if (e.GetCategoryFlags() == EventCategory::EventCategoryKeyboard | EventCategory::EventCategoryMouse)
+		{
+			// update mouse coords if mouse moved
+			if (e.GetEventType() == EventType::MouseMoved)
+			{
+				CHROMA_INFO("CameraController Event : {0}", e);
+				mouseXYOffset = Chroma::Input::GetMouseXYOffset();
+				mouseXYOffset *= glm::vec2(mouseSensitivity);
+			}
 
-		// mouse m_Offset
-		mouseXYOffset = Chroma::Input::GetMouseXYOffset();
-		mouseXYOffset *= glm::vec2(mouseSensitivity);
+			// ensure alt is pressed
+			if (Input::IsPressed(KeyCode::LeftAlt))
+			{
+				CHROMA_INFO("CameraController Event : {0}", e);
+				// panning
+				if (Input::IsPressed(MouseCode::ButtonMiddle))
+				{
+					// maya's camera seems to be pivot-based 
+					pivot += camRight * mouseXYOffset.x;
+					pivot += -camUp * mouseXYOffset.y;
 
+					camPos += camRight * mouseXYOffset.x;
+					camPos += -camUp * mouseXYOffset.y;
+					// markDirty
+					cameraMoved = true;
+				}
 
-		CameraMovedEvent camMovedEvent(camPos);
-		SendEventToApplication(camMovedEvent);
+				// rotation
+				else if (Input::IsPressed(MouseCode::ButtonLeft))
+				{
+					camPos += camRight * mouseXYOffset.x;
+					camPos += -camUp * mouseXYOffset.y;
+					// markDirty
+					cameraMoved = true;
+				}
 
+				// zoom
+				else if (Input::IsPressed(MouseCode::ButtonRight))
+				{
+					camPos += camDir * mouseXYOffset.x;
+					camPos += camDir * -mouseXYOffset.y;
+					// markDirty
+					cameraMoved = true;
+				}
+			}
+		}
 
-		//// mouse event
-		//if (e.GetEventType() == EventType::MouseButtonPressed)
-		//{
-		//	if(static_cast)
-		//}
+		// if cameraMoved send event and update camera transforms
+		if (cameraMoved)
+		{
+			CalculateUpandDir(camPos, camDir, camUp);
+			CameraMovedEvent camMovedEvent(camPos);
+			SendEventToApplication(camMovedEvent);
+		}
 
-		//// panning
-		//if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::MIDDLE_MOUSE))
-		//{
-		//	// maya's camera seems to be pivot-based 
-		//	pivot += camRight * mouseXYOffset.x;
-		//	pivot += -camUp * mouseXYOffset.y;
-
-		//	camPos += camRight * mouseXYOffset.x;
-		//	camPos += -camUp * mouseXYOffset.y;
-		//}
-
-		//// rotation
-		//else if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::LEFT_MOUSE))
-		//{
-		//	camPos += camRight * mouseXYOffset.x;
-		//	camPos += -camUp * mouseXYOffset.y;
-		//}
-
-		//// zoom
-		//else if (Chroma::Input::IsPressed(Chroma::Input::LEFT_ALT) && Chroma::Input::IsPressed(Chroma::Input::RIGHT_MOUSE))
-		//{
-		//	camPos += camDir * mouseXYOffset.x;
-		//	camPos += camDir * -mouseXYOffset.y;
-		//}
-
-		//calc up and dir
-		CalculateUpandDir(camPos, camDir, camUp);
 	}
 }
