@@ -6,7 +6,7 @@
 namespace Chroma
 {
 
-	void GBuffer::Initialize()
+	void GBuffer::Init()
 	{
 		// create the buffer
 		glGenFramebuffers(1, &m_FBO);
@@ -201,7 +201,7 @@ namespace Chroma
 
 	GBuffer::GBuffer(IFramebuffer*& PostFXBuffer)
 	{
-		Initialize();
+		Init();
 		m_PostFXBuffer = PostFXBuffer;
 	}
 

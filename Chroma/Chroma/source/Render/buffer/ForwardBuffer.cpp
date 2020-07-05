@@ -4,7 +4,7 @@
 
 namespace Chroma
 {
-	void ForwardBuffer::Initialize()
+	void ForwardBuffer::Init()
 	{
 		glGenFramebuffers(1, &m_FBO);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);

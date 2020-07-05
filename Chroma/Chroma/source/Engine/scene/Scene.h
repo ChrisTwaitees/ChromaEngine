@@ -12,6 +12,7 @@
 
 // events
 #include <event/Event.h>
+#include <event/CameraEvent.h>
 
 // serialization
 #include <serialization/FactorySerializer.h>
@@ -22,7 +23,7 @@ namespace Chroma
 	{
 	public:
 		static void Init();
-		static void Update();
+		static void OnUpdate();
 		static void PostSceneBuild();
 		static void PreSceneBuild();
 
@@ -108,6 +109,9 @@ namespace Chroma
 		static Camera*& GetRenderCamera() { return m_RenderCamera; };
 
 	private:
+		// events
+		static bool OnCameraEvent(CameraEvent& e);
+
 		// ENTITIES
 		static std::map<UID, IEntity*> m_Entities;
 		static std::set<UID> m_EntityUIDs;

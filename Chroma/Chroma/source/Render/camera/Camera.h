@@ -4,24 +4,31 @@
 // chroma
 #include <math/Math.h>
 
-#include <camera/FlyCameraController.h>
-#include <camera/MayaCameraController.h>
+#include <camera/ICameraController.h>
+
+#include <core/Base.h>
 
 #include <event/Event.h>
+#include <event/CameraEvent.h>
 
-enum CameraMode { FlyCam, Maya, Custom};
 
 
 namespace Chroma
 {
+	
+
 	class Camera
 	{
 	public:
-		// Process
-		void Update();
+		Camera();
+		Camera(glm::vec3 camerPos, glm::vec3 cameraTarget);
+		~Camera() = default;
+
 
 		// Events
+		enum CameraMode { FlyCam, Maya, Custom };
 		void OnEvent(Event& e);
+		void OnCameraEvent(Event& e);
 
 		// Accessors
 		inline glm::vec3 GetPosition() const { return m_CameraPosition; };
@@ -30,11 +37,13 @@ namespace Chroma
 		inline void SetDirection(const glm::vec3& newDirection) { m_CameraDirection = newDirection; UpdateViewMatrix(); }
 		inline glm::vec3 GetVelocity() const { return m_CamVelocity; };
 		inline bool GetDirty() const { return m_Dirty; };
+
 		// matrices
 		inline glm::mat4 GetProjectionMatrix() const { return m_ProjectionMatrix; };
 		inline glm::mat4 GetViewMatrix() const { return m_ViewMatrix; };
 		inline glm::mat4 GetViewProjMatrix() const { return m_ViewProjMatrix; };
 	
+		// frustrum
 		inline void SetFOV(float const& newFOV) { m_CamFOV = newFOV; UpdateProjectionMatrix(); };
 		inline float GetFOV() { return m_CamFOV; }
 		inline void SetAspectRatio(float const& newASPECT) { m_CamAspect = newASPECT; UpdateProjectionMatrix(); }
@@ -44,37 +53,38 @@ namespace Chroma
 		inline void SetFarDist(float const& newFAR) { m_CamFar = newFAR; UpdateProjectionMatrix(); };
 		inline float GetFarDist() { return m_CamFar; };
 
-		inline void SetCameraMode(CameraMode newMode) { m_CameraMode = newMode; };
 
+		// camera controller
+		void SetCustomCameraController(std::shared_ptr<ICameraController> newCamController) {
+			m_CameraController = std::move(newCamController);
+			m_Dirty = true;
+		}
 
-		void SetCustomCameraController(ICameraController*& newCameraController);
+		inline void SetCameraMode(CameraMode newMode);
 
-		// Structors
-		Camera();
-		Camera(glm::vec3 camerPos, glm::vec3 cameraTarget);
-		~Camera() { delete m_MayaCamController; delete m_FlyCamController; if (m_CustomCameraController != nullptr) { delete m_CustomCameraController; } };
 	protected:
+
+
 		// Camera Attrs
 		glm::vec3 m_PrevCameraPosition{ glm::vec3(0.0) };
 		glm::vec3 m_CameraPosition{ glm::vec3(0.0, 10.0, 30.0) };
 		glm::vec3 m_CamVelocity{ glm::vec3(0.0) };
 
-		bool m_Dirty{ false };
-
 		glm::vec3 m_CameraUp{ CHROMA_UP };
 		glm::vec3 m_CameraDirection{ CHROMA_BACK };
+
+		bool m_Dirty{ false };
+
 
 		// Modes
 		CameraMode m_CameraMode = Maya;
 
-		// Camera Contollers
-		ICameraController* m_MayaCamController{ new MayaCameraController() };
-		ICameraController* m_FlyCamController{ new FlyCameraController() };
-		ICameraController* m_CustomCameraController{ nullptr };
+		// Camera Contoller
+		std::shared_ptr<ICameraController> m_CameraController;
 
 		// Camera Attributes
 		float m_CamFOV{ 45.0f };
-		float m_CamAspect{ SCREEN_WIDTH / SCREEN_HEIGHT };
+		float m_CamAspect{ 1920.0f/1080.0f };
 		float m_CamNear{ 0.1f };
 		float m_CamFar{ 200.0f };
 		bool m_FirstMouse{ true };
@@ -88,8 +98,7 @@ namespace Chroma
 		void UpdateProjectionMatrix();
 
 		// Functions
-		void Initialize();
-		void ProcessCustomCameraController();
+		void Init();
 	};
 }
 

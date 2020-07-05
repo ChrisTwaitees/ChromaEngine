@@ -11,7 +11,7 @@ namespace Chroma
 		CMPNT_INITIALIZED;
 	}
 
-	void StateMachineComponent::Update()
+	void StateMachineComponent::OnUpdate()
 	{
 		CMPNT_INITIALIZED
 	}

@@ -49,12 +49,12 @@ namespace Chroma
 		m_IconSourcePath = iconPath;
 		m_IconTexture = Texture(m_IconSourcePath);
 
-		Initialize();
+		Init();
 	}
 
 	Icon::Icon()
 	{
-		Initialize();
+		Init();
 	}
 
 
@@ -62,7 +62,7 @@ namespace Chroma
 	{
 	}
 
-	void Icon::Initialize()
+	void Icon::Init()
 	{
 		SetupQuad();
 		UpdateTransform();

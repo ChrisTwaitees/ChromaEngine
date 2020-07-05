@@ -16,7 +16,7 @@ namespace Chroma
 	{
 	public:
 		void Init() override;
-		void Update() override;
+		void OnUpdate() override;
 		void Destroy() override;
 		void Serialize(ISerializer*& serializer ) override;
 

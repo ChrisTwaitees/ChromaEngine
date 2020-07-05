@@ -15,7 +15,7 @@ namespace Chroma
 	public:
 		// icomponent interface
 		virtual void Init();
-		virtual void Update();
+		virtual void OnUpdate();
 		virtual void Destroy();
 		virtual void Serialize(ISerializer*& serializer) override;
 

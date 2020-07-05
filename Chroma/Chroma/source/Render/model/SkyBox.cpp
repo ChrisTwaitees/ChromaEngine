@@ -4,7 +4,7 @@
 
 namespace Chroma
 {
-	void SkyBox::Initialize()
+	void SkyBox::Init()
 	{
 		// initialize shaders uniforms
 		m_linearShader.SetUniform("skybox", 0);
@@ -64,7 +64,7 @@ namespace Chroma
 
 	SkyBox::SkyBox()
 	{
-		Initialize();
+		Init();
 	}
 
 

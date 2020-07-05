@@ -23,7 +23,7 @@ namespace Chroma
 		unsigned int m_SSRReflectedUVs;
 
 		// funcs
-		void Initialize() override;
+		void Init() override;
 		void ResizeBuffers() override;
 
 		// shader

@@ -35,7 +35,7 @@ namespace Chroma
 		CMPNT_INITIALIZED
 	}
 
-	void Light::Update()
+	void Light::OnUpdate()
 	{
 	#ifdef EDITOR
 		{

@@ -13,7 +13,7 @@ namespace Chroma
 		double TerrainHeight;
 
 		// initialize
-		void Initialize();
+		void Init();
 
 	public:
 		/*  Functions  */

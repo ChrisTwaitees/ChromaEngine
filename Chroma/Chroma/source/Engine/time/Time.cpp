@@ -105,7 +105,7 @@ namespace Chroma
 		m_NormalizedTimers01.push_back(newNormalizedTimer); // add to timers to tick down
 	}
 
-	void Time::Update()
+	void Time::OnUpdate()
 	{
 		// Calculate Time
 		m_Current = GetGameTime();

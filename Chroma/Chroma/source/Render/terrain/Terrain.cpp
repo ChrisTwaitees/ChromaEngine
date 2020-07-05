@@ -4,7 +4,7 @@
 namespace Chroma
 {
 
-	void Terrain::Initialize()
+	void Terrain::Init()
 	{
 		// Setting Default Transform
 		TerrainIdentityMatrix = glm::scale(TerrainIdentityMatrix, glm::vec3(10.0f));
@@ -31,7 +31,7 @@ namespace Chroma
 
 	Terrain::Terrain()
 	{
-		Initialize();
+		Init();
 		SetupQuad();
 	}
 

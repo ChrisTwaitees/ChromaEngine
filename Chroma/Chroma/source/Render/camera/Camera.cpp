@@ -1,9 +1,12 @@
 #include "Camera.h"
 #include <core/Application.h>
+#include <event/CameraEvent.h>
+#include <camera/MayaCameraController.h>
+#include <camera/FlyCameraController.h>
 
 namespace Chroma
 {
-	void Camera::Initialize()
+	void Camera::Init()
 	{
 		m_CamAspect = (float)Chroma::Application::Get().GetWindow().GetWidth() / (float)Chroma::Application::Get().GetWindow().GetHeight();
 		UpdateProjectionMatrix();
@@ -11,64 +14,19 @@ namespace Chroma
 		m_Dirty = true;
 	}
 
-	void Camera::ProcessCustomCameraController()
+	void Camera::OnEvent(Event& e)
 	{
-		if (m_CustomCameraController != nullptr)
-			m_CustomCameraController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
-	}
-
-	void Camera::Update()
-	{
-		// Reset Camera Update
-		m_Dirty = false;
-
-		// Capture last frame's Position
-		m_PrevCameraPosition = m_CameraPosition;
-
-
 		if (Chroma::Application::Get().GetWindow().GetCursorEnabled())
 		{
-			switch (m_CameraMode)
-			{
-			case(CameraMode::FlyCam):
-			{
-				m_FlyCamController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
-				break;
-			}
-			case(CameraMode::Maya):
-			{
-				m_MayaCamController->ProcessInput(m_CameraPosition, m_CameraDirection, m_CameraUp);
-				break;
-			}
-			case(CameraMode::Custom):
-			{
-				ProcessCustomCameraController();
-				break;
-			}
-			}
-			UpdateViewMatrix();
+			m_CameraController->OnEvent(e, m_CameraPosition, m_CameraDirection, m_CameraUp);
 		}
 		else
 			m_FirstMouse = true;
-
-		// Calculate Camera Velocity
-		m_CamVelocity = m_CameraPosition - m_PrevCameraPosition;
-
-		//Debug
-		//CHROMA_INFO("Camera Velocity : {}, {}, {}", m_CamVelocity.x, m_CamVelocity.y, m_CamVelocity.z);
-		//CHROMA_INFO("Camera Changed this Frame : {}", m_Dirty);
-
-	}
-
-	void Camera::OnEvent(Event& e)
-	{
-
-
 	}
 
 	void Camera::UpdateViewMatrix()
 	{
-		m_ViewMatrix = glm::lookAt(m_CameraPosition, m_CameraPosition + m_CameraDirection, m_CameraUp);
+		m_ViewMatrix = glm::lookAt(m_CameraPosition, m_CameraPosition + glm::normalize(m_CameraDirection), m_CameraUp);
 		m_ViewProjMatrix = m_ProjectionMatrix * m_ViewMatrix;
 		m_Dirty = true;
 	}
@@ -80,15 +38,10 @@ namespace Chroma
 		m_Dirty = true;
 	}
 
-	void Camera::SetCustomCameraController(ICameraController*& newCameraController)
-	{
-		m_CustomCameraController = newCameraController;
-		m_Dirty = true;
-	}
-
 	Camera::Camera()
 	{
-		Initialize();
+		m_CameraController = std::make_shared<MayaCameraController>();
+		Init();
 	}
 
 	Camera::Camera(glm::vec3 cameraPos_val, glm::vec3 cameraTarget_val) : m_CameraPosition{ cameraPos_val }
@@ -96,7 +49,66 @@ namespace Chroma
 		m_CameraDirection = glm::normalize(m_CameraPosition - cameraTarget_val);
 		glm::vec3 camRight = glm::normalize(glm::cross(CHROMA_UP, m_CameraDirection));
 		m_CameraUp = glm::cross(m_CameraDirection, camRight);
-		Initialize();
+		Init();
 	}
+
+	inline void Camera::SetCameraMode(CameraMode newMode)
+	{
+		if (newMode != m_CameraMode)
+		{
+			m_CameraMode = newMode;
+
+			switch (newMode)
+			{
+			case CameraMode::Maya :
+			{
+				m_CameraController = std::make_shared<MayaCameraController>();
+				break;
+			}
+			case CameraMode::FlyCam:
+			{
+				m_CameraController = std::make_shared<FlyCameraController>();
+				break;
+			}
+			default:
+			{
+				CHROMA_ASSERT(false, "CameraMode parsed not supported!");
+			}
+			}
+		}
+	}
+
+	void Camera::OnCameraEvent(Event& e)
+	{
+		CHROMA_INFO("Received CameraEvent from Subscribed Camera");
+
+		if (e.GetCategoryFlags() == EventCategory::EventCategoryCamera)
+		{
+			CHROMA_INFO("Received CameraEvent from Subscribed Camera");
+			m_Dirty = true;
+		}
+
+		// camera moved 
+		if (e.GetEventType() == EventType::CameraMoved)
+		{
+			m_Dirty = true;
+			UpdateViewMatrix();
+		}
+
+		// Calculate Camera Velocity
+		m_CamVelocity = m_CameraPosition - m_PrevCameraPosition;
+
+		//Debug
+		//CHROMA_INFO("Camera Velocity : {}, {}, {}", m_CamVelocity.x, m_CamVelocity.y, m_CamVelocity.z);
+		//CHROMA_INFO("Camera Changed this Frame : {}", m_Dirty);
+		// Reset Camera Update
+		m_Dirty = false;
+
+		// TODO: Implement CameraMoved event
+		// Capture last frame's Position
+		m_PrevCameraPosition = m_CameraPosition;
+
+	}
+
 
 }

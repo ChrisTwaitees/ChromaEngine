@@ -269,7 +269,7 @@ namespace Chroma
 		//}
 	}
 
-	void ThirdPersonCharacterController::Update()
+	void ThirdPersonCharacterController::OnUpdate()
 	{
 		CHROMA_INFO_UNDERLINE;
 

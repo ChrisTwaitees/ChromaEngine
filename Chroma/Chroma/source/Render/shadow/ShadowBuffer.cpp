@@ -1,8 +1,8 @@
 #include "ShadowBuffer.h"
 #include <component/MeshComponent.h>
-#include <screen/Screen.h>
 #include <scene/Scene.h>
 #include <input/Input.h>
+#include <core/Application.h>
 
 namespace Chroma
 {
@@ -142,7 +142,7 @@ namespace Chroma
 		}
 	}
 
-	void ShadowBuffer::Initialize()
+	void ShadowBuffer::Init()
 	{
 		// Create frame buffer to store depth to
 		glGenFramebuffers(1, &m_CascadeShadowFBO);
@@ -229,7 +229,7 @@ namespace Chroma
 		// Reset back to previous render settings
 		glDisable(GL_DEPTH_CLAMP);
 		glCullFace(GL_BACK); // reset to original culling mode
-		glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
+		glViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 		UnBind();
 
 		//// TEST
@@ -261,7 +261,7 @@ namespace Chroma
 
 	ShadowBuffer::ShadowBuffer()
 	{
-		Initialize();
+		Init();
 	}
 
 

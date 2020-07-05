@@ -9,6 +9,7 @@
 #include <event/ApplicationEvent.h>
 #include <event/KeyEvent.h>
 #include <event/MouseEvent.h>
+#include <event/CameraEvent.h>
 #include <window/Window.h>
 
 int main();
@@ -21,6 +22,7 @@ namespace Chroma
 		Application(const std::string& name = "Chroma App");
 		virtual ~Application();
 
+		// events
 		void OnEvent(Event& e);
 
 		// consider layering as suggested in Cherno video here : https://www.youtube.com/watch?v=_Kj6BSfM6P4&t=909s

@@ -10,7 +10,7 @@ namespace Chroma
 {
 	typedef std::pair<std::string, Take> TakeData;
 
-	void BipedalAnimationStateMachine::Update()
+	void BipedalAnimationStateMachine::OnUpdate()
 	{
 		CHROMA_INFO_UNDERLINE;
 

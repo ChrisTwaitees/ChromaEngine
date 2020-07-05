@@ -9,7 +9,7 @@
 namespace Chroma
 {
 
-	void AnimationStateMachine::Update()
+	void AnimationStateMachine::OnUpdate()
 	{
 		CHROMA_INFO("Animation State Machine Updating");
 		CHROMA_INFO("Current State : {}", m_CurrentState.m_Name);

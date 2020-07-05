@@ -14,7 +14,7 @@ namespace Chroma
 		CMPNT_INITIALIZED
 	}
 
-	void AnimConstraintComponent::Update()
+	void AnimConstraintComponent::OnUpdate()
 	{
 		CHROMA_INFO("Updating AnimConstraint Component : {0}", m_UID.m_Data);
 	}

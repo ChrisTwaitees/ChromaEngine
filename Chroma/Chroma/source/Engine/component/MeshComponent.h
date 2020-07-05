@@ -19,7 +19,7 @@ namespace Chroma
 		virtual void SetupMesh();
 		virtual void LoadFromFile(const std::string& sourcePath);
 		virtual void RebuildMesh() { LoadFromFile(m_MeshData.sourcePath); };
-		void Update() override;
+		void OnUpdate() override;
 		void Destroy() override;
 		void Serialize(ISerializer*& serializer) override;
 		virtual void CleanUp();

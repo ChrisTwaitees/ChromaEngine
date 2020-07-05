@@ -35,7 +35,7 @@ namespace Chroma
 	class AnimationStateMachine : public StateMachineComponent
 	{
 	public:
-		void Update() override;
+		void OnUpdate() override;
 		void Destroy() override;
 		void ProcessConditions() override {};
 	

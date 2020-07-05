@@ -73,7 +73,7 @@ namespace Chroma
 		static void StartNormalizedTimer10(float& Duration);
 		static void StartNormalizedTimer01(float& Duration);
 
-		static void Update();
+		static void OnUpdate();
 
 	private:
 

@@ -23,7 +23,6 @@ namespace Chroma
 	class Window
 	{
 	public:
-		using EventCallbackFn = std::function<void(Event&)>;
 		
 		virtual ~Window() = default;
 
@@ -39,6 +38,7 @@ namespace Chroma
 		virtual glm::vec2 GetCursorCoordinates() = 0;
 
 		// Window Attributes
+		using EventCallbackFn = std::function<void(Event&)>;
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;

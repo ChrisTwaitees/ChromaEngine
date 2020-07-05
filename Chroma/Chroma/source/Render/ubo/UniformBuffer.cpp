@@ -6,7 +6,7 @@ namespace Chroma
 {
 	unsigned int UniformBuffer::UBO_GlobalBindingPointIndex{ 0 };
 
-	void UniformBuffer::Initialize()
+	void UniformBuffer::Init()
 	{
 		UBO_GlobalBindingPointIndex++;
 		m_BindingPointIndex = UBO_GlobalBindingPointIndex;

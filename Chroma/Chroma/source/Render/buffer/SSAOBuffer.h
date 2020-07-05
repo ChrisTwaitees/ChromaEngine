@@ -38,7 +38,7 @@ namespace Chroma
 		void generateBuffers();
 
 		// initialize
-		void Initialize() override;
+		void Init() override;
 
 		// sampleKernels
 		unsigned int kernelSamples{ 16 };

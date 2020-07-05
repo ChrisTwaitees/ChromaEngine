@@ -31,10 +31,10 @@ namespace Chroma
 
 	SSRBuffer::SSRBuffer()
 	{
-		Initialize();
+		Init();
 	}
 
-	void SSRBuffer::Initialize()
+	void SSRBuffer::Init()
 	{
 		glGenFramebuffers(1, &m_FBO);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);

@@ -8,7 +8,7 @@ namespace Chroma
 	class BipedalAnimationStateMachine : public AnimationStateMachine
 	{
 	public:
-		void Update() override;
+		void OnUpdate() override;
 		void Destroy() override;
 		void ProcessConditions() override;
 		void ProcessAnimStates() override;

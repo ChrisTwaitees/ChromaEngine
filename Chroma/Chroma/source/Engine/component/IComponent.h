@@ -20,7 +20,7 @@ namespace Chroma
 	public:
 		// Functions
 		virtual void Init() = 0;
-		virtual void Update() = 0;
+		virtual void OnUpdate() = 0;
 		virtual void Destroy() = 0;
 		virtual void Serialize(ISerializer*& serializer) = 0;
 

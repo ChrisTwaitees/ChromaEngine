@@ -79,7 +79,7 @@ namespace Chroma
 		CHROMA_INFO("Mesh Component : {0}, Loading from source path : {1}.", m_UID.m_Data, sourcePath);
 	}
 
-	void MeshComponent::Update()
+	void MeshComponent::OnUpdate()
 	{
 	}
 

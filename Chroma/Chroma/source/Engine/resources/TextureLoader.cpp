@@ -57,7 +57,7 @@ namespace Chroma
 		CHROMA_INFO("TEXTURE LOADER :: INITIALIZED.");
 	}
 
-	void TextureLoader::Update()
+	void TextureLoader::OnUpdate()
 	{
 		// Pop and Initialize uninitialized TextureDatas
 		// These are essentially listeners for completed asynchronously loaded textures

@@ -45,7 +45,7 @@ namespace Chroma
 	public:
 
 		static void Init();
-		static void Update();
+		static void OnUpdate();
 		static void ToggleDrawDebug();
 		static void DrawDebug();
 

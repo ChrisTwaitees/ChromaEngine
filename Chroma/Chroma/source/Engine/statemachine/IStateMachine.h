@@ -25,7 +25,7 @@ struct State
 class IStateMachine
 {
 public:
-	virtual void Update() = 0;
+	virtual void OnUpdate() = 0;
 	virtual void Destroy() = 0;
 	virtual void ProcessConditions() = 0;
 	virtual void AddState(State const& newState);

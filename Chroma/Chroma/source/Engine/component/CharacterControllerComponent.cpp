@@ -41,7 +41,7 @@ namespace Chroma
 		CMPNT_INITIALIZED
 	}
 
-	void CharacterControllerComponent::Update()
+	void CharacterControllerComponent::OnUpdate()
 	{
 		ProcessInput();
 		CalculateTransform();
@@ -50,7 +50,6 @@ namespace Chroma
 
 	void CharacterControllerComponent::Destroy()
 	{
-		delete m_CameraController;
 		CMPNT_DESTROYED
 	}
 
@@ -66,6 +65,5 @@ namespace Chroma
 
 	CharacterControllerComponent::~CharacterControllerComponent()
 	{
-		delete m_CameraController;
 	}
 }

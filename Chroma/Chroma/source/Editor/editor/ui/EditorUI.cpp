@@ -3,7 +3,6 @@
 #include <scene/SceneManager.h>
 #include <physics/PhysicsEngine.h>
 #include <render/Render.h>
-#include <screen/Screen.h>
 #include <buffer/GBuffer.h>
 #include <entity/Entity.h>
 
@@ -456,14 +455,14 @@ namespace Chroma
 		{
 			Chroma::Scene::GetComponent(m_SelectedObjectUID)->Serialize(objectSerializer);
 			if(Chroma::Scene::GetComponent(m_SelectedObjectUID)->GetType() == Chroma::Type::kLightComponent)
-				Chroma::Scene::GetComponent(m_SelectedObjectUID)->Update();
+				Chroma::Scene::GetComponent(m_SelectedObjectUID)->OnUpdate();
 		}
 
 		// attempt to fetch entity
 		if (Chroma::Scene::GetEntity(m_SelectedObjectUID) != nullptr)
 		{
 			Chroma::Scene::GetEntity(m_SelectedObjectUID)->Serialize(objectSerializer);
-			Chroma::Scene::GetEntity(m_SelectedObjectUID)->Update();
+			Chroma::Scene::GetEntity(m_SelectedObjectUID)->OnUpdate();
 		}
 
 		ImGui::Separator();

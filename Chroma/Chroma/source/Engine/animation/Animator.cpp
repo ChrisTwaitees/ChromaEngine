@@ -209,7 +209,7 @@ namespace Chroma
 		m_Skeleton = static_cast<SkinnedMesh*>(meshComponent)->GetSkeleton();
 	}
 
-	void Animator::Update()
+	void Animator::OnUpdate()
 	{
 		// check for skeleton
 		if (m_Skeleton == nullptr)

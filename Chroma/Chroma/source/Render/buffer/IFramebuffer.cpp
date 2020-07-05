@@ -71,7 +71,7 @@ namespace Chroma
 
 
 
-	void IFramebuffer::Initialize()
+	void IFramebuffer::Init()
 	{
 		glGenFramebuffers(1, &m_FBO);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
@@ -141,7 +141,7 @@ namespace Chroma
 
 	IFramebuffer::IFramebuffer()
 	{
-		Initialize();
+		Init();
 	}
 
 

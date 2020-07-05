@@ -5,18 +5,28 @@
 #include <common/PrecompiledHeader.h>
 
 // chroma 
-#include <common/CoreCommon.h>
-#include <math/Math.h>
+#include <event/Event.h>
 
-
-struct ICameraController
+namespace Chroma
 {
-	glm::vec3 m_CamPos{ glm::vec3(0.0) };
-	glm::vec3 m_CamDir{ CHROMA_RIGHT };
-	glm::vec3 m_CamUp{ CHROMA_UP };
+	class Camera;
 
+	class ICameraController
+	{
+	public:
+		friend class Camera;
+		virtual void OnEvent(Event& e, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) = 0;
 
-	virtual void ProcessInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) = 0;
-};
+		// transforms
+		glm::vec3 m_CamPos{ glm::vec3(0.0) };
+		glm::vec3 m_CamDir{ CHROMA_RIGHT };
+		glm::vec3 m_CamUp{ CHROMA_UP };
+
+		ICameraController() {};
+		virtual ~ICameraController() = default;
+	protected:
+		void SendEventToApplication(Event& e);
+	};
+}
 
 #endif

@@ -60,7 +60,7 @@ namespace Chroma
 		std::atomic<uint64_t> finishedLabel;    // track the state of execution across background worker threads
 
 
-		void Initialize()
+		void Init()
 		{
 			// Initialize the worker execution state to 0:
 			finishedLabel.store(0);

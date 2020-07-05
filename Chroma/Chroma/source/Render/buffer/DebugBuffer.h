@@ -109,7 +109,7 @@ namespace Chroma
 		void ClearColorAndDepth() override;
 		void Draw() override;
 
-		DebugBuffer(IFramebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Initialize(); };
+		DebugBuffer(IFramebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Init(); };
 
 	private:
 		// debugSkeletons
@@ -194,7 +194,7 @@ namespace Chroma
 
 		void BindPointVAO();
 		// blitting depth buffer before rendering
-		void Initialize() override;
+		void Init() override;
 	};
 }
 #endif

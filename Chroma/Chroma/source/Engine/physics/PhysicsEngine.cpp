@@ -207,7 +207,7 @@ namespace Chroma
 	}
 
 
-	void Physics::Update()
+	void Physics::OnUpdate()
 	{
 		// step simulation
 		m_World->stepSimulation(Time::GetDeltaTime());

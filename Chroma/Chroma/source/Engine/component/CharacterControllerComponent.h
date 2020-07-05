@@ -20,11 +20,11 @@ namespace Chroma
 	public:
 		// Functions
 		void Init() override;
-		void Update() override;
+		void OnUpdate() override;
 		void Destroy() override;
 		void Serialize(ISerializer*& serializer) override;
 
-		virtual inline void SetCustomCameraController(ICameraController*& newCameraController) { m_CameraController = newCameraController; }
+		virtual inline void SetCustomCameraController(std::shared_ptr<ICameraController> newCameraController) { m_CameraController = newCameraController; }
 
 		inline virtual glm::vec3& GetVelocity() { return m_Velocity; }
 		inline virtual glm::vec3& GetPlayerPosition() { return m_Position; };
@@ -38,7 +38,7 @@ namespace Chroma
 
 	protected:
 		// camera controller
-		ICameraController* m_CameraController{ nullptr };
+		std::shared_ptr<ICameraController> m_CameraController{ nullptr };
 		glm::vec3 m_CamPosition{ glm::vec3(10.0) };
 		glm::vec3 m_CamDirection{ CHROMA_RIGHT };
 		glm::vec3 m_CamUp{ CHROMA_UP };

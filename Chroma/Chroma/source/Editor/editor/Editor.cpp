@@ -130,7 +130,7 @@ namespace Chroma
 		//// character controller
 		CharacterControllerComponent* AnimModelCharacterController = new ThirdPersonCharacterController();
 		// camera controller
-		ICameraController* AnimModelCameraController = new ThirdPersonCameraController();
+		std::shared_ptr<ICameraController> AnimModelCameraController = std::make_shared<ThirdPersonCameraController>();
 		Chroma::Scene::GetRenderCamera()->SetCustomCameraController(AnimModelCameraController);
 		AnimModelCharacterController->SetCustomCameraController(AnimModelCameraController);
 		// adding the component

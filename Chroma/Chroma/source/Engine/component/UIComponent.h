@@ -10,7 +10,7 @@ namespace Chroma
 	public:
 		// Functions
 		void Init();
-		void Update() {};
+		void OnUpdate() {};
 		void Destroy();
 		void Serialize(ISerializer*& serializer) override;
 

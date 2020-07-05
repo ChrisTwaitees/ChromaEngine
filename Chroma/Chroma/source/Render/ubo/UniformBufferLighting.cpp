@@ -3,7 +3,7 @@
 
 namespace Chroma
 {
-	void UniformBufferLighting::Update()
+	void UniformBufferLighting::OnUpdate()
 	{
 		Bind();
 		PopulateBufferWithSceneLights();

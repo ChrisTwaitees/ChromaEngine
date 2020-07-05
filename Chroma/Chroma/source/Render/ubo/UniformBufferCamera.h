@@ -13,7 +13,7 @@ namespace Chroma
 		UniformBufferCamera() { m_Name = "CameraUBO"; 	Setup();};
 		~UniformBufferCamera() {};
 
-		void Update() override;
+		void OnUpdate() override;
 
 	private:
 

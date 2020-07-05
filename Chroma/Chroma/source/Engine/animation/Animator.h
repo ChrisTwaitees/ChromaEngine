@@ -27,7 +27,7 @@ namespace Chroma
 	class Animator
 	{
 	public:
-		void Update();
+		void OnUpdate();
 		void Destroy();
 
 		// animation

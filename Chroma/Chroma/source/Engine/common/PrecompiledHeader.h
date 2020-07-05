@@ -61,3 +61,4 @@
 #include <logging/Log.h>
 #include <types/Types.h>
 #include <profiling/Instrumentor.h>
+#include <math/Math.h>

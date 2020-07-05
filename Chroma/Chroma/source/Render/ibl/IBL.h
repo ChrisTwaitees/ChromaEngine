@@ -63,7 +63,7 @@ namespace Chroma
 		unsigned int m_envCubeMap, m_irradianceMap, m_prefilterMap, m_brdfLUTTexture;
 
 		// functions
-		void Initialize();
+		void Init();
 		void ClearTextureBuffers();
 		void GenerateEnvCubeMap();
 		void GenerateIrradianceMap();

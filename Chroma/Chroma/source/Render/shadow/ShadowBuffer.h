@@ -52,7 +52,7 @@ namespace Chroma
 		Shader m_DepthShader{ depthFragSource , depthVtxSource };
 
 		// Setup 
-		void Initialize();
+		void Init();
 
 	};
 }

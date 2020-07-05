@@ -11,7 +11,7 @@ namespace Chroma
 	class ThirdPersonCharacterController : public CharacterControllerComponent
 	{
 	public:
-		void Update() override;
+		void OnUpdate() override;
 
 		float& GetSprintSpeed() override { return m_SprintSpeedMultiplier; };
 		float& GetWalkSpeed() override { return m_WalkSpeed; };

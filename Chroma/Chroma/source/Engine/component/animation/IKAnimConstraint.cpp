@@ -14,7 +14,7 @@ namespace Chroma
 		CMPNT_INITIALIZED
 	}
 
-	void IKAnimConstraint::Update()
+	void IKAnimConstraint::OnUpdate()
 	{
 		if (m_IsActive && m_ActivationAmount > 0.0)
 		{

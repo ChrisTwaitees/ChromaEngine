@@ -5,17 +5,18 @@
 // chroma
 #include <camera/ICameraController.h>
 
-
-class ThirdPersonCameraController : public ICameraController
+namespace Chroma
 {
+	class ThirdPersonCameraController : public ICameraController
+	{
+	public:
+		void OnEvent(Event& e, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
 
-public:
-	void ProcessInput(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp) override;
 
+		ThirdPersonCameraController() {};
+		~ThirdPersonCameraController() {};
 
-	ThirdPersonCameraController() {};
-	~ThirdPersonCameraController() {};
-
-};
+	};
+}
 
 #endif

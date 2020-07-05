@@ -3,7 +3,6 @@
 
 // chroma
 #include <common/CoreCommon.h>
-#include <screen/Screen.h>
 #include <scene/Scene.h>
 #include <scene/SceneManager.h>
 #include <render/Render.h>
@@ -18,13 +17,8 @@ namespace Chroma
 	class Engine
 	{
 		// game loop functions
-		static void Update();
 		static void UpdateComponents();
-		static void ProcessInput();
 		static void Draw();
-#ifdef DEBUG
-		static bool m_DrawProfilingWindow;
-#endif
 
 	public:
 		static void Init();

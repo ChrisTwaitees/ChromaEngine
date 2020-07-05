@@ -227,7 +227,7 @@ namespace Chroma
 		SCENE_RESETSTATE
 	}
 
-	void Scene::Update()
+	void Scene::OnUpdate()
 	{
 		m_LightsDirty = false;
 	}
@@ -248,7 +248,20 @@ namespace Chroma
 
 	void Scene::OnEvent(Event& e)
 	{
-		m_RenderCamera->OnEvent(e);
+		// dispatch
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<CameraEvent>(CHROMA_BIND_EVENT_STATIC_FN(Scene::OnCameraEvent));
+
+		if (e.GetCategoryFlags() != EventCategory::EventCategoryCamera)
+			m_RenderCamera->OnEvent(e);
+		
+	}
+
+	bool Scene::OnCameraEvent(CameraEvent& e)
+	{
+		m_RenderCamera->OnCameraEvent(e);
+		CHROMA_INFO("Camera Event Received in Scene : {0}", e);
+		return true;
 	}
 
 	void Scene::PostSceneBuild()

@@ -10,7 +10,7 @@
 namespace Chroma
 {
 
-	void DebugBuffer::Initialize()
+	void DebugBuffer::Init()
 	{
 		glGenFramebuffers(1, &m_FBO);
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);

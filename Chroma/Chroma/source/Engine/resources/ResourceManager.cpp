@@ -16,9 +16,9 @@ namespace Chroma
 		CHROMA_INFO("Resource Manager Initialized.");
 	}
 
-	void ResourceManager::Update()
+	void ResourceManager::OnUpdate()
 	{
-		Chroma::TextureLoader::Update();
+		Chroma::TextureLoader::OnUpdate();
 	}
 
 

@@ -17,7 +17,7 @@ namespace Chroma
 		static void Init();
 
 		// update
-		static void Update();
+		static void OnUpdate();
 
 		static Texture Create2DTexture(std::string sourcePath);
 		static Texture Create2DTexture(std::string sourcePath, std::string dir);

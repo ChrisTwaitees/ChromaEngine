@@ -19,14 +19,14 @@ namespace Chroma
 		CMPNT_INITIALIZED;
 	}
 
-	void AnimationComponent::Update()
+	void AnimationComponent::OnUpdate()
 	{
 		// state machinem_AnimationComponentUID
 		if( m_AnimationStateMachine != nullptr)
-			m_AnimationStateMachine->Update();
+			m_AnimationStateMachine->OnUpdate();
 
 		// animator
-		m_Animator.Update();
+		m_Animator.OnUpdate();
 	}
 
 	void AnimationComponent::Destroy()

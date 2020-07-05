@@ -1,9 +1,9 @@
 #include "IBL.h"
-#include <screen/Screen.h>
+#include <core/Application.h>
 
 namespace Chroma
 {
-	void IBL::Initialize()
+	void IBL::Init()
 	{
 		glDisable(GL_CULL_FACE); // double sided rendering
 		glDepthFunc(GL_LEQUAL);
@@ -75,7 +75,7 @@ namespace Chroma
 			// draw cube
 			m_captureCube.BindDrawVAO();
 		}
-		glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
+		glViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -118,7 +118,7 @@ namespace Chroma
 
 			m_captureCube.BindDrawVAO();
 		}
-		glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
+		glViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -174,7 +174,7 @@ namespace Chroma
 				m_captureCube.BindDrawVAO();
 			}
 		}
-		glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
+		glViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
@@ -205,7 +205,7 @@ namespace Chroma
 		m_capturePlane.BindDrawVAO();
 
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
-		glViewport(0, 0, Chroma::Screen::GetWidthHeight().first, Chroma::Screen::GetWidthHeight().second);
+		glViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 
 	}
 
@@ -220,7 +220,7 @@ namespace Chroma
 	void IBL::SetIBLTexture(HDRTexture newHDRTexture)
 	{
 		m_HDRtexture = newHDRTexture;
-		Initialize();
+		Init();
 	}
 
 	void IBL::LoadIBL(std::string const& newHDRTexturePath)
@@ -235,12 +235,12 @@ namespace Chroma
 		ClearTextureBuffers();
 
 		// initialize
-		Initialize();
+		Init();
 	}
 
 	IBL::IBL()
 	{
 		m_HDRtexture = Chroma::TextureLoader::LoadHDRTexture("resources/hdri/BasketballCourt_3k.hdr");
-		Initialize();
+		Init();
 	}
 }

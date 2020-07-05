@@ -214,7 +214,7 @@ namespace Chroma
 		CMPNT_INITIALIZED
 	}
 
-	void PhysicsComponent::Update()
+	void PhysicsComponent::OnUpdate()
 	{
 	}
 

@@ -1,11 +1,10 @@
 #include "PostFXBuffer.h"
-#include <screen/Screen.h>
 #include <render/Render.h>
 #include <buffer/SSRBuffer.h>
 
 namespace Chroma
 {
-	void PostFXBuffer::Initialize()
+	void PostFXBuffer::Init()
 	{
 		m_ScreenShader = new Shader(fragSource, vtxSource);
 		blurShader = new Shader(blurfragSource, vtxSource);
@@ -199,7 +198,7 @@ namespace Chroma
 
 	PostFXBuffer::PostFXBuffer()
 	{
-		Initialize();
+		Init();
 	}
 
 	PostFXBuffer::~PostFXBuffer()

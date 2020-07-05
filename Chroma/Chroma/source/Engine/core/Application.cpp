@@ -63,6 +63,7 @@ namespace Chroma
 		dispatcher.Dispatch<WindowResizeEvent>(CHROMA_BIND_EVENT_FN(Application::OnWindowResize));
 		dispatcher.Dispatch<KeyPressedEvent>(CHROMA_BIND_EVENT_FN(Application::OnKeyPressed));
 
+		// dispatch event to the rest of the application
 		Scene::OnEvent(e);
 
 	}
@@ -80,6 +81,9 @@ namespace Chroma
 		{
 			CHROMA_PROFILE_SCOPE("Main Run Loop");
 			
+			// update time
+			Time::OnUpdate();
+
 			// ENGINE TICK
 			Engine::OnUpdate();
 

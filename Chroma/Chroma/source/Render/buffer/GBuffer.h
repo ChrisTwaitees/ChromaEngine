@@ -45,7 +45,7 @@ namespace Chroma
 		IFramebuffer* m_PostFXBuffer;
 
 		// functions
-		void Initialize() override;
+		void Init() override;
 		void BindGBufferTextures();
 
 		// gbuffer textures

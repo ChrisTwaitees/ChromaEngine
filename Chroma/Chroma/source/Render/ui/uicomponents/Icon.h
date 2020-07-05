@@ -32,7 +32,7 @@ namespace Chroma
 
 		void BindDrawVAO();
 	private :
-		void Initialize();
+		void Init();
 		void UpdateTransform();
 
 		void SetupQuad();

@@ -4,7 +4,7 @@
 
 namespace Chroma
 {
-	void UniformBufferCamera::Update()
+	void UniformBufferCamera::OnUpdate()
 	{
 		Bind();
 		// projection

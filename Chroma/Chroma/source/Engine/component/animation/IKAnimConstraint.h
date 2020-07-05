@@ -10,7 +10,7 @@ namespace Chroma
 	public:
 		// Component Functions
 		virtual void Init();
-		virtual void Update();
+		virtual void OnUpdate();
 		virtual void Destroy();
 
 		// Serialization

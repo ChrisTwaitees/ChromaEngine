@@ -45,7 +45,7 @@ namespace Chroma
 		float exposure{ 1.0f };
 
 		// Functions
-		void Initialize() override;
+		void Init() override;
 		void SetTransformUniforms() override;
 		void ConfigureShaders();
 		void ResizeBuffers() override;

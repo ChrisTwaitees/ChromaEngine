@@ -24,7 +24,7 @@ namespace Chroma
 
 	private:
 
-		void Initialize();
+		void Init();
 		ColorSpace m_colorSpace = LINEAR;
 		unsigned int VAO, VBO;
 

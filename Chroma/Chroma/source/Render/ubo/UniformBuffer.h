@@ -9,15 +9,15 @@ namespace Chroma
 	{
 	public:
 
-		UniformBuffer() { Initialize(); };
+		UniformBuffer() { Init(); };
 		~UniformBuffer() {};
 
 		void BindUniformBlockIndex(const Shader& shaderToBind);
-		virtual void Update() = 0;
+		virtual void OnUpdate() = 0;
 
 	protected:
 
-		void Initialize();
+		void Init();
 		void Bind() { glBindBuffer(GL_UNIFORM_BUFFER, m_UBO); };
 		void UnBind() { glBindBuffer(GL_UNIFORM_BUFFER, 0); };
 

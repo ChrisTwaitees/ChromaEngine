@@ -71,7 +71,7 @@ namespace Chroma
 		unsigned int m_FBOTexture;
 
 		// setup
-		virtual void Initialize();
+		virtual void Init();
 
 		// Initializing
 		virtual void ResizeBuffers();

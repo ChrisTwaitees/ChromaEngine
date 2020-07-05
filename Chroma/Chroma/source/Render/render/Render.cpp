@@ -1,5 +1,4 @@
 #include "Render.h"
-#include <screen/Screen.h>
 #include <Editor/ui/EditorUI.h>
 #include <ubo/UniformBufferCamera.h>
 #include <ubo/UniformBufferLighting.h>
@@ -142,9 +141,9 @@ namespace Chroma
 	void Render::UpdateUniformBufferObjects()
 	{
 		if (Chroma::Scene::GetRenderCamera()->GetDirty())
-			m_UBOCamera->Update();
+			m_UBOCamera->OnUpdate();
 
-		m_UBOLighting->Update();
+		m_UBOLighting->OnUpdate();
 	}
 
 	void Render::Init()
@@ -181,8 +180,6 @@ namespace Chroma
 		m_GraphicsDebugBuffer = new IFramebuffer();
 		m_ShadowBuffer = new ShadowBuffer();
 
-		// Set to Default dimensions
-		Chroma::Screen::SetDimensions(SCREEN_WIDTH, SCREEN_HEIGHT);
 		CHROMA_INFO("Renderer Initialized.");
 	}
 

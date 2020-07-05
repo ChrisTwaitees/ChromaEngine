@@ -320,6 +320,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="source\Render\camera\ICameraController.cpp" />
     <ClCompile Include="source\Render\context\GraphicsContext.cpp" />
     <ClCompile Include="source\Engine\core\Application.cpp" />
     <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
@@ -370,7 +371,6 @@
     <ClCompile Include="source\Engine\resources\TextureLoader.cpp" />
     <ClCompile Include="source\Engine\scene\Scene.cpp" />
     <ClCompile Include="source\Engine\scene\SceneManager.cpp" />
-    <ClCompile Include="source\Engine\screen\Screen.cpp" />
     <ClCompile Include="source\Engine\serialization\FactorySerializer.cpp" />
     <ClCompile Include="source\Engine\serialization\formats\Json.cpp" />
     <ClCompile Include="source\Engine\statemachine\IStateMachine.cpp" />
@@ -426,6 +426,7 @@
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
     <ClInclude Include="platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="source\Engine\event\CameraEvent.h" />
     <ClInclude Include="source\Render\context\GraphicsContext.h" />
     <ClInclude Include="source\Engine\core\Base.h" />
     <ClInclude Include="source\Engine\core\Application.h" />
@@ -485,7 +486,6 @@
     <ClInclude Include="source\Engine\resources\TextureLoader.h" />
     <ClInclude Include="source\Engine\scene\Scene.h" />
     <ClInclude Include="source\Engine\scene\SceneManager.h" />
-    <ClInclude Include="source\Engine\screen\Screen.h" />
     <ClInclude Include="source\Engine\serialization\FactorySerializer.h" />
     <ClInclude Include="source\Engine\serialization\formats\Json.h" />
     <ClInclude Include="source\Engine\serialization\ISerializer.h" />

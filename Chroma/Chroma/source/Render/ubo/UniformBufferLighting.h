@@ -43,7 +43,7 @@ namespace Chroma
 		UniformBufferLighting() { m_Name = "LightingUBO"; 	Setup(); };
 		~UniformBufferLighting() {};
 
-		void Update() override;
+		void OnUpdate() override;
 
 	private:
 
