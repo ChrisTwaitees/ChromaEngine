@@ -21,47 +21,50 @@ namespace Chroma
 
 		if (e.GetCategoryFlags() == EventCategory::EventCategoryKeyboard | EventCategory::EventCategoryMouse)
 		{
-			// update mouse coords if mouse moved
 			if (e.GetEventType() == EventType::MouseMoved)
 			{
+				// update mouse coords if mouse moved
 				CHROMA_INFO("CameraController Event : {0}", e);
 				mouseXYOffset = Chroma::Input::GetMouseXYOffset();
 				mouseXYOffset *= glm::vec2(mouseSensitivity);
-			}
 
-			// ensure alt is pressed
-			if (Input::IsPressed(KeyCode::LeftAlt))
-			{
-				CHROMA_INFO("CameraController Event : {0}", e);
-				// panning
-				if (Input::IsPressed(MouseCode::ButtonMiddle))
+
+				// ensure alt is pressed
+				if (Input::IsPressed(KeyCode::LeftAlt))
 				{
-					// maya's camera seems to be pivot-based 
-					pivot += camRight * mouseXYOffset.x;
-					pivot += -camUp * mouseXYOffset.y;
+					CHROMA_INFO("CameraController Event : {0}", e);
+					// panning
+					if (Input::IsPressed(MouseCode::ButtonMiddle))
+					{
+						// maya's camera seems to be pivot-based 
+						pivot += -camRight * mouseXYOffset.x;
+						pivot += -camUp * mouseXYOffset.y;
 
-					camPos += camRight * mouseXYOffset.x;
-					camPos += -camUp * mouseXYOffset.y;
-					// markDirty
-					cameraMoved = true;
-				}
+						camPos += -camRight * mouseXYOffset.x;
+						camPos += -camUp * mouseXYOffset.y;
+						// markDirty
+						cameraMoved = true;
+					}
 
-				// rotation
-				else if (Input::IsPressed(MouseCode::ButtonLeft))
-				{
-					camPos += camRight * mouseXYOffset.x;
-					camPos += -camUp * mouseXYOffset.y;
-					// markDirty
-					cameraMoved = true;
-				}
+					// rotation
+					else if (Input::IsPressed(MouseCode::ButtonLeft))
+					{
+						camPos += -camRight * mouseXYOffset.x;
+						camPos += -camUp * mouseXYOffset.y;
+						// markDirty
+						cameraMoved = true;
+					}
 
-				// zoom
-				else if (Input::IsPressed(MouseCode::ButtonRight))
-				{
-					camPos += camDir * mouseXYOffset.x;
-					camPos += camDir * -mouseXYOffset.y;
-					// markDirty
-					cameraMoved = true;
+					// zoom
+					else if (Input::IsPressed(MouseCode::ButtonRight))
+					{
+						// move camera forward
+						camPos += camDir * -mouseXYOffset.x;
+						camPos += camDir * -mouseXYOffset.y;
+
+						// markDirty
+						cameraMoved = true;
+					}
 				}
 			}
 		}

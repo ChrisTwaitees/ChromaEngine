@@ -41,7 +41,7 @@ namespace Chroma
 		// MOUSE
 		// mouse xy
 		static glm::vec2 GetMouseCoordinates();
-		static glm::vec2 GetMouseXYOffset() {return glm::vec2(m_CurrentMouseX - m_LastMouseX,  m_LastMouseY - m_CurrentMouseY ); }
+		static glm::vec2 GetMouseXYOffset() {return glm::vec2(m_LastMouseX - m_CurrentMouseX, m_LastMouseY - m_CurrentMouseY ); }
 		// cursor attrs
 		static void ToggleCursorEnabled();
 		static void SetCursorEnabled(bool const& enabledState) ;
