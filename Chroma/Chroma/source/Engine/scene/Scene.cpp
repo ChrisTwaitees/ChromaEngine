@@ -260,7 +260,6 @@ namespace Chroma
 	bool Scene::OnCameraMoved(CameraMovedEvent& e)
 	{
 		m_RenderCamera->OnCameraMoved(e);
-		CHROMA_INFO("Camera Event Received in Scene : {0}", e);
 		return true;
 	}
 

@@ -17,14 +17,12 @@ namespace Chroma
 
 	void MayaCameraController::OnEvent(Event& e, glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 	{
-		bool cameraMoved = false;
-
 		if (e.GetCategoryFlags() == EventCategory::EventCategoryKeyboard | EventCategory::EventCategoryMouse)
 		{
 			if (e.GetEventType() == EventType::MouseMoved)
 			{
+				bool cameraMoved = false;
 				// update mouse coords if mouse moved
-				CHROMA_INFO("CameraController Event : {0}", e);
 				mouseXYOffset = Chroma::Input::GetMouseXYOffset();
 				mouseXYOffset *= glm::vec2(mouseSensitivity);
 
@@ -32,7 +30,6 @@ namespace Chroma
 				// ensure alt is pressed
 				if (Input::IsPressed(KeyCode::LeftAlt))
 				{
-					CHROMA_INFO("CameraController Event : {0}", e);
 					// panning
 					if (Input::IsPressed(MouseCode::ButtonMiddle))
 					{
@@ -66,16 +63,15 @@ namespace Chroma
 						cameraMoved = true;
 					}
 				}
+
+				// if cameraMoved send event and update camera transforms
+				if (cameraMoved)
+				{
+					CalculateUpandDir(camPos, camDir, camUp);
+					CameraMovedEvent camMovedEvent(camPos);
+					SendEventToApplication(camMovedEvent);
+				}
 			}
 		}
-
-		// if cameraMoved send event and update camera transforms
-		if (cameraMoved)
-		{
-			CalculateUpandDir(camPos, camDir, camUp);
-			CameraMovedEvent camMovedEvent(camPos);
-			SendEventToApplication(camMovedEvent);
-		}
-
 	}
 }

@@ -58,7 +58,7 @@ namespace Chroma
 	{
 		CHROMA_PROFILE_FUNCTION();
 
-		CHROMA_INFO(e);
+		//CHROMA_INFO(e);
 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(CHROMA_BIND_EVENT_FN(Application::OnWindowClose));

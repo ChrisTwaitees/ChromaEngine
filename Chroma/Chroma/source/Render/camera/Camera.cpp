@@ -74,7 +74,7 @@ namespace Chroma
 			}
 			default:
 			{
-				CHROMA_ASSERT(false, "CameraMode parsed not supported!");
+				CHROMA_ASSERT(false, "CameraMode not supported!");
 			}
 			}
 		}
@@ -91,7 +91,7 @@ namespace Chroma
 			m_CamVelocity = m_CameraPosition - m_PrevCameraPosition;
 			m_PrevCameraPosition = m_CameraPosition;
 			//Debug
-			CHROMA_INFO("Camera Velocity : {}, {}, {}", m_CamVelocity.x, m_CamVelocity.y, m_CamVelocity.z);
+			//CHROMA_INFO("Camera Velocity : {}, {}, {}", m_CamVelocity.x, m_CamVelocity.y, m_CamVelocity.z);
 		}
 	}
 
