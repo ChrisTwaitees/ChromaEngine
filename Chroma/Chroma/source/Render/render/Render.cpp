@@ -228,6 +228,7 @@ namespace Chroma
 
 		// update scene camera projection to window aspect ratio
 		Chroma::Scene::GetRenderCamera()->SetAspectRatio((float)width/(float)height);
+		m_UBOCamera->OnUpdate();
 
 		// update buffers
 		ResizeBufferTextures(width, height);

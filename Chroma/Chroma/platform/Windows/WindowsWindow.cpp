@@ -1,6 +1,8 @@
 #include "WindowsWindow.h"
 #include <render/Render.h>
 
+#include <editor/ui/EditorUI.h>
+
 // events
 #include <event/ApplicationEvent.h>
 #include <event/KeyEvent.h>
@@ -175,6 +177,24 @@ namespace Chroma
 	{
 		glfwPollEvents();
 		m_Context->SwapBuffers();
+	}
+
+	uint32_t WindowsWindow::GetWidth() const
+	{
+#ifdef EDITOR
+		return EditorUI::GetViewportDimensions().first;
+#else
+		return m_Data.Width;
+#endif
+	}
+
+	uint32_t WindowsWindow::GetHeight() const
+	{
+#ifdef EDITOR
+		return EditorUI::GetViewportDimensions().second;
+#else
+		return m_Data.Height;
+#endif
 	}
 
 	bool WindowsWindow::IsPressed(const KeyCode& keyCode)

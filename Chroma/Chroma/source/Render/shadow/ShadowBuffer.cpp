@@ -3,6 +3,7 @@
 #include <scene/Scene.h>
 #include <input/Input.h>
 #include <core/Application.h>
+#include <editor/ui/EditorUI.h>
 
 namespace Chroma
 {

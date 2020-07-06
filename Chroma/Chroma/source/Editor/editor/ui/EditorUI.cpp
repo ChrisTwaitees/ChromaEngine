@@ -30,8 +30,8 @@ namespace Chroma
 	Texture EditorUI::m_ImportIcon;
 	Texture EditorUI::m_TextureIcon;
 
-	int EditorUI::m_ViewportWidth;
-	int EditorUI::m_ViewportHeight;
+	int EditorUI::m_ViewportWidth{ SCREEN_WIDTH };
+	int EditorUI::m_ViewportHeight{ SCREEN_HEIGHT };
 	int EditorUI::m_PrevViewportWidth;
 	int EditorUI::m_PrevViewportHeight;
 

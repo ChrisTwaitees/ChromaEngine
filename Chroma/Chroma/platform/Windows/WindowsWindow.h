@@ -3,7 +3,6 @@
 
 #include <window/Window.h>
 #include <context/GraphicsContext.h>
-
 #include <GLFW/glfw3.h>
 
 namespace Chroma
@@ -17,8 +16,8 @@ namespace Chroma
 
 		virtual void OnUpdate();
 
-		virtual uint32_t GetWidth() const override { return m_Data.Width; }
-		virtual uint32_t GetHeight() const override { return m_Data.Height; }
+		virtual uint32_t GetWidth() const override;
+		virtual uint32_t GetHeight() const override;
 
 
 		//input 
