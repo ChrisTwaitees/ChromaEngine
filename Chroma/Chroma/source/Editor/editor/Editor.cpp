@@ -1010,6 +1010,94 @@ namespace Chroma
 		columnAMeshComponent->SetMaterial(columnAMat);
 		SponzaEntity->AddComponent(columnAMeshComponent);
 
+		// Mesh component
+		MeshComponent* columnsTopFloorBAMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_columnsB_firstFloor.fbx");
+		columnsTopFloorBAMeshComponent->SetMaterial(columnAMat);
+		SponzaEntity->AddComponent(columnsTopFloorBAMeshComponent);
+
+
+
+
+		// CURTAINS
+
+		// RED
+		Texture curtainRedAlbedo("resources/lookdev/Sponza/textures_final/curtain_red_Albedo.png", Chroma::Type::Texture::kAlbedo);
+		Texture curtainRedNormal("resources/lookdev/Sponza/textures_final/columnA_Normal.jpg", Chroma::Type::Texture::kNormal);
+		Texture curtainRedMetRoughAO("resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg", Chroma::Type::Texture::kMetRoughAO);
+
+		Material curtainRedMaterial;
+		curtainRedMaterial.AddTexture(curtainRedAlbedo);
+		curtainRedMaterial.AddTexture(curtainRedNormal);
+		curtainRedMaterial.AddTexture(curtainRedMetRoughAO);
+
+		// Mesh component
+		MeshComponent* curtainRedMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_curtain_red.fbx");
+		curtainRedMeshComponent->SetMaterial(curtainRedMaterial);
+		SponzaEntity->AddComponent(curtainRedMeshComponent);
+
+
+		// BLUE
+		Texture curtainBlueAlbedo("resources/lookdev/Sponza/textures_final/curtain_blue_Albedo.png", Chroma::Type::Texture::kAlbedo);
+		Texture curtainBlueNormal("resources/lookdev/Sponza/textures_final/columnA_Normal.jpg", Chroma::Type::Texture::kNormal);
+		Texture curtainBlueMetRoughAO("resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg", Chroma::Type::Texture::kMetRoughAO);
+
+		Material curtainBlueMaterial;
+		curtainBlueMaterial.AddTexture(curtainBlueAlbedo);
+		curtainBlueMaterial.AddTexture(curtainBlueNormal);
+		curtainBlueMaterial.AddTexture(curtainBlueMetRoughAO);
+
+		// Mesh component
+		MeshComponent* curtainBlueMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_curtain_blue.fbx");
+		curtainBlueMeshComponent->SetMaterial(curtainBlueMaterial);
+		SponzaEntity->AddComponent(curtainBlueMeshComponent);
+
+
+		// Green
+		Texture curtainGreenAlbedo("resources/lookdev/Sponza/textures_final/curtain_green_Albedo.png", Chroma::Type::Texture::kAlbedo);
+		Texture curtainGreenNormal("resources/lookdev/Sponza/textures_final/columnA_Normal.jpg", Chroma::Type::Texture::kNormal);
+		Texture curtainGreenMetRoughAO("resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg", Chroma::Type::Texture::kMetRoughAO);
+
+		Material curtainGreenMaterial;
+		curtainGreenMaterial.AddTexture(curtainGreenAlbedo);
+		curtainGreenMaterial.AddTexture(curtainGreenNormal);
+		curtainGreenMaterial.AddTexture(curtainGreenMetRoughAO);
+
+		// Mesh component
+		MeshComponent* curtainGreenMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_curtain_green.fbx");
+		curtainGreenMeshComponent->SetMaterial(curtainGreenMaterial);
+		SponzaEntity->AddComponent(curtainGreenMeshComponent);
+
+		// COLUMNS Top floor
+		Texture ColumnsTopFloorAlbedo("resources/lookdev/Sponza/textures_final/curtain_green_Albedo.png", Chroma::Type::Texture::kAlbedo);
+		Texture ColumnsTopFloorNormal("resources/lookdev/Sponza/textures_final/columnA_Normal.jpg", Chroma::Type::Texture::kNormal);
+		Texture ColumnsTopFloorMetRoughAO("resources/lookdev/Sponza/textures_final/columnA_MetRoughAO.jpg", Chroma::Type::Texture::kMetRoughAO);
+
+		Material ColumnsTopFloorMaterial;
+		ColumnsTopFloorMaterial.AddTexture(ColumnsTopFloorAlbedo);
+		ColumnsTopFloorMaterial.AddTexture(ColumnsTopFloorNormal);
+		ColumnsTopFloorMaterial.AddTexture(ColumnsTopFloorMetRoughAO);
+
+		// Mesh component
+		MeshComponent* ColumnsTopFloorMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_columns_firstFloor.fbx");
+		ColumnsTopFloorMeshComponent->SetMaterial(columnAMat);
+		SponzaEntity->AddComponent(ColumnsTopFloorMeshComponent);
+
+
+		// CEILINGS
+		Texture CeilingsAlbedo("resources/lookdev/Sponza/textures_final/ceiling_Albedo.png", Chroma::Type::Texture::kAlbedo);
+		Texture CeilingsNormal("resources/lookdev/Sponza/textures_final/ceiling_Normal.jpg", Chroma::Type::Texture::kNormal);
+		Texture CeilingsMetRoughAO("resources/lookdev/Sponza/textures_final/ceiling_MetRoughAO.jpg", Chroma::Type::Texture::kMetRoughAO);
+
+		Material CeilingsMaterial;
+		CeilingsMaterial.AddTexture(CeilingsAlbedo);
+		CeilingsMaterial.AddTexture(CeilingsNormal);
+		CeilingsMaterial.AddTexture(CeilingsMetRoughAO);
+
+		// Mesh component
+		MeshComponent* CeilingsMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponza_ceilings.fbx");
+		CeilingsMeshComponent->SetMaterial(CeilingsMaterial);
+		SponzaEntity->AddComponent(CeilingsMeshComponent);
+
 
 	}
 
