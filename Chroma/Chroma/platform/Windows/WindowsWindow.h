@@ -19,6 +19,8 @@ namespace Chroma
 		virtual uint32_t GetWidth() const override;
 		virtual uint32_t GetHeight() const override;
 
+		virtual uint32_t GetXPos() const override { return m_Data.XPos; }
+		virtual uint32_t GetYPos() const override { return m_Data.YPos; }
 
 		//input 
 		virtual bool IsPressed(const KeyCode& keyCode) override;
@@ -54,6 +56,7 @@ namespace Chroma
 		{
 			std::string Title;
 			unsigned int Width, Height;
+			unsigned int XPos, YPos;
 			float MouseXPos, MouseYPos;
 			bool VSync;
 

@@ -37,7 +37,6 @@ namespace Chroma
 #ifdef EDITOR
 		Editor::Init();
 #endif
-
 		// scene
 		Scene::PreSceneBuild();
 

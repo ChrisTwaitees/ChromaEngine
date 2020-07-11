@@ -55,6 +55,16 @@ namespace Chroma
 		GetParentEntity()->SetTransform(transformMat);
 	}
 
+	void PhysicsComponent::UpdateCollisionShape()
+	{
+		// rebuild collision shape
+		CreateCollisionShape();
+
+		// build rigid
+		m_RigidBody->setCollisionShape(m_CollisionShape);
+		
+	}
+
 
 	void PhysicsComponent::CreateCollisionShape()
 	{
@@ -143,7 +153,7 @@ namespace Chroma
 		case(Box):
 		{
 			std::pair<glm::vec3, glm::vec3> bbox = GetParentEntity()->GetBBox();
-			glm::vec3 boxSize = glm::abs(bbox.second);
+			glm::vec3 boxSize(bbox.first - bbox.second);
 			m_CollisionShape = new btBoxShape(GLMToBullet(boxSize));
 
 			// transform

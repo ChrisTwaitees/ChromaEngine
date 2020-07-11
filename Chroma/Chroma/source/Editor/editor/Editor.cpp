@@ -537,22 +537,22 @@ namespace Chroma
 
 		float spacing{ 3.0 };
 
-		IEntity* lookDevEntity = new Entity;
-		lookDevEntity->SetName("LookDev Sphere : ");
-		Chroma::Scene::AddEntity(lookDevEntity);
-		lookDevEntity->SetScale(glm::vec3(1.5f));
+		//IEntity* lookDevEntity = new Entity;
+		//lookDevEntity->SetName("LookDev Sphere : ");
+		//Chroma::Scene::AddEntity(lookDevEntity);
+		//lookDevEntity->SetScale(glm::vec3(1.5f));
 
 		for (unsigned int i = 0; i < materialList.size(); i++)
 		{
-			//IEntity* lookDevEntity = new Entity;
-			//lookDevEntity->SetName("LookDev Sphere : " + i);
-			//Chroma::Scene::AddEntity(lookDevEntity);
+			IEntity* lookDevEntity = new Entity;
+			lookDevEntity->SetName("LookDev Sphere : " + std::to_string(i));
+			Chroma::Scene::AddEntity(lookDevEntity);
 			//lookDevEntity->SetScale(glm::vec3(0.2f));
-			//lookDevEntity->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
+			lookDevEntity->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
 			// mesh component
 			MeshComponent* lookDevMeshComponent = new StaticMesh("resources/lookdev/sphere.obj");
 			lookDevMeshComponent->SetMaterial(testMat);
-			lookDevMeshComponent->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
+			//lookDevMeshComponent->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
 			lookDevEntity->AddComponent(lookDevMeshComponent);
 
 			// LookDev Physics

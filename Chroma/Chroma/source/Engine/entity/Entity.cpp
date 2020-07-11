@@ -255,6 +255,12 @@ namespace Chroma
 
 	}
 
+	void Entity::UpdateBBox()
+	{
+		CalculateBBox();
+		CalculateCentroid();
+	}
+
 
 	void Entity::Init()
 	{

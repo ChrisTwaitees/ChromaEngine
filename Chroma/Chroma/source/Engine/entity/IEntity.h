@@ -30,6 +30,7 @@ namespace Chroma
 		virtual void OnUpdate() = 0;
 		virtual void Destroy() = 0;
 		virtual void Serialize(ISerializer*& serializer) = 0;
+		virtual void UpdateBBox() = 0;
 	
 		// Type
 		Chroma::Type::Entity GetType() { return m_Type; };

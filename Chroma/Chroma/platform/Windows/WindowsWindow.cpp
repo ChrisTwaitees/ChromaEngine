@@ -161,12 +161,24 @@ namespace Chroma
 			data.EventCallback(event);
 		});
 
+		glfwSetWindowPosCallback(m_Window, [](GLFWwindow* window, int xOffset, int yOffset)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+
+			data.XPos = xOffset;
+			data.YPos = yOffset;
+
+			WindowMovedEvent event(xOffset, yOffset);
+			data.EventCallback(event);
+		});
+
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos)
 		{
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
 			data.MouseXPos = (float)xPos;
 			data.MouseYPos = (float)yPos;
+
 			MouseMovedEvent event((float)xPos, (float)yPos);
 			data.EventCallback(event);
 		});

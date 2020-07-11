@@ -29,6 +29,28 @@ namespace Chroma
 	};
 
 
+	class WindowMovedEvent : public Event
+	{
+	public:
+		WindowMovedEvent(unsigned int xPos, unsigned int yPos)
+			: m_XPos(xPos), m_YPos(xPos) {}
+
+		unsigned int GetWidth() const { return m_XPos; }
+		unsigned int GetHeight() const { return m_YPos; }
+
+		std::string ToString() const override
+		{
+			std::stringstream ss;
+			ss << "WindowMovedEvent: " << m_XPos << ", " << m_YPos;
+			return ss.str();
+		}
+
+		EVENT_CLASS_TYPE(WindowMoved);
+		EVENT_CLASS_CATEGORY(EventCategoryApplication);
+	private:
+		unsigned int m_XPos, m_YPos;
+	};
+
 	class WindowCloseEvent : public Event
 	{
 	public:

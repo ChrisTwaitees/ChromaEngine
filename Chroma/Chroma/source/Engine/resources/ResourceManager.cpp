@@ -100,6 +100,18 @@ namespace Chroma
 	{
 		// send asynchronous job, storing in futures
 		m_Futures.push_back(std::async(std::launch::async, LoadModelAsync, sourcePath, meshData));
+		//RESOURCEMANAGER_LOADMODEL;
+		//std::vector<MeshData> meshList;
+		//ModelLoader::LoadThreadSafe(sourcePath, meshList);
+
+		//if (meshList.size() > 0)
+		//{
+		//	*meshData = meshList[0];
+		//}
+		//else
+		//{
+		//	CHROMA_ERROR("RESOURCE MANAGER :: LoadModel :: Cannot find model at : {}", sourcePath);
+		//}
 	}
 
 	void ResourceManager::LoadModelAsync(const std::string& sourcePath, MeshData* meshdata)

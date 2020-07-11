@@ -32,6 +32,7 @@ namespace Chroma
 
 		void BuildRigidBody();
 		void Transform(btTransform& transform);
+		void UpdateCollisionShape();
 
 		// Accessors
 		float GetMass() const { return m_Mass; };

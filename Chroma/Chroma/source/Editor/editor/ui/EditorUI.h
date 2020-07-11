@@ -24,8 +24,10 @@ namespace Chroma
 		
 		static void SetSelectedObjectUID(const UID& selectedUID);
 		inline static bool GetIsMouseOverViewport() { return m_MouseIsOverViewport; };
+		static glm::vec2 GetViewportMouseCursorCoords();
 
 		static std::pair<int, int> GetViewportDimensions();
+		static std::pair<int, int> GetViewportOffset() { return std::make_pair(m_ViewportOffsetX, m_ViewportOffsetY); }
 		static bool m_Bloom;
 		static bool m_IconsVisible;
 		static TranslateGizmo m_TranslateGizmo;
@@ -105,10 +107,12 @@ namespace Chroma
 		static ImGuiWindowFlags m_ViewportWindowFlags;
 		static bool m_MouseIsOverViewport;
 		static bool EditorViewportOpen;
-		static int m_PrevViewportWidth;
-		static int m_PrevViewportHeight;
 		static int m_ViewportWidth;
 		static int m_ViewportHeight;
+
+		static int m_ViewportOffsetX;
+		static int m_ViewportOffsetY;
+
 		static int m_IconSize;
 
 

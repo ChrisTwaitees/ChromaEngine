@@ -36,8 +36,8 @@ namespace Chroma
 
 	int EditorUI::m_ViewportWidth{ SCREEN_WIDTH };
 	int EditorUI::m_ViewportHeight{ SCREEN_HEIGHT };
-	int EditorUI::m_PrevViewportWidth;
-	int EditorUI::m_PrevViewportHeight;
+	int EditorUI::m_ViewportOffsetX{0};
+	int EditorUI::m_ViewportOffsetY{0};
 
 	// World Outliner
 	std::string EditorUI::m_SelectedObjectString;
@@ -169,15 +169,12 @@ namespace Chroma
 		// OTHER EDITORS
 		AnimationEditorUI::Init();
 
-		// Subscribe to events
-
 	}
 
 	void EditorUI::ResizeEditorUI(int const& newWidth, int const& newHeight)
 	{
 		// resize viewport
 		ResizeViewport(m_ViewportWidth, m_ViewportHeight);
-
 	}
 
 	void EditorUI::OnEvent(Event& e)
@@ -204,6 +201,14 @@ namespace Chroma
 		}
 	}
 
+	glm::vec2 EditorUI::GetViewportMouseCursorCoords()
+	{
+		glm::vec2 screenMouseCoordinates = Application::Get().GetWindow().GetCursorCoordinates();
+		int windowX = Application::Get().GetWindow().GetXPos();
+		int windowY = Application::Get().GetWindow().GetYPos();
+		return glm::vec2(screenMouseCoordinates.x - (m_ViewportOffsetX - windowX), screenMouseCoordinates.y - (m_ViewportOffsetY - windowY));
+	}
+
 
 	std::pair<int, int> EditorUI::GetViewportDimensions()
 	{
@@ -217,7 +222,7 @@ namespace Chroma
 		{
 			// RayCast
 			glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
-			glm::vec3 end = Math::ScreenToWorldRay(Application::Get().GetWindow().GetCursorCoordinates());
+			glm::vec3 end = Math::ScreenToWorldRay(GetViewportMouseCursorCoords());
 			end *= glm::vec3(1000.0f);
 			IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
 
@@ -946,22 +951,31 @@ namespace Chroma
 			if (ImGui::Button("Profiling Window"))	ToggleBool(m_DrawProfilerWindow);
 
 
-			// Set Dimensions
-			m_ViewportWidth = ImGui::GetWindowSize().x;
-			m_ViewportHeight = ImGui::GetWindowSize().y;
 			// check if resize occurred
-			if (m_PrevViewportWidth != m_ViewportWidth || m_PrevViewportHeight != m_ViewportHeight)
+			if (m_ViewportWidth != ImGui::GetWindowWidth() || m_ViewportHeight != ImGui::GetWindowHeight())
 			{
+				// Set Dimensions
+				m_ViewportWidth = ImGui::GetWindowWidth();
+				m_ViewportHeight = ImGui::GetWindowHeight();
 				ResizeViewport(m_ViewportWidth, m_ViewportHeight);
 			}
 
+
 			// Set Viewport to  Render Buffer Texture
 			ImGui::BeginChild("Main3dViewport", ImVec2((float)m_ViewportWidth , (float)m_ViewportHeight), true);
+
+			ImVec2 p2 = ImGui::GetCursorStartPos();
+
+			// Set Offset
+			m_ViewportOffsetX = ImGui::GetWindowPos().x;
+			m_ViewportOffsetY = ImGui::GetWindowPos().y;
+
 
 			// Check if mouse hovering
 			m_MouseIsOverViewport = ImGui::IsWindowHovered();
 
 			ImVec2 p = ImGui::GetCursorScreenPos();
+
 			ImGui::Image((void*)(intptr_t)Chroma::Render::GetPostFXBuffer()->GetTexture(),
 				ImVec2(m_ViewportWidth, m_ViewportHeight),
 				ImVec2(0, 1), ImVec2(1, 0));
@@ -994,14 +1008,6 @@ namespace Chroma
 				ImGui::EndChild();
 			}
 			ImGui::PopStyleVar();
-
-
-
-
-			// Set prev attrs
-			m_PrevViewportHeight = m_ViewportHeight;
-			m_PrevViewportWidth = m_ViewportWidth;
-
 		}
 		ImGui::End();
 	}

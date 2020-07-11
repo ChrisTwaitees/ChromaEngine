@@ -26,6 +26,7 @@ namespace Chroma
 		virtual void OnUpdate() override;
 		virtual void Destroy() override;
 		virtual void Serialize(ISerializer*& serializer) override;
+		virtual void UpdateBBox() override;
 
 		// Transformations
 		// setting

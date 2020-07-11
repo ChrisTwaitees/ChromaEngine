@@ -1,6 +1,7 @@
 #include "StaticMesh.h"
 #include <scene/Scene.h>
 #include <resources/ModelLoader.h>
+#include <component/PhysicsComponent.h>
 
 
 namespace Chroma
@@ -78,6 +79,13 @@ namespace Chroma
 		glVertexAttribPointer(8, 2, GL_FLOAT, GL_FALSE, sizeof(ChromaVertex), (void*)offsetof(ChromaVertex, ChromaVertex::m_texCoords2));
 
 		glBindVertexArray(0);
+
+		// Check if Physics Component needs update
+		if (GetParentEntity()->GetPhysicsComponentUIDs().size() > 0)
+		{
+			GetParentEntity()->UpdateBBox();
+			static_cast<PhysicsComponent*>(Scene::GetComponent(GetParentEntity()->GetPhysicsComponentUIDs()[0]))->UpdateCollisionShape();
+		}
 
 		// Cleanup
 		CleanUp();

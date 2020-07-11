@@ -198,7 +198,7 @@ namespace Chroma
 
 	void Physics::AddBodyToWorld(btRigidBody*& rigidBody)
 	{
-		m_World->addRigidBody(rigidBody);
+		m_World->addRigidBody(rigidBody);		
 	}
 
 	void Physics::RemoveBodyFromWorld(btRigidBody*& rigidBody)

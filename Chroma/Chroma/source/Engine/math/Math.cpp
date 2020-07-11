@@ -28,8 +28,7 @@ namespace Chroma
 		// we bring the view/eye coordinates into world space with the 
 		// inverse of the view matrix
 		glm::vec3 ray_world = glm::vec3((glm::inverse(Scene::GetRenderCamera()->GetViewMatrix()) * ray_eye));
-		ray_world = glm::normalize(ray_world);
+		return  glm::normalize(ray_world);
 
-		return ray_world;
 	}
 }

@@ -33,6 +33,9 @@ namespace Chroma
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
 
+		virtual uint32_t GetXPos() const = 0;
+		virtual uint32_t GetYPos() const = 0;
+
 		// keyboard
 		virtual bool IsPressed(const KeyCode& keyCode)  = 0;
 		virtual bool IsReleased(const KeyCode& keyCode) = 0;
