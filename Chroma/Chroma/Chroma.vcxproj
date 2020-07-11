@@ -320,6 +320,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="source\Engine\math\Math.cpp" />
     <ClCompile Include="source\Render\camera\ICameraController.cpp" />
     <ClCompile Include="source\Render\context\GraphicsContext.cpp" />
     <ClCompile Include="source\Engine\core\Application.cpp" />

@@ -63,12 +63,10 @@ namespace Chroma
 						camPos += camDir * -mouseXYOffset.x;
 						camPos += camDir * -mouseXYOffset.y;
 
+						// if camera very close to pivot, shift pivot forward
 						if (glm::distance(camPos, pivot) < 0.25f)
-						{
 							pivot += camDir * 0.5f;
-							CHROMA_INFO("Cam Close to Pivot");
 
-						}
 
 						// markDirty
 						cameraMoved = true;

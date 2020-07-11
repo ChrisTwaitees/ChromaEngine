@@ -85,9 +85,6 @@
     <Filter Include="Resources\shaders\debug">
       <UniqueIdentifier>{daa803d9-806b-421c-b0b7-213daf12d631}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\screen">
-      <UniqueIdentifier>{268b4d91-4afb-4e43-a142-9e1c0bc96c1b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\common">
       <UniqueIdentifier>{3b6607b4-e538-4f5a-a1a5-c09133844210}</UniqueIdentifier>
     </Filter>
@@ -531,7 +528,10 @@
     <ClCompile Include="platform\OpenGL\OpenGLContext.cpp">
       <Filter>Platform\OpenGL</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\camera\ICameraController.cpp" />
+    <ClCompile Include="source\Render\camera\ICameraController.cpp">
+      <Filter>Render\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\math\Math.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">

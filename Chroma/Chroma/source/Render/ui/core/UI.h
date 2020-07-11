@@ -9,8 +9,10 @@
 
 // chroma
 #define IMGUI_IMPL_OPENGL_LOADER_GLAD
+#include <event/Event.h>
 #include <common/PrecompiledHeader.h>
 #include <texture/Texture.h>
+
 
 namespace Chroma
 {
@@ -20,6 +22,10 @@ namespace Chroma
 		// functions
 		static void Init();
 		static void Draw();
+
+		//event 
+		static void OnEvent(Event& e) {};
+
 
 		template<typename Fn>
 		static void AddUICall(Fn func)

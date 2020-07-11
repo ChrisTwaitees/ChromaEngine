@@ -9,12 +9,18 @@
 
 namespace Chroma
 {
+	class MouseButtonReleasedEvent;
+
 	class EditorUI : public UI
 	{
+
 	public:
 		static void Draw();
 		static void Init();
 		static void ResizeEditorUI(int const& newWidth, int const& newHeight);
+
+		//event 
+		static void OnEvent(Event& e);
 		
 		static void SetSelectedObjectUID(const UID& selectedUID);
 		inline static bool GetIsMouseOverViewport() { return m_MouseIsOverViewport; };
@@ -26,6 +32,8 @@ namespace Chroma
 
 
 	private:
+		//events
+		static bool OnMouseButtonReleased(MouseButtonReleasedEvent& e);
 
 		// functions
 		static void ParentDockWindow();

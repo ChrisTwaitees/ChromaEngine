@@ -6,6 +6,10 @@
 #include <buffer/GBuffer.h>
 #include <entity/Entity.h>
 
+#include <core/Application.h>
+#include <event/MouseEvent.h>
+
+
 namespace Chroma
 {
 	// EDITOR
@@ -157,8 +161,6 @@ namespace Chroma
 		m_IconsVisible = true;
 		m_MouseIsOverViewport = false;
 
-
-
 		m_IconSize = 20;
 
 		// WORLD OUTLINER
@@ -166,6 +168,9 @@ namespace Chroma
 
 		// OTHER EDITORS
 		AnimationEditorUI::Init();
+
+		// Subscribe to events
+
 	}
 
 	void EditorUI::ResizeEditorUI(int const& newWidth, int const& newHeight)
@@ -173,6 +178,12 @@ namespace Chroma
 		// resize viewport
 		ResizeViewport(m_ViewportWidth, m_ViewportHeight);
 
+	}
+
+	void EditorUI::OnEvent(Event& e)
+	{
+		EventDispatcher dispatcher(e);
+		dispatcher.Dispatch<MouseButtonReleasedEvent>(CHROMA_BIND_EVENT_STATIC_FN(EditorUI::OnMouseButtonReleased));
 	}
 
 	void EditorUI::SetSelectedObjectUID(const UID& selectedUID)
@@ -197,9 +208,29 @@ namespace Chroma
 	std::pair<int, int> EditorUI::GetViewportDimensions()
 	{
 		return std::make_pair(m_ViewportWidth, m_ViewportHeight);
-		CHROMA_INFO("Viewport dimensions : {0}, {1}", m_ViewportWidth, m_ViewportHeight);
 	}
 
+
+	bool EditorUI::OnMouseButtonReleased(MouseButtonReleasedEvent& e)
+	{
+		if (e.GetMouseButton() == MouseCode::ButtonLeft && m_MouseIsOverViewport)
+		{
+			// RayCast
+			glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
+			glm::vec3 end = Math::ScreenToWorldRay(Application::Get().GetWindow().GetCursorCoordinates());
+			end *= glm::vec3(1000.0f);
+			IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
+
+			if (clickedEntity)
+			{
+				Chroma::UI::SetSelectedEntityName(clickedEntity->GetName());
+				SetSelectedObjectUID(clickedEntity->GetUID());
+			}
+			return true;
+		}
+
+		return false;
+	}
 
 	void EditorUI::ParentDockWindow()
 	{

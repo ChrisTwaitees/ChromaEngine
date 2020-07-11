@@ -12,10 +12,6 @@
 #include <input/ControllerCodes.h>
 
 
-
-
-
-
 namespace Chroma
 {
 	class KeyReleasedEvent;
@@ -45,7 +41,6 @@ namespace Chroma
 		// cursor attrs
 		static void ToggleCursorEnabled();
 		static void SetCursorEnabled(bool const& enabledState) ;
-		inline static glm::vec3 GetLastRay() { return m_LastMouseRay; }
 
 		// CONTROLLER
 		inline static bool GetControllerEnabled() { return m_ControllerEnabled; }
@@ -76,10 +71,6 @@ namespace Chroma
 		static float m_CurrentMouseX, m_CurrentMouseY;
 		static float m_LastMouseX, m_LastMouseY;
 
-		static glm::vec3 m_LastMouseRay;
-
-		static void m_MousePickerCallback();
-
 		// CONTROLLER
 		static bool m_ControllerEnabled;
 
@@ -98,8 +89,6 @@ namespace Chroma
 
 		// functions 
 		static void UpdateController();
-
-		static glm::vec3 ScreenToWorldRay(const glm::vec2& mouseCoordinates);
 	};
 }
 

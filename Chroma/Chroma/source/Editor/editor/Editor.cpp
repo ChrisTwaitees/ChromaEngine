@@ -499,12 +499,12 @@ namespace Chroma
 
 		// Default
 		// Generic
-		//Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		//greyAlbedo.m_Type = Texture::ALBEDO;
+		Texture greyAlbedo("resources/textures/colors/grey.jpg", Chroma::Type::Texture::kAlbedo);
+
 		//Texture gridAlbedo("resources/animation/textures/grid.jpg");
-		//gridAlbedo.m_Type = Texture::ALBEDO;
-		//Texture flatNormal("resources/textures/test/flat_normal.jpg");
-		//flatNormal.m_Type = Texture::NORMAL;
+		
+		Texture flatNormal("resources/textures/test/flat_normal.jpg", Chroma::Type::Texture::kNormal);
+		
 
 		// Lookdev Sphere
 		Texture lookDevAlbedo = Texture("resources/textures/pbr/lookdev_pbr/albedo.jpg", Chroma::Type::Texture::kAlbedo);
@@ -524,12 +524,16 @@ namespace Chroma
 		testMat.AddTexture(lookDevMetRoughAO);
 
 		Material testMat2;
+		testMat2.AddTexture(greyAlbedo);
+		testMat2.AddTexture(lookDevNormal);
+		testMat2.AddTexture(lookDevMetRoughAO);
+
 		Material testMat3;
 		Material testMat4;
 		Material testMat5;
 
-		//::vector<Material> materialList{ testMat, testMat2 , testMat3, testMat4, testMat5 };
-		std::vector<Material> materialList{ testMat};
+		std::vector<Material> materialList{ testMat, testMat2 , testMat3, testMat4, testMat5 };
+		//std::vector<Material> materialList{ testMat};
 
 		float spacing{ 3.0 };
 
@@ -552,10 +556,10 @@ namespace Chroma
 			lookDevEntity->AddComponent(lookDevMeshComponent);
 
 			// LookDev Physics
-			//PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
-			//LookDevPhysicsComponent->SetColliderShape(Box);
-			//LookDevPhysicsComponent->SetCollisionState(Kinematic);
-			//lookDevEntity->AddComponent(LookDevPhysicsComponent);
+			PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
+			LookDevPhysicsComponent->SetColliderShape(Box);
+			LookDevPhysicsComponent->SetCollisionState(Static);
+			lookDevEntity->AddComponent(LookDevPhysicsComponent);
 		}
 
 	}

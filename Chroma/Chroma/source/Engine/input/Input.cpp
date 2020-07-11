@@ -32,9 +32,6 @@ namespace Chroma
 	float Input::m_LastMouseX, Input::m_LastMouseY;
 	float Input::m_CurrentMouseX, Input::m_CurrentMouseY;
 
-	// Mouse
-	glm::vec3 Input::m_LastMouseRay;
-
 
 	void Input::OnEvent(Event& e)
 	{
@@ -91,13 +88,7 @@ namespace Chroma
 
 	bool Input::OnMousePressed(MouseButtonPressedEvent& e)
 	{
-		if (e.GetMouseButton() == MouseCode::ButtonLeft)
-		{
-			m_LastMouseRay = Math::ScreenToWorldRay(Application::Get().GetWindow().GetCursorCoordinates());
-			m_MousePickerCallback();
-		}
-		return true;
-
+		return false;
 	}
 
 	bool Input::OnMouseMoved(MouseMovedEvent& e)
@@ -117,24 +108,6 @@ namespace Chroma
 			Application::Get().GetWindow().ToggleCursorEnabled();
 		
 		return true;
-	}
-
-	void Input::m_MousePickerCallback()
-	{
-		// Ray Interest Test
-		glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
-		glm::vec3 end = start + (Chroma::Input::GetLastRay() * glm::vec3(1000.0));
-		IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
-		if (clickedEntity)
-		{
-			Chroma::UI::SetSelectedEntityName(clickedEntity->GetName());
-		}
-#ifdef EDITOR
-		if (Chroma::EditorUI::GetIsMouseOverViewport() && clickedEntity)
-		{
-			Chroma::EditorUI::SetSelectedObjectUID(clickedEntity->GetUID());
-		}
-#endif
 	}
 
 
