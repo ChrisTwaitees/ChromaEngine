@@ -10,7 +10,11 @@ namespace Chroma
 
 	void MayaCameraController::CalculateUpandDir(glm::vec3& camPos, glm::vec3& camDir, glm::vec3& camUp)
 	{
-		camDir = glm::normalize(pivot - camPos);
+		
+		glm::vec3 newCamDir = glm::normalize(pivot - camPos);
+		if (newCamDir != (glm::vec3(-1.0f) * camDir))
+			camDir = newCamDir;
+
 		camRight = glm::normalize(glm::cross(CHROMA_UP, camDir));
 		camUp = glm::normalize(glm::cross(camDir, camRight));
 	}
@@ -55,9 +59,16 @@ namespace Chroma
 					// zoom
 					else if (Input::IsPressed(MouseCode::ButtonRight))
 					{
-						// move camera forward
+						// move camera forward						
 						camPos += camDir * -mouseXYOffset.x;
 						camPos += camDir * -mouseXYOffset.y;
+
+						if (glm::distance(camPos, pivot) < 0.25f)
+						{
+							pivot += camDir * 0.5f;
+							CHROMA_INFO("Cam Close to Pivot");
+
+						}
 
 						// markDirty
 						cameraMoved = true;
