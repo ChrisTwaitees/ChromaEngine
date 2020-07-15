@@ -204,9 +204,14 @@ namespace Chroma
 	glm::vec2 EditorUI::GetViewportMouseCursorCoords()
 	{
 		glm::vec2 screenMouseCoordinates = Application::Get().GetWindow().GetCursorCoordinates();
-		int windowX = Application::Get().GetWindow().GetXPos();
-		int windowY = Application::Get().GetWindow().GetYPos();
-		return glm::vec2(screenMouseCoordinates.x - (m_ViewportOffsetX - windowX), screenMouseCoordinates.y - (m_ViewportOffsetY - windowY));
+
+		int windowScreenX = Application::Get().GetWindow().GetXPos();
+		int windowScreenY = Application::Get().GetWindow().GetYPos();
+
+		int viewportCursorX = screenMouseCoordinates.x - (m_ViewportOffsetX - windowScreenX);
+		int viewportCursorY = screenMouseCoordinates.y - (m_ViewportOffsetY - windowScreenY);
+
+		return glm::vec2(viewportCursorX, viewportCursorY);
 	}
 
 

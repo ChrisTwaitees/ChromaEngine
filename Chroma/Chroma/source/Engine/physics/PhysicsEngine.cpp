@@ -211,6 +211,7 @@ namespace Chroma
 	{
 		// step simulation
 		m_World->stepSimulation(Time::GetDeltaTime());
+
 		// update transforms of physics entities
 		for (int i = 0; i < m_World->getNumCollisionObjects(); i++)
 		{
@@ -243,7 +244,7 @@ namespace Chroma
 
 	void Physics::ToggleDrawDebug()
 	{
-		m_DrawDebug = m_DrawDebug ? false : true;
+		m_DrawDebug = !m_DrawDebug;
 	}
 
 	void Physics::SetGravity(glm::vec3 & newGravity)

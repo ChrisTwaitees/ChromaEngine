@@ -79,6 +79,9 @@ namespace Chroma
 		// enable vsync
 		SetVSync(true);
 
+		// set initial window data
+		glfwGetWindowPos(m_Window, &m_Data.XPos, &m_Data.YPos);
+
 		// GLFW CALLBACKS
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
 		{

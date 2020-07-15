@@ -56,7 +56,7 @@ namespace Chroma
 		{
 			std::string Title;
 			unsigned int Width, Height;
-			unsigned int XPos, YPos;
+			int XPos, YPos;
 			float MouseXPos, MouseYPos;
 			bool VSync;
 
