@@ -73,8 +73,8 @@ namespace Chroma
 		case(AABB):
 		{
 			std::pair<glm::vec3, glm::vec3> bbox = GetParentEntity()->GetBBox();
-			glm::vec3 boxSize = glm::abs(bbox.second);
-			m_CollisionShape = new btBoxShape(GLMToBullet(boxSize));
+			glm::vec3 boxSize(bbox.first - bbox.second);
+			m_CollisionShape = new btBoxShape(GLMToBullet(-boxSize));
 
 			// transform
 			break;
@@ -154,7 +154,7 @@ namespace Chroma
 		{
 			std::pair<glm::vec3, glm::vec3> bbox = GetParentEntity()->GetBBox();
 			glm::vec3 boxSize(bbox.first - bbox.second);
-			m_CollisionShape = new btBoxShape(GLMToBullet(boxSize));
+			m_CollisionShape = new btBoxShape(GLMToBullet(-boxSize));
 
 			// transform
 			break;
@@ -174,7 +174,7 @@ namespace Chroma
 
 		// mass
 		btScalar bodyMass = m_Mass;
-		btVector3 bodyIntertia;
+		btVector3 bodyIntertia(0, 0, 0);
 		m_CollisionShape->calculateLocalInertia(bodyMass, bodyIntertia);
 
 		// rigid body cconstruction info
@@ -217,7 +217,7 @@ namespace Chroma
 		// build rigidBody
 		BuildRigidBody();
 
-	   // add rigid body to physics world
+	    // add rigid body to physics world
 		Chroma::Physics::AddBodyToWorld(m_RigidBody);
 	
 		// debug

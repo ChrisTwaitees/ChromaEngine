@@ -552,7 +552,7 @@ namespace Chroma
 			// mesh component
 			MeshComponent* lookDevMeshComponent = new StaticMesh("resources/lookdev/sphere.obj");
 			lookDevMeshComponent->SetMaterial(testMat);
-			//lookDevMeshComponent->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
+			lookDevMeshComponent->SetTranslation(glm::vec3((float)i * spacing, 2.1, 0));
 			lookDevEntity->AddComponent(lookDevMeshComponent);
 
 			// LookDev Physics

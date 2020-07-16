@@ -191,13 +191,13 @@ namespace Chroma
 		// attempt to fetch component
 		if (Chroma::Scene::GetComponent(m_SelectedObjectUID) != nullptr)
 		{
-			m_SelectedObjectString = Chroma::Type::GetName(Chroma::Scene::GetComponent(m_SelectedObjectUID)->GetType()) + " : (" + (const char*)m_SelectedObjectUID.m_Data + ")";
+			m_SelectedObjectString = Chroma::Type::GetName(Chroma::Scene::GetComponent(m_SelectedObjectUID)->GetType()) + " : (" + std::to_string(m_SelectedObjectUID.m_Data) + ")";
 		}
 
 		// attempt to fetch entity
 		if (Chroma::Scene::GetEntity(m_SelectedObjectUID) != nullptr)
 		{
-			m_SelectedObjectString = Chroma::Scene::GetEntity(m_SelectedObjectUID)->GetName() + " : (" + (const char*)selectedUID.m_Data + ")";
+			m_SelectedObjectString = Chroma::Scene::GetEntity(m_SelectedObjectUID)->GetName() + " : (" + std::to_string(selectedUID.m_Data)  + ")";
 		}
 	}
 
@@ -228,7 +228,7 @@ namespace Chroma
 			// RayCast
 			glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
 			glm::vec3 end = Math::ScreenToWorldRay(GetViewportMouseCursorCoords());
-			end *= glm::vec3(1000.0f);
+			end = start + (end * glm::vec3(1000.0f));
 			IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
 
 			if (clickedEntity)
