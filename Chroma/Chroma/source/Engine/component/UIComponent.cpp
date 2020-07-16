@@ -27,8 +27,4 @@ namespace Chroma
 	{
 	}
 
-
-	UIComponent::~UIComponent()
-	{
-	}
 }

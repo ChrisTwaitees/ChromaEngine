@@ -2,7 +2,7 @@
 #define CHROMA_TRANSLATEGIZMO_H
 
 
-#include <editor/ui/IGizmo.h>
+#include <ui/uicomponents/IGizmo.h>
 
 namespace Chroma
 {
@@ -11,8 +11,6 @@ namespace Chroma
 	public:
 		TranslateGizmo();
 		void Init() override;
-	private:
-
 	};
 }
 

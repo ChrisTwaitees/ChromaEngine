@@ -17,7 +17,7 @@ namespace Chroma
 		// create floating point color buffer
 		glGenTextures(1, &m_FBOTexture);
 		glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_FBOTexture, 0);
@@ -78,7 +78,7 @@ namespace Chroma
 			glDisable(GL_CULL_FACE);
 			for (UID const& componentUID : Chroma::Scene::GetUIComponentUIDs())
 			{
-				((UIComponent*)Chroma::Scene::GetComponent(componentUID))->Draw();
+				static_cast<UIComponent*>(Chroma::Scene::GetComponent(componentUID))->Draw();
 			}
 			// set to default blending
 			glBlendFunc(GL_ONE, GL_ZERO);

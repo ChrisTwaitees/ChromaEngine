@@ -9,17 +9,15 @@ namespace Chroma
 	{
 	public:
 		// Functions
-		void Init();
-		void OnUpdate() {};
-		void Destroy();
+		virtual void Init();
+		virtual void OnUpdate() {};
+		virtual void Destroy();
 		void Serialize(ISerializer*& serializer) override;
 
 		virtual void Draw() {};
 
 		UIComponent();
-		virtual ~UIComponent();
-
-	protected:
+		virtual ~UIComponent() = default;
 	};
 }
 #endif

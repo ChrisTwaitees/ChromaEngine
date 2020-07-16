@@ -6,6 +6,8 @@
 #include <buffer/GBuffer.h>
 #include <entity/Entity.h>
 
+#include <ui/uicomponents/TranslateGizmo.h>
+
 #include <core/Application.h>
 #include <event/MouseEvent.h>
 
@@ -45,11 +47,9 @@ namespace Chroma
 	bool EditorUI::m_SceneTreeNodeExpanded;
 
 	// Gizmos
-	TranslateGizmo EditorUI::m_TranslateGizmo;
+	IComponent* EditorUI::m_TranslateGizmo;
 
 	// MENUS
-	char EditorUI::m_SceneName[128];
-
 	float EditorUI::timeSpeed;
 	// debug
 	// render
@@ -73,7 +73,6 @@ namespace Chroma
 	bool EditorUI::m_ShowProfilerStatsOverlay;
 
 	int  EditorUI::m_GraphicsDebugSelected;
-	static const char* GraphicsDebugs[5]{ "Alebdo", "Normals", "MetRoughAO", "SSAO", "Shadows" };
 	bool EditorUI::m_DrawGraphicsDebug;
 
 
@@ -119,7 +118,6 @@ namespace Chroma
 		EditorRootDockspaceFlags = ImGuiDockNodeFlags_None;
 
 		m_ViewportWindowFlags |= ImGuiWindowFlags_NoTitleBar;
-		//ViewportWindowFlags |= ImGuiWindowFlags_NoMove;
 		m_ViewportWindowFlags |= ImGuiWindowFlags_NoScrollbar;
 
 		// ICONS
@@ -131,7 +129,9 @@ namespace Chroma
 		m_TextureIcon = Texture("resources/icons/texture_icon.png"); 
 
 		// GIZMOS
-		m_TranslateGizmo.Init();
+		m_TranslateGizmo = new TranslateGizmo();
+		m_TranslateGizmo->Init();
+		Scene::AddUIComponent(m_TranslateGizmo);
 
 		// GLOBAL
 		timeSpeed = 1.0f;
@@ -498,9 +498,10 @@ namespace Chroma
 			component->Serialize(objectSerializer);
 			if(component->GetType() == Chroma::Type::kLightComponent)
 				component->OnUpdate();
-
+			else
 			//debug
-			Render::GetDebugBuffer()->DrawOverlayBox(component->GetParentEntity()->GetBBox().first, component->GetParentEntity()->GetBBox().second, {0.5f, 0.5f, 0.0f});
+				Render::GetDebugBuffer()->DrawOverlayBox(component->GetParentEntity()->GetBBox().first, component->GetParentEntity()->GetBBox().second, {0.5f, 0.5f, 0.0f});
+
 		}
 
 		// attempt to fetch entity
@@ -735,7 +736,8 @@ namespace Chroma
 		{
 			Light* light = static_cast<Light*>(Chroma::Scene::GetComponent(lightUID));
 			// set uniforms
-			switch (light->GetLightType()) {
+			switch (light->GetLightType()) 
+			{
 			case Chroma::Type::Light::kSunlight:
 				light->DrawIcon(m_LightSunIcon);
 			case Chroma::Type::Light::kDirectionalLight:

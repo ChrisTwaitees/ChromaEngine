@@ -4,12 +4,13 @@
 
 #include <UI/core/UI.h>
 #include <uid/UID.h>
-#include <editor/ui/TranslateGizmo.h>
+
 
 
 namespace Chroma
 {
 	class MouseButtonReleasedEvent;
+	class IComponent;
 
 	class EditorUI : public UI
 	{
@@ -30,12 +31,14 @@ namespace Chroma
 		static std::pair<int, int> GetViewportOffset() { return std::make_pair(m_ViewportOffsetX, m_ViewportOffsetY); }
 		static bool m_Bloom;
 		static bool m_IconsVisible;
-		static TranslateGizmo m_TranslateGizmo;
 
 
 	private:
 		//events
 		static bool OnMouseButtonReleased(MouseButtonReleasedEvent& e);
+
+		// Translate Gizmo
+		static IComponent* m_TranslateGizmo;
 
 		// functions
 		static void ParentDockWindow();
@@ -59,9 +62,6 @@ namespace Chroma
 		static void ResizeViewport(int const& newWidth, int const& newHeight);
 
 		// attrs
-		// Scene Manager
-		static char m_SceneName[128];
-
 		// GUI Attrs
 		// time
 		static float timeSpeed;

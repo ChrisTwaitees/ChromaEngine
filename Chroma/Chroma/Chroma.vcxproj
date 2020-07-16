@@ -332,7 +332,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Editor|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="source\Editor\editor\ui\IGizmo.cpp" />
     <ClCompile Include="source\Engine\animation\SkeletonUtils.cpp" />
     <ClCompile Include="source\Engine\component\animation\AnimConstraintComponent.cpp" />
     <ClCompile Include="source\Engine\component\animation\IKAnimConstraint.cpp" />
@@ -415,11 +414,12 @@
     <ClCompile Include="source\Render\ubo\UniformBufferLighting.cpp" />
     <ClCompile Include="source\Render\ui\core\UI.cpp" />
     <ClCompile Include="source\Render\ui\uicomponents\Icon.cpp" />
+    <ClCompile Include="source\Render\ui\uicomponents\IGizmo.cpp" />
+    <ClCompile Include="source\Render\ui\uicomponents\TranslateGizmo.cpp" />
     <ClCompile Include="source\Scenes\ForestScene.cpp" />
     <ClCompile Include="source\Scenes\Human.cpp" />
     <ClCompile Include="source\Scenes\LookDevScene.cpp" />
     <ClCompile Include="source\Render\ubo\UniformBuffer.cpp" />
-    <ClCompile Include="source\Editor\editor\ui\TranslateGizmo.cpp" />
     <ClCompile Include="source\Engine\window\Window.cpp" />
     <ClCompile Include="platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
@@ -431,7 +431,6 @@
     <ClInclude Include="source\Render\context\GraphicsContext.h" />
     <ClInclude Include="source\Engine\core\Base.h" />
     <ClInclude Include="source\Engine\core\Application.h" />
-    <ClInclude Include="source\Editor\editor\ui\IGizmo.h" />
     <ClInclude Include="source\Editor\editor\EditorProperty.h" />
     <ClInclude Include="source\Engine\animation\SkeletonUtils.h" />
     <ClInclude Include="source\Engine\component\animation\AnimConstraintComponent.h" />
@@ -536,9 +535,10 @@
     <ClInclude Include="source\Render\ui\core\UI.h" />
     <ClInclude Include="source\Render\ui\uicomponents\Icon.h" />
     <ClInclude Include="source\Render\ubo\UniformBuffer.h" />
-    <ClInclude Include="source\Editor\editor\ui\TranslateGizmo.h" />
     <ClInclude Include="source\Engine\window\Window.h" />
     <ClInclude Include="platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="source\Render\ui\uicomponents\IGizmo.h" />
+    <ClInclude Include="source\Render\ui\uicomponents\TranslateGizmo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl" />
@@ -551,6 +551,7 @@
     <None Include="resources\shaders\fragEmpty.glsl" />
     <None Include="resources\shaders\fragGBufferGeometry.glsl" />
     <None Include="resources\shaders\fragGBufferLit.glsl" />
+    <None Include="resources\shaders\fragGizmo.glsl" />
     <None Include="resources\shaders\fragIBL.glsl" />
     <None Include="resources\shaders\fragHDRSkyBox.glsl" />
     <None Include="resources\shaders\fragIrradiance.glsl" />
@@ -573,6 +574,7 @@
     <None Include="resources\shaders\geometryCoordinatesDebug.glsl" />
     <None Include="resources\shaders\geometryCrossDebug.glsl" />
     <None Include="resources\shaders\geometryDebugNormals.glsl" />
+    <None Include="resources\shaders\geometryGizmoTranslation.glsl" />
     <None Include="resources\shaders\geometryGridDebug.glsl" />
     <None Include="resources\shaders\geometryJointDebug.glsl" />
     <None Include="resources\shaders\geometryLineDebug.glsl" />
@@ -586,6 +588,7 @@
     <None Include="resources\shaders\vertexCoordinatesDebug.glsl" />
     <None Include="resources\shaders\vertexCrossDebug.glsl" />
     <None Include="resources\shaders\vertexCubeMap.glsl" />
+    <None Include="resources\shaders\vertexGizmo.glsl" />
     <None Include="resources\shaders\vertexGridDebug.glsl" />
     <None Include="resources\shaders\vertexJointDebug.glsl" />
     <None Include="resources\shaders\vertexLitVegetation.glsl" />

@@ -80,8 +80,8 @@ namespace Chroma
 	#ifdef EDITOR
 	void Light::DrawIcon(Texture& iconTexture)
 	{
-		static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->DrawWithIconTexture(iconTexture);
 		static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->SetPosition(m_Position);
+		static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->DrawWithIconTexture(iconTexture);
 	}
 	#endif
 

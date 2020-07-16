@@ -504,12 +504,6 @@
     <ClCompile Include="source\Render\ubo\UniformBufferLighting.cpp">
       <Filter>Render\ubo</Filter>
     </ClCompile>
-    <ClCompile Include="source\Editor\editor\ui\IGizmo.cpp">
-      <Filter>Editor\ui</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Editor\editor\ui\TranslateGizmo.cpp">
-      <Filter>Editor\ui</Filter>
-    </ClCompile>
     <ClCompile Include="source\Engine\common\PrecompiledHeader.cpp">
       <Filter>Engine\common</Filter>
     </ClCompile>
@@ -532,6 +526,12 @@
       <Filter>Render\camera</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\math\Math.cpp" />
+    <ClCompile Include="source\Render\ui\uicomponents\IGizmo.cpp">
+      <Filter>Render\ui\uicomponents</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\ui\uicomponents\TranslateGizmo.cpp">
+      <Filter>Render\ui\uicomponents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -843,12 +843,6 @@
     <ClInclude Include="source\Engine\threading\ThreadSafeQueue.h">
       <Filter>Engine\threading</Filter>
     </ClInclude>
-    <ClInclude Include="source\Editor\editor\ui\IGizmo.h">
-      <Filter>Editor\ui</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Editor\editor\ui\TranslateGizmo.h">
-      <Filter>Editor\ui</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\core\Application.h">
       <Filter>Engine\core</Filter>
     </ClInclude>
@@ -878,6 +872,12 @@
     </ClInclude>
     <ClInclude Include="source\Engine\event\CameraEvent.h">
       <Filter>Engine\event</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\ui\uicomponents\IGizmo.h">
+      <Filter>Render\ui\uicomponents</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\ui\uicomponents\TranslateGizmo.h">
+      <Filter>Render\ui\uicomponents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1070,5 +1070,8 @@
     <None Include="resources\shaders\util\PBRLightingFuncsImplementation.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
+    <None Include="resources\shaders\fragGizmo.glsl" />
+    <None Include="resources\shaders\geometryGizmoTranslation.glsl" />
+    <None Include="resources\shaders\vertexGizmo.glsl" />
   </ItemGroup>
 </Project>

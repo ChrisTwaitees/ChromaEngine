@@ -1,5 +1,6 @@
 #include "IGizmo.h"
 #include <model/Vertex.h>
+#include <scene/Scene.h>
 
 namespace Chroma
 {
@@ -10,7 +11,9 @@ namespace Chroma
 	void IGizmo::Draw()
 	{
 		m_Shader.Use();
-		//m_Shader.SetUniform();
+		m_Shader.SetUniform("VPMat", Scene::GetRenderCamera()->GetViewProjMatrix());
+		m_Shader.SetUniform("model", m_Transform);
+		m_Shader.SetUniform("scale", 10.0f);
 		BindPointVAO();
 	}
 
