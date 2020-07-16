@@ -175,7 +175,7 @@ namespace Chroma
 
 	void Entity::CalculateCentroid()
 	{
-		m_Centroid = (m_BBoxMin + m_BBoxMax) / glm::vec3(2.0);
+		m_Centroid = ((m_BBoxMin + m_BBoxMax) / glm::vec3(2.0));
 	}
 
 	void Entity::AddComponent(IComponent*& newComponent)
@@ -230,6 +230,7 @@ namespace Chroma
 	#ifdef EDITOR
 		CHROMA_TRACE("{0} Updating. UID : {0} Updating.", GetTypeName(),  m_UID.m_Data);
 		RebuildTransform();
+		UpdatePhysicsComponentsTransforms();
 	#endif
 	}
 

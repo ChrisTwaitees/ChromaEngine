@@ -492,18 +492,26 @@ namespace Chroma
 		ISerializer* objectSerializer = FactorySerializer::GetSerializer(Chroma::Type::Serialization::kJSON);
 
 		// attempt to fetch component
-		if (Chroma::Scene::GetComponent(m_SelectedObjectUID) != nullptr)
+		IComponent* component = Scene::GetComponent(m_SelectedObjectUID);
+		if (component != nullptr)
 		{
-			Chroma::Scene::GetComponent(m_SelectedObjectUID)->Serialize(objectSerializer);
-			if(Chroma::Scene::GetComponent(m_SelectedObjectUID)->GetType() == Chroma::Type::kLightComponent)
-				Chroma::Scene::GetComponent(m_SelectedObjectUID)->OnUpdate();
+			component->Serialize(objectSerializer);
+			if(component->GetType() == Chroma::Type::kLightComponent)
+				component->OnUpdate();
+
+			//debug
+			Render::GetDebugBuffer()->DrawOverlayBox(component->GetParentEntity()->GetBBox().first, component->GetParentEntity()->GetBBox().second, {0.5f, 0.5f, 0.0f});
 		}
 
 		// attempt to fetch entity
-		if (Chroma::Scene::GetEntity(m_SelectedObjectUID) != nullptr)
+		IEntity* entity = Scene::GetEntity(m_SelectedObjectUID);
+		if (entity != nullptr)
 		{
-			Chroma::Scene::GetEntity(m_SelectedObjectUID)->Serialize(objectSerializer);
-			Chroma::Scene::GetEntity(m_SelectedObjectUID)->OnUpdate();
+			entity->Serialize(objectSerializer);
+			entity->OnUpdate();
+
+			// debug
+			Render::GetDebugBuffer()->DrawOverlayBox(entity->GetBBox().first, entity->GetBBox().second, { 0.5f, 0.5f, 0.0f });
 		}
 
 		ImGui::Separator();
