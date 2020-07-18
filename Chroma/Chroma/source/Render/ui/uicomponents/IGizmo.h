@@ -22,9 +22,9 @@ namespace Chroma
 
 		// attrs
 		Shader m_Shader;
-		const char* m_VtxSource{ "resources/shaders/vertexGizmo.glsl" };
-		const char* m_FragSouce{ "resources/shaders/fragGizmo.glsl" };
-		const char* m_GeomSource{ "" };
+		const char* m_VtxSource{ "resources/shaders/vertexCrossDebug.glsl" };
+		const char* m_FragSouce{"resources/shaders/fragCrossDebug.glsl" };
+		const char* m_GeomSource{ "resources/shaders/geometryCrossDebug.glsl" };
 		unsigned int pointVAO{ 0 }, pointVBO{ 0 };
 	protected:
 		// transform

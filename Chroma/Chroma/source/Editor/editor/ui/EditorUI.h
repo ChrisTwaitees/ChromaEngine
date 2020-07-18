@@ -9,7 +9,7 @@
 
 namespace Chroma
 {
-	class MouseButtonReleasedEvent;
+	class MouseButtonPressedEvent;
 	class IComponent;
 
 	class EditorUI : public UI
@@ -35,7 +35,7 @@ namespace Chroma
 
 	private:
 		//events
-		static bool OnMouseButtonReleased(MouseButtonReleasedEvent& e);
+		static bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
 		// Translate Gizmo
 		static IComponent* m_TranslateGizmo;

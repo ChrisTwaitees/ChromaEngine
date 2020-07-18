@@ -130,7 +130,7 @@ namespace Chroma
 
 		// GIZMOS
 		m_TranslateGizmo = new TranslateGizmo();
-		m_TranslateGizmo->Init();
+		//m_TranslateGizmo->Init();
 		Scene::AddUIComponent(m_TranslateGizmo);
 
 		// GLOBAL
@@ -180,7 +180,7 @@ namespace Chroma
 	void EditorUI::OnEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
-		dispatcher.Dispatch<MouseButtonReleasedEvent>(CHROMA_BIND_EVENT_STATIC_FN(EditorUI::OnMouseButtonReleased));
+		dispatcher.Dispatch<MouseButtonPressedEvent>(CHROMA_BIND_EVENT_STATIC_FN(EditorUI::OnMouseButtonPressed));
 	}
 
 	void EditorUI::SetSelectedObjectUID(const UID& selectedUID)
@@ -221,7 +221,7 @@ namespace Chroma
 	}
 
 
-	bool EditorUI::OnMouseButtonReleased(MouseButtonReleasedEvent& e)
+	bool EditorUI::OnMouseButtonPressed(MouseButtonPressedEvent& e)
 	{
 		if (e.GetMouseButton() == MouseCode::ButtonLeft && m_MouseIsOverViewport)
 		{
@@ -235,6 +235,10 @@ namespace Chroma
 			{
 				Chroma::UI::SetSelectedEntityName(clickedEntity->GetName());
 				SetSelectedObjectUID(clickedEntity->GetUID());
+			}
+			else
+			{
+				SetSelectedObjectUID(-99);
 			}
 			return true;
 		}
@@ -513,6 +517,7 @@ namespace Chroma
 
 			// debug
 			Render::GetDebugBuffer()->DrawOverlayBox(entity->GetBBox().first, entity->GetBBox().second, { 0.5f, 0.5f, 0.0f });
+			Render::GetDebugBuffer()->DrawOverlayCross(entity->GetTranslation(), 50.0f, { 1.0f, 0.5f, 0.8f });
 		}
 
 		ImGui::Separator();

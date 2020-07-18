@@ -9,9 +9,6 @@
 #include <common/CoreCommon.h>
 #include <serialization/ISerializer.h>
 
-
-// forward declarations
-
 namespace Chroma
 {
 	class IEntity;

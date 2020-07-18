@@ -228,7 +228,7 @@ namespace Chroma
 	void Entity::OnUpdate()
 	{
 	#ifdef EDITOR
-		CHROMA_TRACE("{0} Updating. UID : {0} Updating.", GetTypeName(),  m_UID.m_Data);
+		//CHROMA_TRACE("{0} Updating. UID : {0} Updating.", GetTypeName(),  m_UID.m_Data);
 		RebuildTransform();
 		UpdatePhysicsComponentsTransforms();
 	#endif

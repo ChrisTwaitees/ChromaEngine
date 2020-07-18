@@ -11,9 +11,10 @@ namespace Chroma
 	void IGizmo::Draw()
 	{
 		m_Shader.Use();
-		m_Shader.SetUniform("VPMat", Scene::GetRenderCamera()->GetViewProjMatrix());
-		m_Shader.SetUniform("model", m_Transform);
-		m_Shader.SetUniform("scale", 10.0f);
+		m_Shader.SetUniform("model", glm::mat4(1.0));
+		m_Shader.SetUniform("color", glm::vec3(1.0,0.0,0.0));
+		m_Shader.SetUniform("Size", 50.0f);
+		m_Shader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
 		BindPointVAO();
 	}
 
