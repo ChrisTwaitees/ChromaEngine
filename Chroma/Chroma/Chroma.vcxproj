@@ -415,7 +415,7 @@
     <ClCompile Include="source\Render\ui\core\UI.cpp" />
     <ClCompile Include="source\Render\ui\uicomponents\Icon.cpp" />
     <ClCompile Include="source\Render\ui\uicomponents\IGizmo.cpp" />
-    <ClCompile Include="source\Render\ui\uicomponents\TranslateGizmo.cpp" />
+    <ClCompile Include="source\Render\ui\uicomponents\TransformGizmo.cpp" />
     <ClCompile Include="source\Scenes\ForestScene.cpp" />
     <ClCompile Include="source\Scenes\Human.cpp" />
     <ClCompile Include="source\Scenes\LookDevScene.cpp" />
@@ -538,7 +538,7 @@
     <ClInclude Include="source\Engine\window\Window.h" />
     <ClInclude Include="platform\Windows\WindowsWindow.h" />
     <ClInclude Include="source\Render\ui\uicomponents\IGizmo.h" />
-    <ClInclude Include="source\Render\ui\uicomponents\TranslateGizmo.h" />
+    <ClInclude Include="source\Render\ui\uicomponents\TransformGizmo.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl" />

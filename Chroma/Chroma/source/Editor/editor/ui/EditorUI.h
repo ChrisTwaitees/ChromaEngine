@@ -37,8 +37,9 @@ namespace Chroma
 		//events
 		static bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
 
-		// Translate Gizmo
-		static IComponent* m_TranslateGizmo;
+		// Transform Gizmo
+		static IComponent* m_TransformGizmo;
+		static void UpdateTransformGizmo();
 
 		// functions
 		static void ParentDockWindow();

@@ -6,7 +6,7 @@
 #include <buffer/GBuffer.h>
 #include <entity/Entity.h>
 
-#include <ui/uicomponents/TranslateGizmo.h>
+#include <ui/uicomponents/TransformGizmo.h>
 
 #include <core/Application.h>
 #include <event/MouseEvent.h>
@@ -47,7 +47,7 @@ namespace Chroma
 	bool EditorUI::m_SceneTreeNodeExpanded;
 
 	// Gizmos
-	IComponent* EditorUI::m_TranslateGizmo;
+	IComponent* EditorUI::m_TransformGizmo;
 
 	// MENUS
 	float EditorUI::timeSpeed;
@@ -83,6 +83,7 @@ namespace Chroma
 		AddUICall(ParentDockWindow);
 		// viewport
 		AddUICall(Draw3DViewportTab);
+		UpdateTransformGizmo();
 		if(m_DrawViewportGrid)
 			Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// content browser
@@ -129,9 +130,8 @@ namespace Chroma
 		m_TextureIcon = Texture("resources/icons/texture_icon.png"); 
 
 		// GIZMOS
-		m_TranslateGizmo = new TranslateGizmo();
-		//m_TranslateGizmo->Init();
-		Scene::AddUIComponent(m_TranslateGizmo);
+		m_TransformGizmo = new TransformGizmo();
+		Scene::AddUIComponent(m_TransformGizmo);
 
 		// GLOBAL
 		timeSpeed = 1.0f;
@@ -244,6 +244,34 @@ namespace Chroma
 		}
 
 		return false;
+	}
+
+	void EditorUI::UpdateTransformGizmo()
+	{
+		static_cast<TransformGizmo*>(m_TransformGizmo)->SetActive(true);
+
+		// attempt to fetch component
+		IComponent* component = Scene::GetComponent(m_SelectedObjectUID);
+		if (component)
+		{
+			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
+			static_cast<TransformGizmo*>(m_TransformGizmo)->SetTransform(component->GetParentEntity()->GetTransform());
+			//static_cast<TransformGizmo*>(m_TransformGizmo)->Draw();
+			return;
+		}
+
+		// attempt to fetch entity
+		IEntity* entity = Scene::GetEntity(m_SelectedObjectUID);
+		if (entity)
+		{
+			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
+			static_cast<TransformGizmo*>(m_TransformGizmo)->SetTransform(entity->GetTransform());
+			//static_cast<TransformGizmo*>(m_TransformGizmo)->Draw();
+			return;
+		}
+
+		// neither found gizmo is not active
+		static_cast<TransformGizmo*>(m_TransformGizmo)->SetActive(false);
 	}
 
 	void EditorUI::ParentDockWindow()
@@ -493,18 +521,15 @@ namespace Chroma
 		ImGui::Text(("Selected Object : " + m_SelectedObjectString).c_str());
 
 		// Get Object Serialization Data
-		ISerializer* objectSerializer = FactorySerializer::GetSerializer(Chroma::Type::Serialization::kJSON);
+		ISerializer* objectSerializer = FactorySerializer::GetSerializer(Type::Serialization::kJSON);
 
 		// attempt to fetch component
 		IComponent* component = Scene::GetComponent(m_SelectedObjectUID);
 		if (component != nullptr)
 		{
 			component->Serialize(objectSerializer);
-			if(component->GetType() == Chroma::Type::kLightComponent)
+			if(component->GetType() == Type::kLightComponent)
 				component->OnUpdate();
-			else
-			//debug
-				Render::GetDebugBuffer()->DrawOverlayBox(component->GetParentEntity()->GetBBox().first, component->GetParentEntity()->GetBBox().second, {0.5f, 0.5f, 0.0f});
 
 		}
 
@@ -514,10 +539,6 @@ namespace Chroma
 		{
 			entity->Serialize(objectSerializer);
 			entity->OnUpdate();
-
-			// debug
-			Render::GetDebugBuffer()->DrawOverlayBox(entity->GetBBox().first, entity->GetBBox().second, { 0.5f, 0.5f, 0.0f });
-			Render::GetDebugBuffer()->DrawOverlayCross(entity->GetTranslation(), 50.0f, { 1.0f, 0.5f, 0.8f });
 		}
 
 		ImGui::Separator();

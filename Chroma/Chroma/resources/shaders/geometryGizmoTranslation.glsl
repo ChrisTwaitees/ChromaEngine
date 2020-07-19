@@ -7,9 +7,9 @@ in VS_OUT{
 	float size;
 } vs_in[];
 
-//out GS_OUT{
-//	vec4 gs_color;
-//} gs_out;
+out GS_OUT{
+	vec4 gs_color;
+} gs_out;
 
 void main()
 {
@@ -20,45 +20,29 @@ void main()
 	// COORDINATE REFERENCE
 	// X
 	// +
+	gs_out.gs_color = vec4(1.0,0.0,0.0,1.0);
 	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0) ;
 	EmitVertex();
 	gl_Position = MVPMat * vec4(1.0 * Size,0.0,0.0,1.0);
 	EmitVertex();
 	EndPrimitive();
-	// -
-	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0) ;
-	EmitVertex();
-	gl_Position = MVPMat * vec4(-1.0 * Size,0.0,0.0,1.0);
-	EmitVertex();
-	EndPrimitive();
 
 	// Y
 	// +
+	gs_out.gs_color = vec4(0.0,1.0,0.0,1.0);
 	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0);
 	EmitVertex();
 	gl_Position = MVPMat * vec4(0.0,1.0 * Size,0.0,1.0);
 	EmitVertex();
 	EndPrimitive();
-	// -
-	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0);
-	EmitVertex();
-	gl_Position = MVPMat * vec4(0.0,-1.0 * Size,0.0,1.0);
-	EmitVertex();
-	EndPrimitive();
 
 	// Z
 	// +
+	gs_out.gs_color = vec4(0.0,0.0,1.0,1.0);
 	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0);
 	EmitVertex();
 	gl_Position = MVPMat * vec4(0.0,0.0,1.0 * Size ,1.0) ;
 	EmitVertex();
 	EndPrimitive();
-	// -
-	gl_Position = MVPMat * vec4(0.0,0.0,0.0,1.0);
-	EmitVertex();
-	gl_Position = MVPMat * vec4(0.0,0.0,-1.0 * Size ,1.0) ;
-	EmitVertex();
-	EndPrimitive();
-
 
 }

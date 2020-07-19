@@ -4,6 +4,7 @@
 #include <component/UIComponent.h>
 #ifdef EDITOR
 #include <editor/ui/EditorUI.h>
+#include <ui/uicomponents/IGizmo.h>
 #endif
 
 
@@ -191,7 +192,7 @@ namespace Chroma
 		m_CrossShader.SetUniform("model", cross.transform);
 		m_CrossShader.SetUniform("color", cross.color);
 		m_CrossShader.SetUniform("Size", cross.size);
-		m_CrossShader.SetUniform("VPMat", Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+		m_CrossShader.SetUniform("VPMat", Scene::GetRenderCamera()->GetViewProjMatrix());
 		BindPointVAO();
 	}
 

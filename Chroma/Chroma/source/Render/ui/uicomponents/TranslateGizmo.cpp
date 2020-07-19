@@ -6,9 +6,9 @@ namespace Chroma
 	{
 	}
 
-	void TranslateGizmo::Init()
+	void TranslateGizmo::Initialize()
 	{
-		//m_GeomSource = "resources/shaders/geometryGizmoTranslation.glsl";
+		m_GeomSource = "resources/shaders/geometryGizmoTranslation.glsl";
 		m_Shader = Shader(m_FragSouce, m_VtxSource, m_GeomSource);
 		GeneratePointVAO();
 	}

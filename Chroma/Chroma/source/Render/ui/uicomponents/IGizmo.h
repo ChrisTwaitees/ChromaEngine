@@ -12,24 +12,12 @@ namespace Chroma
 		IGizmo();
 		virtual ~IGizmo() = default;
 
-		virtual void Init() override;
-		virtual void Draw() override;
-
-		virtual void SetTransform(const glm::mat4& newTransform) { m_Transform = newTransform; }
-		virtual glm::mat4 GetTransform() const { return m_Transform; }
+		virtual void OnUpdate() = 0;
+		virtual void Draw() = 0;
 
 	protected : 
-
-		// attrs
-		Shader m_Shader;
-		const char* m_VtxSource{ "resources/shaders/vertexCrossDebug.glsl" };
-		const char* m_FragSouce{"resources/shaders/fragCrossDebug.glsl" };
-		const char* m_GeomSource{ "resources/shaders/geometryCrossDebug.glsl" };
-		unsigned int pointVAO{ 0 }, pointVBO{ 0 };
-	protected:
-		// transform
-		glm::mat4 m_Transform{ 1.0f };
 		// point VAO
+		unsigned int m_PointVAO{ 0 }, m_PointVBO{ 0 };
 		void GeneratePointVAO();
 		void BindPointVAO();
 	};
