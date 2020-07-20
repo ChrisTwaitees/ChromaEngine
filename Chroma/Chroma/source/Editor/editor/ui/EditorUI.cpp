@@ -256,7 +256,6 @@ namespace Chroma
 		{
 			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
 			static_cast<TransformGizmo*>(m_TransformGizmo)->SetTransform(component->GetParentEntity()->GetTransform());
-			//static_cast<TransformGizmo*>(m_TransformGizmo)->Draw();
 			return;
 		}
 
@@ -266,7 +265,6 @@ namespace Chroma
 		{
 			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
 			static_cast<TransformGizmo*>(m_TransformGizmo)->SetTransform(entity->GetTransform());
-			//static_cast<TransformGizmo*>(m_TransformGizmo)->Draw();
 			return;
 		}
 

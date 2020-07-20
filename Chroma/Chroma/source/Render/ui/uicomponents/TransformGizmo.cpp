@@ -1,9 +1,15 @@
 #include "TransformGizmo.h"
 #include "scene/Scene.h"
 #include "input/Input.h"
+#include "physics/PhysicsEngine.h"
 
 namespace Chroma
 {
+	TransformGizmo::TransformGizmo()
+	{
+		GeneratePointBuffers();
+		GenerateColliders();
+	}
 
 	TransformGizmo::~TransformGizmo()
 	{
@@ -22,7 +28,7 @@ namespace Chroma
 				{
 					m_TranslateShader.Use();
 					m_TranslateShader.SetUniform("u_Model", m_Transform);
-					m_TranslateShader.SetUniform("u_Size", 1.0f);
+					m_TranslateShader.SetUniform("u_Size", m_Size);
 					m_TranslateShader.SetUniform("u_VPMat", Scene::GetRenderCamera()->GetViewProjMatrix());
 					break;
 				}
@@ -46,7 +52,7 @@ namespace Chroma
 				}
 			}
 
-			BindPointVAO();
+			BindDrawVAO();
 		}
 	}
 
@@ -54,6 +60,13 @@ namespace Chroma
 	{
 		if (m_Active)
 		{
+			
+			// Set Size
+			if (Input::IsPressed(KeyCode::KPAdd))
+				m_Size += 0.05;
+			if (Input::IsPressed(KeyCode::KPSubtract))
+				m_Size -= 0.05;
+
 			// Set Mode
 			if (Input::IsPressed(KeyCode::W))
 				m_Mode = Translation;
@@ -79,6 +92,42 @@ namespace Chroma
 				}
 			}
 		}
+	}
+
+	void TransformGizmo::GeneratePointBuffers()
+	{
+		// create vert array
+		std::vector<ChromaVertex> vertArray;
+		for (int i = 0; i < m_PointArraySize; i++)
+			vertArray.push_back(ChromaVertex());
+
+		// Generate buffers
+		// Vertex Array Object Buffer
+		glGenVertexArrays(1, &m_PointVAO);
+		// Vertex Buffer and Element Buffer
+		glGenBuffers(1, &m_PointVBO);
+
+		// Bind buffers
+		glBindVertexArray(m_PointVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, m_PointVBO);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(ChromaVertex) * 3, &vertArray[0], GL_STATIC_DRAW);
+
+		// vertex positions
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ChromaVertex), (void*)0);
+	}
+
+	void TransformGizmo::BindDrawVAO()
+	{
+		glBindVertexArray(m_PointVAO);
+		glDrawArrays(GL_POINTS, 0, m_PointArraySize);
+		glBindVertexArray(0);
+	}
+
+	void TransformGizmo::GenerateColliders()
+	{
+		// Translate
+		//Physics::Create
 	}
 
 }

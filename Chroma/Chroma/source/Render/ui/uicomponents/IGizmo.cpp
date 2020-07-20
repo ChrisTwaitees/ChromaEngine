@@ -7,10 +7,9 @@ namespace Chroma
 {
 	IGizmo::IGizmo()
 	{
-		GeneratePointVAO();
 	}
 
-	void IGizmo::GeneratePointVAO()
+	void IGizmo::GeneratePointBuffers()
 	{
 		ChromaVertex singleVert;
 
@@ -30,7 +29,7 @@ namespace Chroma
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(ChromaVertex), (void*)0);
 	}
 
-	void IGizmo::BindPointVAO()
+	void IGizmo::BindDrawVAO()
 	{
 		glBindVertexArray(m_PointVAO);
 		glDrawArrays(GL_POINTS, 0, 1);

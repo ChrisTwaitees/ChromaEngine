@@ -18,8 +18,8 @@ namespace Chroma
 	protected : 
 		// point VAO
 		unsigned int m_PointVAO{ 0 }, m_PointVBO{ 0 };
-		void GeneratePointVAO();
-		void BindPointVAO();
+		virtual void GeneratePointBuffers();
+		virtual void BindDrawVAO();
 	};
 }
 

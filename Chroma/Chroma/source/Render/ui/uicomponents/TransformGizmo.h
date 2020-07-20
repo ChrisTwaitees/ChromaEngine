@@ -9,7 +9,7 @@ namespace Chroma
 	class TransformGizmo :	public IGizmo
 	{
 	public:
-		TransformGizmo() {};
+		TransformGizmo();
 		~TransformGizmo();
 
 		virtual void Draw() override;
@@ -23,6 +23,9 @@ namespace Chroma
 		inline void SetActive(const bool& isActive) { m_Active = isActive; }
 		inline bool SetActive() const { return m_Active; }
 
+		inline void SetSize(const float& newSize) {	m_Size = newSize; }
+		inline float GetSize() { return m_Size; }
+
 	public: 
 		inline void SetTransform(const glm::mat4& newTransform) { m_Transform = newTransform; }
 		inline glm::mat4 GetTransform() const { return m_Transform; }
@@ -31,6 +34,7 @@ namespace Chroma
 		glm::mat4 m_Transform{ 1.0f };
 		Mode m_Mode{ Translation };
 		bool m_Active{false};
+		float m_Size{ 1.0f };
 	private:
 		// translation
 		const char* m_TransFragSource{ "resources/shaders/fragGizmo.glsl" };
@@ -49,6 +53,14 @@ namespace Chroma
 		const char* m_ScaleVtxSource{ "resources/shaders/vertexCrossDebug.glsl" };
 		const char* m_ScaleGeomSource{ "resources/shaders/geometryCrossDebug.glsl" };
 		Shader m_ScaleShader{ m_ScaleFragSource, m_ScaleVtxSource, m_ScaleGeomSource };
+
+		// pointVAO
+		virtual void GeneratePointBuffers() override;
+		unsigned int m_PointArraySize{ 3 };
+		virtual void BindDrawVAO() override;
+	private:
+		// collisions
+		void GenerateColliders();
 
 	};
 }

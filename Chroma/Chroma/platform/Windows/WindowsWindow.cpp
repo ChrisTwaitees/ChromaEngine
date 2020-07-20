@@ -219,7 +219,7 @@ namespace Chroma
 
 	bool WindowsWindow::IsReleased(const KeyCode& keyCode)
 	{
-		return glfwGetKey(m_Window, (int)keyCode) == GLFW_RELEASE;
+		return glfwGetKey(m_Window, (int)keyCode) == GLFW_RELEASE; 
 	}
 
 	bool WindowsWindow::IsHeld(const KeyCode& keyCode)
