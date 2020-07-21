@@ -15,7 +15,7 @@
 
 namespace Chroma
 {
-	enum ColliderShape { Box, Convex, Mesh, Capsule, Sphere, AABB };
+	enum ColliderShape { Box, Convex, Mesh, Capsule, Sphere, AABB, Cylinder };
 	enum ColliderState {Static, Kinematic, Dynamic};
 
 	struct CollisionData;

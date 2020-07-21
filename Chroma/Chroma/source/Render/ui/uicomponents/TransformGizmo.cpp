@@ -127,7 +127,7 @@ namespace Chroma
 	void TransformGizmo::GenerateColliders()
 	{
 		// Translate
-		//Physics::Create
+		//Physics::CreateBox(glm::vec3(), )
 	}
 
 }
