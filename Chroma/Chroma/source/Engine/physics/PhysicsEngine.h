@@ -39,40 +39,15 @@ namespace Chroma
 		glm::vec3 m_RayHitNormal{ 0.0f };
 	};
 
-	struct RigidBody
-	{
-		ColliderShape m_Shape{ ColliderShape::Box };
-		ColliderState m_State{ ColliderState::Static };
-		glm::mat4 m_Transform{ 1.0f };
-		void* m_RigidbodyRaw;
-	};
-
-	struct RigidBodyBox : RigidBody
-	{
-		glm::vec3 minBBox{ 0.0f };
-		glm::vec3 maxBBox{ 1.0f };
-	};
-
-	struct RigidBodyCylinder : RigidBody
-	{
-		glm::vec3 minBBox{ 0.0f };
-		glm::vec3 maxBBox{ 1.0f };
-	};
-
-
 	class Physics
 	{
 	public:
-
 		static void Init();
 		static void OnUpdate();
 		static void ToggleDrawDebug();
 		static void DrawDebug();
 
 	public:
-		void CreateRigidBody(RigidBody* rigidBody);
-		void RemoveRigidBody(RigidBody* rigidBody);
-
 		static void BindDebugBuffer(DebugBuffer* DebugRenderer);
 
 		static void AddBodyToWorld(btRigidBody*& rigidBody);
@@ -119,6 +94,7 @@ namespace Chroma
 		static void InitTerrain();
 		static void UpdateGravity();
 	};
+
 }
 
 #endif

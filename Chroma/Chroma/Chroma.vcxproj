@@ -320,6 +320,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="platform\OpenGL\OpenGLContext.cpp" />
+    <ClCompile Include="source\Engine\physics\RigidBody.cpp" />
     <ClCompile Include="source\Engine\math\Math.cpp" />
     <ClCompile Include="source\Render\camera\ICameraController.cpp" />
     <ClCompile Include="source\Render\context\GraphicsContext.cpp" />
@@ -427,6 +428,7 @@
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
     <ClInclude Include="platform\OpenGL\OpenGLContext.h" />
+    <ClInclude Include="source\Engine\physics\RigidBody.h" />
     <ClInclude Include="source\Engine\event\CameraEvent.h" />
     <ClInclude Include="source\Render\context\GraphicsContext.h" />
     <ClInclude Include="source\Engine\core\Base.h" />

@@ -6,6 +6,9 @@
 
 namespace Chroma
 {
+
+	class RigidBody;
+
 	class TransformGizmo :	public IGizmo
 	{
 	public:
@@ -60,6 +63,7 @@ namespace Chroma
 		virtual void BindDrawVAO() override;
 	private:
 		// collisions
+		std::vector<RigidBody*> m_RigidBodies;
 		void GenerateColliders();
 
 	};

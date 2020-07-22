@@ -532,6 +532,7 @@
     <ClCompile Include="source\Render\ui\uicomponents\TransformGizmo.cpp">
       <Filter>Render\ui\uicomponents</Filter>
     </ClCompile>
+    <ClCompile Include="source\Engine\physics\RigidBody.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -879,6 +880,7 @@
     <ClInclude Include="source\Render\ui\uicomponents\TransformGizmo.h">
       <Filter>Render\ui\uicomponents</Filter>
     </ClInclude>
+    <ClInclude Include="source\Engine\physics\RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">

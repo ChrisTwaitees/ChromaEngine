@@ -2,6 +2,7 @@
 #include "scene/Scene.h"
 #include "input/Input.h"
 #include "physics/PhysicsEngine.h"
+#include "physics/RigidBody.h"
 
 namespace Chroma
 {
@@ -91,6 +92,14 @@ namespace Chroma
 					break;
 				}
 			}
+
+			// collisions
+			for (RigidBody* rigid : m_RigidBodies)
+			{
+				
+				rigid->SetTransform(m_Transform);
+			}
+
 		}
 	}
 
@@ -127,7 +136,11 @@ namespace Chroma
 	void TransformGizmo::GenerateColliders()
 	{
 		// Translate
-		//Physics::CreateBox(glm::vec3(), )
+		RigidBody* box;
+
+		//box.SetTransform(m_Transform);
+
+		m_RigidBodies.push_back(box);
 	}
 
 }
