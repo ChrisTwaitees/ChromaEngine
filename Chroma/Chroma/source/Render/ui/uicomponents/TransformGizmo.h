@@ -39,27 +39,24 @@ namespace Chroma
 		bool m_Active{false};
 		float m_Size{ 1.0f };
 	private:
+		// shaderShared
+		const char* m_FragGizmo{ "resources/shaders/fragGizmo.glsl" };
+		const char* m_VertGizmo{ "resources/shaders/vertexGizmo.glsl" };
+
 		// translation
-		const char* m_TransFragSource{ "resources/shaders/fragGizmo.glsl" };
-		const char* m_TransVtxSource{ "resources/shaders/vertexGizmo.glsl" };
 		const char* m_TransGeomSource{ "resources/shaders/geometryGizmoTranslation.glsl" };
-		Shader m_TranslateShader{ m_TransFragSource, m_TransVtxSource, m_TransGeomSource };
+		Shader m_TranslateShader{ m_FragGizmo, m_VertGizmo, m_TransGeomSource };
 
 		// rotation
-		const char* m_RotFragSource{ "resources/shaders/fragCrossDebug.glsl" };
-		const char* m_RotVtxSource{ "resources/shaders/vertexCrossDebug.glsl" };
-		const char* m_RotGeomSource{ "resources/shaders/geometryCrossDebug.glsl" };
-		Shader m_RotationShader{ m_RotFragSource, m_RotVtxSource, m_RotGeomSource };
+		const char* m_RotGeomSource{ "resources/shaders/geometryGizmoRotation.glsl" };
+		Shader m_RotationShader{ m_FragGizmo, m_VertGizmo, m_RotGeomSource };
 
 		// scale
-		const char* m_ScaleFragSource{ "resources/shaders/fragCrossDebug.glsl" };
-		const char* m_ScaleVtxSource{ "resources/shaders/vertexCrossDebug.glsl" };
-		const char* m_ScaleGeomSource{ "resources/shaders/geometryCrossDebug.glsl" };
-		Shader m_ScaleShader{ m_ScaleFragSource, m_ScaleVtxSource, m_ScaleGeomSource };
+		const char* m_ScaleGeomSource{ "resources/shaders/geometryGizmoScale.glsl" };
+		Shader m_ScaleShader{ m_FragGizmo, m_VertGizmo, m_ScaleGeomSource };
 
 		// pointVAO
 		virtual void GeneratePointBuffers() override;
-		unsigned int m_PointArraySize{ 3 };
 		virtual void BindDrawVAO() override;
 	private:
 		// collisions
@@ -69,4 +66,4 @@ namespace Chroma
 	};
 }
 
-#endif // CHROMA_TRANSLATEGIZMO_H
+#endif // CHRO  MA_TRANSLATEGIZMO_H

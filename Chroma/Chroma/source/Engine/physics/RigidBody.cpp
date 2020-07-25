@@ -3,25 +3,29 @@
 
 namespace Chroma
 {
-	void RigidBody::SetConstructionData(const RBDConstructionData& constructionData)
+	void RigidBody::SetConstructionData(const RigidBodyConstructionData& constructionData)
 	{
-		m_ConstructionData = constructionData;
-		
-		m_RigidbodyRaw->setCollisionShape(GenerateColliderShape());
-		
+		if (m_ConstructionData != constructionData)
+		{
+			m_ConstructionData = constructionData;
+			RemoveFromWorld();
+			BuildRigidBody();
+		}
 	}
 
 
 	void RigidBody::SetShape(ColliderShape newShape)
 	{
-		m_Shape = newShape;
+		m_ConstructionData.m_ColliderShape = newShape;
 
 		m_RigidbodyRaw->setCollisionShape(GenerateColliderShape());
 	}
 
 	void RigidBody::SetState(ColliderState newState)
 	{
-		switch (newState)
+		m_ConstructionData.m_ColliderState = newState;
+
+		switch (m_ConstructionData.m_ColliderState)
 		{
 			case Static:
 			{
@@ -42,9 +46,10 @@ namespace Chroma
 		}
 	}
 
-	void RigidBody::SetTransform(const glm::mat4 newTransform)
+	void RigidBody::SetTransform(const glm::mat4& newTransform)
 	{
-		m_RigidbodyRaw->getMotionState()->setWorldTransform(GLMToBullet(m_Transform));
+		m_Transform = newTransform;
+		m_RigidbodyRaw->getMotionState()->setWorldTransform(GLMToBullet(m_Transform * m_ConstructionData.m_LocalTransform));
 	}
 
 	glm::mat4 RigidBody::GetTransform()
@@ -97,7 +102,7 @@ namespace Chroma
 		m_RigidbodyRaw = new btRigidBody(bodyCI);
 
 		// set state
-		SetState(m_State);
+		SetState(m_ConstructionData.m_ColliderState);
 
 		// add to physics world
 		AddToWorld();
@@ -105,42 +110,26 @@ namespace Chroma
 
 	btCollisionShape* RigidBody::GenerateColliderShape()
 	{
-		switch (m_Shape)
+		switch (m_ConstructionData.m_ColliderShape)
 		{
 			case Box :
 			{
-				glm::vec3 boxSize(m_ConstructionData.m_MinBBox - m_ConstructionData.m_MaxBBox);
-				boxSize *= glm::vec3(0.5f);
-				return new btBoxShape(GLMToBullet(-boxSize));
-
+				return new btBoxShape(GLMToBullet(m_ConstructionData.m_HalfExtents));
 				break;
 			}
 			case Sphere :
-			{
-				float sphereSize = glm::length(m_ConstructionData.m_MinBBox - m_ConstructionData.m_MaxBBox) / 2.0;
-				return new btSphereShape(btScalar(sphereSize));
-
+			{				
+				return new btSphereShape(btScalar(m_ConstructionData.m_Radius));
 				break;
 			}
 			case Cylinder :
-			{
-				// Calculate height and width
-				glm::vec3 boxSize(m_ConstructionData.m_MinBBox - m_ConstructionData.m_MaxBBox);
-				boxSize *= glm::vec3(0.5f);
-				// constructor : (radius, height)
-				return new btCylinderShape(GLMToBullet(boxSize));
-
+			{			
+				return new btCylinderShape(GLMToBullet(m_ConstructionData.m_HalfExtents));
 				break;
 			}
 			case Capsule :
 			{
-				// Get Entity Dimensions
-				float capsuleHeight = glm::length(m_ConstructionData.m_MinBBox - m_ConstructionData.m_MaxBBox);
-				float capsuleWidth = glm::length(glm::length(m_ConstructionData.m_MinBBox - m_ConstructionData.m_MaxBBox)) / 4.0; // divide by 2 for radius
-
-				// constructor : (radius, height)
-				return new btCapsuleShape(capsuleWidth, capsuleHeight);
-
+				return new btCapsuleShape(m_ConstructionData.m_Radius, m_ConstructionData.m_Height);
 				break;
 			}
 		}

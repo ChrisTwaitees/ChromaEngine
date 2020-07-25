@@ -254,8 +254,8 @@ namespace Chroma
 		IComponent* component = Scene::GetComponent(m_SelectedObjectUID);
 		if (component)
 		{
-			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
 			static_cast<TransformGizmo*>(m_TransformGizmo)->SetTransform(component->GetParentEntity()->GetTransform());
+			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
 			return;
 		}
 
@@ -263,8 +263,8 @@ namespace Chroma
 		IEntity* entity = Scene::GetEntity(m_SelectedObjectUID);
 		if (entity)
 		{
-			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
 			static_cast<TransformGizmo*>(m_TransformGizmo)->SetTransform(entity->GetTransform());
+			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
 			return;
 		}
 

@@ -1075,5 +1075,7 @@
     <None Include="resources\shaders\fragGizmo.glsl" />
     <None Include="resources\shaders\geometryGizmoTranslation.glsl" />
     <None Include="resources\shaders\vertexGizmo.glsl" />
+    <None Include="resources\shaders\geometryGizmoRotation.glsl" />
+    <None Include="resources\shaders\geometryGizmoScale.glsl" />
   </ItemGroup>
 </Project>

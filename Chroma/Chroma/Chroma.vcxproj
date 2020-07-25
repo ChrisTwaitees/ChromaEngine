@@ -576,6 +576,8 @@
     <None Include="resources\shaders\geometryCoordinatesDebug.glsl" />
     <None Include="resources\shaders\geometryCrossDebug.glsl" />
     <None Include="resources\shaders\geometryDebugNormals.glsl" />
+    <None Include="resources\shaders\geometryGizmoRotation.glsl" />
+    <None Include="resources\shaders\geometryGizmoScale.glsl" />
     <None Include="resources\shaders\geometryGizmoTranslation.glsl" />
     <None Include="resources\shaders\geometryGridDebug.glsl" />
     <None Include="resources\shaders\geometryJointDebug.glsl" />

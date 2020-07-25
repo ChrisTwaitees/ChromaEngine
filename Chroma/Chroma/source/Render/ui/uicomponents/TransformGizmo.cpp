@@ -17,6 +17,9 @@ namespace Chroma
 		m_TranslateShader.Destroy();
 		m_RotationShader.Destroy();
 		m_ScaleShader.Destroy();
+
+		for (RigidBody*& rigidBody : m_RigidBodies)
+			if (rigidBody) delete rigidBody;
 	}
 
 	void TransformGizmo::Draw()
@@ -30,25 +33,20 @@ namespace Chroma
 					m_TranslateShader.Use();
 					m_TranslateShader.SetUniform("u_Model", m_Transform);
 					m_TranslateShader.SetUniform("u_Size", m_Size);
-					m_TranslateShader.SetUniform("u_VPMat", Scene::GetRenderCamera()->GetViewProjMatrix());
 					break;
 				}
 				case(Rotation):
 				{
 					m_RotationShader.Use();
-					m_RotationShader.SetUniform("model", m_Transform);
-					m_RotationShader.SetUniform("color", glm::vec3(0.0, 1.0, 0.0));
-					m_RotationShader.SetUniform("Size", 10.0f);
-					m_RotationShader.SetUniform("VPMat", Scene::GetRenderCamera()->GetViewProjMatrix());
+					m_RotationShader.SetUniform("u_Model", m_Transform);
+					m_RotationShader.SetUniform("u_Size", m_Size);
 					break;
 				}
 				case(Scale):
 				{
 					m_ScaleShader.Use();
-					m_ScaleShader.SetUniform("model", m_Transform);
-					m_ScaleShader.SetUniform("color", glm::vec3(0.0, 0.0, 1.0));
-					m_ScaleShader.SetUniform("Size", 10.0f);
-					m_ScaleShader.SetUniform("VPMat", Scene::GetRenderCamera()->GetViewProjMatrix());
+					m_ScaleShader.SetUniform("u_Model", m_Transform);
+					m_ScaleShader.SetUniform("u_Size", m_Size);
 					break;
 				}
 			}
@@ -65,16 +63,26 @@ namespace Chroma
 			// Set Size
 			if (Input::IsPressed(KeyCode::KPAdd))
 				m_Size += 0.05;
+
 			if (Input::IsPressed(KeyCode::KPSubtract))
 				m_Size -= 0.05;
 
 			// Set Mode
 			if (Input::IsPressed(KeyCode::W))
+			{
 				m_Mode = Translation;
+				GenerateColliders();
+			}
 			if (Input::IsPressed(KeyCode::E))
+			{
 				m_Mode = Rotation;
+				GenerateColliders();
+			}
 			if (Input::IsPressed(KeyCode::R))
+			{
 				m_Mode = Scale;
+				GenerateColliders();
+			}
 	
 			// Check interactions
 			switch (m_Mode)
@@ -96,7 +104,6 @@ namespace Chroma
 			// collisions
 			for (RigidBody* rigid : m_RigidBodies)
 			{
-				
 				rigid->SetTransform(m_Transform);
 			}
 
@@ -107,7 +114,7 @@ namespace Chroma
 	{
 		// create vert array
 		std::vector<ChromaVertex> vertArray;
-		for (int i = 0; i < m_PointArraySize; i++)
+		for (int i = 0; i < 3; i++)
 			vertArray.push_back(ChromaVertex());
 
 		// Generate buffers
@@ -129,18 +136,58 @@ namespace Chroma
 	void TransformGizmo::BindDrawVAO()
 	{
 		glBindVertexArray(m_PointVAO);
-		glDrawArrays(GL_POINTS, 0, m_PointArraySize);
+		glDrawArrays(GL_POINTS, 0, 3);
 		glBindVertexArray(0);
 	}
 
 	void TransformGizmo::GenerateColliders()
 	{
-		// Translate
-		RigidBody* box;
+		// Clear colliders
+		for (RigidBody*& rigidBody : m_RigidBodies)
+		{
+			rigidBody->RemoveFromWorld();
+		}
+		m_RigidBodies.clear();
 
-		//box.SetTransform(m_Transform);
+		switch (m_Mode)
+		{
+			case Scale :
 
-		m_RigidBodies.push_back(box);
+			case Translation :
+			{
+				// Y
+				RigidBodyConstructionData RBDConstruction;
+				RBDConstruction.m_ColliderShape = Cylinder;
+				RBDConstruction.m_HalfExtents = glm::vec3(m_Size * 0.05, m_Size * 0.5, 0.0);
+				RBDConstruction.m_LocalTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, m_Size * 0.5,0.0));
+
+				RigidBody* Y = new RigidBody(RBDConstruction);
+				m_RigidBodies.push_back(Y);
+
+				// X
+				RBDConstruction.m_ColliderShape = Cylinder;
+				RBDConstruction.m_LocalTransform = glm::translate(glm::mat4(1.0f), glm::vec3(m_Size * 0.5, 0.0, 0.0));
+				RBDConstruction.m_LocalTransform = glm::rotate(RBDConstruction.m_LocalTransform, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+				RigidBody* X = new RigidBody(RBDConstruction);
+				m_RigidBodies.push_back(X);
+
+				// Z
+				RBDConstruction.m_ColliderShape = Cylinder;
+				RBDConstruction.m_LocalTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, m_Size * 0.5f));
+				RBDConstruction.m_LocalTransform = glm::rotate(RBDConstruction.m_LocalTransform, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+				RigidBody* Z = new RigidBody(RBDConstruction);
+				m_RigidBodies.push_back(Z);
+				break;
+			}
+			case Rotation:
+			{
+				break;
+			}
+		}
+
+
 	}
 
 }
