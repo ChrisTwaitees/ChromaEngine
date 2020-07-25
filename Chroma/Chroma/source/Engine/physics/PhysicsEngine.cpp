@@ -110,6 +110,31 @@ namespace Chroma
 	}
 
 
+	class WasIHitCallback : public btCollisionWorld::ClosestRayResultCallback
+	{
+	public:
+		WasIHitCallback(btCollisionObject* me);
+		virtual btScalar addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace);
+	protected:
+		btCollisionObject* m_me;
+	};
+
+	WasIHitCallback::WasIHitCallback(btCollisionObject* me)
+		: ClosestRayResultCallback(btVector3(0.0, 0.0, 0.0), btVector3(0.0, 0.0, 0.0))
+	{
+		m_me = me;
+	}
+
+	btScalar WasIHitCallback::addSingleResult(btCollisionWorld::LocalRayResult& rayResult, bool normalInWorldSpace)
+	{
+		if (rayResult.m_collisionObject == m_me)
+			return WasIHitCallback::ClosestRayResultCallback::addSingleResult(rayResult, normalInWorldSpace);
+		else
+			return btScalar(1.0f);
+	}
+
+
+
 	float Physics::m_TerrainFriction;
 	glm::vec3 Physics::m_Gravity;
 	btCollisionObject* Physics::m_CollisionObject;
@@ -286,6 +311,28 @@ namespace Chroma
 		return newRayHit;
 	}
 
+	RayHitData Physics::GetRayHitData(btRigidBody* rigidBody, glm::vec3 const& rayStart, glm::vec3 const& rayEnd)
+	{
+		RayHitData newRayHit;
+
+		btVector3 start(rayStart.x, rayStart.y, rayStart.z);
+		btVector3 end(rayEnd.x, rayEnd.y, rayEnd.z);
+
+		WasIHitCallback rayCallBack(rigidBody);
+
+		m_World->rayTest(start, end, rayCallBack);
+
+		if (rayCallBack.hasHit())
+		{
+			newRayHit.m_Hit = true;
+			newRayHit.m_RayStart = rayStart;
+			newRayHit.m_RayHitPosition = BulletToGLM(rayCallBack.m_hitPointWorld);
+			newRayHit.m_RayHitNormal = BulletToGLM(rayCallBack.m_hitNormalWorld);
+		}
+
+		return newRayHit;
+	}
+
 	RayHitData Physics::GetRayHitDataExcludeRigidbody(btRigidBody*& rigidBody, glm::vec3 const& rayStart, glm::vec3 const& rayEnd)
 	{
 		RayHitData newRayHit;
@@ -322,17 +369,22 @@ namespace Chroma
 			void* rayObjectPointer = RayCallback.m_collisionObject->getUserPointer();
 			if (rayObjectPointer != NULL)
 			{
-				CHROMA_INFO("PHYSICS DEBUG :: Entity Hit : {0}", static_cast<IComponent*>(rayObjectPointer)->GetParentEntity()->GetName());
-				return static_cast<IComponent*>(rayObjectPointer)->GetParentEntity();
+				if (static_cast<IComponent*>(rayObjectPointer)->GetParentEntity())
+				{
+					CHROMA_INFO("PHYSICS DEBUG :: Entity Hit : {0}", static_cast<IComponent*>(rayObjectPointer)->GetParentEntity()->GetName());
+					return static_cast<IComponent*>(rayObjectPointer)->GetParentEntity();
+				}
+				else
+					return nullptr;
 			}
 			else
 			{
 				CHROMA_INFO("PHYSICS DEBUG :: Hit RigidBody, no Entity Associated");
-				return NULL;
+				return nullptr;
 			}
 		}
 		else
-			return NULL;
+			return nullptr;
 
 	}
 

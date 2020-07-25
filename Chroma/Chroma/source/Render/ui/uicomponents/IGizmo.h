@@ -13,6 +13,7 @@ namespace Chroma
 		virtual ~IGizmo() = default;
 
 		virtual void OnUpdate() = 0;
+		virtual void OnEvent(Event& e) = 0;
 		virtual void Draw() = 0;
 
 	protected : 

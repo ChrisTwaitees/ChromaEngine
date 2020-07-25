@@ -179,6 +179,10 @@ namespace Chroma
 
 	void EditorUI::OnEvent(Event& e)
 	{
+		// send events
+		static_cast<TransformGizmo*>(m_TransformGizmo)->OnEvent(e);
+
+		// dispatch 
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<MouseButtonPressedEvent>(CHROMA_BIND_EVENT_STATIC_FN(EditorUI::OnMouseButtonPressed));
 	}
@@ -229,8 +233,16 @@ namespace Chroma
 			glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
 			glm::vec3 end = Math::ScreenToWorldRay(GetViewportMouseCursorCoords());
 			end = start + (end * glm::vec3(1000.0f));
-			IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
 
+			// check if Gizmos were hit
+			if (static_cast<TransformGizmo*>(m_TransformGizmo)->GetActive())
+			{
+				if (static_cast<TransformGizmo*>(m_TransformGizmo)->RayHitCheck(start, end))
+					return true;
+			}
+
+			// last check if new entity selected
+			IEntity* clickedEntity = Chroma::Physics::GetEntityRayTest(start, end);
 			if (clickedEntity)
 			{
 				Chroma::UI::SetSelectedEntityName(clickedEntity->GetName());
@@ -254,9 +266,12 @@ namespace Chroma
 		IComponent* component = Scene::GetComponent(m_SelectedObjectUID);
 		if (component)
 		{
-			static_cast<TransformGizmo*>(m_TransformGizmo)->SetTransform(component->GetParentEntity()->GetTransform());
-			static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
-			return;
+			if (component->GetParentEntity())
+			{
+				static_cast<TransformGizmo*>(m_TransformGizmo)->SetTransform(component->GetParentEntity()->GetTransform());
+				static_cast<TransformGizmo*>(m_TransformGizmo)->OnUpdate();
+				return;
+			}
 		}
 
 		// attempt to fetch entity

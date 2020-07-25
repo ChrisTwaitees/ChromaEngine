@@ -24,9 +24,9 @@ namespace Chroma
 
 	#ifdef EDITOR
 		{
-			//IComponent* lightIconComponent = new Icon();
-			//Chroma::Scene::AddUIComponent(lightIconComponent);
-			//m_IconUID = lightIconComponent->GetUID();
+			IComponent* lightIconComponent = new Icon();
+			Chroma::Scene::AddUIComponent(lightIconComponent);
+			m_IconUID = lightIconComponent->GetUID();
 		}
 	#endif
 		// Set Point Radius
@@ -80,8 +80,8 @@ namespace Chroma
 	#ifdef EDITOR
 	void Light::DrawIcon(Texture& iconTexture)
 	{
-		//static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->SetPosition(m_Position);
-		//static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->DrawWithIconTexture(iconTexture);
+		static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->SetPosition(m_Position);
+		static_cast<Icon*>(Chroma::Scene::GetComponent(m_IconUID))->DrawWithIconTexture(iconTexture);
 	}
 	#endif
 

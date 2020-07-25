@@ -17,6 +17,9 @@ namespace Chroma
 
 		virtual void Draw() override;
 		virtual void OnUpdate() override;
+		virtual void OnEvent(Event& e) override;
+
+		bool RayHitCheck(const glm::vec3& startRay, const glm::vec3& endRay);
 
 	public:
 		enum Mode {Translation, Rotation, Scale};
@@ -24,7 +27,7 @@ namespace Chroma
 		inline void SetMode(const Mode& newMode) { m_Mode = newMode; }
 		
 		inline void SetActive(const bool& isActive) { m_Active = isActive; }
-		inline bool SetActive() const { return m_Active; }
+		inline bool GetActive() const { return m_Active; }
 
 		inline void SetSize(const float& newSize) {	m_Size = newSize; }
 		inline float GetSize() { return m_Size; }
@@ -34,10 +37,22 @@ namespace Chroma
 		inline glm::mat4 GetTransform() const { return m_Transform; }
 
 	private : 
+		glm::mat4 m_LocalTransform{ 1.0f };
 		glm::mat4 m_Transform{ 1.0f };
 		Mode m_Mode{ Translation };
+		
 		bool m_Active{false};
 		float m_Size{ 1.0f };
+
+	private:
+		enum Axis {X, Y, Z};
+		Axis m_XAxis{ X }, m_YAxis{ Y }, m_ZAxis{ Z };
+		bool m_X{ false }, m_Y{ false }, m_Z{ false };
+		bool m_XHovered{ false }, m_YHovered{ false }, m_ZHovered{ false };
+		bool m_AxisSelected{ false };
+		void CheckIfHovering();
+		bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
+
 	private:
 		// shaderShared
 		const char* m_FragGizmo{ "resources/shaders/fragGizmo.glsl" };
@@ -55,6 +70,9 @@ namespace Chroma
 		const char* m_ScaleGeomSource{ "resources/shaders/geometryGizmoScale.glsl" };
 		Shader m_ScaleShader{ m_FragGizmo, m_VertGizmo, m_ScaleGeomSource };
 
+		// active axis
+		void SetActiveAxisUniforms(Shader& shader);
+	private:
 		// pointVAO
 		virtual void GeneratePointBuffers() override;
 		virtual void BindDrawVAO() override;

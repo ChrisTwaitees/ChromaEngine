@@ -3,6 +3,9 @@
 #include "input/Input.h"
 #include "physics/PhysicsEngine.h"
 #include "physics/RigidBody.h"
+#include "editor/ui/EditorUI.h"
+#include "event/MouseEvent.h"
+
 
 namespace Chroma
 {
@@ -33,6 +36,7 @@ namespace Chroma
 					m_TranslateShader.Use();
 					m_TranslateShader.SetUniform("u_Model", m_Transform);
 					m_TranslateShader.SetUniform("u_Size", m_Size);
+					SetActiveAxisUniforms(m_TranslateShader);
 					break;
 				}
 				case(Rotation):
@@ -40,6 +44,7 @@ namespace Chroma
 					m_RotationShader.Use();
 					m_RotationShader.SetUniform("u_Model", m_Transform);
 					m_RotationShader.SetUniform("u_Size", m_Size);
+					SetActiveAxisUniforms(m_RotationShader);
 					break;
 				}
 				case(Scale):
@@ -47,6 +52,7 @@ namespace Chroma
 					m_ScaleShader.Use();
 					m_ScaleShader.SetUniform("u_Model", m_Transform);
 					m_ScaleShader.SetUniform("u_Size", m_Size);
+					SetActiveAxisUniforms(m_ScaleShader);
 					break;
 				}
 			}
@@ -59,7 +65,9 @@ namespace Chroma
 	{
 		if (m_Active)
 		{
-			
+			// check collisions
+			CheckIfHovering();
+
 			// Set Size
 			if (Input::IsPressed(KeyCode::KPAdd))
 				m_Size += 0.05;
@@ -110,6 +118,128 @@ namespace Chroma
 		}
 	}
 
+	void TransformGizmo::OnEvent(Event& e)
+	{
+		if (m_Active)
+		{
+			EventDispatcher dispatcher(e);
+			dispatcher.Dispatch<MouseButtonPressedEvent>(CHROMA_BIND_EVENT_FN(TransformGizmo::OnMouseButtonPressed));
+		}
+	}
+
+	bool TransformGizmo::RayHitCheck(const glm::vec3& startRay, const glm::vec3& endRay)
+	{
+		for (RigidBody*& rigidbody : m_RigidBodies)
+		{
+			glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
+			glm::vec3 end = Math::ScreenToWorldRay(EditorUI::GetViewportMouseCursorCoords());
+			end = start + (end * glm::vec3(1000.0f));
+			RayHitData rayHit = Physics::GetRayHitData(rigidbody->GetRawRigid(), start, end);
+			
+			if (rayHit.m_Hit)
+				return true;
+		}
+
+		// gizmo not hit
+		return false;
+	}
+
+	void TransformGizmo::CheckIfHovering()
+	{
+		m_XHovered = false;
+		m_YHovered = false;
+		m_ZHovered = false;
+		for (RigidBody*& rigidbody : m_RigidBodies)
+		{
+			glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
+			glm::vec3 end = Math::ScreenToWorldRay(EditorUI::GetViewportMouseCursorCoords());
+			end = start + (end * glm::vec3(1000.0f));
+			RayHitData rayHit = Physics::GetRayHitData(rigidbody->GetRawRigid(), start, end);
+			if (rayHit.m_Hit)
+			{
+				Axis* axisHovered = static_cast<Axis*>(rigidbody->GetUserPointer());
+				if(axisHovered)
+				{
+					switch (*axisHovered)
+					{
+						case X :
+						{
+							m_XHovered = true;
+							break;
+						}
+						case Y:
+						{
+							m_YHovered = true;
+							break;
+						}
+						case Z:
+						{
+							m_ZHovered = true;
+							break;
+						}
+					}
+				}
+			}
+		}	
+	}
+
+	bool TransformGizmo::OnMouseButtonPressed(MouseButtonPressedEvent& e)
+	{
+		if (e.GetMouseButton() == MouseCode::ButtonLeft)
+		{
+			for (RigidBody*& rigidbody : m_RigidBodies)
+			{
+				glm::vec3 start = Chroma::Scene::GetRenderCamera()->GetPosition();
+				glm::vec3 end = Math::ScreenToWorldRay(EditorUI::GetViewportMouseCursorCoords());
+				end = start + (end * glm::vec3(1000.0f));
+				RayHitData rayHit = Physics::GetRayHitData(rigidbody->GetRawRigid(), start, end);
+				if (rayHit.m_Hit)
+				{
+					Axis* axisSelected = static_cast<Axis*>(rigidbody->GetUserPointer());
+					if (axisSelected)
+					{
+						m_X = false;
+						m_Y = false;
+						m_Z = false;
+
+						switch (*axisSelected)
+						{
+							case X:
+							{
+								m_X = true;
+								break;
+							}
+							case Y:
+							{
+								m_Y = true;
+								break;
+							}
+							case Z:
+							{
+								m_Z = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+		return false;
+	}
+
+	void TransformGizmo::SetActiveAxisUniforms(Shader& shader)
+	{
+		shader.SetUniform("u_XAxisEnabled", m_X);
+		shader.SetUniform("u_YAxisEnabled", m_Y);
+		shader.SetUniform("u_ZAxisEnabled", m_Z);
+
+		shader.SetUniform("u_XAxisHovered", m_XHovered);
+		shader.SetUniform("u_YAxisHovered", m_YHovered);
+		shader.SetUniform("u_ZAxisHovered", m_ZHovered);
+	}
+
 	void TransformGizmo::GeneratePointBuffers()
 	{
 		// create vert array
@@ -151,8 +281,37 @@ namespace Chroma
 
 		switch (m_Mode)
 		{
-			case Scale :
+			case Rotation:
+			{
+				// Y
+				RigidBodyConstructionData RBDConstruction;
+				RBDConstruction.m_ColliderShape = Cylinder;
+				RBDConstruction.m_HalfExtents = glm::vec3(m_Size, 0.08f, 0.0f);
 
+				RigidBody* Y = new RigidBody(RBDConstruction);
+				Y->SetUserPointer(&m_YAxis);
+				m_RigidBodies.push_back(Y);
+
+				// X
+				RBDConstruction.m_ColliderShape = Cylinder;
+				RBDConstruction.m_LocalTransform = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+				RigidBody* X = new RigidBody(RBDConstruction);
+				X->SetUserPointer(&m_XAxis);
+				m_RigidBodies.push_back(X);
+
+				// Z
+				RBDConstruction.m_ColliderShape = Cylinder;
+				RBDConstruction.m_LocalTransform = glm::rotate(glm::mat4(1.0f), glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+				RigidBody* Z = new RigidBody(RBDConstruction);
+				Z->SetUserPointer(&m_ZAxis);
+				m_RigidBodies.push_back(Z);
+				break;
+
+				break;
+			}
+			case Scale :
 			case Translation :
 			{
 				// Y
@@ -162,6 +321,7 @@ namespace Chroma
 				RBDConstruction.m_LocalTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0, m_Size * 0.5,0.0));
 
 				RigidBody* Y = new RigidBody(RBDConstruction);
+				Y->SetUserPointer(&m_YAxis);
 				m_RigidBodies.push_back(Y);
 
 				// X
@@ -170,6 +330,7 @@ namespace Chroma
 				RBDConstruction.m_LocalTransform = glm::rotate(RBDConstruction.m_LocalTransform, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
 				RigidBody* X = new RigidBody(RBDConstruction);
+				X->SetUserPointer(&m_XAxis);
 				m_RigidBodies.push_back(X);
 
 				// Z
@@ -178,11 +339,8 @@ namespace Chroma
 				RBDConstruction.m_LocalTransform = glm::rotate(RBDConstruction.m_LocalTransform, glm::radians(90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 
 				RigidBody* Z = new RigidBody(RBDConstruction);
+				Z->SetUserPointer(&m_ZAxis);
 				m_RigidBodies.push_back(Z);
-				break;
-			}
-			case Rotation:
-			{
 				break;
 			}
 		}

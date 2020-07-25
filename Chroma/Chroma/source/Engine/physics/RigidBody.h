@@ -57,6 +57,11 @@ namespace Chroma
 			m_RigidbodyRaw->setUserPointer(userPointer);
 		}
 
+		void* GetUserPointer()
+		{
+			return m_RigidbodyRaw->getUserPointer();
+		}
+
 	public:
 		RigidBody() { BuildRigidBody(); }
 		RigidBody(RigidBodyConstructionData& constructionData)

@@ -7,11 +7,22 @@ const float PI = 3.1415926f;
 const int numSegments = 8;
 const float relativeThickness = 0.025;
 const float relativeConeHeight = 0.1;
+const vec4 selectedColor = vec4(1.0, 1.0, 0.0, 1.0);
+const float hoveredOpacity = 0.5;
 
 // axis
 const vec3 xAxis = vec3(1.0, 0.0, 0.0);
 const vec3 yAxis = vec3(0.0, 1.0, 0.0);
 const vec3 zAxis = vec3(0.0, 0.0, 1.0);
+
+// uniforms
+uniform bool u_XAxisEnabled;
+uniform bool u_YAxisEnabled;
+uniform bool u_ZAxisEnabled;
+
+uniform bool u_XAxisHovered;
+uniform bool u_YAxisHovered;
+uniform bool u_ZAxisHovered;
 
 
 in VS_OUT{
@@ -41,6 +52,12 @@ void CreateCone(mat4 mvpMat, vec3 axis, float size)
 
 		if(axis.x > 0.0)
 		{
+			if(u_XAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_XAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(coneStart, cos(angle)* coneWidth,sin(angle)* coneWidth, 1.0) ; 
 			EmitVertex();
 
@@ -55,6 +72,12 @@ void CreateCone(mat4 mvpMat, vec3 axis, float size)
 
 		if(axis.y > 0.0)
 		{
+			if(u_YAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_YAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(cos(angle)* coneWidth, coneStart, sin(angle)* coneWidth, 1.0) ; 
 			EmitVertex();
 
@@ -69,6 +92,12 @@ void CreateCone(mat4 mvpMat, vec3 axis, float size)
 
 		if(axis.z > 0.0)
 		{
+			if(u_ZAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_ZAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(cos(angle)* coneWidth,sin(angle)* coneWidth, coneStart, 1.0) ; 
 			EmitVertex();
 
@@ -104,6 +133,12 @@ void CreateCylinderCaps(mat4 mvpMat, vec3 axis, float size)
 		if (axis.x > 0.0)
 		{
 
+			if(u_XAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_XAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(0.0,cos(angle) * capWidth,sin(angle)* capWidth,1.0) ; 
 			EmitVertex();
 
@@ -125,6 +160,12 @@ void CreateCylinderCaps(mat4 mvpMat, vec3 axis, float size)
 		}
 		if (axis.y > 0.0)
 		{
+			if(u_YAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_YAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(cos(angle)* capWidth,0.0,sin(angle)* capWidth,1.0) ; 
 			EmitVertex();
 
@@ -146,6 +187,13 @@ void CreateCylinderCaps(mat4 mvpMat, vec3 axis, float size)
 		}
 		if (axis.z > 0.0)
 		{
+
+			if(u_ZAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_ZAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(cos(angle)* capWidth,sin(angle)* capWidth, 0.0,1.0) ; 
 			EmitVertex();
 
@@ -194,6 +242,12 @@ void CreateCylinder(mat4 mvpMat, vec3 axis, float size)
 
 		if(axis.x > 0.0)
 		{
+			if(u_XAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_XAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(0.0, cos(angle)* cylWidth,sin(angle)* cylWidth, 1.0) ; 
 			EmitVertex();
 
@@ -211,6 +265,12 @@ void CreateCylinder(mat4 mvpMat, vec3 axis, float size)
 
 		if(axis.y > 0.0)
 		{
+			if(u_YAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_YAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(cos(angle)* cylWidth, 0.0, sin(angle)* cylWidth, 1.0) ; 
 			EmitVertex();
 
@@ -229,6 +289,12 @@ void CreateCylinder(mat4 mvpMat, vec3 axis, float size)
 
 		if(axis.z > 0.0)
 		{
+			if(u_ZAxisEnabled)
+				gs_out.gs_color = selectedColor;
+
+			if(u_ZAxisHovered)
+				gs_out.gs_color.w = hoveredOpacity;
+
 			gl_Position = mvpMat * vec4(cos(angle)* cylWidth,sin(angle)* cylWidth, 0.0, 1.0) ; 
 			EmitVertex();
 

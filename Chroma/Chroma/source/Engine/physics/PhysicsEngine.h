@@ -57,6 +57,7 @@ namespace Chroma
 
 		// Ray Queries
 		static RayHitData GetRayHitData(glm::vec3 const& worldRay_origin, glm::vec3 const& worldRay_end);
+		static RayHitData GetRayHitData(btRigidBody* rigidBody, glm::vec3 const& worldRay_origin, glm::vec3 const& worldRay_end);
 		static RayHitData GetRayHitDataExcludeRigidbody(btRigidBody*& rigidBody, glm::vec3 const& rayOrigin, glm::vec3 const& rayEnd);
 		static IEntity* GetEntityRayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
 		static bool RayTest(glm::vec3& worldRay_origin, glm::vec3& worldRay_end);
