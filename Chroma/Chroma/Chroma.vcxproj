@@ -319,6 +319,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="source\Engine\physics\RigidBody.cpp" />
     <ClCompile Include="source\Engine\math\Math.cpp" />

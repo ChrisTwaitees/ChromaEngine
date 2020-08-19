@@ -525,14 +525,21 @@
     <ClCompile Include="source\Render\camera\ICameraController.cpp">
       <Filter>Render\camera</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\math\Math.cpp" />
     <ClCompile Include="source\Render\ui\uicomponents\IGizmo.cpp">
       <Filter>Render\ui\uicomponents</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\ui\uicomponents\TransformGizmo.cpp">
       <Filter>Render\ui\uicomponents</Filter>
     </ClCompile>
-    <ClCompile Include="source\Engine\physics\RigidBody.cpp" />
+    <ClCompile Include="source\Engine\math\Math.cpp">
+      <Filter>Engine\math</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\physics\RigidBody.cpp">
+      <Filter>Engine\physics</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -880,7 +887,9 @@
     <ClInclude Include="source\Render\ui\uicomponents\TransformGizmo.h">
       <Filter>Render\ui\uicomponents</Filter>
     </ClInclude>
-    <ClInclude Include="source\Engine\physics\RigidBody.h" />
+    <ClInclude Include="source\Engine\physics\RigidBody.h">
+      <Filter>Engine\physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">
@@ -1072,10 +1081,20 @@
     <None Include="resources\shaders\util\PBRLightingFuncsImplementation.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
-    <None Include="resources\shaders\fragGizmo.glsl" />
-    <None Include="resources\shaders\geometryGizmoTranslation.glsl" />
-    <None Include="resources\shaders\vertexGizmo.glsl" />
-    <None Include="resources\shaders\geometryGizmoRotation.glsl" />
-    <None Include="resources\shaders\geometryGizmoScale.glsl" />
+    <None Include="resources\shaders\fragGizmo.glsl">
+      <Filter>Resources\shaders\gui</Filter>
+    </None>
+    <None Include="resources\shaders\geometryGizmoRotation.glsl">
+      <Filter>Resources\shaders\gui</Filter>
+    </None>
+    <None Include="resources\shaders\geometryGizmoScale.glsl">
+      <Filter>Resources\shaders\gui</Filter>
+    </None>
+    <None Include="resources\shaders\geometryGizmoTranslation.glsl">
+      <Filter>Resources\shaders\gui</Filter>
+    </None>
+    <None Include="resources\shaders\vertexGizmo.glsl">
+      <Filter>Resources\shaders\gui</Filter>
+    </None>
   </ItemGroup>
 </Project>

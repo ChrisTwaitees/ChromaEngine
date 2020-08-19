@@ -76,6 +76,12 @@ namespace Chroma
 		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[1]);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, m_Width, m_Height, 0, GL_RGBA, GL_FLOAT, NULL);
 
+		// blur FBOs
+		glBindTexture(GL_TEXTURE_2D, blurColorBuffers[0]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+		glBindTexture(GL_TEXTURE_2D, blurColorBuffers[1]);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, m_Width, m_Height, 0, GL_RGB, GL_FLOAT, NULL);
+
 		// rbo
 		glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 		// attach buffers
@@ -146,7 +152,7 @@ namespace Chroma
 		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, static_cast<SSRBuffer*>(Chroma::Render::GetSSRBuffer())->GetSSRReflectedUVTexture());
 		// bloom
-		m_ScreenShader->SetUniform("bloom", true);
+		//m_ScreenShader->SetUniform("bloom", true);
 		// setting transform uniforms
 		SetTransformUniforms();
 		RenderQuad();
@@ -182,6 +188,9 @@ namespace Chroma
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, blurColorBuffers[!horizontal]);
 			m_ScreenShader->SetUniform("bloom", useBloom);
+			// ssr
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, static_cast<SSRBuffer*>(Chroma::Render::GetSSRBuffer())->GetSSRReflectedUVTexture());
 			// setting transform uniforms
 			RenderQuad();
 		}

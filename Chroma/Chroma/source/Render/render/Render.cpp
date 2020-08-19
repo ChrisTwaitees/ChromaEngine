@@ -88,7 +88,7 @@ namespace Chroma
 		m_PostFXBuffer->SetUniform("exposure", 1.0f);
 		m_PostFXBuffer->SetUniform("gamma", 2.2f);
 
-		static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(Chroma::EditorUI::m_Bloom);
+		static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(true);
 	}
 
 	void Render::RenderGraphicsDebug()
@@ -190,7 +190,7 @@ namespace Chroma
 		UpdateUniformBufferObjects();
 
 		// Shadows
-		//static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
+		static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
 
 		// Deferred
 		RenderDefferedComponents();

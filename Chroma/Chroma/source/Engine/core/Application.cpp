@@ -41,7 +41,7 @@ namespace Chroma
 		Scene::PreSceneBuild();
 
 		// populate scene
-		Editor::PopulateTestScene3();
+		Editor::Sponza();
 
 		// post scene build
 		Scene::PostSceneBuild();
@@ -50,7 +50,6 @@ namespace Chroma
 	Application::~Application()
 	{
 		CHROMA_PROFILE_FUNCTION();
-
 	}
 
 	void Application::OnEvent(Event& e)
@@ -65,7 +64,7 @@ namespace Chroma
 		dispatcher.Dispatch<KeyPressedEvent>(CHROMA_BIND_EVENT_FN(Application::OnKeyPressed));
 
 		// dispatch event to the rest of the application
-		EditorUI::OnEvent(e);
+		//EditorUI::OnEvent(e);
 		Input::OnEvent(e);
 		Scene::OnEvent(e);
 		Render::OnEvent(e);
@@ -91,7 +90,7 @@ namespace Chroma
 			Engine::OnUpdate();
 
 			// EDITOR TICK
-			Editor::OnUpdate();
+			//Editor::OnUpdate();
 
 			// poll events and swap buffers
 			m_Window->OnUpdate();

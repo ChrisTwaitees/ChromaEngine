@@ -33,8 +33,8 @@ void main()
 	  
 
     vec3 bloomColor = texture(bloomBlur, TexCoords).rgb;
-    if(bloom)
-        hdrColor += bloomColor; // additive blending
+    //if(bloom)
+       // hdrColor += bloomColor; // additive blending
 
     // exposure
     vec3 result = vec3(1.0) - exp(-hdrColor * 1.0);
@@ -44,9 +44,9 @@ void main()
 	// TEST
 	vec4 SSR = texture(ssr, TexCoords);
     FragColor = vec4(hdrColor, 1.0) + texture(scene, SSR.rg) * SSR.aaaa;
-	//FragColor = vec4(hdrColor, 1.0) ;
+	//FragColor = vec4(bloomColor, 1.0) ;
 	// FINAL
-    //FragColor = vec4(hdrColor, 1.0);
+    //FragColor = vec4(SSR.aaa, 1.0);
 	
 
 }
