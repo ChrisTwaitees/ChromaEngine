@@ -133,7 +133,8 @@ namespace Chroma
 	void SkinnedMesh::LoadFromFile(const std::string& sourcePath)
 	{
 		// Resource Manager Async
-		Chroma::ResourceManager::LoadModel(sourcePath, &m_MeshData);
+		//Chroma::ResourceManager::LoadModel(sourcePath, &m_MeshData);
+		m_MeshData = Chroma::ResourceManager::LoadModel(sourcePath);
 
 		// Initialize Mesh
 		SetupMesh();

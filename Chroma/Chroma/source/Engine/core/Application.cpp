@@ -41,7 +41,7 @@ namespace Chroma
 		Scene::PreSceneBuild();
 
 		// populate scene
-		Editor::Sponza();
+		Editor::SponzaCombined();
 
 		// post scene build
 		Scene::PostSceneBuild();
@@ -64,7 +64,9 @@ namespace Chroma
 		dispatcher.Dispatch<KeyPressedEvent>(CHROMA_BIND_EVENT_FN(Application::OnKeyPressed));
 
 		// dispatch event to the rest of the application
-		//EditorUI::OnEvent(e);
+#ifdef EDITOR
+		EditorUI::OnEvent(e);
+#endif
 		Input::OnEvent(e);
 		Scene::OnEvent(e);
 		Render::OnEvent(e);
@@ -90,7 +92,9 @@ namespace Chroma
 			Engine::OnUpdate();
 
 			// EDITOR TICK
-			//Editor::OnUpdate();
+#ifdef EDITOR
+			Editor::OnUpdate();
+#endif
 
 			// poll events and swap buffers
 			m_Window->OnUpdate();

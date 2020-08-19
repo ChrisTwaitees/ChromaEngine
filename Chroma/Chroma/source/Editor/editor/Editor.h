@@ -13,6 +13,7 @@ namespace Chroma
 		static void PopulateTestScene();
 		static void PopulateTestScene2();
 		static void PopulateTestScene3();
+		static void SponzaCombined();
 		static void Test(std::vector<Texture*>& textures);
 
 		// Test Scenes

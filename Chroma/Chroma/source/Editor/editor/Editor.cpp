@@ -7,7 +7,6 @@
 #include <terrain/Terrain.h>
 #include <component/AnimationComponent.h>
 #include <model/SkinnedMesh.h>
-#include <model/Model.h>
 #include <bipedal/BipedalAnimationStateMachine.h>
 #include <component/animation/IKAnimConstraint.h>
 #include <component/CharacterPhysicsComponent.h>
@@ -215,7 +214,7 @@ namespace Chroma
 		IEntity* TerrainEntity = new Entity;
 		Chroma::Scene::AddEntity(TerrainEntity);
 
-		MeshComponent* TerrainMeshComponent = new Model("resources/assets/level/ground.fbx");
+		MeshComponent* TerrainMeshComponent = new StaticMesh("resources/assets/level/ground.fbx");
 		TerrainMeshComponent->SetShader(PBRShader);
 		TerrainMeshComponent->AddTexture(woodBoardsAlbedo);
 		TerrainMeshComponent->AddTexture(woodBoardsNormal);
@@ -233,7 +232,7 @@ namespace Chroma
 		IEntity* TerrainEntity2 = new Entity;
 		Chroma::Scene::AddEntity(TerrainEntity2);
 
-		MeshComponent* TerrainMesh2Component = new Model("resources/assets/level/10degrees.fbx");
+		MeshComponent* TerrainMesh2Component = new StaticMesh("resources/assets/level/10degrees.fbx");
 		TerrainMesh2Component->SetShader(PBRShader);
 		TerrainMesh2Component->AddTexture(woodBoardsAlbedo);
 		TerrainMesh2Component->AddTexture(woodBoardsNormal);
@@ -252,7 +251,7 @@ namespace Chroma
 		IEntity* TerrainEntity3 = new Entity;
 		Chroma::Scene::AddEntity(TerrainEntity3);
 
-		MeshComponent* TerrainMesh3Component = new Model("resources/assets/level/20degrees.fbx");
+		MeshComponent* TerrainMesh3Component = new StaticMesh("resources/assets/level/20degrees.fbx");
 		TerrainMesh3Component->SetShader(PBRShader);
 		TerrainMesh3Component->AddTexture(woodBoardsAlbedo);
 		TerrainMesh3Component->AddTexture(woodBoardsNormal);
@@ -270,7 +269,7 @@ namespace Chroma
 		IEntity* TerrainEntity4 = new Entity;
 		Chroma::Scene::AddEntity(TerrainEntity4);
 
-		MeshComponent* TerrainMesh4Component = new Model("resources/assets/level/35degrees.fbx");
+		MeshComponent* TerrainMesh4Component = new StaticMesh("resources/assets/level/35degrees.fbx");
 		TerrainMesh4Component->SetShader(PBRShader);
 		TerrainMesh4Component->AddTexture(woodBoardsAlbedo);
 		TerrainMesh4Component->AddTexture(woodBoardsNormal);
@@ -323,11 +322,7 @@ namespace Chroma
 	void Editor::PopulateTestScene2()
 	{
 		// POPULATE SCENE CONTENTS
-	// ------------------------------------------------------------------------------------------
-	// LIGHTS
-	// ____________________________________________________
-
-		// POINT LIGHTS
+					// POINT LIGHTS
 		std::vector<Light*> Lights;
 
 		// point light positions
@@ -335,6 +330,13 @@ namespace Chroma
 			glm::vec3(3.5f,  1.2f,  2.0f),
 			glm::vec3(0.5f,  0.2f,  -2.0f),
 			glm::vec3(-3.5f,  1.2f,  4.0f),
+			glm::vec3(-4.5f,  2.2f,  4.0f),
+			glm::vec3(-5.5f,  3.2f,  4.0f),
+			glm::vec3(-6.5f,  4.2f,  4.0f),
+			glm::vec3(-7.5f,  5.2f,  4.0f),
+			glm::vec3(-1.5f,  5.2f,  4.0f),
+			glm::vec3(-7.5f,  5.2f,  4.0f)
+
 		};
 		// point lights
 		for (glm::vec3 pos : pointLightPositions)
@@ -344,11 +346,51 @@ namespace Chroma
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(0.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);
 		Chroma::Scene::SetLights(Lights);
+
+
+		// ____________________________________________________
+		// Entities
+		// ____________________________________________________
+		IEntity* SponzaEntity = new Entity;
+		SponzaEntity->SetName("Sponza");
+		SponzaEntity->SetScale(glm::vec3(0.01));
+		Chroma::Scene::AddEntity(SponzaEntity);
+
+
+		// ____________________________________________________
+		// SHADERS
+		// ____________________________________________________
+
+		Shader PBRAlphaShader("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRShader("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+		Shader PBRSkinShader("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
+
+		// ____________________________________________________
+		// TEXTURES
+		// ____________________________________________________
+
+		// Default
+		// Generic
+
+
+
+
+		// VASE GROUND
+		// flowers
+
+
+		Material vaseGroundPlant;
+
+
+
+
+
 
 		// ____________________________________________________
 		// ENTITIES
@@ -361,32 +403,6 @@ namespace Chroma
 		HumanEntity->SetTranslation(glm::vec3(-6.8, 0, 0));
 
 
-		IEntity* LookDevEntity = new Entity;
-		LookDevEntity->SetName("LookDev Sphere");
-		Chroma::Scene::AddEntity(LookDevEntity);
-		LookDevEntity->SetScale(glm::vec3(0.7f));
-		LookDevEntity->SetTranslation(glm::vec3(6.2, 7.1, 0));
-
-		// ____________________________________________________
-		// SHADERS
-		// ____________________________________________________
-
-		Shader SemiTransparentShader("resources/shaders/fragPBRAlpha.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-		Shader PBRSkinShaderExperimental("resources/shaders/fragSSSS.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-		Shader PBRSkinShader("resources/shaders/fragSSSS_backup.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-		Shader PBRShader("resources/shaders/fragPBR.glsl", "resources/shaders/vertexLitShadowsNormals.glsl");
-
-		// ____________________________________________________
-		// TEXTURES
-		// ____________________________________________________
-
-		//// Default
-		// Generic
-		Texture greyAlbedo("resources/textures/colors/grey.jpg");
-		Texture gridAlbedo("resources/animation/textures/grid.jpg");
-		Texture flatNormal("resources/textures/test/flat_normal.jpg");
-
-
 		// Head
 		Texture headAlbedo = Texture("resources/human/textures/head/head_albedo.jpg", Chroma::Type::Texture::kAlbedo);
 		Texture headNormal = Texture("resources/human/textures/head/head_normal.jpg", Chroma::Type::Texture::kNormal);
@@ -395,60 +411,33 @@ namespace Chroma
 		Texture headTranslucency = Texture("resources/human/textures/head/head_translucency.jpg");
 		headTranslucency.SetType(Chroma::Type::Texture::kTranslucency);
 
-		// Lookdev Sphere
-		//Texture lookDevAlbedo = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/albedo.jpg");
-		//lookDevAlbedo.m_Type = Texture::ALBEDO;
-		//Texture lookDevNormal = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/normal.jpg");
-		//lookDevNormal.m_Type = Texture::NORMAL;
-		//Texture lookDevMetRoughAO = Chroma::ResourceManager::LoadTexture("resources/textures/pbr/lookdev_pbr/MetRoughAO.jpg");
-		//lookDevMetRoughAO.m_Type = Texture::METROUGHAO;
-
 		// ____________________________________________________
 		// MODELS
 		// ____________________________________________________
-
 		// HEAD		
-		MeshComponent* HeadMeshComponent = new Model("resources/human/Head/Head.fbx");
 		Material HeadMeshMaterial;
-		HeadMeshMaterial.SetShader(PBRShader);
+		HeadMeshMaterial.SetShader(PBRAlphaShader);
+		HeadMeshMaterial.SetIsLit(false);
+		HeadMeshMaterial.SetIsForwardLit(true);
 		HeadMeshMaterial.AddTexture(headAlbedo);
 		HeadMeshMaterial.AddTexture(headNormal);
 		HeadMeshMaterial.AddTexture(headMetRoughAO);
 		HeadMeshMaterial.AddTexture(headTranslucency);
-		HeadMeshMaterial.AddUniform("TestUniform", 1);
-		HeadMeshMaterial.AddUniform("UVMultiply", glm::vec2(3.0));
-		HeadMeshMaterial.AddUniform("Color", glm::vec3(0.5));
-		HeadMeshMaterial.AddUniform("ColorAlpha", glm::vec4(0.5));
+
+		MeshComponent* HeadMeshComponent = new StaticMesh("resources/human/Head/Head.fbx");
 		HeadMeshComponent->SetMaterial(HeadMeshMaterial);
 		HumanEntity->AddComponent(HeadMeshComponent);
 
 		// Eyelashes 
-		MeshComponent* EyelashesMeshComponent = new Model("resources/human/Head/Eyelashes.fbx");
+		MeshComponent* EyelashesMeshComponent = new StaticMesh("resources/human/Head/Eyelashes.fbx");
 		HumanEntity->AddComponent(EyelashesMeshComponent);
 
 		// Eyebrows
-		MeshComponent* EyebrowsMeshComponent = new Model("resources/human/Head/Eyebrows.fbx");
+		MeshComponent* EyebrowsMeshComponent = new StaticMesh("resources/human/Head/Eyebrows.fbx");
 		HumanEntity->AddComponent(EyebrowsMeshComponent);
 
-		// Head Physics
-		PhysicsComponent* HeadPhysicsComponent = new PhysicsComponent();
-		HeadPhysicsComponent->SetColliderShape(Box);
-		HeadPhysicsComponent->SetCollisionState(Kinematic);
-		HumanEntity->AddComponent(HeadPhysicsComponent);
 
-		// LOOKDEVSPHERE
-		//MeshComponent* lookDevMeshComponent = new Model("resources/lookdev/sphere.obj");
-		//lookDevMeshComponent->SetShader(PBRShader);
-		//lookDevMeshComponent->AddTexture(lookDevAlbedo);
-		//lookDevMeshComponent->AddTexture(lookDevNormal);
-		//lookDevMeshComponent->AddTexture(flatNormal);
-		//LookDevEntity->AddComponent(lookDevMeshComponent);
-
-		//// LookDev Physics
-		//PhysicsComponent* LookDevPhysicsComponent = new PhysicsComponent();
-		//LookDevPhysicsComponent->SetColliderShape(Box);
-		//LookDevPhysicsComponent->SetCollisionState(Kinematic);
-		//LookDevEntity->AddComponent(LookDevPhysicsComponent);
+	
 
 
 	}
@@ -1317,6 +1306,68 @@ namespace Chroma
 
 		// Mesh component
 		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/StanfordBunny/bunny.fbx");
+		SponzaMeshComponent->SetMaterial(basicMat);
+		SponzaEntity->AddComponent(SponzaMeshComponent);
+	}
+
+	void Editor::SponzaCombined()
+	{
+		// POINT LIGHTS
+		std::vector<Light*> Lights;
+
+		// point light positions
+		glm::vec3 pointLightPositions[] = {
+			glm::vec3(3.5f,  1.2f,  2.0f),
+			glm::vec3(0.5f,  0.2f,  -2.0f),
+			glm::vec3(-3.5f,  1.2f,  4.0f),
+		};
+		// point lights
+		for (glm::vec3 pos : pointLightPositions)
+		{
+			Light* pointLight = new Light(pos, Chroma::Type::Light::kPointLight);
+			Lights.push_back(pointLight);
+		}
+
+		// SUNLIGHT
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Sun->SetDiffuse(glm::vec3(1.0));
+		Sun->SetIntensity(3.0);
+		Lights.push_back(Sun);
+		Chroma::Scene::SetLights(Lights);
+
+		// ____________________________________________________
+		// TEXTURES
+		// ____________________________________________________
+
+		// Default
+		// Generic
+		Texture greyAlbedo("resources/textures/colors/grey.jpg", Chroma::Type::Texture::kAlbedo);
+		Texture gridAlbedo("resources/animation/textures/grid.jpg", Chroma::Type::Texture::kAlbedo);
+		Texture flatNormal("resources/textures/test/flat_normal.jpg", Chroma::Type::Texture::kNormal);
+
+		// ____________________________________________________
+		// Materials
+		// ____________________________________________________
+
+		Material basicMat;
+		basicMat.AddTexture(greyAlbedo);
+		//basicMat.AddTexture(flatNormal);
+
+
+		// ____________________________________________________
+		// Entities
+		// ____________________________________________________
+		IEntity* SponzaEntity = new Entity;
+		SponzaEntity->SetName("Sponza");
+		//SponzaEntity->SetScale(glm::vec3(0.01));
+		Chroma::Scene::AddEntity(SponzaEntity);
+
+		// ____________________________________________________
+		// Components
+		// ____________________________________________________
+
+		// Mesh component
+		MeshComponent* SponzaMeshComponent = new StaticMesh("resources/lookdev/Sponza/sponzacombine.fbx");
 		SponzaMeshComponent->SetMaterial(basicMat);
 		SponzaEntity->AddComponent(SponzaMeshComponent);
 	}

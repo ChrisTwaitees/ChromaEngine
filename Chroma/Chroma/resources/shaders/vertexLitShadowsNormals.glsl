@@ -31,7 +31,7 @@ uniform mat4 aJoints[MAX_JOINTS];
 void main()
 {    
 	// Skinning
-	vec4 LocalPosition;
+	vec4 LocalPosition = vec4(aPos, 1.0);;
 	mat4 BoneTransform =mat4(1.0);
 	if (isSkinned)
 	{
@@ -39,10 +39,8 @@ void main()
 		{
 			BoneTransform += aJoints[aJointIDs[i]] * aJointWeights[i];
 		}
-		LocalPosition =  BoneTransform * vec4( aPos , 1.0);
+		LocalPosition =  BoneTransform * LocalPosition;
 	}
-	else
-		LocalPosition =  vec4(aPos , 1.0);
 
     vs_out.FragPos = vec3(model * LocalPosition);
     vs_out.Normal = transpose(inverse(mat3(model))) * aNormal;

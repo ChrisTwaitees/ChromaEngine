@@ -1,5 +1,7 @@
 #include <core/Application.h>
 
+#ifndef EDITOR
+
 int main()
 {
 	// Init Application
@@ -13,3 +15,4 @@ int main()
 
 	return 0;
 }
+#endif

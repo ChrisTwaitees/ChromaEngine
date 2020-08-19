@@ -280,7 +280,7 @@ namespace Chroma
 		ProcessInput();
 
 		// Collisions
-		ProcessCollisions();
+	//	ProcessCollisions();
 
 		// Movement
 		ProcessMovement();

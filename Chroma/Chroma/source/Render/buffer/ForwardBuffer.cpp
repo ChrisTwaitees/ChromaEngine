@@ -51,7 +51,7 @@ namespace Chroma
 			// update the light view matrix
 			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->SetMat4("lightSpaceMatrix", Chroma::Render::GetLightSpaceMatrix());
 			// render forward lit components
-			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->Draw(*Chroma::Scene::GetRenderCamera());
+			static_cast<MeshComponent*>(Chroma::Scene::GetComponent(uid))->DrawUpdateTransforms(*Chroma::Scene::GetRenderCamera());
 
 		}
 

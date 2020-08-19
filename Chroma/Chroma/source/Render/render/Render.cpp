@@ -3,6 +3,7 @@
 #include <ubo/UniformBufferCamera.h>
 #include <ubo/UniformBufferLighting.h>
 #include <event/CameraEvent.h>
+#include <window/Window.h>
 
 namespace Chroma
 {

@@ -81,7 +81,7 @@ namespace Chroma
 		Scene::OnUpdate();
 
 		// Physics
-		Chroma::Physics::OnUpdate();
+		//Chroma::Physics::OnUpdate();
 
 		// OnUpdate Components
 		UpdateComponents();

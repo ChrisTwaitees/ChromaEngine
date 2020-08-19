@@ -136,7 +136,7 @@ namespace Chroma
 	void Material::UpdateUniforms(Shader& shader, Camera& RenderCam, const glm::mat4& modelTransform)
 	{
 		SetTransformUniforms(shader, RenderCam, modelTransform);
-		SetMaterialUniforms(shader);
+		//SetMaterialUniforms(shader);
 		SetTextureUniforms(shader);
 	}
 
