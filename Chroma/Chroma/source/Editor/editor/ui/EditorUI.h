@@ -29,8 +29,10 @@ namespace Chroma
 
 		static std::pair<int, int> GetViewportDimensions();
 		static std::pair<int, int> GetViewportOffset() { return std::make_pair(m_ViewportOffsetX, m_ViewportOffsetY); }
+
 		static bool m_Bloom;
 		static bool m_IconsVisible;
+		static bool m_VXGI;
 
 
 	private:

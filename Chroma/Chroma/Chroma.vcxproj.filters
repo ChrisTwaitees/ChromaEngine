@@ -240,15 +240,6 @@
     <ClCompile Include="source\Render\shader\Uniform.cpp">
       <Filter>Render\shader</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\buffer\GBuffer.cpp">
-      <Filter>Render\buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp">
-      <Filter>Render\buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp">
-      <Filter>Render\buffer</Filter>
-    </ClCompile>
     <ClCompile Include="source\Render\camera\Camera.cpp">
       <Filter>Render\camera</Filter>
     </ClCompile>
@@ -257,12 +248,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\physics\PhysicsDebug.cpp">
       <Filter>Engine\physics</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\buffer\DebugBuffer.cpp">
-      <Filter>Render\buffer</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp">
-      <Filter>Render\buffer</Filter>
     </ClCompile>
     <ClCompile Include="source\Render\texture\HDRTexture.cpp">
       <Filter>Render\texture</Filter>
@@ -353,9 +338,6 @@
     </ClCompile>
     <ClCompile Include="source\Engine\engine\Engine.cpp">
       <Filter>Engine\engine</Filter>
-    </ClCompile>
-    <ClCompile Include="source\Render\buffer\IFramebuffer.cpp">
-      <Filter>Render\buffer</Filter>
     </ClCompile>
     <ClCompile Include="source\Engine\jobsystem\JobSystem.cpp">
       <Filter>Engine\jobsystem</Filter>
@@ -486,9 +468,6 @@
     <ClCompile Include="source\Scenes\LookDevScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\buffer\SSRBuffer.cpp">
-      <Filter>Render\buffer</Filter>
-    </ClCompile>
     <ClCompile Include="source\Scenes\ForestScene.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
@@ -540,7 +519,31 @@
     <ClCompile Include="main.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\buffer\EditorViewportBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\DebugBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\EditorViewportBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\GBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\IFramebuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\SSRBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\VXGIBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -561,15 +564,6 @@
     <ClInclude Include="source\Render\shader\Uniform.h">
       <Filter>Render\shader</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\buffer\GBuffer.h">
-      <Filter>Render\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\buffer\PostFXBuffer.h">
-      <Filter>Render\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\buffer\SSAOBuffer.h">
-      <Filter>Render\buffer</Filter>
-    </ClInclude>
     <ClInclude Include="source\Render\camera\Camera.h">
       <Filter>Render\camera</Filter>
     </ClInclude>
@@ -578,12 +572,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\physics\PhysicsDebug.h">
       <Filter>Engine\physics</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\buffer\DebugBuffer.h">
-      <Filter>Render\buffer</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\buffer\ForwardBuffer.h">
-      <Filter>Render\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\texture\HDRTexture.h">
       <Filter>Render\texture</Filter>
@@ -689,9 +677,6 @@
     </ClInclude>
     <ClInclude Include="source\Engine\engine\Engine.h">
       <Filter>Engine\engine</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Render\buffer\IFramebuffer.h">
-      <Filter>Render\buffer</Filter>
     </ClInclude>
     <ClInclude Include="source\Render\model\MeshData.h">
       <Filter>Render\model\mesh</Filter>
@@ -828,9 +813,6 @@
     <ClInclude Include="source\Render\material\Material.h">
       <Filter>Render\material</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\buffer\SSRBuffer.h">
-      <Filter>Render\buffer</Filter>
-    </ClInclude>
     <ClInclude Include="source\Render\shadow\ShadowBuffer.h">
       <Filter>Render\shadow</Filter>
     </ClInclude>
@@ -891,7 +873,31 @@
     <ClInclude Include="source\Engine\physics\RigidBody.h">
       <Filter>Engine\physics</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\buffer\EditorViewportBuffer.h" />
+    <ClInclude Include="source\Render\buffer\DebugBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\EditorViewportBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\ForwardBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\GBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\IFramebuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\PostFXBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\SSAOBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\SSRBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\VXGIBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">

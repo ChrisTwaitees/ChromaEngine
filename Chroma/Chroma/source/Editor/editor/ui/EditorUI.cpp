@@ -25,6 +25,7 @@ namespace Chroma
 	bool EditorUI::EditorViewportOpen;
 	bool EditorUI::m_IconsVisible;
 	bool EditorUI::m_DrawViewportGrid;
+	bool EditorUI::m_VXGI{ false };
 
 	// Icons
 	int EditorUI::m_IconSize;
@@ -541,7 +542,6 @@ namespace Chroma
 		if (component != nullptr)
 		{
 			component->Serialize(objectSerializer);
-			component->Serialize(objectSerializer);
 			if(component->GetType() == Type::kLightComponent)
 				component->OnUpdate();
 
@@ -1000,6 +1000,7 @@ namespace Chroma
 			ImGui::Checkbox("Draw Icons", &m_IconsVisible); ImGui::SameLine();
 			ImGui::Checkbox("Draw Grid", &m_DrawViewportGrid); ImGui::SameLine();
 			ImGui::Checkbox("Bloom", &m_Bloom); ImGui::SameLine();
+			ImGui::Checkbox("VXGI", &m_VXGI); ImGui::SameLine();
 			if (ImGui::Button("Graphics Debug")) m_DrawGraphicsDebugMenu = m_DrawGraphicsDebugMenu ? false : true; ImGui::SameLine();
 			//Profiling
 			ImGui::Checkbox("Profiling Stats", &m_ShowProfilerStatsOverlay); ImGui::SameLine();

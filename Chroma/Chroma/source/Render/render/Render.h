@@ -6,13 +6,9 @@
 
 // chroma
 #include <scene/Scene.h>
-#include <buffer/GBuffer.h>
-#include <buffer/PostFXBuffer.h>
+
+//#include <jobsystem/JobSystem.h>
 #include <buffer/DebugBuffer.h>
-#include <buffer/ForwardBuffer.h>
-#include <buffer/SSRBuffer.h>
-#include <shadow/ShadowBuffer.h>
-#include <jobsystem/JobSystem.h>
 #include <ubo/UniformBuffer.h>
 
 namespace Chroma
@@ -49,6 +45,7 @@ namespace Chroma
 		static IFramebuffer*& GetSSRBuffer() { return m_SSRBuffer; }
 		static IFramebuffer*& GetShadowBuffer() { return m_ShadowBuffer; }
 		static IFramebuffer*& GetEditorViewportBuffer() { return m_EditorViewportBuffer; }
+		static IFramebuffer*& GetVXGIBuffer() { return m_VXGIBuffer; }
 
 		static glm::mat4 GetLightSpaceMatrix();
 		static inline std::vector<UniformBuffer*>& GetUniformBufferObjects() { return m_UniformBufferObjects; };
@@ -131,6 +128,9 @@ namespace Chroma
 
 		// Editor Viewport Buffer
 		static IFramebuffer* m_EditorViewportBuffer;
+
+		// VXGI Buffer
+		static IFramebuffer* m_VXGIBuffer;
 
 		// Uniform Buffer Objects
 		static void GenerateUniformBufferObjects();

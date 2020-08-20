@@ -41,7 +41,7 @@ namespace Chroma
 		Scene::PreSceneBuild();
 
 		// populate scene
-		Editor::SponzaCombined();
+		Editor::Sponza();
 
 		// post scene build
 		Scene::PostSceneBuild();

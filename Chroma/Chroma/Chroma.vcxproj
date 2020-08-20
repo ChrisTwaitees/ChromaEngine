@@ -319,11 +319,18 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
-    <ClCompile Include="source\Render\buffer\EditorViewportBuffer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="source\Engine\physics\RigidBody.cpp" />
     <ClCompile Include="source\Engine\math\Math.cpp" />
+    <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\EditorViewportBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\GBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\IFramebuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp" />
+    <ClCompile Include="source\Render\buffer\SSRBuffer.cpp" />
     <ClCompile Include="source\Render\camera\ICameraController.cpp" />
     <ClCompile Include="source\Render\context\GraphicsContext.cpp" />
     <ClCompile Include="source\Engine\core\Application.cpp" />
@@ -382,13 +389,6 @@
     <ClCompile Include="source\Game\Game.cpp" />
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCameraController.cpp" />
     <ClCompile Include="source\Game\thirdperson\ThirdPersonCharacterController.cpp" />
-    <ClCompile Include="source\Render\buffer\DebugBuffer.cpp" />
-    <ClCompile Include="source\Render\buffer\ForwardBuffer.cpp" />
-    <ClCompile Include="source\Render\buffer\IFramebuffer.cpp" />
-    <ClCompile Include="source\Render\buffer\GBuffer.cpp" />
-    <ClCompile Include="source\Render\buffer\PostFXBuffer.cpp" />
-    <ClCompile Include="source\Render\buffer\SSAOBuffer.cpp" />
-    <ClCompile Include="source\Render\buffer\SSRBuffer.cpp" />
     <ClCompile Include="source\Render\camera\Camera.cpp" />
     <ClCompile Include="source\Render\camera\FlyCameraController.cpp" />
     <ClCompile Include="source\Render\camera\MayaCameraController.cpp" />
@@ -425,14 +425,22 @@
     <ClCompile Include="source\Render\ubo\UniformBuffer.cpp" />
     <ClCompile Include="source\Engine\window\Window.cpp" />
     <ClCompile Include="platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="source\Render\buffer\VXGIBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
-    <ClInclude Include="source\Render\buffer\EditorViewportBuffer.h" />
     <ClInclude Include="platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="source\Engine\physics\RigidBody.h" />
     <ClInclude Include="source\Engine\event\CameraEvent.h" />
+    <ClInclude Include="source\Render\buffer\DebugBuffer.h" />
+    <ClInclude Include="source\Render\buffer\EditorViewportBuffer.h" />
+    <ClInclude Include="source\Render\buffer\ForwardBuffer.h" />
+    <ClInclude Include="source\Render\buffer\GBuffer.h" />
+    <ClInclude Include="source\Render\buffer\IFramebuffer.h" />
+    <ClInclude Include="source\Render\buffer\PostFXBuffer.h" />
+    <ClInclude Include="source\Render\buffer\SSAOBuffer.h" />
+    <ClInclude Include="source\Render\buffer\SSRBuffer.h" />
     <ClInclude Include="source\Render\context\GraphicsContext.h" />
     <ClInclude Include="source\Engine\core\Base.h" />
     <ClInclude Include="source\Engine\core\Application.h" />
@@ -499,13 +507,6 @@
     <ClInclude Include="source\Engine\uid\UID.h" />
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCameraController.h" />
     <ClInclude Include="source\Game\thirdperson\ThirdPersonCharacterController.h" />
-    <ClInclude Include="source\Render\buffer\DebugBuffer.h" />
-    <ClInclude Include="source\Render\buffer\ForwardBuffer.h" />
-    <ClInclude Include="source\Render\buffer\IFramebuffer.h" />
-    <ClInclude Include="source\Render\buffer\GBuffer.h" />
-    <ClInclude Include="source\Render\buffer\PostFXBuffer.h" />
-    <ClInclude Include="source\Render\buffer\SSAOBuffer.h" />
-    <ClInclude Include="source\Render\buffer\SSRBuffer.h" />
     <ClInclude Include="source\Render\camera\Camera.h" />
     <ClInclude Include="source\Render\camera\ICameraController.h" />
     <ClInclude Include="source\Render\camera\FlyCameraController.h" />
@@ -544,6 +545,7 @@
     <ClInclude Include="platform\Windows\WindowsWindow.h" />
     <ClInclude Include="source\Render\ui\uicomponents\IGizmo.h" />
     <ClInclude Include="source\Render\ui\uicomponents\TransformGizmo.h" />
+    <ClInclude Include="source\Render\buffer\VXGIBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl" />

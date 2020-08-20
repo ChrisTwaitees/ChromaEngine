@@ -4,7 +4,13 @@
 #include <ubo/UniformBufferLighting.h>
 #include <event/CameraEvent.h>
 #include <window/Window.h>
+#include <buffer/GBuffer.h>
+#include <buffer/PostFXBuffer.h>
+#include <buffer/ForwardBuffer.h>
+#include <shadow/ShadowBuffer.h>
+#include <buffer/SSRBuffer.h>
 #include <buffer/EditorViewportBuffer.h>
+#include <buffer/VXGIBuffer.h>
 
 namespace Chroma
 {
@@ -31,6 +37,9 @@ namespace Chroma
 
 	// Editor Viewport
 	IFramebuffer* Render::m_EditorViewportBuffer;
+
+	// VXGI
+	IFramebuffer* Render::m_VXGIBuffer;
 
 	// Uniform Buffer Objects
 	UniformBuffer* Render::m_UBOCamera;
@@ -95,7 +104,14 @@ namespace Chroma
 
 #ifdef EDITOR
 		m_EditorViewportBuffer->Bind();
-		static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw();
+
+		if(EditorUI::m_VXGI)
+			// VXGI
+			m_VXGIBuffer->Draw();
+		else
+			// POSTFX 
+			static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
+
 		m_EditorViewportBuffer->UnBind();
 #else
 		static_cast<PostFXBuffer*>(m_PostFXBuffer)->UnBind();
@@ -191,6 +207,7 @@ namespace Chroma
 		m_GraphicsDebugBuffer = new IFramebuffer();
 		m_ShadowBuffer = new ShadowBuffer();
 		m_EditorViewportBuffer = new EditorViewportBuffer();
+		m_VXGIBuffer = new VXGIBuffer();
 
 		CHROMA_INFO("Renderer Initialized.");
 	}
@@ -209,15 +226,15 @@ namespace Chroma
 		// Deferred
 		RenderDefferedComponents();
 
-		//// Forward
+		// Forward
 		RenderForwardComponents();
 
-		//// Debug
+		// Debug
 		RenderDebug();
 
 		// Post FX
 		RenderPostFX();
-
+		
 
 		// Clear
 		CleanUp();
