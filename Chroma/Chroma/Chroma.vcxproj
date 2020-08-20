@@ -319,6 +319,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="source\Render\buffer\EditorViewportBuffer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="source\Engine\physics\RigidBody.cpp" />
@@ -428,6 +429,7 @@
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
+    <ClInclude Include="source\Render\buffer\EditorViewportBuffer.h" />
     <ClInclude Include="platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="source\Engine\physics\RigidBody.h" />
     <ClInclude Include="source\Engine\event\CameraEvent.h" />

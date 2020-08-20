@@ -48,6 +48,8 @@ namespace Chroma
 		static IFramebuffer*& GetGBuffer() { return m_GBuffer; }
 		static IFramebuffer*& GetSSRBuffer() { return m_SSRBuffer; }
 		static IFramebuffer*& GetShadowBuffer() { return m_ShadowBuffer; }
+		static IFramebuffer*& GetEditorViewportBuffer() { return m_EditorViewportBuffer; }
+
 		static glm::mat4 GetLightSpaceMatrix();
 		static inline std::vector<UniformBuffer*>& GetUniformBufferObjects() { return m_UniformBufferObjects; };
 
@@ -126,6 +128,9 @@ namespace Chroma
 
 		// Graphics Debug Buffer
 		static IFramebuffer* m_GraphicsDebugBuffer;
+
+		// Editor Viewport Buffer
+		static IFramebuffer* m_EditorViewportBuffer;
 
 		// Uniform Buffer Objects
 		static void GenerateUniformBufferObjects();

@@ -4,6 +4,7 @@
 #include <ubo/UniformBufferLighting.h>
 #include <event/CameraEvent.h>
 #include <window/Window.h>
+#include <buffer/EditorViewportBuffer.h>
 
 namespace Chroma
 {
@@ -27,6 +28,9 @@ namespace Chroma
 
 	// Graphics Debug
 	IFramebuffer* Render::m_GraphicsDebugBuffer;
+
+	// Editor Viewport
+	IFramebuffer* Render::m_EditorViewportBuffer;
 
 	// Uniform Buffer Objects
 	UniformBuffer* Render::m_UBOCamera;
@@ -89,7 +93,15 @@ namespace Chroma
 		m_PostFXBuffer->SetUniform("exposure", 1.0f);
 		m_PostFXBuffer->SetUniform("gamma", 2.2f);
 
+#ifdef EDITOR
+		m_EditorViewportBuffer->Bind();
+		static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw();
+		m_EditorViewportBuffer->UnBind();
+#else
+		static_cast<PostFXBuffer*>(m_PostFXBuffer)->UnBind();
 		static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(true);
+#endif
+
 	}
 
 	void Render::RenderGraphicsDebug()
@@ -178,6 +190,7 @@ namespace Chroma
 		m_SSRBuffer = new SSRBuffer();
 		m_GraphicsDebugBuffer = new IFramebuffer();
 		m_ShadowBuffer = new ShadowBuffer();
+		m_EditorViewportBuffer = new EditorViewportBuffer();
 
 		CHROMA_INFO("Renderer Initialized.");
 	}
@@ -239,6 +252,7 @@ namespace Chroma
 		m_DebugBuffer->ScreenResizeCallback(width, height);
 		m_GraphicsDebugBuffer->ScreenResizeCallback(width, height);
 		m_SSRBuffer->ScreenResizeCallback(width, height);
+		m_EditorViewportBuffer->ScreenResizeCallback(width, height);
 	}
 
 	glm::mat4 Render::GetLightSpaceMatrix()

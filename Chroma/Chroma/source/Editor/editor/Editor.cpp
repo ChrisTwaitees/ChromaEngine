@@ -1329,7 +1329,7 @@ namespace Chroma
 		}
 
 		// SUNLIGHT
-		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(-10.0, -1.0, -0.1), 2.0f);
+		Light* Sun = new Light(Chroma::Type::Light::kSunlight, glm::vec3(0.0, -1.0, -0.1), 2.0f);
 		Sun->SetDiffuse(glm::vec3(1.0));
 		Sun->SetIntensity(3.0);
 		Lights.push_back(Sun);

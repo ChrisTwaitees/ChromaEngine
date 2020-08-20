@@ -541,6 +541,7 @@ namespace Chroma
 		if (component != nullptr)
 		{
 			component->Serialize(objectSerializer);
+			component->Serialize(objectSerializer);
 			if(component->GetType() == Type::kLightComponent)
 				component->OnUpdate();
 
@@ -1030,7 +1031,7 @@ namespace Chroma
 
 			ImVec2 p = ImGui::GetCursorScreenPos();
 
-			ImGui::Image((void*)(intptr_t)Chroma::Render::GetPostFXBuffer()->GetTexture(),
+			ImGui::Image((void*)(intptr_t)Chroma::Render::GetEditorViewportBuffer()->GetTexture(),
 				ImVec2(m_ViewportWidth, m_ViewportHeight),
 				ImVec2(0, 1), ImVec2(1, 0));
 			ImGui::EndChild();

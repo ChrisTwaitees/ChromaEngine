@@ -139,7 +139,6 @@ namespace Chroma
 	void PostFXBuffer::Draw()
 	{
 		// Set to default buffer
-		UnBind();
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// Draw

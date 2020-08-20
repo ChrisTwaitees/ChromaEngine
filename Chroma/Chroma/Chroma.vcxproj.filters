@@ -540,6 +540,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="source\Render\buffer\EditorViewportBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -890,6 +891,7 @@
     <ClInclude Include="source\Engine\physics\RigidBody.h">
       <Filter>Engine\physics</Filter>
     </ClInclude>
+    <ClInclude Include="source\Render\buffer\EditorViewportBuffer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">

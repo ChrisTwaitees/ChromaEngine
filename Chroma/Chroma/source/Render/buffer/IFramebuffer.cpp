@@ -135,7 +135,6 @@ namespace Chroma
 		m_Width = width;
 		m_Height = height;
 		ResizeBuffers();
-	
 	}
 
 
