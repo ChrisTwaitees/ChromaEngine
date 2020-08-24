@@ -2,15 +2,18 @@
 // Date:	11/26/2016
 #version 450 core
 
-layout(location = 0) in vec3 position;
+layout (location = 0 ) in vec3 aPos;
 
-uniform mat4 M;
-uniform mat4 V;
-uniform mat4 P;
+#include "util/uniformBufferCamera.glsl"
+uniform mat4 model;
 
-out vec3 worldPosition;
+out VS_OUT{
+	out vec3 worldPosition;
+} vs_out;
+
 
 void main(){
-	worldPosition = vec3(M * vec4(position, 1));
-	gl_Position = P * V * vec4(worldPosition, 1);
+	vs_out.worldPosition = vec3(model * vec4(aPos, 1.0));
+	gl_Position = projection * view * model * vec4(aPos, 1.0);
+
 }

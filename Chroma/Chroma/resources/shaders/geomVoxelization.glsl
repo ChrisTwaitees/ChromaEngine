@@ -10,11 +10,13 @@ layout(triangle_strip, max_vertices = 3) out;
 in VS_OUT{
 	vec3 worldPositionGeom;
 	vec3 normalGeom;
+	vec2 texCoordsGeom;
 } vs_in[];
 
 out GS_OUT{
 	vec3 worldPositionFrag;
 	vec3 normalFrag;
+	vec2 texCoordsFrag;
 } gs_out;
 
 void main(){
@@ -25,6 +27,7 @@ void main(){
 	{
 		gs_out.worldPositionFrag = vs_in[i].worldPositionGeom;
 		gs_out.normalFrag = vs_in[i].normalGeom;
+		gs_out.texCoordsFrag = vs_in[i].texCoordsGeom;
 		if(p.z > p.x && p.z > p.y){
 			gl_Position = vec4(gs_out.worldPositionFrag.x, gs_out.worldPositionFrag.y, 0, 1);
 		} else if (p.x > p.y && p.x > p.z){

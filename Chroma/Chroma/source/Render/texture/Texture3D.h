@@ -18,7 +18,7 @@ namespace Chroma
 	private:
 		void Init(const bool generateMipMaps);
 	private:
-		float* m_TextureBuffer;
+		GLfloat m_TextureBuffer;
 	};
 }
 

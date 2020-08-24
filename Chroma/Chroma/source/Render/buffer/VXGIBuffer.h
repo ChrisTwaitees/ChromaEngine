@@ -11,11 +11,11 @@ namespace Chroma
 	{
 	public:
 		VXGIBuffer() { Init(); }
-		~VXGIBuffer() { delete m_ScreenShader; };
+		~VXGIBuffer();
 
 		virtual void Bind() override;
 		virtual void Draw() override;
-		void Draw(const bool& visualizeVoxelization = false);
+		void Draw(const bool& visualizeVoxelization);
 
 		void Voxelize();
 	private:
@@ -25,14 +25,14 @@ namespace Chroma
 		
 	private:
 		const unsigned int m_VoxelTextureSize{ 64 };
-		std::unique_ptr<Texture3D> m_Voxel3DTexture;
+		Texture3D* m_Voxel3DTexture;
 		Shader m_VoxelShader{ "resources/shaders/fragVoxelization.glsl" , "resources/shaders/vtxVoxelization.glsl", "resources/shaders/geomVoxelization.glsl" };
 
 	private:
 		Shader m_VoxelWorldPositionShader{ "resources/shaders/fragWorldPosition.glsl" , "resources/shaders/vtxWorldPosition.glsl"};
-		Shader m_VoxelVisualizationShader{ "resources/shaders/fragVoxelVisualization.glsl" , "resources/shaders/vtxVoxelVisualization.glsl"};
+		Shader m_VoxelVisualizationShader{ "resources/shaders/fragVoxelVisualization.glsl" , "resources/shaders/frameBufferVertex.glsl" };
 		IFramebuffer m_VVFBO1, m_VVFBO2;
-		std::unique_ptr<StaticMesh> m_Box;
+		BoxPrimitive m_Cube;
 		void DrawVoxelVisualization();
 
 	};

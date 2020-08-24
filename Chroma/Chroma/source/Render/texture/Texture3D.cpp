@@ -10,14 +10,12 @@ namespace Chroma
 		m_TextureData->height = _height;
 		m_TextureData->depth = _depth;
 		m_TextureData->type = Type::Texture::k3D;
-		m_TextureBuffer = new float;
 
 		Init(generateMipmaps);
 	}
 
 	Texture3D::~Texture3D()
 	{
-		if (m_TextureBuffer) delete m_TextureBuffer;
 	}
 
 	void Texture3D::Bind()
@@ -53,7 +51,7 @@ namespace Chroma
 		// Upload texture buffer.
 		const int levels = 7;
 		glTexStorage3D(GL_TEXTURE_3D, levels, GL_RGBA8, m_TextureData->width, m_TextureData->height, m_TextureData->depth);
-		glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, m_TextureData->width, m_TextureData->height, m_TextureData->depth, 0, GL_RGBA, GL_FLOAT, m_TextureBuffer);
+		glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, m_TextureData->width, m_TextureData->height, m_TextureData->depth, 0, GL_RGBA, GL_FLOAT, &m_TextureBuffer);
 		if (generateMipMaps) glGenerateMipmap(GL_TEXTURE_3D);
 		glBindTexture(GL_TEXTURE_3D, 0);
 

@@ -103,20 +103,19 @@ namespace Chroma
 		m_PostFXBuffer->SetUniform("gamma", 2.2f);
 
 #ifdef EDITOR
-		m_EditorViewportBuffer->Bind();
 
 		if (EditorUI::m_VXGI)
 		{
 			// VXGI
-			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Voxelize();
-			m_EditorViewportBuffer->Bind();
 			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Draw(EditorUI::m_VXGIVisualization);
-
+			m_EditorViewportBuffer->CopyColor(m_VXGIBuffer->GetFBO(), m_EditorViewportBuffer->GetFBO());
 		}
 		else
+		{
+			m_EditorViewportBuffer->Bind();
 			// POSTFX 
 			static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
-
+		}
 		m_EditorViewportBuffer->UnBind();
 #else
 		static_cast<PostFXBuffer*>(m_PostFXBuffer)->UnBind();

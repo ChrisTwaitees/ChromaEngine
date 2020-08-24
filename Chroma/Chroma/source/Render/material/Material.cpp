@@ -136,7 +136,7 @@ namespace Chroma
 	void Material::UpdateUniforms(Shader& shader, Camera& RenderCam, const glm::mat4& modelTransform)
 	{
 		SetTransformUniforms(shader, RenderCam, modelTransform);
-		//SetMaterialUniforms(shader);
+		SetMaterialUniforms(shader);
 		SetTextureUniforms(shader);
 	}
 
@@ -243,20 +243,20 @@ namespace Chroma
 		if (m_IsForwardLit)
 		{
 			// Set LightSpace Matrix
-			shader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetLightSpaceMatrix());
+			shader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Render::GetShadowBuffer())->GetLightSpaceMatrix());
 			// Set PBR Lighting Texture Uniforms
 			SetPBRLightingTextureUniforms(shader);
 			// Shadows
 			glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 4);
 			shader.SetUniform("shadowmap", GetNumTextures() + 4);
-			glBindTexture(GL_TEXTURE_2D_ARRAY, static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetTexture());
+			glBindTexture(GL_TEXTURE_2D_ARRAY, static_cast<ShadowBuffer*>(Render::GetShadowBuffer())->GetTexture());
 		}
 		if (m_UsesSceneNoise)
 		{
 			// BRDF LUT
 			glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 4);
 			shader.SetUniform("noise", GetNumTextures() + 4);
-			glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetSceneNoiseTex().GetID());
+			glBindTexture(GL_TEXTURE_2D, Scene::GetSceneNoiseTex().GetID());
 		}
 
 		glActiveTexture(GL_TEXTURE0);
@@ -267,15 +267,15 @@ namespace Chroma
 		// Irradiance
 		glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 1);
 		shader.SetUniform("irradianceMap", GetNumTextures() + 1);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetIrradianceMapID());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, Scene::GetIBL()->GetIrradianceMapID());
 		// Prefilter Map
 		glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 2);
 		shader.SetUniform("prefilterMap", GetNumTextures() + 2);
-		glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetPrefilterMapID());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, Scene::GetIBL()->GetPrefilterMapID());
 		// BRDF LUT
 		glActiveTexture(GL_TEXTURE0 + GetNumTextures() + 3);
 		shader.SetUniform("brdfLUT", GetNumTextures() + 3);
-		glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->GetBRDFLUTID());
+		glBindTexture(GL_TEXTURE_2D, Scene::GetIBL()->GetBRDFLUTID());
 	}
 }
 

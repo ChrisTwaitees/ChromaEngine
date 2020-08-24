@@ -4,12 +4,14 @@
 
 layout (location = 0 ) in vec3 aPos;
 layout (location = 1 ) in vec3 aNormal;
+layout (location = 2 ) in vec2 aTexCoords;
 layout (location = 5) in int[#MAX_VERT_INFLUENCES] aJointIDs;
 layout (location = 6) in float[#MAX_VERT_INFLUENCES] aJointWeights;
 
 out VS_OUT{
 	out vec3 worldPositionGeom;
 	out vec3 normalGeom;
+	out vec2 texCoordsGeom;
 } vs_out;
 
 // CONSTS
@@ -44,5 +46,7 @@ void main()
 		vs_out.worldPositionGeom = vec3(model * LocalPosition);
 		vs_out.normalGeom = normalize(mat3(transpose(inverse(model))) * aNormal);
 	}
+
+	vs_out.texCoordsGeom = aTexCoords;
     gl_Position = projection * view * model * LocalPosition;
 }
