@@ -4,7 +4,7 @@
 
 namespace Chroma
 {
-	void Texture::InitializeTexture()
+	void Texture::Init()
 	{
 		Chroma::TextureLoader::Initialize2DTexture(m_TextureData);
 	}
@@ -14,7 +14,7 @@ namespace Chroma
 		if (m_TextureData->isInitialized)
 			glBindTexture(GL_TEXTURE_2D, m_TextureData->ID);
 		else if (m_TextureData->isLoaded && m_TextureData->isInitialized == false)
-			InitializeTexture();
+			Init();
 	}
 
 	void Texture::Destroy()
@@ -77,7 +77,7 @@ namespace Chroma
 		if (m_TextureData->isInitialized)
 			return m_TextureData->ID;
 		else if (m_TextureData->isLoaded && m_TextureData->isInitialized != true)
-			InitializeTexture();
+			Init();
 		else
 			return 0;
 	}

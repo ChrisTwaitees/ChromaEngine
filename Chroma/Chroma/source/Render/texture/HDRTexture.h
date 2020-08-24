@@ -18,7 +18,7 @@ namespace Chroma
 
 	private:
 		// Init
-		void InitializeTexture() override;
+		void Init() override;
 	};
 }
 

@@ -114,7 +114,7 @@ namespace Chroma
 		// Post FX Buffer
 		CopyColorAndDepth(m_FBO, m_PostFXBuffer->GetFBO());
 
-		// 3. Set back top default buffer
+		// 3. Set back to default buffer
 		UnBind();
 	}
 

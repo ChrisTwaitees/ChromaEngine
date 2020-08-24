@@ -30,7 +30,7 @@ namespace Chroma
 		Chroma::ResourceManager::LoadHDRTexture(sourcePath, m_TextureData);
 	}
 
-	void HDRTexture::InitializeTexture()
+	void HDRTexture::Init()
 	{
 		Chroma::TextureLoader::InitializeHDRTexture(m_TextureData);
 	}

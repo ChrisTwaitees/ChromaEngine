@@ -105,9 +105,14 @@ namespace Chroma
 #ifdef EDITOR
 		m_EditorViewportBuffer->Bind();
 
-		if(EditorUI::m_VXGI)
+		if (EditorUI::m_VXGI)
+		{
 			// VXGI
-			m_VXGIBuffer->Draw();
+			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Voxelize();
+			m_EditorViewportBuffer->Bind();
+			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Draw(EditorUI::m_VXGIVisualization);
+
+		}
 		else
 			// POSTFX 
 			static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
@@ -270,6 +275,7 @@ namespace Chroma
 		m_GraphicsDebugBuffer->ScreenResizeCallback(width, height);
 		m_SSRBuffer->ScreenResizeCallback(width, height);
 		m_EditorViewportBuffer->ScreenResizeCallback(width, height);
+		m_VXGIBuffer->ScreenResizeCallback(width, height);
 	}
 
 	glm::mat4 Render::GetLightSpaceMatrix()

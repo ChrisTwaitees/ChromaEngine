@@ -13,7 +13,7 @@ namespace Chroma
 		unsigned int ID{ 0 };
 
 		// Dimensions
-		int width{ 0 }, height{ 0 };
+		int width{ 0 }, height{ 0 }, depth{ 0 };
 		int nrComponents{ 0 };
 
 		// Source
@@ -76,7 +76,7 @@ namespace Chroma
 		std::shared_ptr<TextureData> m_TextureData{ std::make_shared<TextureData>() };
 
 		// Init
-		virtual void InitializeTexture();
+		virtual void Init();
 	};
 }
 #endif

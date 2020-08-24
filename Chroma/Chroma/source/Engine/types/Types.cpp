@@ -62,7 +62,8 @@ namespace Chroma
 		{"kMetalness",					  Type::Texture::kMetalness},
 		{"kRoughness",					  Type::Texture::kRoughness},
 		{"kAO",							  Type::Texture::kAO},
-		{"kHDR",						  Type::Texture::kHDR}
+		{"kHDR",						  Type::Texture::kHDR},
+		{"k3D",							  Type::Texture::k3D}
 	};
 
 	std::map<std::string, Type::Light> Type::m_LightTypeMap =

@@ -223,6 +223,12 @@
     <Filter Include="Render\context">
       <UniqueIdentifier>{9be21a11-7446-4380-b29a-6c8bc256ea5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources\shaders\voxelization">
+      <UniqueIdentifier>{8bbf9868-a91d-4567-a03a-f9a0e9893a47}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources\shaders\voxelization\visualization">
+      <UniqueIdentifier>{adec2683-f5f3-4ba4-869e-81adc97db63e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -543,7 +549,12 @@
     <ClCompile Include="source\Render\buffer\SSRBuffer.cpp">
       <Filter>Render\buffer</Filter>
     </ClCompile>
-    <ClCompile Include="source\Render\buffer\VXGIBuffer.cpp" />
+    <ClCompile Include="source\Render\texture\Texture3D.cpp">
+      <Filter>Render\texture</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Render\buffer\VXGIBuffer.cpp">
+      <Filter>Render\buffer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Render\terrain\Terrain.h">
@@ -897,7 +908,12 @@
     <ClInclude Include="source\Render\buffer\SSRBuffer.h">
       <Filter>Render\buffer</Filter>
     </ClInclude>
-    <ClInclude Include="source\Render\buffer\VXGIBuffer.h" />
+    <ClInclude Include="source\Render\texture\Texture3D.h">
+      <Filter>Render\texture</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Render\buffer\VXGIBuffer.h">
+      <Filter>Render\buffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl">
@@ -1103,6 +1119,27 @@
     </None>
     <None Include="resources\shaders\vertexGizmo.glsl">
       <Filter>Resources\shaders\gui</Filter>
+    </None>
+    <None Include="resources\shaders\fragVoxelization.glsl">
+      <Filter>Resources\shaders\voxelization</Filter>
+    </None>
+    <None Include="resources\shaders\geomVoxelization.glsl">
+      <Filter>Resources\shaders\voxelization</Filter>
+    </None>
+    <None Include="resources\shaders\vtxVoxelization.glsl">
+      <Filter>Resources\shaders\voxelization</Filter>
+    </None>
+    <None Include="resources\shaders\fragVoxelVisualization.glsl">
+      <Filter>Resources\shaders\voxelization\visualization</Filter>
+    </None>
+    <None Include="resources\shaders\fragWorldPosition.glsl">
+      <Filter>Resources\shaders\voxelization\visualization</Filter>
+    </None>
+    <None Include="resources\shaders\vtxVoxelVisualization.glsl">
+      <Filter>Resources\shaders\voxelization\visualization</Filter>
+    </None>
+    <None Include="resources\shaders\vtxWorldPosition.glsl">
+      <Filter>Resources\shaders\voxelization\visualization</Filter>
     </None>
   </ItemGroup>
 </Project>

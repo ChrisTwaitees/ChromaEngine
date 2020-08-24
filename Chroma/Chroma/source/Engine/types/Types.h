@@ -41,10 +41,11 @@ namespace Chroma
 			kNormal = 1,
 			kMetRoughAO = 2,
 			kTranslucency = 3,
-			kMetalness = 4, 
+			kMetalness = 4,
 			kRoughness = 5,
 			kAO = 6,
-			kHDR = 7
+			kHDR = 7,
+			k3D
 		};
 
 		enum Light {

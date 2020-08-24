@@ -60,9 +60,9 @@ namespace Chroma
 			std::getline(shaderFileStream, line);
 
 			// replace versions
-			if (line.find("#version") != std::string::npos)
-				if (line.find("_OPENGL_VERSION_") != std::string::npos) // checking for opengl version override
-					line = "#version " + OPENGL_VERSION;
+			//if (line.find("#version") != std::string::npos)
+			//	if (line.find("_OPENGL_VERSION_") != std::string::npos) // checking for opengl version override
+			//		line = "#version " + OPENGL_VERSION;
 
 			// replace MAX_VERT_INFLUENCES
 			if (line.find("#MAX_VERT_INFLUENCES") != std::string::npos)

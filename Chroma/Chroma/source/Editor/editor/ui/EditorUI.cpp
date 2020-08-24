@@ -26,6 +26,7 @@ namespace Chroma
 	bool EditorUI::m_IconsVisible;
 	bool EditorUI::m_DrawViewportGrid;
 	bool EditorUI::m_VXGI{ false };
+	bool EditorUI::m_VXGIVisualization{ false };
 
 	// Icons
 	int EditorUI::m_IconSize;
@@ -1001,6 +1002,9 @@ namespace Chroma
 			ImGui::Checkbox("Draw Grid", &m_DrawViewportGrid); ImGui::SameLine();
 			ImGui::Checkbox("Bloom", &m_Bloom); ImGui::SameLine();
 			ImGui::Checkbox("VXGI", &m_VXGI); ImGui::SameLine();
+			if(m_VXGI)
+				ImGui::Checkbox("VXGI Debug", &m_VXGIVisualization); ImGui::SameLine();
+			
 			if (ImGui::Button("Graphics Debug")) m_DrawGraphicsDebugMenu = m_DrawGraphicsDebugMenu ? false : true; ImGui::SameLine();
 			//Profiling
 			ImGui::Checkbox("Profiling Stats", &m_ShowProfilerStatsOverlay); ImGui::SameLine();

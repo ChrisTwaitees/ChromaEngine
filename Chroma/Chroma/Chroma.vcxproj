@@ -426,6 +426,7 @@
     <ClCompile Include="source\Engine\window\Window.cpp" />
     <ClCompile Include="platform\Windows\WindowsWindow.cpp" />
     <ClCompile Include="source\Render\buffer\VXGIBuffer.cpp" />
+    <ClCompile Include="source\Render\texture\Texture3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
@@ -546,6 +547,7 @@
     <ClInclude Include="source\Render\ui\uicomponents\IGizmo.h" />
     <ClInclude Include="source\Render\ui\uicomponents\TransformGizmo.h" />
     <ClInclude Include="source\Render\buffer\VXGIBuffer.h" />
+    <ClInclude Include="source\Render\texture\Texture3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="resources\shaders\fragBasic.glsl" />
@@ -575,6 +577,7 @@
     <None Include="resources\shaders\fragSSSS.glsl" />
     <None Include="resources\shaders\fragSSSS_backup.glsl" />
     <None Include="resources\shaders\fragVegetation.glsl" />
+    <None Include="resources\shaders\fragVoxelization.glsl" />
     <None Include="resources\shaders\frameBufferFrag.glsl" />
     <None Include="resources\shaders\frameBufferVertex.glsl" />
     <None Include="resources\shaders\geometryBoxDebug.glsl" />
@@ -588,6 +591,7 @@
     <None Include="resources\shaders\geometryJointDebug.glsl" />
     <None Include="resources\shaders\geometryLineDebug.glsl" />
     <None Include="resources\shaders\geometrySphereDebug.glsl" />
+    <None Include="resources\shaders\geomVoxelization.glsl" />
     <None Include="resources\shaders\ui\icon\frgIcon.glsl" />
     <None Include="resources\shaders\ui\icon\vtxIcon.glsl" />
     <None Include="resources\shaders\util\PBRLightingFuncsDeclaration.glsl" />
@@ -616,6 +620,11 @@
     <None Include="resources\shaders\vertexLitShadowsNormals.glsl" />
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
     <None Include="resources\shaders\vertexSphereDebug.glsl" />
+    <None Include="resources\shaders\fragVoxelVisualization.glsl" />
+    <None Include="resources\shaders\fragWorldPosition.glsl" />
+    <None Include="resources\shaders\vtxVoxelVisualization.glsl" />
+    <None Include="resources\shaders\vtxWorldPosition.glsl" />
+    <None Include="resources\shaders\vtxVoxelization.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

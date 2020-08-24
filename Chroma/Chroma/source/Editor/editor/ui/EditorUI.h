@@ -33,6 +33,7 @@ namespace Chroma
 		static bool m_Bloom;
 		static bool m_IconsVisible;
 		static bool m_VXGI;
+		static bool m_VXGIVisualization;
 
 
 	private:
