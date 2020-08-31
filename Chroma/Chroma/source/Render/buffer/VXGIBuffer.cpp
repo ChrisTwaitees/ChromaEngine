@@ -184,6 +184,10 @@ namespace Chroma
 		// Use the voxelshader
 		m_VoxelShader.Use();
 
+		// Set voxel shader uniforms
+		m_VoxelShader.SetUniform("voxelResolution", m_Voxel3DTexture->GetTextureData()->depth);
+		m_VoxelShader.SetUniform("voxelGridCentroid", glm::vec3(0.0, 0.0, 0.0));
+
 		// Set to default framebuffer
 		UnBind();
 
@@ -194,7 +198,7 @@ namespace Chroma
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
 
-		//// Texture
+		// Texture
 		glActiveTexture(GL_TEXTURE0);
 		m_Voxel3DTexture->Bind();
 		m_VoxelShader.SetUniform("texture3D", 0);
