@@ -1,17 +1,37 @@
-// Author:	Fredrik Präntare <prantare@gmail.com> 
-// Date:	11/26/2016
 #version 450 core
 
 layout(location = 0) in vec3 aPos;
+#include "util/uniformBufferCamera.glsl"
+uniform sampler3D voxelTexture; // Texture in which voxelization is stored.
+uniform int voxelRes;
+
 
 out VS_OUT{
-	out vec2 textureCoordinateFrag; 
+	out mat4 VPMat;
+	out vec4 voxelColorGeom;
+	out float boxSize;
 } vs_out;
 
-// Scales and bias a given vector (i.e. from [-1, 1] to [0, 1]).
-vec2 scaleAndBias(vec2 p) { return 0.5f * p + vec2(0.5f); }
+ivec3 unflatten3D(int idx, int resolution)
+{
+	ivec3 dim = ivec3(resolution);
+	const int z = idx / (dim.x * dim.y);
+	idx -= (z * dim.x * dim.y);
+	const int y = idx / dim.x;
+	const int x = idx % dim.x;
+
+	return ivec3(x,y,z);
+}
 
 void main(){
-	vs_out.textureCoordinateFrag = scaleAndBias(aPos.xy);
-	gl_Position = vec4(aPos, 1);
+
+	ivec3 voxelSampleUVW = unflatten3D(gl_VertexID, voxelRes);
+	vs_out.voxelColorGeom = texelFetch(voxelTexture, voxelSampleUVW, 0);
+	//vs_out.voxelColorGeom = vec4(1,1,0,1);
+	
+
+	vs_out.VPMat = projection * view;
+	vs_out.boxSize = 0.32;
+	gl_Position =  vec4(voxelSampleUVW, 1.0);  
+	//gl_Position = vec4(0,0,0,1);
 }

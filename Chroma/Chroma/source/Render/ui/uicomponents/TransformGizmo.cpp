@@ -243,9 +243,7 @@ namespace Chroma
 	void TransformGizmo::GeneratePointBuffers()
 	{
 		// create vert array
-		std::vector<ChromaVertex> vertArray;
-		for (int i = 0; i < 3; i++)
-			vertArray.push_back(ChromaVertex());
+		std::vector<ChromaVertex> vertArray(3);
 
 		// Generate buffers
 		// Vertex Array Object Buffer

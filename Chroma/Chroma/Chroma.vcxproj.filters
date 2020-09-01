@@ -1141,5 +1141,8 @@
     <None Include="resources\shaders\vtxWorldPosition.glsl">
       <Filter>Resources\shaders\voxelization\visualization</Filter>
     </None>
+    <None Include="resources\shaders\geomVoxelVisualization.glsl">
+      <Filter>Resources\shaders\voxelization\visualization</Filter>
+    </None>
   </ItemGroup>
 </Project>

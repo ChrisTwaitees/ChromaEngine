@@ -24,14 +24,18 @@ namespace Chroma
 		virtual void Init() override;
 		
 	private:
-		const unsigned int m_VoxelTextureSize{ 64 };
+		const unsigned int m_VoxelTextureSize{ 128 };
+		const unsigned int m_NumVoxels{ m_VoxelTextureSize * m_VoxelTextureSize * m_VoxelTextureSize };
 		Texture3D* m_Voxel3DTexture;
 		Shader m_VoxelShader{ "resources/shaders/fragVoxelization.glsl" , "resources/shaders/vtxVoxelization.glsl", "resources/shaders/geomVoxelization.glsl" };
+		void SetupVoxelVisualizationVAO();
 
 	private:
 		Shader m_VoxelWorldPositionShader{ "resources/shaders/fragWorldPosition.glsl" , "resources/shaders/vtxWorldPosition.glsl"};
 		Shader m_VoxelVisualizationShader{ "resources/shaders/fragVoxelVisualization.glsl" , "resources/shaders/frameBufferVertex.glsl" };
+		Shader m_VoxelVisualizationShader_Test{ "resources/shaders/fragVoxelVisualization.glsl" , "resources/shaders/vtxVoxelVisualization.glsl", "resources/shaders/geomVoxelVisualization.glsl" };
 		IFramebuffer m_VVFBO1, m_VVFBO2;
+		unsigned int m_VoxelVisualizationVAO{ 0 };
 		BoxPrimitive m_Cube;
 		void DrawVoxelVisualization();
 

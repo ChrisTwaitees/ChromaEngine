@@ -21,11 +21,11 @@ namespace Chroma
 
 	void VXGIBuffer::Draw()
 	{
-		// Voxelize the scene
-		Voxelize();
+		//// Voxelize the scene
+		//Voxelize();
 
-		// Switch to VXGI buffer
-		Bind();
+		//// Switch to VXGI buffer
+		//Bind();
 
 		// Draw the Framebuffer
 		m_ScreenShader->Use();
@@ -119,60 +119,98 @@ namespace Chroma
 		// Create 3D Voxel Texture
 		m_Voxel3DTexture = new Texture3D(m_VoxelTextureSize, m_VoxelTextureSize, m_VoxelTextureSize, true);
 
+		// Set up GL Points for Voxel Visualization
+		SetupVoxelVisualizationVAO();
+
+	}
+
+	void VXGIBuffer::SetupVoxelVisualizationVAO()
+	{
+		std::vector<glm::vec3> voxelVerts(m_NumVoxels);
+
+		// Generate buffers
+		// Vertex Array Object Buffer
+		glGenVertexArrays(1, &m_VoxelVisualizationVAO);
+		// Vertex Buffer and Element Buffer
+		unsigned int VBO;
+		glGenBuffers(1, &VBO);
+
+		// Bind buffers
+		glBindVertexArray(m_VoxelVisualizationVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferData(GL_ARRAY_BUFFER, m_NumVoxels * sizeof(glm::vec3) , &voxelVerts[0], GL_STATIC_DRAW);
+
+		// vertex positions
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
 	}
 
 	void VXGIBuffer::DrawVoxelVisualization()
 	{
-		// Render with WS Position Shader
-		m_VoxelWorldPositionShader.Use();
-		m_VoxelWorldPositionShader.SetUniform("model", glm::mat4(1.0));
+		//// Render with WS Position Shader
+		//m_VoxelWorldPositionShader.Use();
+		//m_VoxelWorldPositionShader.SetUniform("model", glm::mat4(1.0));
 
-		// Settings.
-		glClearColor(0.0, 0.0, 0.0, 1.0);
-		glEnable(GL_CULL_FACE);
-		glEnable(GL_DEPTH_TEST);
+		//// Settings.
+		//glClearColor(0.0, 0.0, 0.0, 1.0);
+		//glEnable(GL_CULL_FACE);
+		//glEnable(GL_DEPTH_TEST);
 
-		// Back.
-		glCullFace(GL_FRONT);
-		m_VVFBO1.Bind();
-		m_Cube.BindDrawVAO();
+		//// Back.
+		//glCullFace(GL_FRONT);
+		//m_VVFBO1.Bind();
+		//m_Cube.BindDrawVAO();
 
-		// Front.
-		glCullFace(GL_BACK);
-		m_VVFBO2.Bind();
-		m_Cube.BindDrawVAO();
+		//// Front.
+		//glCullFace(GL_BACK);
+		//m_VVFBO2.Bind();
+		//m_Cube.BindDrawVAO();
 
-		// -------------------------------------------------------
-		// Render 3D texture to screen.
-		// -------------------------------------------------------
-		m_VoxelVisualizationShader.Use();
+		//// -------------------------------------------------------
+		//// Render 3D texture to screen.
+		//// -------------------------------------------------------
+		//m_VoxelVisualizationShader.Use();
 
 		// Set to VXGI Buffer
 		Bind();
 
-		// Settings.
-		glDisable(GL_DEPTH_TEST);
-		glEnable(GL_CULL_FACE);
+		//// Settings.
+		//glDisable(GL_DEPTH_TEST);
+		//glEnable(GL_CULL_FACE);
 
-		// Activate textures.
-		// Back
+		//// Activate textures.
+		//// Back
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D,  m_VVFBO1.GetTexture());
+		//m_VoxelVisualizationShader.SetUniform("textureBack", 0);
+		//// Front
+		//glActiveTexture(GL_TEXTURE1);
+		//glBindTexture(GL_TEXTURE_2D, m_VVFBO2.GetTexture());
+		//m_VoxelVisualizationShader.SetUniform("textureBack", 1);
+		//// Voxel
+		//glActiveTexture(GL_TEXTURE2);
+		//glBindTexture(GL_TEXTURE_3D, m_Voxel3DTexture->GetID());
+		//m_VoxelVisualizationShader.SetUniform("texture3D", 2);
+
+		//// Render
+		//m_VoxelVisualizationShader.SetUniform("scale", m_Scale);
+		//m_VoxelVisualizationShader.SetUniform("offset", m_Offset);
+		//RenderQuad();
+
+		// Bind Voxel Visualization Shader
+		m_VoxelVisualizationShader_Test.Use();
+
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D,  m_VVFBO1.GetTexture());
-		m_VoxelVisualizationShader.SetUniform("textureBack", 0);
-		// Front
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, m_VVFBO2.GetTexture());
-		m_VoxelVisualizationShader.SetUniform("textureBack", 1);
-		// Voxel
-		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_3D, m_Voxel3DTexture->GetID());
-		m_VoxelVisualizationShader.SetUniform("texture3D", 2);
+		m_VoxelVisualizationShader_Test.SetUniform("voxelTexture", 0);
+		m_VoxelVisualizationShader_Test.SetUniform("voxelRes", m_Voxel3DTexture->GetTextureData()->depth);
+		
+		// Render Grid VAO
+		glBindVertexArray(m_VoxelVisualizationVAO);
+		glDrawArrays(GL_POINTS, 0, m_NumVoxels);
+		glBindVertexArray(0);
 
-		// Render
-		m_VoxelVisualizationShader.SetUniform("scale", m_Scale);
-		m_VoxelVisualizationShader.SetUniform("offset", m_Offset);
-		RenderQuad();
-
+		Draw();
 
 	}
 
