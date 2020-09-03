@@ -2,8 +2,11 @@
 
 layout(points) in;
 layout(triangle_strip, max_vertices = 24) out;
-uniform int voxelDimensions;
 
+// Voxel Uniforms
+uniform int voxelGridResolution;
+uniform vec3 voxelGridCentroid;
+uniform float voxelGridSize;
 
 // UNIFORMS
 
@@ -19,17 +22,29 @@ out GS_OUT{
 
 void createVertex(vec3 inPos)
 {
+	vec4 worldPos = gl_in[0].gl_Position;
+//	worldPos.x -= voxelGridResolution * voxelGridSize * 0.5; 
+//	worldPos.z -= voxelGridResolution * voxelGridSize * 0.5; 
+//	worldPos *= (1.0 / voxelGridSize);
 
+	// Remap Voxel Grid Space -> World Space
+	// 1. Voxel Grid Space -> Clip Space
+	worldPos.xyz /= vec3(voxelGridResolution);
+	// 2. Clip Space (0:1) -> Clip Space (-1:1)
+	worldPos.xyz *= vec3(2.0f) - vec3(1.0f);
+	// 3. Clip Space (-1:1) -> World Space
+	worldPos.xyz *= vec3(voxelGridResolution);
 	
-	vec4 worldPos;
-	//worldPos.xyz = gl_in[0].gl_Position.xyz / vec3(voxelDimensions) * 2 - 1.0;
-	worldPos = gl_in[0].gl_Position + vec4(vec3(inPos * vs_in[0].boxSize),1.0) ;
-	//worldPos.y = -worldPos.y;
-	//worldPos.xyz *= voxelDimensions;
-	//worldPos.xyz += (inPos - vec3(0,1,0)) * 2.0;
-	//worldPos.xyz += inPos;
-	//worldPos.xyz *= voxelDimensions * 1.0/ voxelDimensions;
+	// ?? Factoring Grid Resolution and Size
+	worldPos.xyz *= voxelGridResolution * voxelGridSize / voxelGridResolution;
+	
+	// Move to voxel centroid
+//	worldPos.xyz += voxelGridCentroid;
 
+	// Add Cube
+	worldPos.xyz += inPos * vs_in[0].boxSize;
+
+	// VPMat
 	gl_Position = vs_in[0].VPMat * worldPos;
 	
 	EmitVertex();

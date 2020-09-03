@@ -1,17 +1,26 @@
 #version 450 core
 
 layout(location = 0) in vec3 aPos;
+
+// Camera UBO
 #include "util/uniformBufferCamera.glsl"
-uniform sampler3D voxelTexture; // Texture in which voxelization is stored.
-uniform int voxelRes;
 
+// Uniforms
+uniform sampler3D voxelTexture;
 
+uniform int voxelGridResolution;
+uniform vec3 voxelGridCentroid;
+uniform float voxelGridSize;
+
+// Out
 out VS_OUT{
 	out mat4 VPMat;
 	out vec4 voxelColorGeom;
 	out float boxSize;
 } vs_out;
 
+// Map index to resolution * resolution * resolution 
+// Unpacking Texels of 3DTexture
 ivec3 unflatten3D(int idx, int resolution)
 {
 	ivec3 dim = ivec3(resolution);
@@ -24,14 +33,10 @@ ivec3 unflatten3D(int idx, int resolution)
 }
 
 void main(){
-
-	ivec3 voxelSampleUVW = unflatten3D(gl_VertexID, voxelRes);
+	ivec3 voxelSampleUVW = unflatten3D(gl_VertexID, voxelGridResolution);
 	vs_out.voxelColorGeom = texelFetch(voxelTexture, voxelSampleUVW, 0);
-	//vs_out.voxelColorGeom = vec4(1,1,0,1);
 	
-
 	vs_out.VPMat = projection * view;
-	vs_out.boxSize = 0.32;
+	vs_out.boxSize =  0.05;//(1 / pow(voxelGridSize,3)) * voxelGridSize*10000;
 	gl_Position =  vec4(voxelSampleUVW, 1.0);  
-	//gl_Position = vec4(0,0,0,1);
 }

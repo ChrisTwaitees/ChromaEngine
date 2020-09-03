@@ -22,7 +22,7 @@
 #define MSAA_SAMPLES 4 
 
 // Background Color
-#define SCREEN_DEFAULT_COLOR glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
+#define SCREEN_DEFAULT_COLOR glm::vec4(1.0f, 0.0f, 0.8f, 1.0f)
 
 // SHADOWS
 #define SHADOW_NUMCASCADES 3

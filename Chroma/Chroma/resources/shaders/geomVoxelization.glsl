@@ -1,7 +1,3 @@
-// Simple non-conservative voxelization.
-// Implementation inspired by Cheng-Tso Lin: 
-// https://github.com/otaku690/SparseVoxelOctree/blob/master/WIN/SVO/shader/voxelize.geom.glsl.
-
 #version 450 core
 
 layout(triangles) in;
@@ -9,8 +5,10 @@ layout(triangle_strip, max_vertices = 3) out;
 
 // UNIFORMS
 #include "util/uniformBufferCamera.glsl"
-uniform int voxelResolution;
+
+uniform int voxelGridResolution;
 uniform vec3 voxelGridCentroid;
+uniform float voxelGridSize;
 
 in VS_OUT{
 	vec3 worldPositionGeom;
@@ -25,7 +23,7 @@ out GS_OUT{
 	vec2 texCoordsFrag;
 } gs_out;
 
-// Declare Vec3 to write to
+// Declare Vec3 array to write to
 vec4[3] voxelPoints;
 
 void main()
@@ -36,10 +34,10 @@ void main()
 	maxi = faceNormal[2] > faceNormal[maxi] ? 2 : maxi;
 
 	// project onto dominant axis
-	for(uint i = 0; i < 3 ; i++)
+	for(uint i = 0; i < 3 ; ++i)
 	{
 		// World Space -> Voxel Grid Space : 
-		voxelPoints[i] = vec4(vs_in[i].worldPositionGeom.xyz - voxelGridCentroid, 1.0);
+		voxelPoints[i].xyz = (vs_in[i].worldPositionGeom.xyz - voxelGridCentroid) * (1.0 / voxelGridSize);
 
 		// Project onto dominant axis
 		if(maxi == 0)
@@ -63,7 +61,7 @@ void main()
 	for(uint j = 0 ; j < 3; ++j)
 	{
 		// Voxel grid space -> Clip space
-		voxelPoints[j].xy *= 1.0 / voxelResolution;
+		voxelPoints[j].xy *= vec2(1.0 / voxelGridResolution);
 		voxelPoints[j].zw = vec2(1.0);
 
 		// Normal, UV, WorldPos

@@ -88,11 +88,6 @@ namespace Chroma
 		glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
 		// attach buffers
 		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, m_Width, m_Height);
-
-		// Resize the VVFBOS (Voxel Visualization FBOs)
-		m_VVFBO1.ScreenResizeCallback(m_Width, m_Height);
-		m_VVFBO2.ScreenResizeCallback(m_Width, m_Height);
-
 	}
 
 	void VXGIBuffer::Init()
@@ -117,7 +112,7 @@ namespace Chroma
 		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 		// Create 3D Voxel Texture
-		m_Voxel3DTexture = new Texture3D(m_VoxelTextureSize, m_VoxelTextureSize, m_VoxelTextureSize, true);
+		m_Voxel3DTexture = new Texture3D(m_VoxelGridTextureSize, m_VoxelGridTextureSize, m_VoxelGridTextureSize, true);
 
 		// Set up GL Points for Voxel Visualization
 		SetupVoxelVisualizationVAO();
@@ -147,63 +142,21 @@ namespace Chroma
 
 	void VXGIBuffer::DrawVoxelVisualization()
 	{
-		//// Render with WS Position Shader
-		//m_VoxelWorldPositionShader.Use();
-		//m_VoxelWorldPositionShader.SetUniform("model", glm::mat4(1.0));
+		// -------------------------------------------------------
+		// Render 3D texture to screen.
+		// -------------------------------------------------------
 
-		//// Settings.
-		//glClearColor(0.0, 0.0, 0.0, 1.0);
-		//glEnable(GL_CULL_FACE);
-		//glEnable(GL_DEPTH_TEST);
-
-		//// Back.
-		//glCullFace(GL_FRONT);
-		//m_VVFBO1.Bind();
-		//m_Cube.BindDrawVAO();
-
-		//// Front.
-		//glCullFace(GL_BACK);
-		//m_VVFBO2.Bind();
-		//m_Cube.BindDrawVAO();
-
-		//// -------------------------------------------------------
-		//// Render 3D texture to screen.
-		//// -------------------------------------------------------
-		//m_VoxelVisualizationShader.Use();
-
-		// Set to VXGI Buffer
 		Bind();
 
-		//// Settings.
-		//glDisable(GL_DEPTH_TEST);
-		//glEnable(GL_CULL_FACE);
-
-		//// Activate textures.
-		//// Back
-		//glActiveTexture(GL_TEXTURE0);
-		//glBindTexture(GL_TEXTURE_2D,  m_VVFBO1.GetTexture());
-		//m_VoxelVisualizationShader.SetUniform("textureBack", 0);
-		//// Front
-		//glActiveTexture(GL_TEXTURE1);
-		//glBindTexture(GL_TEXTURE_2D, m_VVFBO2.GetTexture());
-		//m_VoxelVisualizationShader.SetUniform("textureBack", 1);
-		//// Voxel
-		//glActiveTexture(GL_TEXTURE2);
-		//glBindTexture(GL_TEXTURE_3D, m_Voxel3DTexture->GetID());
-		//m_VoxelVisualizationShader.SetUniform("texture3D", 2);
-
-		//// Render
-		//m_VoxelVisualizationShader.SetUniform("scale", m_Scale);
-		//m_VoxelVisualizationShader.SetUniform("offset", m_Offset);
-		//RenderQuad();
-
 		// Bind Voxel Visualization Shader
-		m_VoxelVisualizationShader_Test.Use();
+		m_VoxelVisualizationShader.Use();
+
+		// Set voxel shader uniforms
+		UpdateVoxelShaderUniforms(m_VoxelVisualizationShader);
 
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_3D, m_Voxel3DTexture->GetID());
-		m_VoxelVisualizationShader_Test.SetUniform("voxelTexture", 0);
-		m_VoxelVisualizationShader_Test.SetUniform("voxelRes", m_Voxel3DTexture->GetTextureData()->depth);
+		m_VoxelVisualizationShader.SetUniform("voxelTexture", 0);
 		
 		// Render Grid VAO
 		glBindVertexArray(m_VoxelVisualizationVAO);
@@ -211,7 +164,14 @@ namespace Chroma
 		glBindVertexArray(0);
 
 		Draw();
+	}
 
+	void VXGIBuffer::UpdateVoxelShaderUniforms(Shader& shader)
+	{
+		shader.SetUniform("voxelGridResolution", m_Voxel3DTexture->GetTextureData()->depth);
+		m_VoxelGridCentroid.x = glm::sin(GAMETIME)* 10.0;
+		shader.SetUniform("voxelGridCentroid", m_VoxelGridCentroid);
+		shader.SetUniform("voxelGridSize", m_VoxelGridSize);
 	}
 
 	void VXGIBuffer::Voxelize()
@@ -223,14 +183,13 @@ namespace Chroma
 		m_VoxelShader.Use();
 
 		// Set voxel shader uniforms
-		m_VoxelShader.SetUniform("voxelResolution", m_Voxel3DTexture->GetTextureData()->depth);
-		m_VoxelShader.SetUniform("voxelGridCentroid", glm::vec3(0.0, 0.0, 0.0));
+		UpdateVoxelShaderUniforms(m_VoxelShader);
 
 		// Set to default framebuffer
 		UnBind();
 
 		// Set up for scene render
-		glViewport(0,0, m_VoxelTextureSize, m_VoxelTextureSize);
+		glViewport(0,0, m_VoxelGridTextureSize, m_VoxelGridTextureSize);
 		glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE);
 		glDisable(GL_CULL_FACE);
 		glDisable(GL_DEPTH_TEST);
@@ -252,21 +211,10 @@ namespace Chroma
 			// model transform
 			m_VoxelShader.SetUniform("model", meshComponent->GetWorldTransform());
 
-			// Irradiance
-			glActiveTexture(GL_TEXTURE0 + meshComponent->GetMaterial().GetNumTextures() + 1);
-			m_VoxelShader.SetUniform("irradianceMap", meshComponent->GetMaterial().GetNumTextures());
-			glBindTexture(GL_TEXTURE_CUBE_MAP, Scene::GetIBL()->GetIrradianceMapID());
-			// Prefilter Map
-			glActiveTexture(GL_TEXTURE0 + meshComponent->GetMaterial().GetNumTextures() + 2);
-			m_VoxelShader.SetUniform("prefilterMap", meshComponent->GetMaterial().GetNumTextures() + 2);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, Chroma::Scene::GetIBL()->GetPrefilterMapID());
-			// BRDF LUT
-			glActiveTexture(GL_TEXTURE0 + meshComponent->GetMaterial().GetNumTextures() + 3);
-			m_VoxelShader.SetUniform("brdfLUT", meshComponent->GetMaterial().GetNumTextures() + 3);
-			glBindTexture(GL_TEXTURE_2D, Chroma::Scene::GetIBL()->GetBRDFLUTID());
-			glActiveTexture(GL_TEXTURE0 + meshComponent->GetMaterial().GetNumTextures() + 4);
-			m_VoxelShader.SetUniform("shadowmap", meshComponent->GetMaterial().GetNumTextures() + 4);
-			glBindTexture(GL_TEXTURE_2D_ARRAY, static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetTexture());
+			// Shadowmap
+			/*glActiveTexture(GL_TEXTURE0 + meshComponent->GetMaterial().GetNumTextures() + 1);
+			m_VoxelShader.SetUniform("shadowmap", meshComponent->GetMaterial().GetNumTextures() + 1);
+			glBindTexture(GL_TEXTURE_2D_ARRAY, static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetTexture());*/
 
 			meshComponent->DrawUpdateMaterials(m_VoxelShader);
 		}
