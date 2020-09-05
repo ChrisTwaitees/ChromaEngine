@@ -50,8 +50,8 @@ namespace Chroma
 
 		// Upload texture buffer.
 		const int levels = 7;
-		glTexStorage3D(GL_TEXTURE_3D, levels, GL_RGBA8, m_TextureData->width, m_TextureData->height, m_TextureData->depth);
-		glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA8, m_TextureData->width, m_TextureData->height, m_TextureData->depth, 0, GL_RGBA, GL_FLOAT, &m_TextureBuffer);
+		glTexStorage3D(GL_TEXTURE_3D, levels, GL_RGBA16, m_TextureData->width, m_TextureData->height, m_TextureData->depth);
+		glTexImage3D(GL_TEXTURE_3D, 0, GL_RGBA16, m_TextureData->width, m_TextureData->height, m_TextureData->depth, 0, GL_RGBA, GL_FLOAT, &m_TextureBuffer);
 		if (generateMipMaps) glGenerateMipmap(GL_TEXTURE_3D);
 		glBindTexture(GL_TEXTURE_3D, 0);
 

@@ -595,6 +595,7 @@
     <None Include="resources\shaders\geomVoxelVisualization.glsl" />
     <None Include="resources\shaders\ui\icon\frgIcon.glsl" />
     <None Include="resources\shaders\ui\icon\vtxIcon.glsl" />
+    <None Include="resources\shaders\util\encodeData.glsl" />
     <None Include="resources\shaders\util\lightingDirectFuncsDeclaration.glsl" />
     <None Include="resources\shaders\util\lightingDirectFuncsImplementation.glsl" />
     <None Include="resources\shaders\util\PBRLightingFuncsDeclaration.glsl" />

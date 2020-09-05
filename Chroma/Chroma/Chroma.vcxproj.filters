@@ -1150,5 +1150,8 @@
     <None Include="resources\shaders\util\lightingDirectFuncsImplementation.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
+    <None Include="resources\shaders\util\encodeData.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
   </ItemGroup>
 </Project>

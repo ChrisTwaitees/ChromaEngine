@@ -212,7 +212,7 @@ namespace Chroma
 		glActiveTexture(GL_TEXTURE0);
 		m_Voxel3DTexture->Bind();
 		m_VoxelShader.SetUniform("texture3D", 0);
-		glBindImageTexture(0, m_Voxel3DTexture->GetID(), 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA8);
+		glBindImageTexture(0, m_Voxel3DTexture->GetID(), 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA16);
 
 		// Render Scene
 		m_VoxelShader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Render::GetShadowBuffer())->GetLightSpaceMatrix());

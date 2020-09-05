@@ -36,7 +36,7 @@ namespace Chroma
 		float m_VoxelGridWSSize{ 5.0f };
 		float m_VoxelGridSize{ 0.0390625f };
 		glm::vec3 m_VoxelGridCentroid{ 0.0f };
-		const unsigned int m_VoxelGridTextureSize{ 256 };
+		const unsigned int m_VoxelGridTextureSize{ 128 };
 		const unsigned int m_NumVoxels{ m_VoxelGridTextureSize * m_VoxelGridTextureSize * m_VoxelGridTextureSize };
 		void UpdateVoxelGridSize() { m_VoxelGridSize = m_VoxelGridWSSize / (float)m_VoxelGridTextureSize; }
 

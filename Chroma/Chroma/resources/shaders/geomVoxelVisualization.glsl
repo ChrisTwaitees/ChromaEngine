@@ -3,12 +3,14 @@
 layout(points) in;
 layout(triangle_strip, max_vertices = 24) out;
 
+// UNIFORMS
 // Voxel Uniforms
 uniform int voxelGridResolution;
 uniform vec3 voxelGridCentroid;
 uniform float voxelGridSize;
 
-// UNIFORMS
+// Encode
+#include "util/encodeData.glsl"
 
 in VS_OUT{
 	mat4 VPMatGeom;
@@ -18,6 +20,7 @@ in VS_OUT{
 
 out GS_OUT{
 	vec4 voxelColorFrag;
+	vec3 voxelNormalFrag;
 } gs_out;
 
 void createVertex(vec3 inPos)
@@ -55,10 +58,11 @@ void main()
 {
 
 	vec4 voxelColor = vs_in[0].voxelColorGeom;
-	if(voxelColor.a == 0.0)
+	if(voxelColor.rgb == vec3(0.0))
 		return;
 
 	gs_out.voxelColorFrag = vs_in[0].voxelColorGeom;
+	gs_out.voxelNormalFrag =  UnPackNormal(vs_in[0].voxelColorGeom.a);
 	
 	createVertex(vec3(-1.0, 1.0, 1.0));
 	createVertex(vec3(-1.0, -1.0, 1.0));

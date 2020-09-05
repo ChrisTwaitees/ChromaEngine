@@ -8,7 +8,7 @@ in GS_OUT{
 } gs_in;
 
 // UNIFORMS
-layout(RGBA8) uniform image3D texture3D;
+layout(RGBA16) uniform image3D texture3D;
 uniform sampler2DArray shadowmap;
 
 // Voxel Uniforms
@@ -27,7 +27,6 @@ uniform bool UseAlbedoMap;
 #include "util/uniformBufferCamera.glsl"
 // Lighting Functions
 #include "util/lightingDirectFuncsDeclaration.glsl"
-
 // MATERIALS
 #include "util/materialStruct.glsl"
 uniform Material material;
@@ -39,6 +38,8 @@ vec3 remap1101(vec3 p) { return p * vec3(0.5f, 0.5f, 0.5f) + vec3(0.5f); }
 // Check whether coordinate is in unit cube
 bool inVoxelGrid(const vec3 p, float e) { return abs(p.x) < 1 + e && abs(p.y) < 1 + e && abs(p.z) < 1 + e; }
 
+// Encode
+#include "util/encodeData.glsl"
 
 void main()
 {
@@ -87,13 +88,12 @@ void main()
 
 		// PREPARE OUTPUT
 		//------------------------------------------------------------------------
-		// if no direct lighting is detected, write 0.0 alpha
-		float alpha = radiance.rgb == vec3(0.0) ? 0.0 : 1.0;
-		//float alpha = 1.0;
+		// encode Normal into radiance alpha
+		float normalOut = PackNormal(Normal);
 
 		// OUTPUT TO 3D TEXTURE
 		//------------------------------------------------------------------------
-		vec4 writeData =  vec4(radiance.rgb, alpha);
+		vec4 writeData =  vec4(radiance.rgb, normalOut);
 		// Clip Space -> Voxel Grid Space
 		ivec3 writeCoord = ivec3(floor(voxelUVW * voxelGridResolution));
 		imageStore(texture3D, writeCoord, writeData);
