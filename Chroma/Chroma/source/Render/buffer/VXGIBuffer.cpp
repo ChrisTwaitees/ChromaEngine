@@ -214,9 +214,9 @@ namespace Chroma
 			m_VoxelShader.SetUniform("model", meshComponent->GetWorldTransform());
 
 			// Shadowmap
-			/*glActiveTexture(GL_TEXTURE0 + meshComponent->GetMaterial().GetNumTextures() + 1);
+			glActiveTexture(GL_TEXTURE0 + meshComponent->GetMaterial().GetNumTextures() + 1);
 			m_VoxelShader.SetUniform("shadowmap", meshComponent->GetMaterial().GetNumTextures() + 1);
-			glBindTexture(GL_TEXTURE_2D_ARRAY, static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetTexture());*/
+			glBindTexture(GL_TEXTURE_2D_ARRAY, static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetTexture());
 
 			meshComponent->DrawUpdateMaterials(m_VoxelShader);
 		}

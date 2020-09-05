@@ -19,7 +19,6 @@ float ShadowCascadeCalculation(vec4 FragPosLightSpace, sampler2DArray shadowmap,
     float closestDepth = texture(shadowmap, vec3(projCoords.xy, shadowMapIndex)).r; 
     // get depth of current fragment from light's perspective
     float currentDepth = projCoords.z;
-
     // calculate bias (based on depth map resolution and slope)
     float bias = max(0.03 * (1.0 - dot(normal, lightDir)), 0.003);
     // check whether current frag pos is in shadow
@@ -32,7 +31,7 @@ float ShadowCascadeCalculation(vec4 FragPosLightSpace, sampler2DArray shadowmap,
         {
             vec2 uvSample = projCoords.xy + vec2(x, y) * texelSize.xy;
             float pcfDepth = texture(shadowmap, vec3(uvSample, shadowMapIndex)).r; 
-            //shadow += currentDepth - 0.00001 > pcfDepth  ? 1.0 : 0.0;        
+            shadow += currentDepth - 0.00001 > pcfDepth ? 1.0 : 0.0;            
         }    
     }
     shadow /= 9.0;
@@ -40,7 +39,7 @@ float ShadowCascadeCalculation(vec4 FragPosLightSpace, sampler2DArray shadowmap,
     if(projCoords.z > 1.0)
         shadow = 0.0;
         
-    return 0.0;
+    return shadow;
 }
 
 // ----------------------------------------------------------------------------
@@ -52,8 +51,7 @@ vec4 CalcDirLight(DirectionLight light, vec3 normal, vec3 viewDir, vec3 albedo, 
 	// calculate radiance 
 	vec3 radiance = vec3(max(dot(L, normal), 0.0)) * light.diffuse * vec3(light.intensity);
 	// shadows
-	//float shadow = ShadowCascadeCalculation(FragPosLightSpace, shadowmap, 0, normal, L);
-    float shadow = 0.0;
+	float shadow = ShadowCascadeCalculation(FragPosLightSpace, shadowmap, 0, normal, L);
 	// return lighting
 	vec3 lighting = vec3(1.0 - shadow) * radiance * albedo;
     return vec4(lighting, 1.0);

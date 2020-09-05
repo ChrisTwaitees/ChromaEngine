@@ -69,10 +69,10 @@ void main()
 		vec4 radiance;
 
 		// Directional Lights
-//		for (uint i = 0 ; i < numDirectionalLights ; i++)
-//		{
-//			radiance += CalcDirLight( UBO_DirLights[i], Normal, viewDir, Albedo, gs_in.posLightSpaceFrag, shadowmap);
-//		}
+		for (uint i = 0 ; i < numDirectionalLights ; i++)
+		{
+			radiance += CalcDirLight( UBO_DirLights[i], Normal, viewDir, Albedo, gs_in.posLightSpaceFrag, shadowmap);
+		}
 		// Point Lights
 		for (uint i = 0 ; i < numPointLights ; ++i)
 		{
