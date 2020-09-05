@@ -14,13 +14,14 @@ in VS_OUT{
 	vec3 worldPositionGeom;
 	vec3 normalGeom;
 	vec2 texCoordsGeom;
+	vec4 posLightSpaceGeom;
 } vs_in[];
 
 out GS_OUT{
-//	vec4 voxelPositionFrag;
 	vec3 worldPositionFrag;
 	vec3 normalFrag;
 	vec2 texCoordsFrag;
+	vec4 posLightSpaceFrag;
 } gs_out;
 
 // Declare Vec3 array to write to
@@ -68,7 +69,8 @@ void main()
 		gs_out.normalFrag        = vs_in[j].normalGeom;
 		gs_out.texCoordsFrag     = vs_in[j].texCoordsGeom;
 		gs_out.worldPositionFrag = vs_in[j].worldPositionGeom;
-
+		gs_out.posLightSpaceFrag = vs_in[j].posLightSpaceGeom;
+		
 		// emit vert
 		gl_Position = voxelPoints[j];
 		EmitVertex();

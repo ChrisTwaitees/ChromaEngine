@@ -170,7 +170,7 @@ namespace Chroma
 	{
 		shader.SetUniform("voxelGridResolution", m_Voxel3DTexture->GetTextureData()->depth);
 		m_VoxelGridCentroid.x = glm::sin(GAMETIME)* 10.0;
-		m_VoxelGridCentroid.y = glm::sin(GAMETIME) * 10.0;
+		//m_VoxelGridCentroid.y = glm::sin(GAMETIME) * 10.0;
 		//m_VoxelGridCentroid.y = (float)m_VoxelGridTextureSize  * m_VoxelGridSize;
 		shader.SetUniform("voxelGridCentroid", m_VoxelGridCentroid);
 		shader.SetUniform("voxelGridSize", m_VoxelGridSize);

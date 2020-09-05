@@ -15,7 +15,7 @@ float CalculateAttenuation(PointLight light, vec3 WorldPos)
 // SHADOWS
 float ShadowCascadeCalculation(vec4 FragPosLightSpace, sampler2DArray shadowmap, int shadowMapIndex, vec3 normal, vec3 lightDir)
 {
-    // perform perspective divnride
+    // perform perspective divide
     vec3 projCoords = FragPosLightSpace.xyz / FragPosLightSpace.w;
     // transform to [0,1] range
     projCoords = projCoords * 0.5 + 0.5;
@@ -185,6 +185,25 @@ vec4 CalcPointLight(PointLight light, vec3 normal, vec3 viewDir, vec3 FragPos, v
 //	float shadow = ShadowCascadeCalculation(FragPosLightSpace, shadowmap, 0, normal, L);
 	// return 
 	return vec4(lighting);
+}
+// ----------------------------------------------------------------------------
+// SPOT LIGHT
+vec4 CalcSpotLight(SpotLight light, vec3 normal, vec3 viewDir, vec3 FragPos, vec3 albedo, float roughness, float metalness, vec4 FragPosLightSpace, sampler2DArray shadowmap)
+{
+//	// light direction
+//	vec3 L = normalize(light.position - FragPos);
+//	// normalize viewDir and light direction
+//	vec3 H = normalize(viewDir + L);
+//	// calculate attenuation
+//	float attenuation = CalculateAttenuation(light, FragPos);
+//	// calculate radiance 
+//	vec3 radiance = light.diffuse * light.intensity * attenuation;
+//	// calculate PBR diffuse and specular components
+//	vec4 lighting = PBRLighting(radiance, normal, H, viewDir, L, albedo, metalness, roughness);
+//	// shadows
+//	float shadow = ShadowCascadeCalculation(FragPosLightSpace, shadowmap, 0, normal, L);
+	// return 
+	return vec4(0.0);
 }
 // ----------------------------------------------------------------------------
 // FresnelSchlickRougness

@@ -1144,5 +1144,11 @@
     <None Include="resources\shaders\geomVoxelVisualization.glsl">
       <Filter>Resources\shaders\voxelization\visualization</Filter>
     </None>
+    <None Include="resources\shaders\util\lightingDirectFuncsDeclaration.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\lightingDirectFuncsImplementation.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
   </ItemGroup>
 </Project>

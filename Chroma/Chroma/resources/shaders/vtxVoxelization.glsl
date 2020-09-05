@@ -12,6 +12,7 @@ out VS_OUT{
 	out vec3 worldPositionGeom;
 	out vec3 normalGeom;
 	out vec2 texCoordsGeom;
+	out vec4 posLightSpaceGeom;
 } vs_out;
 
 // CONSTS
@@ -20,6 +21,7 @@ const int MAX_JOINTS = #MAX_JOINTS;
 // UNIFORMS
 #include "util/uniformBufferCamera.glsl"
 uniform mat4 model;
+uniform mat4 lightSpaceMatrix;
 // skinning
 uniform bool isSkinned;
 uniform mat4 aJoints[MAX_JOINTS];
@@ -48,5 +50,6 @@ void main()
 	}
 
 	vs_out.texCoordsGeom = aTexCoords;
+	vs_out.posLightSpaceGeom = lightSpaceMatrix * vec4(vs_out.worldPositionGeom,1.0);
     gl_Position = projection * view * model * LocalPosition;
 }

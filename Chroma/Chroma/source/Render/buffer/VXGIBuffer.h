@@ -26,7 +26,7 @@ namespace Chroma
 	private:
 		const float m_VoxelGridSize{0.05f };
 		glm::vec3 m_VoxelGridCentroid{ 0.0f };
-		const unsigned int m_VoxelGridTextureSize{ 128 };
+		const const unsigned int m_VoxelGridTextureSize{ 128 };
 		const unsigned int m_NumVoxels{ m_VoxelGridTextureSize * m_VoxelGridTextureSize * m_VoxelGridTextureSize };
 		Texture3D* m_Voxel3DTexture;
 		Shader m_VoxelShader{ "resources/shaders/fragVoxelization.glsl" , "resources/shaders/vtxVoxelization.glsl", "resources/shaders/geomVoxelization.glsl" };

@@ -78,4 +78,5 @@ void main()
 		BrightColor = vec4(0.0, 0.0, 0.0, 1.0);
 }  
 
+// Function Implementations
 #include "util/PBRLightingFuncsImplementation.glsl"

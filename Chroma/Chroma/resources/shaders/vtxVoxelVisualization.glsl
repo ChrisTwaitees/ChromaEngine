@@ -1,5 +1,4 @@
 #version 450 core
-
 layout(location = 0) in vec3 aPos;
 
 // Camera UBO
@@ -14,9 +13,9 @@ uniform float voxelGridSize;
 
 // Out
 out VS_OUT{
-	out mat4 VPMat;
+	out mat4 VPMatGeom;
 	out vec4 voxelColorGeom;
-	out float boxSize;
+	out float boxSizeGeom;
 } vs_out;
 
 // Map index to resolution * resolution * resolution 
@@ -36,7 +35,7 @@ void main(){
 	ivec3 voxelSampleUVW = unflatten3D(gl_VertexID, voxelGridResolution);
 	vs_out.voxelColorGeom = texelFetch(voxelTexture, voxelSampleUVW, 0);
 	
-	vs_out.VPMat = projection * view;
-	vs_out.boxSize =  1.0/voxelGridResolution * 1 / voxelGridSize * 0.5;//(1 / pow(voxelGridSize,3)) * voxelGridSize*10000;
+	vs_out.VPMatGeom = projection * view;
+	vs_out.boxSizeGeom =  1.0 / voxelGridSize / voxelGridResolution * 0.3;//(1 / pow(voxelGridSize,3)) * voxelGridSize*10000;
 	gl_Position =  vec4(voxelSampleUVW, 1.0);  
 }

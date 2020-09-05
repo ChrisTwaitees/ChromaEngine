@@ -11,9 +11,9 @@ uniform float voxelGridSize;
 // UNIFORMS
 
 in VS_OUT{
-	mat4 VPMat;
+	mat4 VPMatGeom;
 	vec4 voxelColorGeom;
-	float boxSize;
+	float boxSizeGeom;
 } vs_in[];
 
 out GS_OUT{
@@ -23,9 +23,6 @@ out GS_OUT{
 void createVertex(vec3 inPos)
 {
 	vec4 worldPos = gl_in[0].gl_Position;
-//	worldPos.x -= voxelGridResolution * voxelGridSize * 0.5; 
-//	worldPos.z -= voxelGridResolution * voxelGridSize * 0.5; 
-//	worldPos *= (1.0 / voxelGridSize);
 	
 	// Shifting grid to world center and doubling
 	worldPos.xyz = (worldPos.xyz - vec3(voxelGridResolution) * vec3(0.5)) * 2.0; 	
@@ -45,10 +42,10 @@ void createVertex(vec3 inPos)
 	worldPos.xyz += voxelGridCentroid;
 
 	// Create Cube
-	worldPos.xyz += inPos * vs_in[0].boxSize;
+	worldPos.xyz += inPos * vs_in[0].boxSizeGeom;
 
 	// VPMat
-	gl_Position = vs_in[0].VPMat * worldPos;
+	gl_Position = vs_in[0].VPMatGeom * worldPos;
 	
 	EmitVertex();
 }
@@ -58,7 +55,7 @@ void main()
 {
 
 	vec4 voxelColor = vs_in[0].voxelColorGeom;
-	if(voxelColor.rgb == vec3(0.0))
+	if(voxelColor.a == 0.0)
 		return;
 
 	gs_out.voxelColorFrag = vs_in[0].voxelColorGeom;
