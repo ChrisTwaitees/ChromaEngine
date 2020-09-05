@@ -87,7 +87,7 @@ namespace Chroma
 		AddUICall(Draw3DViewportTab);
 		UpdateTransformGizmo();
 		if(m_DrawViewportGrid)
-			Chroma::Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
+			Render::GetDebugBuffer()->DrawGrid(50, glm::vec3(0.5));
 		// content browser
 		AddUICall(DrawContentBrowser);
 		// world outliner

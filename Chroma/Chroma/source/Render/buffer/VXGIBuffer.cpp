@@ -3,6 +3,7 @@
 #include "core/Application.h"
 #include "render/Render.h"
 #include "shadow/ShadowBuffer.h"
+#include "buffer/DebugBuffer.h"
 
 
 namespace Chroma
@@ -117,6 +118,8 @@ namespace Chroma
 		// Set up GL Points for Voxel Visualization
 		SetupVoxelVisualizationVAO();
 
+		// Update Voxel Grid 
+		UpdateVoxelGridSize();
 	}
 
 	void VXGIBuffer::SetupVoxelVisualizationVAO()
@@ -138,6 +141,9 @@ namespace Chroma
 		// vertex positions
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(glm::vec3), (void*)0);
+
+		// clear vector
+		voxelVerts.clear();
 	}
 
 	void VXGIBuffer::DrawVoxelVisualization()
@@ -171,9 +177,14 @@ namespace Chroma
 		shader.SetUniform("voxelGridResolution", m_Voxel3DTexture->GetTextureData()->depth);
 		m_VoxelGridCentroid.x = glm::sin(GAMETIME)* 10.0;
 		//m_VoxelGridCentroid.y = glm::sin(GAMETIME) * 10.0;
-		//m_VoxelGridCentroid.y = (float)m_VoxelGridTextureSize  * m_VoxelGridSize;
 		shader.SetUniform("voxelGridCentroid", m_VoxelGridCentroid);
 		shader.SetUniform("voxelGridSize", m_VoxelGridSize);
+	}
+
+	std::pair<glm::vec3, glm::vec3> VXGIBuffer::GetVoxelGridHalfExtents()
+	{
+		glm::vec3 extents((float)m_VoxelGridTextureSize / (1.0f / m_VoxelGridSize));
+		return  std::make_pair<glm::vec3, glm::vec3>(m_VoxelGridCentroid - extents, m_VoxelGridCentroid + extents);
 	}
 
 	void VXGIBuffer::Voxelize()
@@ -221,8 +232,9 @@ namespace Chroma
 			meshComponent->DrawUpdateMaterials(m_VoxelShader);
 		}
 
+		//  !!! SLOW !!!
 		// Regenerate Voxel3DTexture MipMaps
-		glGenerateMipmap(GL_TEXTURE_3D);
+		//glGenerateMipmap(GL_TEXTURE_3D);
 
 		// Color Mask
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);

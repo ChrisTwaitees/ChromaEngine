@@ -88,6 +88,13 @@ namespace Chroma
 	void Render::RenderDebug()
 	{
 		CHROMA_PROFILE_FUNCTION();
+#if 1 // VXGI temp
+		// Debug size of Voxel Cube
+		std::pair<glm::vec3, glm::vec3> extents = static_cast<VXGIBuffer*>(m_VXGIBuffer)->GetVoxelGridHalfExtents();
+		Render::GetDebugBuffer()->DrawOverlayBox(extents.first, extents.second, glm::vec3(1.0, 0.0, 0.0));
+#endif
+
+
 		// DEBUG BUFFER
 		m_DebugBuffer->Draw();
 	}
@@ -108,7 +115,14 @@ namespace Chroma
 		{
 			// VXGI
 			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Draw(EditorUI::m_VXGIVisualization);
-			m_EditorViewportBuffer->CopyColor(m_VXGIBuffer->GetFBO(), m_EditorViewportBuffer->GetFBO());
+			if (EditorUI::m_VXGIVisualization)
+				m_EditorViewportBuffer->CopyColor(m_VXGIBuffer->GetFBO(), m_EditorViewportBuffer->GetFBO());
+			else
+			{
+				m_EditorViewportBuffer->Bind();
+				// POSTFX 
+				static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
+			}
 		}
 		else
 		{

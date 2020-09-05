@@ -17,20 +17,28 @@ namespace Chroma
 		virtual void Draw() override;
 		void Draw(const bool& visualizeVoxelization);
 
+		void SetVoxelGridWSSize(const float& newSize) { m_VoxelGridWSSize = newSize;  UpdateVoxelGridSize(); }
+		void SetVoxelGridCenter(const glm::vec3& newCenter) { m_VoxelGridCentroid = newCenter; };
+		std::pair<glm::vec3, glm::vec3> GetVoxelGridHalfExtents();
+
 		void Voxelize();
+
 	private:
 		virtual void GenTexture() override;
 		virtual void ResizeBuffers() override;
 		virtual void Init() override;
-		
-	private:
-		const float m_VoxelGridSize{0.05f };
-		glm::vec3 m_VoxelGridCentroid{ 0.0f };
-		const const unsigned int m_VoxelGridTextureSize{ 128 };
-		const unsigned int m_NumVoxels{ m_VoxelGridTextureSize * m_VoxelGridTextureSize * m_VoxelGridTextureSize };
+
 		Texture3D* m_Voxel3DTexture;
 		Shader m_VoxelShader{ "resources/shaders/fragVoxelization.glsl" , "resources/shaders/vtxVoxelization.glsl", "resources/shaders/geomVoxelization.glsl" };
 		void SetupVoxelVisualizationVAO();
+
+	private:
+		float m_VoxelGridWSSize{ 5.0f };
+		float m_VoxelGridSize{ 0.0390625f };
+		glm::vec3 m_VoxelGridCentroid{ 0.0f };
+		const unsigned int m_VoxelGridTextureSize{ 256 };
+		const unsigned int m_NumVoxels{ m_VoxelGridTextureSize * m_VoxelGridTextureSize * m_VoxelGridTextureSize };
+		void UpdateVoxelGridSize() { m_VoxelGridSize = m_VoxelGridWSSize / (float)m_VoxelGridTextureSize; }
 
 	private:
 		Shader m_VoxelVisualizationShader{ "resources/shaders/fragVoxelVisualization.glsl" , "resources/shaders/vtxVoxelVisualization.glsl", "resources/shaders/geomVoxelVisualization.glsl" };

@@ -36,6 +36,6 @@ void main(){
 	vs_out.voxelColorGeom = texelFetch(voxelTexture, voxelSampleUVW, 0);
 	
 	vs_out.VPMatGeom = projection * view;
-	vs_out.boxSizeGeom =  1.0 / voxelGridSize / voxelGridResolution * 0.3;//(1 / pow(voxelGridSize,3)) * voxelGridSize*10000;
+	vs_out.boxSizeGeom =  (float(voxelGridResolution) * voxelGridSize) / float(voxelGridResolution);//(1 / pow(voxelGridSize,3)) * voxelGridSize*10000;
 	gl_Position =  vec4(voxelSampleUVW, 1.0);  
 }
