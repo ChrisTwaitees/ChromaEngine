@@ -24,7 +24,7 @@ namespace Chroma
 		virtual void Init() override;
 		
 	private:
-		const float m_VoxelGridSize{ 0.1f };
+		const float m_VoxelGridSize{0.05f };
 		glm::vec3 m_VoxelGridCentroid{ 0.0f };
 		const unsigned int m_VoxelGridTextureSize{ 128 };
 		const unsigned int m_NumVoxels{ m_VoxelGridTextureSize * m_VoxelGridTextureSize * m_VoxelGridTextureSize };

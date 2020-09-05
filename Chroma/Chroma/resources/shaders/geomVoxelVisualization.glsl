@@ -26,9 +26,12 @@ void createVertex(vec3 inPos)
 //	worldPos.x -= voxelGridResolution * voxelGridSize * 0.5; 
 //	worldPos.z -= voxelGridResolution * voxelGridSize * 0.5; 
 //	worldPos *= (1.0 / voxelGridSize);
+	
+	// Shifting grid to world center and doubling
+	worldPos.xyz = (worldPos.xyz - vec3(voxelGridResolution) * vec3(0.5)) * 2.0; 	
 
 	// Remap Voxel Grid Space -> World Space
-	// 1. Voxel Grid Space -> Clip Space
+	//1. Voxel Grid Space -> Clip Space
 	worldPos.xyz /= vec3(voxelGridResolution);
 	// 2. Clip Space (0:1) -> Clip Space (-1:1)
 	worldPos.xyz *= vec3(2.0f) - vec3(1.0f);
@@ -39,9 +42,9 @@ void createVertex(vec3 inPos)
 	worldPos.xyz *= voxelGridResolution * voxelGridSize / voxelGridResolution;
 	
 	// Move to voxel centroid
-//	worldPos.xyz += voxelGridCentroid;
+	worldPos.xyz += voxelGridCentroid;
 
-	// Add Cube
+	// Create Cube
 	worldPos.xyz += inPos * vs_in[0].boxSize;
 
 	// VPMat

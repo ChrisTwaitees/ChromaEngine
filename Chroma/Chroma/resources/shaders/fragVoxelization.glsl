@@ -31,7 +31,7 @@ uniform Material material;
 uniform vec3 color;
 
 vec3 remap1101(vec3 p) { return p * vec3(0.5f, 0.5f, 0.5f) + vec3(0.5f); }
-bool isInsideCube(const vec3 p, float e) { return abs(p.x) < 1 + e && abs(p.y) < 1 + e && abs(p.z) < 1 + e; }
+bool inVoxelGrid(const vec3 p, float e) { return abs(p.x) < 1 + e && abs(p.y) < 1 + e && abs(p.z) < 1 + e; }
 
 
 void main()
@@ -43,7 +43,7 @@ void main()
 	// Voxel Grid Space -> Clip Space (-1 : 1) -> Clip Space (0 : 1) 
 	voxelUVW = remap1101(voxelUVW);
 	// Check within 3D Texture bounds
-	if(!isInsideCube(voxelUVW, 0.0))
+	if(!inVoxelGrid(voxelUVW, 0.0))
 		return;
 	// --------------------------------------
 
