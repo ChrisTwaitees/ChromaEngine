@@ -4,6 +4,7 @@
 #include "render/Render.h"
 #include "shadow/ShadowBuffer.h"
 #include "buffer/DebugBuffer.h"
+#include "editor/ui/EditorUI.h"
 
 
 namespace Chroma
@@ -29,20 +30,24 @@ namespace Chroma
 		//Bind();
 
 		// Draw the Framebuffer
-		m_ScreenShader->Use();
-		m_ScreenShader->SetUniform("screenTexture", 0);
-		// using color attachment
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
-		// setting transform uniforms
-		SetTransformUniforms();
-		RenderQuad();
+		//m_ScreenShader->Use();
+		//m_ScreenShader->SetUniform("screenTexture", 0);
+		//// using color attachment
+		//glActiveTexture(GL_TEXTURE0);
+		//glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
+		//// setting transform uniforms
+		//SetTransformUniforms();
+		//RenderQuad();
 	}
 
 	void VXGIBuffer::Draw(const bool& visualizeVoxelization)
 	{
-		// Voxelize the scene
-		Voxelize();
+
+		if (EditorUI::m_VXGI && m_VoxelGridMovedThisFrame)
+		{
+			Voxelize();
+		}
+
 
 		// Visualization
 		if (visualizeVoxelization)
@@ -51,17 +56,11 @@ namespace Chroma
 		}
 		else
 		{
-			//Bind();
-			// Draw the Framebuffer
-			//m_ScreenShader->Use();
-			//m_ScreenShader->SetUniform("screenTexture", 0);
-			//// using color attachment
-			//glActiveTexture(GL_TEXTURE0);
-			//glBindTexture(GL_TEXTURE_2D, m_FBOTexture);
-			//// setting transform uniforms
-			//SetTransformUniforms();
-			//RenderQuad();
+			Bind();
 
+			ConeTraceScene();
+
+			RenderQuad();
 		}
 
 	}
@@ -160,6 +159,7 @@ namespace Chroma
 		// Set voxel shader uniforms
 		UpdateVoxelShaderUniforms(m_VoxelVisualizationShader);
 
+		// Bind voxel grid
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_3D, m_Voxel3DTexture->GetID());
 		m_VoxelVisualizationShader.SetUniform("voxelTexture", 0);
@@ -172,13 +172,47 @@ namespace Chroma
 		Draw();
 	}
 
+	void VXGIBuffer::ConeTraceScene()
+	{
+		// Draw Screen Quad
+		m_VoxelConeTracing.Use();
+
+		// Set ScreenQuad transforms
+		m_VoxelConeTracing.SetUniform("scale", m_Scale);
+		m_VoxelConeTracing.SetUniform("offset", m_Offset);
+
+		// Set uniforms
+		// Grid Uniforms
+		UpdateVoxelShaderUniforms(m_VoxelConeTracing);
+		// Voxel Cone Tracing Uniforms
+		m_VoxelConeTracing.SetUniform("u_VoxelRayMaxDistance", 20.0f);
+		m_VoxelConeTracing.SetUniform("u_VoxelRayStepSize", 0.75f);
+		m_VoxelConeTracing.SetUniform("u_VoxelNumCones", 16);
+
+		// Bind WS Positions and Normals and MetRoughAO
+		m_VoxelConeTracing.SetUniform("u_PositionsWS", 0);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, Render::GetWSPositions());
+
+		m_VoxelConeTracing.SetUniform("u_NormalsWS", 1);
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, Render::GetWSNormals());
+
+		m_VoxelConeTracing.SetUniform("u_MetRoughAO", 2);
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, Render::GetMetRoughAO());
+
+		// Bind voxel grid
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_3D, m_Voxel3DTexture->GetID());
+		m_VoxelConeTracing.SetUniform("u_VoxelTexture", 3);
+	}
+
 	void VXGIBuffer::UpdateVoxelShaderUniforms(Shader& shader)
 	{
-		shader.SetUniform("voxelGridResolution", m_Voxel3DTexture->GetTextureData()->depth);
-		m_VoxelGridCentroid.x = glm::sin(GAMETIME)* 10.0;
-		//m_VoxelGridCentroid.y = glm::sin(GAMETIME) * 10.0;
-		shader.SetUniform("voxelGridCentroid", m_VoxelGridCentroid);
-		shader.SetUniform("voxelGridSize", m_VoxelGridSize);
+		shader.SetUniform("u_VoxelGridResolution", m_Voxel3DTexture->GetTextureData()->depth);
+		shader.SetUniform("u_VoxelGridSize", m_VoxelGridSize);
+		shader.SetUniform("u_VoxelGridCentroid", m_VoxelGridCentroid);
 	}
 
 	std::pair<glm::vec3, glm::vec3> VXGIBuffer::GetVoxelGridHalfExtents()
@@ -207,11 +241,20 @@ namespace Chroma
 		glDisable(GL_CULL_FACE);
 		glDisable(GL_DEPTH_TEST);
 		glDisable(GL_BLEND);
+		// Nvidia Extension to try and extend rasterization borders and capture thin
+		// meshes at grazing angles
+		if (GL_CONSERVATIVE_RASTERIZATION_NV)
+		{
+			CHROMA_INFO("Conservative Rasterization Supported!");
+			glEnable(GL_CONSERVATIVE_RASTERIZATION_NV);
+			glSubpixelPrecisionBiasNV(0,0);
+		}
+
 
 		// Texture
 		glActiveTexture(GL_TEXTURE0);
 		m_Voxel3DTexture->Bind();
-		m_VoxelShader.SetUniform("texture3D", 0);
+		m_VoxelShader.SetUniform("u_VoxelTexture", 0);
 		glBindImageTexture(0, m_Voxel3DTexture->GetID(), 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA16);
 
 		// Render Scene
@@ -234,15 +277,37 @@ namespace Chroma
 
 		//  !!! SLOW !!!
 		// Regenerate Voxel3DTexture MipMaps
-		//glGenerateMipmap(GL_TEXTURE_3D);
+		glGenerateMipmap(GL_TEXTURE_3D);
 
-		// Color Mask
+		// Reset RenderState
 		glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
 		glEnable(GL_CULL_FACE);
 		glEnable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
+		if (GL_CONSERVATIVE_RASTERIZATION_NV)
+		{
+			glDisable(GL_CONSERVATIVE_RASTERIZATION_NV);
+		}
 
 		// Reset Viewport
 		glViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
+
+
+	}
+
+	bool VXGIBuffer::OnCameraMoved(CameraMovedEvent& e)
+	{
+		// Calculate camera frustum center
+		Camera* renderCam = Scene::GetRenderCamera();
+		//glm::vec3 nearGrid = renderCam->GetPosition() + (renderCam->GetDirection() * glm::vec3(renderCam->GetNearDist() * 3.0));
+		glm::vec3 farGrid = renderCam->GetPosition() + (renderCam->GetDirection() * glm::vec3(m_VoxelGridWSSize*2.0f));
+
+		// Update Grid Centroid
+		m_VoxelGridMovedThisFrame = glm::distance2(farGrid, m_VoxelGridCentroid) > 0.0f;
+
+		m_VoxelGridCentroid = farGrid;
+
+		//CHROMA_INFO(e.GetPosition().x);
+		return true;
 	}
 }

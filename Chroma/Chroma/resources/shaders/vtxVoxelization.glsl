@@ -1,5 +1,3 @@
-// Implementation inspired by Fredrik Präntare
-// https://github.com/Friduric/voxel-cone-tracing
 #version 450 core
 
 layout (location = 0 ) in vec3 aPos;

@@ -8,13 +8,12 @@ in GS_OUT{
 } gs_in;
 
 // UNIFORMS
-layout(RGBA16) uniform image3D texture3D;
+layout(RGBA16) uniform image3D voxelTexture;
 uniform sampler2DArray shadowmap;
 
-// Voxel Uniforms
-uniform int voxelGridResolution;
-uniform vec3 voxelGridCentroid;
-uniform float voxelGridSize;
+// VOXELS
+#include "util/voxelUniforms.glsl"
+#include "util/voxelFuncs.glsl"
 
 // UNIFORMS
 // Texture Checks
@@ -33,21 +32,14 @@ uniform Material material;
 // Material overrides if no maps provided
 uniform vec3 color;
 
-// Remap from -1 : 1 to 0 : 1
-vec3 remap1101(vec3 p) { return p * vec3(0.5f, 0.5f, 0.5f) + vec3(0.5f); }
-// Check whether coordinate is in unit cube
-bool inVoxelGrid(const vec3 p, float e) { return abs(p.x) < 1 + e && abs(p.y) < 1 + e && abs(p.z) < 1 + e; }
-
-// Encode
-#include "util/encodeData.glsl"
 
 void main()
 {
 	// REMAP VOXEL COORDS
 	// --------------------------------------
 	// World Position -> Voxel Grid Space
-	vec3 voxelUVW = (gs_in.worldPositionFrag - voxelGridCentroid) * (1.0 / voxelGridResolution) * (1.0 / voxelGridSize) ;
-	// Voxel Grid Space -> Clip Space (-1 : 1) -> Clip Space (0 : 1) 
+	vec3 voxelUVW = (gs_in.worldPositionFrag - u_VoxelGridCentroid) * (1.0 / u_VoxelGridResolution) * (1.0 / u_VoxelGridSize) ;
+	// Voxel Grid Space -> Clip Space (-1 : 1) -> Texture Space (0 : 1) 
 	voxelUVW = remap1101(voxelUVW);
 
 	// Check within 3D Texture bounds
@@ -89,14 +81,16 @@ void main()
 		// PREPARE OUTPUT
 		//------------------------------------------------------------------------
 		// encode Normal into radiance alpha
-		float normalOut = PackNormal(Normal);
+		//float normalOut = PackNormal(Normal);
+		// TEMP IMPLEMENTATION : Packing HDR Color and Normals in the future
+		float alpha = radiance.rgb == vec3(0.0f) ? 0.0 : 1.0;
 
 		// OUTPUT TO 3D TEXTURE
 		//------------------------------------------------------------------------
-		vec4 writeData =  vec4(radiance.rgb, normalOut);
+		vec4 writeData =  vec4(radiance.rgb, alpha);
 		// Clip Space -> Voxel Grid Space
-		ivec3 writeCoord = ivec3(floor(voxelUVW * voxelGridResolution));
-		imageStore(texture3D, writeCoord, writeData);
+		ivec3 writeCoord = ivec3(floor(voxelUVW * u_VoxelGridResolution));
+		imageStore(voxelTexture, writeCoord, writeData);
 	}
 	else
 		return;

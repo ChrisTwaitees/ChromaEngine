@@ -1132,13 +1132,7 @@
     <None Include="resources\shaders\fragVoxelVisualization.glsl">
       <Filter>Resources\shaders\voxelization\visualization</Filter>
     </None>
-    <None Include="resources\shaders\fragWorldPosition.glsl">
-      <Filter>Resources\shaders\voxelization\visualization</Filter>
-    </None>
     <None Include="resources\shaders\vtxVoxelVisualization.glsl">
-      <Filter>Resources\shaders\voxelization\visualization</Filter>
-    </None>
-    <None Include="resources\shaders\vtxWorldPosition.glsl">
       <Filter>Resources\shaders\voxelization\visualization</Filter>
     </None>
     <None Include="resources\shaders\geomVoxelVisualization.glsl">
@@ -1151,6 +1145,15 @@
       <Filter>Resources\shaders\util</Filter>
     </None>
     <None Include="resources\shaders\util\encodeData.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\voxelConeTracing.glsl">
+      <Filter>Resources\shaders\voxelization</Filter>
+    </None>
+    <None Include="resources\shaders\util\voxelFuncs.glsl">
+      <Filter>Resources\shaders\util</Filter>
+    </None>
+    <None Include="resources\shaders\util\voxelUniforms.glsl">
       <Filter>Resources\shaders\util</Filter>
     </None>
   </ItemGroup>

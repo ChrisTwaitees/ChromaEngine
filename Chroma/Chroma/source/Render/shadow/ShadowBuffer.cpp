@@ -78,13 +78,13 @@ namespace Chroma
 
 			frustumCenter /= 8.0f;
 
-			GLfloat shadowFar = -INFINITY;
-			GLfloat shadowNear = INFINITY;
+			float shadowFar = -INFINITY;
+			float shadowNear = INFINITY;
 
-			GLfloat radius = 0.0f;
+			float radius = 0.0f;
 			for (unsigned int j = 0; j < 8; ++j)
 			{
-				GLfloat distance = glm::length(frustumCornersWS[j] - frustumCenter);
+				float distance = glm::length(frustumCornersWS[j] - frustumCenter);
 				radius = glm::max(radius, distance);
 			}
 			radius = std::ceil(radius * 16.0f) / 16.0f;

@@ -21,6 +21,7 @@ namespace Chroma
 		// INITIALIZE
 		static void Init();
 		static void RenderScene();
+		static void OnUpdate();
 
 		// events
 		static void OnEvent(Event& e);
@@ -101,9 +102,6 @@ namespace Chroma
 
 		// POST FX
 		static void RenderPostFX();
-
-		// GRAPHICS DEBUG RENDER
-		static void RenderGraphicsDebug();
 
 		// Deffered Buffer
 		static IFramebuffer* m_GBuffer;

@@ -91,6 +91,9 @@ namespace Chroma
 			// ENGINE TICK
 			Engine::OnUpdate();
 
+			// Render Update
+			Render::OnUpdate();
+
 			// EDITOR TICK
 #ifdef EDITOR
 			Editor::OnUpdate();

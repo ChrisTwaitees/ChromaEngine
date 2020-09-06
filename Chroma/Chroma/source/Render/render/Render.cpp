@@ -115,14 +115,7 @@ namespace Chroma
 		{
 			// VXGI
 			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Draw(EditorUI::m_VXGIVisualization);
-			if (EditorUI::m_VXGIVisualization)
-				m_EditorViewportBuffer->CopyColor(m_VXGIBuffer->GetFBO(), m_EditorViewportBuffer->GetFBO());
-			else
-			{
-				m_EditorViewportBuffer->Bind();
-				// POSTFX 
-				static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
-			}
+			m_EditorViewportBuffer->CopyColor(m_VXGIBuffer->GetFBO(), m_EditorViewportBuffer->GetFBO());
 		}
 		else
 		{
@@ -136,43 +129,6 @@ namespace Chroma
 		static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(true);
 #endif
 
-	}
-
-	void Render::RenderGraphicsDebug()
-	{
-
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		switch (Chroma::UI::m_GraphicsDebugSelected)
-		{
-		case (0):
-		{
-			// Albedo
-			m_GraphicsDebugBuffer->SetTexture(m_Albedo);
-			m_GraphicsDebugBuffer->Draw();
-			break;
-		}
-		case (1):
-		{
-			// Normals
-			m_GraphicsDebugBuffer->SetTexture(m_WSNormals);
-			m_GraphicsDebugBuffer->Draw();
-			break;
-		}
-		case (2):
-		{
-			// Met Rough AO 
-			m_GraphicsDebugBuffer->SetTexture(m_MetRoughAO);
-			m_GraphicsDebugBuffer->Draw();
-			break;
-		}
-		case (3):
-		{
-			// SSAO
-			m_GraphicsDebugBuffer->SetTexture(((GBuffer*)m_GBuffer)->GetSSAOTexture());
-			m_GraphicsDebugBuffer->Draw();
-			break;
-		}
-		}
 	}
 
 	void Render::GenerateUniformBufferObjects()
@@ -258,6 +214,11 @@ namespace Chroma
 		CleanUp();
 	}
 
+	void Render::OnUpdate()
+	{
+		static_cast<VXGIBuffer*>(m_VXGIBuffer)->m_VoxelGridMovedThisFrame = false;
+	}
+
 	void Render::OnEvent(Event& e)
 	{
 		// dispatch 
@@ -302,6 +263,8 @@ namespace Chroma
 
 		static_cast<ShadowBuffer*>(m_ShadowBuffer)->CalculateCascadeLightSpaceMatrices();
 		static_cast<ShadowBuffer*>(m_ShadowBuffer)->DrawShadowMaps();
+
+		static_cast<VXGIBuffer*>(m_VXGIBuffer)->OnCameraMoved(e);
 
 		return true;
 	}

@@ -602,6 +602,8 @@
     <None Include="resources\shaders\util\PBRLightingFuncsImplementation.glsl" />
     <None Include="resources\shaders\util\uniformBufferCamera.glsl" />
     <None Include="resources\shaders\util\uniformBufferLighting.glsl" />
+    <None Include="resources\shaders\util\voxelFuncs.glsl" />
+    <None Include="resources\shaders\util\voxelUniforms.glsl" />
     <None Include="resources\shaders\vertexCoordinatesDebug.glsl" />
     <None Include="resources\shaders\vertexCrossDebug.glsl" />
     <None Include="resources\shaders\vertexCubeMap.glsl" />
@@ -625,9 +627,8 @@
     <None Include="resources\shaders\vertexShaderLighting.glsl" />
     <None Include="resources\shaders\vertexSphereDebug.glsl" />
     <None Include="resources\shaders\fragVoxelVisualization.glsl" />
-    <None Include="resources\shaders\fragWorldPosition.glsl" />
+    <None Include="resources\shaders\voxelConeTracing.glsl" />
     <None Include="resources\shaders\vtxVoxelVisualization.glsl" />
-    <None Include="resources\shaders\vtxWorldPosition.glsl" />
     <None Include="resources\shaders\vtxVoxelization.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

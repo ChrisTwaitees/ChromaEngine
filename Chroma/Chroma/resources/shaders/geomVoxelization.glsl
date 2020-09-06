@@ -6,9 +6,8 @@ layout(triangle_strip, max_vertices = 3) out;
 // UNIFORMS
 #include "util/uniformBufferCamera.glsl"
 
-uniform int voxelGridResolution;
-uniform vec3 voxelGridCentroid;
-uniform float voxelGridSize;
+// VOXELS
+#include "util/voxelUniforms.glsl"
 
 in VS_OUT{
 	vec3 worldPositionGeom;
@@ -38,7 +37,7 @@ void main()
 	for(uint i = 0; i < 3 ; ++i)
 	{
 		// World Space -> Voxel Grid Space : 
-		voxelPoints[i].xyz = (vs_in[i].worldPositionGeom.xyz - voxelGridCentroid) * (1.0 / voxelGridSize);
+		voxelPoints[i].xyz = (vs_in[i].worldPositionGeom.xyz - u_VoxelGridCentroid) * (1.0 / u_VoxelGridSize);
 
 		// Project onto dominant axis
 		if(maxi == 0)
@@ -59,10 +58,11 @@ void main()
     voxelPoints[1].xy += normalize(side0N - side1N);
     voxelPoints[2].xy += normalize(side1N - side2N);
 
+
 	for(uint j = 0 ; j < 3; ++j)
 	{
 		// Voxel grid space -> Clip space
-		voxelPoints[j].xy *= vec2(1.0 / voxelGridResolution);
+		voxelPoints[j].xy *= vec2(1.0 / u_VoxelGridResolution);
 		voxelPoints[j].zw = vec2(1.0);
 
 		// Normal, UV, WorldPos
