@@ -4,6 +4,7 @@
 #include <input/Input.h>
 #include <core/Application.h>
 #include <editor/ui/EditorUI.h>
+#include "render/Render.h"
 
 namespace Chroma
 {
@@ -44,7 +45,7 @@ namespace Chroma
 			};
 			// transform NDC of frustrum to WS
 
-			glm::mat4 invViewProj = glm::inverse( Chroma::Scene::GetRenderCamera()->GetViewProjMatrix());
+			glm::mat4 invViewProj = glm::inverse( Scene::GetRenderCamera()->GetViewProjMatrix());
 			for (unsigned int j = 0; j < 8; ++j)
 			{
 				glm::vec4 inversePoint = invViewProj * glm::vec4(frustumCornersWS[j], 1.0f);
@@ -230,6 +231,14 @@ namespace Chroma
 		UnBind();
 
 		//// TEST
+
+		// Debug Cascade distances 
+		//glm::vec3 startPos = Scene::GetRenderCamera()->GetPosition() + (Scene::GetRenderCamera()->GetDirection() * Scene::GetRenderCamera()->GetNearDist() * glm::vec3(2.0));
+		//glm::vec3 endPos = Scene::GetRenderCamera()->GetPosition() + (Scene::GetRenderCamera()->GetDirection() * m_CascadeSplitDistances[0]);
+		//Render::GetDebugBuffer()->DrawOverlayLine(startPos, endPos, glm::vec3(0.0, 1.0, 0.0));
+		//Render::GetDebugBuffer()->DrawOverlayBox(startPos + glm::vec3(-0.05), startPos + glm::vec3(0.05), glm::vec3(0.0, 1.0, 0.0));
+		//Render::GetDebugBuffer()->DrawOverlayBox(endPos + glm::vec3(-0.1), endPos + glm::vec3(0.1), glm::vec3(1.0, 1.0, 0.0));
+
 		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		//// Reset back to Screen Resolution

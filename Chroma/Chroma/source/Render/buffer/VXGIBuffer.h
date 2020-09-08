@@ -34,7 +34,7 @@ namespace Chroma
 		virtual void Init() override;
 
 		Texture3D* m_Voxel3DTexture;
-		const unsigned int m_VoxelGridTextureSize{ 200 };
+		const unsigned int m_VoxelGridTextureSize{ 128 };
 		void SetupVoxelVisualizationVAO();
 
 	private: // voxelization

@@ -57,6 +57,7 @@ namespace Chroma
 
 		// Setup 
 		void Init();
+		friend class VXGIBuffer;
 
 	};
 }

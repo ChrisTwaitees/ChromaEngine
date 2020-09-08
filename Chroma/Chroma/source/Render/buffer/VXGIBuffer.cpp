@@ -297,8 +297,16 @@ namespace Chroma
 
 	bool VXGIBuffer::OnCameraMoved(CameraMovedEvent& e)
 	{
-		// Calculate camera frustum center
+		// Calculate Voxel Grid Centroid and Size based on Camera Frustum
+		// Collect Shadow Cascade BBox Data
+		for (const float& distance : static_cast<ShadowBuffer*>(Render::GetShadowBuffer())->m_CascadeSplitDistances)
+			CHROMA_INFO("Distance : {0}", distance);
+
 		Camera* renderCam = Scene::GetRenderCamera();
+		glm::vec3 startPos = renderCam->GetPosition() + (renderCam->GetDirection() * renderCam->GetNearDist());
+		glm::vec3 endPos = renderCam->GetPosition() + (renderCam->GetDirection() * static_cast<ShadowBuffer*>(Render::GetShadowBuffer())->m_CascadeSplitDistances[0]);
+
+		// Calculate camera frustum center
 		//glm::vec3 nearGrid = renderCam->GetPosition() + (renderCam->GetDirection() * glm::vec3(renderCam->GetNearDist() * 3.0));
 		glm::vec3 farGrid = renderCam->GetPosition() + (renderCam->GetDirection() * glm::vec3(m_VoxelGridWSSize*2.0f));
 

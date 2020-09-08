@@ -91,7 +91,7 @@ namespace Chroma
 #if 1 // VXGI temp
 		// Debug size of Voxel Cube
 		std::pair<glm::vec3, glm::vec3> extents = static_cast<VXGIBuffer*>(m_VXGIBuffer)->GetVoxelGridHalfExtents();
-		Render::GetDebugBuffer()->DrawOverlayBox(extents.first, extents.second, glm::vec3(1.0, 0.0, 0.0));
+		//Render::GetDebugBuffer()->DrawOverlayBox(extents.first, extents.second, glm::vec3(1.0, 0.0, 0.0));
 #endif
 
 
