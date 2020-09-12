@@ -14,6 +14,10 @@ PBR Shading : UE4 Implementation as described here : [UE4 PBR](https://cdn2.unre
 
 IBL HDR lighting.
 
+SSR
+
+VXGI (Experimental)
+
 Transparent Rendering and Sorting.
 
 Deffered and Forward Rendering Pipelines.
@@ -25,5 +29,3 @@ SSAO.
 Basic Bullet Physics Implementation.
 
 Skeletal Animation.
-
-
