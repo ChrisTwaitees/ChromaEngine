@@ -28,6 +28,9 @@ namespace Chroma
 		~GBuffer();
 
 	private:
+		// temp
+		unsigned int m_LightingFrameBuffer{0};
+
 		// shaders
 		const char* fragLightingPass{ "resources/shaders/fragGBufferLit.glsl" };
 		const char* vtxLightingSoure{ "resources/shaders/frameBufferVertex.glsl" };

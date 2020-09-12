@@ -56,7 +56,7 @@ vec4 ConeTrace(sampler3D voxels, vec3 P, vec3 N, vec3 coneDirection, float coneA
 	// We need to offset the cone start position to avoid sampling its own voxel (self-occlusion):
 	//	Unfortunately, it will result in disconnection between nearby surfaces :(
 	float dist = u_VoxelGridSize; // offset by cone dir so that first sample of all cones are not the same
-	vec3 startPos = P + N * u_VoxelGridSize * 2.0 * SQRT2; // sqrt2 is diagonal voxel half-extent
+	vec3 startPos = P + N * u_VoxelGridSize * 3.0 * SQRT2; // sqrt2 is diagonal voxel half-extent
 
 	// We will break off the loop if the sampling distance is too far for performance reasons:
 	while (dist < u_VoxelRayMaxDistance && alpha < 1.0f)
@@ -79,7 +79,6 @@ vec4 ConeTrace(sampler3D voxels, vec3 P, vec3 N, vec3 coneDirection, float coneA
 			break;
 
 		// sample voxel grid
-		//float4 sam = voxels.SampleLevel(sampler_linear_clamp, tc, mip);
 		vec4 sam = textureLod(voxels, tc, mip);
 
 		// this is the correct blending to avoid black-staircase artifact (ray stepped front-to back, so blend front to back):

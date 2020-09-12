@@ -15,6 +15,13 @@ namespace Chroma
 		void Draw(const bool& useBloom);
 		void Bind() override;
 
+		float m_BloomAmount{ 1.0f };
+		float m_IndirectContribution{ 1.0f };
+		float m_SSRContribution{ 1.0f };
+		float m_VXIrradiance_Contribution{ 1.0f };
+		float m_VXRradiance_Contribution{ 1.0f };
+		float m_Exposure{ 1.0f };
+		float m_Gamma{ 2.2f };
 
 		PostFXBuffer();
 		~PostFXBuffer();
@@ -40,9 +47,6 @@ namespace Chroma
 		bool horizontal = true, first_iteration = true;
 		int blurIterations{ 10 };
 		void blurFragments();
-
-		// HDR Attrs
-		float exposure{ 1.0f };
 
 		// Functions
 		void Init() override;

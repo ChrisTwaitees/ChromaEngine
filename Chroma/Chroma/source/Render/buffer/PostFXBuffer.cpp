@@ -1,6 +1,8 @@
 #include "PostFXBuffer.h"
 #include <render/Render.h>
 #include <buffer/SSRBuffer.h>
+#include <buffer/VXGIBuffer.h>
+#include <buffer/GBuffer.h>
 
 namespace Chroma
 {
@@ -60,11 +62,18 @@ namespace Chroma
 	{
 		blurShader->Use();
 		blurShader->SetUniform("image", 0);
-		m_ScreenShader->Use();
-		m_ScreenShader->SetUniform("scene", 0);
-		m_ScreenShader->SetUniform("bloomBlur", 1);
-		m_ScreenShader->SetUniform("ssr", 2);
 
+		m_ScreenShader->Use();
+		m_ScreenShader->SetUniform("u_Background", 0);
+		m_ScreenShader->SetUniform("u_BloomTx", 1);
+		m_ScreenShader->SetUniform("u_DirectLightingShadows", 2);
+		m_ScreenShader->SetUniform("u_IndirectLighting", 3);
+		m_ScreenShader->SetUniform("u_SSR", 4);
+		m_ScreenShader->SetUniform("u_VXGI", 5);
+		m_ScreenShader->SetUniform("u_VXReflectance", 6);
+		m_ScreenShader->SetUniform("u_SSAO", 7);
+		m_ScreenShader->SetUniform("u_MetRoughAO", 8);
+		
 		SetTransformUniforms();
 	}
 
@@ -144,16 +153,36 @@ namespace Chroma
 		// Draw
 		m_ScreenShader->Use();
 		// textures
-		// scene texture
+
+		// BG
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
-		// ssr
+		glBindTexture(GL_TEXTURE_2D, Render::GetForwardBuffer()->GetTexture());
+		// Bloom
+		glActiveTexture(GL_TEXTURE1);
+		glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[1]);
+		// Direct lighting
 		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, Render::GetDirectLightingShadows());
+		// Direct lighting
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, Render::GetIndirectLighting());
+		// ssr
+		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_2D, static_cast<SSRBuffer*>(Chroma::Render::GetSSRBuffer())->GetSSRReflectedUVTexture());
-		// bloom
-		//m_ScreenShader->SetUniform("bloom", true);
-		// setting transform uniforms
-		SetTransformUniforms();
+		// vxgi - irradiance
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, static_cast<VXGIBuffer*>(Chroma::Render::GetVXGIBuffer())->GetTexture());
+		// vxgi - reflections
+		//glActiveTexture(GL_TEXTURE6);
+		//glBindTexture(GL_TEXTURE_2D, static_cast<SSRBuffer*>(Chroma::Render::GetSSRBuffer())->GetSSRReflectedUVTexture());
+		// ssao
+		glActiveTexture(GL_TEXTURE7);
+		glBindTexture(GL_TEXTURE_2D, static_cast<GBuffer*>(Render::GetGBuffer())->GetSSAOTexture());
+		// metalness roughness ao
+		glActiveTexture(GL_TEXTURE8);
+		glBindTexture(GL_TEXTURE_2D, Render::GetMetRoughAO());
+
+		
 		RenderQuad();
 	}
 
@@ -180,17 +209,9 @@ namespace Chroma
 			}
 			UnBind();
 			// Composite blur and HDR and tone
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			m_ScreenShader->Use();
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, colorBuffersTextures[0]);
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, blurColorBuffers[!horizontal]);
-			m_ScreenShader->SetUniform("bloom", useBloom);
-			// ssr
-			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, static_cast<SSRBuffer*>(Chroma::Render::GetSSRBuffer())->GetSSRReflectedUVTexture());
-			// setting transform uniforms
+			m_ScreenShader->SetUniform("u_Bloom", useBloom);
+			Draw();
 			RenderQuad();
 		}
 		else

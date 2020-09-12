@@ -61,6 +61,9 @@ namespace Chroma
 	unsigned int Render::m_MetRoughAO;
 	// - Depth	 
 	unsigned int Render::m_Depth;
+	// - Direct & Indirect Lighting	 
+	unsigned int Render::m_DirectLightingShadows;
+	unsigned int Render::m_IndirectLighting;
 
 	// API
 	Render::API Render::s_API;
@@ -90,7 +93,7 @@ namespace Chroma
 		CHROMA_PROFILE_FUNCTION();
 #if 1 // VXGI temp
 		// Debug size of Voxel Cube
-		std::pair<glm::vec3, glm::vec3> extents = static_cast<VXGIBuffer*>(m_VXGIBuffer)->GetVoxelGridHalfExtents();
+		//std::pair<glm::vec3, glm::vec3> extents = static_cast<VXGIBuffer*>(m_VXGIBuffer)->GetVoxelGridHalfExtents();
 		//Render::GetDebugBuffer()->DrawOverlayBox(extents.first, extents.second, glm::vec3(1.0, 0.0, 0.0));
 #endif
 
@@ -105,22 +108,27 @@ namespace Chroma
 		// SSR
 		m_SSRBuffer->Draw();
 
-		// POSTFX BUFFER
-		m_PostFXBuffer->SetUniform("exposure", 1.0f);
-		m_PostFXBuffer->SetUniform("gamma", 2.2f);
-
 #ifdef EDITOR
 
-		if (EditorUI::m_VXGI)
+		
+		if (EditorUI::m_VXGI && EditorUI::m_VXGIVisualization)
 		{
 			// VXGI
 			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Draw(EditorUI::m_VXGIVisualization);
 			m_EditorViewportBuffer->CopyColor(m_VXGIBuffer->GetFBO(), m_EditorViewportBuffer->GetFBO());
 		}
+		else if (EditorUI::m_VXGI)
+		{
+			// VXGI
+			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Draw(false);
+			// POSTFX 
+			m_EditorViewportBuffer->Bind();
+			static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
+		}
 		else
 		{
-			m_EditorViewportBuffer->Bind();
 			// POSTFX 
+			m_EditorViewportBuffer->Bind();
 			static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
 		}
 		m_EditorViewportBuffer->UnBind();
@@ -330,6 +338,20 @@ namespace Chroma
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
+		// - direct lighting
+		glGenTextures(1, &m_DirectLightingShadows);
+		glBindTexture(GL_TEXTURE_2D, m_DirectLightingShadows);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+		// - indirect lighting
+		glGenTextures(1, &m_IndirectLighting);
+		glBindTexture(GL_TEXTURE_2D, m_IndirectLighting);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
 	}
 
 	void Render::ResizeBufferTextures(const int& newWidth, const int& newHeight)
@@ -351,6 +373,12 @@ namespace Chroma
 		glBindTexture(GL_TEXTURE_2D, m_Depth);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, newWidth, newHeight, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 
+		// - direct & indirect lighting 
+		glBindTexture(GL_TEXTURE_2D, m_DirectLightingShadows);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, newWidth, newHeight, 0, GL_RGBA, GL_FLOAT, NULL);
+		glBindTexture(GL_TEXTURE_2D, m_IndirectLighting);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, newWidth, newHeight, 0, GL_RGB, GL_FLOAT, NULL);
+
 		// SURFACE DATA
 		// - albebo buffer
 		glBindTexture(GL_TEXTURE_2D, m_Albedo);
@@ -367,7 +395,7 @@ namespace Chroma
 
 		// - metalness/rougness/ambient occlusion buffer
 		glBindTexture(GL_TEXTURE_2D, m_MetRoughAO);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newWidth, newHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, newWidth, newHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);		
 	}
 
 }

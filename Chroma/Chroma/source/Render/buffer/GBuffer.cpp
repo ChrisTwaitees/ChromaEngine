@@ -34,13 +34,13 @@ namespace Chroma
 
 		// - metalness/rougness/ambient occlusion buffer
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT6, GL_TEXTURE_2D, Chroma::Render::GetMetRoughAO(), 0);
-
+		
 		// - depth
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, Chroma::Render::GetDepth(), 0);
 
 		// - tell OpenGL which color attachments we'll use for rendering 
-		unsigned int attachments[8] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6, GL_COLOR_ATTACHMENT7 };
-		glDrawBuffers(8, attachments);
+		unsigned int attachments[7] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2, GL_COLOR_ATTACHMENT3, GL_COLOR_ATTACHMENT4, GL_COLOR_ATTACHMENT5, GL_COLOR_ATTACHMENT6};
+		glDrawBuffers(7, attachments);
 		// create and attach depth buffer (renderbuffer)
 		glGenRenderbuffers(1, &m_RBO);
 		glBindRenderbuffer(GL_RENDERBUFFER, m_RBO);
@@ -49,8 +49,21 @@ namespace Chroma
 		// finally check if framebuffer is complete
 		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 			CHROMA_WARN("GBUFFER:: Framebuffer not complete!");
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+		// second framebuffer with different attachments just for lighting
+		glGenFramebuffers(1, &m_LightingFrameBuffer);
+		glBindFramebuffer(GL_FRAMEBUFFER, m_LightingFrameBuffer);
+
+		// - direct lighting & shadows
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, Chroma::Render::GetDirectLightingShadows(), 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, Chroma::Render::GetIndirectLighting(), 0);
+
+		// create attachment buffers
+		unsigned int lightingattachments[2] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1};
+		glDrawBuffers(2, lightingattachments);
+
+		// assign default framebuffer
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 		// configure shaders
 		ConfigureShaders();
 	}
@@ -115,8 +128,6 @@ namespace Chroma
 		// 1. geometry pass: render scene's geometry/color data into gbuffer
 		Bind();
 		m_geometryPassShader.Use();
-		//m_geometryPassShader.SetUniform("view", Chroma::Scene::GetRenderCamera()->GetViewMatrix());
-		//m_geometryPassShader.SetUniform("projection", Chroma::Scene::GetRenderCamera()->GetProjectionMatrix());
 		m_geometryPassShader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetLightSpaceMatrix());
 
 		// Render Lit Components
@@ -148,12 +159,18 @@ namespace Chroma
 
 	void GBuffer::DrawLightingPass()
 	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_LightingFrameBuffer);
+		glClear(GL_COLOR_BUFFER_BIT);
+
 		// use the lighting pass shader
 		m_lightingPassShader.Use();
 		// updating transforms
 		SetTransformUniforms();
 		// activating textures
 		BindGBufferTextures();
+
+		RenderQuad();
+		glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	}
 
 	void GBuffer::BlitDepthBuffer()
@@ -174,17 +191,19 @@ namespace Chroma
 		static_cast<SSAOBuffer*>(m_SSAOBuffer)->Draw();
 
 		// 2. Render pass to PostFX buffer
-		m_PostFXBuffer->Bind();
+		//m_PostFXBuffer->Bind();
 
 		// 3. lighting pass: calculate lighting using gbuffer textures
+
 		DrawLightingPass();
-		RenderQuad();
+
 
 		// 4. copy content of geometry's depth buffer to HDR buffer
+		//CopyColorAndDepth(m_FBO, m_PostFXBuffer->GetFBO());
 		CopyDepth(m_FBO, m_PostFXBuffer->GetFBO());
 
 		// 5. Unbind postFX buffer
-		m_PostFXBuffer->UnBind();
+		//m_PostFXBuffer->UnBind();
 	}
 
 	void GBuffer::ResizeBuffers()

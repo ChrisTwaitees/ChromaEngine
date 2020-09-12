@@ -1,4 +1,4 @@
-#version 330 core
+#version 450 core
 layout (location = 0) out vec3 gPosition;
 layout (location = 1) out vec3 gViewPosition;
 layout (location = 2) out vec4 gFragPosLightSpace;
@@ -6,7 +6,6 @@ layout (location = 3) out vec3 gAlbedo;
 layout (location = 4) out vec3 gNormal;
 layout (location = 5) out vec3 gViewNormal;
 layout (location = 6) out vec3 gMetRoughAO;
-
 
 in VS_OUT {
 	vec3 FragWorldPos;
@@ -64,5 +63,4 @@ void main()
 	}
 	// shadowmap
 	gFragPosLightSpace = fs_in.FragPosLightSpace;
-
 }

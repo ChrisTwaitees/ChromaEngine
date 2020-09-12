@@ -948,15 +948,26 @@ namespace Chroma
 		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "WS Positions", NULL, 0.0f);
 		ImGui::EndChild();
 
-		// SunlightShadowMap
-		ImGui::BeginChild("SunlightShadowMap", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
+		// Direct Lighting Shadows
+		ImGui::BeginChild("DirectLightingShadows", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
 		p = ImGui::GetCursorScreenPos();
-		ImGui::Image((void*)(intptr_t)static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetTexture(),
+		ImGui::Image((void*)(intptr_t)Chroma::Render::GetDirectLightingShadows(),
 			ImGui::GetWindowSize(),
 			ImVec2(0, 1), ImVec2(1, 0));
 		ImGui::EndChild();
-		ImGui::BeginChild("SunlightShadowMap");
-		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "Sunlight ShadowMap", NULL, 0.0f);
+		ImGui::BeginChild("DirectLightingShadows");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "DirectLightingShadows", NULL, 0.0f);
+		ImGui::EndChild();
+
+		// IndirectLighting
+		ImGui::BeginChild("Indirect Lighting", ImVec2((float)m_ViewportWidth * debugScale, (float)m_ViewportHeight * debugScale), true);
+		p = ImGui::GetCursorScreenPos();
+		ImGui::Image((void*)(intptr_t)Chroma::Render::GetIndirectLighting(),
+			ImGui::GetWindowSize(),
+			ImVec2(0, 1), ImVec2(1, 0));
+		ImGui::EndChild();
+		ImGui::BeginChild("Indirect Lighting");
+		ImGui::GetWindowDrawList()->AddText(ImGui::GetFont(), ImGui::GetFontSize(), ImVec2(p.x + 10, p.y + 10), IM_COL32(255, 255, 255, 255), "Indirect Lighting", NULL, 0.0f);
 		ImGui::EndChild();
 
 		// ForwardBuffer

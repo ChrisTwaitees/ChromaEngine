@@ -66,6 +66,9 @@ namespace Chroma
 
 		inline static unsigned int GetDepth() { return m_Depth; }
 
+		inline static unsigned int GetDirectLightingShadows() { return m_DirectLightingShadows; }
+		inline static unsigned int GetIndirectLighting() { return m_IndirectLighting; }
+
 	private:
 		// events
 		static bool OnCameraMoved(CameraMovedEvent& e);
@@ -87,6 +90,10 @@ namespace Chroma
 		static unsigned int m_MetRoughAO;
 		// - Depth
 		static unsigned int m_Depth;
+		// - Direct & Indirect Lighting
+		static unsigned int m_DirectLightingShadows;
+		static unsigned int m_IndirectLighting;
+
 
 		// Start of Frame
 		static void CleanUp();
