@@ -7,8 +7,23 @@ in GS_OUT{
 	vec4 posLightSpaceFrag;
 } gs_in;
 
+// Artomic add emulation on 32-bit floating potin data type using a compare-and-swap operation
+void imageAtomicFloatAdd( layout(r32ui) coherent volatile uimage3D imgUI , ivec3 coords , float val )
+{
+	uint newVal = floatBitsToUint( val );
+	uint prevVal = 0; 
+	uint curVal;
+	// Loop as long as destination value gets changed by other threads
+	while ( ( curVal = imageAtomicCompSwap( imgUI , coords , prevVal , newVal ) ) != prevVal )
+	{
+		prevVal = curVal ;
+		newVal = floatBitsToUint(( val + uintBitsToFloat( curVal )));
+	}
+}
+
+
 // UNIFORMS
-layout(RGBA16) uniform image3D voxelTexture;
+layout(rgba32f) uniform image3D voxelTexture;
 uniform sampler2DArray shadowmap;
 
 // VOXELS
@@ -91,6 +106,11 @@ void main()
 		// Clip Space -> Voxel Grid Space
 		ivec3 writeCoord = ivec3(floor(voxelUVW * u_VoxelGridResolution));
 		imageStore(voxelTexture, writeCoord, writeData);
+
+		// Attempting atomic operation
+		float testConvergence = (radiance.r) * 0.3 + (radiance.g) * 0.3 + (radiance.b) * 0.3;
+		//imageAtomicFloatAdd( voxelTexture , writeCoord , testConvergence);
+
 	}
 	else
 		return;

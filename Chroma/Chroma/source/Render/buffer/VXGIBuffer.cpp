@@ -247,7 +247,7 @@ namespace Chroma
 		{
 			CHROMA_INFO("Conservative Rasterization Supported!");
 			glEnable(GL_CONSERVATIVE_RASTERIZATION_NV);
-			glSubpixelPrecisionBiasNV(0,0);
+			glSubpixelPrecisionBiasNV(5,5);
 		}
 
 
@@ -255,7 +255,7 @@ namespace Chroma
 		glActiveTexture(GL_TEXTURE0);
 		m_Voxel3DTexture->Bind();
 		m_VoxelShader.SetUniform("u_VoxelTexture", 0);
-		glBindImageTexture(0, m_Voxel3DTexture->GetID(), 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA16);
+		glBindImageTexture(0, m_Voxel3DTexture->GetID(), 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA32F);
 
 		// Render Scene
 		m_VoxelShader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Render::GetShadowBuffer())->GetLightSpaceMatrix());
