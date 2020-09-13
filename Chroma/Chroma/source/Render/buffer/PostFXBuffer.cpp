@@ -73,6 +73,7 @@ namespace Chroma
 		m_ScreenShader->SetUniform("u_VXReflectance", 6);
 		m_ScreenShader->SetUniform("u_SSAO", 7);
 		m_ScreenShader->SetUniform("u_MetRoughAO", 8);
+		m_ScreenShader->SetUniform("u_ScreenPos", 9);
 		
 		SetTransformUniforms();
 	}
@@ -181,7 +182,21 @@ namespace Chroma
 		// metalness roughness ao
 		glActiveTexture(GL_TEXTURE8);
 		glBindTexture(GL_TEXTURE_2D, Render::GetMetRoughAO());
+		// depth
+		glActiveTexture(GL_TEXTURE9);
+		glBindTexture(GL_TEXTURE_2D, Render::GetVSPositions());
 
+		// uniforms
+		m_ScreenShader->SetUniform("u_BloomAmount", m_BloomAmount);
+		m_ScreenShader->SetUniform("u_IndirectContribution", m_IndirectContribution);
+		m_ScreenShader->SetUniform("u_DirectContribution", m_DirectContribution);
+		m_ScreenShader->SetUniform("u_SSRContribution", m_SSRContribution);
+		m_ScreenShader->SetUniform("u_VXIrradiance_Contribution", m_VXIrradiance_Contribution);
+		m_ScreenShader->SetUniform("u_VXRradiance_Contribution", m_VXRradiance_Contribution);
+		m_ScreenShader->SetUniform("u_Exposure", m_Exposure);
+		m_ScreenShader->SetUniform("u_Gamma", m_Gamma);
+		m_ScreenShader->SetUniform("u_SSAOContribution", m_SSAOContribution);
+		
 		
 		RenderQuad();
 	}

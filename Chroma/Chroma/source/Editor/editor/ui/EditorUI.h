@@ -51,7 +51,7 @@ namespace Chroma
 		static void DrawWorldOutliner();
 		static void DrawPropertiesTab();
 		// EntityTypes
-		static void DrawEntityTypesTab();
+		static void DrawRenderSettingsTab();
 		// Editors
 		static void DrawEditorsTab();
 		static void DrawOtherEditorWindows();

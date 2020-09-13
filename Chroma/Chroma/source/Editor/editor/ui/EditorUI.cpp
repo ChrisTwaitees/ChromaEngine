@@ -97,7 +97,7 @@ namespace Chroma
 		// build tab
 		AddUICall(DrawBuildTab);
 		// entity types
-		AddUICall(DrawEntityTypesTab);
+		AddUICall(DrawRenderSettingsTab);
 		// modes
 		AddUICall(DrawEditorsTab);
 
@@ -741,9 +741,18 @@ namespace Chroma
 	}
 
 
-	void EditorUI::DrawEntityTypesTab()
+	void EditorUI::DrawRenderSettingsTab()
 	{
-		ImGui::Begin("Entity Types");
+		ImGui::Begin("Render Settings");
+		ImGui::SliderFloat("Exposure", &static_cast<PostFXBuffer*>(Render::GetPostFXBuffer())->m_Exposure, 0.0f, 5.0f);
+		ImGui::SliderFloat("Gamma", &static_cast<PostFXBuffer*>(Render::GetPostFXBuffer())->m_Gamma, 0.0f, 5.0f);
+		ImGui::SliderFloat("Bloom Amount", &static_cast<PostFXBuffer*>(Render::GetPostFXBuffer())->m_BloomAmount, 0.0f, 5.0f);
+		ImGui::SliderFloat("Indirect Lighting Contribution", &static_cast<PostFXBuffer*>(Render::GetPostFXBuffer())->m_IndirectContribution, 0.0f, 5.0f);
+		ImGui::SliderFloat("Direct Lighting Contribution", &static_cast<PostFXBuffer*>(Render::GetPostFXBuffer())->m_DirectContribution, 0.0f, 5.0f);
+		ImGui::SliderFloat("SSRContribution", &static_cast<PostFXBuffer*>(Render::GetPostFXBuffer())->m_SSRContribution, 0.0f, 5.0f);
+		ImGui::SliderFloat("VXGI Indirect Contribution", &static_cast<PostFXBuffer*>(Render::GetPostFXBuffer())->m_VXIrradiance_Contribution, 0.0f, 5.0f);
+		ImGui::SliderFloat("SSAO Multiplier", &static_cast<PostFXBuffer*>(Render::GetPostFXBuffer())->m_SSAOContribution, 0.0f, 5.0f);
+
 		ImGui::End();
 	}
 

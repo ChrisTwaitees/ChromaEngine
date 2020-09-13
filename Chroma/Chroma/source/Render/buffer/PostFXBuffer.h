@@ -22,6 +22,8 @@ namespace Chroma
 		float m_VXRradiance_Contribution{ 1.0f };
 		float m_Exposure{ 1.0f };
 		float m_Gamma{ 2.2f };
+		float m_SSAOContribution{ 1.0f };
+		float m_DirectContribution{ 1.0f };
 
 		PostFXBuffer();
 		~PostFXBuffer();
