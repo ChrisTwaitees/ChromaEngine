@@ -430,7 +430,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
-    <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
     <ClInclude Include="platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="source\Engine\physics\RigidBody.h" />
     <ClInclude Include="source\Engine\event\CameraEvent.h" />

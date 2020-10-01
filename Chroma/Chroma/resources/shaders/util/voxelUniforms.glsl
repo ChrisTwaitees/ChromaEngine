@@ -1,4 +1,5 @@
 // VOXEL GRID
+layout(rgba32f) uniform image3D u_VoxelWriteTexture;
 uniform sampler3D u_VoxelTexture;
 
 uniform int u_VoxelGridResolution;

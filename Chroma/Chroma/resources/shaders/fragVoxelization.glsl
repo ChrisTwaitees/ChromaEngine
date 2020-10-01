@@ -23,7 +23,6 @@ void imageAtomicFloatAdd( layout(r32ui) coherent volatile uimage3D imgUI , ivec3
 
 
 // UNIFORMS
-layout(rgba32f) uniform image3D voxelTexture;
 uniform sampler2DArray shadowmap;
 
 // VOXELS
@@ -105,10 +104,10 @@ void main()
 		vec4 writeData =  vec4(radiance.rgb, alpha);
 		// Clip Space -> Voxel Grid Space
 		ivec3 writeCoord = ivec3(floor(voxelUVW * u_VoxelGridResolution));
-		imageStore(voxelTexture, writeCoord, writeData);
+		imageStore(u_VoxelWriteTexture, writeCoord, writeData);
 
 		// Attempting atomic operation
-		float testConvergence = (radiance.r) * 0.3 + (radiance.g) * 0.3 + (radiance.b) * 0.3;
+		//float testConvergence = (radiance.r) * 0.3 + (radiance.g) * 0.3 + (radiance.b) * 0.3;
 		//imageAtomicFloatAdd( voxelTexture , writeCoord , testConvergence);
 
 	}

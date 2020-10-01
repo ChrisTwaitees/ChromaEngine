@@ -797,9 +797,6 @@
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h">
       <Filter>Render\ui\core\imguifilebrowser</Filter>
     </ClInclude>
-    <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialogConfig.h">
-      <Filter>Render\ui\core\imguifilebrowser</Filter>
-    </ClInclude>
     <ClInclude Include="source\Engine\types\Types.h">
       <Filter>Engine\types</Filter>
     </ClInclude>
