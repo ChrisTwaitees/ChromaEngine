@@ -229,6 +229,9 @@
     <Filter Include="Resources\shaders\voxelization\visualization">
       <UniqueIdentifier>{adec2683-f5f3-4ba4-869e-81adc97db63e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\particles">
+      <UniqueIdentifier>{d725a605-fe08-4cf3-a0fc-ee798539f164}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Render\terrain\Terrain.cpp">
@@ -554,6 +557,9 @@
     </ClCompile>
     <ClCompile Include="source\Render\buffer\VXGIBuffer.cpp">
       <Filter>Render\buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Engine\particles\ParticleSystem.cpp">
+      <Filter>Engine\particles</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -910,6 +916,9 @@
     </ClInclude>
     <ClInclude Include="source\Render\buffer\VXGIBuffer.h">
       <Filter>Render\buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Engine\particles\ParticleSystem.h">
+      <Filter>Engine\particles</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

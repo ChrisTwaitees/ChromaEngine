@@ -76,30 +76,30 @@ namespace Chroma
 
 	void Render::RenderDefferedComponents()
 	{
-		CHROMA_PROFILE_FUNCTION();
 		// DEFFERED BUFFER
 		m_GBuffer->Draw();
 	}
 
 	void Render::RenderForwardComponents()
 	{
-		CHROMA_PROFILE_FUNCTION();
 		// FORWARD BUFFER
 		m_ForwardBuffer->Draw();
 	}
 
 	void Render::RenderDebug()
 	{
-		CHROMA_PROFILE_FUNCTION();
-#if 1 // VXGI temp
-		// Debug size of Voxel Cube
-		//std::pair<glm::vec3, glm::vec3> extents = static_cast<VXGIBuffer*>(m_VXGIBuffer)->GetVoxelGridHalfExtents();
-		//Render::GetDebugBuffer()->DrawOverlayBox(extents.first, extents.second, glm::vec3(1.0, 0.0, 0.0));
-#endif
 
+#ifdef EDITOR
+		// DEBUG BUFFER 
+		m_EditorViewportBuffer->Bind();
+		// TODO : not implemented, faking it!
+		m_DebugBuffer->DrawOverlay(m_EditorViewportBuffer);
+		m_EditorViewportBuffer->UnBind();
+#else
 
 		// DEBUG BUFFER
 		m_DebugBuffer->Draw();
+#endif
 	}
 
 	void Render::RenderPostFX()
@@ -122,14 +122,15 @@ namespace Chroma
 			// VXGI
 			static_cast<VXGIBuffer*>(m_VXGIBuffer)->Draw(false);
 			// POSTFX 
-			m_EditorViewportBuffer->Bind();
+			m_EditorViewportBuffer->BindAndClear();
 			static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
 		}
 		else
 		{
 			// POSTFX 
-			m_EditorViewportBuffer->Bind();
+			m_EditorViewportBuffer->BindAndClear();
 			static_cast<PostFXBuffer*>(m_PostFXBuffer)->Draw(EditorUI::m_Bloom);
+
 		}
 		m_EditorViewportBuffer->UnBind();
 #else
@@ -211,12 +212,11 @@ namespace Chroma
 		// Forward
 		RenderForwardComponents();
 
-		// Debug
-		RenderDebug();
-
 		// Post FX
 		RenderPostFX();
-		
+
+		// Debug
+		RenderDebug();
 
 		// Clear
 		CleanUp();

@@ -98,8 +98,13 @@ namespace Chroma
 		m_FBOTexture = newFBOTexture;
 	}
 
-
 	void IFramebuffer::Bind()
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
+	}
+
+
+	void IFramebuffer::BindAndClear()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

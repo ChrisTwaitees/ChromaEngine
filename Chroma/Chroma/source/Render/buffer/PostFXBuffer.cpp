@@ -234,7 +234,7 @@ namespace Chroma
 
 	}
 
-	void PostFXBuffer::Bind()
+	void PostFXBuffer::BindAndClear()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, hdrFBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

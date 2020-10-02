@@ -108,6 +108,7 @@ namespace Chroma
 		// Buffer Funcs
 		void ClearColorAndDepth() override;
 		void Draw() override;
+		void DrawOverlay(IFramebuffer* drawOver);
 
 		DebugBuffer(IFramebuffer* const& prevFrameBuffer) : m_PostFXBuffer(prevFrameBuffer) { Init(); };
 

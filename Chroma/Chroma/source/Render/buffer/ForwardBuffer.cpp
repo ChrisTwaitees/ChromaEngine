@@ -29,7 +29,7 @@ namespace Chroma
 	void ForwardBuffer::RenderForwardComponents()
 	{
 		// attach current buffer and copy contents of postfx buffer
-		Bind();
+		BindAndClear();
 		CopyColorAndDepth(m_PostFXBuffer->GetFBO(), m_FBO);
 
 		// Render Skybox first for Transparent Entities

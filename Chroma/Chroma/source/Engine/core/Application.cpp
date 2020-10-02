@@ -4,7 +4,7 @@
 #include <input/Input.h>
 #include <render/Render.h>
 #include <editor/Editor.h>
-
+#include "particles/ParticleSystem.h"
 
 namespace Chroma
 {
@@ -41,7 +41,9 @@ namespace Chroma
 		Scene::PreSceneBuild();
 
 		// populate scene
-		Editor::Sponza();
+		SceneManager::LoadScene("resources/levels/testSaveScene.json");
+		//TEMP TEST
+		ParticleSystem::CreateEmitter(glm::mat4(), ParticleSettings(), ParticleTexture());
 
 		// post scene build
 		Scene::PostSceneBuild();

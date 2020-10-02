@@ -15,7 +15,7 @@ namespace Chroma
 		if (m_ScreenShader) delete m_ScreenShader;
 	}
 
-	void VXGIBuffer::Bind()
+	void VXGIBuffer::BindAndClear()
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_FBO);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -56,7 +56,7 @@ namespace Chroma
 		}
 		else
 		{
-			Bind();
+			BindAndClear();
 
 			ConeTraceScene();
 
@@ -158,7 +158,7 @@ namespace Chroma
 		// Render 3D texture to screen.
 		// -------------------------------------------------------
 
-		Bind();
+		BindAndClear();
 
 		// Bind Voxel Visualization Shader
 		m_VoxelVisualizationShader.Use();

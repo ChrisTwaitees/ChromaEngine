@@ -320,6 +320,7 @@
     <ClCompile Include="..\thirdparty\include\imgui\imgui_draw.cpp" />
     <ClCompile Include="..\thirdparty\include\imgui\imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="source\Engine\particles\ParticleSystem.cpp" />
     <ClCompile Include="platform\OpenGL\OpenGLContext.cpp" />
     <ClCompile Include="source\Engine\physics\RigidBody.cpp" />
     <ClCompile Include="source\Engine\math\Math.cpp" />
@@ -430,6 +431,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\thirdparty\include\ImGuiFileDialog\ImGuiFileDialog\ImGuiFileDialog.h" />
+    <ClInclude Include="source\Engine\particles\ParticleSystem.h" />
     <ClInclude Include="platform\OpenGL\OpenGLContext.h" />
     <ClInclude Include="source\Engine\physics\RigidBody.h" />
     <ClInclude Include="source\Engine\event\CameraEvent.h" />

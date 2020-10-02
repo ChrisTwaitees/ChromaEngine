@@ -38,6 +38,7 @@ namespace Chroma
 		};
 
 		virtual void Bind();
+		virtual void BindAndClear();
 		virtual void UnBind();
 		virtual void ClearColorAndDepth();
 		virtual void Draw();

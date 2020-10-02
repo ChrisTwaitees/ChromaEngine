@@ -2,6 +2,7 @@
 #include <scene/Scene.h>
 #include <model/SkinnedMesh.h>
 #include <component/UIComponent.h>
+#include <render/Render.h>
 #ifdef EDITOR
 #include <editor/ui/EditorUI.h>
 #include <ui/uicomponents/IGizmo.h>
@@ -60,7 +61,7 @@ namespace Chroma
 
 	void DebugBuffer::DrawShapes()
 	{
-		Bind();
+		BindAndClear();
 		// OVERLAY 
 		CopyColor(m_PostFXBuffer->GetFBO(), m_FBO);
 		DrawOverlayShapes();
@@ -433,6 +434,13 @@ namespace Chroma
 
 		// 2. Copy New Color and Depth back to postFX Buffer
 		CopyColorAndDepth(m_FBO, m_PostFXBuffer->GetFBO());
+	}
+
+	void DebugBuffer::DrawOverlay(IFramebuffer* drawOver)
+	{
+		// TODO : not implemented, faking it!
+		DrawOverlayShapes();
+		DrawDepthCulledShapes();
 	}
 }
 

@@ -15,7 +15,7 @@ namespace Chroma
 		VXGIBuffer() { Init(); }
 		~VXGIBuffer();
 
-		virtual void Bind() override;
+		virtual void BindAndClear() override;
 		virtual void Draw() override;
 		void Draw(const bool& visualizeVoxelization);
 

@@ -7,7 +7,7 @@ namespace Chroma
 	void SSRBuffer::Draw()
 	{
 		CHROMA_PROFILE_FUNCTION();
-		Bind();
+		BindAndClear();
 		// Bind Textures
 		// 0 VsNormals
 		glActiveTexture(GL_TEXTURE0);

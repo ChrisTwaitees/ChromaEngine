@@ -13,7 +13,7 @@ namespace Chroma
 
 		void Draw() override;
 		void Draw(const bool& useBloom);
-		void Bind() override;
+		void BindAndClear() override;
 
 		float m_BloomAmount{ 1.0f };
 		float m_IndirectContribution{ 1.0f };

@@ -1,5 +1,5 @@
 #include "Engine.h"
-
+#include "particles/ParticleSystem.h"
 
 namespace Chroma
 {
@@ -85,6 +85,9 @@ namespace Chroma
 
 		// OnUpdate Components
 		UpdateComponents();
+		
+		// Particle System
+		ParticleSystem::OnUpdate();
 
 		// Resources 
 		ResourceManager::OnUpdate();

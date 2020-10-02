@@ -126,7 +126,7 @@ namespace Chroma
 	void GBuffer::DrawGeometryPass()
 	{
 		// 1. geometry pass: render scene's geometry/color data into gbuffer
-		Bind();
+		BindAndClear();
 		m_geometryPassShader.Use();
 		m_geometryPassShader.SetUniform("lightSpaceMatrix", static_cast<ShadowBuffer*>(Chroma::Render::GetShadowBuffer())->GetLightSpaceMatrix());
 
