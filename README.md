@@ -4,7 +4,7 @@ Personal Education Project focusing on software architecure, realtime rendering,
 [Youtube Devlogs](https://www.youtube.com/watch?v=YeyiEYRT1Ac)
 
 ## Features
-![Alt text](https://static.wixstatic.com/media/755aac_c518a6d603ba4d0b9ea55d5824fbc194~mv2.gif)
+![Alt text][(https://static.wixstatic.com/media/755aac_c518a6d603ba4d0b9ea55d5824fbc194~mv2.gif)]
   * Bullet Physics.
   * Skeletal Animation and basic state machine. 
   * Bipedal Third Person Character and Camera Controller.  
