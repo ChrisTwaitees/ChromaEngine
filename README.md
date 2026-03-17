@@ -1,6 +1,5 @@
 # ChromaEngine
-## Open Source Game Engine
-Personal Education Project focusing on software architecure, realtime rendering, animation systems, ai and design patterns. 
+ChromaEngine is a real-time 3D rendering engine written in C++ with OpenGL, featuring a physically-based rendering pipeline, voxel-based global illumination, skeletal animation with state machines, and an ImGui-based scene editor with JSON serialisation.
 [Youtube Devlogs](https://www.youtube.com/watch?v=YeyiEYRT1Ac)
 
 ## Features
