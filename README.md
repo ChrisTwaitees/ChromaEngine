@@ -1,5 +1,5 @@
 # ChromaEngine
-ChromaEngine is a real-time 3D rendering engine written in C++ with OpenGL, featuring a physically-based rendering pipeline, voxel-based global illumination, skeletal animation with state machines, and an ImGui-based scene editor with JSON serialisation.
+ChromaEngine is a real-time 3D rendering engine written in C++ with OpenGL and Vulkan interfaces, featuring a physically-based rendering pipeline, voxel-based global illumination, skeletal animation with state machines, and an ImGui-based scene editor with JSON serialisation.
 [Youtube Devlogs](https://www.youtube.com/watch?v=YeyiEYRT1Ac)
 
 ## Rendering
